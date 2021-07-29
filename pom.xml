@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>jda</groupId>
+  <artifactId>jda-root</artifactId>
+  <version>5.4-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>JDA Root</name>
+  <description></description>
+
+  <properties>
+    <java.version>13</java.version>
+    <version.plugin.compiler>3.8.1</version.plugin.compiler>
+    <version.plugin.resources>3.2.0</version.plugin.resources>
+    <version.plugin.jar>3.2.0</version.plugin.jar>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- directories -->
+    <src.dir>${basedir}/src/main/java</src.dir>
+    <src.output.dir>${basedir}/target/classes</src.output.dir>
+    <test.src.dir>${basedir}/src/test/java</test.src.dir>
+    <test.output.dir>${basedir}/target/test-classes</test.output.dir>
+    <example.src.dir>${basedir}/src/example/java</example.src.dir>
+    <example.output.dir>${basedir}/target/example-classes</example.output.dir>
+    <image.dir>images</image.dir>
+    <src.root.dir>jda</src.root.dir>
+    <!-- used to get -DmainClass vm argument for the exec:java goal -->
+    <mainClass></mainClass>
+  </properties>
+
+  <repositories>
+    <!-- local repo for special (unpublished) jars. Use script bin/mvn-deploy-local.bash 
+      to install jar file to this repo -->
+    <repository>
+      <id>local-maven-repo</id>
+      <url>file:///${basedir}/local-maven-repo</url>
+    </repository>
+    <!-- Eclipse-related libraries -->
+    <repository>
+      <id>Eclipse Repository</id>
+      <url>https://repo.eclipse.org/content/groups/releases/</url>
+    </repository>
+  </repositories>
+
+  <modules>
+    <module>common</module>
+    <module>dcsl</module>
+    <module>main</module>
+    <module>modules</module>
+    <module>examples</module>
+  </modules>
+
+  <!-- build configuration -->
+  <build>
+    <!-- <sourceDirectory>src</sourceDirectory> -->
+    <pluginManagement>
+      <plugins>
+        <!-- plugin: compiler -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${version.plugin.compiler}</version>
+          <configuration>
+            <source>${java.version}</source>
+            <target>${java.version}</target>
+            <release>${java.version}</release>
+            <testSource>${java.version}</testSource>
+            <testTarget>${java.version}</testTarget>
+            <compilerArgs>
+              <!-- <arg>-Xlint:unchecked</arg> -->
+              <!-- https://issues.apache.org/jira/browse/MCOMPILER-368 -->
+              <arg>-Xpkginfo:always</arg>
+            </compilerArgs>
+          </configuration>
+        </plugin>
+        <!-- add an addition source directory for examples -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>3.2.0</version>
+          <executions>
+            <execution>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>add-source</goal>
+              </goals>
+              <configuration>
+                <sources>
+                  <source>src/examples/java</source>
+                </sources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <!-- customise resource copying (for non-conventional folders) -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${version.plugin.resources}</version>
+          <executions>
+            <!-- copy-resource: src.dir -->
+            <execution>
+              <id>copy-resources-1</id>
+              <phase>validate</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${src.output.dir}</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>${src.dir}</directory>
+                    <includes>
+                      <include>${image.dir}/*</include>
+                    </includes>
+                  </resource>
+                  <resource>
+                    <directory>${src.dir}</directory>
+                    <includes>
+                      <include>**/*.gif</include>
+                      <include>**/*.png</include>
+                      <include>**/*.jpg</include>
+                      <include>**/*.properties</include>
+                      <include>**/*.html</include>
+                      <include>**/*.csv</include>
+                      <include>**/*.temp</include>
+                      <include>**/*.css</include>
+                      <include>**/*.jav</include>
+                      <include>**/*.json</include>
+                      <include>**/*.jdp</include>
+                    </includes>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+            <!-- copy-resource: test.src.dir -->
+            <execution>
+              <id>copy-test-resources-1</id>
+              <phase>validate</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${test.output.dir}</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>${test.src.dir}</directory>
+                    <includes>
+                      <include>${image.dir}/*</include>
+                    </includes>
+                  </resource>
+                  <resource>
+                    <directory>${test.src.dir}</directory>
+                    <includes>
+                      <include>**/*.gif</include>
+                      <include>**/*.png</include>
+                      <include>**/*.jpg</include>
+                      <include>**/*.properties</include>
+                      <include>**/*.html</include>
+                      <include>**/*.csv</include>
+                      <include>**/*.temp</include>
+                      <include>**/*.css</include>
+                      <include>**/*.jav</include>
+                      <include>**/*.json</include>
+                      <include>**/*.jdp</include>
+                    </includes>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <!-- for source code execution (exec:java) -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>3.0.0</version>
+          <configuration>
+            <executable>java</executable>
+            <mainClass>${mainClass}</mainClass>
+            <!-- <arguments> -->
+            <!-- <argument>-classpath</argument> -->
+            <!-- </arguments> -->
+          </configuration>
+        </plugin>
+        <!-- maven-assemply-plugin: A Maven plugin to create archives of your project's sources, 
+           classes, dependencies etc. from flexible assembly descriptors. -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>3.3.0</version>
+          <configuration>
+            <!-- get all project dependencies -->
+            <descriptorRefs>
+              <descriptorRef>jar-with-dependencies</descriptorRef>
+            </descriptorRefs>
+          </configuration>
+          <executions>
+            <execution>
+              <id>make-assembly</id>
+              <!-- bind to the packaging phase -->
+              <phase>package</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <dependencies>
+    <!-- JCommon -->
+    <dependency>
+      <groupId>org.jfree</groupId>
+      <artifactId>jcommon</artifactId>
+      <version>1.0.24</version>
+    </dependency>
+    <!-- JFreeChart -->
+    <dependency>
+      <groupId>org.jfree</groupId>
+      <artifactId>jfreechart</artifactId>
+      <version>1.5.3</version>
+    </dependency>
+    <!-- IN-MEMORY JAVA COMPILER -->
+    <dependency>
+      <groupId>org.mdkt.compiler</groupId>
+      <artifactId>InMemoryJavaCompiler</artifactId>
+      <version>1.3.0</version>
+    </dependency>
+
+    <!-- DERBY: embedded DB -->
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+      <version>10.15.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derbyclient</artifactId>
+      <version>10.15.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derbynet</artifactId>
+      <version>10.15.2.0</version>
+    </dependency>
+    <!-- POSTGRESQL -->
+    <dependency>
+      <groupId>postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>9.1-901-1.jdbc4</version>
+    </dependency>
+    <!-- JUNIT -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+    </dependency>
+    <!-- local-maven-repo: JSCALEDHTMLTEXTPANE -->
+    <dependency>
+      <groupId>jscaledhtmltextpane</groupId>
+      <artifactId>jscaledhtmltextpane</artifactId>
+      <version>unknown</version>
+    </dependency>
+    <!-- local-maven-repo: SCROLALBLEDESKTOP -->
+    <dependency>
+      <groupId>scrollabledesktop</groupId>
+      <artifactId>scrollabledesktop</artifactId>
+      <version>unknown</version>
+    </dependency>
+  </dependencies>
+</project>
