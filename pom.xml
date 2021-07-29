@@ -50,7 +50,7 @@
     <module>dcsl</module>
     <module>main</module>
     <module>modules</module>
-    <module>examples</module>
+    <!-- <module>examples</module> -->
   </modules>
 
   <!-- build configuration -->
