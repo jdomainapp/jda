@@ -1,0 +1,24 @@
+@ModuleDescriptor(
+    name="{moduleName}",
+    viewDesc=@ViewDesc(
+      formTitle="{moduleTitle}",
+      imageIcon="-",
+      view=View.class,
+      viewType=RegionType.Main, 
+      topX=0.0,topY=0.0,widthRatio=0.5f,heightRatio=1f,
+      children={
+          RegionName.Desktop,
+          RegionName.MenuBar,
+          RegionName.ToolBar,
+          RegionName.StatusBar
+      },
+      excludeComponents={
+        // general actions
+        Export, Print, Chart, ObjectScroll,
+        // object-related actions
+        Add, // experimental
+        CopyObject, Reload, // v3.1
+      }
+    ),
+    type=ModuleType.DomainMain
+)

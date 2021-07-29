@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {background-color:white}
+  
+  /* Common data table settings */
+  table#data {
+    width: 100%;
+    border: 2px solid black;
+    border-collapse: collapse;  
+  }
+  table#data th, td{
+    border: 1px solid black;
+    padding: 5px;
+  }
+  table#data tr:nth-child(even) {
+    background-color: #eee;
+  }
+  table#data tr:nth-child(odd) {
+    background-color: #fff;
+  }  
+  
+  /*Title style*/
+  h1#tcaption {
+    text-align: {Text.align};
+    font-size: {Text.size};
+    font-family: {Text.family};
+    color: {Text.color};
+  } 
+  /*␀*/
+  
+  /*Column style*/
+  td#cl{Column.no} {
+    text-align: {Text.align};
+    font-size: {Text.size};
+    font-family: {Text.family};
+    color: {Text.color}
+  }
+  /*␀*/
+  
+  /*Header style*/
+  th#hd{Header.no} {
+    text-align: {Text.align};
+    font-size: {Text.size};
+    font-family: {Text.family};
+    color: {Text.color}
+  }
+  /*␀*/
+</style>
+<meta charset="utf-8">
+<title>{Title}</title>
+</head>
+<body>
+  <table id="data">
+    <caption>{Title}</caption>
+    <tr>
+      <!--Header,</th>-->
+      <th id="hd{Header.no}">{Header.value}</th>
+    </tr>
+    <!--Row,</tr>-->
+    <tr>
+      <!--Cell,</td>,-->      
+      <td id="cl{Column.no}">{Column.value}</td>
+    </tr>
+  </table>
+</body>
+</html>

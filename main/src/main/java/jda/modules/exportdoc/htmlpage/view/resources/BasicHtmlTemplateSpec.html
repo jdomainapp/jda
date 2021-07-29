@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {background-color:white}
+  
+  /* Common data table settings */
+  table#title {
+    border: 0; 
+    padding: 0px;
+    border-spacing: 0px;
+  }
+  
+  table#data {
+    background-color: black;
+    padding: 0px;
+    border-spacing: 1px;
+  }
+  
+  table#data th, td {
+    padding: 5px;
+    border-spacing: 0px;
+    background-color: white;
+    vertical-align: center;
+  }
+  
+  /*TitleStyle*/
+  h1#tcaption {
+    text-align: {Text.align};
+    font-size: {Text.size};
+    font-family: {Text.family};
+    color: {Text.color};
+  } 
+  /*␀*/
+  
+  /*HeaderStyle*/
+  th#hd{Header.no} {
+    width: {Header.width};
+    text-align: {Text.align};
+    font-size: {Text.size};
+    font-family: {Text.family};
+    color: {Text.color}
+  }
+  /*␀*/
+  
+  /*CellStyle*/
+  td#cl{Column.no} {
+    width: {Column.width};
+    text-align: {Text.align};
+    font-size: {Text.size};
+    font-family: {Text.family};
+    color: {Text.color}
+  }  
+  /*␀*/
+</style>
+<meta charset="utf-8">
+<title>{Title}</title>
+</head>
+<body>
+  <!--TitleTable-->
+  <table width="{Table.width}" id="title">
+    <tr><td>
+      <h1 id="tcaption">{Title}</h1>
+    </td></tr>
+  </table>
+  <!--DataTable-->
+  <table width="{Table.width}" id="data">
+    <tr>
+      <!--Header-->
+      <th id="hd{Header.no}">{Header.value}</th>
+      <!--␀-->
+    </tr>
+    <!--Row-->
+    <tr>
+      <!--Cell-->      
+      <td id="cl{Column.no}">{Column.value}</td>
+      <!--␀-->      
+    </tr>
+    <!--␀-->
+  </table>
+  <!--␀-->      
+</body>
+</html>

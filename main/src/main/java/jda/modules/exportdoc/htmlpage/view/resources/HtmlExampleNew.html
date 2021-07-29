@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {background-color:white}
+  
+  /* Common data table settings */
+  table#data {    
+  	width:  100%;
+    border: 2px solid black;
+    border-collapse: collapse;
+  }
+  table#data th, td {
+    border: 1px solid black; 
+    padding: 5px;
+    border-spacing: 1px;
+    vertical-align: center;
+  }
+  table#data tr {
+    width: 100%;
+  }
+  table#data tr:nth-child(even) {
+    background-color: #eee;
+  }
+  table#data tr:nth-child(odd) {
+    background-color: #fff;
+  }  
+  
+  /*Title style*/
+  h1#tcaption {
+    text-align: center;
+    font-size: 18;
+    font-family: arial;
+    color: blue;
+  } 
+  
+  /*Column style*/
+  td#cl1 {
+    text-align: center;
+    font-size: 12;
+    font-family: arial;
+    color: black;
+  }
+  td#cl2 {
+    text-align: left;
+    font-size: 12;
+    font-family: arial;
+    color: black;
+  }
+  td#cl3 {
+    text-align: center;
+    font-size: 12;
+    font-family: arial;
+    color: black;
+  }
+  /*END: Column style*/
+  
+  /*Header style*/
+  th#hd1 {
+    text-align: center;
+    font-size: 14;
+    font-family: arial;
+    color: black;
+  }
+  th#hd2 {
+    text-align: left;
+    font-size: 14;
+    font-family: arial;
+    color: black;
+  }
+  th#hd3 {
+    text-align: center;
+    font-size: 14;
+    font-family: arial;
+    color: black;
+  }
+
+  /*END: Header style*/
+</style>
+<meta charset="utf-8">
+<title>Danh sách đại chúng đơn Chùa Bửu Thắng</title>
+</head>
+<body>
+  <h1 id="tcaption">Danh Sách Đại Chúng Đơn Chùa Bửu Thắng</h1>
+  <div align=center>
+  <table id="data">
+    <tr>
+      <!--Header-->
+      <th id="hd1">STT</th>
+      <th id="hd2">Họ và tên</th>
+      <th id="hd3">Năm sinh</th>            
+    </tr>
+    <!--Row-->
+    <tr>
+      <!--Cell-->
+      <td id="cl1">1</td>
+      <!--Cell-->
+      <td id="cl2">Huỳnh Thị Hương</td>
+      <!--Cell-->
+      <td id="cl3">1974</td>
+    </tr>
+    <!--Row-->
+    <tr>
+      <!--Cell-->
+      <td id="cl1">2</td>
+      <!--Cell-->
+      <td id="cl2">Bùi Thị Lý</td>
+      <!--Cell-->
+      <td id="cl3">1980</td>
+    </tr>
+    <!--Row-->
+    <tr>
+      <!--Cell-->
+      <td id="cl1">3</td>
+      <!--Cell-->
+      <td id="cl2">Trần Văn Nhanh</td>
+      <!--Cell-->
+      <td id="cl3">1990</td>
+    </tr>
+  </table>
+  </div>
+</body>
+</html>

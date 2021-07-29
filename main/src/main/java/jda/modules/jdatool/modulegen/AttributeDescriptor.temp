@@ -1,0 +1,13 @@
+  @AttributeDesc(label="{label}", 
+  	type={type},
+  	editable={editable}, 
+  	width={width}, 
+  	height={height},
+  	isVisible={visible},
+  	controllerDesc={controllerDesc},
+  	ref={ref},
+  	loadOidWithBoundValue={loadOidWithBoundValue},  // this must be set to true if displayOidWithBoundValue = true
+    displayOidWithBoundValue={displayOidWithBoundValue},
+  	isStateEventSource={isStateEventSource}
+  	)
+    private {dataType} {fieldName};

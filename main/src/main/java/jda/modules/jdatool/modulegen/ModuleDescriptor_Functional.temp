@@ -1,0 +1,17 @@
+@ModuleDescriptor(
+    name="{moduleName}",
+    modelDesc=@ModelDesc(model={domainCls}.class),
+    viewDesc=@ViewDesc(
+        formTitle="{moduleTitle}",
+        imageIcon="-",
+        editable={editable},
+        view=View.class,
+        viewType=RegionType.Data,
+        parent=RegionName.Tools
+    ),
+    controllerDesc=@ControllerDesc(
+    	props={controllerProps},
+    	isDataFieldStateListener={isDataFieldStateListener}
+    ),
+    isPrimary=true
+)

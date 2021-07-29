@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {background-color:white}
+  
+  /* Common data table settings */
+  table#title {
+    border: 0; 
+    padding: 0px;
+    border-spacing: 0px;
+  }
+  
+  table#data {
+    background-color: black;
+    padding: 0px;
+    border-spacing: 1px;
+  }
+  
+  table#data th, td {
+    padding: 5px;
+    border-spacing: 0px;
+    background-color: white;
+    vertical-align: center;
+  }
+  
+  /*TitleStyle*/
+  h1#tcaption {
+ text-align: center;
+ font-size: 20;
+ font-family: Arial;
+ color: #0064ff;
+}
+
+  
+  /*HeaderStyle*/
+th#hd2_1 { 
+  width: 20;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+th#hd2_2 { 
+  width: 50;
+  text-align: left;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+th#hd2_3 { 
+  width: 30;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+th#hd2_4 { 
+  width: 30;
+  text-align: left;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+th#hd2_5 { 
+  width: 30;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+th#hd2_6 { 
+  width: 100;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+th#hd2_7 { 
+  width: 100;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+th#hd3_1 { 
+  width: 20;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #808080
+}
+th#hd3_2 { 
+  width: 20;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #0064ff
+}
+th#hd4_1 { 
+  width: 20;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #808080
+}
+th#hd4_2 { 
+  width: 20;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #808080
+}
+th#hd4_3 { 
+  width: 20;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #808080
+}
+
+  /*CellStyle*/
+td#cl2_1 { 
+  width: 20;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+td#cl2_2 { 
+  width: 50;
+  text-align: left;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+td#cl2_3 { 
+  width: 30;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+td#cl2_4 { 
+  width: 30;
+  text-align: left;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+td#cl2_7 { 
+  width: 30;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+
+td#cl3_1 { 
+  width: 20;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+td#cl3_2 { 
+  width: 20;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #0064ff
+}
+td#cl4_1 { 
+  width: 20;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+td#cl4_2 { 
+  width: 20;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+td#cl4_3 { 
+  width: 20;
+  text-align: center;
+  font-size: 13;
+  font-family: Arial;
+  color: #000000
+}
+ 
+</style>
+<title>Danh sách đại chúng đơn</title>
+<meta charset="utf-8">
+</head>
+<body>
+  <div align=center>
+    <!--TitleTable-->
+    <table width="500" id="title">
+<tr><td>
+<h1 id="tcaption">Danh sách đại chúng đơn</h1>
+</td></tr>
+
+</table>
+    <!--DataTable-->
+    <table width="1024" id="data">
+       <!--headers-->
+        <tr>
+          <th id="hd2_1" rowspan=2 colspan=1>Mã</th>
+          <th id="hd2_2" rowspan=2 colspan=1>Họ và tên</th>
+          <th id="hd2_3" rowspan=2 colspan=1>Ngày sinh</th>
+          <th id="hd2_4" rowspan=2 colspan=1>Tình trạng</th>
+            <th id="hd2_5" rowspan=1 colspan=2>Hộ khẩu</th>
+            <th id="hd2_6" rowspan=1 colspan=3>CMND</th>
+          <th id="hd2_7" rowspan=2 colspan=1>Ngày đến</th>
+        </tr>
+          <tr>
+            <th id="hd3_1" rowspan=1 colspan=1>Số</th>
+            <th id="hd3_2" rowspan=1 colspan=1>Ngày cấp</th>
+            
+            <th id="hd4_1" rowspan=1 colspan=1>Số</th>
+            <th id="hd4_2" rowspan=1 colspan=1>Ngày cấp</th>
+            <th id="hd4_3" rowspan=1 colspan=1>Hết hạn</th>
+          </tr>
+        <!--Data rows-->
+        <tr>
+         <td id="cl2_1" rowspan=3 colspan=1>S2014</td>
+         <td id="cl2_2" rowspan=3 colspan=1>Nguyen Van Thang</td>
+         <td id="cl2_3" rowspan=3 colspan=1>20/1/1990</td>
+         <td id="cl2_4" rowspan=3 colspan=1>Hà nội</td>
+           <td id="cl3_1" rowspan=1 colspan=1>1324234234234</td>
+           <td id="cl3_2" rowspan=1 colspan=1>1/1/2007</td>
+           
+           <td id="cl4_1" rowspan=1 colspan=1>888989886</td>
+           <td id="cl4_2" rowspan=1 colspan=1>1/1/2008</td>
+           <td id="cl4_3" rowspan=1 colspan=1>1/1/2020</td>         
+         <td id="cl2_7" rowspan=3 colspan=1>1/1/2030</td>
+        </tr>
+         <tr>         
+           <td id="cl3_1" rowspan=1 colspan=1>1324234234234</td>
+           <td id="cl3_2" rowspan=1 colspan=1>1/1/2007</td>
+           
+           <td id="cl4_1" rowspan=1 colspan=1>888989886</td>
+           <td id="cl4_2" rowspan=1 colspan=1>1/1/2008</td>
+           <td id="cl4_3" rowspan=1 colspan=1>1/1/2020</td>
+         </tr>
+         <tr>           
+           <td id="cl3_1" rowspan=1 colspan=1></td>
+           <td id="cl3_2" rowspan=1 colspan=1></td>
+           
+           <td id="cl4_1" rowspan=1 colspan=1>888989886</td>
+           <td id="cl4_2" rowspan=1 colspan=1>1/1/2008</td>
+           <td id="cl4_3" rowspan=1 colspan=1>1/1/2020</td>
+         </tr>
+        </tr>
+    </table>
+  </div> 
+</body>
+</html>

@@ -1,0 +1,4 @@
+Extended Model:
+===============
+Same as model.examples.courseman except
+	SClass has extra attributes: createDate

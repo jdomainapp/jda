@@ -1,0 +1,12 @@
+{
+  // custom Create object command: to create {@link Enrolment} from the course modules
+  @PropertyDesc(name=PropertyName.controller_dataController_create,
+  	valueIsClass=domainapp.controller.datacontroller.command.manyAssoc.CreateObjectAndManyAssociatesDataControllerCommand.class, 
+  	valueAsString=CommonConstants.NullValue,
+    valueType=Class.class),
+ // custom Update object command: to update {@link Enrolment} from the course modules
+  @PropertyDesc(name=PropertyName.controller_dataController_update,      
+  	valueIsClass=domainapp.controller.datacontroller.command.manyAssoc.UpdateObjectAndManyAssociatesDataControllerCommand.class, 
+  	valueAsString=CommonConstants.NullValue,
+    valueType=Class.class)
+}

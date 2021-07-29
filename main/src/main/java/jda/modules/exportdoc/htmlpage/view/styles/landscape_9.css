@@ -1,0 +1,121 @@
+/*
+ * Style sheet: 
+ *  - orientation: landscape (fixed width: 690)
+ *  - font size: 9
+ *  - td, th padding: 2px 
+ */
+  body {
+    background-color:white;
+    color: black
+    font-family: times new roman;
+    font-size: 9;
+  }
+  
+  /* Common data table settings */
+  table#title {
+    width: 550;
+    border: 0px;
+    margin: 0px auto;     /*centering*/
+    padding: 0px;
+    border-spacing: 0px;
+  }
+  
+  table#data {
+    width: 690;
+    border: 1px solid black;
+    margin: 0px auto;     /*centering*/
+    background-color: black;
+    padding: 0px;
+    border-spacing: 1px;
+  }
+  
+  table#container {
+    width: 690;
+    border: 0px solid black;
+    margin: 0px auto;     /*centering*/
+    /*background-color: black; */
+    padding: 0px;
+    border-spacing: 0px;
+  }
+  
+  table#stats {
+    /*width: 150px;*/
+    border: 1px solid black;
+    background-color: black;
+    padding: 0px;
+    border-spacing: 1px;
+  }
+    
+  table#bottom {
+    width: 690;
+    height: 150px;
+    border: 0px;
+    background-color: white;
+    padding: 5px;
+    border-spacing: 1px;
+  }
+
+  table#footer {
+    width: 690;
+    border: 0px;
+    background-color: white;
+    padding: 5px;
+    border-spacing: 1px;
+  }
+
+  table#data th, td {
+    padding: 2px;
+    border-spacing: 0px;
+    background-color: white;
+    vertical-align: center;
+    font-family: times new roman;
+    font-size: 9;
+  }
+
+  table#stats th, td {
+    padding: 2px;
+    border-spacing: 0px;
+    background-color: white;
+    vertical-align: center;
+    font-family: times new roman;
+    font-size: 9;
+  }
+  
+  table#field {
+    width: 100%;
+    border: 0px solid black;
+    padding: 0px;
+    border-spacing: 0px;
+  }
+
+  table#fieldgrp {
+    width: 100%;
+    border: 0px;
+    padding: 0px;
+    border-spacing: 0px;
+  }
+  
+  td#fname {
+    width: 100px;
+  }
+
+  td#fnamelong {
+    width: 50%;
+  }
+
+  td#fval {
+    text-align: left;
+  }
+
+  td#botlabel {
+  }
+
+  td#footerline {
+    background-color: #b5d83c ;
+  }
+  
+  span#head1 {
+    font-family: times new roman;
+    font-size: 150%;
+    text-align: center;    
+  }  
