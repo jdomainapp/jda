@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>jda</groupId>
+    <artifactId>jda-root</artifactId>
+    <version>5.4-SNAPSHOT</version>
+  </parent>
+
+  <groupId>jda.modules</groupId>
+  <artifactId>jda-module-root</artifactId>
+  <packaging>pom</packaging>
+  
+  <name>JDA Modules Root</name>
+  <description>Parent of all JDA modules</description>
+  
+  <modules>
+    <module>mccl</module>
+<!--     <module>sccl</module>
+    <module>mbsl</module>
+    <module>apml</module>
+    <module>dompattern</module>
+    <module>dcsltool</module>
+ -->    
+ 	<module>restfstool</module>
+<!--     <module>plugineclipse</module> -->
+  </modules>
+  
+  <dependencies>
+    <dependency>
+      <groupId>jda</groupId>
+      <artifactId>jda-main</artifactId>
+      <version>5.4-SNAPSHOT</version>
+    </dependency>
+    <!-- Module: common -->
+    <dependency>
+      <groupId>jda</groupId>
+      <artifactId>jda-common</artifactId>
+      <version>5.4-SNAPSHOT</version>
+    </dependency>     
+    <!-- Module: dcsl -->
+    <dependency>
+      <groupId>jda</groupId>
+      <artifactId>module-dcsl</artifactId>
+      <version>5.4-SNAPSHOT</version>
+    </dependency>    
+  </dependencies>
+</project>
