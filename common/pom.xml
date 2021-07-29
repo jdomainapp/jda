@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>jda</groupId>
+    <artifactId>jda-root</artifactId>
+    <version>5.4-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>jda-common</artifactId>
+  
+  <name>JDA Common</name>
+  <description>Implements common functions used by JDA main and modules</description>
+  
+  <dependencies>
+    <!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
+    <dependency>
+        <groupId>javax.json</groupId>
+        <artifactId>javax.json-api</artifactId>
+        <version>1.1.4</version>
+    </dependency>  
+    <!-- https://mvnrepository.com/artifact/org.glassfish/javax.json -->
+    <dependency>
+        <groupId>org.glassfish</groupId>
+        <artifactId>javax.json</artifactId>
+        <version>1.1.4</version>
+    </dependency>
+    
+  </dependencies>
+</project>
