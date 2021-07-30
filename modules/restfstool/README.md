@@ -1,5 +1,8 @@
 RFSTool - RESTful Full-Stack Web Software Generator
 =========
+# Version History:
+- 1.0: before refactor
+- 1.1: after refactor
 
 # Set up
 1. First-time installation:
