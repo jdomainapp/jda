@@ -101,3 +101,6 @@ npm start
 
 3. Access `localhost:3000` on the browser to start using the front-end
 
+Figure below shows the front-end.
+
+![CourseMan Front-end](docs/images/FrontEnd-CourseMan.png)
