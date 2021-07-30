@@ -20,6 +20,17 @@ on:
   # issues or pull requests. Can be removed otherwise.
   schedule:
     - cron: '0 0 * * *'
+  
+  # ducmle: for manual run of workflow
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Dependency issue'
+        required: false
 
 jobs:
   check:
