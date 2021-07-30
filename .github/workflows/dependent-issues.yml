@@ -29,7 +29,7 @@ on:
         required: true
         default: 'warning'
       tags:
-        description: 'Dependency issue rune'
+        description: 'Dependency issue'
         required: false
 
 jobs:
