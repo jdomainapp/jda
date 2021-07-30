@@ -1,0 +1,294 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>jda.modules</groupId>
+  <artifactId>module-restfstool</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Module: RESTFSTool - RESTful Full-Stack Web Software Tool</name>
+
+    <!-- SPRING PARENT POM -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.2</version>
+        <relativePath/>
+    </parent>
+    <!-- END: SPRING PARENT POM -->
+ 
+    <!-- PROPERTIES -->
+    <properties>
+        <java.version>13</java.version>
+        <jersey.version>3.0.1</jersey.version>
+        <!--    <jetty.version>11.0.1</jetty.version>-->
+        <jetty.version>9.4.38.v20210224</jetty.version>
+        <mainClass>examples.domainapp.modules.webappgen.complete.CourseManAppGenerator</mainClass>
+    </properties>
+    <!-- END: PROPERTIES -->
+
+  <build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <release>${java.version}</release>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+            <execution>
+                <phase>generate-sources</phase>
+                <goals>
+                    <goal>add-source</goal>
+                </goals>
+                <configuration>
+                    <sources>
+                        <source>src/example/java</source>
+                    </sources>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+    </plugins>
+  </build>
+
+  <!-- Helidon & static web app -->
+  <!-- helidon-bom: helps remove the need to add version to each dependency -->
+  <dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>io.helidon</groupId>
+            <artifactId>helidon-bom</artifactId>
+            <version>2.2.1</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+      <!-- SPRING BOOT -->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-websocket</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
+          <exclusions>
+              <exclusion>
+                  <groupId>org.springframework.boot</groupId>
+                  <artifactId>spring-boot-starter-tomcat</artifactId>
+              </exclusion>
+          </exclusions>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-jetty</artifactId>
+      </dependency>
+      <!-- END: SPRING BOOT -->
+
+      <!-- JETTY -->
+      <dependency>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-servlet</artifactId>
+          <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-server</artifactId>
+          <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.eclipse.jetty.websocket</groupId>
+          <artifactId>websocket-servlet</artifactId>
+          <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-http</artifactId>
+          <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-util</artifactId>
+          <version>${jetty.version}</version>
+      </dependency>
+      <!-- END: JETTY -->
+
+      <!-- JERSEY/JAXRS -->
+      <dependency>
+          <groupId>org.glassfish.jersey.media</groupId>
+          <artifactId>jersey-media-json-jackson</artifactId>
+          <version>${jersey.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.glassfish</groupId>
+          <artifactId>javax.xml.bind</artifactId>
+          <version>10.0-b28</version>
+      </dependency>
+      <dependency>
+          <groupId>org.glassfish.jersey.containers</groupId>
+          <artifactId>jersey-container-jetty-http</artifactId>
+          <version>${jersey.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.glassfish.jersey.core</groupId>
+          <artifactId>jersey-server</artifactId>
+          <version>${jersey.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.glassfish.jersey.containers</groupId>
+          <artifactId>jersey-container-servlet</artifactId>
+          <version>${jersey.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.glassfish.jersey.bundles</groupId>
+          <artifactId>jaxrs-ri</artifactId>
+          <version>${jersey.version}</version>
+      </dependency>
+      <!-- END: JERSEY/JAXRS -->
+
+      <!-- BYTEBUDDY -->
+      <dependency>
+          <groupId>net.bytebuddy</groupId>
+          <artifactId>byte-buddy-agent</artifactId>
+          <version>1.10.20</version>
+      </dependency>
+      <dependency>
+          <groupId>net.bytebuddy</groupId>
+          <artifactId>byte-buddy-dep</artifactId>
+          <version>1.10.20</version>
+      </dependency>
+      <!-- END: BYTEBUDDY -->
+
+      <!-- TEXT MANIPULATION -->
+      <dependency>
+          <groupId>org.modeshape</groupId>
+          <artifactId>modeshape-common</artifactId>
+          <version>5.4.1.Final</version>
+      </dependency>
+      <!-- END: MODESHAPE -->
+
+    <!-- WEB SERVER -->
+		<dependency>
+		  <groupId>io.helidon.webserver</groupId>
+		  <artifactId>helidon-webserver</artifactId>
+		</dependency>
+		<dependency>
+	        <groupId>io.helidon.config</groupId>
+	        <artifactId>helidon-config</artifactId>
+	    </dependency>
+		<dependency>
+	        <groupId>io.helidon.config</groupId>
+	        <artifactId>helidon-config-yaml</artifactId>
+	    </dependency>
+      <!-- END: web server -->
+
+      <!-- DOMAINAPP -->
+      <dependency>
+          <groupId>jda.modules</groupId>
+          <artifactId>module-mccl</artifactId>
+          <version>5.4-SNAPSHOT</version>
+      </dependency>
+       <dependency>
+          <groupId>jda.modules</groupId>
+          <artifactId>module-dompattern</artifactId>
+          <version>5.4-SNAPSHOT</version>
+      </dependency>
+      <!--
+      <dependency>
+          <groupId>domainapp</groupId>
+          <artifactId>domainapp</artifactId>
+          <version>5.2</version>
+      </dependency>
+      <dependency>
+          <groupId>domainapp</groupId>
+          <artifactId>modules-mccl-core</artifactId>
+          <version>5.2</version>
+      </dependency>
+      <dependency>
+          <groupId>domainapp</groupId>
+          <artifactId>modules-common</artifactId>
+          <version>5.2</version>
+      </dependency>
+      -->
+      <!-- END: DOMAINAPP -->
+
+      <dependency>
+          <groupId>org.jooq</groupId>
+          <artifactId>joor</artifactId>
+          <version>0.9.13</version>
+      </dependency>
+
+      <!-- IN-MEMORY JAVA COMPILER -->
+      <dependency>
+          <groupId>org.mdkt.compiler</groupId>
+          <artifactId>InMemoryJavaCompiler</artifactId>
+          <version>1.3.0</version>
+      </dependency>
+      <!-- END: IN-MEMORY JAVA COMPILER -->
+
+      <!-- Derby DB for jDomainApp -->
+      <dependency>
+          <groupId>org.apache.derby</groupId>
+          <artifactId>derbyclient</artifactId>
+          <version>10.15.2.0</version>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.derby</groupId>
+          <artifactId>derby</artifactId>
+          <version>10.15.2.0</version>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.derby</groupId>
+          <artifactId>derbynet</artifactId>
+          <version>10.15.2.0</version>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.derby</groupId>
+          <artifactId>derbytools</artifactId>
+          <version>10.15.2.0</version>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.derby</groupId>
+          <artifactId>derbyshared</artifactId>
+          <version>10.15.2.0</version>
+      </dependency>
+      <!-- END: DERBY DB -->
+
+      <!-- JAVAPARSER -->
+      <dependency>
+          <groupId>com.github.javaparser</groupId>
+          <artifactId>javaparser-core</artifactId>
+          <version>3.8.2</version>
+      </dependency>
+      <!-- END: JAVAPARSER -->
+
+	<!-- WEB SOCKET -->
+    <dependency>
+        <groupId>io.helidon.webserver</groupId>
+        <artifactId>helidon-webserver-tyrus</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>io.helidon.webserver</groupId>
+        <artifactId>helidon-webserver-test-support</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>io.helidon.webclient</groupId>
+        <artifactId>helidon-webclient</artifactId>
+    </dependency>
+   	<!-- END: web socket -->
+
+      <!-- JSON -->
+	<dependency>
+	  <groupId>com.google.code.gson</groupId>
+	  <artifactId>gson</artifactId>
+	  <version>2.8.6</version>
+	</dependency>
+  </dependencies>
+</project>

@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <script type = "text/javascript">
+         var ws;
+         function webSocketTest() {
+            if ("WebSocket" in window) {
+               document.getElementById("title").innerHTML = "WebSocket is supported by your Browser!";
+               ws = new WebSocket("ws://localhost:8080/websocket/board");
+               ws.onopen = function() {
+                  document.getElementById("result").innerHTML += "<p>WebSocket openned</p>";
+               };
+               ws.onmessage = function (evt) { 
+                  var received_msg = evt.data;
+                  document.getElementById("result").innerHTML += "<p>Received: " + escapeHtml(received_msg) + "</p>";
+               };
+               ws.onclose = function() { 
+                  document.getElementById("result").innerHTML += "<p>WebSocket is closed</p>";
+               };
+            } else {
+               document.getElementById("title").innerHTML = "WebSocket NOT supported by your Browser!";
+            }
+         }
+         function sendMessageWebsocket(){
+        	var action='Get';
+        	var clientId = 2;
+        	var mesgObj = {"action":action, "clientId":clientId};
+        	var mesg = JSON.stringify(mesgObj);
+        	
+            ws.send(mesg);
+            document.getElementById("result").innerHTML += "<p>Sent: " + mesg + "</p>";
+         }
+     	function escapeHtml(unsafe) {
+    		return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(
+    				/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    	}
+      </script>
+        
+   </head>
+   
+   <body onload="webSocketTest()">
+      <h1 id="title"></h1>
+      <div>
+		<p>
+           <button onclick="sendMessageWebsocket()">Get update...</button>
+        </p>
+         <h2>Console:</h2>
+         <div id="result"></div>
+      </div>
+   </body>
+</html>

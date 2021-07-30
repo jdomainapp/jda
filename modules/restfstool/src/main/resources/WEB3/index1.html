@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript">
+	function sendMessageRest(message) {
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("POST", "/rest/board", true);
+		xhttp.setRequestHeader("Content-type", "text/plain");
+		xhttp.send(message);
+		document.getElementById("result").innerHTML += "<p>Sent: "
+				+ escapeHtml(message) + "</p>";
+	}
+	function escapeHtml(unsafe) {
+		return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(
+				/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+	}
+</script>
+
+</head>
+
+<body">
+	<h1 id="title"></h1>
+	<div>
+		<p>
+		<p>
+			<input type="text" id="message" value="example" />
+			<button
+				onclick="sendMessageRest(document.getElementById('message').value)">Send
+				request...</button>
+		</p>
+		</p>
+		<h2>
+		Console:
+ 		</h2>
+			<div id="result"></div>
+	</div>
+</body>
+</html>

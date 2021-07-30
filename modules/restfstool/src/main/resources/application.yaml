@@ -1,0 +1,21 @@
+server:
+   bind-address: "localhost"
+   port: 8080
+
+app:
+- greeting: Hello
+
+web:
+- debug: true
+- page-size: 20
+- ratio: 1.3
+
+bl:
+- initial-id: 10000000000
+
+origin: props
+
+logging:
+   level:
+#      root: DEBUG
+      root: WARN

@@ -1,0 +1,48 @@
+<!--<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">-->
+<!--  <modelVersion>4.0.0</modelVersion>-->
+<!--  <groupId>WebAppGenerator</groupId>-->
+<!--  <artifactId>WebAppGenerator</artifactId>-->
+<!--  <version>0.0.1-SNAPSHOT</version>-->
+<!--  <name>Service-based Web application Generator</name>-->
+<!--  <build>-->
+<!--    <sourceDirectory>src</sourceDirectory>-->
+<!--    <plugins>-->
+<!--      <plugin>-->
+<!--        <artifactId>maven-compiler-plugin</artifactId>-->
+<!--        <version>3.8.1</version>-->
+<!--        <configuration>-->
+<!--          <release>11</release>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
+<!--    </plugins>-->
+<!--  </build>-->
+<!--  -->
+<!--  &lt;!&ndash; Helidon & static web app &ndash;&gt;-->
+<!--  &lt;!&ndash; helidon-bom: helps remove the need to add version to each dependency &ndash;&gt;-->
+<!--  <dependencyManagement>-->
+<!--    <dependencies>-->
+<!--        <dependency>-->
+<!--            <groupId>io.helidon</groupId>-->
+<!--            <artifactId>helidon-bom</artifactId>-->
+<!--            <version>2.2.1</version>-->
+<!--            <type>pom</type>-->
+<!--            <scope>import</scope>-->
+<!--        </dependency>-->
+<!--    </dependencies>-->
+<!--  </dependencyManagement>-->
+
+<!--  <dependencies>-->
+<!--	<dependency>-->
+<!--	  <groupId>io.helidon.webserver</groupId>-->
+<!--	  <artifactId>helidon-webserver</artifactId>-->
+<!--	</dependency>-->
+<!--	<dependency>-->
+<!--        <groupId>io.helidon.config</groupId>-->
+<!--        <artifactId>helidon-config</artifactId>-->
+<!--    </dependency>-->
+<!--	<dependency>-->
+<!--        <groupId>io.helidon.config</groupId>-->
+<!--        <artifactId>helidon-config-yaml</artifactId>-->
+<!--    </dependency>-->
+<!--  </dependencies>  -->
+<!--</project>-->
