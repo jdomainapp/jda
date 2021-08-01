@@ -48,9 +48,47 @@ public class BackendMain implements Consumer<List<Class>>{
     this.model = models;
   }
   
+  /**
+   * @effects 
+   *  Implements call-back behaviour that is executed after back-end application 
+   *  has been generated, whose classes are provided through <code>_generatedClasses</code>.
+   *  
+   *  <p>Instantiates a JDA's DODM instance (managed through {@link #sw}).
+   *  
+   *  <p>Starts a {@link SpringBootApplication} using this class and <code>_generatedClasses</code>
+   *  as the primary sources.
+   *  
+   *  <p>Registers all the created {@link CrudService} instances into the {@link ServiceRegistry}.
+   */
   @Override
   public void accept(List<Class> _generatedClasses) {
-    generatedClasses.addAll(_generatedClasses);
+    run(_generatedClasses);
+//    generatedClasses.addAll(_generatedClasses);
+//    sw = SoftwareFactory.createDefaultDomSoftware();
+//    sw.init();
+//    try {
+//        sw.addClasses(model);
+//        sw.loadObjects(model);
+//    } catch (NotPossibleException
+//            | NotFoundException
+//            | DataSourceException e) {
+//        throw new RuntimeException(e);
+//    }
+//    // populate the service registry
+//    final ServiceRegistry registry = ServiceRegistry.getInstance();
+//
+//    final int generatedClassesCount = generatedClasses.size();
+//    Class[] primarySources = generatedClasses.toArray(
+//            new Class[generatedClassesCount + 1]);
+//    primarySources[generatedClassesCount] = BackendMain.class;
+//
+//    ApplicationContext ctx = SpringApplication.run(primarySources, new String[0]);
+//
+//    ctx.getBeansOfType(CrudService.class).forEach((k, v) -> registry.put(k, v));    
+  }
+  
+  public void run(Collection<? extends Class> components) {
+    generatedClasses.addAll(components);
     sw = SoftwareFactory.createDefaultDomSoftware();
     sw.init();
     try {
