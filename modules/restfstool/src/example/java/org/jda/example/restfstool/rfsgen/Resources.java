@@ -1,9 +1,6 @@
 package org.jda.example.restfstool.rfsgen;
 
-import java.util.List;
-import java.util.function.Consumer;
-
-import com.hanu.courseman.SCC1;
+import com.hanu.courseman.SCCCourseMan;
 import com.hanu.courseman.modules.ModuleMain;
 import com.hanu.courseman.modules.address.ModuleAddress;
 import com.hanu.courseman.modules.address.model.Address;
@@ -18,6 +15,10 @@ import com.hanu.courseman.modules.student.model.Gender;
 import com.hanu.courseman.modules.student.model.Student;
 import com.hanu.courseman.modules.studentclass.ModuleStudentClass;
 import com.hanu.courseman.modules.studentclass.model.StudentClass;
+
+import jda.modules.restfstool.backend.BESpringApp;
+import jda.modules.restfstool.config.GenerationMode;
+import jda.modules.restfstool.config.LangPlatform;
 
 /**
  * @overview 
@@ -56,8 +57,15 @@ public class Resources {
   public static final String frontendOutputPath = "src/example/java/com/hanu/courseman/frontend";
   public static final String backendTargetPackage = "com.hanu.courseman.backend";
   public static final String backendOutputPath = "src/example/java";
-  public static final Class<?> scc = SCC1.class;
+  public static final LangPlatform langPlatform = LangPlatform.SPRING;
+  public static final GenerationMode genMode = GenerationMode.SOURCE_CODE;
+  
+  public static final Class<?> scc = 
+      //SCC1.class;
+      SCCCourseMan.class;
+  
   public static final Class<?> mccMain = ModuleMain.class;
-  public static final Consumer<List<Class>> runCallBack = new BackendMain(model);
+//  public static final CourseManBackendApp runCallBack = new CourseManBackendApp(model);
+  public static final Class<? extends BESpringApp> backEndAppCls = CourseManBESpringApp.class;
 
 }

@@ -8,9 +8,10 @@ import java.util.List;
 
 import jda.modules.restfstool.backend.annotations.bridges.AnnotationRep;
 import jda.modules.restfstool.backend.annotations.bridges.RestAnnotationAdapter;
-import jda.modules.restfstool.backend.annotations.bridges.TargetType;
 import jda.modules.restfstool.backend.base.controllers.NestedRestfulController;
 import jda.modules.restfstool.backend.base.controllers.RestfulController;
+import jda.modules.restfstool.config.GenerationMode;
+import jda.modules.restfstool.config.LangPlatform;
 
 /**
  * @author binh_dh
@@ -53,9 +54,9 @@ public interface WebControllerGenerator {
     static WebControllerGenerator getInstance(GenerationMode mode, String outputPackage, Object... args) {
         switch (mode) {
             case BYTECODE:
-                return new BytecodeWebControllerGenerator((TargetType) args[0], outputPackage);
+                return new BytecodeWebControllerGenerator((LangPlatform) args[0], outputPackage);
             case SOURCE_CODE:
-                return new SourceCodeWebControllerGenerator((TargetType) args[0], outputPackage, (String) args[1]);
+                return new SourceCodeWebControllerGenerator((LangPlatform) args[0], outputPackage, (String) args[1]);
             default:
                 throw new IllegalArgumentException();
         }

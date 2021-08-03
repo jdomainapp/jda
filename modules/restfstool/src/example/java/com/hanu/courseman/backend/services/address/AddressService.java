@@ -17,10 +17,6 @@ import jda.modules.restfstool.backend.utils.InheritanceUtils;
 @Service(value = "com.hanu.courseman.backend.services.address.AddressService")
 public class AddressService extends SimpleDomServiceAdapter<com.hanu.courseman.modules.address.model.Address> {
 
-    public Address createEntity(Address arg0) {
-        return super.createEntity(arg0);
-    }
-
     public Page getEntityListByPage(PagingModel arg0) {
         return super.getEntityListByPage(arg0);
     }
@@ -35,6 +31,10 @@ public class AddressService extends SimpleDomServiceAdapter<com.hanu.courseman.m
 
     public void deleteEntityById(Identifier arg0) {
         super.deleteEntityById(arg0);
+    }
+
+    public Address createEntity(Address arg0) {
+        return super.createEntity(arg0);
     }
 
     public Collection getAllEntities() {

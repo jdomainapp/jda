@@ -28,12 +28,12 @@ import ch.qos.logback.classic.Logger;
 import jda.modules.common.exceptions.DataSourceException;
 import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.common.exceptions.NotPossibleException;
-import jda.modules.restfstool.backend.annotations.bridges.TargetType;
 import jda.modules.restfstool.backend.base.controllers.ServiceRegistry;
 import jda.modules.restfstool.backend.base.services.CrudService;
-import jda.modules.restfstool.backend.generators.GenerationMode;
-import jda.modules.restfstool.backend.generators.WebServiceGenerator;
+import jda.modules.restfstool.backend.generators.RESTfulBackEndGenerator;
 import jda.modules.restfstool.backend.utils.InheritanceUtils;
+import jda.modules.restfstool.config.GenerationMode;
+import jda.modules.restfstool.config.LangPlatform;
 import jda.mosa.software.SoftwareFactory;
 import jda.mosa.software.impl.SoftwareImpl;
 
@@ -86,8 +86,8 @@ public class JaxRsApp {
     public static void main(String[] args) {
         System.out.println("------------");
 
-        WebServiceGenerator generator = new WebServiceGenerator(
-                TargetType.SPRING,
+        RESTfulBackEndGenerator generator = new RESTfulBackEndGenerator(
+                LangPlatform.SPRING,
                 GenerationMode.SOURCE_CODE,
                 "examples.domainapp.modules.webappgen.backend.services",
                 "/Users/binh_dh/Documents/generated");
@@ -104,14 +104,20 @@ public class JaxRsApp {
             // populate the service registry
             final ServiceRegistry registry = ServiceRegistry.getInstance();
 
-            generator.getGeneratedServiceClasses().forEach((k, v) -> {
-                registry.put(k, createDefault(v, sw));
-            });
-            resourceClasses.addAll(generator.getGeneratedControllerClasses());
+//            generator.getGeneratedServiceClasses().forEach((k, v) -> {
+//                registry.put(k, createDefault(v, sw));
+//            });
+//            resourceClasses.addAll(generator.getGeneratedControllerClasses());
+            generator.getOutput().getServices().forEach((k, v) -> {
+              registry.put(k, createDefault(v, sw));
+          });
+            
+          resourceClasses.addAll(generator.getOutput().getControllers());
 
             startJettyServer();
         });
-        generator.generateWebService(model);
+        
+        generator.run(model);
         System.out.println("------------");
     }
     static {

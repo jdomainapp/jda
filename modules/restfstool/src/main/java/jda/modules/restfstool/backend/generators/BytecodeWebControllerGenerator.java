@@ -16,11 +16,11 @@ import org.springframework.stereotype.Component;
 import jda.modules.restfstool.backend.annotations.NestedResourceController;
 import jda.modules.restfstool.backend.annotations.bridges.AnnotationRep;
 import jda.modules.restfstool.backend.annotations.bridges.RestAnnotationAdapter;
-import jda.modules.restfstool.backend.annotations.bridges.TargetType;
 import jda.modules.restfstool.backend.base.controllers.*;
 import jda.modules.restfstool.backend.svcdesc.ServiceController;
 import jda.modules.restfstool.backend.utils.NamingUtils;
 import jda.modules.restfstool.backend.utils.PackageUtils;
+import jda.modules.restfstool.config.LangPlatform;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,11 +64,11 @@ class BytecodeWebControllerGenerator implements WebControllerGenerator {
 
     private BytecodeWebControllerGenerator() {
         generatedCrudClasses = new HashMap<>();
-        annotationAdapter = RestAnnotationAdapter.adaptTo(TargetType.SPRING);
+        annotationAdapter = RestAnnotationAdapter.adaptTo(LangPlatform.SPRING);
         outputPackage = null;
     }
 
-    BytecodeWebControllerGenerator(TargetType targetType, String outputPackage) {
+    BytecodeWebControllerGenerator(LangPlatform targetType, String outputPackage) {
         this.generatedCrudClasses = new HashMap<>();
         this.annotationAdapter = RestAnnotationAdapter.adaptTo(targetType);
         this.outputPackage = outputPackage;

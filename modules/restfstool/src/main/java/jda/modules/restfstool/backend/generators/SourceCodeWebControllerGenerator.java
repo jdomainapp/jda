@@ -14,9 +14,9 @@ import com.github.javaparser.ast.expr.StringLiteralExpr;
 import jda.modules.restfstool.backend.annotations.NestedResourceController;
 import jda.modules.restfstool.backend.annotations.bridges.AnnotationRep;
 import jda.modules.restfstool.backend.annotations.bridges.RestAnnotationAdapter;
-import jda.modules.restfstool.backend.annotations.bridges.TargetType;
 import jda.modules.restfstool.backend.base.controllers.*;
 import jda.modules.restfstool.backend.utils.*;
+import jda.modules.restfstool.config.LangPlatform;
 
 import org.jda.example.restfstool.springapp.services.coursemodule.model.CourseModule;
 import org.jda.example.restfstool.springapp.services.enrolment.model.Enrolment;
@@ -56,10 +56,10 @@ final class SourceCodeWebControllerGenerator implements WebControllerGenerator {
     private final Inflector inflector = Inflector.getInstance();
 
     SourceCodeWebControllerGenerator(String outputPackage, String outputFolder) {
-        this(TargetType.SPRING, outputPackage, outputFolder);
+        this(LangPlatform.SPRING, outputPackage, outputFolder);
     }
 
-    SourceCodeWebControllerGenerator(TargetType targetType, String outputPackage, String outputFolder) {
+    SourceCodeWebControllerGenerator(LangPlatform targetType, String outputPackage, String outputFolder) {
         generatedCrudClasses = new HashMap<>();
         annotationAdapter = RestAnnotationAdapter.adaptTo(targetType);
         this.outputFolder = outputFolder;

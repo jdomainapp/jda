@@ -17,10 +17,6 @@ import jda.modules.restfstool.backend.utils.InheritanceUtils;
 @Service(value = "com.hanu.courseman.backend.services.enrolment.EnrolmentService")
 public class EnrolmentService extends SimpleDomServiceAdapter<com.hanu.courseman.modules.enrolment.model.Enrolment> {
 
-    public Enrolment createEntity(Enrolment arg0) {
-        return super.createEntity(arg0);
-    }
-
     public Page getEntityListByPage(PagingModel arg0) {
         return super.getEntityListByPage(arg0);
     }
@@ -35,6 +31,10 @@ public class EnrolmentService extends SimpleDomServiceAdapter<com.hanu.courseman
 
     public void deleteEntityById(Identifier arg0) {
         super.deleteEntityById(arg0);
+    }
+
+    public Enrolment createEntity(Enrolment arg0) {
+        return super.createEntity(arg0);
     }
 
     public Collection getAllEntities() {

@@ -1,6 +1,7 @@
 package jda.modules.restfstool.backend.generators;
 
 import jda.modules.restfstool.backend.base.services.CrudService;
+import jda.modules.restfstool.config.GenerationMode;
 
 public interface ServiceTypeGenerator {
     <T> Class<CrudService<T>> generateAutowiredServiceType(Class<T> type);

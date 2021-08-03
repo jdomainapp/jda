@@ -2,16 +2,18 @@ package jda.modules.restfstool.frontend;
 
 import jda.modules.common.ModuleToolable;
 import jda.modules.common.exceptions.NotPossibleException;
+import jda.modules.restfstool.config.RFSGenConfig;
 import jda.modules.restfstool.frontend.bootstrap.ViewBootstrapper;
 
 /**
  * @overview
- *
+ *  Generates the front-end.
+ *  
  * @author Duc Minh Le (ducmle)
  *
  * @version
  */
-public class FrontEndGen implements ModuleToolable {
+public class FEGen implements ModuleToolable {
 
   /**
    * @effects
@@ -54,6 +56,29 @@ public class FrontEndGen implements ModuleToolable {
 //        CourseManAppGenerator.modules);
 //
 //    bootstrapper.bootstrapAndSave();
+  }
+
+  /**
+   * @effects 
+   * 
+   */
+  public Object run(RFSGenConfig rfsGenCfg) {
+    ViewBootstrapper bootstrapper = new ViewBootstrapper(
+        //frontEndOutputPath,
+        rfsGenCfg.getFeOutputPath(),
+//        scc, 
+        rfsGenCfg.getSCC(),
+//        mainMCC, 
+        rfsGenCfg.getMCCMain(),
+        //model
+        rfsGenCfg.getDomainModel(),
+//        funcMCCs
+        rfsGenCfg.getMCCFuncs()
+        );
+
+    bootstrapper.bootstrapAndSave();
+
+    return null;    
   }
 
 }

@@ -1,4 +1,4 @@
-package org.jda.example.restfstool.rfsgen;
+package jda.modules.restfstool.backend;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.jda.example.restfstool.rfsgen.v1_0.CourseManAppGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -36,15 +35,17 @@ import jda.mosa.software.impl.SoftwareImpl;
  */
 @SpringBootApplication
 @ComponentScan(basePackages = {
-        "com.hanu.courseman.backend",
-        "jda.modules.restfstool.backend"})
-public class BackendMain implements Consumer<List<Class>>{
+// TODO: subtypes: replace this with actual application package    
+//        "com.hanu.courseman.backend",
+        "jda.modules.restfstool.backend"
+    })
+public abstract class BESpringApp implements Consumer<List<Class>>{
   private static final List<Class> generatedClasses = new ArrayList<>();
   private static SoftwareImpl sw;
   
   private Class<?>[] model;
 
-  public BackendMain(Class<?>[] models) {
+  public BESpringApp(Class<?>[] models) {
     this.model = models;
   }
   
@@ -105,7 +106,7 @@ public class BackendMain implements Consumer<List<Class>>{
     final int generatedClassesCount = generatedClasses.size();
     Class[] primarySources = generatedClasses.toArray(
             new Class[generatedClassesCount + 1]);
-    primarySources[generatedClassesCount] = BackendMain.class;
+    primarySources[generatedClassesCount] = BESpringApp.class;
 
     ApplicationContext ctx = SpringApplication.run(primarySources, new String[0]);
 

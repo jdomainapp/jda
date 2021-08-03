@@ -1,7 +1,8 @@
 package org.jda.example.restfstool.rfsgen;
 
-import jda.modules.restfstool.BackEndSoftware;
 import static org.jda.example.restfstool.rfsgen.Resources.*;
+
+import jda.modules.restfstool.backend.BESoftware;
 
 /**
  * @overview 
@@ -13,8 +14,10 @@ import static org.jda.example.restfstool.rfsgen.Resources.*;
 public class CourseManBESoftware {
   
   public static void main(String[] args) {
-    new BackEndSoftware().run(
-        model, auxModel,
-        backendTargetPackage);
+    new BESoftware().run(
+        backendTargetPackage, 
+        backEndAppCls, 
+        model
+        );
   }
 }

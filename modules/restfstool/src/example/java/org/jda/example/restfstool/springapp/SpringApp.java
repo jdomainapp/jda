@@ -28,11 +28,11 @@ import jda.modules.common.exceptions.DataSourceException;
 import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.common.io.ToolkitIO;
-import jda.modules.restfstool.backend.annotations.bridges.TargetType;
 import jda.modules.restfstool.backend.base.controllers.ServiceRegistry;
 import jda.modules.restfstool.backend.base.services.CrudService;
-import jda.modules.restfstool.backend.generators.GenerationMode;
-import jda.modules.restfstool.backend.generators.WebServiceGenerator;
+import jda.modules.restfstool.backend.generators.RESTfulBackEndGenerator;
+import jda.modules.restfstool.config.GenerationMode;
+import jda.modules.restfstool.config.LangPlatform;
 import jda.mosa.software.SoftwareFactory;
 import jda.mosa.software.impl.SoftwareImpl;
 
@@ -64,8 +64,8 @@ public class SpringApp {
     public static void main(final String[] args) {
         System.out.println("------------");
 
-        WebServiceGenerator generator = new WebServiceGenerator(
-                TargetType.SPRING,
+        RESTfulBackEndGenerator generator = new RESTfulBackEndGenerator(
+                LangPlatform.SPRING,
                 GenerationMode.SOURCE_CODE,
                 "org.examples.jda.restfstool.springapp.services",
                 ToolkitIO.getPath(ToolkitIO.getCurrentDir(), 
@@ -95,7 +95,7 @@ public class SpringApp {
 
             ctx.getBeansOfType(CrudService.class).forEach((k, v) -> registry.put(k, v));
         });
-        generator.generateWebService(model);
+        generator.run(model);
         System.out.println("------------");
     }
 

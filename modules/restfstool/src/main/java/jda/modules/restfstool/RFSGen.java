@@ -5,9 +5,14 @@ import java.util.function.Consumer;
 
 import jda.modules.common.ModuleToolable;
 import jda.modules.common.exceptions.NotPossibleException;
-import jda.modules.restfstool.backend.BackEndGen;
-import jda.modules.restfstool.frontend.FrontEndGen;
+import jda.modules.restfstool.backend.BEGen;
+import jda.modules.restfstool.backend.BEGenOutput;
+import jda.modules.restfstool.backend.BESoftware;
+import jda.modules.restfstool.backend.BESpringApp;
+import jda.modules.restfstool.config.RFSGenConfig;
+import jda.modules.restfstool.frontend.FEGen;
 import jda.modules.restfstool.frontend.utils.DomainTypeRegistry;
+import jda.modules.restfstool.util.RFSGenTk;
 
 /**
  * @overview 
@@ -19,6 +24,35 @@ import jda.modules.restfstool.frontend.utils.DomainTypeRegistry;
  */
 public class RFSGen implements ModuleToolable {
   
+  /**
+   * @effects 
+   *  executes the generator logic, which consists in 2 main steps: 
+   *  (1) generates the front end
+   *  (2) generates the back end
+   */
+  public void run(Class<?> scc) {
+    RFSGenConfig rfsGenCfg = RFSGenTk.parseRFSGenConfig(scc);
+    
+    // initialisation
+    RFSGenTk.init(rfsGenCfg.getDomainModel());
+    
+    // run front-end
+    new FEGen().run(rfsGenCfg);
+    
+    // generate back-end
+    BEGenOutput beOut = new BEGen().run(rfsGenCfg);
+    
+    // run back end
+    Class<? extends BESpringApp> appCls = rfsGenCfg.getBEAppClass();
+    
+    if (appCls != null) {
+      new BESoftware().run(beOut.getComponents(), 
+          appCls,
+          rfsGenCfg.getDomainModel());
+    }
+  }
+  
+  @Deprecated
   @Override
   public Object exec(Object... args) throws NotPossibleException {
     String frontEndOutputPath = (String) args[0];
@@ -46,25 +80,27 @@ public class RFSGen implements ModuleToolable {
    *  executes the generator logic, which consists in 2 main steps: 
    *  (1) generates the front end
    *  (2) generates the back end
+   * @deprecated
    */
   public void run(String frontEndOutputPath, Class<?>[] model, Class<?>[] auxModel, 
       Class<?> scc,
       Class<?> mainMCC, Class<?>[] funcMCCs, String backendTargetPackage,
       String backendOutputPath, Consumer<List<Class>> runCallBack) {
     // initialisation
+    
     init(model, auxModel);
     
     // run front-end
-    new FrontEndGen().run(frontEndOutputPath, model, scc, mainMCC, funcMCCs);
+    new FEGen().run(frontEndOutputPath, model, scc, mainMCC, funcMCCs);
     
     // run back-end
-    new BackEndGen().run(backendTargetPackage, backendOutputPath, model,
+    new BEGen().run(backendTargetPackage, backendOutputPath, model,
         runCallBack);    
   }
 
   /**
    * @effects 
-   * 
+   * @deprecated
    */
   private void init(Class<?>[] model, Class<?>[] auxModel) {
     DomainTypeRegistry regist = DomainTypeRegistry.getInstance();

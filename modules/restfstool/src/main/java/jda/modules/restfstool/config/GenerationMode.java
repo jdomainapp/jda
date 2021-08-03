@@ -1,4 +1,4 @@
-package jda.modules.restfstool.backend.generators;
+package jda.modules.restfstool.config;
 
 public enum GenerationMode {
     BYTECODE,

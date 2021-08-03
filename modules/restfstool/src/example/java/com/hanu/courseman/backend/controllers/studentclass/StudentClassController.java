@@ -15,11 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Generated(value = "jda.modules.restfstool.backend.generators.SourceCodeWebControllerGenerator")
 public class StudentClassController extends DefaultRestfulController<com.hanu.courseman.modules.studentclass.model.StudentClass> {
 
-    @org.springframework.web.bind.annotation.PostMapping()
-    public StudentClass createEntity(@org.springframework.web.bind.annotation.RequestBody() StudentClass arg0) {
-        return super.createEntity(arg0);
-    }
-
     @org.springframework.web.bind.annotation.GetMapping()
     public Page getEntityListByPage(PagingModel arg0) {
         return super.getEntityListByPage(arg0);
@@ -38,6 +33,11 @@ public class StudentClassController extends DefaultRestfulController<com.hanu.co
     @org.springframework.web.bind.annotation.DeleteMapping(value = "/{id}")
     public void deleteEntityById(Identifier arg0) {
         super.deleteEntityById(arg0);
+    }
+
+    @org.springframework.web.bind.annotation.PostMapping()
+    public StudentClass createEntity(@org.springframework.web.bind.annotation.RequestBody() StudentClass arg0) {
+        return super.createEntity(arg0);
     }
 
     @Autowired()
