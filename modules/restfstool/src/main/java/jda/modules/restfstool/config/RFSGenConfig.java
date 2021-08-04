@@ -1,5 +1,8 @@
 package jda.modules.restfstool.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jda.modules.restfstool.backend.BESpringApp;
 
 /**
@@ -14,7 +17,7 @@ public class RFSGenConfig {
 
   private Class[] domainModel;
 
-  private LangPlatform langPlatform;
+  private LangPlatform beLangPlatform;
   private String beTargetPackage;
   private String beOutputPath;
   private GenerationMode genMode;
@@ -27,13 +30,16 @@ public class RFSGenConfig {
 
   private Class mccMain;
 
-  private Class[] mccFuncs;
-  
+  private List<Class> mccFuncs;
+
+  /** is the union of {@link #mccFuncs} and {@link #mccMain}*/
+  private Class[] mccs;
+
+  private String bePackage;
   
   /**
    * @effects 
-   *
-   * @version 
+   *  this is needed for mapping from annotation
    */
   public RFSGenConfig() {
   }
@@ -41,14 +47,14 @@ public class RFSGenConfig {
   /**
    * @effects return langPlatform
    */
-  public LangPlatform getLangPlatform() {
-    return langPlatform;
+  public LangPlatform getBeLangPlatform() {
+    return beLangPlatform;
   }
   /**
    * @effects set langPlatform = langPlatform
    */
-  public void setLangPlatform(LangPlatform langPlatform) {
-    this.langPlatform = langPlatform;
+  public void setBeLangPlatform(LangPlatform langPlatform) {
+    this.beLangPlatform = langPlatform;
   }
   /**
    * @effects return targetPackage
@@ -171,7 +177,10 @@ public class RFSGenConfig {
    * 
    */
   public void setMCCFuncs(Class[] mccFuncs) {
-    this.mccFuncs = mccFuncs;
+    if (this.mccFuncs == null) {
+      this.mccFuncs = new ArrayList<>();
+    }
+    for (Class mccFunc : mccFuncs) this.mccFuncs.add(mccFunc);
   }
 
   /**
@@ -195,8 +204,45 @@ public class RFSGenConfig {
    * @effects return mccFuncs
    */
   public Class[] getMCCFuncs() {
-    return mccFuncs;
+    if (mccFuncs != null)
+      return mccFuncs.toArray(new Class[mccFuncs.size()]);
+    else
+      return null;
   }
-  
+
+//  /**
+//   * @effects 
+//   *  sets this.mccs = mccs
+//   */
+//  public void setMCCs(Class[] mccs) {
+//    this.mccs = mccs;
+//  }
+
+  /**
+   * @effects 
+   *  add mcc to {@link #mccFuncs}
+   */
+  public void addMCCFunc(Class mcc) {
+    if (mccFuncs == null) {
+      mccFuncs = new ArrayList<>();
+    }
+    
+    mccFuncs.add(mcc);
+  }
+
+  /**
+   * @effects 
+   *  return {@link #bePackage}
+   */
+  public String getBePackage() {
+    return bePackage;
+  }
+
+  /**
+   * @effects set bePackage = bePackage
+   */
+  public void setBePackage(String bePackage) {
+    this.bePackage = bePackage;
+  }
   
 }

@@ -3,6 +3,7 @@ package jda.modules.restfstool.backend;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
@@ -32,11 +33,15 @@ public class BESoftware {
    */
   public void run(String backendTargetPackage, 
       Class<? extends BESpringApp> springAppCls, Class[] model) {
+    
+    System.out.println("model: " + model.length);
+    Stream.of(model).forEach(System.out::println);
+    
     // initialisation
     RFSGenTk.init(model);
     
     // load classes from the backEndPath
-    Reflections refl = new Reflections(backendTargetPackage, new SubTypesScanner(false));
+    Reflections refl = new Reflections(backendTargetPackage);
     refl.expandSuperTypes();
     Class[] superTypes = {
         SimpleDomServiceAdapter.class,
@@ -55,7 +60,8 @@ public class BESoftware {
       .forEach(c -> comps.add(c));
     }
     
-//    System.out.println("num-classes: " + comps.size() + "\n" + comps);   
+    System.out.println("num-comps: " + comps.size());
+    comps.forEach(System.out::println);
     
     // run SpringBoot
     BESpringApp app = DClassTk.createObject(springAppCls, 
@@ -71,7 +77,11 @@ public class BESoftware {
    */
   public void run(Collection<Class> comps, 
       Class<? extends BESpringApp> springAppCls, Class[] model) {
-//    System.out.println("num-classes: " + comps.size() + "\n" + comps);
+    System.out.println("model: " + model.length);
+    Stream.of(model).forEach(System.out::println);
+    
+    System.out.println("num-comps: " + comps.size());
+    comps.forEach(System.out::println);
 
     // initialisation
     RFSGenTk.init(model);

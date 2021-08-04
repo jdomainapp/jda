@@ -24,6 +24,11 @@ public class CourseModuleController extends DefaultRestfulWithInheritanceControl
         return super.getEntityListByPage(arg0);
     }
 
+    @org.springframework.web.bind.annotation.PostMapping()
+    public CourseModule createEntity(@org.springframework.web.bind.annotation.RequestBody() CourseModule arg0) {
+        return super.createEntity(arg0);
+    }
+
     @org.springframework.web.bind.annotation.GetMapping(value = "/{id}")
     public CourseModule getEntityById(Identifier arg0) {
         return super.getEntityById(arg0);
@@ -37,11 +42,6 @@ public class CourseModuleController extends DefaultRestfulWithInheritanceControl
     @org.springframework.web.bind.annotation.DeleteMapping(value = "/{id}")
     public void deleteEntityById(Identifier arg0) {
         super.deleteEntityById(arg0);
-    }
-
-    @org.springframework.web.bind.annotation.PostMapping()
-    public CourseModule createEntity(@org.springframework.web.bind.annotation.RequestBody() CourseModule arg0) {
-        return super.createEntity(arg0);
     }
 
     @Autowired()

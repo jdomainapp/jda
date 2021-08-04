@@ -47,7 +47,8 @@ public final class ViewBootstrapper {
         this.moduleMainClass = moduleMainClass;
         this.models = models;
         this.modules = IntStream.range(0, mccClasses.length)
-                .mapToObj(i -> MCCUtils.readMCC(models[i], mccClasses[i]))
+                .mapToObj(i -> MCCUtils.readMCC(models[i], 
+                    mccClasses[i]))
                 .collect(Collectors.toList())
                 .toArray(new MCC[mccClasses.length]);
         for (MCC mcc : modules) {

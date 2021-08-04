@@ -1,7 +1,6 @@
 package com.hanu.courseman;
 
 import org.jda.example.restfstool.rfsgen.CourseManBESpringApp;
-import org.jda.example.restfstool.rfsgen.Resources;
 
 import com.hanu.courseman.modules.ModuleMain;
 import com.hanu.courseman.modules.address.ModuleAddress;
@@ -27,10 +26,11 @@ import jda.modules.setup.model.SetUpConfig;
 
 @RFSGenDesc(
     genMode = GenerationMode.SOURCE_CODE, 
-    langPlatform = LangPlatform.SPRING, 
-    feOutputPath = Resources.frontendOutputPath, 
-    beOutputPath = Resources.backendOutputPath, 
-    beTargetPackage = Resources.backendTargetPackage,
+    beLangPlatform = LangPlatform.SPRING, 
+    feOutputPath = "src/example/java/com/hanu/courseman/frontend",
+    bePackage = "com.hanu.courseman",
+    beOutputPath = "src/example/java", 
+    beTargetPackage = "com.hanu.courseman.backend",
     beAppClass = CourseManBESpringApp.class
     )
 @SystemDesc(

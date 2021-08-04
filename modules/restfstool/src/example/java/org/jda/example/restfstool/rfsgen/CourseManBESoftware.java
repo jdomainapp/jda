@@ -1,12 +1,16 @@
 package org.jda.example.restfstool.rfsgen;
 
-import static org.jda.example.restfstool.rfsgen.Resources.*;
+import com.hanu.courseman.SCCCourseMan;
 
 import jda.modules.restfstool.backend.BESoftware;
+import jda.modules.restfstool.backend.BESpringApp;
+import jda.modules.restfstool.config.RFSGenConfig;
+import jda.modules.restfstool.util.RFSGenTk;
 
 /**
  * @overview 
- *
+ *  Execute the Back end software from the generated components. 
+ *  
  * @author Duc Minh Le (ducmle)
  *
  * @version 
@@ -14,10 +18,15 @@ import jda.modules.restfstool.backend.BESoftware;
 public class CourseManBESoftware {
   
   public static void main(String[] args) {
+    Class scc = SCCCourseMan.class;
+    RFSGenConfig cfg = RFSGenTk.parseRFSGenConfig(scc);
+    
+    Class<? extends BESpringApp> backEndAppCls =  cfg.getBeAppClass(); //Resources.backEndAppCls;
+    
     new BESoftware().run(
-        backendTargetPackage, 
+        cfg.getBeTargetPackage(), 
         backEndAppCls, 
-        model
+        cfg.getDomainModel()
         );
   }
 }

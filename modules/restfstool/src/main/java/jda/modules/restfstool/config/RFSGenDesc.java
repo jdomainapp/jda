@@ -16,12 +16,25 @@ import jda.modules.restfstool.backend.BESpringApp;
 @java.lang.annotation.Target(value={java.lang.annotation.ElementType.TYPE})
 @Documented
 public @interface RFSGenDesc {
-  LangPlatform langPlatform();
+  /** backend language platform */
+  LangPlatform beLangPlatform();
+  
+  /** backend top-level package that contains the domain model */
+  String bePackage();
+  
+  /** backend target top-level package (for all generated code) */
   String beTargetPackage();
+  
+  /** backend output path (where {@link #beTargetPackage()} lives)*/
   String beOutputPath();
+  
+  /** backend main application that is executed by the web server.
+   * For now, it is Spring-specific. This may be changed in the future to suit the {@link #beLangPlatform()} */
   Class<? extends BESpringApp> beAppClass();
 
+  /** code generation mode (source code or byte code) */
   GenerationMode genMode();
 
+  /** frontend output path */
   String feOutputPath();
 }

@@ -43,7 +43,7 @@ public class BEGen {
 //    System.out.println("------------");
 
     RESTfulBackEndGenerator generator = new RESTfulBackEndGenerator(
-        rfsGenCfg.getLangPlatform(),
+        rfsGenCfg.getBeLangPlatform(),
         rfsGenCfg.getGenMode(),
         rfsGenCfg.getBeTargetPackage(),
         rfsGenCfg.getBeOutputPath()

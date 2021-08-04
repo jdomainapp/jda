@@ -3,16 +3,25 @@ package jda.modules.restfstool.util;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.reflections.Reflections;
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.dcsl.util.DClassTk;
 import jda.modules.mccl.conceptmodel.module.ModuleType;
+import jda.modules.mccl.syntax.ModuleDescriptor;
 import jda.modules.restfstool.RFSGen;
 import jda.modules.restfstool.config.RFSGenConfig;
 import jda.modules.restfstool.config.RFSGenDesc;
 import jda.modules.restfstool.frontend.utils.DomainTypeRegistry;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * @overview 
@@ -47,18 +56,43 @@ public class RFSGenTk {
     parseAnnotation2Config(rfsGenDesc, cfg);
     
     // the domain model
-    Class[] model = ApplicationToolKit.parseDomainModel(scc).
-        toArray(new Class[0]);
+    Collection<Class> modelAsCol = SwTk.parseDomainModel(scc);
+    // read all domain classes (including the subtypes)
+    addDescendantTypes(cfg.getBePackage(), modelAsCol);
     
+    Class[] model = modelAsCol.toArray(new Class[0]);
     cfg.setDomainModel(model);
     
-    // TODO: remove these after updating FrontEndGen
+    Class[] mccs = SwTk.parseMCCs(scc);
+    for (Class mcc: mccs) {
+      ModuleDescriptor md = (ModuleDescriptor) mcc.getAnnotation(ModuleDescriptor.class);
+      if (md.type().isMain()) {
+        cfg.setMCCMain(mcc);
+      } else if (md.type().isDomain()){
+        // functional modules
+        cfg.addMCCFunc(mcc);
+      }
+    }
+    
     cfg.setSCC(scc);
-    cfg.setMCCMain(ApplicationToolKit.parseModuleConfigs(scc, ModuleType.DomainMain)[0]);
-    cfg.setMCCFuncs(ApplicationToolKit.parseModuleConfigs(scc, 
-        ModuleType.DomainData, ModuleType.DomainReport));
     
     return cfg;
+  }
+
+  /**
+   * @modifies domainModel
+   * @effects 
+   *  if exists descendant types of domain classes in <code>domainModel</code>
+   *    add them to domainModel
+   *  else
+   *    do nothing
+   */
+  public static void addDescendantTypes(String topPkgFQN, Collection<Class> domainModel) {
+    Set<Class> descendants = new HashSet<>();
+    domainModel.forEach(dcls -> 
+      descendants.addAll(getDescendantTypesOf(topPkgFQN, dcls)));
+    
+    domainModel.addAll(descendants);
   }
 
   /**
@@ -121,5 +155,31 @@ public class RFSGenTk {
         col.forEach(enumType -> regist.addDomainType(enumType.getType()));
       });
     }
+  }
+  
+  /**
+   * @effects 
+   *  if exists descendant types of <code>c</code> in the project package <code>pkgFQN</code>
+   *    return them as Set
+   *  else
+   *    return an empty set
+   */
+  @SuppressWarnings("unchecked")
+  public static Set<Class> getDescendantTypesOf(String pkgFQN, Class c) {
+    loggingOff("org.reflections");
+    
+    Reflections refls = new Reflections(pkgFQN);
+    Set<Class> descendants = refls.getSubTypesOf(c);
+//    return (descendants != null && !descendants.isEmpty()) ? descendants : null;
+    return descendants;
+  }
+  
+  /**
+   * @effects 
+   *   turn off logging for the logger named <code>loggerName</code> (if one exists). 
+   */
+  public static void loggingOff(String loggerName) {
+    Logger logger = (Logger) LoggerFactory.getLogger(loggerName);
+    logger.setLevel(Level.OFF);
   }
 }

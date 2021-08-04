@@ -14,7 +14,7 @@ import jda.modules.restfstool.backend.BESpringApp;
  */
 @SpringBootApplication
 @ComponentScan(basePackages = {
-  "com.hanu.courseman.backend",
+  "com.hanu.courseman.backend"
 })
 public class CourseManBESpringApp extends BESpringApp {
   public CourseManBESpringApp(Class<?>[] models) {

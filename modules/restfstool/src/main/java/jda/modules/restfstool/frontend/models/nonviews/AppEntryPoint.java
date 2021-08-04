@@ -11,7 +11,7 @@ import jda.modules.mccl.syntax.model.ModelDesc;
 import jda.modules.restfstool.frontend.models.JsFrontendElement;
 import jda.modules.restfstool.frontend.templates.JsTemplate;
 import jda.modules.restfstool.frontend.templates.JsTemplates;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 import org.modeshape.common.text.Inflector;
 
@@ -29,11 +29,11 @@ public class AppEntryPoint implements JsFrontendElement {
     private final Collection<FrontendModuleDescriptor> frontendModuleDescriptors;
 
     public AppEntryPoint(Class sysConfigClass, MCC mainMCC, Map<Class, MCC> moduleDescriptorMap) {
-        Configuration initConfig = ApplicationToolKit.parseInitApplicationConfiguration(sysConfigClass);
+        Configuration initConfig = SwTk.parseInitApplicationConfiguration(sysConfigClass);
         this.appName = initConfig.getAppName();
         this.welcomeText = "Welcome to " + mainMCC.getPropertyVal("viewDesc", "formTitle").asLiteralStringValueExpr().getValue();
         this.frontendModuleDescriptors = getFrontendModuleDescriptors(
-                ApplicationToolKit.parseApplicationModules(sysConfigClass), mainMCC);
+                SwTk.parseMCCs(sysConfigClass), mainMCC);
         for (Map.Entry<Class, MCC> entry : moduleDescriptorMap.entrySet()) {
             frontendModules.add(new FrontendModule(entry.getKey(), entry.getValue()));
         }

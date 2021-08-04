@@ -20,6 +20,11 @@ public class EnrolmentController extends DefaultRestfulController<com.hanu.cours
         return super.getEntityListByPage(arg0);
     }
 
+    @org.springframework.web.bind.annotation.PostMapping()
+    public Enrolment createEntity(@org.springframework.web.bind.annotation.RequestBody() Enrolment arg0) {
+        return super.createEntity(arg0);
+    }
+
     @org.springframework.web.bind.annotation.GetMapping(value = "/{id}")
     public Enrolment getEntityById(Identifier arg0) {
         return super.getEntityById(arg0);
@@ -33,11 +38,6 @@ public class EnrolmentController extends DefaultRestfulController<com.hanu.cours
     @org.springframework.web.bind.annotation.DeleteMapping(value = "/{id}")
     public void deleteEntityById(Identifier arg0) {
         super.deleteEntityById(arg0);
-    }
-
-    @org.springframework.web.bind.annotation.PostMapping()
-    public Enrolment createEntity(@org.springframework.web.bind.annotation.RequestBody() Enrolment arg0) {
-        return super.createEntity(arg0);
     }
 
     @Autowired()
