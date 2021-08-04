@@ -12,7 +12,7 @@ import jda.modules.mccl.conceptmodel.module.ApplicationModule;
 import jda.modules.mccl.conceptmodel.view.Region;
 import jda.modules.report.model.ExecutableReport;
 import jda.mosa.controller.ControllerBasic;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * @overview
@@ -108,11 +108,11 @@ public class ExecutableReportController extends ControllerBasic<ExecutableReport
       try {
         //v3.1: wait until report is completed updated before running export
         // TODO: improve this to check GUI update, for now use a temporary solution
-        ApplicationToolKit.sleep(2000);
+        SwTk.sleep(2000);
         
         /* v3.2: moved to shared method
         reportDctl.export();*/
-        ApplicationToolKit.exportDocument(reportDctl.getDataContainer());
+        SwTk.exportDocument(reportDctl.getDataContainer());
       } catch (Exception e) {
         throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_EXPORT_DOCUMENT, e, 
             new Object[] {this.getModuleName()});

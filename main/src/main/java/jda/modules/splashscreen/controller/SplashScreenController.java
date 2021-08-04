@@ -9,7 +9,7 @@ import jda.modules.mccl.conceptmodel.controller.ControllerConfig;
 import jda.modules.mccl.conceptmodel.module.ApplicationModule;
 import jda.modules.mccl.conceptmodel.view.Region;
 import jda.mosa.controller.ControllerBasic;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * @overview
@@ -53,7 +53,7 @@ public class SplashScreenController extends ControllerBasic<SplashInfo> {
           // use this to wait for both:
           || 
           waitTime > 0) {
-        ApplicationToolKit.sleep(WAIT_CYCLE);
+        SwTk.sleep(WAIT_CYCLE);
         waitTime -= WAIT_CYCLE;
       }
       

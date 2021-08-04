@@ -30,7 +30,7 @@ import jda.test.model.extended.City;
 import jda.test.model.extended.SClass;
 import jda.test.model.extended.Student;
 import jda.test.view.ViewTestCase;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 public class JSpinnerFieldWithAssociationConstraintTestCase extends JAbstractListFieldTestCase {
 
@@ -46,7 +46,7 @@ public class JSpinnerFieldWithAssociationConstraintTestCase extends JAbstractLis
 //    config = new Configuration();
 //    GUIToolkit.initInstance(config); 
 //    schema = DODM.getInstance(null, false);
-    config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    config = SwTk.createMemoryBasedConfiguration("");
     GUIToolkit.initInstance(config); 
     schema = DODMBasic.getInstance(config);
     

@@ -5,15 +5,18 @@ import java.io.Serializable;
 import jda.modules.common.exceptions.NotImplementedException;
 import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.dcsl.syntax.DAttr;
-import jda.modules.dcsl.syntax.DCSLConstants;
-import jda.modules.dcsl.syntax.DClass;
 import jda.modules.dcsl.syntax.DAssoc.AssocEndType;
 import jda.modules.dcsl.syntax.DAssoc.AssocType;
 import jda.modules.dcsl.syntax.DAssoc.Associate;
+import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dcsl.syntax.DAttr.Type;
+import jda.modules.dcsl.syntax.DCSLConstants;
+import jda.modules.dcsl.syntax.DClass;
+import jda.modules.dodm.DODM;
 import jda.modules.dodm.DODMBasic;
+import jda.modules.dodm.dom.DOM;
 import jda.modules.dodm.dom.DOMBasic;
+import jda.modules.dodm.dsm.DSM;
 import jda.modules.dodm.dsm.DSMBasic;
 import jda.modules.dodm.osm.OSM;
 import jda.modules.dodm.osm.javadb.JavaDbOSMBasic;
@@ -76,10 +79,16 @@ public class DODMConfig implements Serializable {
     
     this.config = config;
     // use default values
+    /* 20210805: v5.4.1: use DODM as the default
     dodmType = DODMBasic.class;
     dsmType = DSMBasic.class;
     domType =  DOMBasic.class;
-
+    END: 20210805 */
+    dodmType = DODM.class;
+    dsmType = DSM.class;
+    domType =  DOM.class;
+    
+    
     this.osmProtocol = osmProtocol;
     this.protocolSpec = protocolSpec;
     

@@ -146,7 +146,7 @@ import jda.mosa.view.assets.dialog.JMessageDialog;
 import jda.mosa.view.assets.panels.DefaultPanel;
 import jda.mosa.view.assets.swing.JHtmlLabel;
 import jda.mosa.view.assets.tables.JDataTable;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 import jda.util.ObjectComparator;
 import jda.util.ObjectMapSorter;
 import jda.util.SysConstants;
@@ -2054,7 +2054,7 @@ public class ControllerBasic<C> implements ModuleService, Module, Context {
     if (ctlCfg != null) {
       long startAfter = ctlCfg.getStartAfter();
       if (startAfter > 0) {
-        ApplicationToolKit.sleep(startAfter);
+        SwTk.sleep(startAfter);
       }
     }
   }
@@ -2212,7 +2212,7 @@ public class ControllerBasic<C> implements ModuleService, Module, Context {
     if (gui != null) {
       // v3.2: added this to wait until gui is fully sized and positioned before made hidden
       while (!gui.isActive() || !gui.isValid()) {
-        ApplicationToolKit.sleep(200);
+        SwTk.sleep(200);
       }
       
       hideGUI(gui);
@@ -2263,7 +2263,7 @@ public class ControllerBasic<C> implements ModuleService, Module, Context {
         finish = gui.isDataEntryReady();
         
         if (!finish)
-          ApplicationToolKit.sleep(VIEW_READY_WAIT_CYCLE);
+          SwTk.sleep(VIEW_READY_WAIT_CYCLE);
       } while (!finish);
     }
   }
@@ -6882,7 +6882,7 @@ public class ControllerBasic<C> implements ModuleService, Module, Context {
       ScopeDef scopeDef = null; 
           //v5.2c ApplicationToolKit.getContainmentScopeDefObject(userContTree, user, parent.getDomainClass(), dcls);
       if (userContTree != null) {
-        scopeDef = ApplicationToolKit.getContainmentScopeDefObject(userContTree, user, parent.getDomainClass(), dcls);
+        scopeDef = SwTk.getContainmentScopeDefObject(userContTree, user, parent.getDomainClass(), dcls);
       }
       
       ControllerConfig custControllerCfg = null;
@@ -7518,10 +7518,10 @@ public class ControllerBasic<C> implements ModuleService, Module, Context {
 
           if (parent == null) {
             // top-level module
-            stateScope = ApplicationToolKit.getRootStateScope(containmentTree);
+            stateScope = SwTk.getRootStateScope(containmentTree);
           } else {
             // a child module
-            stateScope = ApplicationToolKit.getContainmentScope(containmentTree, controller, parentCls, myCls);
+            stateScope = SwTk.getContainmentScope(containmentTree, controller, parentCls, myCls);
           }
           
           if (stateScope != null) {

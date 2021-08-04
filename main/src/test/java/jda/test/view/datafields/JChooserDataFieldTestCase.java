@@ -24,7 +24,7 @@ import jda.mosa.view.assets.datafields.chooser.JColorChooserField;
 import jda.mosa.view.assets.datafields.chooser.JFileChooserField;
 import jda.mosa.view.assets.datafields.chooser.JImageChooserField;
 import jda.test.view.ViewTestCase;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 public class JChooserDataFieldTestCase extends JDataFieldTestCase {
 
@@ -43,7 +43,7 @@ public class JChooserDataFieldTestCase extends JDataFieldTestCase {
   public static void init() throws Exception {
     // register domain classes
 //    config = new Configuration();
-    config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    config = SwTk.createMemoryBasedConfiguration("");
     GUIToolkit.initInstance(config);
     schema = DODMBasic.getInstance(config);
     //schema = schema.getInstance(null, false);

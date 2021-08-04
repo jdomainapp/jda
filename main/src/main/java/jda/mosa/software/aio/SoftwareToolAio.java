@@ -6,7 +6,7 @@ import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.jdatool.DomainAppTool;
 import jda.modules.setup.model.Cmd;
 import jda.modules.setup.model.SetUpBasic;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * @overview 
@@ -40,7 +40,7 @@ public class SoftwareToolAio extends SoftwareAio {
    */
   public Class[] getDomainModel() {
     if (domainModel == null) {
-      Collection<Class> domainModelCol = ApplicationToolKit.parseDomainModel(getSystemCls());
+      Collection<Class> domainModelCol = SwTk.parseDomainModel(getSystemCls());
       
       domainModel = domainModelCol.toArray(new Class[domainModelCol.size()]);
     }

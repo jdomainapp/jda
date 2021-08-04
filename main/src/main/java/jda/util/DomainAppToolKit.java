@@ -38,7 +38,7 @@ public class DomainAppToolKit {
     List<ControllerBasic> moduleCtls = new ArrayList<ControllerBasic>();
     
     // the main module
-    Configuration config = ApplicationToolKit.createSimpleConfigurationInstance(schema, dbName, moduleMainCls);
+    Configuration config = SwTk.createSimpleConfigurationInstance(schema, dbName, moduleMainCls);
     
     ApplicationModule mainModule = createApplicationModule(moduleMainCls, config);
     ControllerBasic mainCtl = ControllerBasic.createController(schema, mainModule, null, null, config);

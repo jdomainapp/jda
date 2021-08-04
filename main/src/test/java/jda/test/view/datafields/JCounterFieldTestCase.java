@@ -17,7 +17,7 @@ import jda.mosa.view.assets.datafields.DataFieldFactory;
 import jda.mosa.view.assets.datafields.JCounterField;
 import jda.mosa.view.assets.datafields.JDataField;
 import jda.test.view.ViewTestCase;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 public class JCounterFieldTestCase extends JDataFieldTestCase {
 
@@ -34,7 +34,7 @@ public class JCounterFieldTestCase extends JDataFieldTestCase {
     GUIToolkit.initInstance(config);
     
     // register domain classes
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    Configuration config = SwTk.createMemoryBasedConfiguration("");
     schema = DODMBasic.getInstance(config);
     //schema = schema.getInstance(null, false);
     schema.addClass(JCounterFieldTestCase.class);

@@ -30,7 +30,7 @@ import jda.mosa.view.assets.datafields.JButtonGroupField;
 import jda.test.model.commerce.Product;
 import jda.test.view.ViewTestCase;
 import jda.test.view.datafields.JAbstractListFieldTestCase.TestDataSource;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 public class JButtonDataFieldTestCase extends JDataFieldTestCase {
 
@@ -49,7 +49,7 @@ public class JButtonDataFieldTestCase extends JDataFieldTestCase {
   public static void init() throws Exception {
     // register domain classes
     //config = new Configuration();
-    config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    config = SwTk.createMemoryBasedConfiguration("");
     GUIToolkit.initInstance(config);
     schema = DODMBasic.getInstance(config);
     //schema = schema.getInstance(null, false);

@@ -25,7 +25,7 @@ import jda.mosa.view.assets.datafields.JBindableField;
 import jda.mosa.view.assets.datafields.JDataField;
 import jda.mosa.view.assets.datafields.text.JTextFieldAuto;
 import jda.test.view.ViewTestCase;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 public class JTextFieldBoundedSingleSourceTestCase extends ViewTestCase {
   /*
@@ -70,7 +70,7 @@ public class JTextFieldBoundedSingleSourceTestCase extends ViewTestCase {
   public static void init() throws Exception {
     // register domain classes
     //config = new Configuration();
-    config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    config = SwTk.createMemoryBasedConfiguration("");
     GUIToolkit.initInstance(config);
     
     schema = DODMBasic.getInstance(config);

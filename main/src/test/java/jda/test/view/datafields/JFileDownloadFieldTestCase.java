@@ -21,7 +21,7 @@ import jda.mosa.view.assets.datafields.DataFieldFactory;
 import jda.mosa.view.assets.datafields.JDataField;
 import jda.mosa.view.assets.datafields.file.JFileDownloadField;
 import jda.test.view.ViewTestCase;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * 
@@ -44,7 +44,7 @@ public class JFileDownloadFieldTestCase extends JDataFieldTestCase {
   public static void init() throws Exception {
     // register domain classes
 //    config = new Configuration();
-    config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    config = SwTk.createMemoryBasedConfiguration("");
     GUIToolkit.initInstance(config);
     schema = DODMBasic.getInstance(config);
     //schema = schema.getInstance(null, false);

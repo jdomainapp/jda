@@ -22,7 +22,7 @@ import jda.modules.security.authentication.controller.SecurityController;
 import jda.modules.security.def.DomainUser;
 import jda.modules.security.def.Security;
 import jda.mosa.module.Module;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 import jda.util.properties.Property;
 import jda.util.properties.PropertySet;
 
@@ -217,7 +217,7 @@ public class Controller<C> extends ControllerBasic<C> {
         PropertySet attributeVals = userCfg.getRegionAttributeVals();
         
         try {
-          ApplicationToolKit.createPropertySet(dodm, attributeVals, true, 0);
+          SwTk.createPropertySet(dodm, attributeVals, true, 0);
           dom.addObject(userCfg);
         } catch (Exception e) {
           throw new NotPossibleException(

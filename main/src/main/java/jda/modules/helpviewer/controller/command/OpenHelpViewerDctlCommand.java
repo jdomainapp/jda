@@ -23,7 +23,7 @@ import jda.mosa.controller.assets.datacontroller.command.DataControllerCommand;
 import jda.mosa.model.Oid;
 import jda.mosa.view.View;
 import jda.mosa.view.assets.JDataContainer;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * 
@@ -100,7 +100,7 @@ public class OpenHelpViewerDctlCommand<C> extends DataControllerCommand {
     DOMBasic dom = helpViewerDctl.getDodm().getDom();
     
     // the html help file of the user module (if any)
-    String helpFilePath = ApplicationToolKit.getModuleHelpFilePath(helpViewerController.getConfig(), module);
+    String helpFilePath = SwTk.getModuleHelpFilePath(helpViewerController.getConfig(), module);
     
     File file = new File(helpFilePath);
     if (!file.exists()) {

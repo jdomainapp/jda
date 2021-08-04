@@ -7,7 +7,7 @@ import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dcsl.syntax.DClass;
 import jda.modules.dodm.DODMBasic;
 import jda.modules.mccl.conceptmodel.Configuration;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 @DClass(serialisable=false)
 public class DomainClassTest {
@@ -18,7 +18,7 @@ public class DomainClassTest {
   @Ignore
   @Test
   public void isAbstract() {
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration("unamed");
+    Configuration config = SwTk.createMemoryBasedConfiguration("unamed");
     DODMBasic schema = DODMBasic.getInstance(config);//
     
     System.out.println("isAbstract()");
@@ -31,7 +31,7 @@ public class DomainClassTest {
   @Ignore
   @Test
   public void isTransient() {
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration("unamed");
+    Configuration config = SwTk.createMemoryBasedConfiguration("unamed");
     DODMBasic schema = DODMBasic.getInstance(config);//
     
     System.out.println("isTransient()");
@@ -45,7 +45,7 @@ public class DomainClassTest {
   public void getAnnotationDeclaringClass() throws Exception {
     System.out.println("getAnnotationDeclaringClass()");
 
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration("unamed");
+    Configuration config = SwTk.createMemoryBasedConfiguration("unamed");
     DODMBasic schema = DODMBasic.getInstance(config);//DODM schema = DODM.getInstance("unamed", false);
     
     Class c = B.class;
@@ -69,7 +69,7 @@ public class DomainClassTest {
     Class[] classes = { A.class, jda.test.model.basic.Student.class,
         jda.modules.security.def.Resource.class };
 
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration("unamed");
+    Configuration config = SwTk.createMemoryBasedConfiguration("unamed");
     DODMBasic schema = DODMBasic.getInstance(config);//"unamed", false);
     
     for (Class ac : classes) {

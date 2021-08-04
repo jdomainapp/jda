@@ -10,7 +10,7 @@ import jda.modules.setup.model.SetUpBasic;
 import jda.modules.setup.model.clientserver.SetUpClient;
 import jda.mosa.software.basic.Program;
 import jda.software.setup.SetUpProgram;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * @overview 

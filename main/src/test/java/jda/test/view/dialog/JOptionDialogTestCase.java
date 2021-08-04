@@ -14,7 +14,7 @@ import org.junit.BeforeClass;
 import jda.modules.mccl.conceptmodel.Configuration;
 import jda.mosa.view.assets.GUIToolkit;
 import jda.test.view.ViewTestCase;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * @overview
@@ -28,7 +28,7 @@ public class JOptionDialogTestCase extends ViewTestCase {
   @BeforeClass
   public static void init() throws Exception {
     //config = new Configuration();
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    Configuration config = SwTk.createMemoryBasedConfiguration("");
     
 //    GUIToolkit.initLookAndFeel(
 //        //LookAndFeel.Default

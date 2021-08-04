@@ -37,7 +37,7 @@ import jda.mosa.view.assets.tables.TableInputEventsHelper;
 import jda.test.model.basic.Student;
 import jda.test.view.ViewTestCase;
 import jda.test.view.datafields.JSpinnerFieldTestCase;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 public class JDataTableTestCase extends ViewTestCase implements ActionListener {
   private static DODMBasic schema;
@@ -69,7 +69,7 @@ public class JDataTableTestCase extends ViewTestCase implements ActionListener {
     GUIToolkit.initInstance(config);
         
     // register domain classes
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    Configuration config = SwTk.createMemoryBasedConfiguration("");
     schema = schema.getInstance(config);
     //schema = schema.getInstance(null, false);
     schema.addClass(Student.class);

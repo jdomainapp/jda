@@ -9,7 +9,7 @@ import jda.modules.dodm.DODMBasic;
 import jda.modules.exportdoc.controller.DocumentBuilder;
 import jda.modules.mccl.conceptmodel.Configuration;
 import jda.test.model.modules.ModuleWithBuilderType;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 import jda.util.properties.Property;
 import jda.util.properties.PropertySet;
 import jda.util.properties.PropertySetFactory;
@@ -18,7 +18,7 @@ public class PrintablePropertySetTest {
   public static void main(String[] args) throws DataSourceException {
     Class printableModuleCls = ModuleWithBuilderType.class; //ModuleA.class;
     
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration("test");
+    Configuration config = SwTk.createMemoryBasedConfiguration("test");
     DODMBasic schema = DODMBasic.getInstance(config);
     
     String name = "ModuleA";

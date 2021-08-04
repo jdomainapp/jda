@@ -4,7 +4,7 @@ import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.common.types.properties.PropertyName;
 import jda.modules.setup.model.Cmd;
 import jda.modules.setup.model.SetUpBasic;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * @overview 
@@ -49,10 +49,10 @@ public abstract class SoftwareAio {
     }
     
     /** Set the set-up class */
-    ApplicationToolKit.setSystemProperty(PropertyName.setup_class, setUpCls.getName());
+    SwTk.setSystemProperty(PropertyName.setup_class, setUpCls.getName());
     
     /** Set the system class */
-    ApplicationToolKit.setSystemProperty(PropertyName.setup_systemClass, systemCls.getName());
+    SwTk.setSystemProperty(PropertyName.setup_systemClass, systemCls.getName());
   }
 
   /**

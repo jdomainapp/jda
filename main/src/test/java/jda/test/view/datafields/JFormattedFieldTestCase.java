@@ -31,7 +31,7 @@ import jda.mosa.view.assets.datafields.text.JFormattedField;
 import jda.test.model.basic.City;
 import jda.test.model.basic.Student;
 import jda.test.view.ViewTestCase;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 import jda.util.events.ChangeEvent;
 import jda.util.events.ChangeEventSource;
 
@@ -78,7 +78,7 @@ public class JFormattedFieldTestCase extends ViewTestCase {
 //    config = new Configuration();
 //    GUIToolkit.initInstance(config);
     
-    config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    config = SwTk.createMemoryBasedConfiguration("");
     GUIToolkit.initInstance(config); 
     
     //GUIToolkit.initLookAndFeel();

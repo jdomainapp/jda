@@ -23,7 +23,7 @@ import jda.mosa.view.assets.datafields.JTextField;
 import jda.test.model.basic.City;
 import jda.test.model.basic.Student;
 import jda.test.view.datafields.JAbstractListFieldTestCase.TestDataSource;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 
 public class JTextFieldBoundedTestCase extends JDataFieldTestCase {
@@ -45,7 +45,7 @@ public class JTextFieldBoundedTestCase extends JDataFieldTestCase {
 //    config = new Configuration();
 //    GUIToolkit.initInstance(config); 
 //    schema = DODM.getInstance(null, false);
-    config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    config = SwTk.createMemoryBasedConfiguration("");
     GUIToolkit.initInstance(config); 
     schema = DODMBasic.getInstance(config);
     

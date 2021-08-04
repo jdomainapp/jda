@@ -6,7 +6,7 @@ import jda.modules.common.exceptions.InfoCode;
 import jda.modules.security.authentication.controller.SecurityController;
 import jda.mosa.controller.ControllerBasic;
 import jda.mosa.controller.assets.util.AppState;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 import jda.util.events.StateChangeListener;
 
 /**
@@ -45,9 +45,9 @@ public class SecurityStateListener implements StateChangeListener {
         try {
           
           // v3.1: start splash screen (if available)
-          ApplicationToolKit.startSplashScreen(mainCtl); 
+          SwTk.startSplashScreen(mainCtl); 
           
-          ApplicationToolKit.createAllFunctionalModules(mainCtl);
+          SwTk.createAllFunctionalModules(mainCtl);
   
           mainCtl.postLogin();
           

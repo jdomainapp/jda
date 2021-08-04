@@ -31,7 +31,7 @@ import jda.mosa.controller.assets.util.MessageCode;
 import jda.mosa.controller.assets.util.MethodName;
 import jda.mosa.model.Oid;
 import jda.mosa.view.assets.JDataContainer;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * @overview
@@ -207,11 +207,11 @@ public abstract class ReportController<C> extends CompositeController {
         try {
           // v3.1: wait until report is completed updated before running export
           // TODO: improve this to check GUI update, for now use a temporary solution
-          ApplicationToolKit.sleep(2000);
+          SwTk.sleep(2000);
           
           /* v3.2: moved to shared method
           reportDctl.export();*/
-          ApplicationToolKit.exportDocument(reportDctl.getDataContainer());
+          SwTk.exportDocument(reportDctl.getDataContainer());
         } catch (Exception e) {
           throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_EXPORT_DOCUMENT, e, 
               new Object[] {this.getModuleName()});

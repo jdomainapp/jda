@@ -192,6 +192,18 @@ public class DSMBasic {
   private static final boolean debug = Toolkit.getDebug(DSMBasic.class);
   private static final boolean loggingOn = Toolkit.getLoggingOn(DSMBasic.class);
 
+  /**
+   * This method is useful when we want to use DSM in the memory, without worrying 
+   * too much about how objects of the class are stored. 
+   * 
+   * @effects 
+   *  initialises this without a {@link DODMConfig}. 
+   * @version 5.4.1
+   */
+  public DSMBasic() {
+    this(null);
+  }
+  
   public DSMBasic(DODMConfig config) {
     this.config = config;
     

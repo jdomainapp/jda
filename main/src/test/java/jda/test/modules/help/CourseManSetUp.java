@@ -8,7 +8,7 @@ import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.mccl.conceptmodel.Configuration;
 import jda.modules.mccl.conceptmodel.Configuration.Language;
 import jda.mosa.view.assets.GUIToolkit;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 public class CourseManSetUp extends jda.modules.setup.model.SetUp {
 
@@ -30,7 +30,7 @@ public class CourseManSetUp extends jda.modules.setup.model.SetUp {
 
   @Override
   public Configuration createInitApplicationConfiguration() {
-    Configuration config = ApplicationToolKit.createSimpleConfigurationInstance("CourseMan", DBName); //new Configuration(DBName);
+    Configuration config = SwTk.createSimpleConfigurationInstance("CourseMan", DBName); //new Configuration(DBName);
     return config;
   }
 

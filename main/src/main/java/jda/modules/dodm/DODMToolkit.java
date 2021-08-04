@@ -29,7 +29,7 @@ import jda.modules.mccl.conceptmodel.Configuration;
 import jda.modules.mccl.conceptmodel.dodm.DODMConfig;
 import jda.modules.mccl.conceptmodel.dodm.OsmClientServerConfig;
 import jda.mosa.view.assets.GUIToolkit;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * @overview
@@ -48,7 +48,7 @@ public class DODMToolkit {
    */
   public static DODM createMemoryBasedDODM(String appName,
       String dataSourceName) {
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration(appName);
+    Configuration config = SwTk.createMemoryBasedConfiguration(appName);
     
     DODM dodm = DODM.getInstance(DODM.class, config);
     return dodm;
@@ -59,7 +59,7 @@ public class DODMToolkit {
    *  create and return a new {@link DODM} that uses <b>embedded JavaDb</b> database
    */
   public static DODM createJavaDbEmbeddedDODM(String appName, String dataSourceName) {
-    Configuration config = ApplicationToolKit.createSimpleConfigurationInstance(appName, dataSourceName);
+    Configuration config = SwTk.createSimpleConfigurationInstance(appName, dataSourceName);
     
     DODM dodm = DODM.getInstance(DODM.class, config);
     return dodm;
@@ -78,7 +78,7 @@ public class DODMToolkit {
     
     OsmClientServerConfig osmConfig = OSMFactory.getStandardOsmClientServerConfig("derby", clientUrl, serverUrl);
 
-    Configuration config = ApplicationToolKit.createInitApplicationConfiguration(appName, osmConfig);
+    Configuration config = SwTk.createInitApplicationConfiguration(appName, osmConfig);
     
     DODM dodm = DODM.getInstance(DODM.class, config);
     return dodm;
@@ -604,7 +604,7 @@ public class DODMToolkit {
    * @version 5.4
    */
   public static DODMConfig createMemoryBasedDODMConfig(String appName) {
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration(appName);
+    Configuration config = SwTk.createMemoryBasedConfiguration(appName);
     return config.getDodmConfig();
   }
 }

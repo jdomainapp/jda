@@ -21,7 +21,7 @@ import jda.modules.mccl.conceptmodel.view.RegionType;
 import jda.modules.setup.model.SetUpBasic;
 import jda.modules.setup.model.SetUpBasic.MessageCode;
 import jda.mosa.controller.ControllerBasic;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * @overview
@@ -152,7 +152,7 @@ public class ApplicationLauncher {
     //debug: 
     //System.out.println(schema.getDom().getObjects(ApplicationModule.class));
 
-    main = ApplicationToolKit.createMainModule(schema, config);
+    main = SwTk.createMainModule(schema, config);
   }
 
   /**
@@ -160,7 +160,7 @@ public class ApplicationLauncher {
    *  load and initialise security modules
    */
   protected void createSecurityModules() throws NotFoundException, DataSourceException {
-    ApplicationToolKit.createSecurityModules(main);
+    SwTk.createSecurityModules(main);
   }
   
   /**
@@ -171,7 +171,7 @@ public class ApplicationLauncher {
 //    System.out.printf("loading system modules: %n  filter list:%n  %s%n", 
 //        main.getDodm().getDom().getObjects(ApplicationModule.class));
     
-    ApplicationToolKit.createSystemModules(main);
+    SwTk.createSystemModules(main);
 
 //    System.out.printf("loaded...: %n  filter list:%n  %s%n", 
 //        main.getDodm().getDom().getObjects(ApplicationModule.class));
@@ -206,7 +206,7 @@ public class ApplicationLauncher {
    *    load and initialise <b>all</b> functional modules
    */
   private void createAllFunctionalModules() throws NotFoundException, DataSourceException {
-    ApplicationToolKit.createAllFunctionalModules(main);
+    SwTk.createAllFunctionalModules(main);
   }  
 
   /**
@@ -223,7 +223,7 @@ public class ApplicationLauncher {
    *  <p>Throws IllegalArgumentException if no input domain classes were specified
    */
   private void createSelectedFunctionalModules(Class[] inputDomainClasses) throws IllegalArgumentException, NotFoundException, DataSourceException {
-    ApplicationToolKit.createFunctionalModules(main, inputDomainClasses);
+    SwTk.createFunctionalModules(main, inputDomainClasses);
   }  
 
   /**
@@ -238,7 +238,7 @@ public class ApplicationLauncher {
     //System.out.println(schema.getDom().getObjects(ApplicationModule.class));
 
     boolean serialised = false;
-    splashScreen = ApplicationToolKit.createModuleWithView(main, SplashInfo.class, serialised);    
+    splashScreen = SwTk.createModuleWithView(main, SplashInfo.class, serialised);    
   }
   
   /**

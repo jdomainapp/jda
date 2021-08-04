@@ -12,7 +12,7 @@ import jda.modules.dodm.dsm.DSMBasic;
 import jda.modules.mccl.conceptmodel.Configuration;
 import jda.modules.security.def.LogicalAction;
 import jda.test.app.courseman.basic.CourseManBasicTester;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 
 public class RegisterEnumInterface extends CourseManBasicTester {  
@@ -22,7 +22,7 @@ public class RegisterEnumInterface extends CourseManBasicTester {
     //instance.registerClass();
     // initialise a non-db schema
     String name = "Non-db";
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration("unamed");
+    Configuration config = SwTk.createMemoryBasedConfiguration("unamed");
     DODMBasic schema = DODMBasic.getInstance(config);//DODM schema = DODM.getInstance(name, false);
     DSMBasic dsm = schema.getDsm();
     DOMBasic dom = schema.getDom();

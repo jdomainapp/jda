@@ -27,7 +27,7 @@ import jda.mosa.view.assets.datafields.JSpinnerField;
 import jda.test.model.basic.City;
 import jda.test.model.basic.Student;
 import jda.test.view.ViewTestCase;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 import jda.util.events.ChangeEvent;
 import jda.util.events.ChangeEventSource;
 
@@ -51,7 +51,7 @@ public class JDataFieldTestCase extends ViewTestCase {
   @BeforeClass
   public static void init() throws Exception {
     // register domain classes
-    config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    config = SwTk.createMemoryBasedConfiguration("");
     GUIToolkit.initInstance(config); 
     schema = DODMBasic.getInstance(config);
     //config = new Configuration();

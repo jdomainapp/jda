@@ -31,7 +31,7 @@ import jda.modules.mccl.conceptmodel.dodm.OsmConfig;
 import jda.modules.setup.model.Cmd;
 import jda.modules.setup.model.SetUpBasic;
 import jda.modules.setup.model.SetUpConfig;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * @overview
@@ -117,7 +117,7 @@ public abstract class DODMBasicTester {
    *  create a new Configuration that uses <b>embedded JavaDb</b> database
    */
   protected Configuration initEmbeddedJavaDbConfiguration(String appName, String dataSourceName) {
-    Configuration config = ApplicationToolKit.createSimpleConfigurationInstance(appName, dataSourceName);
+    Configuration config = SwTk.createSimpleConfigurationInstance(appName, dataSourceName);
     return config;
   }
 
@@ -133,7 +133,7 @@ public abstract class DODMBasicTester {
     
     OsmClientServerConfig osmConfig = OSMFactory.getStandardOsmClientServerConfig("derby", clientUrl, serverUrl);
 
-    Configuration config = ApplicationToolKit.createInitApplicationConfiguration(appName, osmConfig);
+    Configuration config = SwTk.createInitApplicationConfiguration(appName, osmConfig);
     return config;
   }
 

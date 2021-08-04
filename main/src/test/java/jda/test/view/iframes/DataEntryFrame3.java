@@ -14,7 +14,7 @@ import jda.modules.dodm.DODMBasic;
 import jda.modules.mccl.conceptmodel.Configuration;
 import jda.mosa.view.assets.GUIToolkit;
 import jda.mosa.view.assets.datafields.JDataField;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /* data entry frame with: 
  *  - data fields
@@ -40,7 +40,7 @@ public class DataEntryFrame3 extends DataEntryFrame2 {
   protected void createGUI() {
     DODMBasic schema = null;
     //Configuration config = new Configuration();
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    Configuration config = SwTk.createMemoryBasedConfiguration("");
 
     GUIToolkit.initInstance(config);
 

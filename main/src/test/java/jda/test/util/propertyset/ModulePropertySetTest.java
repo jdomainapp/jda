@@ -6,7 +6,7 @@ import jda.modules.common.exceptions.DataSourceException;
 import jda.modules.dodm.DODMBasic;
 import jda.modules.mccl.conceptmodel.Configuration;
 import jda.test.model.modules.ModuleWithBuilderType;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 import jda.util.properties.Property;
 import jda.util.properties.PropertySet;
 import jda.util.properties.PropertySetFactory;
@@ -15,7 +15,7 @@ public class ModulePropertySetTest {
   public static void main(String[] args) throws DataSourceException {
     Class ModuleCls = ModuleWithBuilderType.class; //ModuleA.class;
     
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration("test");
+    Configuration config = SwTk.createMemoryBasedConfiguration("test");
     DODMBasic dodm = DODMBasic.getInstance(config);
     
     dodm.registerClasses(new Class[] {

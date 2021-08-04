@@ -16,7 +16,7 @@ import jda.mosa.view.assets.GUIToolkit;
 import jda.mosa.view.assets.datafields.JDataField;
 import jda.mosa.view.assets.datafields.JTextField;
 import jda.test.view.ViewTestCase;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /* data entry frame with custom focus traversal policy */
 public class DataEntryFrame2 extends MyInternalFrame {
@@ -40,7 +40,7 @@ public class DataEntryFrame2 extends MyInternalFrame {
   protected void createGUI() {
     DODMBasic schema = null;
     //Configuration config = new Configuration();
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    Configuration config = SwTk.createMemoryBasedConfiguration("");
 
     GUIToolkit.initInstance(config);
 

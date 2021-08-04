@@ -1,7 +1,7 @@
 package jda.test.dodm;
 
 import jda.modules.mccl.conceptmodel.Configuration;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * @overview 
@@ -21,7 +21,7 @@ public class DODMMemoryBasedTester extends DODMBasicTester {
       String dataSourceName) {
     printf("Using memory-based config...%n");
 
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration(getAppName());
+    Configuration config = SwTk.createMemoryBasedConfiguration(getAppName());
     return config;
   }
 

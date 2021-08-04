@@ -28,7 +28,7 @@ import jda.mosa.software.aio.SoftwareStandardAio;
 import jda.mosa.software.impl.DomSoftware;
 import jda.mosa.software.impl.UISoftware;
 import jda.mosa.software.impl.WebSoftware;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * @overview 
@@ -142,8 +142,8 @@ public class SoftwareFactory {
    * @version 5.2c
    */
   public static void createSoftwareToolWithMemoryBasedConfig(Class[] domainClasses) {
-    ApplicationToolKit.setSystemProperty(PropertyName.setup_SerialiseConfiguration, "false");
-    ApplicationToolKit.setSystemProperty(PropertyName.Logging, "true");
+    SwTk.setSystemProperty(PropertyName.setup_SerialiseConfiguration, "false");
+    SwTk.setSystemProperty(PropertyName.Logging, "true");
     DomainAppTool.run(domainClasses);
   }
   

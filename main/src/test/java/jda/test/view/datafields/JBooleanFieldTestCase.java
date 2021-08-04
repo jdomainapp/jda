@@ -16,7 +16,7 @@ import jda.mosa.view.assets.GUIToolkit;
 import jda.mosa.view.assets.datafields.DataFieldFactory;
 import jda.mosa.view.assets.datafields.JBooleanField;
 import jda.test.view.ViewTestCase;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 public class JBooleanFieldTestCase extends JDataFieldTestCase {
 
@@ -30,7 +30,7 @@ public class JBooleanFieldTestCase extends JDataFieldTestCase {
   @BeforeClass
   public static void init() throws Exception {
     //config = new Configuration();
-    config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    config = SwTk.createMemoryBasedConfiguration("");
     config.setLanguage(
         Configuration.Language.Vietnamese
 //        Configuration.Language.English

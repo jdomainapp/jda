@@ -9,11 +9,11 @@ import jda.modules.dodm.dom.DOMBasic;
 import jda.modules.dodm.dsm.DSMBasic;
 import jda.modules.mccl.conceptmodel.Configuration;
 import jda.test.model.basic.Student;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 public class DomainConstraintHashTest {
   public static void main(String[] args) throws DataSourceException {
-    Configuration config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    Configuration config = SwTk.createMemoryBasedConfiguration("");
     DODMBasic schema = DODMBasic.getInstance(config);
     
     DSMBasic dsm = schema.getDsm();

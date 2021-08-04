@@ -2,7 +2,7 @@ package jda.test.app;
 
 import java.util.Arrays;
 
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * @overview 
@@ -14,7 +14,7 @@ import jda.util.ApplicationToolKit;
 public class AppToolkitTest {
   public static void main(String[] args) {
     try {
-      ApplicationToolKit.executeMain(TestApp.class, new String[] {"configure"});
+      SwTk.executeMain(TestApp.class, new String[] {"configure"});
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

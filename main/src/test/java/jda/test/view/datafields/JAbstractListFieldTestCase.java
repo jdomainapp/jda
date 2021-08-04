@@ -28,7 +28,7 @@ import jda.mosa.view.assets.datafields.JDataField;
 import jda.test.model.basic.City;
 import jda.test.model.basic.Student;
 import jda.test.view.ViewTestCase;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 import jda.util.events.ChangeEvent;
 import jda.util.events.ChangeEventSource;
 
@@ -63,7 +63,7 @@ public abstract class JAbstractListFieldTestCase extends ViewTestCase {
 //    config = new Configuration();
 //    GUIToolkit.initInstance(config); 
 //    schema = DODM.getInstance(null, false);
-    config = ApplicationToolKit.createMemoryBasedConfiguration("");
+    config = SwTk.createMemoryBasedConfiguration("");
     GUIToolkit.initInstance(config); 
     schema = DODMBasic.getInstance(config);
     schema.addClass(Student.class);

@@ -134,7 +134,7 @@ import jda.mosa.view.assets.tables.JObjectTable;
 import jda.mosa.view.assets.toolbar.StatusBar;
 import jda.mosa.view.assets.util.ViewComponentMapHandler;
 import jda.mosa.view.assets.util.function.value.DataFieldValueFunction;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 import jda.util.SysConstants;
 import jda.util.events.InputHandler;
 import jda.util.events.StateChangeListener;
@@ -3243,7 +3243,7 @@ public class View<C> {
     if (containmentTree != null) {
       DSMBasic dsm = controller.getDomainSchema();
 
-      subCls = ApplicationToolKit.findDescendantTypeInTree(dsm, containmentTree, domainType, parentCls);
+      subCls = SwTk.findDescendantTypeInTree(dsm, containmentTree, domainType, parentCls);
     }
     
     if (subCls != null) {
@@ -3615,7 +3615,7 @@ public class View<C> {
    * - v3.2: updated to return ScopeDef and throws <br>
    * - 5.1: improved to support RegionLinking, added NotPossibleException
    * 
-   * @see {@link ApplicationToolKit#getContainmentScope(Tree, Class, Class)}
+   * @see {@link SwTk#getContainmentScope(Tree, Class, Class)}
    */
   private ScopeDef filterViewConfigsByContainmentScope(Tree containmentTree,
       Class parentCls, Class childCls, List<Region> attribViewConfigs) throws NotFoundException, NotPossibleException {
@@ -3636,7 +3636,7 @@ public class View<C> {
         // a ScopeDef
         String scopeDefName = scope.substring(1);
         // retrieve the ScopeDef constant object from the module
-        scopeDef = ApplicationToolKit.getContainmentScopeDefObject(controller, scopeDefName);
+        scopeDef = SwTk.getContainmentScopeDefObject(controller, scopeDefName);
         scopeElements = scopeDef.scope();
         if (scopeElements.length == 0 || 
             (scopeElements.length==1 && scopeElements[0].equals("")) 
@@ -3650,11 +3650,11 @@ public class View<C> {
         scopeElements = scope.split(",");
         */
         // not a scopeDef: either a comma-separated string of attribute names OR RegionLinking::obj-id (created from ScopeDesc)
-        if (ApplicationToolKit.isObjectId(RegionLinking.class, scope)) {
+        if (SwTk.isObjectId(RegionLinking.class, scope)) {
           // RegionLinking object id: retrieve it to obtain the scope string
           RegionLinking rl;
           try {
-            rl = ApplicationToolKit.retrieveModuleContainmentConfig(controller.getDodm(), scope);
+            rl = SwTk.retrieveModuleContainmentConfig(controller.getDodm(), scope);
             /* v5.2b: fixed bug 
             String scopeStr = rl.getProperty(PropertyName.module_containment_scope, String.class, "");
             scopeElements = scopeStr.split(",");
@@ -4967,7 +4967,7 @@ public class View<C> {
       // data container is a child container
       Class parentCls = dctl.getParent().getDomainClass();
       ControllerBasic rootModuleCtl = dctl.getUser();
-      childScopeDef = ApplicationToolKit.getContainmentScopeDefObject(containmentTree, rootModuleCtl, parentCls, cls);
+      childScopeDef = SwTk.getContainmentScopeDefObject(containmentTree, rootModuleCtl, parentCls, cls);
     } else {
       // data container is a top-level container
       // TODO: support scope-def for this case

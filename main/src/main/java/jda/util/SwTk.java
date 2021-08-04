@@ -84,13 +84,13 @@ import jda.mosa.view.assets.JDataContainer;
 import jda.util.properties.Property;
 import jda.util.properties.PropertySet;
 
-public class ApplicationToolKit {
-  private static final boolean debug = Toolkit.getDebug(ApplicationToolKit.class);
+public class SwTk {
+  private static final boolean debug = Toolkit.getDebug(SwTk.class);
   
   /**The object id separator*/
   private static final String OBJECT_ID_SEP = "::";
   
-  private ApplicationToolKit() {}
+  private SwTk() {}
 
   /**
    * @requires 
@@ -148,7 +148,7 @@ public class ApplicationToolKit {
         // a ScopeDef
         String scopeDefName = scope.substring(1);
         // retrieve the StyleDef constant object from the module
-        scopeDef = ApplicationToolKit.getContainmentScopeDefObject(rootModuleCtl, scopeDefName);
+        scopeDef = SwTk.getContainmentScopeDefObject(rootModuleCtl, scopeDefName);
         scopeElements = scopeDef.scope();
         if (scopeElements.length == 0 || 
             (scopeElements.length==1 && scopeElements[0].equals("")) 
@@ -272,7 +272,7 @@ public class ApplicationToolKit {
         // a ScopeDef
         String scopeDefName = scope.substring(1);
         // retrieve the ScopeDef constant object from the module
-        scopeDef = ApplicationToolKit.getContainmentScopeDefObject(rootModuleCtl, scopeDefName);
+        scopeDef = SwTk.getContainmentScopeDefObject(rootModuleCtl, scopeDefName);
       } else {
         // not a scopeDef
         // v5.1: it could be a RegionLinking id
@@ -1338,7 +1338,7 @@ public class ApplicationToolKit {
       try {
         val = Boolean.parseBoolean(propValStr);
       } catch (Exception e) { // invalid value
-        System.out.printf(ApplicationToolKit.class.getSimpleName()+".getSystemPropertyBoolean: invalid property value: %s = %s%n", propName, propValStr);
+        System.out.printf(SwTk.class.getSimpleName()+".getSystemPropertyBoolean: invalid property value: %s = %s%n", propName, propValStr);
         val = defValue;
       }
     }
@@ -1867,7 +1867,7 @@ public class ApplicationToolKit {
    *   else 
    *    return an empty array
    */
-  public static Class[] parseApplicationModules(Class sysCls) throws NotFoundException {
+  public static Class[] parseMCCs(Class sysCls) throws NotFoundException {
     SystemDesc sysDesc = getSystemDesc(sysCls);
     
     if (sysDesc == null) {
@@ -1909,10 +1909,10 @@ public class ApplicationToolKit {
     
     Configuration config; 
     if (dsMode.equals(ConnectionType.Embedded)) {
-      config = ApplicationToolKit.createDefaultInitApplicationConfiguration(appName, dsType, dsUrl, user, pwd);
+      config = SwTk.createDefaultInitApplicationConfiguration(appName, dsType, dsUrl, user, pwd);
     } else {
       // TODO: support other modes here
-      config = ApplicationToolKit.createClientApplicationConfiguration(appName, dsType, dsUrl, user, pwd);
+      config = SwTk.createClientApplicationConfiguration(appName, dsType, dsUrl, user, pwd);
     }
     
     // customise dodm types

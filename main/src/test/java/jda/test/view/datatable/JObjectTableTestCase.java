@@ -41,7 +41,7 @@ import jda.test.model.basic.City;
 import jda.test.model.basic.SClass;
 import jda.test.model.basic.Student;
 import jda.test.view.datafields.JAbstractListFieldTestCase;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 //TODO: Not yet working
 public class JObjectTableTestCase extends JDataTableTestCase implements ActionListener {
@@ -65,7 +65,7 @@ public class JObjectTableTestCase extends JDataTableTestCase implements ActionLi
     try {
       // register domain classes
       domainClass = Student.class;
-      Configuration config = ApplicationToolKit.createMemoryBasedConfiguration("");
+      Configuration config = SwTk.createMemoryBasedConfiguration("");
       schema = schema.getInstance(config);
       schema.addClass(domainClass);
 

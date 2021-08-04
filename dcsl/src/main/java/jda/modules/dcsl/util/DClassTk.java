@@ -19,13 +19,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Stack;
 import java.util.Vector;
 
+import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.dcsl.syntax.AttrRef;
-import jda.modules.dcsl.syntax.DAssoc.AssocType;
 import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dcsl.syntax.DOpt;
 
@@ -768,7 +769,8 @@ public class DClassTk {
   /**
    * @effects returns <code>Method</code> object of the class <code>cls</code>,
    *          whose name is <code>"set" + attribName</code> (with first letter
-   *          capitalised)
+   *          capitalised), 
+   *          or return null if no such method is found
    */
   public static Method findSetterMethod(Class cls, String fieldName) {
     
@@ -801,7 +803,7 @@ public class DClassTk {
   /**
    * @effects returns <code>Method</code> object of the class <code>c</code>,
    *          whose name is <code>"get" + fieldName</code> (with first letter
-   *          capitalised).
+   *          capitalised), or return null if no such method is found
    * 
    */
   public static Method findGetterMethod(Class c, String fieldName) {
@@ -2811,6 +2813,92 @@ public class DClassTk {
       return null;
     
     return pkg + "." + simpleName;
+  }
+
+  /**
+   * @effects 
+   *  if exists domain attributes of <code>dcls</code> whose data types are Enum
+   *    return Optional containing them
+   *  else
+   *    return empty Optional 
+   *    
+   * @version 5.4.1
+   */
+  public static Optional<Collection<Field>> getDomainEnumTypedAttribs(Class dcls) {
+    Collection<Field> dattrs = getDomainAttributes(dcls, true);
+    
+    if (dattrs == null) {
+      return Optional.ofNullable(null);
+    }
+    
+    List<Field> enumFields = new ArrayList<>();
+    dattrs.forEach(f -> {
+      if (f.getType().isEnum()) {
+        enumFields.add(f);
+      }
+    });
+    
+    return !enumFields.isEmpty() ? Optional.of(enumFields) : Optional.ofNullable(null);
+  }
+
+  /**
+   * @effects 
+   *  if exists a constructor <code>c = cls(paramType)</code> 
+   *    creates and return an object using this constructor and <code>param</code>, i.e. <code>c(param)</code>
+   *  
+   *  else throws NotFoundException
+   * @version 5.4.1
+   * 
+   */
+  public static <T> T createObject(Class<T> cls,
+      Class paramType,
+      Object param) throws NotPossibleException, NotFoundException {
+    
+    Constructor<T> c;
+    try {
+      c = cls.getConstructor(paramType);
+      
+      return c.newInstance(param);
+    } catch (NoSuchMethodException e) {
+      throw new NotFoundException(NotFoundException.Code.CONSTRUCTOR_METHOD_NOT_FOUND, 
+          e,
+          new Object[] {cls, paramType});
+    } catch (Exception e) {
+      throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_CREATE_OBJECT, 
+          e,
+          new Object[] {cls, param});
+    }
+    
+  }
+  
+  /**
+   * @effects 
+   *  if exists a constructor <code>c = cls(paramTypes)</code> 
+   *    creates and return an object using this constructor and <code>params</code>, i.e. <code>c(params)</code>
+   *  
+   *  else throws NotFoundException
+   * @version 5.4.1
+   * 
+   */
+  public static <T> T createObject(Class<T> cls,
+      Class[] paramTypes,
+      Object[] params) throws NotPossibleException, NotFoundException {
+    
+    Constructor<T> c;
+    try {
+      c = cls.getConstructor(paramTypes);
+      
+      return c.newInstance(params);
+    } catch (NoSuchMethodException e) {
+      throw new NotFoundException(NotFoundException.Code.CONSTRUCTOR_METHOD_NOT_FOUND, 
+          e,
+          new Object[] {cls, Arrays.toString(paramTypes)});
+    } catch (Exception e) {
+      throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_CREATE_OBJECT, 
+          e,
+          new Object[] {cls, Arrays.toString(params)});
+    }
+    
   }
   
 //  /**

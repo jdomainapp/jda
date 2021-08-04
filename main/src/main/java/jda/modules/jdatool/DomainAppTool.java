@@ -9,7 +9,7 @@ import jda.modules.setup.model.SetUpBasic;
 import jda.modules.setup.model.SetUpBasic.MessageCode;
 import jda.mosa.software.ApplicationLauncher;
 import jda.mosa.software.ApplicationLauncherLight;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 /**
  * @overview
@@ -245,6 +245,6 @@ public class DomainAppTool {
    */
   private static void setDefaultArgs() {
     // logging = true
-    ApplicationToolKit.setSystemProperty(PropertyName.Logging, "true");
+    SwTk.setSystemProperty(PropertyName.Logging, "true");
   }
 }

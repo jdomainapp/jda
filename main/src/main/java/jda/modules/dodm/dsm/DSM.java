@@ -15,6 +15,18 @@ import jda.modules.mccl.conceptmodel.dodm.DODMConfig;
 
 public class DSM extends DSMBasic {
 
+  /**
+   * This method is useful when we want to use DSM in the memory, without worrying 
+   * too much about how objects of the class are stored. 
+   * 
+   * @effects 
+   *  initialises this without a {@link DODMConfig}. 
+   * @version 5.4.1
+   */
+  public DSM() {
+    super(null);
+  }
+  
   public DSM(DODMConfig config) {
     super(config);
   }

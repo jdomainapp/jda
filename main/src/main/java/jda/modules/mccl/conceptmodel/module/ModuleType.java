@@ -33,6 +33,16 @@ public enum ModuleType implements ModType {
         this == DomainReport ;
   }
 
+
+  /**
+   * @effects 
+   *  if this is {@link ModuleType#DomainMain} then return true else return false
+   * @version 5.4.1
+   */
+  public boolean isMain() {
+    return this == DomainMain;
+  }
+  
   /**
    * @effects 
    *  if this has the specified type

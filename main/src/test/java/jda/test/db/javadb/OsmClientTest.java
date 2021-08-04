@@ -5,7 +5,7 @@ import org.junit.Test;
 import jda.modules.common.net.ProtocolSpec;
 import jda.modules.dodm.DODMBasic;
 import jda.modules.mccl.conceptmodel.Configuration;
-import jda.util.ApplicationToolKit;
+import jda.util.SwTk;
 
 public class OsmClientTest extends TestJavaDB {
   
@@ -19,7 +19,7 @@ public class OsmClientTest extends TestJavaDB {
     ProtocolSpec protSpec = new ProtocolSpec(spec);
     
     // test configuration
-    Configuration config = ApplicationToolKit.createDefaultInitApplicationConfiguration("Test", protSpec);
+    Configuration config = SwTk.createDefaultInitApplicationConfiguration("Test", protSpec);
 
     // create a DODM with the connection
     DODMBasic dodm = DODMBasic.getInstance(config);
