@@ -22,7 +22,7 @@ To generate front- and back-end components.
 
 1. Focus on `module-restfstool` in your IDE
   - Run this class:
-`org.examples.jda.restfstool.rfsgen.CourseManAppGen`
+`org.examples.jda.restfstool.rfsgen.CourseManRFSGen`
   - Ignore the "ClassNotFoundException" exceptions on the console
   - Wait until you see the following message block on the console. This means that:
     - both back-end and front-end have been generated
