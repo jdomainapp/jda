@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 import static net.bytebuddy.description.annotation.AnnotationDescription.Builder.ofType;
 import static net.bytebuddy.matcher.ElementMatchers.is;
 
-final class AnnotationGenerator {
+public final class AnnotationGenerator {
     private static AnnotationGenerator INSTANCE;
 
     public static AnnotationGenerator instance() {
@@ -86,7 +86,7 @@ final class AnnotationGenerator {
      * Generate @JsonSubTypes, @JsonTypeInfo, @JsonTypeName to handle inheritance.
      * @param cls
      */
-    Class<?> generateInheritanceAnnotations(Class<?> cls) {
+    public Class<?> generateInheritanceAnnotations(Class<?> cls) {
         List<Class<?>> subtypes = InheritanceUtils.getSubtypesOf(cls);
         if (subtypes.isEmpty()) return cls;
         for (Class<?> subtype : subtypes) {

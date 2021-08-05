@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 import jda.modules.dcsl.syntax.AttrRef;
 import jda.modules.dcsl.syntax.DAttr;
+import jda.modules.dcsl.syntax.DAttr.Type;
 import jda.modules.dcsl.syntax.DClass;
 import jda.modules.dcsl.syntax.DOpt;
-import jda.modules.dcsl.syntax.DAttr.Type;
 
 /**
  * Represents an elective module (a subclass of Module)

@@ -17,7 +17,7 @@ import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.dcsl.util.DClassTk;
 import jda.modules.mccl.conceptmodel.module.ModuleType;
 import jda.modules.mccl.syntax.ModuleDescriptor;
-import jda.modules.restfstool.RFSGen;
+import jda.modules.restfstool.RFSSoftware;
 import jda.modules.restfstool.config.RFSGenConfig;
 import jda.modules.restfstool.config.RFSGenDesc;
 import jda.modules.restfstool.frontend.utils.DomainTypeRegistry;
@@ -25,7 +25,7 @@ import jda.util.SwTk;
 
 /**
  * @overview 
- *  Toolkit class for {@link RFSGen}.
+ *  Toolkit class for {@link RFSSoftware}.
  *  
  * @author Duc Minh Le (ducmle)
  *

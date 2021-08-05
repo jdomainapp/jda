@@ -2,10 +2,7 @@ package org.jda.example.restfstool.rfsgen;
 
 import com.hanu.courseman.SCCCourseMan;
 
-import jda.modules.restfstool.backend.BESoftware;
-import jda.modules.restfstool.backend.BESpringApp;
-import jda.modules.restfstool.config.RFSGenConfig;
-import jda.modules.restfstool.util.RFSGenTk;
+import jda.modules.restfstool.RFSSoftware;
 
 /**
  * @overview 
@@ -19,14 +16,8 @@ public class CourseManBESoftware {
   
   public static void main(String[] args) {
     Class scc = SCCCourseMan.class;
-    RFSGenConfig cfg = RFSGenTk.parseRFSGenConfig(scc);
-    
-    Class<? extends BESpringApp> backEndAppCls =  cfg.getBeAppClass(); //Resources.backEndAppCls;
-    
-    new BESoftware().run(
-        cfg.getBeTargetPackage(), 
-        backEndAppCls, 
-        cfg.getDomainModel()
-        );
+    new RFSSoftware(scc)
+      .init()
+      .run();
   }
 }

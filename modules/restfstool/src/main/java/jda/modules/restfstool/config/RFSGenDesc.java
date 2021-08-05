@@ -10,12 +10,14 @@ import jda.modules.restfstool.backend.BESpringApp;
  *  
  * @author Duc Minh Le (ducmle)
  *
- * @version 
+ * @version 5.4.1
  */
 @java.lang.annotation.Retention(value=java.lang.annotation.RetentionPolicy.RUNTIME)
 @java.lang.annotation.Target(value={java.lang.annotation.ElementType.TYPE})
 @Documented
 public @interface RFSGenDesc {
+  StackSpec stackSpec();
+  
   /** backend language platform */
   LangPlatform beLangPlatform();
   

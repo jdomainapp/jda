@@ -4,11 +4,11 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import constants from './common/Constants';
 import Navigation from './common/Navigation';
 
-import ModuleStudentClass from './student-classes'
-import ModuleAddress from './addresses'
 import ModuleCourseModule from './course-modules'
-import ModuleStudent from './students'
+import ModuleAddress from './addresses'
 import ModuleEnrolment from './enrolments'
+import ModuleStudent from './students'
+import ModuleStudentClass from './student-classes'
 
 export default class App extends React.Component {
   constructor(props) {

@@ -17,6 +17,7 @@ import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
 import jda.modules.restfstool.config.GenerationMode;
 import jda.modules.restfstool.config.LangPlatform;
 import jda.modules.restfstool.config.RFSGenDesc;
+import jda.modules.restfstool.config.StackSpec;
 import jda.modules.sccl.syntax.DSDesc;
 import jda.modules.sccl.syntax.OrgDesc;
 import jda.modules.sccl.syntax.SecurityDesc;
@@ -25,6 +26,9 @@ import jda.modules.sccl.syntax.SystemDesc;
 import jda.modules.setup.model.SetUpConfig;
 
 @RFSGenDesc(
+    stackSpec = 
+      StackSpec.FS, // for production
+//      StackSpec.BE, // for testing
     genMode = GenerationMode.SOURCE_CODE, 
     beLangPlatform = LangPlatform.SPRING, 
     feOutputPath = "src/example/java/com/hanu/courseman/frontend",

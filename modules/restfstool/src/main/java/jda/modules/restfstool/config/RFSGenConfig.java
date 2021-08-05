@@ -15,6 +15,8 @@ import jda.modules.restfstool.backend.BESpringApp;
  */
 public class RFSGenConfig {
 
+  private StackSpec stackSpec;
+  
   private Class[] domainModel;
 
   private LangPlatform beLangPlatform;
@@ -42,6 +44,20 @@ public class RFSGenConfig {
    *  this is needed for mapping from annotation
    */
   public RFSGenConfig() {
+  }
+
+  /**
+   * @effects return stackSpec
+   */
+  public StackSpec getStackSpec() {
+    return stackSpec;
+  }
+
+  /**
+   * @effects set stackSpec = stackSpec
+   */
+  public void setStackSpec(StackSpec stackSpec) {
+    this.stackSpec = stackSpec;
   }
 
   /**

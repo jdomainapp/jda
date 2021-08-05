@@ -28,10 +28,11 @@ import jda.mosa.software.impl.SoftwareImpl;
 
 /**
  * @overview 
- *
+ *  The base {@link SpringApplication} for running the generated RFS.
+ *   
  * @author Duc Minh Le (ducmle)
  *
- * @version 
+ * @version 5.4.1
  */
 @SpringBootApplication
 @ComponentScan(basePackages = {
@@ -64,28 +65,6 @@ public abstract class BESpringApp implements Consumer<List<Class>>{
   @Override
   public void accept(List<Class> _generatedClasses) {
     run(_generatedClasses);
-//    generatedClasses.addAll(_generatedClasses);
-//    sw = SoftwareFactory.createDefaultDomSoftware();
-//    sw.init();
-//    try {
-//        sw.addClasses(model);
-//        sw.loadObjects(model);
-//    } catch (NotPossibleException
-//            | NotFoundException
-//            | DataSourceException e) {
-//        throw new RuntimeException(e);
-//    }
-//    // populate the service registry
-//    final ServiceRegistry registry = ServiceRegistry.getInstance();
-//
-//    final int generatedClassesCount = generatedClasses.size();
-//    Class[] primarySources = generatedClasses.toArray(
-//            new Class[generatedClassesCount + 1]);
-//    primarySources[generatedClassesCount] = BackendMain.class;
-//
-//    ApplicationContext ctx = SpringApplication.run(primarySources, new String[0]);
-//
-//    ctx.getBeansOfType(CrudService.class).forEach((k, v) -> registry.put(k, v));    
   }
   
   public void run(Collection<? extends Class> components) {
@@ -106,7 +85,7 @@ public abstract class BESpringApp implements Consumer<List<Class>>{
     final int generatedClassesCount = generatedClasses.size();
     Class[] primarySources = generatedClasses.toArray(
             new Class[generatedClassesCount + 1]);
-    primarySources[generatedClassesCount] = BESpringApp.class;
+    primarySources[generatedClassesCount] = this.getClass(); //BESpringApp.class;
 
     ApplicationContext ctx = SpringApplication.run(primarySources, new String[0]);
 

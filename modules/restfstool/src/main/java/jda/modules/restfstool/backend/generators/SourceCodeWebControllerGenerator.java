@@ -75,7 +75,8 @@ final class SourceCodeWebControllerGenerator implements WebControllerGenerator {
         try {
             String typeName = type.getName();
             if (!generatedCrudClasses.containsKey(typeName)) {
-                generatedCrudClasses.put(typeName, generateRestfulController(type));
+                generatedCrudClasses.put(typeName, 
+                    generateRestfulController(type));
             }
             return (Class<RestfulController<T>>) generatedCrudClasses.get(typeName);
         } catch (IllegalAccessException | IOException | NoSuchMethodException ex) {

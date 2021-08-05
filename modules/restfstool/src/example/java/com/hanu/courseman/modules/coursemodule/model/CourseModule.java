@@ -1,15 +1,15 @@
 package com.hanu.courseman.modules.coursemodule.model;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import jda.modules.common.exceptions.ConstraintViolationException;
 import jda.modules.common.types.Tuple;
 import jda.modules.dcsl.syntax.AttrRef;
 import jda.modules.dcsl.syntax.DAttr;
+import jda.modules.dcsl.syntax.DAttr.Type;
 import jda.modules.dcsl.syntax.DClass;
 import jda.modules.dcsl.syntax.DOpt;
-import jda.modules.dcsl.syntax.DAttr.Type;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * Represents a course module. The module id is auto-incremented from a base
