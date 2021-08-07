@@ -11,7 +11,6 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -22,23 +21,10 @@
 # Git stuff
 .git/
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-
-# old stuff
 bin/
 archives/
 classes/
-data/
-dist/
-distsrc/
-disttool/
-examples/
-previousReleases/
-setup/
-src.incoming/
-build.xml
-/target/
 /.classpath
 /.project
 /.settings/
+/target/

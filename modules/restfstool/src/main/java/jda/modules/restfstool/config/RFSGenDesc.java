@@ -2,6 +2,7 @@ package jda.modules.restfstool.config;
 
 import java.lang.annotation.Documented;
 
+import jda.modules.common.types.Null;
 import jda.modules.restfstool.backend.BESpringApp;
 
 /**
@@ -32,7 +33,7 @@ public @interface RFSGenDesc {
   
   /** backend main application that is executed by the web server.
    * For now, it is Spring-specific. This may be changed in the future to suit the {@link #beLangPlatform()} */
-  Class<? extends BESpringApp> beAppClass();
+  Class<? extends BESpringApp> beAppClass(); // default Null.class;
 
   /** code generation mode (source code or byte code) */
   GenerationMode genMode();

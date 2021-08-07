@@ -11,7 +11,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+# *.jar
 *.war
 *.nar
 *.ear
@@ -29,12 +29,3 @@ hs_err_pid*
 bin/
 archives/
 classes/
-data/
-dist/
-distsrc/
-disttool/
-examples/
-previousReleases/
-setup/
-src.incoming/
-build.xml

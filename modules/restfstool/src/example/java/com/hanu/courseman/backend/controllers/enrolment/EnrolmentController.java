@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Generated(value = "jda.modules.restfstool.backend.generators.SourceCodeWebControllerGenerator")
 public class EnrolmentController extends DefaultRestfulController<com.hanu.courseman.modules.enrolment.model.Enrolment> {
 
-    @org.springframework.web.bind.annotation.GetMapping()
-    public Page getEntityListByPage(PagingModel arg0) {
-        return super.getEntityListByPage(arg0);
-    }
-
     @org.springframework.web.bind.annotation.PostMapping()
     public Enrolment createEntity(@org.springframework.web.bind.annotation.RequestBody() Enrolment arg0) {
         return super.createEntity(arg0);
+    }
+
+    @org.springframework.web.bind.annotation.GetMapping()
+    public Page getEntityListByPage(PagingModel arg0) {
+        return super.getEntityListByPage(arg0);
     }
 
     @org.springframework.web.bind.annotation.GetMapping(value = "/{id}")

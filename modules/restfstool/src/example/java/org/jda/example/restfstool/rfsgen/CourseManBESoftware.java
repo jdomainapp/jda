@@ -16,6 +16,7 @@ public class CourseManBESoftware {
   
   public static void main(String[] args) {
     Class scc = SCCCourseMan.class;
+    
     new RFSSoftware(scc)
       .init()
       .run();

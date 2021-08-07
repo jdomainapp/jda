@@ -6,8 +6,8 @@ import javax.annotation.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import jda.modules.restfstool.backend.base.models.Identifier;
 import jda.modules.restfstool.backend.base.models.PagingModel;
-import java.util.Collection;
 import jda.modules.restfstool.backend.base.models.Page;
+import java.util.Collection;
 import java.util.function.BiConsumer;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,16 +17,12 @@ import jda.modules.restfstool.backend.utils.InheritanceUtils;
 @Service(value = "com.hanu.courseman.backend.services.enrolment.EnrolmentService")
 public class EnrolmentService extends SimpleDomServiceAdapter<com.hanu.courseman.modules.enrolment.model.Enrolment> {
 
-    public Collection getAllEntities() {
-        return super.getAllEntities();
+    public Enrolment createEntity(Enrolment arg0) {
+        return super.createEntity(arg0);
     }
 
     public Page getEntityListByPage(PagingModel arg0) {
         return super.getEntityListByPage(arg0);
-    }
-
-    public Enrolment createEntity(Enrolment arg0) {
-        return super.createEntity(arg0);
     }
 
     public Enrolment getEntityById(Identifier arg0) {
@@ -39,6 +35,10 @@ public class EnrolmentService extends SimpleDomServiceAdapter<com.hanu.courseman
 
     public void deleteEntityById(Identifier arg0) {
         super.deleteEntityById(arg0);
+    }
+
+    public Collection getAllEntities() {
+        return super.getAllEntities();
     }
 
     public void setOnCascadeUpdate(BiConsumer arg0) {

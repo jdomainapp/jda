@@ -10,9 +10,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import jda.modules.dodm.dom.DOMBasic;
-import jda.modules.dodm.dsm.DSMBasic;
-import jda.modules.dodm.osm.javadb.JavaDbOSMBasic;
+import jda.modules.dodm.dom.DOM;
+import jda.modules.dodm.dsm.DSM;
+import jda.modules.dodm.osm.javadb.JavaDbOSM;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
 
@@ -57,21 +57,21 @@ public @interface DSDesc {
 
   /**
    * (Optional) The DSM type to use
-   * <br>Default: {@link DSMBasic} 
+   * <br>Default: {@link DSM} 
    */
-  Class dsmType() default DSMBasic.class;
+  Class dsmType() default DSM.class;
 
   /**
    * (Optional) The OSM type to use
-   * <br>Default: {@link JavaDbOSMBasic} 
+   * <br>Default: {@link JavaDbOSM} 
    */
-  Class osmType() default JavaDbOSMBasic.class;
+  Class osmType() default JavaDbOSM.class;
 
   /**
    * (Optional) The DOM type to use
-   * <br>Default: {@link DOMBasic} 
+   * <br>Default: {@link DOM} 
    */
-  Class domType() default DOMBasic.class;
+  Class domType() default DOM.class;
 
   /**
    * @effects 

@@ -27,15 +27,16 @@ import jda.modules.setup.model.SetUpConfig;
 
 @RFSGenDesc(
     stackSpec = 
+//      StackSpec.FE, // for testing FE
       StackSpec.FS, // for production
-//      StackSpec.BE, // for testing
+//      StackSpec.BE, // for testing BE
     genMode = GenerationMode.SOURCE_CODE, 
     beLangPlatform = LangPlatform.SPRING, 
     feOutputPath = "src/example/java/com/hanu/courseman/frontend",
     bePackage = "com.hanu.courseman",
     beOutputPath = "src/example/java", 
-    beTargetPackage = "com.hanu.courseman.backend",
-    beAppClass = CourseManBESpringApp.class
+    beTargetPackage = "com.hanu.courseman.backend"
+    ,beAppClass = CourseManBESpringApp.class
     )
 @SystemDesc(
         appName = "Courseman",

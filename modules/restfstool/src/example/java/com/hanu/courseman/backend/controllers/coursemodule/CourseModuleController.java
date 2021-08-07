@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Generated(value = "jda.modules.restfstool.backend.generators.SourceCodeWebControllerGenerator")
 public class CourseModuleController extends DefaultRestfulWithInheritanceController<com.hanu.courseman.modules.coursemodule.model.CourseModule> {
 
+    public Page getEntityListByPage(PagingModel arg0) {
+        return super.getEntityListByPage(arg0);
+    }
+
     @org.springframework.web.bind.annotation.GetMapping()
     public Page getEntityListByTypeAndPage(@org.springframework.web.bind.annotation.RequestParam(value = "type", required = false) String arg0, PagingModel arg1) {
         return super.getEntityListByTypeAndPage(arg0, arg1);
-    }
-
-    public Page getEntityListByPage(PagingModel arg0) {
-        return super.getEntityListByPage(arg0);
     }
 
     @org.springframework.web.bind.annotation.PostMapping()

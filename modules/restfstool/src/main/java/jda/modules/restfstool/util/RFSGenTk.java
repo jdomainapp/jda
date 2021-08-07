@@ -15,7 +15,6 @@ import ch.qos.logback.classic.Logger;
 import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.dcsl.util.DClassTk;
-import jda.modules.mccl.conceptmodel.module.ModuleType;
 import jda.modules.mccl.syntax.ModuleDescriptor;
 import jda.modules.restfstool.RFSSoftware;
 import jda.modules.restfstool.config.RFSGenConfig;
