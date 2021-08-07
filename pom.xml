@@ -13,7 +13,7 @@
   <description></description>
 
   <properties>
-    <java.version>13</java.version>
+    <java.version>11</java.version>
     <version.plugin.compiler>3.8.1</version.plugin.compiler>
     <version.plugin.resources>3.2.0</version.plugin.resources>
     <version.plugin.jar>3.2.0</version.plugin.jar>
@@ -36,7 +36,7 @@
       to install jar file to this repo -->
     <repository>
       <id>local-maven-repo</id>
-      <url>file:///${basedir}/local-maven-repo</url>
+      <url>file://local-maven-repo</url>
     </repository>
     <!-- Eclipse-related libraries -->
     <repository>
