@@ -1,0 +1,373 @@
+import java.util.ArrayList;
+import java.util.List;
+
+import jda.modules.common.exceptions.ConstraintViolationException;
+import jda.modules.common.exceptions.NotFoundException;
+import jda.modules.common.exceptions.NotPossibleException;
+import jda.modules.dcsl.syntax.DAssoc;
+import jda.modules.dcsl.syntax.DAssoc.AssocEndType;
+import jda.modules.dcsl.syntax.DAssoc.AssocType;
+import jda.modules.dcsl.syntax.DAssoc.Associate;
+import jda.modules.dcsl.syntax.DAttr;
+import jda.modules.dcsl.syntax.DAttr.Type;
+import jda.modules.dcsl.syntax.DCSLConstants;
+import jda.modules.dodm.ObjectFactory;
+import jda.modules.patterndom.assets.aggregates.AGRoot;
+import jda.modules.patterndom.assets.domevents.CMEventType;
+import jda.modules.patterndom.assets.domevents.EventType;
+import jda.modules.patterndom.assets.domevents.Publisher;
+import jda.util.events.ChangeEventSource;
+
+/**
+ * @overview Pattern: AGGREGATES
+ * <p>
+ * This pattern describes a stronger logical object grouping than module in that
+ * the object group is treated as a single unit. In an aggregate, there is a
+ * root entity that acts as the access point for other objects that are internal
+ * to the aggregate. Strong dependency associations exist between the root and
+ * the internal objects, so that outside objects only need to rely on the root
+ * to obtain information about the aggregate. Outside objects may only hold
+ * transient references to internal objects (obtained from the root). These
+ * references are used only within an operation. In addition to achieving
+ * enhanced modularity, aggregates helps enforce model integrity on the object
+ * group of the aggregate.
+ * 
+ * <p>
+ * According to Evans, an AGGREGATE is a cluster of associated objects that we treat 
+ * as a unit for the purpose of data changes. 
+ * Aggregates has the following <b>properties</b>:
+ * <li>has a root and a boundary
+ * <li>root has global identity (unique and accessible to outside objects)
+ * <li>nonroot objects have local identity, unique only within the AGGREGATE
+ * <li>nonroot objects may hold references to each other
+ * <li>reference to root is accessible to outside objects and can be persisted
+ * <li>references to nonroot objects can also be available to outside objects
+ * (through root) but only transiently (within a transaction or operation call)
+ * <li>value object can be handed (by root) to outside object
+ * <li>(corollary to the previous rule), only root can be obtained directly with
+ * database queries. Nonroot objects must be found by traversal of associations.
+ * <li>objects can hold references to other aggregate roots.
+ * <li>root is responsible for checking invariants. Each invariant must hold at
+ * the end of every transaction. Invariant is a consistency rules involving
+ * relationships between members of the AGGREGATE.
+ * <li>deleting root also deletes other nonroot objects
+ * 
+ * @example
+ * For example, in the domain model of the CourseMan software, if we suppose
+ * that all the SClassRegistrations do not make sense outside the context of
+ * their SClasses then we could form an aggregate consisting of these two domain
+ * classes. SClass is the root entity, while SClassRegistration is internal to
+ * the aggregate.
+ *
+ * @author Duc Minh Le
+ * 
+ * @overview 
+ *  A sub-type of {@link AGRoot} that implements a type of root node in 
+ *  an aggregate. 
+ *  
+ * @author Duc Minh Le (ducmle)
+ */
+class RootCls implements AGRoot {
+  @DAttr(name="members",type=Type.Collection)
+  @DAssoc(ascName="has-members",role="root",
+    ascType=AssocType.One2Many,endType=AssocEndType.One,
+    associate=@Associate(type=Member1.class,cardMin=1,cardMax=DCSLConstants.CARD_MORE))
+  private List<Member1> members1;
+  
+  /**
+   * @effects 
+   *  initialises this with <code>id</code>
+   * @version 
+   */
+  public RootCls() {
+    members1 = new ArrayList<>();
+  }
+  
+  /**
+   * Factory method for creating member objects of the aggregate
+   * 
+   * @effects 
+   *  create and return a new member object <code>m</code> whose class is <code>memberCls</code>
+   *  from arguments.
+   *    
+   *  <p>Throws NotFoundException if no constructors of <code>memberCls</code> match <code>args</code>; 
+   *  throws NotPossibleException if could not execute the constructor.
+   */
+  public static <T extends Publisher> T createMember(Class<T> memberCls, Object... args) throws NotFoundException, NotPossibleException {
+    T member = ObjectFactory.createObject(memberCls, args);
+    return member;
+  }
+  
+  /**
+   * @modifies {@link #members1}
+   * @effects 
+   *  adds member to this and if all invariants are satisfied then 
+   *    register this as a Subscriber of <code>m</code>'s domain events, 
+   *    if <code>memberCls</code> is associated to this.class then add <code>m</code> to this, 
+   *  else
+   *    throws ConstraintViolationException
+   * @version 
+   *
+   */
+  public <T extends Publisher> void addMember(Class<T> memberCls, T member) throws NotFoundException, NotPossibleException {
+    updateOnMemberAdded(memberCls, member);
+  }
+  
+  /**
+   * @modifies {@link #members1}
+   * @effects 
+   *  create a new member object <code>m</code> whose class is <code>memberCls</code>
+   *  from arguments and 
+   *  if all invariants are satisfied then 
+   *    register this as a Subscriber of <code>m</code>'s domain events, 
+   *    if <code>memberCls</code> is associated to this.class then add <code>m</code> this, 
+   *    return <code>m</code>
+   *  else
+   *    throws ConstraintViolationException
+   *    
+   *  <p>Throws NotFoundException if no constructors of <code>memberCls</code> match <code>args</code>; 
+   *  throws NotPossibleException if could not execute the constructor.
+   */
+  public <T extends Publisher> T addMember(Class<T> memberCls, 
+      Object...args) throws NotFoundException, NotPossibleException {
+    T member = ObjectFactory.createObject(memberCls, args);
+    
+    updateOnMemberAdded(memberCls, member);
+
+    return member;
+  }
+  
+  private <T extends Publisher> void updateOnMemberAdded(Class<T> memberCls, T member) {
+    // Pattern: DomainEvents 
+    EventType[] evtTypes = CMEventType.values();
+    member.addSubscriber(this, evtTypes);
+
+    // Linked member block: one for each member class directly associated to this class
+    if (memberCls == Member1.class) {
+      Member1 m1 = (Member1) member;
+      this.members1.add(m1);
+      
+      // Pattern: Aggregates
+      try {
+        updateOnMember1Added(m1);
+      } catch (ConstraintViolationException e) {
+        // reverse the change (in reverse order of adding above)
+        this.members1.remove(m1);
+        member.removeSubcriber(this, evtTypes);
+      }
+    }    
+  }
+  
+  @Override // Pattern: Aggregates
+  public void checkInvariants() throws ConstraintViolationException {
+    // TODO: implements this
+  }
+
+  @Override // Pattern: DomainEvent
+  public void handleEvent(EventType type, ChangeEventSource<?> source) 
+      throws ConstraintViolationException {
+    CMEventType et = (CMEventType) type;
+    Object srcObj = source.get(0);
+    Object arg = source.get(1);
+    switch (et) {
+      case OnCreated:
+        updateOnMember1Added((Member1) srcObj);
+        break;
+      case OnUpdated:
+        // update on updated
+        updateOnMember1Changed((Member1) srcObj, arg);
+        break;
+      case OnRemoved:
+        updateOnMember1Removed((Member1) srcObj);
+        break;
+    }
+  }
+  
+  /**
+   * @effects 
+   *  update the state of this when <code>someMember</code> has been created and added to this. 
+   *  If some invariant is not satisfied, roll back update and 
+   *  rethrow {@link ConstraintViolationException}. 
+   */
+  private void updateOnMember1Added(Member1 someMember) throws ConstraintViolationException {
+    // update state of this based on someMember
+    // keep a record of prevState (before update)
+    Object prevState = null;
+    
+    // Pattern: aggregates
+    commitUpdate(prevState);
+  }
+
+  /**
+   * @effects 
+   *  update the state of this when <code>someMember</code>'s state is changed. 
+   *  If some invariant is not satisfied, roll back update and 
+   *  rethrow {@link ConstraintViolationException}. 
+   */
+  private void updateOnMember1Changed(Member1 someMember, Object...args) 
+      throws ConstraintViolationException {
+    // update state of this based on someMember
+    // keep a record of prevState (before update)
+    Object prevState = null;
+    
+    // Pattern: aggregates
+    commitUpdate(prevState);
+  }
+  
+  /**
+   * @effects 
+   *  update the state of this when <code>someMember</code> is removed. 
+   *  If some invariant is not satisfied, roll back update and 
+   *  rethrow {@link ConstraintViolationException}. 
+   */
+  private void updateOnMember1Removed(Member1 someMember, Object...args) 
+      throws ConstraintViolationException {
+    // update state of this based on someMember
+    // keep a record of prevState (before update)
+    Object prevState = null;
+    
+    // Pattern: aggregates
+    commitUpdate(prevState);
+  }
+  
+  /**
+   * @effects 
+   *  check all invariants of the concerned aggregate, 
+   *  if some invariant is violated then 
+   *    roll back the update based on <code>prevState</code>, 
+   *    rethrows {@link ConstraintViolationException}
+   */
+  private void commitUpdate(Object prevState) throws ConstraintViolationException {
+    // Pattern: aggregates
+    try {
+      checkInvariants();
+    } catch (ConstraintViolationException e) {
+      // reverse the change
+      rollbackUpdate(prevState);
+      
+      throw e;
+    }    
+  }
+
+  /**
+   * @effects 
+   *  rollback the state of this to <code>prevState</code>
+   */
+  private void rollbackUpdate(Object prevState) {
+    // update this to the previous state recorded in prevState
+  }
+} /** END {@link RootCls} */
+
+/**
+ * @overview 
+ *  Represents an arbitrary member type in the aggregate that has an association 
+ *  to {@link RootCls}.
+ *  
+ * @author Duc Minh Le (ducmle)
+ */
+class Member1 implements Publisher {
+  @DAttr(name="member2",type=Type.Domain)
+  @DAssoc(ascName="some-assoc",role="member1",
+      ascType=AssocType.One2Many,endType=AssocEndType.Many,
+      associate=@Associate(type=Member2.class,cardMin=0,cardMax=1))
+  private Member2 member2;
+  
+  @DAttr(name="root",type=Type.Domain)
+  @DAssoc(ascName="has-member",role="member",
+      ascType=AssocType.One2Many,endType=AssocEndType.Many,
+      associate=@Associate(type=RootCls.class,cardMin=0,cardMax=1))
+  private RootCls root;
+
+  @DAttr(name="someParam",type=Type.Other)
+  private Object someAttrib;
+  
+  /** 
+   * A reusable event source object that is shared among objects of this class. 
+   * This is used where a single publiser is shared among different subscribers
+   */
+  private static ChangeEventSource<?> evtSrc;
+  
+  /**
+   * @effects 
+   *  initialises this with the root object
+   */
+  public Member1(RootCls root) {
+    this.root = root;
+  }
+  
+
+  /**
+   * @effects 
+   *  set {@link #someAttrib} to val,
+   *  notify subscribers of the state change
+   */
+  public void setSomeAttrib(Object val) {
+    // keep record of oldState
+    Object oldState = someAttrib;
+
+    // update state based on arg
+    someAttrib = val;
+    
+    // pattern DomainEvent
+    try {
+      notify(CMEventType.OnUpdated, getEventSource(), oldState);
+    } catch (ConstraintViolationException e) {
+      // handle if need to
+    }
+  }
+  
+  @Override // Pattern: DomainEvents
+  public ChangeEventSource<?> getEventSource() {
+    // Pattern: DomainEvent
+    if (evtSrc == null) {
+      evtSrc = createEventSource(this.getClass());
+    } else {
+      resetEventSource(evtSrc);
+    }
+    
+    return evtSrc;
+  }
+}  /** END {@link Member1} */
+
+/**
+ * @overview 
+ *  Represents some other member type in the aggregate that has an association 
+ *  to {@link Member1}.
+ *  
+ *  This class is designed similar to {@link Member1}.
+ *  
+ * @author Duc Minh Le (ducmle)
+ */
+class Member2 implements Publisher {
+  @Override // Pattern: DomainEvents
+  public ChangeEventSource<?> getEventSource() {
+    // Implement similar to Member1
+    return null;
+  }
+}  /** END {@link Member2} */
+
+/**
+ * @overview
+ *  A typical client program that uses pattern Aggregates.
+ *   
+ * @author Duc Minh Le (ducmle)
+ */
+class ClientProg {
+  public static void main(String[] args) {
+    // create a root object
+    RootCls root = new RootCls();
+    
+    // add members to root
+    Object someArg  = null;
+    Member1 member1 = root.addMember(Member1.class, someArg);
+    
+    // state update
+    try {
+      Object val = null;
+      member1.setSomeAttrib(val);
+    } catch (ConstraintViolationException e) {
+      System.err.println(e.getMessage());
+      System.out.printf("   Update rolled back: %s%n", root);
+    }
+  }
+} /** END {@link ClientProg} */

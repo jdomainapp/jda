@@ -1,0 +1,14 @@
+[ { "pattern": "dddcore.Entities", 
+    "patternFileExt": ".jdp",
+    "Entity": "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Cargo",
+    "id": "id" },
+  { "pattern": "dddcore.Aggregates",
+    "patternFileExt": ".jdp",
+    "root": "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Cargo",
+    "boundary": [
+      "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.RouteSpecification",
+      "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Itinerary",
+      "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Delivery"
+    ],
+    "Member1": "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.RouteSpecification" } 
+  ]

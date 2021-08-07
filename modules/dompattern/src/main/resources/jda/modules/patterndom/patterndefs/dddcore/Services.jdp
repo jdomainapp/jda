@@ -1,0 +1,84 @@
+import jda.modules.patterndom.assets.services.Service;
+
+/**
+ * @overview Pattern: SERVICES
+ * <p>
+ * Services (a.k.a domain services). This pattern describes system
+ * behaviours that do not fit the responsibility of entity. These behaviours
+ * operate on entities but typically do not need to maintain state information
+ * like entities. Therefore, these behaviours are defined in a special concept
+ * named services. Evans notes that services actually exist not only in the
+ * domain model but in other parts of the software. 
+ * 
+ * <p>For example, there would be infrastructure services responsible for providing such 
+ * low-level, shared behaviours as networking and data communication. 
+ * Domain and application SERVICES collaborate with these infrastructure SERVICES.
+ * There are also application services responsible for coordinating behaviours of domain objects from
+ * different domain classes. The distinction between this type of service and
+ * domain service is very subtle, because both service types involve
+ * coordinating the domain objects in some fashion. Basically, Evans states that
+ * if a service’s coordination logic is domain-specific then it is a domain
+ * service; otherwise it is an application service.
+ * 
+ * <p>
+ * A good SERVICE has three characteristics.
+ * <li>The operation relates to a domain concept that is not a natural part of
+ * an ENTITY or VALUE OBJECT.
+ * <li>The interface is defined in terms of other elements of the domain model.
+ * <li>The operation is stateless.
+ * 
+ * @example 
+ * <li>Application service: If the banking application can convert and export our transactions into a
+ * spreadsheet file for us to analyze, that export is an application SERVICE.
+ * There is no meaning of "file formats" in the domain of banking, and there are
+ * no business rules involved.
+ * 
+ * <li>Domain service: 
+ * A feature that can transfer funds from one account to another is a domain
+ * service because it embeds significant business rules (crediting and debiting
+ * the appropriate accounts, for example) and because a "funds transfer" is a
+ * meaningful banking term.
+ * 
+ * <br>
+ * In the CourseMan's domain model, for example, class
+ * EnrolmentMgmt is a type of service. It performs a domain-specific,
+ * activity-based logic which requires coordinating the behaviours defined by
+ * other domain classes in the model.
+ * 
+ * <li>Infrastructure service:
+ * A bank might have an application that sends an e-mail to a customer when an
+ * account balance falls below a specific threshold. The interface that
+ * encapsulates the e-mail system, and perhaps alternate means of notification,
+ * is a SERVICE in the infrastructure layer.
+ * 
+ * @author Duc Minh Le
+ */
+public class ServiceCls<T> implements Service<T> {
+  
+  @DAttr(name="id",type=Type.Serializable, 
+      id=true,optional=false)
+  private Serializable id;
+  
+  @DOpt(type=DOpt.Type.Getter) @AttrRef("id");
+  @Override
+  public Serializable getId() {
+    return id;
+  }
+  
+  /**
+   * @effects
+   *  initialise this and registers itself to the service registry.
+   *  Throws NotPossibleException if fails to register.
+   */
+  public ServiceCls() throws NotPossibleException {
+    // TODO: initialise this
+    
+    // registers this to service registry
+    register();
+  }
+  
+  @Override
+  public T perform(Object...args) throws NotPossibleException {
+    // TODO: 
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "pattern": "dddcore.DomainEvents", 
+  "patternFileExt": ".jdp",
+  "publishers": [
+    "jda.modules.patterndom.test.dom.domainevents.POLineItem",
+    "jda.modules.patterndom.test.dom.domainevents.Part"
+  ],
+  "subscribers": [
+    "jda.modules.patterndom.test.dom.domainevents.PurchaseOrder"
+  ]
+}

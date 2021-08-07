@@ -1,0 +1,29 @@
+/**
+ * @overview Pattern: FACTORIES
+ * <p>
+ * This pattern is an adaptation of the well-known software design pattern named
+ * factory. A factory takes the object creation responsibility burden away
+ * from both entities and the client. This helps reduce coupling between these
+ * two components, thereby enhancing the modularity of the model.
+ *
+ * @author Duc Minh Le
+ *
+ * @version
+ */
+class FactoryClass {
+  /**
+   * No object is needed
+   */
+  private FactoryClass() {
+    // 
+  }
+  
+  /**
+   * @effects
+   *  create and return new Customer:<name,dob>
+   */
+  public static SomeCls createSomeCls() {
+    SomeCls obj = new SomeCls();
+    return obj;
+  }
+}

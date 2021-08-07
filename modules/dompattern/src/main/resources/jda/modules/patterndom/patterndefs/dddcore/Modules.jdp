@@ -1,0 +1,23 @@
+/**
+ * 
+ * @overview Pattern: MODULES
+ * <p>
+ * This pattern describes how the traditional concept of module in programming
+ * is applied to the domain model. Evans defines module as a sub-structure of
+ * the domain model that "brings together elements of the model with
+ * particularly rich conceptual relationships". If the modules of a domain model
+ * are designed with high cohesion and low coupling then the domain model can
+ * scale to handle more complex domain requirements. Evans generally suggests to
+ * <b>use package to define modules</b>, but allows the designer to have the
+ * flexibility of deciding what to place in each package.
+ * 
+ * @example
+ * For example, we would place each domain class of the CourseMan's domain model
+ * into its own module. The auxiliary domain classes of a domain class (e.g.
+ * PaymentStatus is auxiliary to Payment) are placed in the domain class’s
+ * module. 
+ * 
+ * @author Duc Minh Le
+ * 
+ * @see {@link Package}
+ */

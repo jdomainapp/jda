@@ -1,0 +1,10 @@
+{
+  "pattern": "dddcore.Aggregates", 
+  "patternFileExt": ".jdp",
+  "root": "jda.modules.patterndom.test.dom.aggregates.PurchaseOrder",
+  "boundary": [
+    "jda.modules.patterndom.test.dom.aggregates.POLineItem",
+    "jda.modules.patterndom.test.dom.aggregates.Part"
+  ],
+  "Member1": "jda.modules.patterndom.test.dom.aggregates.POLineItem"
+}

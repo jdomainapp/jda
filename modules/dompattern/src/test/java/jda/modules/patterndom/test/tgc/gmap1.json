@@ -1,0 +1,33 @@
+[
+  {
+    "pattern": "dddcore.Entities", 
+    "patternFileExt": ".jdp",
+    "Entity": "jda.modules.patterndom.test.dom.tgc.*",
+    "id": "id"
+  },
+  {
+    "pattern": "dddcore2.DataSourceAttrib", 
+    "patternFileExt": ".jdp",
+    "C1": "jda.modules.patterndom.test.dom.tgc.Student",
+    "C2": "jda.modules.patterndom.test.dom.tgc.Address",
+    "attrSrc": "selAddrs",
+    "attrBound" : "address",
+    "queryDef" : { 
+      "clazz": "Address",
+      "exps" : [
+          {"attrib": "cityName", 
+          "op": "Op.EQ", 
+          "value": "'Ha noi', 'Ha Tay'"
+          }
+      ]
+    }
+  },
+  {
+    "pattern": "dddcore2.MNormaliser",
+    "patternFileExt": ".jdp",
+    "C1": "jda.modules.patterndom.test.dom.tgc.Student",
+    "C2": "jda.modules.patterndom.test.dom.tgc.CourseModule",
+    "CNorm": "jda.modules.patterndom.test.dom.tgc.Enrolment",
+    "symmetrical" : "false"
+  }  
+]

@@ -1,0 +1,8 @@
+{
+  "pattern": "dddcore2.MNormaliser",
+  "patternFileExt": ".jdp",
+  "C1": "jda.modules.patterndom.test.dom.mnormaliser.Student",
+  "C2": "jda.modules.patterndom.test.dom.mnormaliser.CourseModule",
+  "CNorm": "jda.modules.patterndom.test.dom.mnormaliser.Enrolment",
+  "symmetrical" : false
+}

@@ -1,0 +1,21 @@
+import jda.modules.patterndom.assets.repositories.JdaRepository;
+import jda.modules.patterndom.assets.repositories.Repository;
+
+/**
+ * @overview Pattern: REPOSITORIES
+ * 
+ * <p>
+ * This pattern is both an adaption and a generalisation of the
+ * object-relational mapping solution. First, it is an adaption in the
+ * sense of taking the object-relational mapping and applying it to the domain
+ * model. In particular, it handles how an entity is stored in an underlying
+ * database and how to manage access to this database. Second, the pattern
+ * generalises the mapping in that it defines an abstraction layer on top of the
+ * underlying database and a set of generic operations for querying the
+ * entities. The abstraction takes the form of a repository – a space where the
+ * entities "live" and can be searched for.
+ *
+ * @author Duc Minh Le
+ *
+ * @see {@link Repository} and its implementation {@link JdaRepository}
+ */

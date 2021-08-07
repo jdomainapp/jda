@@ -1,0 +1,102 @@
+import java.util.List;
+import jda.modules.patterndom.assets.domevents.CMEventType;
+import jda.modules.patterndom.assets.domevents.EventType;
+import jda.modules.patterndom.assets.domevents.Publisher;
+import jda.modules.patterndom.assets.domevents.Subscriber;
+import jda.util.events.ChangeEventSource;
+
+/**
+ * @overview Pattern: DOMAIN EVENTS (one publisher-many-subcribers). 
+ * <p>
+ * This pattern describes when and how domain-specific events are
+ * modelled in the domain model. A domain event is an important occurrence that
+ * typically involves performing some domain logic over two or more entities
+ * (such as that performed by services).
+ * 
+ * <p>
+ * Our view is that, regarding to domain service design, services is the core
+ * pattern and domain events enhances this core behaviour. In an event, one
+ * (publisher) entity announces the event and other (subscriber) entities, who
+ * are interested in the event, are informed of the event and, in response,
+ * carry out the relevant pieces of the domain logic. The invocation of this
+ * logic can be carried out either synchronously or asynchronously (via
+ * messages). We argue that domain event may not be needed in the former case,
+ * because it simply provides an optional layer of indirection to services (at
+ * the cost of additional code). In the latter case, domain event is necessary
+ * because the publisher must not know the subscriber(s) directly.
+ * 
+ * <p>
+ * There are two main design solutions for domain events: (i) rely on the
+ * language support for events (e.g. C#’s event) and (ii) define a separate
+ * event management model that provides the publish and subscribe interface
+ * operations for entities to use. The latter solution is more generic as it can
+ * be applied regardless of the implementation language feature support.
+ * 
+ * @example To illustrate domain events, let us consider an event that occurs when a
+ * particular Enrolment has a "Fail" finalGrade, which means the concerned
+ * Student has failed a CourseModule. In this case, Enrolment is the publisher
+ * and EnrolmentMgmt would be a suitable subscriber of the event. The latter is
+ * because EnrolmentMgmt, as explained in the services pattern, performs the
+ * domain service logic concerning the enrolment matters
+ *
+ * @author Duc Minh Le
+ * 
+ * @overview 
+ *  Role: Publisher
+ *  
+ */
+class PublisherCls implements Publisher {
+  
+  /** 
+   * A reusable event source object that is shared among objects of this class. 
+   * This is used where a single publiser is shared among different subscribers
+   */
+  private static ChangeEventSource<?> evtSrc;
+  
+  /**
+   * @effects initialise this and fire OnCreated event.
+   */
+  public PublisherCls() {
+    // TODO: initialise this
+    
+    // add subscriber (if specified from input arguments)
+    // addSubscriber(subscriber, CMEventType.values());
+    
+    // fire OnCreated event
+    notify(CMEventType.OnCreated, getEventSource());
+  }
+  
+  /**
+   * @effects update this and fire OnUpdated event.
+   */
+  public void updateState() {
+    // TODO: update state of this
+    // keep the previous state value
+    Object prevState = null;
+    
+    // fire OnCreated event
+    notify(CMEventType.OnUpdated, getEventSource(), prevState);
+  }
+  
+  /**
+   * @effects
+   *  notify register all registered listeners 
+   */
+  @Override
+  public void finalize() throws Throwable {
+    notify(CMEventType.OnRemoved, getEventSource());
+  }
+  
+  @Override
+  public ChangeEventSource<?> getEventSource() {
+    if (evtSrc == null) {
+      evtSrc = createEventSource(this.getClass());
+    } else {
+      resetEventSource(evtSrc);
+    }
+    
+    return evtSrc;
+  }
+}
+
+

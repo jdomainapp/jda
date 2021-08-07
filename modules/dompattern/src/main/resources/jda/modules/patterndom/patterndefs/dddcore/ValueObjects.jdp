@@ -1,0 +1,48 @@
+
+import jda.modules.dcsl.syntax.AttrRef;
+import jda.modules.dcsl.syntax.DAttr;
+import jda.modules.dcsl.syntax.DOpt;
+import jda.modules.dcsl.syntax.DAttr.Type;
+
+/**
+ * 
+ * @overview Pattern: VALUE OBJECTS
+ * <p>
+ * This pattern discusses a special type of object called value object that
+ * "represents a descriptive aspect of the domain that has no conceptual
+ * identity". What value object describes (its value) is more important
+ * than its identity. An example given in is the Color object provided by
+ * Java. Each object has a distinct colour value that describes a specific
+ * colour. 
+ * 
+ * <p>We argue, based on this and other similar examples, that it
+ * would be better (for domain modelling purposes) to treat value object as a
+ * special type of entity that has an identifier, but this identifier is the
+ * only attribute of interest. The identifier values carry domain-specific
+ * information that are significant for a particular modelling purpose. We are
+ * not concerned with the associations that value object has with other
+ * entities, regardless of the fact that these associations typically exist in
+ * the domain model. Understanding value object this way helps easily relate the
+ * two patterns. 
+ * 
+ * @example For example, in the CourseMan’s domain model 
+ * there are two types of value objects. Both are modelled in UML as enumeration
+ * types. The first type is named PaymentStatus, which describes a fixed set of
+ * distinct status values for the Payment transaction. Two typical payment
+ * status values are approved and rejected. The second type is AuthorzStatus,
+ * which describes a fixed set of distinct status values for Authorisation of
+ * enrolment. Similar to Payment, the typical authorisation status values are
+ * also approved and rejected.
+ * 
+ * @author Duc Minh Le
+ * @overview Class {@link ValueObject}
+ */
+class ValueObject {
+  @DAttr(name = "value", type = Type.Serializable, id = true, optional = false)
+  private Serializable value;
+
+  @DOpt(type=DOpt.Type.Getter) @AttrRef("value");
+  public Serializable getValue() {
+    return value;
+  }
+}

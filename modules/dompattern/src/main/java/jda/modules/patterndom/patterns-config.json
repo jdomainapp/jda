@@ -1,0 +1,25 @@
+[
+  {
+    "pattern": "dddcore.Entities",
+    "transfProc": "jda.modules.patterndom.transform.tpc.TPCEntities"
+  }
+  ,{
+    "pattern": "dddcore.Factory",
+    "transfProc": "jda.modules.patterndom.transform.tpc.TPCFactory"
+  }
+  ,{
+    "pattern": "dddcore.DomainEvents",
+    "transfProc": "jda.modules.patterndom.transform.tpc.TPCDomainEvents"
+  },{
+    "pattern": "dddcore.Aggregates",
+    "transfProc": "jda.modules.patterndom.transform.tpc.TPCAggregates"
+  }
+  ,{
+    "pattern": "dddcore2.MNormaliser",
+    "transfProc": "jda.modules.patterndom.transform.tpc.TPCMNormaliser"
+  }  
+  ,{
+    "pattern": "dddcore2.DataSourceAttrib",
+    "transfProc": "jda.modules.patterndom.transform.tpc.TPCDataSourceAttrib"
+  }  
+]

@@ -1,0 +1,44 @@
+import java.io.Serializable;
+
+import jda.modules.dcsl.syntax.AttrRef;
+import jda.modules.dcsl.syntax.DAttr;
+import jda.modules.dcsl.syntax.DOpt;
+import jda.modules.dcsl.syntax.DAttr.Type;
+import jda.modules.dcsl.syntax.DClass;
+
+/**
+ * @overview Pattern: ENTITIES
+ * <p>
+ * This pattern discusses how the concept of entity, which originates from
+ * conceptual modelling, should be treated with special care in DDD. The
+ * key design consideration is that entity is an object defined fundamentally by
+ * its identity. This identity, which is typically represented by an identity
+ * attribute, gives the entity a "thread of continuity" thoughout its life time.
+ * Each entity has a unique identity value, which typically does not change
+ * throughout its life time. Other types of attributes, associations and other
+ * features that are associated with an entity are defined based on the
+ * identity.
+ * 
+ * @example For example, the domain classes of the CourseMan domain model are entity
+ * types. A domain object of each class is an entity. Although the designs of
+ * these classes are incomplete, each class is defined with an identity
+ * attribute. All but the two classes CourseModule and ElectiveModule are
+ * defined with an identity attribute named id. CourseModule’s identity
+ * attribute is named code, which is inherited down to ElectiveModule.
+ * 
+ * @author Duc Minh Le
+ * 
+ * @overview 
+ *  Class {@link Entity}
+ */
+@DClass
+class Entity {
+  @DAttr(name="id",type=Type.Serializable, 
+      id=true,optional=false)
+  private Serializable id;
+  
+  @DOpt(type=DOpt.Type.Getter) @AttrRef("id");
+  public Serializable getId() {
+    return id;
+  }
+}
