@@ -195,7 +195,7 @@
           <artifactId>module-mccl</artifactId>
           <version>5.4-SNAPSHOT</version>
       </dependency>
-       <dependency>
+      <dependency>
           <groupId>jda.modules</groupId>
           <artifactId>module-dompattern</artifactId>
           <version>5.4-SNAPSHOT</version>
