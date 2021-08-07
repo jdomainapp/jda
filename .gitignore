@@ -11,7 +11,6 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -31,13 +30,8 @@ archives/
 classes/
 data/
 dist/
-distsrc/
-disttool/
-examples/
-previousReleases/
-setup/
-src.incoming/
 build.xml
+/target
 /.settings/
 /.classpath
 /.project

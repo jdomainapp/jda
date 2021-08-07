@@ -1,0 +1,6 @@
+CourseMan Model 
+- version 2.0 
+==================================================================
+is courseman model v1.0 plus the followings:
+- reflexive association: one-one, one-many
+- many-many association
