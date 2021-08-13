@@ -25,7 +25,16 @@ public class RFSGenConfig {
   private GenerationMode genMode;
 
   private String feOutputPath;
+  
+  /** front-end project path */
+  private String feProjPath;
 
+  /** front-end project name */
+  private String feProjName;
+
+  /** front-end's shared resources for project */
+  private String feProjResource;
+  
   private Class<? extends BESpringApp> beAppClass;
 
   private Class scc;
@@ -144,6 +153,48 @@ public class RFSGenConfig {
    */
   public String getFeOutputPath() {
     return this.feOutputPath;
+  }
+
+  /**
+   * @effects return feProjPath
+   */
+  public String getFeProjPath() {
+    return feProjPath;
+  }
+
+  /**
+   * @effects set feProjPath = feProjPath
+   */
+  public void setFeProjPath(String feProjPath) {
+    this.feProjPath = feProjPath;
+  }
+
+  /**
+   * @effects return feProjName
+   */
+  public String getFeProjName() {
+    return feProjName;
+  }
+
+  /**
+   * @effects set feProjName = feProjName
+   */
+  public void setFeProjName(String feProjName) {
+    this.feProjName = feProjName;
+  }
+
+  /**
+   * @effects return feProjResource
+   */
+  public String getFeProjResource() {
+    return feProjResource;
+  }
+
+  /**
+   * @effects set feProjResource = feProjResource
+   */
+  public void setFeProjResource(String feProjResource) {
+    this.feProjResource = feProjResource;
   }
 
   /**

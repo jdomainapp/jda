@@ -2,7 +2,6 @@ package jda.modules.restfstool.config;
 
 import java.lang.annotation.Documented;
 
-import jda.modules.common.types.Null;
 import jda.modules.restfstool.backend.BESpringApp;
 
 /**
@@ -40,4 +39,13 @@ public @interface RFSGenDesc {
 
   /** frontend output path */
   String feOutputPath();
+
+  /** front-end project path */
+  String feProjPath();
+
+  /** front-end project name */
+  String feProjName();
+
+  /** front-end's shared resources for project */
+  String feProjResource();
 }
