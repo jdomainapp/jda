@@ -9,6 +9,7 @@ import com.hanu.courseman.modules.enrolment.ModuleEnrolment;
 import com.hanu.courseman.modules.student.ModuleStudent;
 import com.hanu.courseman.modules.studentclass.ModuleStudentClass;
 
+import jda.modules.common.io.ToolkitIO;
 import jda.modules.dodm.dom.DOM;
 import jda.modules.dodm.dsm.DSM;
 import jda.modules.dodm.osm.OSM;
@@ -31,7 +32,10 @@ import jda.modules.setup.model.SetUpConfig;
       StackSpec.FS, // for production
 //      StackSpec.BE, // for testing BE
     genMode = GenerationMode.SOURCE_CODE, 
-    beLangPlatform = LangPlatform.SPRING, 
+    beLangPlatform = LangPlatform.SPRING,
+    feProjPath = "/homes/ducmle/jda/modules/restfstool",
+    feProjName = "fe-courseman",
+    feProjResource = "src/main/resources/react",
     feOutputPath = "src/example/java/com/hanu/courseman/frontend",
     bePackage = "com.hanu.courseman",
     beOutputPath = "src/example/java", 
