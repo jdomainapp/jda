@@ -4,6 +4,7 @@ import jda.modules.restfstool.backend.BESoftware;
 import jda.modules.restfstool.backend.BESpringApp;
 import jda.modules.restfstool.config.RFSGenConfig;
 import jda.modules.restfstool.frontend.FEGen;
+import jda.modules.restfstool.frontend.FERun;
 import jda.modules.restfstool.util.RFSGenTk;
 
 /**
@@ -71,7 +72,8 @@ public class RFSSoftware {
    */
   public RFSSoftware run() {
     // TODO: run front end
-    
+    FERun fe = new FERun(cfg);
+    fe.start();
     // run back end
     Class<? extends BESpringApp> appCls = cfg.getBEAppClass();
     
