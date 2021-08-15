@@ -2049,6 +2049,62 @@ public class ToolkitIO {
     return System.getProperty("user.dir");
   }
 
+  /**
+   * @effects 
+   *  executes <code>command</code> in BASH shell using <code>workDir</code> as the working directory
+   *  (if specified).
+   *  Returns <code>true</code> if succeeds, <code>false</code> if otherwise 
+   */
+  public static boolean executeBashCommand(File workDir, String command) {
+    try {
+      ProcessBuilder processBuilder = new ProcessBuilder();
+      // -c: command
+      // -i: interactive shell (strictly not necessary  but needed to read ALL PATH info of the system)
+      //    helps avoid command not found error for 'npx'
+      processBuilder.command("bash", "-ci", command);
+      
+      if (workDir != null)
+          processBuilder.directory(workDir);
+      
+      Process process = processBuilder.start();
+      
+      printStream(process.getInputStream(), System.out);
+      
+      int exitCode = process.waitFor();
+      
+      if (exitCode > 0) {
+        // read error stream
+        printStream(process.getErrorStream(), System.out);
+      }
+      
+      return (exitCode == 0);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+  
+  /**
+   * @effects 
+   *  if there are buffered content in <code>instream</code>
+   *    print each line to <code>out</code>
+   *  else
+   *    do nothing
+   *  
+   *  <p>Prints stack trace if an exception occurs while processing <code>instream</code>
+   */
+  public static void printStream(InputStream instream, PrintStream out) {
+    BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
+    String line = "";
+    try {
+      while ((line = reader.readLine()) != null) {
+        out.println(line);
+      }
+    } catch (IOException e) {
+      out.println(getStackTrace(e, ENCODE_UTF8));
+    }
+  }
+  
 //  /**
 //   * @effects 
 //   *  Determine (in a most efficient way possible) the size of a {@link File} encapsulated in {@link FileInputStream} 
