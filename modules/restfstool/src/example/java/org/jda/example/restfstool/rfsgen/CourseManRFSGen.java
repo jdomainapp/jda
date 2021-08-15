@@ -6,7 +6,7 @@ import jda.modules.restfstool.RFSSoftware;
 
 /**
  * The software generator for CourseManApp.
- * @author binh_dh
+ * @author ducmle
  */
 public class CourseManRFSGen {
     

@@ -33,7 +33,7 @@ import jda.modules.setup.model.SetUpConfig;
 //      StackSpec.BE, // for testing BE
     genMode = GenerationMode.SOURCE_CODE, 
     beLangPlatform = LangPlatform.SPRING,
-    feProjPath = "/homes/ducmle/jda/modules/restfstool",
+    feProjPath = "/home/ducmle/tmp/restfstool-fe",
     feProjName = "fe-courseman",
     feProjResource = "src/main/resources/react",
     feOutputPath = "src/example/java/com/hanu/courseman/frontend",

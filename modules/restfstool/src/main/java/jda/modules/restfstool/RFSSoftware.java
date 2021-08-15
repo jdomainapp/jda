@@ -74,19 +74,20 @@ public class RFSSoftware {
     // TODO: run front end
     FERun fe = new FERun(cfg);
     fe.start();
+    
     // run back end
-    Class<? extends BESpringApp> appCls = cfg.getBEAppClass();
-    
-    if (appCls != null) {
-      if (beSw != null) {  // if BE was generated
-        beSw.run();
-      } else {  // BE already generated
-        beSw = new BESoftware(cfg)
-          .init()
-          .runLater();
-      }
-    }
-    
+//    Class<? extends BESpringApp> appCls = cfg.getBEAppClass();
+//    
+//    if (appCls != null) {
+//      if (beSw != null) {  // if BE was generated
+//        beSw.run();
+//      } else {  // BE already generated
+//        beSw = new BESoftware(cfg)
+//          .init()
+//          .runLater();
+//      }
+//    }
+//    
     return this;
   }
   
