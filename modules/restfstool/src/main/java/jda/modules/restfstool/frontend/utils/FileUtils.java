@@ -39,17 +39,6 @@ public class FileUtils {
         }
 	}
     
-    public static boolean writeFile(String content, boolean isOverwrite, String filePath) {
-    	try {
-    	    FileWriter fw = new FileWriter(filePath, isOverwrite);
-    	    fw.write(content);
-    	    fw.close();
-    	    return true;
-    	} catch (IOException e) {
-    		 throw new RuntimeException(e);
-    	}   
-    }
-    
     public static String separatorsToSystem(String res) {
         if (res==null) return null;
         if (File.separatorChar=='\\') {

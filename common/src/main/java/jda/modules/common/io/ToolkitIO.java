@@ -2061,8 +2061,11 @@ public class ToolkitIO {
       // -c: command
       // -i: interactive shell (strictly not necessary  but needed to read ALL PATH info of the system)
       //    helps avoid command not found error for 'npx'
-      processBuilder.command("bash", "-ci", command);
-      
+      if(File.separatorChar=='\\') {
+    	  processBuilder.command("cmd", "/c", command);
+      }else {
+    	  processBuilder.command("bash", "-ci", command);
+      }
       if (workDir != null)
           processBuilder.directory(workDir);
       
