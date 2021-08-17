@@ -11,9 +11,11 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.reflections.Reflections;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.qos.logback.classic.Logger;
 import jda.modules.dcsl.util.DClassTk;
 import jda.modules.restfstool.backend.base.controllers.DefaultNestedRestfulController;
 import jda.modules.restfstool.backend.base.controllers.DefaultRestfulController;
@@ -45,6 +47,8 @@ public class BESoftware {
   private Consumer<List<Class>> generateCompleteCallback;
   
   private RFSGenConfig cfg;
+
+  private static Logger logger = (Logger) LoggerFactory.getLogger("module.restfstool");
 
   public BESoftware(RFSGenConfig cfg) {
 
@@ -161,11 +165,11 @@ public class BESoftware {
     Collection<Class> comps = output.getComponents();
     Class<? extends BESpringApp> springAppCls = cfg.getBeAppClass();
 
-    System.out.println("model: " + model.length);
-    Stream.of(model).forEach(System.out::println);
+    logger.debug("model: " + model.length);
+    Stream.of(model).forEach(c -> logger.debug(c.getName()));
     
-    System.out.println("num-comps: " + comps.size());
-    comps.forEach(System.out::println);
+    logger.debug("num-comps: " + comps.size());
+    comps.forEach(c -> logger.debug(c.getName()));
 
     // run SpringBoot
     BESpringApp app = DClassTk.createObject(springAppCls, 
@@ -211,8 +215,8 @@ public class BESoftware {
       .forEach(c -> comps.add(c));
     }
     
-    System.out.println("num-comps: " + comps.size());
-    comps.forEach(System.out::println);
+    logger.debug("num-comps: " + comps.size());
+    comps.forEach(c -> logger.debug(c.getName()));
     
     // run SpringBoot
     BESpringApp app = DClassTk.createObject(springAppCls, 

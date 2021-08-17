@@ -1666,7 +1666,7 @@ public class SwTk {
       return null;
     } else {
       //debug
-      System.out.println("Module descriptors: \n" + Arrays.toString(MCCs) + "\n");
+//      System.out.println("Module descriptors: \n" + Arrays.toString(MCCs) + "\n");
       
       Collection<Class> modelCol = new ArrayList<>();
       for (Class md : MCCs) {

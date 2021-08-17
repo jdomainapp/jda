@@ -2107,6 +2107,28 @@ public class ToolkitIO {
       out.println(getStackTrace(e, ENCODE_UTF8));
     }
   }
+
+  /**
+   * @effects 
+   *  if <code>dir</code> contains <code>resource</code>
+   *    return true
+   *  else
+   *    return false
+   * @version 5.4.1
+   */
+  public static boolean dirContains(File dir, String resource) {
+    if (dir == null) return false;
+    File[] content = dir.listFiles();
+    if (content != null) {
+      for (File f : content) {
+        if (f.getName().equalsIgnoreCase(resource)) {
+          return true;
+        }
+      }
+    }
+    
+    return false;
+  }
   
 //  /**
 //   * @effects 

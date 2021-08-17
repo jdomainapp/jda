@@ -1,17 +1,30 @@
 package jda.modules.restfstool.frontend;
 
-import java.io.*;
+import java.io.File;
 
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.Logger;
 import jda.modules.common.io.ToolkitIO;
 import jda.modules.restfstool.config.RFSGenConfig;
 import jda.modules.restfstool.frontend.utils.FileUtils;
 
+/**
+ * 
+ * @overview 
+ *
+ * @author 
+ * Ha Thanh Vu<br>
+ * Duc Minh Le (ducmle)
+ *
+ * @version 5.4.1
+ */
 public class FERun extends Thread{
-	String feProjPath = "";
-	String feProjResource="";
-	String feOutputPath="";
-	String feProjName="";
-	String demoReactPath="";
+	private String feProjPath = "";
+	private String feProjResource="";
+	private String feOutputPath="";
+	private String feProjName="";
+	private String demoReactPath="";
 	
 	String indexFileContent = "<!DOCTYPE html>\r\n"
 			+ "<html lang=\"en\">\r\n"
@@ -40,7 +53,13 @@ public class FERun extends Thread{
 			+ "  </body>\r\n"
 			+ "</html>";
 	
+  private static Logger logger = (Logger) LoggerFactory.getLogger("module.restfstool");
+
 	public FERun(RFSGenConfig config) {
+	  // TODO: (ducmle) improve this to:
+	  // 1. use user.profile directory for the feParentProjPath (maven dir is not available for the case of jar distribution)
+	  // 2. read and copy resources for the case of jar-file distribution 
+	  
 		String feParentProjPath = ToolkitIO.getMavenProjectRootPath(FERun.class, true);
 		feProjPath = FileUtils.separatorsToSystem(config.getFeProjPath());
 		if(feProjPath.isEmpty()) {
@@ -71,41 +90,8 @@ public class FERun extends Thread{
 		String cmd6 = "npm install";
 		String cmd7 = "npm start";
 	
-		
-		boolean result = ToolkitIO.executeBashCommand(new File(feProjPath), cmd1);
-		if(result) {
-			result = ToolkitIO.executeBashCommand(new File(demoReactPath), cmd2);
-		}
-
-		if(result) {
-			result = ToolkitIO.executeBashCommand(new File(demoReactPath), cmd3);
-		}
-		
-		if(result) {
-			result = ToolkitIO.executeBashCommand(new File(demoReactPath), cmd4);
-		}
-		
-		if(result) {
-			result = ToolkitIO.executeBashCommand(new File(demoReactPath), cmd5);
-		}
-		
-		ToolkitIO.writeTextFile(new File(indexPath), indexFileContent, true);
-		
-		if(result) {
-			result = ToolkitIO.executeBashCommand(new File(demoReactPath), cmd6);
-		}
-		
-		if(result) {
-			result = ToolkitIO.executeBashCommand(new File(demoReactPath), cmd7);
-		}
-		
-		if(result) {
-			System.out.println("==============FINSH===========");
-		}else {
-			System.out.println("==============Error Run Front-End==============");
-		}
+    runFECmds(indexPath, cmd1, cmd2, cmd3, cmd4, cmd5, cmd6, cmd7);
 	}
-	
 	
 	public void runFEInLinux() {
 		String indexPath=demoReactPath+"/public/index.html";
@@ -118,38 +104,152 @@ public class FERun extends Thread{
 		String cmd6 = "npm install";
 		String cmd7 = "npm start";
 		
-		
-		boolean result = ToolkitIO.executeBashCommand(new File(feProjPath), cmd1);
-		if(result) {
-			result = ToolkitIO.executeBashCommand(new File(demoReactPath), cmd2);
-		}
-
-		if(result) {
-			result = ToolkitIO.executeBashCommand(new File(demoReactPath), cmd3);
-		}
-		
-		if(result) {
-			result = ToolkitIO.executeBashCommand(new File(demoReactPath), cmd4);
-		}
-		
-		if(result) {
-			result = ToolkitIO.executeBashCommand(new File(demoReactPath), cmd5);
-		}
-		
-		ToolkitIO.writeTextFile(new File(indexPath), indexFileContent, true);
-		
-		if(result) {
-			result = ToolkitIO.executeBashCommand(new File(demoReactPath), cmd6);
-		}
-		
-		if(result) {
-			result = ToolkitIO.executeBashCommand(new File(demoReactPath), cmd7);
-		}
-		
-		if(result) {
-			System.out.println("==============FINSH===========");
-		}else {
-			System.out.println("==============Error Run Front-End==============");
-		}
+    runFECmds(indexPath, cmd1, cmd2, cmd3, cmd4, cmd5, cmd6, cmd7);
 	}
+
+	/**
+	 * @requires cmds.length = 7
+	 * @effects 
+	 */
+	 public void runFECmds(String indexPath, String...cmds) {
+    File feProjDir = new File(feProjPath);
+    File demoReactDir = new File(demoReactPath);
+    
+    boolean result = true;
+    // if demoReactDir exists then do not run first command
+    if (!demoReactDir.exists() || !ToolkitIO.dirContains(demoReactDir, "package.json")) {
+      result = ToolkitIO.executeBashCommand(feProjDir, cmds[0]);
+    }
+    
+    if(result) {
+      result = ToolkitIO.executeBashCommand(demoReactDir, cmds[1]);
+    }
+  
+    if(result) {
+      result = ToolkitIO.executeBashCommand(demoReactDir, cmds[2]);
+    }
+    
+    if(result) {
+      result = ToolkitIO.executeBashCommand(demoReactDir, cmds[3]);
+    }
+    
+    if(result) {
+      result = ToolkitIO.executeBashCommand(demoReactDir, cmds[4]);
+    }
+    
+    ToolkitIO.writeTextFile(new File(indexPath), indexFileContent, true);
+    
+    if(result) {
+      result = ToolkitIO.executeBashCommand(demoReactDir, cmds[5]);
+    }
+    
+    if(result) {
+      result = ToolkitIO.executeBashCommand(demoReactDir, cmds[6]);
+    }
+    
+    if(result) {
+      logger.info("==============FINSH FERun ===========");
+    }else {
+      logger.error("Error Run Front-End");
+    }
+  }
+
+//	  public void runFEInWin() {
+//	    String indexPath=demoReactPath+"\\public\\index.html";
+//	  
+//	    File feProjDir = new File(feProjPath);
+//	    File demoReactDir = new File(demoReactPath);
+//	    
+//	    String cmd1 = "npx create-react-app "+feProjName;
+//	    String cmd2 = "mkdir src\\base && xcopy "+feProjResource+"\\base src\\base /e /i /h /y";
+//	    String cmd3 = "mkdir src\\common && xcopy "+feProjResource+"\\common src\\common /e /i /h /y";
+//	    String cmd4 = "xcopy "+feProjResource+"\\package.json "+demoReactPath+" /y";
+//	    String cmd5 = "xcopy "+feOutputPath+" "+ demoReactPath +"\\src /e /i /h /y";
+//	    String cmd6 = "npm install";
+//	    String cmd7 = "npm start";
+//	  
+//	    
+//	    boolean result = ToolkitIO.executeBashCommand(feProjDir, cmd1);
+//	    if(result) {
+//	      result = ToolkitIO.executeBashCommand(demoReactDir, cmd2);
+//	    }
+//
+//	    if(result) {
+//	      result = ToolkitIO.executeBashCommand(demoReactDir, cmd3);
+//	    }
+//	    
+//	    if(result) {
+//	      result = ToolkitIO.executeBashCommand(demoReactDir, cmd4);
+//	    }
+//	    
+//	    if(result) {
+//	      result = ToolkitIO.executeBashCommand(demoReactDir, cmd5);
+//	    }
+//	    
+//	    ToolkitIO.writeTextFile(new File(indexPath), indexFileContent, true);
+//	    
+//	    if(result) {
+//	      result = ToolkitIO.executeBashCommand(demoReactDir, cmd6);
+//	    }
+//	    
+//	    if(result) {
+//	      result = ToolkitIO.executeBashCommand(demoReactDir, cmd7);
+//	    }
+//	    
+//	    if(result) {
+//	      System.out.println("==============FINSH===========");
+//	    }else {
+//	      System.out.println("==============Error Run Front-End==============");
+//	    }
+//	  }
+//	  
+//	  
+//	  public void runFEInLinux() {
+//	    String indexPath=demoReactPath+"/public/index.html";
+//	    
+//
+//	    String cmd1 = "npx create-react-app "+feProjName;
+//	    String cmd2 = "cp -rf "+feProjResource+"/base src/";
+//	    String cmd3 = "cp -rf "+feProjResource+"/common src/";
+//	    String cmd4 = "cp -f "+feProjResource+"/package.json .";
+//	    String cmd5 = "cp -rf "+feOutputPath+"/* src/";
+//	    String cmd6 = "npm install";
+//	    String cmd7 = "npm start";
+//	    
+//	    File feProjDir = new File(feProjPath);
+//	    File demoReactDir = new File(demoReactPath);
+//	    
+//	    boolean result = ToolkitIO.executeBashCommand(new File(feProjPath), cmd1);
+//	    if(result) {
+//	      result = ToolkitIO.executeBashCommand(demoReactDir, cmd2);
+//	    }
+//
+//	    if(result) {
+//	      result = ToolkitIO.executeBashCommand(demoReactDir, cmd3);
+//	    }
+//	    
+//	    if(result) {
+//	      result = ToolkitIO.executeBashCommand(demoReactDir, cmd4);
+//	    }
+//	    
+//	    if(result) {
+//	      result = ToolkitIO.executeBashCommand(demoReactDir, cmd5);
+//	    }
+//	    
+//	    ToolkitIO.writeTextFile(new File(indexPath), indexFileContent, true);
+//	    
+//	    if(result) {
+//	      result = ToolkitIO.executeBashCommand(demoReactDir, cmd6);
+//	    }
+//	    
+//	    if(result) {
+//	      result = ToolkitIO.executeBashCommand(demoReactDir, cmd7);
+//	    }
+//	    
+//	    if(result) {
+//	      System.out.println("==============FINSH===========");
+//	    }else {
+//	      System.out.println("==============Error Run Front-End==============");
+//	    }
+//	  }
 }
