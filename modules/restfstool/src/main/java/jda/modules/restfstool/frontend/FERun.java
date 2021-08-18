@@ -83,8 +83,8 @@ public class FERun extends Thread{
 		String indexPath=demoReactPath+"\\public\\index.html";
 	
 		String cmd1 = "npx create-react-app "+feProjName;
-		String cmd2 = "mkdir src\\base && xcopy "+feProjResource+"\\base src\\base /e /i /h /y";
-		String cmd3 = "mkdir src\\common && xcopy "+feProjResource+"\\common src\\common /e /i /h /y";
+		String cmd2 = "xcopy "+feProjResource+"\\base src\\base /i /h /y";
+		String cmd3 = "xcopy "+feProjResource+"\\common src\\common /i /h /y";
 		String cmd4 = "xcopy "+feProjResource+"\\package.json "+demoReactPath+" /y";
 		String cmd5 = "xcopy "+feOutputPath+" "+ demoReactPath +"\\src /e /i /h /y";
 		String cmd6 = "npm install";
