@@ -27,8 +27,8 @@ import jda.modules.setup.model.SetUpConfig;
 
 @RFSGenDesc(
     stackSpec = 
-      StackSpec.FE, // for testing FE
-//      StackSpec.FS, // for production
+//      StackSpec.FE, // for testing FE
+      StackSpec.FS, // for production
 //      StackSpec.BE, // for testing BE
     genMode = GenerationMode.SOURCE_CODE, 
     beLangPlatform = LangPlatform.SPRING,
