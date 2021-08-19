@@ -70,7 +70,7 @@ public class FEReactApp extends Thread {
 		feProjResource = feParentProjPath+File.separator+ FileUtils.separatorsToSystem(config.getFeProjResource());
 		feProjName = config.getFeProjName();
 		demoReactPath = feProjPath+ File.separator+ feProjName;
-	};
+	}
 
 	public void run() {
 		if (File.separatorChar=='\\') {

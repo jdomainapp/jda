@@ -9,10 +9,9 @@ import com.hanu.courseman.modules.enrolment.ModuleEnrolment;
 import com.hanu.courseman.modules.student.ModuleStudent;
 import com.hanu.courseman.modules.studentclass.ModuleStudentClass;
 
-import jda.modules.common.io.ToolkitIO;
 import jda.modules.dodm.dom.DOM;
 import jda.modules.dodm.dsm.DSM;
-import jda.modules.dodm.osm.OSM;
+import jda.modules.dodm.osm.postgresql.PostgreSQLOSM;
 import jda.modules.mccl.conceptmodel.Configuration.Language;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
 import jda.modules.restfstool.config.GenerationMode;
@@ -28,8 +27,8 @@ import jda.modules.setup.model.SetUpConfig;
 
 @RFSGenDesc(
     stackSpec = 
-//      StackSpec.FE, // for testing FE
-      StackSpec.FS, // for production
+      StackSpec.FE, // for testing FE
+//      StackSpec.FS, // for production
 //      StackSpec.BE, // for testing BE
     genMode = GenerationMode.SOURCE_CODE, 
     beLangPlatform = LangPlatform.SPRING,
@@ -47,17 +46,17 @@ import jda.modules.setup.model.SetUpConfig;
         splashScreenLogo = "coursemanapplogo.jpg",
         language = Language.English,
         orgDesc = @OrgDesc(name = "Faculty of IT",
-                address = "K1m9 Nguyen Trai Street, Thanh Xuan District",
+                address = "Hanoi, Vietnam",
                 logo = "hanu.gif",
-                url = "http://localhost:5432/domains"),
+                url = "http://swinburne.edu.vn"),
         dsDesc = @DSDesc(
                 type = "postgresql",
-                dsUrl = "http://localhost:5432/domains",
+                dsUrl = "//localhost:5432/domainds",
                 user = "admin",
                 password = "password",
                 dsmType = DSM.class,
                 domType = DOM.class,
-                osmType = OSM.class,
+                osmType = PostgreSQLOSM.class,
                 connType = ConnectionType.Client),
         modules = {
                 ModuleMain.class,

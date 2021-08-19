@@ -1,6 +1,7 @@
 package jda.mosa.software.impl;
 
 import jda.modules.common.exceptions.NotImplementedException;
+import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.jdatool.DomainAppTool;
 import jda.modules.setup.model.SetUpGen;
 import jda.mosa.software.aio.SoftwareAio;
@@ -21,12 +22,22 @@ import jda.mosa.software.aio.SoftwareAio;
  */
 public class WebSoftware extends DomSoftware {
   
+
+
   /**
    * @effects 
-   *  initialises this with a suitable setup class.
+   *
    */
-  public WebSoftware(Class<? extends SetUpGen> setUpCls) {
-    super(setUpCls);
+  public WebSoftware(Class scc, Class<? extends SetUpGen> setUpCls) {
+    super(scc, setUpCls);
+  }
+
+  /**
+   * @effects 
+   *
+   */
+  public WebSoftware(Class scc) throws NotPossibleException {
+    super(scc);
   }
 
   /**

@@ -1,5 +1,6 @@
 package jda.mosa.software.impl;
 
+import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.jdatool.DomainAppTool;
 import jda.modules.setup.model.SetUpGen;
 import jda.mosa.software.aio.SoftwareAio;
@@ -24,10 +25,17 @@ public class UISoftware extends DomSoftware {
   /**
    * @effects 
    *
-   * @version 
    */
-  public UISoftware(Class<? extends SetUpGen> setUpCls) {
-    super(setUpCls);
+  public UISoftware(Class scc) throws NotPossibleException {
+    super(scc);
+  }
+
+  /**
+   * @effects 
+   *
+   */
+  public UISoftware(Class scc, Class<? extends SetUpGen> setUpCls) {
+    super(scc, setUpCls);
   }
 
   /**

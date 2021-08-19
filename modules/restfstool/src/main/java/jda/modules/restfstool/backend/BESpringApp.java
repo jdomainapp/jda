@@ -23,7 +23,9 @@ import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.restfstool.backend.base.controllers.ServiceRegistry;
 import jda.modules.restfstool.backend.base.services.CrudService;
+import jda.modules.restfstool.config.RFSGenConfig;
 import jda.mosa.software.SoftwareFactory;
+import jda.mosa.software.impl.DomSoftware;
 import jda.mosa.software.impl.SoftwareImpl;
 
 /**
@@ -44,10 +46,14 @@ public abstract class BESpringApp implements Consumer<List<Class>>{
   private static final List<Class> generatedClasses = new ArrayList<>();
   private static SoftwareImpl sw;
   
-  private Class<?>[] model;
+  private RFSGenConfig cfg;
 
-  public BESpringApp(Class<?>[] models) {
-    this.model = models;
+  public BESpringApp() {
+    // for SpringBoot
+  }
+  
+  public BESpringApp(RFSGenConfig cfg) {
+    this.cfg = cfg;
   }
   
   /**
@@ -67,10 +73,20 @@ public abstract class BESpringApp implements Consumer<List<Class>>{
     run(_generatedClasses);
   }
   
+  /**
+   * @effects 
+   *  create a {@link SpringBootApplication} from <code>components</code> and 
+   *  run it. The web application is served using the default port (8080).
+   *  
+   *  <p>The data management back-end is managed by a {@link DomSoftware} that is created
+   *  as a bean (see {@link #getSoftwareImpl()} using the data source configuration specified in <code>cfg</code>.
+   */
   public void run(Collection<? extends Class> components) {
     generatedClasses.addAll(components);
-    sw = SoftwareFactory.createDefaultDomSoftware();
+    sw = SoftwareFactory.createStandardDomSoftware(cfg.getSCC());
     sw.init();
+    
+    Class<?>[] model = cfg.getDomainModel();
     try {
         sw.addClasses(model);
         sw.loadObjects(model);
@@ -109,6 +125,11 @@ public abstract class BESpringApp implements Consumer<List<Class>>{
       return sw;
   }
 
+//  @Bean
+//  public RFSGenConfig getCfg() {
+//      return cfg;
+//  }
+  
   @Bean
   public Jackson2ObjectMapperBuilderCustomizer addCustomBigDecimalDeserialization() {
       return builder -> builder.dateFormat(new SimpleDateFormat("yyyy-MM-dd"))

@@ -40,7 +40,7 @@ public class OSMFactory {
       DOMBasic dom) {
     try {
       // invoke the constructor to create object 
-      //OSM instance = osmType.getConstructor(OsmConfig.class, DOMBasic.class).newInstance(config, dom);
+      // OSM instance = osmType.getConstructor(OsmConfig.class, DOMBasic.class).newInstance(config, dom);
       Constructor<? extends OSM> cons = osmType.getConstructor(OsmConfig.class, DOMBasic.class);
       
       OSM instance = cons.newInstance(config, dom);

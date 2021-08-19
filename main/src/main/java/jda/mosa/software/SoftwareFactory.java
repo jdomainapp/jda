@@ -558,19 +558,28 @@ public class SoftwareFactory {
 
   /**
    * @effects 
-   *  create and return a standard Swing-based software object
+   *  create and return a standard DOM software object from the configuration recorded in <code>scc</code>
+   * @version 5.4.1
    */
-  public static UISoftware createUIDomSoftware() {
-    return new UISoftware(DomainAppToolSetUpGen.class);
+  public static DomSoftware createStandardDomSoftware(Class scc) {
+    return new DomSoftware(scc);
   }
   
   /**
    * @effects 
-   *   create and return a web-based software object  
+   *  create and return a standard Swing-based software object
    */
-  public static WebSoftware createWebSoftware(Class scc) {
-    // TODO: use a standard SCC 
-    // return new WebSoftware(DomainAppToolSetUpGen.class);
-    throw new NotImplementedException("Not yet implemented");
+  public static UISoftware createUIDomSoftware() {
+    return new UISoftware(null, DomainAppToolSetUpGen.class);
   }
+  
+//  /**
+//   * @effects 
+//   *   create and return a web-based software object  
+//   */
+//  public static WebSoftware createWebSoftware(Class scc) {
+//    // TODO: use a standard SCC 
+//    // return new WebSoftware(DomainAppToolSetUpGen.class);
+//    throw new NotImplementedException("Not yet implemented");
+//  }
 }

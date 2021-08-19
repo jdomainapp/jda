@@ -12,7 +12,7 @@ import jda.modules.restfstool.RFSSoftware;
  *
  * @version 
  */
-public class CourseManBESoftware {
+public class CourseManSoftware {
   
   public static void main(String[] args) {
     Class scc = SCCCourseMan.class;

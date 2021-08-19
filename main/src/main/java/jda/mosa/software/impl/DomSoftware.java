@@ -21,15 +21,19 @@ public class DomSoftware extends SoftwareImpl {
   final static Class SysCls = DefaultSystemClass.class;
   
   public DomSoftware() throws NotPossibleException {
-    super(// system class with JavaDb
+    this(// system class with JavaDb
         SysCls);
+  }
+  
+  public DomSoftware(Class scc) throws NotPossibleException {
+    super(scc);
   }
   
   /**
    * @effects 
    */
-  public DomSoftware(Class<? extends SetUpGen> setUpCls) {
-    super(SysCls, setUpCls);
+  public DomSoftware(Class scc, Class<? extends SetUpGen> setUpCls) {
+    super(scc == null ? SysCls : scc, setUpCls);
   }
 
   /**
