@@ -2051,19 +2051,21 @@ public class ToolkitIO {
 
   /**
    * @effects 
-   *  executes <code>command</code> in BASH shell using <code>workDir</code> as the working directory
+   *  executes <code>command</code> in the system shell using <code>workDir</code> as the working directory
    *  (if specified).
-   *  Returns <code>true</code> if succeeds, <code>false</code> if otherwise 
+   *  Returns <code>true</code> if succeeds, <code>false</code> if otherwise
+   *  
+   *  <p>System shell (Windows or Linux) is determined based on the OS's feature. 
    */
-  public static boolean executeBashCommand(File workDir, String command) {
+  public static boolean executeSysCommand(File workDir, String command) {
     try {
       ProcessBuilder processBuilder = new ProcessBuilder();
       // -c: command
       // -i: interactive shell (strictly not necessary  but needed to read ALL PATH info of the system)
       //    helps avoid command not found error for 'npx'
-      if(File.separatorChar=='\\') {
+      if(File.separatorChar=='\\') {  // windows
     	  processBuilder.command("cmd", "/c", command);
-      }else {
+      }else { // linux
     	  processBuilder.command("bash", "-ci", command);
       }
       if (workDir != null)

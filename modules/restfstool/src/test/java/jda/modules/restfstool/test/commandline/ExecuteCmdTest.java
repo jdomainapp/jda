@@ -28,7 +28,7 @@ public class ExecuteCmdTest {
     
     cmds.forEach((cmd, dir) -> {
       System.out.println("--> Executing command: " + cmd + "; Dir: " + dir);
-      boolean result = ToolkitIO.executeBashCommand(dir, cmd);
+      boolean result = ToolkitIO.executeSysCommand(dir, cmd);
       System.out.println("...result: " + result);
     });
   }

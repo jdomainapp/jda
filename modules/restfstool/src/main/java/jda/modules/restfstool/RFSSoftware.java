@@ -2,12 +2,12 @@ package jda.modules.restfstool;
 
 import org.slf4j.LoggerFactory;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import jda.modules.restfstool.backend.BESoftware;
 import jda.modules.restfstool.backend.BESpringApp;
 import jda.modules.restfstool.config.RFSGenConfig;
-import jda.modules.restfstool.frontend.FEGen;
-import jda.modules.restfstool.frontend.FERun;
+import jda.modules.restfstool.frontend.FESoftware;
 import jda.modules.restfstool.util.RFSGenTk;
 
 /**
@@ -23,10 +23,14 @@ public class RFSSoftware {
   private Class<?> scc;
   private RFSGenConfig cfg;
   
+  private FESoftware feSw;
   private BESoftware beSw;
 
   private static Logger logger = (Logger) LoggerFactory.getLogger("module.restfstool");
   
+  static {
+    logger.setLevel(Level.INFO);
+  }
   /**
    * @effects 
    *  Initialises this with a configuration defined in <code>scc</code>
@@ -57,7 +61,9 @@ public class RFSSoftware {
   public RFSSoftware generate() {
     // generate front-end
     if (cfg.getStackSpec().includesFE()) {
-      new FEGen().run(cfg);
+      feSw = new FESoftware(cfg)
+      .init()
+      .generate();
     }
     
     // generate back-end
@@ -78,8 +84,15 @@ public class RFSSoftware {
   public RFSSoftware run() {
     // run front end
     logger.info("RUNNING FRONT-END...");
-    FERun fe = new FERun(cfg);
-    fe.start();
+//    FERun fe = new FERun(cfg);
+//    fe.start();
+    if (feSw != null) {
+      feSw.run();
+    } else {
+      feSw = new FESoftware(cfg)
+          .init()
+          .run();
+    }
     
     // run back end
     logger.info("RUNNING BACK-END...");
