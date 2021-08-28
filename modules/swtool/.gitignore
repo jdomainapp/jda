@@ -23,13 +23,13 @@
 
 /bin/
 /classes/
-/target/
+target/
 *.iml
 /data
 /.idea
 *.DS_Store
 /lib/
 /.vscode
-/.classpath
-/.project
-/.settings/
+.classpath
+.project
+.settings
