@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>jda.modules</groupId>
+    <artifactId>jda-module-root</artifactId>
+    <version>5.4-SNAPSHOT</version>
+  </parent>
+  
+  <artifactId>module-mccltool</artifactId>
+  <version>5.4-SNAPSHOT</version>
+  <name>Module: MCCL Tool chain</name>
+  <description>Set of tools for the MCCL language</description>
+  
+  <dependencies>
+    <!-- MCCL -->
+    <dependency>
+      <groupId>jda.modules</groupId>
+      <artifactId>module-mccl</artifactId>
+      <version>5.4-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+</project>
