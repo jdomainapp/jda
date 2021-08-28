@@ -14,6 +14,7 @@ import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.common.io.ToolkitIO;
 import jda.modules.dcsl.parser.ClassAST;
+import jda.modules.dcsl.parser.Dom;
 import jda.modules.dcsl.parser.SourceModel;
 import jda.modules.mccl.util.DomainConstants;
 
@@ -31,9 +32,15 @@ public class MCCModel {
   /** all the {@link MCC}s mapped by FQNs of their corresponding {@link ClassAST} */
   private Map<String, MCC> mccMap;
 
-  private SourceModel sourceModel;
+  // v5.4.1: 
+  //private SourceModel sourceModel;
+//  public MCCModel(SourceModel sourceModel) {
+//    this.sourceModel = sourceModel;
+//    mccMap = new HashMap<>();
+//  }
+  private Dom sourceModel;
 
-  public MCCModel(SourceModel sourceModel) {
+  public MCCModel(Dom sourceModel) {
     this.sourceModel = sourceModel;
     mccMap = new HashMap<>();
   }
@@ -452,14 +459,15 @@ public class MCCModel {
     mccMap.remove(fqn);
   }
 
-  /**
-   * @effects 
-   *  if {@link #sourceModel} is initialised
-   *    return it
-   *  else
-   *    return null
-   */
-  public SourceModel getSourceModel() {
-    return sourceModel;
-  }
+//   v5.4.1
+//  /**
+//   * @effects 
+//   *  if {@link #sourceModel} is initialised
+//   *    return it
+//   *  else
+//   *    return null
+//   */
+//  public SourceModel getSourceModel() {
+//    return sourceModel;
+//  }
 }

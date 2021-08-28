@@ -5,6 +5,9 @@ package jda.modules.dcsl.parser.statespace.parser;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
@@ -41,6 +44,8 @@ public class AttribPropertyVisitor extends VoidVisitorAdapter<MetaAttrDef> {
   
   private String pkgName;
   private List<String> imports;
+  
+  private static Logger logger = LoggerFactory.getLogger(AttribPropertyVisitor.class.getSimpleName());
   
   /**
    * @effects 
@@ -128,8 +133,9 @@ public class AttribPropertyVisitor extends VoidVisitorAdapter<MetaAttrDef> {
           clazz = Class.forName(fqn);
           val = clazz;
         } catch (ClassNotFoundException e) {
-          e.printStackTrace();
+//          e.printStackTrace();
 //          System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
+          logger.warn("{}: {}", e.getClass().getSimpleName(), fqn);
           
           val = null;
         }

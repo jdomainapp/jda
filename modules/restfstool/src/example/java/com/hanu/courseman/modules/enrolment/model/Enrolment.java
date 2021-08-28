@@ -47,7 +47,7 @@ public class Enrolment implements Comparable, Publisher {
           ascType = AssocType.One2Many, endType = AssocEndType.Many,
           associate = @Associate(type = Student.class, cardMin = 1, cardMax = 1), dependsOn = true)
   @JsonIgnoreProperties("enrolments")
-  @JsonDeserialize(using = Deserializers.StudentDeserializer.class)
+  @JsonDeserialize(using = Deserializers.StudDeserializer.class)
   private Student student;
 
   @DAttr(name = "courseModule", type = Type.Domain, length = 5, optional = false)
@@ -55,7 +55,7 @@ public class Enrolment implements Comparable, Publisher {
           ascType = AssocType.One2Many, endType = AssocEndType.Many,
           associate = @Associate(type = CourseModule.class, cardMin = 1, cardMax = 1), dependsOn = true)
   @JsonIgnoreProperties("enrolments")
-  @JsonDeserialize(using = Deserializers.CourseModuleDeserializer.class)
+  @JsonDeserialize(using = Deserializers.CModDeserializer.class)
   private CourseModule courseModule;
 
   @DAttr(name = AttributeName_InternalMark, type = Type.Double, length = 4, optional = true, min = 0.0)

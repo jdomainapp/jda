@@ -2,9 +2,9 @@ package jda.modules.restfstool.frontend;
 
 import java.io.File;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ch.qos.logback.classic.Logger;
 import jda.modules.common.io.ToolkitIO;
 import jda.modules.restfstool.config.RFSGenConfig;
 import jda.modules.restfstool.frontend.utils.FileUtils;

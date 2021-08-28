@@ -20,12 +20,14 @@
   
   <modules>
     <module>mccl</module>
-<!--     <module>sccl</module>
-    <module>mbsl</module>
-    <module>apml</module>
+    <module>mccltool</module>
+    <module>sccl</module>
+    <module>sccltool</module>
     <module>dcsltool</module>
- -->    
- <module>dompattern</module>
+<!--     <module>mbsl</module>
+    <module>apml</module>
+ -->
+  <module>dompattern</module>
  <module>restfstool</module>
 <!--     <module>plugineclipse</module> -->
   </modules>

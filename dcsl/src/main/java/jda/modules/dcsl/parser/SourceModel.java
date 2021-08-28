@@ -16,7 +16,7 @@ import jda.modules.common.io.ToolkitIO;
  * @version 5.2
  * @deprecated since 5.4, use {@link Dom} instead.
  */
-public class SourceModel {
+public class SourceModel extends Dom {
 
   /** full path to the directory of the root 'src' folder, which contains all classes in this model. 
    * This is usually the 'src' folder of the Java project*/
@@ -25,6 +25,8 @@ public class SourceModel {
   private Map<String,ClassAST> clsMap;
   
   public SourceModel(String rootSrcPath) {
+    super(rootSrcPath); // v5.4.1
+    
     this.rootSrcPath = rootSrcPath;
     
     clsMap = new HashMap<>();

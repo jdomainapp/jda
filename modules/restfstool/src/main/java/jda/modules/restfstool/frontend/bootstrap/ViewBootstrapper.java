@@ -1,27 +1,5 @@
 package jda.modules.restfstool.frontend.bootstrap;
 
-import com.hanu.courseman.SCC1;
-import com.hanu.courseman.modules.address.ModuleAddress;
-import com.hanu.courseman.modules.address.model.Address;
-import com.hanu.courseman.modules.coursemodule.ModuleCourseModule;
-import com.hanu.courseman.modules.coursemodule.model.CompulsoryModule;
-import com.hanu.courseman.modules.coursemodule.model.CourseModule;
-import com.hanu.courseman.modules.coursemodule.model.ElectiveModule;
-import com.hanu.courseman.modules.enrolment.ModuleEnrolment;
-import com.hanu.courseman.modules.enrolment.model.Enrolment;
-import com.hanu.courseman.modules.student.ModuleStudent;
-import com.hanu.courseman.modules.student.model.Student;
-import com.hanu.courseman.modules.studentclass.ModuleStudentClass;
-import com.hanu.courseman.modules.studentclass.model.StudentClass;
-
-import jda.modules.mccl.conceptualmodel.MCC;
-import jda.modules.restfstool.frontend.models.common.MCCRegistry;
-import jda.modules.restfstool.frontend.models.nonviews.AppEntryPoint;
-import jda.modules.restfstool.frontend.models.nonviews.FrontendModule;
-import jda.modules.restfstool.frontend.models.views.HasSubView;
-import jda.modules.restfstool.frontend.models.views.View;
-import jda.modules.restfstool.frontend.utils.MCCUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,6 +8,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import jda.modules.mccl.conceptualmodel.MCC;
+import jda.modules.restfstool.frontend.models.common.MCCRegistry;
+import jda.modules.restfstool.frontend.models.nonviews.AppEntryPoint;
+import jda.modules.restfstool.frontend.models.nonviews.FrontendModule;
+import jda.modules.restfstool.frontend.models.views.HasSubView;
+import jda.modules.restfstool.frontend.models.views.View;
+import jda.modules.restfstool.frontend.utils.MCCUtils;
 
 public final class ViewBootstrapper {
     private static final String EXTENSION = ".js";
@@ -132,41 +118,41 @@ public final class ViewBootstrapper {
         saveFile("", fileName, content);
     }
 
-    public static void main(String[] args) {
-        // initialize the model
-        final Class<?>[] models = {
-                CourseModule.class,
-                Enrolment.class,
-                Student.class,
-                Address.class,
-                StudentClass.class,
-                CompulsoryModule.class,
-                ElectiveModule.class
-        };
-        // initialize module classes
-        // one module per INHERITANCE TREE
-        final Class<?>[] modules = {
-                ModuleCourseModule.class,
-                ModuleEnrolment.class,
-                ModuleStudent.class,
-                ModuleAddress.class,
-                ModuleStudentClass.class
-        };
-        final MCC[] mccs = {
-                MCCUtils.readMCC(CourseModule.class, ModuleCourseModule.class),
-                MCCUtils.readMCC(Enrolment.class, ModuleEnrolment.class),
-                MCCUtils.readMCC(Student.class, ModuleStudent.class),
-                MCCUtils.readMCC(Address.class, ModuleAddress.class),
-                MCCUtils.readMCC(StudentClass.class, ModuleStudentClass.class)
-        };
-
-
-        Class sccClass = SCC1.class;
-
-//        ViewBootstrapper bootstrapper = new ViewBootstrapper(
-//                "/Users/binh_dh/Downloads/generated", sccClass, ModuleMain.class,
-//                models, mccs);
-//        System.out.println(bootstrapper);
-//        bootstrapper.bootstrapAndSave();
-    }
+//    public static void main(String[] args) {
+//        // initialize the model
+//        final Class<?>[] models = {
+//                CourseModule.class,
+//                Enrolment.class,
+//                Student.class,
+//                Address.class,
+//                StudentClass.class,
+//                CompulsoryModule.class,
+//                ElectiveModule.class
+//        };
+//        // initialize module classes
+//        // one module per INHERITANCE TREE
+//        final Class<?>[] modules = {
+//                ModuleCourseModule.class,
+//                ModuleEnrolment.class,
+//                ModuleStudent.class,
+//                ModuleAddress.class,
+//                ModuleStudentClass.class
+//        };
+//        final MCC[] mccs = {
+//                MCCUtils.readMCC(CourseModule.class, ModuleCourseModule.class),
+//                MCCUtils.readMCC(Enrolment.class, ModuleEnrolment.class),
+//                MCCUtils.readMCC(Student.class, ModuleStudent.class),
+//                MCCUtils.readMCC(Address.class, ModuleAddress.class),
+//                MCCUtils.readMCC(StudentClass.class, ModuleStudentClass.class)
+//        };
+//
+//
+//        Class sccClass = SCC1.class;
+//
+////        ViewBootstrapper bootstrapper = new ViewBootstrapper(
+////                "/Users/binh_dh/Downloads/generated", sccClass, ModuleMain.class,
+////                models, mccs);
+////        System.out.println(bootstrapper);
+////        bootstrapper.bootstrapAndSave();
+//    }
 }

@@ -6,9 +6,13 @@ import BaseListItemView from "../base/BaseListItemView";
 export default class StudentListView extends BaseListView {
   renderVisibleColumns() {
     return (<>
-      <th>ID</th>
-<th>Name</th>
+      <th>Student ID</th>
+<th>Full Name</th>
+<th>Gender</th>
+<th>Date of birth</th>
+<th>Email</th>
 <th>Address</th>
+<th>Student class</th>
       </>);
 
   }
@@ -41,7 +45,11 @@ class StudentListItemView extends BaseListItemView {
     return (<>
       <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.id)}</td>
 <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.name)}</td>
+<td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.gender)}</td>
+<td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.dob)}</td>
+<td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.email)}</td>
 <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.address)}</td>
+<td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.studentClass)}</td>
       </>);
   }
   //

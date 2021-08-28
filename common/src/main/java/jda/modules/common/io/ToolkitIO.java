@@ -36,6 +36,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
@@ -80,6 +81,9 @@ public class ToolkitIO {
       return name.endsWith(FILE_JAVA_EXT);
     }
   };
+  
+  /** A {@link Scanner} that wraps out System.in */
+  private static Scanner InputScanner;
 
   
   private ToolkitIO() {}
@@ -1497,12 +1501,16 @@ public class ToolkitIO {
   }
 
   /**
+   * This method does not create the folder path elements if they donot exist. 
+   * For this behaviour, see {@link #touchPath(String)}.
+   *  
    * @requires 
    *  folder != null
    * @effects 
    *  if <tt>folder</tt> does not exists
    *    create it in the local file system or 
    *    throws NotPossibleException if failed to do so 
+   *  
    */
   public static void createFolderIfNotExists(File folder) throws NotPossibleException {
     if (folder == null) 
@@ -1517,6 +1525,9 @@ public class ToolkitIO {
   }
 
   /**
+   * This method does not create the folder path elements if they donot exist. 
+   * For this behaviour, see {@link #touchPath(String)}.
+   *  
    * @effects 
    *  if the folder whose path is <tt>folderPath</tt> does not exist
    *    create it or 
@@ -1563,11 +1574,15 @@ public class ToolkitIO {
    * @effects 
    *  if there exists Java files (.java) in the package <tt>srcPkg</tt> of <tt>rootSrcPath</tt>
    *    create in <tt>destPkg</tt> a 'refactored copy' of each by replacing the class name with a new name containing <tt>newNameId</tt> as the suffix 
-   *    (i.e. <tt>ClassA</tt> becomes <tt>classA + newNameId</tt>)
+   *    (i.e. <tt>ClassA</tt> becomes <tt>classA + newNameId</tt>).
+   *    
+   *    return {@link Map}(FQN,File) which maps FQN of each new class to its {@link File}.
    *    
    *   <p>Throws {@link NotPossibleException} if fails for some reasons.
+   * @version 
+   *  - 5.4.1: added return type to ease processing   
    */
-  public static void refactorSrcFilesInPkg(String rootSrcPath, String srcPkg,
+  public static Map<String,File> refactorSrcFilesInPkg(String rootSrcPath, String srcPkg,
       int newNameId, String destPkg) throws NotPossibleException {
     String dirPath = ToolkitIO.getPath(
         rootSrcPath, ToolkitIO.splitPackageName(srcPkg)).toString();
@@ -1579,7 +1594,9 @@ public class ToolkitIO {
     
     // read files in dirPath
     File sd = new File(dirPath);
-    File[] files = sd.listFiles();
+    File[] files = sd.listFiles(
+        JavaFileFilter  // v5.4.1
+        );
     Map<File, Tuple2<String,String>> fileMap = new HashMap<>();
     
     if (files != null) {
@@ -1599,6 +1616,9 @@ public class ToolkitIO {
        */
       Collection<Tuple2<String,String>> newNames = fileMap.values();
       boolean toOverwrite = true;
+      
+      // ducmle: 5.4.1
+      Map<String,File> destFiles = new HashMap<>();
       
       for (Entry<File, Tuple2<String,String>> e : fileMap.entrySet()) {
         File f = e.getKey();
@@ -1630,10 +1650,16 @@ public class ToolkitIO {
         }
         
         File newFile = ToolkitIO.writeJavaSourceFile(destDirPath, newName, newContent.toString(), toOverwrite);
+        String newClsFQN = destPkg + "." + newName;
+        destFiles.put(newClsFQN, newFile);  // v5.4.1
         if (debug) System.out.printf("  written to new file: %s%n", newFile.getName());
       }
+      
+      return destFiles; // v5.4.1
     } else {
       if (debug) System.out.printf("  folder is empty: %s%n", sd);
+      
+      return null; // v5.4.1
     }
   }
   
@@ -1988,7 +2014,7 @@ public class ToolkitIO {
   /**
    * @effects 
    *  if subPath is not yet created in dir
-   *    create and return its full path
+   *    create and return its full path (all path elements that have not yet existed will also be created)
    *  else
    *    return the path 
    *    
@@ -2014,7 +2040,7 @@ public class ToolkitIO {
    *  if path is a valid directory path
    *    return true
    *  else 
-   *    create the directories in the path
+   *    create the directories in the path  (including all path elements that have not yet)
    *    return true if succeeds, false if fails
    * @version 5.4
    */
@@ -2130,6 +2156,36 @@ public class ToolkitIO {
     }
     
     return false;
+  }
+
+  /**
+   * @effects 
+   *  displays the requested prompt message and wait for user to enter any key.
+   *  
+   * @version 5.4.1
+   */
+  public static void promptAny(String string) {
+    System.out.print(string);
+    Scanner inputScanner = getInputScanner();
+    inputScanner.nextLine();
+  }
+
+  /**
+   * @effects 
+   *  if InputScanner has not been initialised
+   *    initialise it to wrap arround System.in
+   *    return InputScanner
+   *  else
+   *    do nothing
+   * @version 5.4.1
+   * 
+   */
+  private static Scanner getInputScanner() {
+    if (InputScanner == null) {
+      InputScanner = new Scanner(System.in);
+    }
+    
+    return InputScanner;
   }
   
 //  /**

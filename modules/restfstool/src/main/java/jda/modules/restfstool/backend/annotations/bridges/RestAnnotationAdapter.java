@@ -13,7 +13,7 @@ public interface RestAnnotationAdapter {
 
     public static RestAnnotationAdapter adaptTo(LangPlatform type) {
         switch (type) {
-            case JAX_RS: return new JaxRsRestAnnotationAdapter();
+// ducmle:        case JAX_RS: return new JaxRsRestAnnotationAdapter();
             case SPRING: return new SpringRestAnnotationAdapter();
             default:
                 return null;

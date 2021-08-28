@@ -1,8 +1,8 @@
 package jda.modules.restfstool.frontend;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ch.qos.logback.classic.Logger;
 import jda.modules.restfstool.config.RFSGenConfig;
 import jda.modules.restfstool.frontend.bootstrap.ViewBootstrapper;
 

@@ -20,7 +20,8 @@
         <jersey.version>3.0.1</jersey.version>
         <!--    <jetty.version>11.0.1</jetty.version>-->
         <jetty.version>9.4.38.v20210224</jetty.version>
-        <mainClass>examples.domainapp.modules.webappgen.complete.CourseManAppGenerator</mainClass>
+<!--         <mainClass>examples.domainapp.modules.webappgen.complete.CourseManAppGenerator</mainClass>
+ -->    
     </properties>
     <!-- END: PROPERTIES -->
 
@@ -146,11 +147,21 @@
           <artifactId>jersey-container-servlet</artifactId>
           <version>${jersey.version}</version>
       </dependency>
-      <dependency>
+      <!-- <dependency>
           <groupId>org.glassfish.jersey.bundles</groupId>
           <artifactId>jaxrs-ri</artifactId>
           <version>${jersey.version}</version>
-      </dependency>
+          <exclusions>
+             <exclusion>
+		        <groupId>jakarta.json</groupId>
+    			<artifactId>jakarta.json-api</artifactId>
+             </exclusion>
+             <exclusion>
+		        <groupId>org.glassfish</groupId>
+    			<artifactId>jakarta.json</artifactId>
+             </exclusion>     
+          </exclusions>
+      </dependency> -->
       <!-- END: JERSEY/JAXRS -->
 
       <!-- BYTEBUDDY -->
@@ -191,8 +202,29 @@
 
       <!-- DOMAINAPP -->
       <dependency>
+          <!-- exclude json libraries (already present in other dependencies of this module) -->
+          <groupId>jda</groupId>
+          <artifactId>jda-common</artifactId>
+          <version>5.4-SNAPSHOT</version>
+          <!-- <exclusions>
+             <exclusion>
+		        <groupId>javax.json</groupId>
+		        <artifactId>javax.json-api</artifactId>
+             </exclusion>
+             <exclusion>
+		        <groupId>org.glassfish</groupId>
+		        <artifactId>javax.json</artifactId>
+             </exclusion>
+          </exclusions> -->
+      </dependency>
+      <dependency>
           <groupId>jda.modules</groupId>
           <artifactId>module-mccl</artifactId>
+          <version>5.4-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+          <groupId>jda.modules</groupId>
+          <artifactId>module-swtool</artifactId>
           <version>5.4-SNAPSHOT</version>
       </dependency>
       <dependency>
@@ -200,23 +232,6 @@
           <artifactId>module-dompattern</artifactId>
           <version>5.4-SNAPSHOT</version>
       </dependency>
-      <!--
-      <dependency>
-          <groupId>domainapp</groupId>
-          <artifactId>domainapp</artifactId>
-          <version>5.2</version>
-      </dependency>
-      <dependency>
-          <groupId>domainapp</groupId>
-          <artifactId>modules-mccl-core</artifactId>
-          <version>5.2</version>
-      </dependency>
-      <dependency>
-          <groupId>domainapp</groupId>
-          <artifactId>modules-common</artifactId>
-          <version>5.2</version>
-      </dependency>
-      -->
       <!-- END: DOMAINAPP -->
 
       <dependency>

@@ -2806,15 +2806,52 @@ public class ParserToolkit {
 
   /**
    * @effects 
-   *  convert val to a {@link Expression}, suitable for being set to value of a 
-   *  {@link MemberValuePair} of an {@link AnnotationExpr}.
+   *  create and return a {@link NormalAnnotationExpr} from <code>jsonObj</code>, which holds the 
+   *  data structure of the annotation.
    *  
-   *  Return the expression.
-   *   
    * @version 5.4
-   * @param valType 
    */
   public static NormalAnnotationExpr createAnoPropValExpr(final JsonObject jsonObj, 
+      final Class<? extends Annotation> anoCls) {
+    /* v5.4.1: call method
+    final Map<String, Expression> propValMap = new LinkedHashMap<>();
+    jsonObj.keySet().forEach(prop -> {
+      Class<?> valType = null;
+      try {
+        valType = anoCls.getDeclaredMethod(prop).getReturnType();
+      } catch (NoSuchMethodException | SecurityException e) {
+        throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_PERFORM, new Object[] {"getDeclaredMethod", prop, e.getMessage()}, e);
+      }
+      
+      Expression val = createAnoPropValExpr(jsonObj, valType, prop);
+      
+      
+      propValMap.put(prop, val);
+    });
+    
+    NormalAnnotationExpr expr = createAnnotationExpr(anoCls, propValMap);
+    
+    return expr;
+    */
+    return createAnoPropValExpr(null, jsonObj, anoCls);
+  }
+
+  /**
+   * @modifies ast
+   * @requires 
+   *  if <code>ast != null</code> then it must be the one to which the result {@link NormalAnnotationExpr} is attached.
+   *  
+   * @effects 
+   *  create and return a {@link NormalAnnotationExpr} from <code>jsonObj</code>, which holds the 
+   *  data structure of the annotation.
+   *  
+   *  <p>if <code>ast</code> is specified then updates it with imports of all the value types encountered.
+   *  
+   * @version 5.4.1
+   */
+  public static NormalAnnotationExpr createAnoPropValExpr(
+      final CompilationUnit ast,
+      final JsonObject jsonObj, 
       final Class<? extends Annotation> anoCls) {
     final Map<String, Expression> propValMap = new LinkedHashMap<>();
     jsonObj.keySet().forEach(prop -> {
@@ -2829,7 +2866,7 @@ public class ParserToolkit {
       // debug
 //      System.out.printf("createAnoPropValExpr: %s => ", prop);
 
-      Expression val = createAnoPropValExpr(jsonObj, valType, prop);
+      Expression val = createAnoPropValExpr(ast, jsonObj, valType, prop);
       
       // debug
 //      System.out.printf(" %s%n", val);
@@ -2839,9 +2876,13 @@ public class ParserToolkit {
     
     NormalAnnotationExpr expr = createAnnotationExpr(anoCls, propValMap);
     
+    if (ast != null) {
+      addImport(ast, anoCls);
+    }
+    
     return expr;
   }
-
+  
   /**
    * @effects 
    * 
@@ -2860,8 +2901,70 @@ public class ParserToolkit {
   }
 
   /**
+   * @modifies ownerAst
+   * @requires 
+   *  if <code>ownerAst != null</code> then it must be the one that will contain the result.
+   *  
    * @effects 
-   *  convert val to a {@link Expression}, suitable for being set to value of a 
+   *  convert value of <code>prop</code> in <code>jsonObj</code> 
+   *  to an {@link Expression}, suitable for being set to value of a 
+   *  {@link MemberValuePair} of an {@link AnnotationExpr}.
+   *  
+   *  <p>If <code>ownerAst != null</code> then updates it with imports of any new value types that are encountered. 
+   *  
+   *  Return the expression.
+   *   
+   * @version 5.4.1
+   */
+  public static Expression createAnoPropValExpr(
+      final CompilationUnit ownerAst,
+      final JsonObject jsonObj, 
+      final Class<?> valType, 
+      String prop) throws NotImplementedException {
+    Expression val;
+    
+    JsonValue jsonVal = jsonObj.get(prop);
+    if (JsonArray.class.isAssignableFrom(jsonVal.getClass())) { 
+      // array expression
+      Class<?> eleType = valType.getComponentType();
+//      val = createAnoPropValArrayExpr(eleType, ((JsonArray)jsonVal));
+      JsonArray valArr = (JsonArray) jsonVal;
+      ArrayInitializerExpr expr = new ArrayInitializerExpr();
+      int index = 0;
+      NodeList<Expression> values = new NodeList<>();
+      for(JsonValue v : valArr) {
+        Expression exprEle;
+        if (v instanceof JsonObject) {
+          // object array element -> sub-annotation element
+          Class<? extends Annotation> anoEleType = (Class<? extends Annotation>) eleType;
+          exprEle = createAnoPropValExpr(ownerAst, (JsonObject) v, anoEleType);
+        } else {
+          // non-object array element
+          exprEle = createAnoPropValExprWithImports(ownerAst, eleType, v.toString());
+        }
+        values.add(exprEle);
+      }
+      expr.setValues(values);
+      val = expr;
+    } else if (jsonVal instanceof JsonObject) { // array
+      // annotation expression 
+      Class<? extends Annotation> subAnoType = (Class<? extends Annotation>) valType;
+      val = createAnoPropValExpr(ownerAst, (JsonObject) jsonVal, subAnoType);
+      //Map<String, Expression> propValMap = parseAnoPropSpec(subAnoType, (JsonObject) jsonVal);
+      //val = createAnnotationExpr(subAnoType, propValMap);
+    } else {  
+      // atomic value expression
+      String jsonValStr = jsonVal.toString().replaceAll("\"", "");//jsonObj.getString(prop);
+      val = createAnoPropValExprWithImports(ownerAst, valType, jsonValStr);
+    }
+    
+    return val;
+  }
+  
+  /**
+   * @effects 
+   *  convert value of <code>prop</code> in <code>jsonObj</code> 
+   *  to an {@link Expression}, suitable for being set to value of a 
    *  {@link MemberValuePair} of an {@link AnnotationExpr}.
    *  
    *  Return the expression.
@@ -2919,13 +3022,15 @@ public class ParserToolkit {
    *  
    *  Return the expression.
    *   
-   * @version 5.4
-   * @param valType 
+   * @version 
+   * - 5.4: created
+   * - 5.4.1: improved
    */
   public static Expression createAnoPropValExpr(Class<?> valType, 
       String val) throws NotImplementedException {
-    String[] valEles = val.split("\\.");
     Expression expr;
+    /*
+    String[] valEles = val.split("\\.");
     if (valEles.length > 1) {
       // compound element
       // needs to use FieldAccessExpr
@@ -2965,10 +3070,114 @@ public class ParserToolkit {
             new Object[] {valType});
       }
     }
-    
-    return expr;
+    */
+    return createAnoPropValExprWithImports(null, valType, val);
   }
 
+  /**
+  * @modifies ownerAst
+   * @requires 
+   *  if <code>ownerAst != null</code> then it must be the one that will contain the result.
+   *  
+    * @effects 
+   *  convert val to a {@link Expression}, suitable for being set to value of a 
+   *  {@link MemberValuePair} of an {@link AnnotationExpr}.
+   *  
+   *  <p>If <code>ownerAst != null</code> then updates it with imports of any new value types that are encountered. 
+   *  
+   *  Return the expression.
+   *   
+   * @version 5.4.1
+   */
+  public static Expression createAnoPropValExprWithImports(
+      final CompilationUnit ownerAst, 
+      Class<?> valType, 
+      String val) throws NotImplementedException {
+    Expression expr;
+    /*
+    String[] valEles = val.split("\\.");
+    if (valEles.length > 1) {
+      // compound element
+      // needs to use FieldAccessExpr
+      FieldAccessExpr fae = null;
+      
+      for (int i = 0; i < valEles.length; i++) {
+        String ele = valEles[i];
+        if (fae == null) {
+          fae = new FieldAccessExpr();
+          fae.setScope(new NameExpr(ele));
+          fae.setName(valEles[++i]);
+        } else {
+          FieldAccessExpr old = fae;
+          fae = new FieldAccessExpr(old, ele);
+        }
+      }
+      
+      expr = fae;
+    } else {
+      // single element
+      if (valType.equals(String.class)) {
+        expr = createStringExpr(val);
+      } else if (valType.equals(Boolean.class) || valType.equals(boolean.class)) {
+        expr = createBooleanExpr(Boolean.parseBoolean(val));
+      } else if (valType.equals(Integer.class) || valType.equals(int.class)) {
+        expr = createIntegerExpr(Integer.parseInt(val));
+      } else if (valType.equals(Long.class) || valType.equals(long.class)) {
+        expr = createLongExpr(Long.parseLong(val));
+      } else if (valType.equals(Float.class) || valType.equals(float.class)) {
+        expr = createFloatExpr(Float.parseFloat(val));
+      } else if (valType.equals(Double.class) || valType.equals(double.class)) {
+        expr = createDoubleExpr(Double.parseDouble(val));
+      } else if (valType.equals(Class.class)) {
+        expr = createClassExprFor(val);
+      } else {
+        throw new NotImplementedException(Code.DATA_TYPE_NOT_SUPPORTED, 
+            new Object[] {valType});
+      }
+    }
+    */
+    if (valType.equals(String.class)) {
+      expr = createStringExpr(val);
+    } else if (valType.equals(Boolean.class) || valType.equals(boolean.class)) {
+      expr = createBooleanExpr(Boolean.parseBoolean(val));
+    } else if (valType.equals(Integer.class) || valType.equals(int.class)) {
+      expr = createIntegerExpr(Integer.parseInt(val));
+    } else if (valType.equals(Long.class) || valType.equals(long.class)) {
+      expr = createLongExpr(Long.parseLong(val));
+    } else if (valType.equals(Float.class) || valType.equals(float.class)) {
+      expr = createFloatExpr(Float.parseFloat(val));
+    } else if (valType.equals(Double.class) || valType.equals(double.class)) {
+      expr = createDoubleExpr(Double.parseDouble(val));
+    } else if (!valType.isEnum() && valType.equals(Class.class)) {
+      expr = createClassExprFor(val);
+    } else {
+      String[] valEles = val.split("\\.");
+      if (valEles.length > 1) {
+        // compound element
+        // needs to use FieldAccessExpr
+        FieldAccessExpr fae = null;
+        
+        for (int i = 0; i < valEles.length; i++) {
+          String ele = valEles[i];
+          if (fae == null) {
+            fae = new FieldAccessExpr();
+            fae.setScope(new NameExpr(ele));
+            fae.setName(valEles[++i]);
+          } else {
+            FieldAccessExpr old = fae;
+            fae = new FieldAccessExpr(old, ele);
+          }
+        }
+        
+        expr = fae;
+      } else { 
+        throw new NotImplementedException(Code.DATA_TYPE_NOT_SUPPORTED, 
+          new Object[] {valType});
+      }
+    }
+    return expr;
+  }
+  
 //  /**
 //   * @effects 
 //   *  convert val to a {@link Expression}, suitable for being set to value of a 

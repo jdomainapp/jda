@@ -11,11 +11,11 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.reflections.Reflections;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
-import ch.qos.logback.classic.Logger;
 import jda.modules.dcsl.util.DClassTk;
 import jda.modules.restfstool.backend.base.controllers.DefaultNestedRestfulController;
 import jda.modules.restfstool.backend.base.controllers.DefaultRestfulController;

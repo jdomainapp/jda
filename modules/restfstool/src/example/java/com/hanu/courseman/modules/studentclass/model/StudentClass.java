@@ -52,7 +52,7 @@ public class StudentClass implements Subscriber {
             associate=@Associate(type= Student.class,
                     cardMin=1,cardMax=25))
     @JsonIgnoreProperties({"studentClass"})
-    @JsonDeserialize(using = Deserializers.StudentCollectionDeserializer.class)
+    @JsonDeserialize(using = Deserializers.StudCollectionDeserializer.class)
     private Collection<Student> students;
 
     // derived attributes

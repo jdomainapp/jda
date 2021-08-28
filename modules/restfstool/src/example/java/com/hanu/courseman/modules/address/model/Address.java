@@ -55,7 +55,7 @@ public class Address implements Subscriber, Publisher {
             ascType = AssocType.One2One, endType = AssocEndType.One,
             associate = @Associate(type = Student.class, cardMin = 1, cardMax = 1, determinant = true))
     @JsonIgnoreProperties({"address"})
-    @JsonDeserialize(using = Deserializers.StudentDeserializer.class)
+    @JsonDeserialize(using = Deserializers.StudDeserializer.class)
     private Student student;
 
     // from object form: Student is not included

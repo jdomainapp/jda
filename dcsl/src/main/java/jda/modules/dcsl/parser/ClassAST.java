@@ -705,7 +705,10 @@ public class ClassAST {
    *  else
    *    return null 
    */
-  public ClassAST getSuperClass(SourceModel model) throws NotFoundException {
+  public ClassAST getSuperClass(
+// v5.4.1     SourceModel model
+      Dom model
+      ) throws NotFoundException {
     NodeList<ClassOrInterfaceType> sups = cls.getExtendedTypes();
     if (sups == null || sups.size() == 0) {
       // not a sub-class
@@ -721,13 +724,6 @@ public class ClassAST {
       ClassAST supCls = model.loadClass(clsName, fqn);
       
       return supCls;
-//      try {
-//        supCls = Class.forName(fqn);
-//        
-//        return supCls;
-//      } catch (ClassNotFoundException e) { // should not happen
-//        throw new NotFoundException(NotFoundException.Code.CLASS_NOT_FOUND, e, new String[] {fqn});
-//      }
     }
   }
   

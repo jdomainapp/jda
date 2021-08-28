@@ -75,7 +75,7 @@ public class Student implements Subscriber, Publisher {
             ascType = AssocType.One2One, endType = AssocEndType.One,
             associate = @Associate(type = Address.class, cardMin = 1, cardMax = 1))
     @JsonIgnoreProperties({"student"})
-    @JsonDeserialize(using = Deserializers.AddressDeserializer.class)
+    @JsonDeserialize(using = Deserializers.AddrDeserializer.class)
     private Address address;
 
     @DAttr(name = A_email, type = Type.String, length = 30, optional = false)
@@ -86,7 +86,7 @@ public class Student implements Subscriber, Publisher {
             ascType = AssocType.One2Many, endType = AssocEndType.Many,
             associate = @Associate(type = StudentClass.class, cardMin = 1, cardMax = 1))
     @JsonIgnoreProperties({"students"})
-    @JsonDeserialize(using = Deserializers.StudentClassDeserializer.class)
+    @JsonDeserialize(using = Deserializers.StudClsDeserializer.class)
     private StudentClass studentClass;
 
     @DAttr(name = "enrolments", type = Type.Collection, optional = false,
@@ -95,7 +95,7 @@ public class Student implements Subscriber, Publisher {
             ascType = AssocType.One2Many, endType = AssocEndType.One,
             associate = @Associate(type = Enrolment.class, cardMin = 0, cardMax = 30))
     @JsonIgnoreProperties({"student"})
-    @JsonDeserialize(using = Deserializers.EnrolmentCollectionDeserializer.class)
+    @JsonDeserialize(using = Deserializers.EnrCollectionDeserializer.class)
     private Collection<Enrolment> enrolments;
 
     // derived

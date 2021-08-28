@@ -57,40 +57,40 @@ public class Deserializers {
         }
     }
 
-    public static class StudentCollectionDeserializer
+    public static class StudCollectionDeserializer
             extends CollectionTypedDeserializer<Student> {
-        public StudentCollectionDeserializer() {
+        public StudCollectionDeserializer() {
             super(Student.class);
         }
     }
 
-    public static class EnrolmentCollectionDeserializer
+    public static class EnrCollectionDeserializer
             extends CollectionTypedDeserializer<Enrolment> {
-        public EnrolmentCollectionDeserializer() {
+        public EnrCollectionDeserializer() {
             super(Enrolment.class);
         }
     }
 
-    public static class StudentDeserializer extends TypedDeserializer<Student> {
-        public StudentDeserializer() {
+    public static class StudDeserializer extends TypedDeserializer<Student> {
+        public StudDeserializer() {
             super(Student.class);
         }
     }
 
-    public static class CourseModuleDeserializer extends TypedDeserializer<CourseModule> {
-        public CourseModuleDeserializer() {
+    public static class CModDeserializer extends TypedDeserializer<CourseModule> {
+        public CModDeserializer() {
             super(CourseModule.class);
         }
     }
 
-    public static class AddressDeserializer extends TypedDeserializer<Address> {
-        public AddressDeserializer() {
+    public static class AddrDeserializer extends TypedDeserializer<Address> {
+        public AddrDeserializer() {
             super(Address.class);
         }
     }
 
-    public static class StudentClassDeserializer extends TypedDeserializer<StudentClass> {
-        public StudentClassDeserializer() {
+    public static class StudClsDeserializer extends TypedDeserializer<StudentClass> {
+        public StudClsDeserializer() {
             super(StudentClass.class);
         }
     }

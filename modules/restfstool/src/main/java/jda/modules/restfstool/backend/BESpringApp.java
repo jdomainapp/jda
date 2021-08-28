@@ -103,7 +103,13 @@ public abstract class BESpringApp implements Consumer<List<Class>>{
             new Class[generatedClassesCount + 1]);
     primarySources[generatedClassesCount] = this.getClass(); //BESpringApp.class;
 
-    ApplicationContext ctx = SpringApplication.run(primarySources, new String[0]);
+    // ducmle: added command line argument to use a random port
+    String[] args = {
+//        "--server.port=0",
+      "--server.port=8080",
+//        "--logging.level.org.springframework.web=debug"
+    }; // new String[0]
+    ApplicationContext ctx = SpringApplication.run(primarySources, args);
 
     ctx.getBeansOfType(CrudService.class).forEach((k, v) -> registry.put(k, v));    
   }

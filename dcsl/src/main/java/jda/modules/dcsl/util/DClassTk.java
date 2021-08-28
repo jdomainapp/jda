@@ -2900,6 +2900,35 @@ public class DClassTk {
     }
     
   }
+
+  /**
+   * @effects 
+   *  if c is an enum type
+   *    return true
+   *  else
+   *    return false
+   * @version 5.4.1
+   */
+  public static boolean isEnum(Class c) {
+    return (c != null && c.isEnum());
+  }
+
+  /**
+   * @effects 
+   *  if c is a sub-type of a non-object type
+   *    return true
+   *  else
+   *    return false
+   * @version 5.4.1
+   * 
+   */
+  public static boolean isProperSubType(Class c) {
+    if (c == null) return false;
+    
+    Class superType = c.getSuperclass();
+    
+    return (superType != null && superType != Object.class);
+  }
   
 //  /**
 //   * @effects 
