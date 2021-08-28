@@ -1,0 +1,45 @@
+package jda.modules.swtool;
+
+import javax.json.JsonObject;
+
+import jda.modules.restfstool.config.RFSGenDesc;
+import jda.modules.sccl.conceptualmodel.SCC;
+import jda.modules.sccltool.SCCGenTool;
+
+/**
+ * @overview 
+ *
+ * @author Duc Minh Le (ducmle)
+ *
+ * @version 
+ */
+public class RFSSwGenByCount extends SwGenByCount {
+
+  private JsonObject rfsGenConfig;
+  
+  public RFSSwGenByCount(String domainName, String rootSrcPath,
+      String seedModelPkg, String softwarePkg, int n, JsonObject rfsGenConfig) {
+    super(domainName, rootSrcPath, seedModelPkg, softwarePkg, n);
+    
+    this.rfsGenConfig = rfsGenConfig;
+  }
+  
+  /**
+   * @effects 
+   *  extends super.{@link #genSCC()} with adding {@link RFSGenDesc} to the generated SCC.
+   */
+  @Override
+  public SwGenByCount genSCC() {
+    getLogger().info("Generating SCC...");
+
+    SCCGenTool tool = getSCCGenToolInstance();
+    
+    // add RFSGenDesc configuration into the tool
+    tool.addConfig(RFSGenDesc.class, rfsGenConfig);
+    
+    SCC scc = (SCC) tool.exec();
+    setSCC(scc);
+    
+    return this;
+  }
+}

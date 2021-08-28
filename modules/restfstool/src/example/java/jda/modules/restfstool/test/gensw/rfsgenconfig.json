@@ -1,0 +1,13 @@
+{
+  "stackSpec":  "jda.modules.restfstool.config.StackSpec.FS",
+  "genMode" : "jda.modules.restfstool.config.GenerationMode.SOURCE_CODE", 
+  "beLangPlatform" : "jda.modules.restfstool.config.LangPlatform.SPRING",
+  "feProjPath" : "/home/ducmle/tmp/restfstool-fe",
+  "feProjName" : "fe-courseman",
+  "feProjResource" : "src/main/resources/react",
+  "feOutputPath" : "src/example/java/jda/modules/restfstool/test/performance/frontend",
+  "bePackage" : "jda.modules.restfstool.test.performance",
+  "beOutputPath" : "src/example/java", 
+  "beTargetPackage" : "jda.modules.restfstool.test.performance.backend",
+  "beAppClass" : "org.jda.example.restfstool.rfsgen.CourseManBESpringApp"
+}
