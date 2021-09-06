@@ -239,7 +239,15 @@
           <artifactId>joor</artifactId>
           <version>0.9.13</version>
       </dependency>
-
+      
+      <!-- CALIPER -->
+      <dependency>
+			<groupId>com.google.caliper</groupId>
+			<artifactId>caliper</artifactId>
+			<version>HEAD-SNAPSHOT</version>
+	  </dependency>
+	  <!-- END CALIPER -->
+	
       <!-- IN-MEMORY JAVA COMPILER -->
       <dependency>
           <groupId>org.mdkt.compiler</groupId>
@@ -275,6 +283,7 @@
           <version>10.15.2.0</version>
       </dependency>
       <!-- END: DERBY DB -->
+      
 
       <!-- JAVAPARSER -->
       <dependency>
