@@ -29,13 +29,18 @@ public class RFSSwGenByCountCourseMan {
   
   public static void main(String[] args) {
     int count = 2;
-    RFSSwGenByCountCourseMan rfsGenTest = new RFSSwGenByCountCourseMan(count);
-    rfsGenTest.init();
-    rfsGenTest.testGenPhase1();
     
-    // IMPORTANT: ONLY EXECUTE THIS PHASE
-    // AFTER REFRESHING THE TARGET PROJECT IN THE IDE
-    rfsGenTest.testGenPhase2();
+    // generate count number of SCCs
+    // SCC1, ..., SCCn
+    for (int i = 1; i <= count; i++) {
+      RFSSwGenByCountCourseMan rfsGenTest = new RFSSwGenByCountCourseMan(i);
+      rfsGenTest.init();
+      rfsGenTest.testGenPhase1();
+      
+      // IMPORTANT: ONLY EXECUTE THIS PHASE
+      // AFTER REFRESHING THE TARGET PROJECT IN THE IDE
+      rfsGenTest.testGenPhase2();
+    }
   }
   
   /**
