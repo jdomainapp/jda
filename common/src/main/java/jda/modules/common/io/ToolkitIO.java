@@ -29,14 +29,17 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.Stack;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
@@ -81,6 +84,44 @@ public class ToolkitIO {
       return name.endsWith(FILE_JAVA_EXT);
     }
   };
+  
+  /**
+   * Java file or sub-dir filter (accept only ".java" files or sub-directories)
+   */
+  private static final FilenameFilter JavaFileOrSubdirFilter = new FilenameFilter() {
+      @Override
+      public boolean accept(File dir, String name) {
+        if (name.endsWith(".java")) {
+          return true;
+        } else {
+          File entry = new File(dir, name);
+          if (entry.isDirectory()) {
+            return true;
+          } else {
+            return false;
+          } 
+        }
+      }
+  };
+  
+  private static final FilenameFilter JavaResourceFileFilter = new FilenameFilter() {
+    private final String[] ResExts = {
+        ".dat", ".properties"
+        // add other supported file extensions here
+    };
+    
+    @Override
+    public boolean accept(File dir, String name) {
+      for (String ext : ResExts) {
+        if (name.endsWith(ext))
+          return true;
+      }
+      
+      return false;
+    }
+  };
+
+  private static final Object NL = "\n";
   
   /** A {@link Scanner} that wraps out System.in */
   private static Scanner InputScanner;
@@ -361,7 +402,58 @@ public class ToolkitIO {
     }
   }
 
+  /**
+   * @requires path != null
+   * @effects 
+   *  return the last path element of <tt>path</tt>
+   */
+  public static String getLastPathElement(String path) {
+    if (path == null) return null;
 
+    path = path.trim();
+    
+    // remove trailing separators (if any)
+    while (path.endsWith(File.separator)) {
+      if (path.equals(File.separator)) {  // root dir in Unix
+        return path; 
+      }
+
+      path = path.substring(0, path.length()-1);
+    }
+    
+    int lidx = path.lastIndexOf(File.separator);
+    if (lidx > -1) { // has path separator
+      return path.substring(lidx + 1);
+    } else {  // no path separator
+      return path;
+    }
+  }
+  
+  /**
+   * @requires 
+   * <tt>descendant</tt> is either the same or a sub-file or directory of <tt>root</tt> 
+   * 
+   * @effects 
+   *  return the relative path from <tt>descendent</tt> to <tt>root</tt>
+   *  or return <tt>null</tt> if <tt>descendant = root</tt>.
+   *  
+   *  Throws IllegalArgumentException if pre-condition is not met.
+   */
+  private static String getRelativePath(File descendant, File root) throws IllegalArgumentException {
+    String desPath = descendant.getPath();
+    String rootPath = root.getPath();
+    if (desPath.equals(rootPath)) {
+      return null;
+    } else {
+      if (!desPath.startsWith(rootPath)) {
+        throw new IllegalArgumentException("not a descendant directory: \n  " + 
+      desPath + " \n -> " + rootPath);
+      } else {
+        return desPath.substring(rootPath.length()+1);
+      }
+    }
+  }
+  
   /**
    * @requires pkgName is the Java package name that corresponds to the file
    * @effects 
@@ -1154,6 +1246,44 @@ public class ToolkitIO {
     }
   }
   
+  /**
+   * <b>Note</b>: This method does not support character encoding!
+   * 
+   * @effects 
+   *  if file represented by <tt>file</tt> contains non-empty text and if succeeds in 
+   *  reading the file
+   *    return its content
+   *  else
+   *    return null
+   * @version 5.4.1
+   */
+  public static String readTextFileContent(File file) 
+      throws NotPossibleException {
+    String line;
+    StringBuilder lines = new StringBuilder();
+    
+    BufferedReader reader = null;
+    try {
+      reader = new BufferedReader(
+          new InputStreamReader(new FileInputStream(file)));
+      
+      while ((line = reader.readLine()) != null) {
+        lines.append(line).append(NL);
+      }
+  
+      if (lines.length() > 0) { // remove last NL
+        lines.replace(lines.length()-1, lines.length(), "");
+      }
+      
+      return lines.toString();
+    } catch (IOException e) {
+      throw new 
+      NotPossibleException(NotPossibleException.Code.FAIL_TO_READ_FILE, e, new Object[] {file});
+    } finally {
+      try { if (reader != null) reader.close(); } catch (Exception e) {}
+    }
+  }
+  
 
   /**
    * A short-cut for {@link #readTextFile(InputStream)}.
@@ -1281,6 +1411,104 @@ public class ToolkitIO {
    */
   public static void writeUTF8TextFile(File file, final String content, final boolean toOverwrite) {
     writeTextFileWithEncoding(file, content, "UTF-8", toOverwrite);
+  }
+  
+  /**
+   * @effects 
+   *  read all <tt>.java</tt> files stored under directory <tt>pDir</tt> and all 
+   *  the descendant directories and return them as {@link Collection}.
+   *  If no such files are found then return <tt>null</tt> 
+   */
+  public static Collection<File> readJavaFiles(File pDir) {
+    if (pDir == null) return null;
+    
+    Collection<File> javFiles = new ArrayList<>();
+    readJavaFiles(pDir, javFiles);
+    
+    if (javFiles.isEmpty())
+      return null;
+    else
+      return javFiles;
+  }
+
+  /**
+   * @requires pDir != null /\ javFiles != null
+   * @effects 
+   *  read all <tt>.java</tt> files stored under directory <tt>pDir</tt> and all 
+   *  the descendant directories and add them to {@link Collection}.
+   */
+  public static void readJavaFiles(File pDir, Collection<File> javFiles) {
+    File[] dirEntries = pDir.listFiles(JavaFileOrSubdirFilter);
+    if (dirEntries != null) {
+      for (File fileOrDir : dirEntries) {
+        if (fileOrDir.isDirectory()) {
+          // recursive
+          readJavaFiles(fileOrDir, javFiles);
+        } else { // java file
+          javFiles.add(fileOrDir);
+        }
+      }
+    }
+  }
+
+  /**
+   * @requires 
+   *  <tt>relSrcPath != null => relSrcPath</tt> is the relative path in <tt>srcDir.path</tt> that connects it to the root source package /\ 
+   *  <tt>srcDir</tt> is the <b>path to the top-level package</b> of a set of Java source files /\ 
+   *  <tt>srcFiles</tt> contain a sub-set of Java source files stored (possibly under some sub-directory structure) 
+   *  of <tt>srcDir</tt>.
+   *   
+   * @effects 
+   *  copy all non-Java resource files associated to 
+   *  the <tt>srcFiles</tt> in <tt>srcDir</tt> 
+   *  to the respective directories under <tt>outputDir</tt>.
+   *  
+   *  <p>Throws NotPossibleException if fails.
+   */
+  public static void copyJavaResources(String relSrcPath, File srcDir, Collection<File> srcFiles,
+      File outputDir) throws NotPossibleException {
+    Stack processed = new Stack();
+    // debug
+    System.out.println(ToolkitIO.class.getSimpleName()+".copyJavaResources: \n  relSrcPath = "+ relSrcPath + "\n  srcDir = " + srcDir);
+
+    String topPkgRelativePath = 
+        getLastPathElement(srcDir.getPath());
+
+    if (relSrcPath != null) {
+      if (!relSrcPath.endsWith(fileSep)) relSrcPath += fileSep;
+      topPkgRelativePath = relSrcPath + topPkgRelativePath;
+    }
+    
+    // debug
+    System.out.println("top-pkg: " + topPkgRelativePath);
+    
+    for (File file : srcFiles) {
+      File parent = file.getParentFile();
+      if (!processed.contains(parent)) {  // not yet process this dir
+        File[] resFiles = parent.listFiles(JavaResourceFileFilter);
+        if (resFiles != null) {
+          String destDirPrefix = outputDir.getPath() + fileSep + topPkgRelativePath + fileSep;
+          String relativePath = getRelativePath(parent, srcDir);
+          String destFilePath = (relativePath != null) ? 
+              destDirPrefix + relativePath + fileSep : destDirPrefix;
+          for (File resFile : resFiles) {
+            File destFile = new File(destFilePath + resFile.getName());
+            try {
+              // debug: 
+              System.out.println(String.format("Copying resource (%s) relative to source file: %s", resFile.getName(), file.getPath()));
+              
+              copyFile(resFile, destFile);
+            } catch (IOException e) {
+              String error = getStackTrace(e, ENCODE_UTF8);
+              throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_COPY_FILE, 
+                  e, new Object[] {resFile, destFile});
+            }
+          }
+        }
+        
+        processed.push(parent);
+      }
+    }
   }
   
   /**
@@ -1737,6 +1965,24 @@ public class ToolkitIO {
   }
 
   /**
+   * @requires elements != null && elements.length > 0 
+   * @effects 
+   *  create and return {@link Path} from <tt>first, more</tt> as specified in 
+   *  {@link Paths#get(String, String...)} 
+   *  
+   * @version  5.4.1
+   */
+  public static Path getPath(String[] elements) {
+    if (elements == null || elements.length < 1)
+      return null;
+    else {
+      List<String> el = Arrays.asList(elements);
+      return getPath(elements[0], 
+          el.subList(1, el.size()).toArray(new String[elements.length-1]));
+    }
+  }
+  
+  /**
    * @effects 
    *  create and return {@link File} from <tt>first, more</tt> as specified in 
    *  {@link Paths#get(String, String...)} 
@@ -1759,9 +2005,14 @@ public class ToolkitIO {
    */
   public static String getPackagePath(String parentPath,
       String pkgName) {
+    if (parentPath == null && pkgName == null) 
+      return null;
+    
     Path p = 
         (pkgName != null) 
-          ? getPath(parentPath, splitPackageName(pkgName))
+          ? (parentPath != null ? 
+              getPath(parentPath, splitPackageName(pkgName)) : 
+                getPath(splitPackageName(pkgName)))
           : getPath(parentPath);
     return p.toString();
   }
@@ -1915,6 +2166,23 @@ public class ToolkitIO {
           new Object[] {jsonClass});
     }
     return json;
+  }
+  
+  /**
+   * This method is needed because {@link JsonObject} is immutable.
+   *  
+   * @effects 
+   *  create and return a new {@link JsonObject} by copying an existing <code>obj</code>
+   *  and replacing the key <code>key</code> by the new <code>val</code>
+   *  
+   * @version 5.4.1 
+   */
+  public static JsonObject createNewJsonObject(JsonObject obj, 
+      String key, JsonValue val) {
+    return Json.createObjectBuilder(obj)
+    .remove(key)
+    .add(key, val)
+    .build();
   }
   
   /**

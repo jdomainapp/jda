@@ -22,6 +22,7 @@ public class MCCGenTool implements ModuleToolable {
   private String rootSrcPath;
   private String clsFQN;
   private MCCModel mccModel;
+  private String mccPkgName;
 
   private static MCCGenTool instance;
   
@@ -31,28 +32,54 @@ public class MCCGenTool implements ModuleToolable {
       String rootSrcPath, 
       /**e.g. "org.jda.example.courseman.modules.student.model" 
        * @param mccModel2 */
-      String clsFQN
+      String clsFQN,
+      // mccPackageName: e.g. org.jda.example.courseman.modules.student.modules
+      String mccPkgName
       ) {
     if (instance == null) {
-      instance = new MCCGenTool(mccModel, rootSrcPath, clsFQN);
+      instance = new MCCGenTool(mccModel, rootSrcPath, clsFQN, mccPkgName);
     } else { // update
       instance.mccModel = mccModel;
       instance.rootSrcPath = rootSrcPath;
       instance.clsFQN = clsFQN;
+      instance.mccPkgName = mccPkgName;
     }
     
     return instance;
+  }
+  
+  public static MCCGenTool getInstance(
+      MCCModel mccModel,
+      /**e.g. /home/dmle/projects/domainapp/modules/mccl/src/example/java */
+      String rootSrcPath, 
+      /**e.g. "org.jda.example.courseman.modules.student.model" 
+       * @param mccModel2 */
+      String clsFQN
+      ) {
+    return getInstance(mccModel, rootSrcPath, clsFQN, null);
+//    if (instance == null) {
+//      instance = new MCCGenTool(mccModel, rootSrcPath, clsFQN);
+//    } else { // update
+//      instance.mccModel = mccModel;
+//      instance.rootSrcPath = rootSrcPath;
+//      instance.clsFQN = clsFQN;
+//    }
+//    
+//    return instance;
   }
   
   private MCCGenTool(
       MCCModel mccModel, 
       String rootSrcPath, /**e.g. /home/dmle/projects/domainapp/modules/mccl/src/example/java */
       /**e.g. "org.jda.example.courseman.modules.student.model" */
-      String clsFQN
+      String clsFQN,
+      // mccPackageName: e.g. org.jda.example.courseman.modules.student.modules
+      String mccPkgName
       ) {
     this.mccModel = mccModel;
     this.rootSrcPath = rootSrcPath;
     this.clsFQN = clsFQN;
+    this.mccPkgName = mccPkgName;
   }
   
   /* (non-Javadoc)
@@ -81,12 +108,13 @@ public class MCCGenTool implements ModuleToolable {
     System.out.println("\nRunning MCCGen...");
     System.out.println("   Domain class: " + clsFQN);
     System.out.println("   Source file: " + srcFile);
+    System.out.println("   MCC package: " + mccPkgName);
     System.out.println("   Root class output dir: " + srcOutputDir);
     
     String clsName = clsFQNEls[clsFQNEls.length-1];
     String pkgName = clsFQN.substring(0, clsFQN.lastIndexOf(".")); 
         
-    MCC m = mccModel.genMCC(pkgName, clsName, srcFile, srcOutputDir);
+    MCC m = mccModel.genMCC(pkgName, clsName, srcFile, mccPkgName, srcOutputDir);
 
     System.out.println("...ok");
     

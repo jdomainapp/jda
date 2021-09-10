@@ -2024,13 +2024,34 @@ public class DClassTk {
    *  If failed return null.
    */
   public static Class findClass(String fqn) {
+    return findClass(fqn, true);
+  }
+
+  /**
+   * @effects 
+   *  Use the <b>current class loader</b> to load the class whose FQN is fqn
+   *  and return it.
+   *  
+   *  If class is not found then (
+   *    if <code>throwsIfNotFound = true</code> then   
+   *      throws NotFoundException
+   *    else 
+   *      return null.
+   *  )
+   *      
+   */
+  public static Class findClass(String fqn, boolean throwsIfNotFound) throws NotFoundException {
     try {
       return Class.forName(fqn);
     } catch (ClassNotFoundException e) {
-      return null;
+      if (throwsIfNotFound) {
+        throw new NotFoundException(NotFoundException.Code.CLASS_NOT_FOUND, e, new Object[] {fqn});
+      } else {
+        return null;
+      }
     }
   }
-
+  
   /**
    * @requires 
    *  if <tt>clsName</tt> is not a built-in Java type (i.e. in java.lang package) then 

@@ -1,6 +1,8 @@
 package jda.modules.restfstool.test.gensw;
 
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonReader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +21,7 @@ import jda.modules.swtool.RFSSwGenByCount;
  */
 public class RFSSwGenByCountCourseMan {
   /** number of domain model copies */
-  private int count;
+  private int counter;
   private RFSSwGenByCount swgen;
   private JsonObject rfsgenConfig;
   private SCC scc;
@@ -28,18 +30,19 @@ public class RFSSwGenByCountCourseMan {
   private static Logger logger = LoggerFactory.getLogger("RESTFSTool");
   
   public static void main(String[] args) {
-    int count = 2;
-    
-    // generate count number of SCCs
+    // generate count SCCs
     // SCC1, ..., SCCn
+    JsonObject rfsGenConfig = ToolkitIO.readJSonObjectFile(
+        RFSSwGenByCountCourseMan.class, "rfsgenconfig.json");
+    int count = rfsGenConfig.getInt("count");
+    
     for (int i = 1; i <= count; i++) {
-      RFSSwGenByCountCourseMan rfsGenTest = new RFSSwGenByCountCourseMan(i);
+      RFSSwGenByCountCourseMan rfsGenTest = 
+          new RFSSwGenByCountCourseMan(rfsGenConfig, i);
       rfsGenTest.init();
-      rfsGenTest.testGenPhase1();
-      
-      // IMPORTANT: ONLY EXECUTE THIS PHASE
-      // AFTER REFRESHING THE TARGET PROJECT IN THE IDE
-      rfsGenTest.testGenPhase2();
+      // + create separate modules and software packages for each software
+      // + auto-compile the generated classes
+      rfsGenTest.gen();
     }
   }
   
@@ -47,44 +50,73 @@ public class RFSSwGenByCountCourseMan {
    * @effects 
    *  initialises this with the number of domain model copies <code>count</code>
    */
-  public RFSSwGenByCountCourseMan(int count) {
-    this.count = count;
+  public RFSSwGenByCountCourseMan(JsonObject rfsgenConfig, int counter) {
+    this.rfsgenConfig = rfsgenConfig;
+    this.counter = counter;
   }
 
   
   public void init() throws NotPossibleException {
-    rfsgenConfig = ToolkitIO.readJSonObjectFile(RFSSwGenByCountCourseMan.class, "rfsgenconfig.json");
+//    rfsgenConfig = ToolkitIO.readJSonObjectFile(RFSSwGenByCountCourseMan.class, "rfsgenconfig.json");
+
+    String domain = rfsgenConfig.getString("domain");
+    JsonObject swConfigGen = rfsgenConfig.getJsonObject("swConfigGen");
+    JsonObject rfsGenDesc = rfsgenConfig.getJsonObject("rfsGenDesc");
     
-    swgen = new RFSSwGenByCount("CourseMan",
-        // rootsrcpath
-        "/data/projects/jda/modules/restfstool/src/example/java",
+    // update rfsGenDesc.fe-courseman with counter
+    String feProjName = rfsGenDesc.getString("feProjName");
+    feProjName += counter;
+    rfsGenDesc = ToolkitIO.createNewJsonObject(rfsGenDesc, 
+        "feProjName", 
+        Json.createValue(feProjName));
+    
+    swgen = new RFSSwGenByCount(domain,
+        // root source path
+        swConfigGen.getString("rootSrcPath"),
+        // outputPath
+        swConfigGen.getString("outputPath"),
         // seed domain model package
-        "jda.modules.restfstool.test.performance.model",
+        swConfigGen.getString("seedDomainModelPkg"),
+        // modules package
+        swConfigGen.getString("modulesPkgPrefix")+counter,
         // software package
-        "jda.modules.restfstool.test.performance.software",
+        swConfigGen.getString("softwarePkgPrefix")+counter,
         // how many model copies
-        count, 
-        rfsgenConfig);
+        counter, 
+        rfsGenDesc);
   }
   
-  public void testGenPhase1() {
-    // generate everything up to the SCC
-    logger.info("Phase 1: generating the domain model...");
-    swgen.genDomainModel();
+  public void gen() {
+    logger.info("Generating RFS software configuration ...");
+    swgen.genDomainModel()
+    .genMCCs()
+    .genMainMCC()
+    .genSCC()
+    .getSCC();
   }
   
-  /**
-   * @requires
-   *  {@link #testGenPhase1()} has been executed AND 
-   *  generated domain model has been compiled into the class path 
-   *  (e.g. by refreshing the target package in the IDE)  
-   */
-  public void testGenPhase2() {
-    // generate everything up to the SCC
-    logger.info("Phase 2: generating MCCs and SCC...");
-    scc = swgen.genMCCs()
-         .genMainMCC()
-         .genSCC()
-         .getSCC();
-  }
+//  public void testGenPhase1() {
+//    // generate the domain model
+//    logger.info("Generating domain model...");
+//    swgen.genDomainModel()
+//    .genMCCs()
+//    .genMainMCC()
+//    .genSCC()
+//    .getSCC();
+//  }
+//  
+//  /**
+//   * @requires
+//   *  {@link #testGenPhase1()} has been executed AND 
+//   *  generated domain model has been compiled into the class path 
+//   *  (e.g. by refreshing the target package in the IDE)  
+//   */
+//  public void testGenPhase2() {
+//    // generate everything up to the SCC
+//    logger.info("Phase 2: generating MCCs and SCC...");
+//    scc = swgen.genMCCs()
+//         .genMainMCC()
+//         .genSCC()
+//         .getSCC();
+//  }
 }

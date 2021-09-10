@@ -25,8 +25,12 @@ public class SwGenByCountCourseMan {
     swgen = new SwGenByCount("CourseMan",
         // rootsrcpath
         "/data/projects/jda/modules/swtool/src/test/java",
+        // output path
+        "/data/projects/jda/modules/swtool/target/test-classes",        
         // seed domain model package
         "org.jda.example.courseman.model",
+        // modules package
+        "org.jda.example.courseman.modules",
         // software package
         "org.jda.example.courseman.software",
         // how many model copies

@@ -61,11 +61,13 @@ public class MCCModel {
    *   
    * @version 
    * - 1.0<br>
-   * - 5.2c: improved to support MCC of sub-class
+   * - 5.2c: improved to support MCC of sub-class<br>
+   * - 5.4.1: added mccPkgName
    */
   public MCC genMCC( 
-      String pkgName, String className, String javaSrcFile, String mccOutputRootDir) throws NotFoundException, NotPossibleException {
-    
+      String pkgName, String className, String javaSrcFile, 
+      String mccPkgName,
+      String mccOutputRootDir) throws NotFoundException, NotPossibleException {
     ClassAST dcls = sourceModel.loadClass(pkgName, className, javaSrcFile); // v5.2c: new ClassAST(className, javaSrcFile);
     
     // v5.2c:
@@ -79,7 +81,7 @@ public class MCCModel {
     if (isSubCls) {
       // dcls is a sub-class: look up MCC of super class and make it the super class of dcls's MCC
       String supName = superCls.getName(), supPkg = superCls.getPackageDeclaration();
-      String supMCCPkg = getModulePkg(supPkg);
+      String supMCCPkg = getSuperModulePkg(supPkg, mccPkgName); // v5.4.1
       String supMCCName = getModuleName(supName);
       String supMCCFqn = supMCCPkg + "." + supMCCName;
       // TODO ? (genMCC): use Class.forName here to check?
@@ -97,7 +99,7 @@ public class MCCModel {
     
     // set mcc's package
     String dclsPkg = dcls.getPackageDeclaration();
-    String mccPkg = getModulePkg(dclsPkg);
+    String mccPkg = getModulePkg(dclsPkg, mccPkgName);
     
     /* moved to method
     String mccPkg;
@@ -121,7 +123,89 @@ public class MCCModel {
     if (debug)
       System.out.println(m);
     
-    return m;
+    return m;  
+  }
+  
+  /**
+   * @effects 
+   *  Generates and return an {@link MCC} that reflects the domain class 
+   *  whose FQN is <tt>pkgName + className</tt> and 
+   *  whose source file is <tt>javaSrcFile</tt>.
+   *  
+   *  <p>The {@link MCC} is named <tt>'Module' + className</tt> and imports the necessary domain-specific packages <tt>domainPkgs</tt>.
+   *  
+   *  <p>If succeeds, writes the {@link MCC} to a file at the designated <tt>mccOutputRootDir</tt>.
+   *  
+   *  <p>Throws NotFoundException if failed to obtain a handle for <tt>domainClass</tt> or if this class has 
+   *  no domain attributes;<br>
+   *  NotPossibleException if failed to create a method or failed to add a method to the class 
+   *   
+   * @version 
+   * - 1.0<br>
+   * - 5.2c: improved to support MCC of sub-class<br>
+   */
+  public MCC genMCC( 
+      String pkgName, String className, String javaSrcFile, String mccOutputRootDir) throws NotFoundException, NotPossibleException {
+    
+    // v5.4.1: redirect
+    return genMCC(pkgName, className, javaSrcFile, null, mccOutputRootDir);
+    
+//    ClassAST dcls = sourceModel.loadClass(pkgName, className, javaSrcFile); // v5.2c: new ClassAST(className, javaSrcFile);
+//    
+//    // v5.2c:
+//    ClassAST superCls = dcls.getSuperClass(sourceModel);
+//    boolean isSubCls = (superCls != null);
+//    
+//    // create m's header
+//    String mccName = getModuleName(className);
+//    MCC m = new MCC(mccName, dcls);
+//
+//    if (isSubCls) {
+//      // dcls is a sub-class: look up MCC of super class and make it the super class of dcls's MCC
+//      String supName = superCls.getName(), supPkg = superCls.getPackageDeclaration();
+//      String supMCCPkg = getModulePkg(supPkg);
+//      String supMCCName = getModuleName(supName);
+//      String supMCCFqn = supMCCPkg + "." + supMCCName;
+//      // TODO ? (genMCC): use Class.forName here to check?
+//      
+//      m.addImport(supMCCFqn);
+//      
+//      m.setSuperType(supMCCName);
+//    }
+//
+//    // create m's ModuleDesc
+//    m.createModuleDesc();
+//    
+//    // create m's view fields (i.e. view field configs)
+//    m.createViewFields();
+//    
+//    // set mcc's package
+//    String dclsPkg = dcls.getPackageDeclaration();
+//    String mccPkg = getModulePkg(dclsPkg);
+//    
+//    /* moved to method
+//    String mccPkg;
+//    if (dclsPkg != null) {
+//      mccPkg = dclsPkg.substring(0, dclsPkg.lastIndexOf(".")) // exclude ".model" 
+//                    + "." + "modules";                        // replace it by ".modules"
+//    } else {
+//      // no package
+//      mccPkg = "modules";
+//    }
+//    */
+//    
+//    m.setPackageName(mccPkg);
+//    
+//    // write m to file
+//    m.save(mccOutputRootDir);
+//    
+//    // add m to this
+//    mccMap.put(dcls.getFqn(), m);
+//    
+//    if (debug)
+//      System.out.println(m);
+//    
+//    return m;
   }
 
   /**
@@ -387,23 +471,41 @@ public class MCCModel {
   /**
    * @requires dclsPkg is the package of dcls
    * @effects 
-   *  return name of the package where this is stored, relative to <tt>dclsPkg</tt>
+   *  return FQN of the package of the MCC of the domain class <tt>dclsPkg</tt>
+   * @version 
+   * - 5.2: created<br>
+   * - 5.4.1: added mccPkgName
    */
-  private String getModulePkg(String dclsPkg) {
-    String mccPkg;
-    if (dclsPkg != null) {
-      String parent = dclsPkg.substring(0, dclsPkg.lastIndexOf("."));
-      mccPkg = parent+"." + "modules";
+  private String getModulePkg(String dclsPkg, String mccPkgName) {
+    
+    if (mccPkgName != null) { // mccPkgName is specified, use it
+      return mccPkgName;
+    } else { // mccPkgName is NOT specified, use a name relative to dclsPkg
+      String mccPkg;
+      if (dclsPkg != null) {
+        String parent = dclsPkg.substring(0, dclsPkg.lastIndexOf("."));
+        mccPkg = parent+"." + "modules";
 
-//      mccPkg = dclsPkg.substring(0, dclsPkg.lastIndexOf(".")) // exclude ".model" 
-//                    + "." + "modules";                        // replace it by ".modules"
-    } else {
-      // no package
-      mccPkg = "modules";
+//        mccPkg = dclsPkg.substring(0, dclsPkg.lastIndexOf(".")) // exclude ".model" 
+//                      + "." + "modules";                        // replace it by ".modules"
+      } else {
+        // no package
+        mccPkg = "modules";
+      }
+      
+      
+      return mccPkg;
+      
     }
+  }
+  
+  private String getSuperModulePkg(String dclsPkg, String mccPkgName) {
     
-    
-    return mccPkg;
+    if (mccPkgName != null) { // mccPkgName is specified, use it
+      return mccPkgName;
+    } else { // mccPkgName is NOT specified, use a name relative to dclsPkg
+      return getModulePkg(dclsPkg, null);
+    }
   }
   
   /**

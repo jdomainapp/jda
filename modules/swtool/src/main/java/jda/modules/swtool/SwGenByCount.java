@@ -1,6 +1,7 @@
 package jda.modules.swtool;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,11 +13,13 @@ import org.slf4j.LoggerFactory;
 import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.common.io.ToolkitIO;
+import jda.modules.common.javac.JavaC;
 import jda.modules.dcsl.parser.Dom;
 import jda.modules.dcsl.util.DClassTk;
 import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mccl.conceptualmodel.MCCModel;
 import jda.modules.mccl.conceptualmodel.MainCC;
+import jda.modules.mccl.util.MCCTk;
 import jda.modules.mccltool.MCCGenTool;
 import jda.modules.mccltool.mainmodule.MCCMainGenTool;
 import jda.modules.sccl.conceptualmodel.SCC;
@@ -60,6 +63,17 @@ public class SwGenByCount {
    */
   private String rootSrcPath; // e.g. /data/git/jdomainapp-modules/jdomainappPlugin/casestudies/CourseMan/src
 
+  /** the {@link File} representation of {@link #rootSrcPath}*/
+  private File rootSrcDir;
+  
+  /**
+   * FQN of the modules package, where the functional MCCs will be created. 
+   * This is usually the package named <code>modules</code> that is at the same level as {@link #seedModelPkg}.
+   * For example, 
+   * the software package of the CourseMan example would be <code>org.example.courseman.modules</code>. 
+   */
+  private String modulesPkg;
+  
   /**
    * FQN of the software package, where the main MCC and software class will be created. 
    * This is usually the package named <code>software</code> that is at the same level as {@link #seedModelPkg}.
@@ -67,12 +81,15 @@ public class SwGenByCount {
    * the software package of the CourseMan example would be <code>org.example.courseman.software</code>. 
    */
   private String softwarePkg;
-  
-  private static Logger logger = LoggerFactory.getLogger(SwGenByCount.class.getSimpleName());
-      
+
+  /** the root output directory of the compiled classes*/
+  private File outputDir;
+
   /** number of copies of the seed domain model of the software */
   private int n;
-  
+
+  private static Logger logger = LoggerFactory.getLogger(SwGenByCount.class.getSimpleName());
+
   ///// OUTPUT artefacts
   private String targetModelPkg;
   /** the generated domain model source files: 
@@ -93,11 +110,17 @@ public class SwGenByCount {
   
   public SwGenByCount(String domainName, 
       String rootSrcPath, 
+      String outputPath, 
       String seedModelPkg, 
-      String softwarePkg, int n) {
+      String modulesPkg, 
+      String softwarePkg, 
+      int n) {
     this.domainName = domainName;
     this.rootSrcPath = rootSrcPath;
+    this.rootSrcDir = new File(rootSrcPath);
+    this.outputDir = new File(outputPath);
     this.seedModelPkg = seedModelPkg;
+    this.modulesPkg = modulesPkg;
     this.softwarePkg = softwarePkg;
     this.n = n;
   }
@@ -125,8 +148,20 @@ public class SwGenByCount {
       targetModelSrcFiles.putAll(newSrcfiles);
     }
     
-    ToolkitIO.promptAny("\nIMPORTANT: Ensure the domain model is compiled before moving to the next step. "
-        + "Please REFRESH the target project in the IDE!");
+    // compile classes
+    
+    Map<String,Class<?>> compiled = JavaC.javacLoad(
+        seedModelPkg, rootSrcDir, targetModelSrcFiles, 
+        outputDir, null);
+    
+//    Class c = compiled.values().iterator().next();
+//    System.out.println(c + " -> " + c.getProtectionDomain().getCodeSource().getLocation());
+//    System.out.println(c + " -> " + SwToolTk.class.getClassLoader().getSystemResource(c.getName().replace(".", "/").concat(".class")));
+    
+//    logger.debug("genDomainModel: compiled classes: " + compiled.values());
+    
+//    ToolkitIO.promptAny("\nIMPORTANT: Ensure the domain model is compiled before moving to the next step. "
+//        + "Please REFRESH the target project in the IDE!");
 
     return this;
   }
@@ -142,8 +177,12 @@ public class SwGenByCount {
         MCCMainGenTool.getInstance(domainName, rootSrcPath, softwarePkg);
     this.mainMCC = (MainCC) tool.exec();  
     
-    ToolkitIO.promptAny("\nIMPORTANT: Ensure the MainMCC is compiled before moving to the next step. "
-        + "Please REFRESH the target project in the IDE!");
+    // compile classes
+    Class<?> output = JavaC.javacLoad(mainMCC.getPackage(), rootSrcDir, 
+        mainMCC.getFqn(), mainMCC.getOutputSrcFile(), outputDir, null);
+    
+//    ToolkitIO.promptAny("\nIMPORTANT: Ensure the MainMCC is compiled before moving to the next step. "
+//        + "Please REFRESH the target project in the IDE!");
     
     return this;
   }
@@ -152,7 +191,7 @@ public class SwGenByCount {
    * @effects 
    *  generates {@link #n} MCCs MCC1,...,MCCn, one for each Ci {@link #seedModelPkg}, and set them to {@link #targetMCCs}
    */
-  public SwGenByCount genMCCs() {
+  public SwGenByCount genMCCs() throws NotFoundException {
     logger.info("Generating functional MCCs...");
 
     /*
@@ -161,19 +200,32 @@ public class SwGenByCount {
      * MCCUpdateTool to perform update on the MCCs.)
      */
     targetMCCs = new LinkedHashMap<>();
+    Map<String, File> targetMCCSrcs = new LinkedHashMap<>();  // for compilation
+    
     MCCModel mccModel = new MCCModel(new Dom(rootSrcPath));
     targetModelSrcFiles.forEach((clsFQN, f) -> {
       // exclude enums and sub-classes
       Class c = DClassTk.findClass(clsFQN);
       if (!DClassTk.isEnum(c) && !DClassTk.isProperSubType(c)) {
-        MCCGenTool mccGenTool = MCCGenTool.getInstance(mccModel, rootSrcPath, clsFQN);
+        String mccPkgName = 
+            (modulesPkg != null) ? modulesPkg :
+              MCCTk.getMCCPackage(c.getPackage().getName(), "modules" + n);
+        
+        MCCGenTool mccGenTool = MCCGenTool.getInstance(mccModel, rootSrcPath, clsFQN, mccPkgName);
         MCC m = (MCC) mccGenTool.exec();
         targetMCCs.put(clsFQN, m);
+        
+        targetMCCSrcs.put(clsFQN, m.getOutputSrcFile());
       }
     });
     
-    ToolkitIO.promptAny("\nIMPORTANT: Ensure the MCCs are compiled before moving to the next step. "
-        + "Please REFRESH the target project in the IDE!");
+    // compile classes
+    Map<String,Class<?>> compiled = JavaC.javacLoad(
+        rootSrcDir, targetMCCSrcs, 
+        outputDir, null);
+    
+//    ToolkitIO.promptAny("\nIMPORTANT: Ensure the MCCs are compiled before moving to the next step. "
+//        + "Please REFRESH the target project in the IDE!");
     
     return this;
   }
@@ -187,7 +239,20 @@ public class SwGenByCount {
 
     SCCGenTool tool = getSCCGenToolInstance();
     
+    return doGenSCC(tool);
+  }
+  
+  /**
+   * @effects 
+   *  performs <code>tool.exec()</code> to generate SCC
+   */
+  protected SwGenByCount doGenSCC(SCCGenTool tool) {
     this.scc = (SCC) tool.exec();
+    
+    // compile class
+//    JavaCInMem.javacInMem(scc.getFqn(), scc.getSourceCode());
+    Class<?> output = JavaC.javacLoad(scc.getPackage(), rootSrcDir, 
+        scc.getFqn(), scc.getOutputSrcFile(), outputDir, null);
     
     return this;
   }

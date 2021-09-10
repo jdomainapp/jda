@@ -10,14 +10,15 @@
 ## Generated artefacts of the test software
 All the generated artefacts of the test software are located in the package `jda.modules.restfstool.test.performance`:
   - `modelN`: the domain model that contains `N` copies of the seed domain model
-  - `modules`: the generated MCCs of the domain model
-  - `software`: the generated `ModuleMain` and the `config.SCC`
+  - `modulesN`: the generated MCCs of the domain model
+  - `softwareN`: the generated `ModuleMain` and the `config.SCC`
 
-## How to generate the test software
+## How-to steps
 
-Class `RFSSwGenByCountCourseMan`:
-- Change the `count` variable in method `main` to change the number of domain model copies
-- Execute the `main` method in an IDE
+1. Change the `rfsgenconfig.json` file:
+   - Change `count` property to the number of domain model copies
+   - change `rfsGenDesc`'s properties (especially the output folders) to suite the target setup
+2. Execute the `RFSSwGenByCountCourseMan.main` method in an IDE
 - **IMPORTANT**: you MUST follow the instructions on the console to successfully complete the execution!
   
 ## How to generate the RFS version of the test software

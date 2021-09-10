@@ -369,6 +369,16 @@ public class SCC {
     ast.setPackageDeclaration(pkgName);
   }
 
+
+  /**
+   * @effects 
+   *  return the package name that was set by {@link #setPackageName(String)}
+   * @version 5.4.1
+   */
+  public String getPackage() {
+    return ParserToolkit.getPackageDeclaration(ast);
+  }
+  
   /**
    * @effects return {@link #ast}.toString
    */
@@ -412,6 +422,21 @@ public class SCC {
     }
   }
 
+
+  /**
+   * @requires {@link #outputSrcFile} is set by a constructor or 
+   *  by invoking it {@link #save()} 
+   *  
+   * @effects 
+   *  return the output source file that was set by {@link #save()}.
+   *  
+   * @version 5.4.1
+   * 
+   */
+  public File getOutputSrcFile() {
+    return outputSrcFile;
+  }
+  
   /**
    * @effects return the FQN of the SCC defined by this
    * @version 5.4.1

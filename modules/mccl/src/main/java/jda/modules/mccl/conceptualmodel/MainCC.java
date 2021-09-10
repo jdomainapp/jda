@@ -1,5 +1,7 @@
 package jda.modules.mccl.conceptualmodel;
 
+import java.io.File;
+
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -226,5 +228,15 @@ public class MainCC extends MCC {
         ParserToolkit.createSimpleAnnotationExpr(SetUpDesc.class, "postSetUp", 
             ParserToolkit.createSimpleClassExprFor(CopyResourceFilesCommand.class)));
     props.add(setupDescProp);
-  }  
+  }
+
+  /**
+   * @effects 
+   *  return pkgName 
+   * @version 5.4.1
+   */
+  @Override
+  public String getPackage() {
+    return pkgName;
+  }
 }

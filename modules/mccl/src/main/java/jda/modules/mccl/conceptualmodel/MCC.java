@@ -11,6 +11,7 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
@@ -392,6 +393,16 @@ public class MCC {
     ast.setPackageDeclaration(pkgName);
   }
 
+
+  /**
+   * @effects 
+   *  return package name of this 
+   * @version 5.4.1
+   */
+  public String getPackage() {
+    return ParserToolkit.getPackageDeclaration(ast);
+  }
+  
   /**
    * @effects 
    *  return {@link #ast}.toString
@@ -412,7 +423,7 @@ public class MCC {
     //this.mccOutputRootDir = mccOutputRootDir;
     
     String mccSrc = getSourceCode();
-    String mccPkg = ParserToolkit.getPackageDeclaration(ast);
+    String mccPkg = getPackage(); //ParserToolkit.getPackageDeclaration(ast);
     String mccFQN = mccPkg + "." + name;
     
     // write to file
@@ -437,6 +448,20 @@ public class MCC {
     }
   }
 
+
+  /**
+   * @requires {@link #outputSrcFile} is set by a constructor or 
+   *  by invoking it {@link #save()} 
+   *  
+   * @effects 
+   *  return the file to which this was saved.
+   *  
+   * @version 5.4.1
+   */
+  public File getOutputSrcFile() {
+    return outputSrcFile;
+  }
+  
   /**
    * @effects 
    *  return {@link #dcls} 

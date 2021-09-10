@@ -17,9 +17,15 @@ public class RFSSwGenByCount extends SwGenByCount {
 
   private JsonObject rfsGenConfig;
   
-  public RFSSwGenByCount(String domainName, String rootSrcPath,
-      String seedModelPkg, String softwarePkg, int n, JsonObject rfsGenConfig) {
-    super(domainName, rootSrcPath, seedModelPkg, softwarePkg, n);
+  public RFSSwGenByCount(String domainName, 
+      String rootSrcPath, 
+      String outputPath,
+      String seedModelPkg, 
+      String modulesPkg,
+      String softwarePkg,
+      int n, JsonObject rfsGenConfig) {
+    super(domainName, rootSrcPath, 
+        outputPath, seedModelPkg, modulesPkg, softwarePkg, n);
     
     this.rfsGenConfig = rfsGenConfig;
   }
@@ -37,9 +43,6 @@ public class RFSSwGenByCount extends SwGenByCount {
     // add RFSGenDesc configuration into the tool
     tool.addConfig(RFSGenDesc.class, rfsGenConfig);
     
-    SCC scc = (SCC) tool.exec();
-    setSCC(scc);
-    
-    return this;
+    return doGenSCC(tool);
   }
 }

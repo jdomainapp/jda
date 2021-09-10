@@ -1,5 +1,7 @@
 package jda.modules.mccl.util;
 
+import com.github.javaparser.ast.PackageDeclaration;
+
 import jda.modules.common.CommonConstants;
 import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.mccl.conceptualmodel.MCC;
@@ -89,6 +91,22 @@ public class MCCTk {
     ModuleDescriptor moduleCfg = (ModuleDescriptor) c.getAnnotation(MD);
     
     return moduleCfg != null;
+  }
+
+  /**
+   * @effects 
+   *  return the FQN of the package, relative to <code>dclsPkg</code> of a domain class, which 
+   *  is used to locate the MCC of the domain class.
+   *  
+   *  <code>result = dclsPkg.parent + pkgLastName</code>
+   *  
+   * @version 5.4.1
+   */
+  public static String getMCCPackage(String dclsPkg, String pkgLastName) {
+    
+    String parent = dclsPkg.substring(0, dclsPkg.lastIndexOf("."));
+    String mccPkg = parent+ "." + pkgLastName;
+    return mccPkg;
   }
   
 }
