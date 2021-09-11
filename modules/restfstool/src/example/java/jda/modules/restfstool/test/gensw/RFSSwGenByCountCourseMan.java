@@ -2,7 +2,6 @@ package jda.modules.restfstool.test.gensw;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonReader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,18 +26,25 @@ public class RFSSwGenByCountCourseMan {
   private SCC scc;
   private String swcFqn;
   
-  private static Logger logger = LoggerFactory.getLogger("RESTFSTool");
+  private static Logger logger = LoggerFactory.getLogger(RFSSwGenByCountCourseMan.class);
   
   public static void main(String[] args) {
     // generate count SCCs
     // SCC1, ..., SCCn
     JsonObject rfsGenConfig = ToolkitIO.readJSonObjectFile(
         RFSSwGenByCountCourseMan.class, "rfsgenconfig.json");
-    int count = rfsGenConfig.getInt("count");
+    JsonObject countSpec = rfsGenConfig.getJsonObject("countSpec");
+    int min = countSpec.getInt("min"),
+        max = countSpec.getInt("max"),
+        increment = countSpec.getInt("increment");
     
-    for (int i = 1; i <= count; i++) {
+    for (int counter = min; counter <= max; 
+        counter = (counter == 1) ? increment: counter + increment) {
+      logger.info("\n==========\nGenerating config for software variant: " + counter + "\n==========\n");
+      
       RFSSwGenByCountCourseMan rfsGenTest = 
-          new RFSSwGenByCountCourseMan(rfsGenConfig, i);
+          new RFSSwGenByCountCourseMan(rfsGenConfig, counter);
+      
       rfsGenTest.init();
       // + create separate modules and software packages for each software
       // + auto-compile the generated classes

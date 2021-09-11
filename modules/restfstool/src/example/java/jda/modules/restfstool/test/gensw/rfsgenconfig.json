@@ -1,5 +1,9 @@
 { "domain": "CourseMan",
-  "count": 5,
+  "countSpec": {
+    "min": 1,
+    "max": 30,
+    "increment": 5
+  },
   "swConfigGen": {
     "rootSrcPath": "/data/projects/jda/modules/restfstool/src/example/java",
     "outputPath": "/data/projects/jda/modules/restfstool/target/classes",
