@@ -24,6 +24,7 @@
     <module>sccl</module>
     <module>sccltool</module>
     <module>dcsltool</module>
+    <module>swtool</module>
 <!--     <module>mbsl</module>
     <module>apml</module>
  -->
