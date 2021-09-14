@@ -105,8 +105,8 @@ public abstract class BESpringApp implements Consumer<List<Class>>{
 
     // ducmle: added command line argument to use a random port
     String[] args = {
-//        "--server.port=0",
-      "--server.port=8080",
+        "--server.port=0",
+//      "--server.port=8080",
 //        "--logging.level.org.springframework.web=debug"
     }; // new String[0]
     ApplicationContext ctx = SpringApplication.run(primarySources, args);

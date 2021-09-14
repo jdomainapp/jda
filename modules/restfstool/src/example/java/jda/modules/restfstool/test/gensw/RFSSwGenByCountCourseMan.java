@@ -28,7 +28,7 @@ public class RFSSwGenByCountCourseMan {
   
   private static Logger logger = LoggerFactory.getLogger(RFSSwGenByCountCourseMan.class);
   
-  public static void main(String[] args) {
+  public static void main(String[] args) throws NotPossibleException {
     // generate count SCCs
     // SCC1, ..., SCCn
     JsonObject rfsGenConfig = ToolkitIO.readJSonObjectFile(
@@ -38,8 +38,12 @@ public class RFSSwGenByCountCourseMan {
         max = countSpec.getInt("max"),
         increment = countSpec.getInt("increment");
     
-    for (int counter = min; counter <= max; 
-        counter = (counter == 1) ? increment: counter + increment) {
+    if (increment < 1)
+      throw new NotPossibleException(NotPossibleException.Code.INVALID_ARGUMENT, 
+          new Object[] {"increment = "  + increment});
+    
+    int counter = min;
+    while (counter <= max) {
       logger.info("\n==========\nGenerating config for software variant: " + counter + "\n==========\n");
       
       RFSSwGenByCountCourseMan rfsGenTest = 
@@ -49,6 +53,24 @@ public class RFSSwGenByCountCourseMan {
       // + create separate modules and software packages for each software
       // + auto-compile the generated classes
       rfsGenTest.gen();
+      
+      if (min == 1) {
+        if (counter == min) {
+          if (increment == 1) {
+            counter++;
+          } else {
+            counter = increment;
+          }
+        } else {
+          if (increment == 1) {
+            counter++;
+          } else {
+            counter += increment;
+          }
+        }
+      } else {
+        counter += increment;
+      }
     }
   }
   
