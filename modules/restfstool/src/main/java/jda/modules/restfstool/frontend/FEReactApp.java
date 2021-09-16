@@ -74,10 +74,25 @@ public class FEReactApp extends Thread {
 
 	public void run() {
 		if (File.separatorChar=='\\') {
-			runFEInWin();
+//			runFEInWin();
+			runFEInTest();
 		}else {
 			runFEInLinux();
 		}
+	}
+	
+	public void runFEInTest() {
+		String indexPath=demoReactPath+"\\public\\index.html";
+	
+		String cmd1 = "npx create-react-app "+feProjName;
+		String cmd2 = "xcopy "+feProjResource+"\\base src\\base /i /h /y";
+		String cmd3 = "xcopy "+feProjResource+"\\common src\\common /i /h /y";
+		String cmd4 = "xcopy "+feProjResource+"\\package.json "+demoReactPath+" /y";
+		String cmd5 = "xcopy "+feOutputPath+" "+ demoReactPath +"\\src /e /i /h /y";
+		String cmd6 = "npm install";
+		String cmd7 = "npm start";
+	
+    runFECmds(indexPath, cmd1, cmd2, cmd3, cmd4, cmd5);
 	}
 	
 	public void runFEInWin() {
@@ -144,11 +159,11 @@ public class FEReactApp extends Thread {
     
     ToolkitIO.writeTextFile(new File(indexPath), indexFileContent, true);
     
-    if(result) {
+    if(result && cmds.length>=6) {
       result = ToolkitIO.executeSysCommand(demoReactDir, cmds[5]);
     }
     
-    if(result) {
+    if(result && cmds.length>=7) {
       result = ToolkitIO.executeSysCommand(demoReactDir, cmds[6]);
     }
     

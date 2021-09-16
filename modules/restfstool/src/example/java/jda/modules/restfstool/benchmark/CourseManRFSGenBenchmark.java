@@ -6,6 +6,7 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.hanu.courseman.SCCCourseMan;
 
+import jda.modules.common.Toolkit;
 import jda.modules.common.io.ToolkitIO;
 import jda.modules.restfstool.RFSSoftware;
 
@@ -21,8 +22,8 @@ public class CourseManRFSGenBenchmark {
 //	@Param({ "1" })
 //	int number;
 
-	@Param()
-	String scc; 
+//	@Param()
+//	String scc; 
 	
 	@Benchmark
 	void createApp(int reps) {
@@ -30,8 +31,14 @@ public class CourseManRFSGenBenchmark {
 		  // TODO: 
 		  // - Load scc class
 		  // - run RFSSoftware with this SCC
-			Class scc = SCCCourseMan.class;
+//			Class scc = SCCCourseMan.class;
+			Class scc = Toolkit.loadClass("jda.modules.restfstool.test.performance.software.courseman1.config.SCC1");
 			new RFSSoftware(scc).init().generate().run();
 		}
+	}
+	
+	public static void main(String[] args) {
+		CourseManRFSGenBenchmark benchmark =new CourseManRFSGenBenchmark();
+		benchmark.createApp(1);
 	}
 }

@@ -19,7 +19,7 @@ public class Main {
 	    
 	    CaliperMain.main(CourseManRFSGenBenchmark.class, 
 	        // TODO: add value for parameter "scc"
-	        new String[] {"-l", ShortDuration.of(15, TimeUnit.MINUTES).toString()});
+	        new String[] {"-l", ShortDuration.of(40, TimeUnit.MINUTES).toString()});
 	  }
 	  
 	}

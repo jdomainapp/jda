@@ -66,7 +66,8 @@ public class FESoftware {
    *  
    */
   public FESoftware run() {
-    new FEReactApp(cfg).start();
+//    new FEReactApp(cfg).start();
+	  new FEReactApp(cfg).run();
     return this;
   }
 }
