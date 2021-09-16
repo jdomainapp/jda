@@ -1,7 +1,6 @@
 package org.jda.example.restfstool.rfsgen;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
 import jda.modules.restfstool.backend.BESpringApp;
 import jda.modules.restfstool.config.RFSGenConfig;
@@ -11,12 +10,15 @@ import jda.modules.restfstool.config.RFSGenConfig;
  *
  * @author Duc Minh Le (ducmle)
  *
- * @version 
+ * @version
+ * @deprecated do not use. Use {@link BESpringApp} instead. 
  */
 @SpringBootApplication
-@ComponentScan(basePackages = {
-  "com.hanu.courseman.backend"
-})
+//@ComponentScan(basePackages = {
+////  "com.hanu.courseman.backend"
+//    "jda.modules.restfstool.test.performance.backend"
+//})
+@Deprecated
 public class CourseManBESpringApp extends BESpringApp {
   
   /**

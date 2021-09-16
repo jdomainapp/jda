@@ -1,7 +1,5 @@
 package com.hanu.courseman;
 
-import org.jda.example.restfstool.rfsgen.CourseManBESpringApp;
-
 import com.hanu.courseman.modules.ModuleMain;
 import com.hanu.courseman.modules.address.ModuleAddress;
 import com.hanu.courseman.modules.coursemodule.ModuleCourseModule;
@@ -14,6 +12,7 @@ import jda.modules.dodm.dsm.DSM;
 import jda.modules.dodm.osm.postgresql.PostgreSQLOSM;
 import jda.modules.mccl.conceptmodel.Configuration.Language;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
+import jda.modules.restfstool.backend.BESpringApp;
 import jda.modules.restfstool.config.GenerationMode;
 import jda.modules.restfstool.config.LangPlatform;
 import jda.modules.restfstool.config.RFSGenDesc;
@@ -26,21 +25,23 @@ import jda.modules.sccl.syntax.SystemDesc;
 import jda.modules.setup.model.SetUpConfig;
 
 @RFSGenDesc(
-    stackSpec = 
+  stackSpec = 
 //      StackSpec.FE, // for testing FE
-      StackSpec.FS, // for production
+    StackSpec.FS, // for production
 //      StackSpec.BE, // for testing BE
-    genMode = GenerationMode.SOURCE_CODE, 
-    beLangPlatform = LangPlatform.SPRING,
-    feProjPath = "/home/ducmle/tmp/restfstool-fe",
-    feProjName = "fe-courseman",
-    feProjResource = "src/main/resources/react",
-    feOutputPath = "src/example/java/com/hanu/courseman/frontend",
-    bePackage = "com.hanu.courseman",
-    beOutputPath = "src/example/java", 
-    beTargetPackage = "com.hanu.courseman.backend"
-    ,beAppClass = CourseManBESpringApp.class
-    )
+  genMode = GenerationMode.SOURCE_CODE, 
+  beLangPlatform = LangPlatform.SPRING,
+  feProjPath = "/home/ducmle/tmp/restfstool-fe",
+  feProjName = "fe-courseman",
+  feProjResource = "src/main/resources/react",
+  feOutputPath = "src/example/java/com/hanu/courseman/frontend",
+  bePackage = "com.hanu.courseman.modules",
+  beOutputPath = "src/example/java", 
+  beTargetPackage = "com.hanu.courseman.backend"
+  ,beAppClass =
+    BESpringApp.class
+    //CourseManBESpringApp.class
+)
 @SystemDesc(
         appName = "Courseman",
         splashScreenLogo = "coursemanapplogo.jpg",

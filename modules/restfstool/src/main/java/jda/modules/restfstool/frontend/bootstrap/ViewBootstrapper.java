@@ -65,7 +65,7 @@ public final class ViewBootstrapper {
         Path path = new File(projectSrcDir).toPath();
         if (!Files.exists(path)) {
             try {
-                Files.createDirectory(path);
+                Files.createDirectories(path);
             } catch (IOException e) {
                 e.printStackTrace();
             }

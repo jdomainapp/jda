@@ -1,5 +1,7 @@
 package jda.modules.restfstool.test.gensw;
 
+import java.io.File;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 
@@ -98,6 +100,30 @@ public class RFSSwGenByCountCourseMan {
         "feProjName", 
         Json.createValue(feProjName));
     
+    // auto create backend package
+    String bePackage = // rfsGenDesc.getString("bePackage");
+        swConfigGen.getString("targetDomainModelPkgPrefix");
+    bePackage += "." + domain.toLowerCase() + counter;
+    rfsGenDesc = ToolkitIO.createNewJsonObject(rfsGenDesc, 
+        "bePackage", 
+        Json.createValue(bePackage));
+    
+    // append domain + counter to backend target package
+    String beTargetPackage = rfsGenDesc.getString("beTargetPackage");
+    beTargetPackage += "." + domain.toLowerCase() + counter;
+    rfsGenDesc = ToolkitIO.createNewJsonObject(rfsGenDesc, 
+        "beTargetPackage", 
+        Json.createValue(beTargetPackage));
+    
+    // append domain + counter to frontend path
+    String feOutputPath = rfsGenDesc.getString("feOutputPath");
+    feOutputPath += 
+        (!feOutputPath.endsWith(File.separator) ? File.separator : "") 
+        + domain.toLowerCase() + counter;
+    rfsGenDesc = ToolkitIO.createNewJsonObject(rfsGenDesc, 
+        "feOutputPath", 
+        Json.createValue(feOutputPath));
+    
     swgen = new RFSSwGenByCount(domain,
         // root source path
         swConfigGen.getString("rootSrcPath"),
@@ -105,10 +131,14 @@ public class RFSSwGenByCountCourseMan {
         swConfigGen.getString("outputPath"),
         // seed domain model package
         swConfigGen.getString("seedDomainModelPkg"),
+        // target domain model package
+        bePackage,
         // modules package
-        swConfigGen.getString("modulesPkgPrefix")+counter,
+        swConfigGen.getString("modulesPkgPrefix")+
+          "."+domain.toLowerCase()+counter,
         // software package
-        swConfigGen.getString("softwarePkgPrefix")+counter,
+        swConfigGen.getString("softwarePkgPrefix")+
+          "."+domain.toLowerCase()+counter,
         // how many model copies
         counter, 
         rfsGenDesc);

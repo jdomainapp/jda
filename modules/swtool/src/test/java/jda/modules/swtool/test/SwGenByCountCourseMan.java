@@ -29,6 +29,8 @@ public class SwGenByCountCourseMan {
         "/data/projects/jda/modules/swtool/target/test-classes",        
         // seed domain model package
         "org.jda.example.courseman.model",
+        // target domain model package
+        "org.jda.example.courseman.model" + count,
         // modules package
         "org.jda.example.courseman.modules",
         // software package

@@ -21,11 +21,12 @@ public class RFSSwGenByCount extends SwGenByCount {
       String rootSrcPath, 
       String outputPath,
       String seedModelPkg, 
+      String targetModelPkg,
       String modulesPkg,
       String softwarePkg,
       int n, JsonObject rfsGenConfig) {
     super(domainName, rootSrcPath, 
-        outputPath, seedModelPkg, modulesPkg, softwarePkg, n);
+        outputPath, seedModelPkg, targetModelPkg, modulesPkg, softwarePkg, n);
     
     this.rfsGenConfig = rfsGenConfig;
   }

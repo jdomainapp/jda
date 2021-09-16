@@ -56,7 +56,13 @@ public class SwGenByCount {
    * the seed model package of the CourseMan software would be <code>org.example.courseman.model</code>.
    * <p>Assumes: all domain classes of the model are defined in this package 
    */
-  private String seedModelPkg; 
+  private String seedModelPkg;
+  
+  /** FQN of the package that contains the generated domain model 
+   * by {@link #genDomainModel()} using {@link #seedModelPkg} as output. 
+   * <p>This is typically another package in the same code project. */
+  private String targetModelPkg;
+  
   /**
    * Absolute path to the main source code folder of the software. 
    * {@link #seedModelPkg} is defined relative from this folder.
@@ -91,7 +97,6 @@ public class SwGenByCount {
   private static Logger logger = LoggerFactory.getLogger(SwGenByCount.class.getSimpleName());
 
   ///// OUTPUT artefacts
-  private String targetModelPkg;
   /** the generated domain model source files: 
    * key: FQN of each domain class<br>
    * value: File object of the .java file
@@ -112,6 +117,7 @@ public class SwGenByCount {
       String rootSrcPath, 
       String outputPath, 
       String seedModelPkg, 
+      String targetModelPkg,
       String modulesPkg, 
       String softwarePkg, 
       int n) {
@@ -120,6 +126,7 @@ public class SwGenByCount {
     this.rootSrcDir = new File(rootSrcPath);
     this.outputDir = new File(outputPath);
     this.seedModelPkg = seedModelPkg;
+    this.targetModelPkg = targetModelPkg;
     this.modulesPkg = modulesPkg;
     this.softwarePkg = softwarePkg;
     this.n = n;
@@ -135,7 +142,9 @@ public class SwGenByCount {
 
     // destination package name
     // constructed from seedModelPkg by adding n to the name
-    this.targetModelPkg = seedModelPkg+n;
+    if (targetModelPkg == null)
+      targetModelPkg = seedModelPkg+n;
+    
     // create destPkg folder in rootSrcPath
     ToolkitIO.touchPath(rootSrcPath, targetModelPkg);
     
@@ -144,7 +153,12 @@ public class SwGenByCount {
     
     targetModelSrcFiles = new LinkedHashMap<>();
     for (int newNameId = min; newNameId <= max; newNameId++) {
-      Map<String, File> newSrcfiles = ToolkitIO.refactorSrcFilesInPkg(rootSrcPath, seedModelPkg, newNameId, targetModelPkg);
+      Map<String, File> newSrcfiles = ToolkitIO.refactorSrcFilesInPkg(
+          rootSrcPath, seedModelPkg, newNameId, targetModelPkg);
+      if (newSrcfiles == null) {
+        throw new NotFoundException(NotFoundException.Code.CLASS_NOT_FOUND, 
+            new Object[] {"Package: " + seedModelPkg});
+      }
       targetModelSrcFiles.putAll(newSrcfiles);
     }
     

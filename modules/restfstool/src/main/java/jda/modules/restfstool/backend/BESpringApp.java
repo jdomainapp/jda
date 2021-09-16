@@ -37,12 +37,11 @@ import jda.mosa.software.impl.SoftwareImpl;
  * @version 5.4.1
  */
 @SpringBootApplication
-@ComponentScan(basePackages = {
-// TODO: subtypes: replace this with actual application package    
-//        "com.hanu.courseman.backend",
-        "jda.modules.restfstool.backend"
-    })
-public abstract class BESpringApp implements Consumer<List<Class>>{
+@ComponentScan(basePackages = { 
+    "jda.modules.restfstool.backend", // system beans
+    "${domainBasePackages}",  // domain beans
+})
+public class BESpringApp implements Consumer<List<Class>>{
   private static final List<Class> generatedClasses = new ArrayList<>();
   private static SoftwareImpl sw;
   
@@ -104,13 +103,18 @@ public abstract class BESpringApp implements Consumer<List<Class>>{
     primarySources[generatedClassesCount] = this.getClass(); //BESpringApp.class;
 
     // ducmle: added command line argument to use a random port
+    String domainBasePackages = cfg.getBeTargetPackage();
+    
+    // TODO: use VM properties in place of args below in later versions of Spring
     String[] args = {
-        "--server.port=0",
-//      "--server.port=8080",
+//        "--server.port=0",
+      "--server.port=8080",
 //        "--logging.level.org.springframework.web=debug"
+        "--domainBasePackages=" + domainBasePackages
     }; // new String[0]
+    
     ApplicationContext ctx = SpringApplication.run(primarySources, args);
-
+    
     ctx.getBeansOfType(CrudService.class).forEach((k, v) -> registry.put(k, v));    
   }
   

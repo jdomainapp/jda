@@ -102,7 +102,11 @@ public class FEReactApp extends Thread {
 		String cmd3 = "cp -rf "+feProjResource+"/common src/";
 		String cmd4 = "cp -f "+feProjResource+"/package.json .";
 		String cmd5 = "cp -rf "+feOutputPath+"/* src/";
-		String cmd6 = "npm install";
+		String cmd6 = 
+	          "npm install"
+            // seems to hang here at the console and does not move to the next command 
+		        // "unzip "+feProjResource+"/node_modules.zip"
+		    ;
 		String cmd7 = "npm start";
 		
     runFECmds(indexPath, cmd1, cmd2, cmd3, cmd4, cmd5, cmd6, cmd7);
