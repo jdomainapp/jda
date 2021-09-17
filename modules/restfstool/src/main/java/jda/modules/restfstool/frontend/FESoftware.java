@@ -28,6 +28,8 @@ public class FESoftware {
    *  initialises this using <code>cfg</code>
    */
   public FESoftware init() {
+    logger.info("Initiating FESoftware...");
+
     // do nothing 
     return this;
   }
@@ -39,7 +41,7 @@ public class FESoftware {
    *  <p>The source code is saved to the target front-end output path pecified in <code>cfg</code>. 
    */
   public FESoftware generate() {
-    
+    logger.info("Generating frontend...");
     ViewBootstrapper bootstrapper = new ViewBootstrapper(
         //frontEndOutputPath,
         cfg.getFeOutputPath(),
@@ -66,6 +68,8 @@ public class FESoftware {
    *  
    */
   public FESoftware run() {
+    logger.info("Running frontend...");
+
 //    new FEReactApp(cfg).start();
 	  new FEReactApp(cfg).run();
     return this;

@@ -6,15 +6,15 @@ import jda.modules.restfstool.RFSSoftware;
  * @overview The software generator for a domain software.
  * 
  * @usage
- *  <pre> {@link DomainRFSGen}.main(sccFQN)</pre>
+ *  <pre> {@link DomainRFSGenRun}.main(sccFQN)</pre>
  *  
  * @author ducmle
  */
-public class DomainRFSGen {
+public class DomainRFSGenRun {
     
     public static void main(String[] args) throws ClassNotFoundException {
       if (args == null || args.length < 1) {
-        System.out.println("Usage: " + DomainRFSGen.class.getSimpleName() + " <FQN-of-SCC>");
+        System.out.println("Usage: " + DomainRFSGenRun.class.getSimpleName() + " <FQN-of-SCC>");
         System.exit(1);
       }
       String sccName = args[0];
@@ -23,6 +23,7 @@ public class DomainRFSGen {
 
       new RFSSoftware(scc)
         .init()
-        .generate();
+        .generate()
+        .run();
     }
 }

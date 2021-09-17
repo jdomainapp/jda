@@ -11,15 +11,19 @@ public class Main {
 	  // 2. each iteration for SCCi 
 	  //   calls CaliperMain.main(CourseManRFSGenBenchmark.class, SCCi)
 	  
-	  int count = 100;
+	  int count = 1;
 	  
-	  String prefix = "jda.modules.restfstool.test.performance.software.config";
+	  String prefix = "jda.modules.restfstool.test.performance.software.courseman%d.config.SCC%d";
 	  for (int i = 1; i <= count; i++) {
-	    String scc = prefix + "SCC" + i;
+	    String scc = //prefix + "SCC" + i;
+	        String.format(prefix, i, i);
 	    
 	    CaliperMain.main(CourseManRFSGenBenchmark.class, 
-	        // TODO: add value for parameter "scc"
-	        new String[] {"-l", ShortDuration.of(40, TimeUnit.MINUTES).toString()});
+	        new String[] {
+	            "-l", ShortDuration.of(40, TimeUnit.MINUTES).toString(),
+	            "-DsccFqn="+scc
+	        }
+	    );
 	  }
 	  
 	}

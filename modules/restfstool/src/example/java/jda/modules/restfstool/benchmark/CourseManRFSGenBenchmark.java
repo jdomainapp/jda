@@ -1,13 +1,12 @@
 package jda.modules.restfstool.benchmark;
 
-import java.io.File;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.hanu.courseman.SCCCourseMan;
 
 import jda.modules.common.Toolkit;
-import jda.modules.common.io.ToolkitIO;
 import jda.modules.restfstool.RFSSoftware;
 
 /**
@@ -16,29 +15,50 @@ import jda.modules.restfstool.RFSSoftware;
  * @author ducmle
  */
 public class CourseManRFSGenBenchmark {
-  // TODO: 
-  // - find out how to specify this number for one SCC, e.g. number = 1 -> SCC1, ... 
-  // - how to automate the run for all the SCC1, ..., SCCn
-//	@Param({ "1" })
-//	int number;
+  @Param()
+  String sccFqn;
 
-//	@Param()
-//	String scc; 
-	
-	@Benchmark
-	void createApp(int reps) {
-		for (int i = 0; i < reps; i++) {
-		  // TODO: 
-		  // - Load scc class
-		  // - run RFSSoftware with this SCC
-//			Class scc = SCCCourseMan.class;
-			Class scc = Toolkit.loadClass("jda.modules.restfstool.test.performance.software.courseman1.config.SCC1");
-			new RFSSoftware(scc).init().generate().run();
-		}
-	}
-	
-	public static void main(String[] args) {
-		CourseManRFSGenBenchmark benchmark =new CourseManRFSGenBenchmark();
-		benchmark.createApp(1);
-	}
+  private static int runCounter = 0;
+
+  private static Logger logger = (Logger) LoggerFactory
+      .getLogger("module.restfstool.benchmark");
+
+  @Benchmark
+//  @Macrobenchmark
+  void runScenario1A(int reps) {
+    logger.info("run#: " + (++runCounter));
+    logger.info("reps: " + reps);
+
+    // using reps
+    for (int i = 0; i < reps; i++) {
+      logger.info(String.format("rep#: %d/%d (run#%d)", i+1, reps, runCounter));
+      // - Load scc class
+      // - run RFSSoftware with this SCC
+      Class scc = Toolkit.loadClass(sccFqn);
+      new RFSSoftware(scc).init().generate();
+    }
+  }
+
+  // @Benchmark
+  void runScenario1B(int reps) {
+    logger.info("run#: " + (++runCounter));
+    logger.info("benchmark repetitions: " + reps);
+
+    // using reps
+    for (int i = 0; i < reps; i++) {
+      // - Load scc class
+      // - run RFSSoftware with this SCC
+      Class scc = Toolkit.loadClass(sccFqn);
+      new RFSSoftware(scc).init().generate().run();
+    }
+  }
+
+// for testing ONLY  
+//  @Benchmark
+//  void timeNanoTime(int reps) {
+//    logger.info("benchmark repetitions: " + reps);
+//    for (int i = 0; i < reps; i++) {
+//      System.nanoTime();
+//    }
+//  }
 }

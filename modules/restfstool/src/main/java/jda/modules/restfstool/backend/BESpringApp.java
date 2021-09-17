@@ -107,8 +107,8 @@ public class BESpringApp implements Consumer<List<Class>>{
     
     // TODO: use VM properties in place of args below in later versions of Spring
     String[] args = {
-//        "--server.port=0",
-      "--server.port=8080",
+        "--server.port=0",
+//      "--server.port=8080",
 //        "--logging.level.org.springframework.web=debug"
         "--domainBasePackages=" + domainBasePackages
     }; // new String[0]
