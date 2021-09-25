@@ -1,11 +1,14 @@
-package jda.modules.restfstool.backend;
+package jda.modules.restfstool.backend.spring;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -21,6 +24,7 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import jda.modules.common.exceptions.DataSourceException;
 import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.common.exceptions.NotPossibleException;
+import jda.modules.restfstool.BEApp;
 import jda.modules.restfstool.backend.base.controllers.ServiceRegistry;
 import jda.modules.restfstool.backend.base.services.CrudService;
 import jda.modules.restfstool.config.RFSGenConfig;
@@ -41,11 +45,15 @@ import jda.mosa.software.impl.SoftwareImpl;
     "jda.modules.restfstool.backend", // system beans
     "${domainBasePackages}",  // domain beans
 })
-public class BESpringApp implements Consumer<List<Class>>{
+public class BESpringApp implements BEApp, Consumer<List<Class>>{
+  private static Logger logger = (Logger) LoggerFactory.getLogger("module.restfstool");
+
   private static final List<Class> generatedClasses = new ArrayList<>();
   private static SoftwareImpl sw;
   
-  private RFSGenConfig cfg;
+  // static: (similar to sw) for available as shared Bean 
+  // so that it is accessible by @Bean method corsConfigurer() (below)
+  private static RFSGenConfig cfg;
 
   public BESpringApp() {
     // for SpringBoot
@@ -80,6 +88,7 @@ public class BESpringApp implements Consumer<List<Class>>{
    *  <p>The data management back-end is managed by a {@link DomSoftware} that is created
    *  as a bean (see {@link #getSoftwareImpl()} using the data source configuration specified in <code>cfg</code>.
    */
+  @Override
   public void run(Collection<? extends Class> components) {
     generatedClasses.addAll(components);
     sw = SoftwareFactory.createStandardDomSoftware(cfg.getSCC());
@@ -104,14 +113,17 @@ public class BESpringApp implements Consumer<List<Class>>{
 
     // ducmle: added command line argument to use a random port
     String domainBasePackages = cfg.getBeTargetPackage();
+    long serverPort = getBeServerPort();
     
     // TODO: use VM properties in place of args below in later versions of Spring
     String[] args = {
-        "--server.port=0",
+        "--server.port=" + serverPort,
 //      "--server.port=8080",
 //        "--logging.level.org.springframework.web=debug"
         "--domainBasePackages=" + domainBasePackages
     }; // new String[0]
+    
+    logger.info(this.getClass().getSimpleName() + ": starting server with args: \n   " + Arrays.toString(args));
     
     ApplicationContext ctx = SpringApplication.run(primarySources, args);
     
@@ -125,7 +137,10 @@ public class BESpringApp implements Consumer<List<Class>>{
           public void addCorsMappings(CorsRegistry registry) {
               registry.addMapping("/**")
                       .allowedMethods("GET", "POST", "PATCH", "DELETE")
-                      .allowedOrigins("http://localhost:3000");
+                      // ducmle: leave this commented for development
+                      // (uncomment for production settings)
+                      // .allowedOrigins("http://localhost:"+cfg.getFeServerPort())
+                      ;
           }
       };
   }
@@ -135,16 +150,19 @@ public class BESpringApp implements Consumer<List<Class>>{
       return sw;
   }
 
-//  @Bean
-//  public RFSGenConfig getCfg() {
-//      return cfg;
-//  }
-  
   @Bean
   public Jackson2ObjectMapperBuilderCustomizer addCustomBigDecimalDeserialization() {
       return builder -> builder.dateFormat(new SimpleDateFormat("yyyy-MM-dd"))
               .modules(new ParameterNamesModule())
               .serializationInclusion(JsonInclude.Include.NON_NULL);
       //.configure(mapper);
+  }
+
+  /**
+   * @effects 
+   *  return the configured back-end server port
+   */
+  public long getBeServerPort() {
+    return cfg.getBeServerPort();
   }
 }

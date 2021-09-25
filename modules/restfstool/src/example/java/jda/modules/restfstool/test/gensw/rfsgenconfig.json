@@ -20,9 +20,12 @@
     "feProjName" : "fe-courseman",
     "feProjResource" : "src/main/resources/react",
     "feOutputPath" : "src/example/java/jda/modules/restfstool/test/performance/frontend",
+    "feServerPort": 5000,
+    "feAppClass": "jda.modules.restfstool.testbed.frontend.FEReactAppByCount",
     "beOutputPath" : "src/example/java", 
     "bePackage" : "auto",
     "beTargetPackage" : "jda.modules.restfstool.test.performance.backend",
-    "beAppClass" : "jda.modules.restfstool.backend.BESpringApp"
+    "beAppClass" : "jda.modules.restfstool.backend.spring.BESpringApp",
+    "beServerPort": 8000
   }
 }

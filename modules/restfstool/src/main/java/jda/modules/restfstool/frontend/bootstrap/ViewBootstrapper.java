@@ -9,12 +9,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import jda.modules.common.io.ToolkitIO;
 import jda.modules.mccl.conceptualmodel.MCC;
+import jda.modules.restfstool.config.RFSGenConfig;
 import jda.modules.restfstool.frontend.models.common.MCCRegistry;
 import jda.modules.restfstool.frontend.models.nonviews.AppEntryPoint;
 import jda.modules.restfstool.frontend.models.nonviews.FrontendModule;
 import jda.modules.restfstool.frontend.models.views.HasSubView;
 import jda.modules.restfstool.frontend.models.views.View;
+import jda.modules.restfstool.frontend.reactjs.FEReactApp;
+import jda.modules.restfstool.frontend.utils.FileUtils;
 import jda.modules.restfstool.frontend.utils.MCCUtils;
 
 public final class ViewBootstrapper {
@@ -24,14 +28,20 @@ public final class ViewBootstrapper {
     private final String projectSrcDir;
     private final Class sccClass;
     private MCC[] modules;
+    private long beServerPort;
+    private RFSGenConfig cfg;
 
-    public ViewBootstrapper(final String projectSrcDir,
-                            final Class sccClass, final Class moduleMainClass,
-                            final Class[] models, final Class[] mccClasses) {
-        this.projectSrcDir = projectSrcDir;
-        this.sccClass = sccClass;
-        this.moduleMainClass = moduleMainClass;
-        this.models = models;
+    public ViewBootstrapper(
+//        final String projectSrcDir,
+//        final Class sccClass, final Class moduleMainClass,
+//        final Class[] models, final Class[] mccClasses
+        RFSGenConfig cfg
+                            ) {
+        this.projectSrcDir = cfg.getFeOutputPath();
+        this.sccClass = cfg.getSCC();
+        this.moduleMainClass = cfg.getMCCMain();
+        this.models = cfg.getDomainModel();
+        Class[] mccClasses = cfg.getMCCFuncs();
         this.modules = IntStream.range(0, mccClasses.length)
                 .mapToObj(i -> MCCUtils.readMCC(models[i], 
                     mccClasses[i]))
@@ -40,6 +50,8 @@ public final class ViewBootstrapper {
         for (MCC mcc : modules) {
             MCCRegistry.getInstance().add(mcc);
         }
+        this.beServerPort = cfg.getBeServerPort();
+        this.cfg = cfg;
     }
 
     private Map<Class, MCC> getModelModuleMap() {
@@ -93,7 +105,30 @@ public final class ViewBootstrapper {
         }
     }
 
-    public void bootstrapAndSave() {
+    /**
+     * @effects 
+     *    initialise common resources (e.g. serverPort) from the configuration
+     * @version 5.4.1 
+     *
+     */
+    public ViewBootstrapper init() {
+      // change feServerPort in Constants.js to this.feServerPort
+      String feParentProjPath = ToolkitIO.getMavenProjectRootPath(FEReactApp.class, true);
+      String feProjResource = ToolkitIO.getPath(feParentProjPath,  
+          FileUtils.separatorsToSystem(cfg.getFeProjResource())).toString();
+      File constantsTempFile = ToolkitIO.getPath(feProjResource, "common", "templates", "Constants.js").toFile();
+      File constantsFile = ToolkitIO.getPath(feProjResource, "common", "Constants.js").toFile();
+      String constantsJs = ToolkitIO.readTextFileContent(constantsTempFile)
+        .replace("{{ beServerPort }}", beServerPort+"");
+      ToolkitIO.writeTextFile(constantsFile, constantsJs, true);
+      return this;
+    }
+    
+    /**
+     * @version 5.4.1
+     *  return this for use in fluent-style API 
+     */
+    public ViewBootstrapper bootstrapAndSave() {
         final MCC mainMCC = MCCUtils.readMCC(null, moduleMainClass);
         final AppEntryPoint appEntryPoint = new AppEntryPoint(sccClass, mainMCC, getModelModuleMap());
         for (FrontendModule frontendModule : appEntryPoint.getFrontendModules()) {
@@ -116,6 +151,8 @@ public final class ViewBootstrapper {
         String fileName = "./" + appEntryPoint.getFileName() + EXTENSION;
         String content = appEntryPoint.getAsString();
         saveFile("", fileName, content);
+        
+        return this;
     }
 
 //    public static void main(String[] args) {

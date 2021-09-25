@@ -3,7 +3,9 @@ package jda.modules.restfstool.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import jda.modules.restfstool.backend.BESpringApp;
+import jda.modules.restfstool.BEApp;
+import jda.modules.restfstool.FEApp;
+
 
 /**
  * @overview 
@@ -19,9 +21,6 @@ public class RFSGenConfig {
   
   private Class[] domainModel;
 
-  private LangPlatform beLangPlatform;
-  private String beTargetPackage;
-  private String beOutputPath;
   private GenerationMode genMode;
 
   private String feOutputPath;
@@ -34,8 +33,20 @@ public class RFSGenConfig {
 
   /** front-end's shared resources for project */
   private String feProjResource;
+
+  private long feServerPort;
   
-  private Class<? extends BESpringApp> beAppClass;
+  private Class<? extends FEApp> feAppClass;
+  private boolean feThreaded;
+  
+  private LangPlatform beLangPlatform;
+  private String beTargetPackage;
+  private String beOutputPath;
+  private String bePackage;
+  private long beServerPort;
+
+  private Class<? extends BEApp> beAppClass;
+  private boolean beThreaded;
 
   private Class scc;
 
@@ -46,8 +57,6 @@ public class RFSGenConfig {
   /** is the union of {@link #mccFuncs} and {@link #mccMain}*/
   private Class[] mccs;
 
-  private String bePackage;
-  
   /**
    * @effects 
    *  this is needed for mapping from annotation
@@ -198,24 +207,16 @@ public class RFSGenConfig {
   }
 
   /**
-   * @effects 
-   * 
-   */
-  public Class<? extends BESpringApp> getBEAppClass() {
-    return beAppClass;
-  }
-
-  /**
    * @effects return beAppClass
    */
-  public Class<? extends BESpringApp> getBeAppClass() {
+  public Class<? extends BEApp> getBeAppClass() {
     return beAppClass;
   }
 
   /**
    * @effects set beAppClass = beAppClass
    */
-  public void setBeAppClass(Class<? extends BESpringApp> beAppClass) {
+  public void setBeAppClass(Class<? extends BEApp> beAppClass) {
     this.beAppClass = beAppClass;
   }
 
@@ -311,5 +312,76 @@ public class RFSGenConfig {
   public void setBePackage(String bePackage) {
     this.bePackage = bePackage;
   }
+
+  /**
+   * @effects return feServerPort
+   */
+  public long getFeServerPort() {
+    return feServerPort;
+  }
+
+  /**
+   * @effects set feServerPort = feServerPort
+   */
+  public void setFeServerPort(long feServerPort) {
+    this.feServerPort = feServerPort;
+  }
+
+  /**
+   * @effects return beServerPort
+   */
+  public long getBeServerPort() {
+    return beServerPort;
+  }
+
+  /**
+   * @effects set beServerPort = beServerPort
+   */
+  public void setBeServerPort(long beServerPort) {
+    this.beServerPort = beServerPort;
+  }
+
+  /**
+   * @effects return feAppClass
+   */
+  public Class<? extends FEApp> getFeAppClass() {
+    return feAppClass;
+  }
+
+  /**
+   * @effects set feAppClass = feAppClass
+   */
+  public void setFeAppClass(Class<? extends FEApp> feAppClass) {
+    this.feAppClass = feAppClass;
+  }
+
+  /**
+   * @effects return isFeThreaded
+   */
+  public boolean getFeThreaded() {
+    return feThreaded;
+  }
+
+  /**
+   * @effects set isFeThreaded = isFeThreaded
+   */
+  public void setFeThreaded(boolean isFeThreaded) {
+    this.feThreaded = isFeThreaded;
+  }
+
+  /**
+   * @effects return isBeThreaded
+   */
+  public boolean getBeThreaded() {
+    return beThreaded;
+  }
+
+  /**
+   * @effects set isBeThreaded = isBeThreaded
+   */
+  public void setBeThreaded(boolean isBeThreaded) {
+    this.beThreaded = isBeThreaded;
+  }
+  
   
 }

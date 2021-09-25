@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import jda.modules.dcsl.util.DClassTk;
+import jda.modules.restfstool.BEApp;
 import jda.modules.restfstool.backend.base.controllers.DefaultNestedRestfulController;
 import jda.modules.restfstool.backend.base.controllers.DefaultRestfulController;
 import jda.modules.restfstool.backend.base.services.SimpleDomServiceAdapter;
@@ -167,7 +168,6 @@ public class BESoftware {
 
     final Class[] model = cfg.getDomainModel();
     Collection<Class> comps = output.getComponents();
-    Class<? extends BESpringApp> springAppCls = cfg.getBeAppClass();
 
     logger.debug("model: " + model.length);
     Stream.of(model).forEach(c -> logger.debug(c.getName()));
@@ -175,12 +175,26 @@ public class BESoftware {
     logger.debug("num-comps: " + comps.size());
     comps.forEach(c -> logger.debug(c.getName()));
 
+    /* ducmle: old code
+    Class<? extends BESpringApp> springAppCls = cfg.getBeAppClass();
     // run SpringBoot
     BESpringApp app = DClassTk.createObject(springAppCls, 
         RFSGenConfig.class,
         cfg);
     
     app.run(comps);
+    */
+    Class<? extends BEApp> appCls = cfg.getBeAppClass();
+
+    BEApp app = DClassTk.createObject(appCls, 
+        RFSGenConfig.class,
+        cfg);
+    
+    if (cfg.getBeThreaded()) {
+      app.runThreaded(comps);
+    } else {
+      app.run(comps);
+    }
     
     return this;
   }
@@ -195,7 +209,6 @@ public class BESoftware {
     logger.info("Running backend...");
 
     String backendTargetPackage = cfg.getBeTargetPackage();
-    Class<? extends BESpringApp> springAppCls = cfg.getBeAppClass();
     Class[] model = cfg.getDomainModel();
     
 //    System.out.println("model: " + model.length);
@@ -225,10 +238,16 @@ public class BESoftware {
     comps.forEach(c -> logger.debug(c.getName()));
     
     // run SpringBoot
-    BESpringApp app = DClassTk.createObject(springAppCls, 
+    Class<? extends BEApp> appCls = cfg.getBeAppClass();
+    BEApp app = DClassTk.createObject(appCls, 
         RFSGenConfig.class,
         cfg);
-    app.run(comps);
+    
+    if (cfg.getBeThreaded()) {
+      app.runThreaded(comps);
+    } else {
+      app.run(comps);
+    }
     
     return this;
   }

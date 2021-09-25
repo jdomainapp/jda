@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import jda.modules.restfstool.backend.BESoftware;
-import jda.modules.restfstool.backend.BESpringApp;
 import jda.modules.restfstool.config.RFSGenConfig;
 import jda.modules.restfstool.frontend.FESoftware;
 import jda.modules.restfstool.util.RFSGenTk;
@@ -90,19 +89,23 @@ public class RFSSoftware {
     logger.info("Running...");
 
     if (cfg.getStackSpec().includesFE()) {
-      // run front end
-      if (feSw != null) {
-        feSw.run();
-      } else {
-        feSw = new FESoftware(cfg)
-            .init()
-            .run();
+      Class<? extends FEApp> appCls = cfg.getFeAppClass();
+
+      if (appCls != null) {
+        // run front end
+        if (feSw != null) {
+          feSw.run();
+        } else {
+          feSw = new FESoftware(cfg)
+              .init()
+              .run();
+        }
       }
     }
     
     if (cfg.getStackSpec().includesBE()) {
       // run back end
-      Class<? extends BESpringApp> appCls = cfg.getBEAppClass();
+      Class<? extends BEApp> appCls = cfg.getBeAppClass();
       
       if (appCls != null) {
         if (beSw != null) {  // if BE was generated

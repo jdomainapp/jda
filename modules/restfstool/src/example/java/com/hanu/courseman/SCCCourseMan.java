@@ -12,11 +12,12 @@ import jda.modules.dodm.dsm.DSM;
 import jda.modules.dodm.osm.postgresql.PostgreSQLOSM;
 import jda.modules.mccl.conceptmodel.Configuration.Language;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
-import jda.modules.restfstool.backend.BESpringApp;
+import jda.modules.restfstool.backend.spring.BESpringApp;
 import jda.modules.restfstool.config.GenerationMode;
 import jda.modules.restfstool.config.LangPlatform;
 import jda.modules.restfstool.config.RFSGenDesc;
 import jda.modules.restfstool.config.StackSpec;
+import jda.modules.restfstool.frontend.reactjs.FEReactApp;
 import jda.modules.sccl.syntax.DSDesc;
 import jda.modules.sccl.syntax.OrgDesc;
 import jda.modules.sccl.syntax.SecurityDesc;
@@ -35,11 +36,14 @@ import jda.modules.setup.model.SetUpConfig;
   feProjName = "fe-courseman",
   feProjResource = "src/main/resources/react",
   feOutputPath = "src/example/java/com/hanu/courseman/frontend",
+  feServerPort = 5000,  // default: 3000
+  feAppClass=FEReactApp.class,
+  feThreaded = true,
   bePackage = "com.hanu.courseman.modules",
   beOutputPath = "src/example/java", 
   beTargetPackage = "com.hanu.courseman.backend"
-  ,beAppClass =
-    BESpringApp.class
+  ,beAppClass = BESpringApp.class,
+  beServerPort = 8080  // default: 8080
     //CourseManBESpringApp.class
 )
 @SystemDesc(

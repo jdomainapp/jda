@@ -4,7 +4,8 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import jda.modules.restfstool.backend.BESpringApp;
+import jda.modules.restfstool.BEApp;
+import jda.modules.restfstool.FEApp;
 
 /**
  * @overview 
@@ -34,8 +35,13 @@ public @interface RFSGenDesc {
   
   /** backend main application that is executed by the web server.
    * For now, it is Spring-specific. This may be changed in the future to suit the {@link #beLangPlatform()} */
-  Class<? extends BESpringApp> beAppClass(); // default Null.class;
+  Class<? extends BEApp> beAppClass(); // default Null.class;
 
+  /** backend server port */
+  long beServerPort() default 8080;
+
+  boolean beThreaded() default false;
+  
   /** code generation mode (source code or byte code) */
   GenerationMode genMode();
 
@@ -50,4 +56,12 @@ public @interface RFSGenDesc {
 
   /** front-end's shared resources for project */
   String feProjResource();
+  
+  /** frontend server port */
+  long feServerPort() default 3000;
+
+  /** frontend main application that is executed by the web server. */
+  Class<? extends FEApp> feAppClass();
+  
+  boolean feThreaded() default false;
 }

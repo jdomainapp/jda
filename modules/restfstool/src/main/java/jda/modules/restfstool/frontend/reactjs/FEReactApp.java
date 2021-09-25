@@ -1,4 +1,4 @@
-package jda.modules.restfstool.frontend;
+package jda.modules.restfstool.frontend.reactjs;
 
 import java.io.File;
 
@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jda.modules.common.io.ToolkitIO;
+import jda.modules.restfstool.FEApp;
 import jda.modules.restfstool.config.RFSGenConfig;
+import jda.modules.restfstool.frontend.FESoftware;
 import jda.modules.restfstool.frontend.utils.FileUtils;
 
 /**
@@ -20,12 +22,16 @@ import jda.modules.restfstool.frontend.utils.FileUtils;
  *
  * @version 5.4.1
  */
-public class FEReactApp extends Thread {
+public class FEReactApp extends Thread implements FEApp {
+  private RFSGenConfig config;
+
 	private String feProjPath = "";
 	private String feProjResource="";
 	private String feOutputPath="";
 	private String feProjName="";
 	private String demoReactPath="";
+
+	private long feServerPort;
 	
 	String indexFileContent = "<!DOCTYPE html>\r\n"
 			+ "<html lang=\"en\">\r\n"
@@ -54,25 +60,34 @@ public class FEReactApp extends Thread {
 			+ "  </body>\r\n"
 			+ "</html>";
 	
+	
   private static Logger logger = (Logger) LoggerFactory.getLogger("module.restfstool");
 
 	public FEReactApp(RFSGenConfig config) {
-	  // TODO: (ducmle) improve this to:
-	  // 1. use user.profile directory for the feParentProjPath (maven dir is not available for the case of jar distribution)
-	  // 2. read and copy resources for the case of jar-file distribution 
-	  
-		String feParentProjPath = ToolkitIO.getMavenProjectRootPath(FEReactApp.class, true);
-		feProjPath = FileUtils.separatorsToSystem(config.getFeProjPath());
-		if(feProjPath.isEmpty()) {
-			feProjPath = feParentProjPath;
-		}
-		feOutputPath = feParentProjPath+File.separator+ FileUtils.separatorsToSystem(config.getFeOutputPath());
-		feProjResource = feParentProjPath+File.separator+ FileUtils.separatorsToSystem(config.getFeProjResource());
-		feProjName = config.getFeProjName();
-		demoReactPath = feProjPath+ File.separator+ feProjName;
+		this.config = config;
 	}
 
+	/**
+	 * @effects 
+   *  return value for {@link #feProjName} based on what is specified in <code>config</code> 
+   */
+  protected String getFeProjName(RFSGenConfig config) {
+    return config.getFeProjName();
+  }
+
+  /**
+   * @effects 
+   *  return value for {@link #feServerPort} based on what is specified in <code>config</code> 
+   */
+  protected long getFeServerPort(RFSGenConfig config) {
+	  return config.getFeServerPort();
+	}
+	
+	@Override
 	public void run() {
+	  // initialise state
+	  init();
+	  
 		if (File.separatorChar=='\\') {
 //			runFEInWin();
 			runFEInTest();
@@ -81,7 +96,28 @@ public class FEReactApp extends Thread {
 		}
 	}
 	
-	public void runFEInTest() {
+	/**
+   * @effects 
+   *  initialise this 
+   */
+  public void init() {
+    // TODO: (ducmle) improve this to:
+    // 1. use user.profile directory for the feParentProjPath (maven dir is not available for the case of jar distribution)
+    // 2. read and copy resources for the case of jar-file distribution 
+    String feParentProjPath = ToolkitIO.getMavenProjectRootPath(FEReactApp.class, true);
+    feProjPath = FileUtils.separatorsToSystem(config.getFeProjPath());
+    if(feProjPath.isEmpty()) {
+      feProjPath = feParentProjPath;
+    }
+    feOutputPath = feParentProjPath+File.separator+ FileUtils.separatorsToSystem(config.getFeOutputPath());
+    feProjResource = feParentProjPath+File.separator+ FileUtils.separatorsToSystem(config.getFeProjResource());
+    feProjName = getFeProjName(config);
+    demoReactPath = feProjPath+ File.separator+ feProjName;
+    
+    feServerPort = getFeServerPort(config);    
+  }
+
+  public void runFEInTest() {
 		String indexPath=demoReactPath+"\\public\\index.html";
 	
 		String cmd1 = "npx create-react-app "+feProjName;
@@ -90,7 +126,9 @@ public class FEReactApp extends Thread {
 		String cmd4 = "xcopy "+feProjResource+"\\package.json "+demoReactPath+" /y";
 		String cmd5 = "xcopy "+feOutputPath+" "+ demoReactPath +"\\src /e /i /h /y";
 		String cmd6 = "npm install";
-		String cmd7 = "npm start";
+		
+    logger.info(this.getClass().getSimpleName() + ": FE server port: \n   " + feServerPort);
+		String cmd7 = String.format("PORT=%d npm start", feServerPort);
 	
     runFECmds(indexPath, cmd1, cmd2, cmd3, cmd4, cmd5);
 	}
@@ -104,7 +142,9 @@ public class FEReactApp extends Thread {
 		String cmd4 = "xcopy "+feProjResource+"\\package.json "+demoReactPath+" /y";
 		String cmd5 = "xcopy "+feOutputPath+" "+ demoReactPath +"\\src /e /i /h /y";
 		String cmd6 = "npm install";
-		String cmd7 = "npm start";
+		
+    logger.info(this.getClass().getSimpleName() + ": FE server port: \n   " + feServerPort);
+    String cmd7 = String.format("PORT=%d npm start", feServerPort);
 	
     runFECmds(indexPath, cmd1, cmd2, cmd3, cmd4, cmd5, cmd6, cmd7);
 	}
@@ -122,7 +162,9 @@ public class FEReactApp extends Thread {
             // seems to hang here at the console and does not move to the next command 
 		        // "unzip "+feProjResource+"/node_modules.zip"
 		    ;
-		String cmd7 = "npm start";
+
+		logger.info(this.getClass().getSimpleName() + ": FE server port: \n   " + feServerPort);
+    String cmd7 = String.format("PORT=%d npm start", feServerPort);
 		
     runFECmds(indexPath, cmd1, cmd2, cmd3, cmd4, cmd5, cmd6, cmd7);
 	}
@@ -168,9 +210,9 @@ public class FEReactApp extends Thread {
     }
     
     if(result) {
-      logger.info("==============FINSH FERun ===========");
+      logger.info(this.getClass().getSimpleName() + "==============FINSH Run ===========");
     }else {
-      logger.error("Error Run Front-End");
+      logger.error(this.getClass().getSimpleName() + ": Error(s) occured while running Front-End");
     }
   }
 }
