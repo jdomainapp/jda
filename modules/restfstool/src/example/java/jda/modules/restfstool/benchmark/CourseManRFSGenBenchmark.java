@@ -3,11 +3,14 @@ package jda.modules.restfstool.benchmark;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.caliper.Benchmark;
-import com.google.caliper.Param;
-
 import jda.modules.common.Toolkit;
 import jda.modules.restfstool.RFSSoftware;
+
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.RunnerException;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 /**
  * The software generator for CourseManApp.
@@ -15,8 +18,8 @@ import jda.modules.restfstool.RFSSoftware;
  * @author ducmle
  */
 public class CourseManRFSGenBenchmark {
-  @Param()
-  String sccFqn;
+//  @Param()
+//  String sccFqn;
 
   private static int runCounter = 0;
 
@@ -24,33 +27,24 @@ public class CourseManRFSGenBenchmark {
       .getLogger("module.restfstool.benchmark");
 
   @Benchmark
-//  @Macrobenchmark
-  void runScenario1A(int reps) {
+  public void runBenchmarh() {
     logger.info("run#: " + (++runCounter));
-    logger.info("reps: " + reps);
 
-    // using reps
-    for (int i = 0; i < reps; i++) {
-      logger.info(String.format("rep#: %d/%d (run#%d)", i+1, reps, runCounter));
-      // - Load scc class
-      // - run RFSSoftware with this SCC
-      Class scc = Toolkit.loadClass(sccFqn);
+      Class scc = Toolkit.loadClass("");
       new RFSSoftware(scc).init().generate();
-    }
   }
+  
+  public static void main(String[] args) throws RunnerException {
+      Options opt = new OptionsBuilder()
+              .include(CourseManRFSGenBenchmark.class.getSimpleName())
+//              .param("arg", "41", "42") // Use this to selectively constrain/override parameters
+              .warmupIterations(0)
+              .measurementIterations(5)
+              .addProfiler(HeapMemoryProfiler.class)
+              .forks(1)
+              .build();
 
-  // @Benchmark
-  void runScenario1B(int reps) {
-    logger.info("run#: " + (++runCounter));
-    logger.info("benchmark repetitions: " + reps);
-
-    // using reps
-    for (int i = 0; i < reps; i++) {
-      // - Load scc class
-      // - run RFSSoftware with this SCC
-      Class scc = Toolkit.loadClass(sccFqn);
-      new RFSSoftware(scc).init().generate().run();
-    }
+      new Runner(opt).run();
   }
 
 // for testing ONLY  
