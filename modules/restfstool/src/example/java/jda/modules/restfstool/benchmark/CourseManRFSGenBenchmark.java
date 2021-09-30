@@ -7,6 +7,11 @@ import jda.modules.common.Toolkit;
 import jda.modules.restfstool.RFSSoftware;
 
 import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.Param;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
@@ -17,35 +22,43 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
  * 
  * @author ducmle
  */
+@BenchmarkMode(Mode.AverageTime)
+@State(Scope.Benchmark)
 public class CourseManRFSGenBenchmark {
-//  @Param()
-//  String sccFqn;
+  @Param({"jda.modules.restfstool.test.performance.software.courseman1.config.SCC1"})
+  public String sccFqn;
 
-  private static int runCounter = 0;
+	private static int runCounter = 0;
 
-  private static Logger logger = (Logger) LoggerFactory
-      .getLogger("module.restfstool.benchmark");
+	private static Logger logger = (Logger) LoggerFactory.getLogger("module.restfstool.benchmark");
 
-  @Benchmark
-  public void runBenchmarh() {
-    logger.info("run#: " + (++runCounter));
+	@Benchmark
+	public void runBenchmarh() {
+		logger.info("run#: " + (++runCounter));
+		logger.info("sccFqn: "+sccFqn);
+		Class scc = Toolkit.loadClass(sccFqn);
+		new RFSSoftware(scc).init().generate()
+//      .run()
+		;
+	}
 
-      Class scc = Toolkit.loadClass("");
-      new RFSSoftware(scc).init().generate();
-  }
-  
-  public static void main(String[] args) throws RunnerException {
-      Options opt = new OptionsBuilder()
-              .include(CourseManRFSGenBenchmark.class.getSimpleName())
-//              .param("arg", "41", "42") // Use this to selectively constrain/override parameters
-              .warmupIterations(0)
-              .measurementIterations(5)
-              .addProfiler(HeapMemoryProfiler.class)
-              .forks(1)
-              .build();
+	public static void main(String[] args) throws RunnerException {
+		int count = 1;
 
-      new Runner(opt).run();
-  }
+		String prefix = "jda.modules.restfstool.test.performance.software.courseman%d.config.SCC1";
+		for (int i = 1; i <= count; i++) {
+			String scc = String.format(prefix, i);
+			Options opt = new OptionsBuilder().include(CourseManRFSGenBenchmark.class.getSimpleName())
+						  .param("sccFqn", scc)
+						  .warmupIterations(0)
+						  .measurementIterations(5)
+						  .addProfiler(HeapMemoryProfiler.class)
+						  .forks(1)
+						  .build();
+
+			new Runner(opt).run();
+		}
+	}
 
 // for testing ONLY  
 //  @Benchmark

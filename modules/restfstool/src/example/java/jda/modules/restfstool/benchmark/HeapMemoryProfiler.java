@@ -55,7 +55,7 @@ public class HeapMemoryProfiler implements InternalProfiler {
     	double usedHeap = (double)ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed()/(double)1048576;
 
         Collection<ScalarResult> results = new ArrayList<>();
-        results.add(new ScalarResult("Used memory heap", usedHeap, "MB", AggregationPolicy.MAX));
+        results.add(new ScalarResult("Used memory heap", usedHeap, "MB", AggregationPolicy.AVG));
 
         return results;
     }
