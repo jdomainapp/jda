@@ -82,7 +82,7 @@ This requires creating a single **assembly** containing all the project resource
 2. cd into the JDA's root directory
 3. Type this command, replace `module-X` by the actual module artifact name:
    ```
-  mvn compile assembly:single -pl :module-X -am
+   mvn compile assembly:single -pl :module-X -am
    ```
   - the `compile` target is to ensure that source codes are compiled before being packaged
 
@@ -97,7 +97,7 @@ This creates an assembly that contains everything from the previous section plus
 4. cd into the JDA's root directory
 5. Type this command, replace `module-X` by the actual module artifact name:
    ```
-  mvn clean compile test-compile assembly:single -pl :module-X -am
+   mvn clean compile test-compile assembly:single -pl :module-X -am
    ```
   - the `test-compile` target is to ensure that test sources are compiled
 
