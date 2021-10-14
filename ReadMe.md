@@ -88,6 +88,8 @@ This requires creating a single **assembly** containing all the project resource
    (add the option `-DskipTests=true` if needed)
 
 ## Deploy a module project together with test classes
+TODO: update this section to extend the deployment task in the previous section.
+
 This creates an assembly that contains everything from the previous section plus all the test classes.
 
 1. Check that `maven-assembly-plugin` is added to the JDA root's `pom.xml` and configured
