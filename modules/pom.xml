@@ -29,7 +29,7 @@
     <module>apml</module>
  -->
   <module>dompattern</module>
- <module>restfstool</module>
+ <module>mosar</module>
 <!--     <module>plugineclipse</module> -->
   </modules>
   

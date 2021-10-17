@@ -1,0 +1,31 @@
+{ "domain": "CourseMan",
+  "countSpec": {
+    "min": 1,
+    "max": 10,
+    "increment": 5
+  },
+  "swConfigGen": {
+    "rootSrcPath": "/data/projects/jda/modules/mosar/src/example/java",
+    "outputPath": "/data/projects/jda/modules/mosar/target/classes",
+    "seedDomainModelPkg" : "org.jda.example.mosar.test.domain.model",
+    "targetDomainModelPkgPrefix" : "org.jda.example.mosar.test.performance.models",
+    "modulesPkgPrefix": "org.jda.example.mosar.test.performance.modules",
+    "softwarePkgPrefix": "org.jda.example.mosar.test.performance.software"
+  },
+  "rfsGenDesc": {
+    "stackSpec":  "jda.modules.mosar.config.StackSpec.FS",
+    "genMode" : "jda.modules.mosar.config.GenerationMode.SOURCE_CODE", 
+    "beLangPlatform" : "jda.modules.mosar.config.LangPlatform.SPRING",
+    "feProjPath" : "/home/ducmle/tmp/restfstool-fe",
+    "feProjName" : "fe-courseman",
+    "feProjResource" : "src/main/resources/react",
+    "feOutputPath" : "src/example/java/org/jda/example/mosar/test/performance/frontend",
+    "feServerPort": 5000,
+    "feAppClass": "jda.modules.mosarfrontend.test.reactjs.FEReactAppByCount",
+    "beOutputPath" : "src/example/java", 
+    "bePackage" : "auto",
+    "beTargetPackage" : "org.jda.example.mosar.test.performance.backend",
+    "beAppClass" : "jda.modules.mosarbackend.springboot.BESpringApp",
+    "beServerPort": 8000
+  }
+}
