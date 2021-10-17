@@ -78,15 +78,18 @@ From the root folder of the project, type this command:
 ## Deploy a module project
 This requires creating a single **assembly** containing all the project resources (not just the compile classes)
 
-1. Check that `maven-assembly-plugin` is added to the JDA root's `pom.xml` and configured
-2. cd into the JDA's root directory
-3. Type this command, replace `module-X` by the actual module artifact name:
+1. create a `deploy.xml` file for the module, place it in the folder `src/main/assembly`
+2. update `pom.xml` to configure it to read `deploy.xml` as part of the `package` task
+3. cd into the module's directory
+4. Type this command:
    ```
-   mvn compile assembly:single -pl :module-X -am
+   mvn package
    ```
-  - the `compile` target is to ensure that source codes are compiled before being packaged
+   (add the option `-DskipTests=true` if needed)
 
 ## Deploy a module project together with test classes
+TODO: update this section to extend the deployment task in the previous section.
+
 This creates an assembly that contains everything from the previous section plus all the test classes.
 
 1. Check that `maven-assembly-plugin` is added to the JDA root's `pom.xml` and configured
