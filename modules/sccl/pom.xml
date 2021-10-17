@@ -11,8 +11,8 @@
     <version>5.4-SNAPSHOT</version>
   </parent>
 
-  <artifactId>module-sccl</artifactId>
+  <artifactId>jda-sccl</artifactId>
   
-  <name>Module: SCCL</name>
+  <name>JDA Module: SCCL</name>
   <description>Implements the SCCL language</description>
 </project>

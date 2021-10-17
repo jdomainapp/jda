@@ -133,10 +133,7 @@ public class AttribPropertyVisitor extends VoidVisitorAdapter<MetaAttrDef> {
           clazz = Class.forName(fqn);
           val = clazz;
         } catch (ClassNotFoundException e) {
-//          e.printStackTrace();
-//          System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
           logger.warn("{}: {}", e.getClass().getSimpleName(), fqn);
-          
           val = null;
         }
       }

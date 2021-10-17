@@ -6,15 +6,15 @@
     <version>5.4-SNAPSHOT</version>
   </parent>
   
-  <artifactId>module-sccltool</artifactId>
-  <name>Module: SCCL Tool chain</name>
+  <artifactId>jda-sccltool</artifactId>
+  <name>JDA Module: SCCL Tool chain</name>
   <description>Set of tools for the SCCL language</description>
   
   <dependencies>
     <!-- MCCL -->
     <dependency>
       <groupId>jda.modules</groupId>
-      <artifactId>module-sccl</artifactId>
+      <artifactId>jda-sccl</artifactId>
       <version>5.4-SNAPSHOT</version>
     </dependency>
   </dependencies>

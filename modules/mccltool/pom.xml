@@ -6,16 +6,16 @@
     <version>5.4-SNAPSHOT</version>
   </parent>
   
-  <artifactId>module-mccltool</artifactId>
+  <artifactId>jda-mccltool</artifactId>
   <version>5.4-SNAPSHOT</version>
-  <name>Module: MCCL Tool chain</name>
+  <name>JDA Module: MCCL Tool chain</name>
   <description>Set of tools for the MCCL language</description>
   
   <dependencies>
     <!-- MCCL -->
     <dependency>
       <groupId>jda.modules</groupId>
-      <artifactId>module-mccl</artifactId>
+      <artifactId>jda-mccl</artifactId>
       <version>5.4-SNAPSHOT</version>
     </dependency>
   </dependencies>

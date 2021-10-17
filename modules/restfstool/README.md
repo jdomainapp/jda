@@ -112,3 +112,17 @@ Run this class in your IDE:
 ```
 org.jda.example.restfstool.rfsgen.CourseManBESoftware
 ```
+
+# How to create a project to run the generated code
+1. Create a Maven project named "CourseMan" (JDK >= 13)
+2. Extra the zip file module-restfstool-5.4-SNAPSHOT-deploy.zip and include all the extracted .jar files as libraries of the project
+3. Run the backend:
+   1. Copy the folder src/example/java/com to the src/main/java folder of the project
+   2. Copy the folder src/main/resources to the src/main/resources folder of the project
+   3. Run CourseManRFSBERun.java
+4. Run the frontend in Node.js:
+   1. copy the provided project template to create the project folder: `courseman-fe`
+   2. copy the content of package `frontend` into the folder `courseman-fe/src` 
+   3. cd into the project folder:
+      1. (do this once) run command `npm install`
+      2. command `npm start`

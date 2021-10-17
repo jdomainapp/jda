@@ -11,9 +11,9 @@
     <version>5.4-SNAPSHOT</version>
   </parent>
   
-  <artifactId>module-dcsl</artifactId>
+  <artifactId>jda-dcsl</artifactId>
   
-  <name>Module: DCSL</name>
+  <name>JDA Module: DCSL</name>
   <description>Implements the DCSL language</description>
   
   <dependencies>

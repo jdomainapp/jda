@@ -6,20 +6,20 @@
     <version>5.4-SNAPSHOT</version>
   </parent>
   
-  <artifactId>module-swtool</artifactId>
-  <name>Module SWTool</name>
+  <artifactId>jda-swtool</artifactId>
+  <name>JDA Module SWTool</name>
   <description>Implements the tool chain (including those provided by domain model, module and software) to automatically generate software</description>
   
   <dependencies>
     <!-- MCCL -->
     <dependency>
       <groupId>jda.modules</groupId>
-      <artifactId>module-mccltool</artifactId>
+      <artifactId>jda-mccltool</artifactId>
       <version>5.4-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>jda.modules</groupId>
-      <artifactId>module-sccltool</artifactId>
+      <artifactId>jda-sccltool</artifactId>
       <version>5.4-SNAPSHOT</version>
     </dependency>
   </dependencies>

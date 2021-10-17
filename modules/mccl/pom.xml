@@ -11,9 +11,9 @@
     <version>5.4-SNAPSHOT</version>
   </parent>
 
-  <artifactId>module-mccl</artifactId>
+  <artifactId>jda-mccl</artifactId>
   
-  <name>Module: MCCL</name>
+  <name>JDA Module: MCCL</name>
   <description>Implements the MCCL language</description>
   
 </project>

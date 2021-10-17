@@ -11,9 +11,9 @@
     <version>5.4-SNAPSHOT</version>
   </parent>
 
-  <artifactId>module-mbsl</artifactId>
+  <artifactId>jda-mbsl</artifactId>
   
-  <name>Module: MBSL</name>
+  <name>JDA Module: MBSL</name>
   <description>Implements the MBSL language</description>
   
 </project>

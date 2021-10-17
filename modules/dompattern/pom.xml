@@ -11,9 +11,9 @@
     <version>5.4-SNAPSHOT</version>
   </parent>
 
-  <artifactId>module-dompattern</artifactId>
+  <artifactId>jda-dompattern</artifactId>
 
-  <name>Module: Domain modelling Patterns</name>
+  <name>JDA Module: Domain modelling Patterns</name>
   <description>A repository of domain modelling patterns defined in DCSL</description>
 
   <build>
