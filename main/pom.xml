@@ -41,7 +41,7 @@
   <dependencies>
     <dependency>
       <groupId>jda</groupId>
-      <artifactId>module-dcsl</artifactId>
+      <artifactId>jda-dcsl</artifactId>
       <version>5.4-SNAPSHOT</version>
     </dependency>
     <dependency>
