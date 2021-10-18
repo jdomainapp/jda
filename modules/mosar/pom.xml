@@ -16,6 +16,7 @@
  
     <!-- PROPERTIES -->
     <properties>
+    	<jda.version>5.4-SNAPSHOT</jda.version>
         <java.version>13</java.version>
         <jersey.version>3.0.1</jersey.version>
         <!--    <jetty.version>11.0.1</jetty.version>-->
@@ -201,32 +202,22 @@
           <!-- exclude json libraries (already present in other dependencies of this module) -->
           <groupId>jda</groupId>
           <artifactId>jda-common</artifactId>
-          <version>5.4-SNAPSHOT</version>
-          <!-- <exclusions>
-             <exclusion>
-		        <groupId>javax.json</groupId>
-		        <artifactId>javax.json-api</artifactId>
-             </exclusion>
-             <exclusion>
-		        <groupId>org.glassfish</groupId>
-		        <artifactId>javax.json</artifactId>
-             </exclusion>
-          </exclusions> -->
+          <version>${jda.version}</version>
       </dependency>
       <dependency>
           <groupId>jda.modules</groupId>
           <artifactId>jda-mccl</artifactId>
-          <version>5.4-SNAPSHOT</version>
+          <version>${jda.version}</version>
       </dependency>
       <dependency>
           <groupId>jda.modules</groupId>
           <artifactId>jda-swtool</artifactId>
-          <version>5.4-SNAPSHOT</version>
+          <version>${jda.version}</version>
       </dependency>
       <dependency>
           <groupId>jda.modules</groupId>
           <artifactId>jda-dompattern</artifactId>
-          <version>5.4-SNAPSHOT</version>
+          <version>${jda.version}</version>
       </dependency>
       <!-- END: DOMAINAPP -->
 

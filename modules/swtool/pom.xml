@@ -15,12 +15,12 @@
     <dependency>
       <groupId>jda.modules</groupId>
       <artifactId>jda-mccltool</artifactId>
-      <version>5.4-SNAPSHOT</version>
+      <version>${jda.version}</version>
     </dependency>
     <dependency>
       <groupId>jda.modules</groupId>
       <artifactId>jda-sccltool</artifactId>
-      <version>5.4-SNAPSHOT</version>
+      <version>${jda.version}</version>
     </dependency>
   </dependencies>
 </project>

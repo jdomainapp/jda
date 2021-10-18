@@ -13,6 +13,7 @@
   <description></description>
 
   <properties>
+	<jda.version>5.4-SNAPSHOT</jda.version>  
     <java.version>11</java.version>
     <version.plugin.compiler>3.8.1</version.plugin.compiler>
     <version.plugin.resources>3.2.0</version.plugin.resources>

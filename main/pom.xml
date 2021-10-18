@@ -42,12 +42,12 @@
     <dependency>
       <groupId>jda</groupId>
       <artifactId>jda-dcsl</artifactId>
-      <version>5.4-SNAPSHOT</version>
+      <version>${jda.version}</version>
     </dependency>
     <dependency>
       <groupId>jda</groupId>
       <artifactId>jda-common</artifactId>
-      <version>5.4-SNAPSHOT</version>
+      <version>${jda.version}</version>
     </dependency>
   </dependencies>
 </project>

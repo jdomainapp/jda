@@ -16,7 +16,7 @@
     <dependency>
       <groupId>jda.modules</groupId>
       <artifactId>jda-mccl</artifactId>
-      <version>5.4-SNAPSHOT</version>
+      <version>${jda.version}</version>
     </dependency>
   </dependencies>
 </project>
