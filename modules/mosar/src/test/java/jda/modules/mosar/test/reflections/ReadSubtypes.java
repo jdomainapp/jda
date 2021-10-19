@@ -2,10 +2,9 @@ package jda.modules.mosar.test.reflections;
 
 import java.util.Set;
 
+import org.courseman.modules.coursemodule.model.CourseModule;
 import org.reflections.Reflections;
 import org.slf4j.LoggerFactory;
-
-import com.hanu.courseman.modules.coursemodule.model.CourseModule;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;

@@ -7,14 +7,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
+import org.courseman.exceptions.DExCode;
+import org.courseman.utils.DToolkit;
 import org.jda.example.mosar.test.domain.model.utils.Deserializers;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.hanu.courseman.exceptions.DExCode;
-import com.hanu.courseman.utils.DToolkit;
 
 import jda.modules.common.exceptions.ConstraintViolationException;
 import jda.modules.common.types.Tuple;

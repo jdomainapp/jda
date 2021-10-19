@@ -17,6 +17,8 @@ import jda.modules.mosar.software.frontend.FEApp;
  */
 public class RFSGenConfig {
 
+  private ExecSpec execSpec;
+  
   private StackSpec stackSpec;
   
   private Class[] domainModel;
@@ -76,6 +78,20 @@ public class RFSGenConfig {
    */
   public void setStackSpec(StackSpec stackSpec) {
     this.stackSpec = stackSpec;
+  }
+
+  /**
+   * @effects return execSpec
+   */
+  public ExecSpec getExecSpec() {
+    return execSpec;
+  }
+
+  /**
+   * @effects set execSpec = execSpec
+   */
+  public void setExecSpec(ExecSpec execSpec) {
+    this.execSpec = execSpec;
   }
 
   /**
@@ -381,6 +397,14 @@ public class RFSGenConfig {
    */
   public void setBeThreaded(boolean isBeThreaded) {
     this.beThreaded = isBeThreaded;
+  }
+
+  /**
+   * @effects 
+   *  return {@link #execSpec} includes {@link ExecSpec#Compile} 
+   */
+  public boolean isExecSpecCompile() {
+    return execSpec.isCompile();
   }
   
   

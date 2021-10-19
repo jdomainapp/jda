@@ -2,6 +2,7 @@ package jda.modules.mosar.software.frontend;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
 
 import jda.modules.dcsl.util.DClassTk;
 import jda.modules.mosar.config.RFSGenConfig;
@@ -80,7 +81,11 @@ public class FESoftware {
         cfg);
     
     if (cfg.getFeThreaded()) {
-      app.runThreaded();
+      try {
+        app.runThreaded();
+      } catch (Exception e) {
+        logger.error(Marker.ANY_MARKER, e.getMessage(), e);
+      }
     } else {
       app.run();
     }

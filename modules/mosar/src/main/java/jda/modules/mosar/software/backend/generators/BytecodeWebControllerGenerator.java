@@ -18,6 +18,7 @@ import jda.modules.mosar.backend.annotations.bridges.AnnotationRep;
 import jda.modules.mosar.backend.annotations.bridges.RestAnnotationAdapter;
 import jda.modules.mosar.backend.base.controllers.*;
 import jda.modules.mosar.config.LangPlatform;
+import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosar.software.backend.svcdesc.ServiceController;
 import jda.modules.mosar.utils.NamingUtils;
 import jda.modules.mosar.utils.PackageUtils;
@@ -82,7 +83,8 @@ class BytecodeWebControllerGenerator implements WebControllerGenerator {
     /**
      * Get the RESTful controller from a generic type.
      */
-    public <T> Class<RestfulController<T>> getRestfulController(Class<T> type) {
+    @Override
+    public <T> Class<RestfulController<T>> getRestfulController(Class<T> type, RFSGenConfig cfg) {
         try {
             String typeName = type.getName();
             if (!generatedCrudClasses.containsKey(typeName)) {
@@ -97,10 +99,11 @@ class BytecodeWebControllerGenerator implements WebControllerGenerator {
     /**
      * Get a nested RESTful controller from a generic type.
      */
+    @Override
     public <T1, T2> Class<NestedRestfulController<T1, T2>> getNestedRestfulController(Class<T1> outerType,
-            Class<T2> innerType) {
+            Class<T2> innerType, RFSGenConfig cfg) {
         try {
-            return generateNestedRestfulController(outerType, innerType);
+            return generateNestedRestfulController(outerType, innerType, cfg);
         } catch (IllegalAccessException | IOException | NoSuchMethodException | NoSuchFieldException ex) {
             throw new RuntimeException(ex);
         }
@@ -188,7 +191,7 @@ class BytecodeWebControllerGenerator implements WebControllerGenerator {
     }
 
     private <T1, T2> Class<NestedRestfulController<T1, T2>>
-        generateNestedRestfulController(Class<T1> outerType, Class<T2> innerType)
+        generateNestedRestfulController(Class<T1> outerType, Class<T2> innerType, RFSGenConfig cfg)
             throws IllegalAccessException, IOException,
                 NoSuchMethodException, SecurityException, NoSuchFieldException {
         //

@@ -31,6 +31,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import jda.modules.mosar.backend.base.services.CrudService;
 import jda.modules.mosar.backend.base.services.InheritedDomServiceAdapter;
 import jda.modules.mosar.backend.base.services.SimpleDomServiceAdapter;
+import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosar.utils.InheritanceUtils;
 import jda.modules.mosar.utils.OutputPathUtils;
 import jda.modules.mosar.utils.PackageUtils;
@@ -58,18 +59,20 @@ final class SourceCodeServiceTypeGenerator implements ServiceTypeGenerator {
     }
 
     @Override
-    public <T> Class<CrudService<T>> generateAutowiredServiceType(Class<T> type) {
+    public <T> Class<CrudService<T>> generateAutowiredServiceType(Class<T> type, RFSGenConfig config) {
         String genericTypeName = type.getName();
 
         if (generatedServices.containsKey(genericTypeName)) {
             return (Class) generatedServices.get(genericTypeName);
         }
-        Class generated = generateServiceType(type, genericTypeName);
-        generatedServices.put(genericTypeName, generated);
+        Class generated = generateServiceType(type, genericTypeName, config);
+        if (generated != null)
+          generatedServices.put(genericTypeName, generated);
+        
         return generated;
     }
 
-    private <T> Class generateServiceType(Class<T> type, String genericTypeName) {
+    private <T> Class generateServiceType(Class<T> type, String genericTypeName, RFSGenConfig config) {
         Class<CrudService> superClass = getSuperClass(type);
         final String pkg = PackageUtils.basePackageFrom(this.outputPackage, type);
         CompilationUnit serviceCompilationUnit =
@@ -90,7 +93,10 @@ final class SourceCodeServiceTypeGenerator implements ServiceTypeGenerator {
 
         writeToSource(serviceCompilationUnit, serviceClassDeclaration);
 
-        return compileAndReturn(serviceCompilationUnit, outputFQName);
+        if (config.isExecSpecCompile())
+          return compileAndReturn(serviceCompilationUnit, outputFQName);
+        else
+          return null;
     }
 
     private String getOutputFQNameFrom(CompilationUnit serviceCompilationUnit,

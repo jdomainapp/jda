@@ -19,6 +19,11 @@ import jda.modules.mosar.software.frontend.FEApp;
 @Target(value={java.lang.annotation.ElementType.TYPE})
 @Documented
 public @interface RFSGenDesc {
+  /**
+   * execution spec
+   */
+  ExecSpec execSpec() default ExecSpec.Full;
+  
   StackSpec stackSpec();
   
   /** backend language platform */

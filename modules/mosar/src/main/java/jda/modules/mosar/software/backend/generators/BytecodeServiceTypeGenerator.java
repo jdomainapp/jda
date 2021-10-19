@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import jda.modules.mosar.backend.base.services.CrudService;
 import jda.modules.mosar.backend.base.services.InheritedDomServiceAdapter;
 import jda.modules.mosar.backend.base.services.SimpleDomServiceAdapter;
+import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosar.utils.InheritanceUtils;
 import jda.modules.mosar.utils.NamingUtils;
 import jda.modules.mosar.utils.PackageUtils;
@@ -47,7 +48,8 @@ final class BytecodeServiceTypeGenerator implements ServiceTypeGenerator {
     /**
      * Generate service types for autowiring.
      */
-    public <T> Class<CrudService<T>> generateAutowiredServiceType(Class<T> type) {
+    @Override
+    public <T> Class<CrudService<T>> generateAutowiredServiceType(Class<T> type, RFSGenConfig config) {
         //
         String genericTypeName = type.getName();
 

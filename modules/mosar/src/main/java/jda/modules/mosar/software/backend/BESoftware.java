@@ -130,15 +130,20 @@ public class BESoftware {
         // ducmle: removed to assume this in the model
 //        cls = annotationGenerator.generateInheritanceAnnotations(cls);
 
-        tempClass = serviceTypeGenerator.generateAutowiredServiceType(cls);
-        generatedServiceClasses.put(cls.getCanonicalName(), tempClass);
-        tempClass = webControllerGenerator.getRestfulController(cls);
-        generatedControllerClasses.add(tempClass);
+        tempClass = serviceTypeGenerator.generateAutowiredServiceType(cls, cfg);
+        if (tempClass != null)
+          generatedServiceClasses.put(cls.getCanonicalName(), tempClass);
+        
+        tempClass = webControllerGenerator.getRestfulController(cls, cfg);
+        if (tempClass != null)
+          generatedControllerClasses.add(tempClass);
+        
         List<Class<?>> nestedClasses = ClassAssocUtils.getNested(cls);
         for (Class<?> nested : nestedClasses) {
             if (nested == cls) continue;
-            tempClass = webControllerGenerator.getNestedRestfulController(cls, nested);
-            generatedControllerClasses.add(tempClass);
+            tempClass = webControllerGenerator.getNestedRestfulController(cls, nested, cfg);
+            if (tempClass != null)
+              generatedControllerClasses.add(tempClass);
         }
     }
 
@@ -151,8 +156,11 @@ public class BESoftware {
     // end deprecated
     
     output = new BEGenOutput();
-    output.setServices(generatedServiceClasses);
-    output.setControllers(generatedControllerClasses);
+    if (!generatedServiceClasses.isEmpty())
+      output.setServices(generatedServiceClasses);
+    
+    if(!generatedControllerClasses.isEmpty())
+      output.setControllers(generatedControllerClasses);
     
     return this;
 //    System.out.println("------------");
@@ -167,6 +175,11 @@ public class BESoftware {
   public BESoftware run() {
     logger.info("Running backend...");
 
+    if (output == null || output.isEmpty()) {
+      logger.info("No backend components to run. Terminating...");
+      return null;
+    }
+    
     final Class[] model = cfg.getDomainModel();
     Collection<Class> comps = output.getComponents();
 

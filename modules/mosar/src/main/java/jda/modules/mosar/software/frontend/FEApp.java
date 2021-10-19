@@ -27,7 +27,10 @@ public interface FEApp extends Runnable {
    *  Throws NotPossibleException if fails. 
    */
   public default void runThreaded() throws NotPossibleException {
-    new Thread(this).start();
+    Thread t = new Thread(this);
+//    t.setDaemon(true);
+    t.start();
+//    t.join();
   }
 }
 

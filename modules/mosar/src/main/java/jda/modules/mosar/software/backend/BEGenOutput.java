@@ -30,6 +30,10 @@ public class BEGenOutput {
    */
   public void setServices(Map<String, Class> services) {
     this.services = services;
+    if (comps == null) {
+      comps = new ArrayList<>();
+      comps.addAll(services.values());
+    }
   }
 
   /**
@@ -40,6 +44,10 @@ public class BEGenOutput {
    */
   public void setControllers(Collection<Class> controllers) {
     this.controllers = controllers;
+    if (comps == null) {
+      comps = new ArrayList<>();
+      comps.addAll(controllers);
+    }
   }
 
   /**
@@ -61,13 +69,18 @@ public class BEGenOutput {
    * 
    */
   public Collection<Class> getComponents() {
-    if (comps == null) {
-      comps = new ArrayList<>();
-      comps.addAll(services.values());
-      comps.addAll(controllers);
-    }
-    
     return comps;
+  }
+
+  /**
+   * @effects 
+   *  if this contains no components
+   *    return true
+   *  else
+   *    return false
+   */
+  public boolean isEmpty() {
+    return comps == null || comps.isEmpty();
   }
 
   

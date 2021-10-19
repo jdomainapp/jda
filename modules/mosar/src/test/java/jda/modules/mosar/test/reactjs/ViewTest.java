@@ -2,19 +2,19 @@ package jda.modules.mosar.test.reactjs;
 
 import java.util.stream.Collectors;
 
-import com.hanu.courseman.modules.address.ModuleAddress;
-import com.hanu.courseman.modules.address.model.Address;
-import com.hanu.courseman.modules.coursemodule.ModuleCourseModule;
-import com.hanu.courseman.modules.coursemodule.model.CompulsoryModule;
-import com.hanu.courseman.modules.coursemodule.model.CourseModule;
-import com.hanu.courseman.modules.coursemodule.model.ElectiveModule;
-import com.hanu.courseman.modules.enrolment.ModuleEnrolment;
-import com.hanu.courseman.modules.enrolment.model.Enrolment;
-import com.hanu.courseman.modules.student.ModuleStudent;
-import com.hanu.courseman.modules.student.model.Gender;
-import com.hanu.courseman.modules.student.model.Student;
-import com.hanu.courseman.modules.studentclass.ModuleStudentClass;
-import com.hanu.courseman.modules.studentclass.model.StudentClass;
+import org.courseman.modules.address.ModuleAddress;
+import org.courseman.modules.address.model.Address;
+import org.courseman.modules.coursemodule.ModuleCourseModule;
+import org.courseman.modules.coursemodule.model.CompulsoryModule;
+import org.courseman.modules.coursemodule.model.CourseModule;
+import org.courseman.modules.coursemodule.model.ElectiveModule;
+import org.courseman.modules.enrolment.ModuleEnrolment;
+import org.courseman.modules.enrolment.model.Enrolment;
+import org.courseman.modules.student.ModuleStudent;
+import org.courseman.modules.student.model.Gender;
+import org.courseman.modules.student.model.Student;
+import org.courseman.modules.studentclass.ModuleStudentClass;
+import org.courseman.modules.studentclass.model.StudentClass;
 
 import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosar.frontend.MCCUtils;

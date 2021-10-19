@@ -12,14 +12,39 @@ import jda.modules.mosar.backend.base.controllers.NestedRestfulController;
 import jda.modules.mosar.backend.base.controllers.RestfulController;
 import jda.modules.mosar.config.GenerationMode;
 import jda.modules.mosar.config.LangPlatform;
+import jda.modules.mosar.config.RFSGenConfig;
 
 /**
  * @author binh_dh
  */
 public interface WebControllerGenerator {
-    <T> Class<RestfulController<T>> getRestfulController(Class<T> type);
+    /**
+     * 
+     * @effects 
+     *  generate the source code file for a suitable controller class for <code>type</code>. 
+     *  
+     *  <p>If <code>config</code> means to compile then 
+     *    compile the source code file and return the class object
+     *  else
+     *    return null
+     *  @author Duc Minh Le  
+     */
+    <T> Class<RestfulController<T>> getRestfulController(Class<T> type, RFSGenConfig cfg);
+    
+    /**
+     * 
+     * @effects 
+     *  generate the source code file for a suitable (nested) controller class for <code>innerType</code> of 
+     *  the outertype <code>outerType</code>. 
+     *  
+     *  <p>If <code>config</code> means to compile then 
+     *    compile the source code file and return the class object
+     *  else
+     *    return null
+     *  @author Duc Minh Le  
+     */
     <T1, T2> Class<NestedRestfulController<T1, T2>> getNestedRestfulController(
-        Class<T1> outerType, Class<T2> innerType);
+        Class<T1> outerType, Class<T2> innerType, RFSGenConfig cfg);
 
     RestAnnotationAdapter getAnnotationAdapter();
 

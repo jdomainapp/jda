@@ -41,6 +41,7 @@ import jda.modules.mosar.backend.base.controllers.NestedRestfulController;
 import jda.modules.mosar.backend.base.controllers.RestfulController;
 import jda.modules.mosar.backend.base.controllers.RestfulWithInheritanceController;
 import jda.modules.mosar.config.LangPlatform;
+import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosar.utils.NamingUtils;
 import jda.modules.mosar.utils.OutputPathUtils;
 import jda.modules.mosar.utils.PackageUtils;
@@ -79,12 +80,12 @@ final class SourceCodeWebControllerGenerator implements WebControllerGenerator {
     }
 
     @Override
-    public <T> Class<RestfulController<T>> getRestfulController(Class<T> type) {
+    public <T> Class<RestfulController<T>> getRestfulController(Class<T> type, RFSGenConfig cfg) {
         try {
             String typeName = type.getName();
             if (!generatedCrudClasses.containsKey(typeName)) {
                 generatedCrudClasses.put(typeName, 
-                    generateRestfulController(type));
+                    generateRestfulController(type, cfg));
             }
             return (Class<RestfulController<T>>) generatedCrudClasses.get(typeName);
         } catch (IllegalAccessException | IOException | NoSuchMethodException ex) {
@@ -92,7 +93,7 @@ final class SourceCodeWebControllerGenerator implements WebControllerGenerator {
         }
     }
 
-    private <T> Class<RestfulController<T>> generateRestfulController(Class<T> type)
+    private <T> Class<RestfulController<T>> generateRestfulController(Class<T> type, RFSGenConfig cfg)
             throws IllegalAccessException, IOException, NoSuchMethodException, SecurityException {
         final boolean hasInheritance = Modifier.isAbstract(type.getModifiers());
         final Class<RestfulController> baseImplClass = hasInheritance ? inheritRestCtrlClassImpl : restCtrlClassImpl;
@@ -112,7 +113,7 @@ final class SourceCodeWebControllerGenerator implements WebControllerGenerator {
 
         addAnnotations(baseClass, endpoint, name, compilationUnit, classDeclaration);
 
-        return saveAndReturnClass(pkg, name, compilationUnit, classDeclaration);
+        return saveAndReturnClass(pkg, name, compilationUnit, classDeclaration, cfg);
     }
 
     @Override
@@ -122,16 +123,17 @@ final class SourceCodeWebControllerGenerator implements WebControllerGenerator {
 
     @Override
     public <T1, T2> Class<NestedRestfulController<T1, T2>> getNestedRestfulController(Class<T1> outerType,
-                                                                                      Class<T2> innerType) {
+                                                                                      Class<T2> innerType
+                                                                                      , RFSGenConfig cfg) {
         try {
-            return generateNestedRestfulController(outerType, innerType);
+            return generateNestedRestfulController(outerType, innerType, cfg);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
     }
 
     private <T1, T2> Class<NestedRestfulController<T1,T2>> generateNestedRestfulController(
-            Class<T1> outerType, Class<T2> innerType) {
+            Class<T1> outerType, Class<T2> innerType, RFSGenConfig cfg) {
         //
         final String endpoint = buildNestedEndpoint(outerType, innerType);
         final String pkg = PackageUtils.basePackageFrom(this.outputPackage, outerType);
@@ -151,7 +153,7 @@ final class SourceCodeWebControllerGenerator implements WebControllerGenerator {
 
         addAnnotations(baseClass, endpoint, name, compilationUnit, classDeclaration);
 
-        return saveAndReturnClass(pkg, name, compilationUnit, classDeclaration);
+        return saveAndReturnClass(pkg, name, compilationUnit, classDeclaration, cfg);
     }
 
     private String buildNestedEndpoint(Class outerType, Class innerType) {
@@ -179,19 +181,25 @@ final class SourceCodeWebControllerGenerator implements WebControllerGenerator {
 
     private Class saveAndReturnClass(String pkg, String name,
                                      CompilationUnit compilationUnit,
-                                     ClassOrInterfaceDeclaration classDeclaration) {
+                                     ClassOrInterfaceDeclaration classDeclaration
+                                     , RFSGenConfig cfg) {
         Path outputPath = Path.of(outputFolder,
                 compilationUnit.getPackageDeclaration()
                         .orElse(new PackageDeclaration()).getNameAsString().replace(".", "/"),
                 classDeclaration.getNameAsString() + ".java");
         OutputPathUtils.writeToSource(compilationUnit, outputPath);
-        try {
-            String className = name.contains(pkg) ? name : pkg.concat(".").concat(name);
-            return compiler.ignoreWarnings()
-                    .useParentClassLoader(Thread.currentThread().getContextClassLoader())
-                    .compile(className, compilationUnit.toString());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        
+        if (cfg.isExecSpecCompile()) {
+          try {
+              String className = name.contains(pkg) ? name : pkg.concat(".").concat(name);
+              return compiler.ignoreWarnings()
+                      .useParentClassLoader(Thread.currentThread().getContextClassLoader())
+                      .compile(className, compilationUnit.toString());
+          } catch (Exception e) {
+              throw new RuntimeException(e);
+          }
+        } else {
+          return null;
         }
     }
 
