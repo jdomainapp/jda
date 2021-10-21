@@ -200,6 +200,21 @@
       </dependency>
       <!-- END: MODESHAPE -->
 
+    <!-- JSON: required by jda-common -->
+    <!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
+    <dependency>
+        <groupId>javax.json</groupId>
+        <artifactId>javax.json-api</artifactId>
+        <version>1.1.4</version>
+    </dependency>  
+    <!-- https://mvnrepository.com/artifact/org.glassfish/javax.json -->
+    <dependency>
+        <groupId>org.glassfish</groupId>
+        <artifactId>javax.json</artifactId>
+        <version>1.1.4</version>
+    </dependency>
+    <!-- END: JSON -->
+    
       <!-- DOMAINAPP -->
       <dependency>
           <!-- exclude json libraries (already present in other dependencies of this module) -->
