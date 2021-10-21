@@ -2508,7 +2508,7 @@ public abstract class SetUpBasic {
    * @version 2.7.4
    */
   protected void createSplashInfo(Configuration config, String logoFileName) {
-    ImageIcon appLogo = GUIToolkit.getImageIcon(logoFileName, null);
+    ImageIcon appLogo = GUIToolkit.getImageIconOptional(logoFileName, null);
     config.setAppLogo(appLogo);
 
     Company comp = Company.getInstance();

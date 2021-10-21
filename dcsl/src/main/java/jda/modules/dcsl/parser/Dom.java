@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
@@ -78,6 +79,23 @@ public class Dom {
     return ast;
   }
 
+
+  /**
+   * @effects 
+   *  Works similar to {@link #loadClass(String, String, String)} except that it only loads the source file
+   *  if it has not been loaded.
+   * @version 5.4.1
+   * 
+   */
+  public ClassAST loadClassIfNotExists(String pkgName, String className, String javaSrcFile) throws NotFoundException {
+    String fqn = pkgName + "." + className;
+    if (clsMap.containsKey(fqn)) {
+      return getDClass(fqn);
+    } else {
+      return loadClass(pkgName, className, javaSrcFile);
+    }
+  }
+  
   /**
    * @requires <tt>fqn</tt> contains <tt>className</tt> in the simple name part 
    * 
@@ -477,4 +495,23 @@ public class Dom {
     }
   }
 
+  /**
+   * @effects 
+   *  if this is not empty
+   *    return {@link Map}(String,String): FQN -&gt; Class-file-name of {@link #clsMap}
+   *  else
+   *    return null
+   * @version 5.4.1
+   * 
+   */
+  public Map<String, String> getClassFilesMap() {
+    if (clsMap.isEmpty())
+      return null;
+    
+    return clsMap.entrySet().stream()
+      .collect(Collectors.toMap(
+          e -> e.getKey(),
+          e -> e.getValue().getSrcFile()
+      ));
+  }
 }

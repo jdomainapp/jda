@@ -163,6 +163,17 @@ public class ClassAST {
     this.srcFile = srcFilePath;
   }
   
+
+  /**
+   * @effects 
+   *  return {@link #srcFile}
+   * @version 5.4.1
+   * 
+   */
+  public String getSrcFile() {
+    return srcFile;
+  }
+  
   /**
    * @requires {@link #srcFile} is not null
    * @modifies this

@@ -100,13 +100,27 @@ public class MCCTk {
    *  
    *  <code>result = dclsPkg.parent + pkgLastName</code>
    *  
+   *  <p>If <code>pkgLastName = null</code> then <code>result = dclsPkg.parent</code>
+   *  
    * @version 5.4.1
    */
   public static String getMCCPackage(String dclsPkg, String pkgLastName) {
     
     String parent = dclsPkg.substring(0, dclsPkg.lastIndexOf("."));
-    String mccPkg = parent+ "." + pkgLastName;
+    String mccPkg;
+    if (pkgLastName != null)
+      mccPkg = parent+ "." + pkgLastName;
+    else
+      mccPkg = parent;
+    
     return mccPkg;
+  }
+  
+  public static String getMCCPackage(String dclsPkg) {
+    
+    String parent = dclsPkg.substring(0, dclsPkg.lastIndexOf("."));
+    
+    return parent;
   }
   
 }

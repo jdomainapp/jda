@@ -646,6 +646,24 @@ public class GUIToolkit {
     return icon;
   }
 
+  /**
+   * @effects returns <tt>ImageIcon</tt> from file <tt>fileName</tt> stored
+   *          relative to {@link #IMG_LOCATION}; return null
+   *          if the image file could not be found.
+   *  @version 5.4.1         
+   */
+  public static ImageIcon getImageIconOptional(String fileName, String label) {
+    ImageIcon icon = null;
+    
+    try {
+      icon = GUIToolkit.getImageIcon(fileName, label);
+    } catch (NotFoundException ex) {
+      // ignore
+    }
+    
+    return icon;
+  }
+  
   public static ImageIcon getImageIcon(File file, String label) {
     Image img = getImage(file);
     ImageIcon icon = new ImageIcon(img, label);

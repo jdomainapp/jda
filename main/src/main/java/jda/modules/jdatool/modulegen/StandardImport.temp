@@ -7,7 +7,7 @@ import jda.mosa.controller.assets.datacontroller.command.OpenObjectsInBufferData
 import jda.modules.common.CommonConstants;
 import jda.modules.dcsl.syntax.Select;
 import jda.modules.mccl.syntax.ModuleDescriptor;
-import jda.modules.mccl.syntax.ViewDesc;
+import jda.modules.mccl.syntax.view.ViewDesc;
 import jda.modules.mccl.syntax.controller.ControllerDesc;
 import jda.modules.mccl.syntax.controller.ControllerDesc.OpenPolicy;
 import jda.modules.mccl.syntax.model.ModelDesc;

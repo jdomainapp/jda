@@ -68,7 +68,7 @@ public class MCCModel {
       String pkgName, String className, String javaSrcFile, 
       String mccPkgName,
       String mccOutputRootDir) throws NotFoundException, NotPossibleException {
-    ClassAST dcls = sourceModel.loadClass(pkgName, className, javaSrcFile); // v5.2c: new ClassAST(className, javaSrcFile);
+    ClassAST dcls = sourceModel.loadClassIfNotExists(pkgName, className, javaSrcFile); // v5.2c: new ClassAST(className, javaSrcFile);
     
     // v5.2c:
     ClassAST superCls = dcls.getSuperClass(sourceModel);

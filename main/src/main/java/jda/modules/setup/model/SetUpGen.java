@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.ImageIcon;
+
 import jda.modules.common.CommonConstants;
 import jda.modules.common.Toolkit;
 import jda.modules.common.exceptions.DataSourceException;
@@ -930,11 +932,13 @@ public class SetUpGen extends SetUp {
      * If organisation uses a logo picture (preferred format: gif) then 
      * GUIToolkit.initInstance(conig) must be invoked first (see below) 
      */
+    ImageIcon appIcon = GUIToolkit.getImageIconOptional(orgDesc.logo(), null);
+    
     config.setOrganisation(
         //name: "Faculty of IT",
         orgDesc.name(),
         // logo: GUIToolkit.getImageIcon("hanu.gif", null),
-        GUIToolkit.getImageIcon(orgDesc.logo(), null),
+        appIcon,
         // address: "Km9 Đường Nguyễn Trãi, Quận Thanh Xuân",
         orgDesc.address(),
         // url: "http://fit.hanu.edu.vn"

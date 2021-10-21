@@ -43,6 +43,7 @@ import java.util.Stack;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -101,6 +102,21 @@ public class ToolkitIO {
             return false;
           } 
         }
+      }
+  };
+  
+  /**
+   * matches all folders
+   */
+  private static final FilenameFilter FolderFilter = new FilenameFilter() {
+      @Override
+      public boolean accept(File dir, String name) {
+        File entry = new File(dir, name);
+        if (entry.isDirectory()) {
+          return true;
+        } else {
+          return false;
+        } 
       }
   };
   
@@ -455,6 +471,24 @@ public class ToolkitIO {
   }
   
   /**
+   * @effects 
+   *  If file <code>relativeFileName</code> exists under <code>src/main/resources</code>
+   *    return its absolution path
+   *  else
+   *    throws NotFoundException
+   *  @verison 5.4.1 
+   */
+  public static String getResourceFilePath(String relativeFileName) throws NotFoundException {
+    URL url = Thread.currentThread().getContextClassLoader().getResource(relativeFileName);
+    
+    if (url != null) {
+      return url.getPath();
+    } else {
+      throw new NotFoundException(NotFoundException.Code.FILE_NOT_FOUND, new Object[] { relativeFileName});
+    }
+  }
+  
+  /**
    * @requires pkgName is the Java package name that corresponds to the file
    * @effects 
    *  return the file system representation of the file located in the specified 
@@ -465,6 +499,28 @@ public class ToolkitIO {
     String[] pkg = pkgName.split("\\.");
     return String.join(File.separator, pkg) + 
         (fileExt.startsWith(".") ? fileExt : "." + fileExt);
+  }
+  
+  /**
+   * @requires pkgName is the Java package name that corresponds to a valid folder
+   * @effects 
+   *  return the file system representation of the folder containing the specified 
+   *  package
+   * @version 5.4.1 
+   */
+  public static String getFilePathFromPackage(String pkgName) {
+    String[] pkg = pkgName.split("\\.");
+    return String.join(File.separator, pkg);
+  }
+  
+  /**
+   * @effects 
+   *  return the Java package name equivalence of <code>pathName</code>
+   * @version 5.4.1 
+   */
+  public static String getPackageNameFromPath(String pathName) {
+    String[] pathElements = pathName.split(File.separator);
+    return String.join(".", pathElements);
   }
   
   /**
@@ -2254,6 +2310,28 @@ public class ToolkitIO {
 
   }
 
+  
+  /**
+   * @effects 
+   *  if filePath represents a valid Json file
+   *    read and return {@link JsonObject} representing it
+   *  else
+   *    throw {@link NotPossibleException}
+   * @version 5.4
+   */
+  public static JsonObject readJSonObjectFile(String filePath) throws NotPossibleException {
+    InputStream ins;
+    try {
+      ins = getFileInputStream(filePath);
+      JsonReader reader = Json.createReader(ins); 
+      JsonObject json = reader.readObject();
+      return json;
+    } catch (FileNotFoundException e) {
+      throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_READ_FILE, e, new Object[] {filePath});
+    }
+
+  }
+  
   /**
    * @effects 
    *  if exists files in the specified folder then
@@ -2454,6 +2532,59 @@ public class ToolkitIO {
     }
     
     return InputScanner;
+  }
+
+  /**
+   * @effects 
+   *  recursively find in <code>parentPkg</code> (located under <code>rootSrcPath</code>) all the
+   *  child packages whose last-name matches <code>childPkgName</code>.
+   *  
+   *  If exist then return the FQNs of those child packages in a {@link Collection}. 
+   *  Otherwise return null
+   *   
+   * @version 5.4.1
+   */
+  public static Collection<String> getSubPackagesMatching(String rootSrcPath,
+      String parentPkg, String childPkgName) {
+   if (rootSrcPath == null || parentPkg == null || childPkgName == null)
+     return null;
+   
+   String parentPath = getPackagePath(rootSrcPath, parentPkg);
+   File parent = new File(parentPath);
+   List<File> folders = new ArrayList<>();
+   getFoldersMatching(parent, childPkgName, folders);
+   
+   if (folders.isEmpty())
+     return null;
+   else {
+     return folders.stream()
+       .map(f -> {
+         String subPath = f.getPath().substring(parentPath.length()+1);
+         return parentPkg + "." + getPackageNameFromPath(subPath);
+       })
+       .collect(Collectors.toList());
+   }
+     
+  }
+
+  /**
+   * @modifies folders
+   * @effects 
+   *  recursively finds in <code>parent</code> child folders whose name match <code>folderName</code>
+   */
+  public static void getFoldersMatching(File parent, String folderName, List<File> folders) {
+    File[] myFolders = parent.listFiles(FolderFilter);
+    if (myFolders != null && myFolders.length > 0) {
+      for (File folder : myFolders) {
+        if (folder.getName().equals(folderName)) {
+          // matches
+          folders.add(folder);
+        } else {
+          // recursive search in folder
+          getFoldersMatching(folder, folderName, folders);
+        }
+      }
+    }    
   }
   
 //  /**
