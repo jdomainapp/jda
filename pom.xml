@@ -274,5 +274,14 @@
       <artifactId>scrollabledesktop</artifactId>
       <version>unknown</version>
     </dependency>
+    <!-- Logging -->
+    <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.3.0-alpha10</version>
+    </dependency>
+    <!-- END: logging -->    
+      
   </dependencies>
 </project>
