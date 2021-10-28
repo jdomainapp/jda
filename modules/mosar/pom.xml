@@ -1,30 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>jda.modules</groupId>
+  <parent>
+    <groupId>jda.modules</groupId>
+    <artifactId>jda-module-root</artifactId>
+    <version>5.4-SNAPSHOT</version>
+  </parent>
+
   <artifactId>jda-mosar</artifactId>
-  <version>5.4-SNAPSHOT</version>
   <name>JDA Module: MOSA(R) - RESTful Full-Stack Web Software Tool</name>
 
-    <!-- SPRING PARENT POM -->
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.2</version>
-        <relativePath/>
-    </parent>
-    <!-- END: SPRING PARENT POM -->
- 
-    <!-- PROPERTIES -->
-    <properties>
-    	<jda.version>5.4-SNAPSHOT</jda.version>
-        <java.version>13</java.version>
-        <jersey.version>3.0.1</jersey.version>
-        <!--    <jetty.version>11.0.1</jetty.version>-->
-        <jetty.version>9.4.38.v20210224</jetty.version>
-		<mainClassGen>com.hanu.courseman.software.CourseManRFSGen</mainClassGen>
-		<mainClassRunBE>com.hanu.courseman.software.CourseManRFSRunBE</mainClassRunBE>        
-    </properties>
-    <!-- END: PROPERTIES -->
+  <!-- PROPERTIES -->
+  <properties>
+      <java.version>13</java.version>
+      <jersey.version>3.0.1</jersey.version>
+      <!--    <jetty.version>11.0.1</jetty.version>-->
+      <jetty.version>9.4.38.v20210224</jetty.version>
+	<mainClassGen>com.hanu.courseman.software.CourseManRFSGen</mainClassGen>
+	<mainClassRunBE>com.hanu.courseman.software.CourseManRFSRunBE</mainClassRunBE>        
+  </properties>
+  <!-- END: PROPERTIES -->
 
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
@@ -82,11 +76,50 @@
 	         </configuration>
          	</execution>         	
          </executions>
-       </plugin>      
+       </plugin> 
+        <!-- maven-assemply-plugin: A Maven plugin to create archives of your project's sources, 
+           classes, dependencies etc. from flexible assembly descriptors. -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>3.3.0</version>
+          <executions>
+            <execution>
+              <id>make-assembly</id>
+              <!-- bind to the packaging phase -->
+              <phase>package</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <!-- get all project dependencies -->
+            <descriptors>
+              <!-- for ease of test application execution -->
+            <descriptor>src/main/assembly/deploy-unpacked.xml</descriptor>
+            <!-- <descriptor>src/main/assembly/deploy.xml</descriptor> -->
+            </descriptors>
+          </configuration>          
+        </plugin>            
     </plugins>
   </build>
 
-  <dependencies>
+    <!-- Alternative to using Spring Parent POM:
+    Import dependency management from Spring Boot -->
+   <dependencyManagement>
+     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>2.4.2</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+      </dependencies>
+  </dependencyManagement>  
+      
+   <dependencies>
       <!-- SPRING BOOT -->
       <dependency>
           <groupId>org.springframework.boot</groupId>
@@ -168,12 +201,12 @@
           <version>${jersey.version}</version>
           <exclusions>
              <exclusion>
-		        <groupId>jakarta.json</groupId>
-    			<artifactId>jakarta.json-api</artifactId>
+            <groupId>jakarta.json</groupId>
+          <artifactId>jakarta.json-api</artifactId>
              </exclusion>
              <exclusion>
-		        <groupId>org.glassfish</groupId>
-    			<artifactId>jakarta.json</artifactId>
+            <groupId>org.glassfish</groupId>
+          <artifactId>jakarta.json</artifactId>
              </exclusion>     
           </exclusions>
       </dependency> -->
@@ -257,8 +290,8 @@
            <version>1.33</version>
            <scope>provided</scope>
        </dependency>
-	  <!-- END CALIPER -->
-	
+    <!-- END CALIPER -->
+  
       <!-- IN-MEMORY JAVA COMPILER -->
       <dependency>
           <groupId>org.mdkt.compiler</groupId>
@@ -304,13 +337,21 @@
       </dependency>
       <!-- END: JAVAPARSER -->
 
-	<!-- Reflections -->
-	<!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
-	<dependency>
-	    <groupId>org.reflections</groupId>
-	    <artifactId>reflections</artifactId>
-	    <version>0.9.12</version>
-	</dependency>
-	
-  </dependencies>
+      <!-- Reflections -->
+      <!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
+      <dependency>
+          <groupId>org.reflections</groupId>
+          <artifactId>reflections</artifactId>
+          <version>0.9.12</version>
+      </dependency>   
+      
+      <!-- Logging -->
+      <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+      <dependency>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-classic</artifactId>
+          <version>1.2.3</version>
+      </dependency>
+      <!-- END: logging -->        
+    </dependencies>   
 </project>
