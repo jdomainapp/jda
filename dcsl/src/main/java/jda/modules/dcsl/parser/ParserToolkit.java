@@ -225,7 +225,7 @@ public class ParserToolkit {
   private static final String AttrRefName = "AttrRef";
   
   /** next line character */
-  private static final String NL = "\n";
+  private static final String NL = System.lineSeparator(); //"\n";
 
   public static final String TypeName_Collection = Collection.class.getSimpleName();
 
