@@ -16,4 +16,24 @@
   <name>JDA Module: MCCL</name>
   <description>Implements the MCCL language</description>
   
+  <build>
+    <pluginManagement>
+      <plugins>
+        <!-- Additional plugin for generating test-jar (needed by test packages 
+          in some modules) -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${version.plugin.jar}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>test-jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>

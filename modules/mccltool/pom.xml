@@ -18,5 +18,12 @@
       <artifactId>jda-mccl</artifactId>
       <version>${jda.version}</version>
     </dependency>
+    <dependency>
+      <groupId>jda.modules</groupId>
+      <artifactId>jda-mccl</artifactId>
+      <version>${jda.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>
