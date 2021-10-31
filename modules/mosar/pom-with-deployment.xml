@@ -77,6 +77,31 @@
          	</execution>         	
          </executions>
        </plugin> 
+        <!-- maven-assemply-plugin: A Maven plugin to create archives of your project's sources, 
+           classes, dependencies etc. from flexible assembly descriptors. -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>3.3.0</version>
+          <executions>
+            <execution>
+              <id>make-assembly</id>
+              <!-- bind to the packaging phase -->
+              <phase>package</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <!-- get all project dependencies -->
+            <descriptors>
+              <!-- for ease of test application execution -->
+            <descriptor>src/main/assembly/deploy-unpacked.xml</descriptor>
+            <!-- <descriptor>src/main/assembly/deploy.xml</descriptor> -->
+            </descriptors>
+          </configuration>          
+        </plugin>            
     </plugins>
   </build>
 
