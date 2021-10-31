@@ -43,6 +43,7 @@ import java.util.Stack;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.json.Json;
@@ -519,7 +520,7 @@ public class ToolkitIO {
    * @version 5.4.1 
    */
   public static String getPackageNameFromPath(String pathName) {
-    String[] pathElements = pathName.split(File.separator);
+    String[] pathElements = pathName.split(Pattern.quote(File.separator));
     return String.join(".", pathElements);
   }
   
