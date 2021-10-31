@@ -2757,7 +2757,7 @@ public class ParserToolkit {
       for (ImportDeclaration imp : imports) {
         impStr = imp.toString();
         if (impStr.endsWith(NL)) 
-          impStr = impStr.substring(0, impStr.length()-1);
+          impStr = impStr.substring(0, impStr.length()-NL.length());
         
         if (impStr.endsWith("."+typeName + ";")) {  // e.g. a.b.c.Student;
           return imp;
