@@ -24,6 +24,8 @@ import jda.mosa.software.aio.SoftwareAio;
  */
 public class SWC {
   
+  private static final String NL = System.lineSeparator(); //"\n";
+
   //private static final Expression UNKNOWN_PROP_VAL = new StringLiteralExpr("?");
 
   /** the AST of this class */
@@ -174,9 +176,9 @@ public class SWC {
         );
     
     // method body
-    String body = "    final Class SwCfgCls = %s.class;\n" + 
-        "    SoftwareAio sw = SoftwareFactory.createSoftwareAioWithMemoryBasedConfig(SwCfgCls);\n" + 
-        "    sw.exec(args);\n" 
+    String body = "    final Class SwCfgCls = %s.class;" + NL +  
+        "    SoftwareAio sw = SoftwareFactory.createSoftwareAioWithMemoryBasedConfig(SwCfgCls);" + NL +  
+        "    sw.exec(args);" + NL 
         ;
     
     body = String.format(body, scc.getSimpleName());
