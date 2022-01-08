@@ -19,7 +19,7 @@
   <description></description>
 
   <modules>
-    <module>basic</module>
+    <!--<module>basic</module>
     <module>courseman</module>
     <module>jee</module>
     <module>kengine</module>
@@ -27,6 +27,7 @@
     <module>vendingmachine</module>
     <module>processman4j</module>
     <module>pinevalleyfurniture</module>
+ -->
     <module>jda-eg-coursemanrestful</module>
   </modules>
 

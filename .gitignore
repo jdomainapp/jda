@@ -31,6 +31,10 @@ classes/
 data/
 dist/
 build.xml
+.project
+.classpath
+.metadata
+.settings
 /target
 /.settings/
 /.classpath
