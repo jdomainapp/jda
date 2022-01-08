@@ -110,6 +110,17 @@ This creates an assembly that contains everything from the previous section plus
 
 ## Run a test program 
 
+Given:
+- module whose artifact-id is `jda-X`
+- JUnit test class (in `src/test/java`): `TestClass`
+- test method of the test class: `testMethod` (omitted if run all test methods)
+
+To run the JUnit test above:
+```
+mvn test -pl :jda-X -Dtest=TestClass#testMethod
+```
+
+### Short-cut commands
 - run normally (terminates after completed): 
   
   `bin/mvn-test.bash <artifact> <FQN-JUnit-test-class>`

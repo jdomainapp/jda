@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>jda</groupId>
+    <artifactId>jda-root</artifactId>
+    <version>5.4-SNAPSHOT</version>
+  </parent>
+
+  <groupId>jda.example</groupId>
+  <artifactId>jda-examples-root</artifactId>
+  <packaging>pom</packaging>
+
+  <name>JDA Examples Root</name>
+  <description></description>
+
+  <modules>
+    <module>basic</module>
+    <module>courseman</module>
+    <module>jee</module>
+    <module>kengine</module>
+    <module>drawing</module>
+    <module>vendingmachine</module>
+    <module>processman4j</module>
+    <module>pinevalleyfurniture</module>
+    <module>jda-eg-coursemanrestful</module>
+  </modules>
+
+  <dependencies>
+    <dependency>
+      <groupId>jda</groupId>
+      <artifactId>jda-main</artifactId>
+      <version>5.4-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>jda</groupId>
+      <artifactId>jda-common</artifactId>
+      <version>5.4-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>jda</groupId>
+      <artifactId>jda-dcsl</artifactId>
+      <version>5.4-SNAPSHOT</version>
+    </dependency>      
+  </dependencies>
+</project>
