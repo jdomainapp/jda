@@ -1,6 +1,7 @@
 package org.jda.example.coursemanrestful.modules.coursemodule.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import jda.modules.common.exceptions.ConstraintViolationException;
 import jda.modules.dcsl.syntax.AttrRef;
@@ -13,6 +14,7 @@ import jda.modules.dcsl.syntax.DOpt;
  * @author dmle
  *
  */
+@JsonTypeName("compulsory")    // ducmle: feature#55
 @DClass(schema="courseman")
 public class CompulsoryModule extends CourseModule {
 

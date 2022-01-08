@@ -3,6 +3,10 @@ package org.jda.example.coursemanrestful.modules.coursemodule.model;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+
 import jda.modules.common.exceptions.ConstraintViolationException;
 import jda.modules.common.types.Tuple;
 import jda.modules.dcsl.syntax.AttrRef;
@@ -18,6 +22,12 @@ import jda.modules.dcsl.syntax.DOpt;
  * @author dmle
  * @version 2.0
  */
+// ducmle: feature#55
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, 
+include = As.PROPERTY, property = "type") @JsonSubTypes({
+  @JsonSubTypes.Type(value = CompulsoryModule.class, name = "compulsory"),
+  @JsonSubTypes.Type(value = ElectiveModule.class, name = "elective")
+})
 @DClass(schema="courseman")
 public abstract class CourseModule {
 
