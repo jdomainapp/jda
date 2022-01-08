@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>jda.modules</groupId>
+    <artifactId>jda-module-root</artifactId>
+    <version>5.4-SNAPSHOT</version>
+  </parent>
+  
+  <artifactId>jda-dcsltool</artifactId>
+  <version>5.4-SNAPSHOT</version>
+  <name>JDA Module: DCSL Tool chain</name>
+  <description>Set of tools for the DCSL language</description>
+  
+  <dependencies>
+    <!-- JavaParser -->
+    <dependency>
+      <groupId>com.github.javaparser</groupId>
+      <artifactId>javaparser-core</artifactId>
+      <version>3.2.5</version>
+    </dependency>
+    <!-- Dependencies from Eclipse Repository  -->
+    <!-- Eclipse EMF Common -->    
+    <dependency>
+      <groupId>org.eclipse.emf</groupId>
+      <artifactId>org.eclipse.emf.common</artifactId>
+      <version>2.9.2.v20131212-0545</version>
+    </dependency>
+    <!-- Eclipse EMF ECore -->
+    <dependency>
+      <groupId>org.eclipse.emf</groupId>
+      <artifactId>org.eclipse.emf.ecore</artifactId>
+      <version>2.9.2.v20131212-0545</version>
+    </dependency>
+    <!-- LPG runtime -->
+    <dependency>
+      <groupId>lpg.runtime</groupId>
+      <artifactId>java</artifactId>
+      <version>2.0.17-v201004271640</version>
+    </dependency>
+    <dependency>
+        <groupId>org.eclipse.ocl</groupId>
+        <artifactId>org.eclipse.ocl</artifactId>
+        <version>3.4.2.v20140725-2242</version>
+    </dependency>
+    <dependency>
+        <groupId>org.eclipse.ocl</groupId>
+        <artifactId>org.eclipse.ocl.ecore</artifactId>
+        <version>3.3.100.v20140610-0641</version>
+    </dependency>    
+    <dependency>
+        <groupId>org.eclipse.ocl</groupId>
+        <artifactId>org.eclipse.ocl.common</artifactId>
+        <version>1.2.0.v20140610-0641</version>
+    </dependency>     
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-base</artifactId>
+        <version>17-ea+11</version>
+    </dependency>
+  </dependencies>
+</project>
