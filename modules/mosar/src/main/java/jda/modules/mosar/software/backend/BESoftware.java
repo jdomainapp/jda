@@ -58,10 +58,10 @@ public class BESoftware {
     String outputPackage = cfg.getBeTargetPackage();
     String outputPath = cfg.getBeOutputPath();
     
-      this.webControllerGenerator = WebControllerGenerator.getInstance(
-              generationMode, outputPackage, targetType, outputPath);
-      this.serviceTypeGenerator = ServiceTypeGenerator.getInstance(
-              generationMode, outputPackage, outputPath);
+    this.webControllerGenerator = WebControllerGenerator.getInstance(
+            generationMode, outputPackage, targetType, outputPath);
+    this.serviceTypeGenerator = ServiceTypeGenerator.getInstance(
+            generationMode, outputPackage, outputPath);
   }
 
   public void setGenerateCompleteCallback(Consumer<List<Class>> generateCompleteCallback) {
@@ -85,12 +85,14 @@ public class BESoftware {
     
     // A temporary design requirement for Json serialisation from domain objects
     // annotate domain classes with suitable Json annotations
+    /* ducmle: feature#55
     AnnotationGenerator anoGen = AnnotationGenerator.instance();
     for (Class cls : domainModel) {
       if (!ignored.contains(cls)) {
         cls = anoGen.generateInheritanceAnnotations(cls);
       }
     }
+    */
     
     return this;
   }
