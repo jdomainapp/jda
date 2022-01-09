@@ -7,7 +7,7 @@
   </parent>
 
   <artifactId>jda-eg-coursemanmdsa</artifactId>
-  <name>CourseMan-MDSA</name>
+  <name>Example: CourseMan MSA (using module-mdsa)</name>
   <description>CourseMan example for MDSA</description>
 
    <!-- PROPERTIES -->

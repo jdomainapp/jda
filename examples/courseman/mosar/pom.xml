@@ -3,7 +3,7 @@
   
   <parent>
     <groupId>jda.example</groupId>
-    <artifactId>jda-examples-root</artifactId>
+    <artifactId>jda-eg-courseman</artifactId>
     <version>5.4-SNAPSHOT</version>
   </parent>
   
