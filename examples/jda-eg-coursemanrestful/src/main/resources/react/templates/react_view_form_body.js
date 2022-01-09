@@ -1,3 +1,0 @@
-<Form>
-  {{ form.body }}
-</Form>

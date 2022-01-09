@@ -26,6 +26,7 @@
     <module>rivf2016</module>
     <module>soict2019</module>
 	-->
+	<module>mosar</module>
 	<module>mdsa</module>
   </modules>
 </project>
