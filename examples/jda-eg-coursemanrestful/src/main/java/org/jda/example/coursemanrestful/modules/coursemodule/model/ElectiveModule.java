@@ -1,6 +1,7 @@
 package org.jda.example.coursemanrestful.modules.coursemodule.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import jda.modules.dcsl.syntax.AttrRef;
 import jda.modules.dcsl.syntax.DAttr;
@@ -13,6 +14,7 @@ import jda.modules.dcsl.syntax.DOpt;
  * @author dmle
  *
  */
+@JsonTypeName("elective")   // ducmle: feature#55
 @DClass(schema="courseman")
 public class ElectiveModule extends CourseModule {
   // extra attribute of elective module
