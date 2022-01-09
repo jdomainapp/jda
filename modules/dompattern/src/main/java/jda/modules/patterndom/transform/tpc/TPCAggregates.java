@@ -88,7 +88,6 @@ public class TPCAggregates extends TPC {
     patternDom.updateTypeNameRef(rootCls, Params.Member1.name(), member1ClsName);
     // 2. update class declaration
     transf.addDClassIfNotExists(root, Modifier.PUBLIC)
-      .addClassImplement(root, AGRoot.class)
     // 3. add member field
       .addFields(root, patternDom, rootCls)
     // 4. Add/update default constructor method
