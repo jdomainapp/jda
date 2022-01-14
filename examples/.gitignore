@@ -25,6 +25,21 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+# draft examples
+basic
+courseman/basics
+courseman/kse*
+courseman/rivf*
+courseman/soict*
+dcsl-journal/
+drawing/
+helidon/
+jee/
+kengine/
+pinevalleyfurniture/
+processman4j/
+vendingmachine/
+
 # old stuff
 bin/
 archives/
