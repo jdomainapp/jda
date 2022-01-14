@@ -18,20 +18,8 @@
 		<jetty.version>9.4.38.v20210224</jetty.version>
 		<mainClassGen>org.jda.example.coursemanrestful.software.CourseManRFSGen</mainClassGen>
 		<mainClassRunBE>org.jda.example.coursemanrestful.software.CourseManRFSRunBE</mainClassRunBE>
-		<spring-cloud.version>Hoxton.SR6</spring-cloud.version>
 	</properties>
 	<!-- END: PROPERTIES -->
-
-	<!-- Spring Cloud-->
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-	<!-- END: Spring Cloud-->
 
 	<dependencyManagement>
 		<dependencies>
@@ -45,15 +33,6 @@
 				<scope>import</scope>
 			</dependency>
 			<!-- END: Spring Parent POM-->
-			<!-- Spring Cloud-->
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<!-- END: Spring Cloud-->
 		</dependencies>
 	</dependencyManagement>
 
@@ -78,23 +57,6 @@
 			<artifactId>spring-boot-starter-jetty</artifactId>
 		</dependency>
 		<!-- END: SPRING BOOT -->
-
-		<!-- Spring Cloud-->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-stream</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-stream-test-support</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<!-- END: Spring Cloud -->
 
 		<!-- JETTY -->
 		<dependency>
@@ -259,40 +221,4 @@
 		</dependency>
 		<!-- END: JDA -->
 	</dependencies>
-
-	<!-- Spring Cloud: Event streaming API profiles -->
-	<profiles>
-		<profile>
-			<id>kafka</id>
-			<properties>
-				<spring.profile.activated>kafka</spring.profile.activated>
-			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>org.springframework.cloud</groupId>
-					<artifactId>spring-cloud-stream-binder-kafka</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>rabbit</id>
-			<properties>
-				<spring.profile.activated>rabbit</spring.profile.activated>
-			</properties>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>org.springframework.cloud</groupId>
-					<artifactId>spring-cloud-stream-binder-rabbit</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
-	<!-- END: Spring Cloud: Event streaming API -->
-
 </project>

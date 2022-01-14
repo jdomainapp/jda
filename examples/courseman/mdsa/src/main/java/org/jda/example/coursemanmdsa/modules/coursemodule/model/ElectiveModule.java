@@ -1,6 +1,7 @@
 package org.jda.example.coursemanmdsa.modules.coursemodule.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import jda.modules.dcsl.syntax.AttrRef;
@@ -27,15 +28,23 @@ public class ElectiveModule extends CourseModule {
   @DOpt(type=DOpt.Type.ObjectFormConstructor)
   @JsonCreator
   public ElectiveModule(
-      @AttrRef("deptName") String deptName,
-      @AttrRef("name") String name,
-      @AttrRef("semester") Integer semester, @AttrRef("credits") Integer credits
+      @AttrRef("deptName")@JsonProperty("deptName") String deptName,
+      @AttrRef("name")@JsonProperty("name") String name,
+      @AttrRef("semester")@JsonProperty("semester")  Integer semester, 
+      @AttrRef("credits")@JsonProperty("credits")  Integer credits
       ) {
     this(null, null, name, semester, credits, deptName);
   }
 
   @DOpt(type=DOpt.Type.DataSourceConstructor)
-  public ElectiveModule(Integer id, String code, String name, Integer semester, Integer credits, String deptName) {
+  @JsonCreator
+  public ElectiveModule(
+      @JsonProperty("id") Integer id, 
+      @JsonProperty("code") String code, 
+      @JsonProperty("name") String name, 
+      @JsonProperty("semester") Integer semester, 
+      @JsonProperty("credits") Integer credits, 
+      @JsonProperty("deptName") String deptName) {
     super(id, code,name,semester,credits);
     this.deptName = deptName;
   }

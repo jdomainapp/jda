@@ -1,6 +1,7 @@
 package org.jda.example.coursemanmdsa.modules.coursemodule.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import jda.modules.common.exceptions.ConstraintViolationException;
@@ -22,17 +23,23 @@ public class CompulsoryModule extends CourseModule {
   // the order of the arguments must be this:
   // - super-class arguments first, then sub-class
   @DOpt(type=DOpt.Type.ObjectFormConstructor)
-  @JsonCreator
-  public CompulsoryModule(@AttrRef("name") String name,
-      @AttrRef("semester") Integer semester, @AttrRef("credits") Integer credits) {
+  public CompulsoryModule(
+      @AttrRef("name")@JsonProperty("name")  String name,
+      @AttrRef("semester")@JsonProperty("semester")  Integer semester, 
+      @AttrRef("credits")@JsonProperty("credits")  Integer credits) {
     this(null, null, name, semester, credits);
   }
 
   @DOpt(type=DOpt.Type.DataSourceConstructor)
-  public CompulsoryModule(Integer id, String code, String name, Integer semester, Integer credits)
+  @JsonCreator
+  public CompulsoryModule(@JsonProperty("id") Integer id, 
+      @JsonProperty("code") String code, 
+      @JsonProperty("name") String name, 
+      @JsonProperty("semester") Integer semester, 
+      @JsonProperty("credits") Integer credits)
     throws ConstraintViolationException {
     super(id, code, name, semester, credits);
   }
 
-  private CompulsoryModule() { }
+  protected CompulsoryModule() { super(); }
 }
