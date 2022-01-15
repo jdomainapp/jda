@@ -12,7 +12,7 @@
 
 	<!-- PROPERTIES -->
 	<properties>
-		<java.version>8</java.version>
+		<java.version>13</java.version>
 		<jersey.version>3.0.1</jersey.version>
 		<!--    <jetty.version>11.0.1</jetty.version>-->
 		<jetty.version>9.4.38.v20210224</jetty.version>
