@@ -102,6 +102,28 @@
 		</dependency>
 		<!-- END: Spring Cloud -->
 
+		<!-- Kafka-->
+		<!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka -->
+		<dependency>
+		    <groupId>org.apache.kafka</groupId>
+		    <artifactId>kafka_2.13</artifactId>
+		    <version>3.0.0</version>
+		</dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-streams -->
+<dependency>
+    <groupId>org.apache.kafka</groupId>
+    <artifactId>kafka-streams</artifactId>
+    <version>3.0.0</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
+<dependency>
+    <groupId>org.apache.kafka</groupId>
+    <artifactId>kafka-clients</artifactId>
+    <version>3.0.0</version>
+</dependency>
+
+		<!-- END: Kafka-->
+
 		<!-- JDA -->
 		<dependency>
 			<groupId>jda.modules</groupId>

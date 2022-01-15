@@ -15,12 +15,12 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@EnableBinding(StudentRegistInputStream.class)
 public class CourseModuleService2 {
 
   private static final Logger log = LoggerFactory.getLogger(CourseModuleService2.class);
 
   public static void main(String[] args) {
+    // Start a Spring application    
     Class<?> appCls = CourseModuleService2.class;
     SpringApplication app = new SpringApplication(appCls);
     Properties props = new Properties();
