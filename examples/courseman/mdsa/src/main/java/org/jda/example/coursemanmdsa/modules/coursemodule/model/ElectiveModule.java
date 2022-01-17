@@ -26,7 +26,6 @@ public class ElectiveModule extends CourseModule {
   // the order of the arguments must be this:
   // - super-class arguments first, then sub-class
   @DOpt(type=DOpt.Type.ObjectFormConstructor)
-  @JsonCreator
   public ElectiveModule(
       @AttrRef("deptName")@JsonProperty("deptName") String deptName,
       @AttrRef("name")@JsonProperty("name") String name,
@@ -37,7 +36,7 @@ public class ElectiveModule extends CourseModule {
   }
 
   @DOpt(type=DOpt.Type.DataSourceConstructor)
-//  @JsonCreator
+  @JsonCreator
   public ElectiveModule(
       @JsonProperty("id") Integer id, 
       @JsonProperty("code") String code, 
@@ -49,7 +48,7 @@ public class ElectiveModule extends CourseModule {
     this.deptName = deptName;
   }
 
-  private ElectiveModule() { }
+  protected ElectiveModule() { super(); }
 
   // setter method
   public void setDeptName(String deptName) {
