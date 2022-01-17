@@ -1,0 +1,10 @@
+{ "domain": "CourseMan",
+  "modelPkgName": "model",
+  "rootPath" : "/data/projects/",
+  "rootSrcPath": "jda-training/training/jda/examples/jda-eg-coursemansw/src/main/java",
+  "outputPath": "jda-training/training/jda/examples/jda-eg-coursemansw/target/classes",
+  "modulesPkg" : "org.jda.example.coursemansw.services",
+  "softwarePkg": "org.jda.example.coursemansw.software",
+  "includesSubTypes": true,
+  "compileSrc": false
+}
