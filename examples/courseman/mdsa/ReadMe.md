@@ -20,10 +20,11 @@
 6. run the backend (SpringBoot application):
 
     `mvn exec:java@runbe`
+    
 7. run the frontend (Reactjs):
-   - create a project's folder from the provided template `dist/react-proj-template.zip`:
+   - create a project's folder from the provided template `react-proj-template.zip`:
 
-     `unzip $EXAMPLE.FOLDER/dist/react-proj-template.zip`
+     `unzip $EXAMPLE.FOLDER/src/main/resources/disthome/react-proj-template.zip`
 
    - copy the generated frontend source to the project's `src` folder. Assume you have `cd`ed into the project's folder:
 
