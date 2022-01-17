@@ -16,8 +16,8 @@
 		<jersey.version>3.0.1</jersey.version>
 		<!--    <jetty.version>11.0.1</jetty.version>-->
 		<jetty.version>9.4.38.v20210224</jetty.version>
-		<mainClassGen>org.jda.example.coursemanrestful.software.CourseManMDSGen</mainClassGen>
-		<mainClassRunBE>org.jda.example.coursemanrestful.software.CourseManMDSRunBE</mainClassRunBE>
+		<mainClassGen>org.jda.example.coursemanmdsa.software.CourseManMDSGen</mainClassGen>
+		<mainClassRunBE>org.jda.example.coursemanmdsa.software.CourseManMDSRunBE</mainClassRunBE>
 	</properties>
 	<!-- END: PROPERTIES -->
 
@@ -37,7 +37,7 @@
          <version>3.0.0</version>
          <executions>
          	<execution>
-  	         <id>genrfs</id>
+  	         <id>genmds</id>
 	         <configuration>
 	           <daemonThreadJoinTimeout>-1</daemonThreadJoinTimeout>
 	           <mainClass>${mainClassGen}</mainClass>
