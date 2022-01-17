@@ -1,0 +1,214 @@
+package vn.com.courseman.it5.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import domainapp.basics.exceptions.ConstraintViolationException;
+import domainapp.basics.model.meta.AttrRef;
+import domainapp.basics.model.meta.DAssoc;
+import domainapp.basics.model.meta.DAssoc.AssocEndType;
+import domainapp.basics.model.meta.DAssoc.AssocType;
+import domainapp.basics.model.meta.DAssoc.Associate;
+import domainapp.basics.model.meta.DAttr;
+import domainapp.basics.model.meta.DAttr.Type;
+import domainapp.basics.model.meta.DClass;
+import domainapp.basics.model.meta.DOpt;
+import domainapp.basics.model.meta.Select;
+import domainapp.basics.util.Tuple;
+
+/**
+ * Represents a student class.
+ * 
+ * @author dmle
+ *
+ */
+@DClass(schema="courseman")
+public class SClass {
+  @DAttr(name="id",id=true,auto=true,length=6,mutable=false,type=Type.Integer)
+  private int id;
+  private static int idCounter;
+  
+  @DAttr(name="name",length=20,type=Type.String,optional=false)
+  private String name;
+  
+  @DAttr(name="students",type=Type.Collection,
+      serialisable=false,optional=false,
+      filter=@Select(clazz=Student.class))
+  @DAssoc(ascName="class-has-student",role="class",
+      ascType=AssocType.One2Many,endType=AssocEndType.One,
+      associate=@Associate(type=Student.class,
+      cardMin=1,cardMax=25))  
+  private List<Student> students;
+  
+  // derived attributes
+  private int studentsCount;
+  
+  @DOpt(type=DOpt.Type.ObjectFormConstructor)
+  @DOpt(type=DOpt.Type.RequiredConstructor)
+  public SClass(@AttrRef("name") String name) {
+    this(null, name);
+  }
+
+  // constructor to create objects from data source
+  @DOpt(type=DOpt.Type.DataSourceConstructor)
+  public SClass(Integer id, String name) {
+    this.id = nextID(id);
+    this.name = name;
+    
+    students = new ArrayList<>();
+    studentsCount = 0;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  @DOpt(type=DOpt.Type.LinkAdder)
+  //only need to do this for reflexive association: @MemberRef(name="students")  
+  public boolean addStudent(Student s) {
+    if (!this.students.contains(s)) {
+      students.add(s);
+    }
+    
+    // no other attributes changed
+    return false; 
+  }
+
+  @DOpt(type=DOpt.Type.LinkAdderNew)
+  public boolean addNewStudent(Student s) {
+    students.add(s);
+    studentsCount++;
+    
+    // no other attributes changed
+    return false; 
+  }
+  
+  @DOpt(type=DOpt.Type.LinkAdder)
+  public boolean addStudent(List<Student> students) {
+    for (Student s : students) {
+      if (!this.students.contains(s)) {
+        this.students.add(s);
+      }
+    }
+    
+    // no other attributes changed
+    return false; 
+  }
+
+  @DOpt(type=DOpt.Type.LinkAdderNew)
+  public boolean addNewStudent(List<Student> students) {
+    this.students.addAll(students);
+    studentsCount += students.size();
+
+    // no other attributes changed
+    return false; 
+  }
+
+  @DOpt(type=DOpt.Type.LinkRemover)
+  //only need to do this for reflexive association: @MemberRef(name="students")
+  public boolean removeStudent(Student s) {
+    boolean removed = students.remove(s);
+    
+    if (removed) {
+      studentsCount--;
+    }
+    
+    // no other attributes changed
+    return false; 
+  }
+  
+  public void setStudents(List<Student> students) {
+    this.students = students;
+    
+    studentsCount = students.size();
+  }
+    
+  /**
+   * @effects 
+   *  return <tt>studentsCount</tt>
+   */
+  @DOpt(type=DOpt.Type.LinkCountGetter)
+  public Integer getStudentsCount() {
+    return studentsCount;
+  }
+
+  @DOpt(type=DOpt.Type.LinkCountSetter)
+  public void setStudentsCount(int count) {
+    studentsCount = count;
+  }
+  
+  public String getName() {
+    return name;
+  }
+  
+  public List<Student> getStudents() {
+    return students;
+  }
+  
+
+  public int getId() {
+    return id;
+  }
+  
+  @Override
+  public String toString() {
+    return "SClass("+getId()+","+getName()+")";
+  }
+  
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + id;
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    SClass other = (SClass) obj;
+    if (id != other.id)
+      return false;
+    return true;
+  }
+
+  private static int nextID(Integer currID) {
+    if (currID == null) {
+      idCounter++;
+      return idCounter;
+    } else {
+      int num = currID.intValue();
+      if (num > idCounter)
+        idCounter = num;
+      
+      return currID;
+    }
+  }
+
+  /**
+   * @requires 
+   *  minVal != null /\ maxVal != null
+   * @effects 
+   *  update the auto-generated value of attribute <tt>attrib</tt>, specified for <tt>derivingValue</tt>, using <tt>minVal, maxVal</tt>
+   */
+  @DOpt(type=DOpt.Type.AutoAttributeValueSynchroniser)
+  public static void updateAutoGeneratedValue(
+      DAttr attrib,
+      Tuple derivingValue, 
+      Object minVal, 
+      Object maxVal) throws ConstraintViolationException {
+    
+    if (minVal != null && maxVal != null) {
+      if (attrib.name().equals("id")) {
+        int maxIdVal = (Integer) maxVal;
+        if (maxIdVal > idCounter)  
+          idCounter = maxIdVal;
+      }
+    }
+  }
+}

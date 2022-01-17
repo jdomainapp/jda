@@ -1,0 +1,226 @@
+package vn.com.courseman.it1.model;
+
+import java.util.Calendar;
+
+import domainapp.basics.exceptions.ConstraintViolationException;
+import domainapp.basics.model.meta.AttrRef;
+import domainapp.basics.model.meta.DAssoc;
+import domainapp.basics.model.meta.DAssoc.AssocEndType;
+import domainapp.basics.model.meta.DAssoc.AssocType;
+import domainapp.basics.model.meta.DAssoc.Associate;
+import domainapp.basics.model.meta.DAttr;
+import domainapp.basics.model.meta.DAttr.Type;
+import domainapp.basics.model.meta.DClass;
+import domainapp.basics.model.meta.DOpt;
+import domainapp.basics.util.Tuple;
+
+/**
+ * Represents a student. The student ID is auto-incremented from the current
+ * year.
+ * 
+ * @author dmle
+ * @version 2.0
+ */
+@DClass(schema="courseman")
+public class Student {
+  public static final String A_name = "name";
+  public static final String A_id = "id";
+  public static final String A_dob = "dob";
+  public static final String A_address = "address";
+  public static final String A_email = "email";
+
+  // attributes of students
+  @DAttr(name = A_id, id = true, type = Type.String, auto = true, length = 6, 
+      mutable = false, optional = false)
+  private String id;
+  //static variable to keep track of student id
+  private static int idCounter = 0;
+ 
+  @DAttr(name = A_name, type = Type.String, length = 30, optional = false)
+  private String name;
+  
+  @DAttr(name = A_dob, type = Type.String, length = 15, optional = false)
+  private String dob;
+  
+  @DAttr(name = A_address, type = Type.Domain, length = 20, optional = true)
+  @DAssoc(ascName="student-has-city",role="student",
+      ascType=AssocType.One2One, endType=AssocEndType.One,
+  associate=@Associate(type=City.class,cardMin=1,cardMax=1))
+  private City address;
+
+  @DAttr(name = A_email, type = Type.String, length = 30, optional = false)
+  private String email;
+
+  // constructor methods
+  // for creating in the application
+  // without SClass
+  @DOpt(type=DOpt.Type.ObjectFormConstructor)
+  @DOpt(type=DOpt.Type.RequiredConstructor)
+  public Student(@AttrRef("name") String name, 
+      @AttrRef("dob") String dob, 
+      @AttrRef("address") City address, 
+      @AttrRef("email") String email) {
+    this(null, name, dob, address, email);
+  }
+
+  // a shared constructor that is invoked by other constructors
+  @DOpt(type=DOpt.Type.DataSourceConstructor)
+  public Student(String id, String name, String dob, City address, String email) 
+  throws ConstraintViolationException {
+    // generate an id
+    this.id = nextID(id);
+
+    // assign other values
+    this.name = name;
+    this.dob = dob;
+    this.address = address;
+    this.email = email;
+  }
+
+  // setter methods
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setDob(String dob) {
+    this.dob = dob;
+  }
+
+  public void setAddress(City address) {
+    this.address = address;
+  }
+
+  // v2.7.3
+  public void setNewAddress(City address) {
+    // change this invocation if need to perform other tasks (e.g. updating value of a derived attribtes)
+    setAddress(address);
+  }
+  
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  // getter methods
+  public String getId() {
+    return id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getDob() {
+    return dob;
+  }
+
+  public City getAddress() {
+    return address;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  // override toString
+  /**
+   * @effects returns <code>this.id</code>
+   */
+  @Override
+  public String toString() {
+    return toString(true);
+  }
+
+  /**
+   * @effects returns <code>Student(id,name,dob,address,email)</code>.
+   */
+  public String toString(boolean full) {
+    if (full)
+      return "Student(" + id + "," + name + "," + dob + "," + address + ","
+          + email + ")";
+    else
+      return "Student(" + id + ")";
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Student other = (Student) obj;
+    if (id == null) {
+      if (other.id != null)
+        return false;
+    } else if (!id.equals(other.id))
+      return false;
+    return true;
+  }
+
+  // automatically generate the next student id
+  private String nextID(String id) throws ConstraintViolationException {
+    if (id == null) { // generate a new id
+      if (idCounter == 0) {
+        idCounter = Calendar.getInstance().get(Calendar.YEAR);
+      } else {
+        idCounter++;
+      }
+      return "S" + idCounter;
+    } else {
+      // update id
+      int num;
+      try {
+        num = Integer.parseInt(id.substring(1));
+      } catch (RuntimeException e) {
+        throw new ConstraintViolationException(
+            ConstraintViolationException.Code.INVALID_VALUE, e, new Object[] { id });
+      }
+      
+      if (num > idCounter) {
+        idCounter = num;
+      }
+      
+      return id;
+    }
+  }
+
+  /**
+   * @requires 
+   *  minVal != null /\ maxVal != null
+   * @effects 
+   *  update the auto-generated value of attribute <tt>attrib</tt>, specified for <tt>derivingValue</tt>, using <tt>minVal, maxVal</tt>
+   */
+  @DOpt(type=DOpt.Type.AutoAttributeValueSynchroniser)
+  public static void updateAutoGeneratedValue(
+      DAttr attrib,
+      Tuple derivingValue, 
+      Object minVal, 
+      Object maxVal) throws ConstraintViolationException {
+    
+    if (minVal != null && maxVal != null) {
+      //TODO: update this for the correct attribute if there are more than one auto attributes of this class 
+
+      String maxId = (String) maxVal;
+      
+      try {
+        int maxIdNum = Integer.parseInt(maxId.substring(1));
+        
+        if (maxIdNum > idCounter) // extra check
+          idCounter = maxIdNum;
+        
+      } catch (RuntimeException e) {
+        throw new ConstraintViolationException(
+            ConstraintViolationException.Code.INVALID_VALUE, e, new Object[] {maxId});
+      }
+    }
+  }
+}
