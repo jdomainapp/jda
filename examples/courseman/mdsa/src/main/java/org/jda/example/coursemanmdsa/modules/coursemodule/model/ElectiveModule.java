@@ -28,7 +28,6 @@ public class ElectiveModule extends CourseModule {
   @DOpt(type=DOpt.Type.ObjectFormConstructor)
   @JsonCreator
   public ElectiveModule(
-      @JsonProperty("id") Integer id, 
       @AttrRef("deptName")@JsonProperty("deptName") String deptName,
       @AttrRef("name")@JsonProperty("name") String name,
       @AttrRef("semester")@JsonProperty("semester")  Integer semester, 
@@ -38,7 +37,7 @@ public class ElectiveModule extends CourseModule {
   }
 
   @DOpt(type=DOpt.Type.DataSourceConstructor)
-  @JsonCreator
+//  @JsonCreator
   public ElectiveModule(
       @JsonProperty("id") Integer id, 
       @JsonProperty("code") String code, 
