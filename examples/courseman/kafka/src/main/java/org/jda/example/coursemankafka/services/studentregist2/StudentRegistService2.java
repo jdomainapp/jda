@@ -54,7 +54,7 @@ public class StudentRegistService2 implements CommandLineRunner {
     props.putIfAbsent(ConsumerConfig.GROUP_ID_CONFIG, CONSUMER_GROUP_ID);
     props.putIfAbsent(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
     props.putIfAbsent(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-    props.putIfAbsent(JsonDeserializer.VALUE_DEFAULT_TYPE, CourseModule.class.getName());
+    props.putIfAbsent(JsonDeserializer.TRUSTED_PACKAGES, "*");
     
     KafkaConsumer<String,CourseModule> consumer = new KafkaConsumer<>(props);
     

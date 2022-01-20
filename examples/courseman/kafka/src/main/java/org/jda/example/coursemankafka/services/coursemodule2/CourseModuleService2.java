@@ -53,6 +53,8 @@ public class CourseModuleService2 implements CommandLineRunner {
     // create the producer
     props.putIfAbsent(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
     props.putIfAbsent(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+    props.putIfAbsent(JsonSerializer.ADD_TYPE_INFO_HEADERS, true);
+    
     props.put(ProducerConfig.ACKS_CONFIG, "all");
     props.put(ProducerConfig.RETRIES_CONFIG, 1);
     props.put(ProducerConfig.LINGER_MS_CONFIG, 1);
