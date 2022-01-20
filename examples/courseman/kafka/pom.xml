@@ -20,6 +20,14 @@
 	</properties>
 	<!-- END: PROPERTIES -->
 
+  <repositories>
+    <repository>
+      <id>confluent</id>
+      <name>Confluent.io</name>
+      <url>https://packages.confluent.io/maven</url>
+    </repository>
+  </repositories>
+
 	<!-- Spring Cloud-->
 	<build>
 		<plugins>
@@ -109,19 +117,24 @@
 		    <artifactId>kafka_2.13</artifactId>
 		    <version>3.0.0</version>
 		</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-streams -->
-<dependency>
-    <groupId>org.apache.kafka</groupId>
-    <artifactId>kafka-streams</artifactId>
-    <version>3.0.0</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
-<dependency>
-    <groupId>org.apache.kafka</groupId>
-    <artifactId>kafka-clients</artifactId>
-    <version>3.0.0</version>
-</dependency>
-
+		<!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-streams -->
+		<dependency>
+		    <groupId>org.apache.kafka</groupId>
+		    <artifactId>kafka-streams</artifactId>
+		    <version>3.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
+		<dependency>
+		    <groupId>org.apache.kafka</groupId>
+		    <artifactId>kafka-clients</artifactId>
+		    <version>3.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.confluent/kafka-json-serializer -->
+		<dependency>
+		    <groupId>io.confluent</groupId>
+		    <artifactId>kafka-json-serializer</artifactId>
+		    <version>7.0.1</version>
+		</dependency>
 		<!-- END: Kafka-->
 
 		<!-- JDA -->

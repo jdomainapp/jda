@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.json.stream.JsonParserFactory;
+
+import org.apache.kafka.common.serialization.Serializer;
 import org.jda.example.courseman.modules.address.model.Address;
 import org.jda.example.courseman.modules.coursemodule.model.CourseModule;
 import org.jda.example.courseman.modules.enrolment.model.Enrolment;
@@ -14,6 +17,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+
+import jda.modules.common.io.ToolkitIO;
 
 /**
  * Define all nested serializers.
@@ -55,7 +60,7 @@ public class Deserializers {
                 throws IOException {
             return p.readValueAs(vc);
         }
-    }
+    } /**END: {@link TypedDeserializer}*/ 
 
     public static class StudCollectionDeserializer
             extends CollectionTypedDeserializer<Student> {
