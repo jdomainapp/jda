@@ -116,3 +116,13 @@ bin/kafka-console-consumer.sh --topic streams-courseman-coursemodules --from-beg
 # view topic info
 bin/kafka-topics.sh --describe --topic streams-courseman-coursemodules --bootstrap-server localhost:9092
 ```
+
+## References
+1. [Kafka quickstart](https://kafka.apache.org/quickstart): commands to run Kafka
+2. Kafka data serialisation: 
+	- [Custom serialiser](https://kafka.apache.org/10/documentation/streams/developer-guide/datatypes#implementing-custom-serdes)
+	- [Custom serialiser (2)](https://www.baeldung.com/kafka-custom-serializer)
+3. [Kafka Connects](https://kafka.apache.org/documentation/#connect)
+4. ksqlDB (Kafka & SQL): 
+	- [API](https://www.baeldung.com/ksqldb)
+	- [with microservice](https://docs.ksqldb.io/en/latest/tutorials/event-driven-microservice/)
