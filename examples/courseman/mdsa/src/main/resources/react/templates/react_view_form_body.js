@@ -1,0 +1,3 @@
+<Form>
+  {{ form.body }}
+</Form>
