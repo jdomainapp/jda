@@ -1,10 +1,27 @@
 [ { "pattern": "dddcore.Entities", 
     "patternFileExt": ".jdp",
-    "Entity": "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Cargo",
+    "entities": [
+      "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Cargo",
+      "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Itinerary",
+      "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Delivery",
+      "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.RouteSpecification"
+    ],
     "id": "id" },
+  { "pattern" : "dddcore.Factories",
+    "patternFileExt": ".jdp",
+    "factoryClass": "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Cargo",
+    "subjectClasses" : [ 
+        "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Itinerary" ,
+        "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Delivery" ] },    
+  { "pattern" : "dddcore.DomainEvents",
+    "patternFileExt": ".jdp",
+    "publishers" : [ 
+        "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Itinerary" ,
+        "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.RouteSpecification" ],
+    "subscribers": [] },  
   { "pattern": "dddcore.Aggregates",
     "patternFileExt": ".jdp",
-    "root": "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Cargo",
+    "Root": "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Cargo",
     "boundary": [
       "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.RouteSpecification",
       "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Itinerary",

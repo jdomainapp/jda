@@ -1,71 +1,73 @@
+package dddcore2; 
+
 import java.util.ArrayList;
 import java.util.Collection;
 
-import domainapp.basics.exceptions.ConstraintViolationException;
-import domainapp.basics.model.meta.AttrRef;
-import domainapp.basics.model.meta.DAssoc;
-import domainapp.basics.model.meta.DAssoc.AssocEndType;
-import domainapp.basics.model.meta.DAssoc.AssocType;
-import domainapp.basics.model.meta.DAssoc.Associate;
-import domainapp.basics.model.meta.DAttr;
-import domainapp.basics.model.meta.DAttr.Type;
-import domainapp.basics.model.meta.DOpt;
-import domainapp.basics.model.meta.MetaConstants;
-import domainapp.basics.model.meta.Select;
+import jda.modules.common.exceptions.ConstraintViolationException;
+import jda.modules.dcsl.syntax.AttrRef;
+import jda.modules.dcsl.syntax.DAssoc;
+import jda.modules.dcsl.syntax.DAssoc.AssocEndType;
+import jda.modules.dcsl.syntax.DAssoc.AssocType;
+import jda.modules.dcsl.syntax.DAssoc.Associate;
+import jda.modules.dcsl.syntax.DAttr;
+import jda.modules.dcsl.syntax.DAttr.Type;
+import jda.modules.dcsl.syntax.DCSLConstants;
+import jda.modules.dcsl.syntax.DOpt;
+import jda.modules.dcsl.syntax.Select;
 
 /**
  * @overview 
  *  Pattern: Many-to-Many Association Normaliser
  * 
  * @overview 
- *  Class {@link M1}
+ *  Class {@link C1}
  *  
  * @author dmle
  */
-class M1 {
+class C1 {
   @DAttr(name="a2",type=Type.Collection,serialisable=false)
-  @DAssoc(ascName="M1-m-assoc-M2",role="r1",
+  @DAssoc(ascName="C1-m-assoc-C2",role="r1",
     ascType=AssocType.Many2Many,endType=AssocEndType.Many,
-    associate=@Associate(type=M2.class,cardMin=0,cardMax=MetaConstants.CARD_MORE),
+    associate=@Associate(type=C2.class,cardMin=0,cardMax=DCSLConstants.CARD_MORE),
     normAttrib="aNorm")
-  private Collection<M2> a2;
+  private Collection<C2> a2;
   
   @DAttr(name="aNorm",type=Type.Collection,optional=false,serialisable=false,
-      filter=@Select(clazz=I.class))
-  @DAssoc(ascName="M1-assoc-I",role="r1",
+      filter=@Select(clazz=CNorm.class))
+  @DAssoc(ascName="C1-assoc-CNorm",role="r1",
     ascType=AssocType.One2Many,endType=AssocEndType.One,
-    associate=@Associate(type=I.class,cardMin=0,cardMax=MetaConstants.CARD_MORE))
-  private Collection<I> aNorm;  
+    associate=@Associate(type=CNorm.class,cardMin=0,cardMax=DCSLConstants.CARD_MORE))
+  private Collection<CNorm> aNorm;  
 
   // derived
   private int aNormCount;
   
   // constructor methods
   @DOpt(type=DOpt.Type.ObjectFormConstructor)
-  public M1(Collection<M2> a2) {
+  public C1(Collection<C2> v2) {
     //
   }
   
   /** ASSOCIATION {@link #aNorm} */
   
   @DOpt(type=DOpt.Type.Getter)@AttrRef(value="aNorm")
-  public Collection<I> getANorm() {
+  public Collection<CNorm> getANorm() {
     return aNorm;
   }
 
   @DOpt(type=DOpt.Type.Setter)@AttrRef(value="aNorm")
-  public void setANorm(Collection<I> associates) {
+  public void setANorm(Collection<CNorm> associates) {
     this.aNorm = associates;
     aNormCount = associates.size();
   }
 
   
   @DOpt(type=DOpt.Type.LinkAdderNew)@AttrRef(value="aNorm")
-  public boolean addNewANorm(I associate) {
+  public boolean addNewANorm(CNorm associate) {
     aNorm.add(associate);
     
     // update a2
-    addM2(associate.getM2());
+    addA2(associate.getA2());
     
     aNormCount++;
     
@@ -74,12 +76,12 @@ class M1 {
   }
   
   @DOpt(type=DOpt.Type.LinkAdderNew)@AttrRef(value="aNorm")
-  public boolean addNewANorm(Collection<I> associates) {
+  public boolean addNewANorm(Collection<CNorm> associates) {
     aNorm.addAll(associates);
     
     // update a2
-    for (I assoc: associates) {
-      addM2(assoc.getM2());
+    for (CNorm assoc: associates) {
+      addA2(assoc.getA2());
     }
 
     aNormCount+=associates.size();
@@ -89,12 +91,12 @@ class M1 {
   }
   
   @DOpt(type=DOpt.Type.LinkAdder)@AttrRef(value="aNorm")
-  public boolean addANorm(I associate) {
+  public boolean addANorm(CNorm associate) {
     if (!aNorm.contains(associate)) {
       aNorm.add(associate);
     
       // update a2
-      addM2(associate.getM2());
+      addA2(associate.getA2());
 
       aNormCount++;
     }
@@ -104,13 +106,13 @@ class M1 {
   }
   
   @DOpt(type=DOpt.Type.LinkAdder)@AttrRef(value="aNorm")
-  public boolean addANorm(Collection<I> associates) {
-    for (I assoc : associates) {
+  public boolean addANorm(Collection<CNorm> associates) {
+    for (CNorm assoc : associates) {
       if (!aNorm.contains(assoc)) {
         aNorm.add(assoc);
         
         // update a2
-        addM2(assoc.getM2());
+        addA2(assoc.getA2());
         
         aNormCount++;
       }
@@ -121,12 +123,12 @@ class M1 {
   }
 
   @DOpt(type=DOpt.Type.LinkRemover)@AttrRef(value="aNorm")
-  public boolean removeANorm(I associate) throws ConstraintViolationException {
+  public boolean removeANorm(CNorm associate) throws ConstraintViolationException {
     boolean removed = aNorm.remove(associate);
     
     if (removed) {
       // update a2
-      removeM2(associate.getM2());
+      removeA2(associate.getA2());
       
       aNormCount--;
     }
@@ -150,12 +152,12 @@ class M1 {
   /** ASSOCIATION {@link #a2}: maintained via {@link #aNorm} */
   
   @DOpt(type=DOpt.Type.Getter) @AttrRef(value="a2")
-  public Collection<M2> getA2() {
+  public Collection<C2> getA2() {
     return a2;
   }
 
   @DOpt(type=DOpt.Type.Setter) @AttrRef(value="a2")
-  public void setA2(Collection<M2> associates) {
+  public void setA2(Collection<C2> associates) {
     this.a2 = associates;
   }
 
@@ -164,7 +166,7 @@ class M1 {
    *  add <tt>associate</tt> to {@link #a2}
    */
   @AttrRef(value="a2")
-  private void addM2(M2 associate) {
+  private void addA2(C2 associate) {
     if (a2 == null) a2 = new ArrayList<>();
     if (!a2.contains(associate)){
       a2.add(associate);
@@ -176,7 +178,7 @@ class M1 {
    *  remove <tt>associate</tt> from {@link #a2}
    */
   @AttrRef(value="a2")
-  private void removeM2(M2 associate) {
+  private void removeA2(C2 associate) {
     if (a2 != null) {
       a2.remove(associate);
     }
@@ -187,54 +189,54 @@ class M1 {
 /**
  * 
  * @overview 
- *  Class {@link M2}
+ *  Class {@link C2}
  *  
  * @author dmle
  */
-class M2 {
+class C2 {
   @DAttr(name="a1",type=Type.Collection,serialisable=false)
-  @DAssoc(ascName="M2-m-assoc-M1",role="r2",
+  @DAssoc(ascName="C2-m-assoc-C1",role="r2",
     ascType=AssocType.Many2Many,endType=AssocEndType.Many,
-    associate=@Associate(type=M1.class,cardMin=0,cardMax=MetaConstants.CARD_MORE),
+    associate=@Associate(type=C1.class,cardMin=0,cardMax=DCSLConstants.CARD_MORE),
     normAttrib="aNorm")
-  private Collection<M1> a1;
+  private Collection<C1> a1;
   
   @DAttr(name="aNorm",type=Type.Collection,optional=false,serialisable=false,
-      filter=@Select(clazz=I.class))
-  @DAssoc(ascName="M2-assoc-I",role="r2",
+      filter=@Select(clazz=CNorm.class))
+  @DAssoc(ascName="C2-assoc-CNorm",role="r2",
     ascType=AssocType.One2Many,endType=AssocEndType.One,
-    associate=@Associate(type=I.class,cardMin=0,cardMax=MetaConstants.CARD_MORE))
-  private Collection<I> aNorm;  
+    associate=@Associate(type=CNorm.class,cardMin=0,cardMax=DCSLConstants.CARD_MORE))
+  private Collection<CNorm> aNorm;  
 
   // derived
   private int aNormCount;
   
   // constructor methods
   @DOpt(type=DOpt.Type.ObjectFormConstructor)
-  public M2(Collection<M1> a1) {
+  public C2(Collection<C1> v1) {
     //
   }
   
   /** ASSOCIATION {@link #aNorm} */
   
   @DOpt(type=DOpt.Type.Getter)@AttrRef(value="aNorm")
-  public Collection<I> getANorm() {
+  public Collection<CNorm> getANorm() {
     return aNorm;
   }
 
   @DOpt(type=DOpt.Type.Setter)@AttrRef(value="aNorm")
-  public void setANorm(Collection<I> associates) {
+  public void setANorm(Collection<CNorm> associates) {
     this.aNorm = associates;
     aNormCount = associates.size();
   }
 
   
   @DOpt(type=DOpt.Type.LinkAdderNew)@AttrRef(value="aNorm")
-  public boolean addNewANorm(I associate) {
+  public boolean addNewANorm(CNorm associate) {
     aNorm.add(associate);
     
     // update  a1
-    addM1(associate.getM1());
+    addA1(associate.getA1());
     
     aNormCount++;
     
@@ -243,12 +245,12 @@ class M2 {
   }
   
   @DOpt(type=DOpt.Type.LinkAdderNew)@AttrRef(value="aNorm")
-  public boolean addNewANorm(Collection<I> associates) {
+  public boolean addNewANorm(Collection<CNorm> associates) {
     aNorm.addAll(associates);
     
     // update a1
-    for (I assoc: associates) {
-      addM1(assoc.getM1());
+    for (CNorm assoc: associates) {
+      addA1(assoc.getA1());
     }
 
     aNormCount+=associates.size();
@@ -258,12 +260,12 @@ class M2 {
   }
   
   @DOpt(type=DOpt.Type.LinkAdder)@AttrRef(value="aNorm")
-  public boolean addANorm(I associate) {
+  public boolean addANorm(CNorm associate) {
     if (!aNorm.contains(associate)) {
       aNorm.add(associate);
     
       // update a1
-      addM1(associate.getM1());
+      addA1(associate.getA1());
 
       aNormCount++;
     }
@@ -273,13 +275,13 @@ class M2 {
   }
   
   @DOpt(type=DOpt.Type.LinkAdder)@AttrRef(value="aNorm")
-  public boolean addANorm(Collection<I> associates) {
-    for (I assoc : associates) {
+  public boolean addANorm(Collection<CNorm> associates) {
+    for (CNorm assoc : associates) {
       if (!aNorm.contains(assoc)) {
         aNorm.add(assoc);
         
         // update a1
-        addM1(assoc.getM1());
+        addA1(assoc.getA1());
         
         aNormCount++;
       }
@@ -290,12 +292,12 @@ class M2 {
   }
 
   @DOpt(type=DOpt.Type.LinkRemover)@AttrRef(value="aNorm")
-  public boolean removeANorm(I associate) throws ConstraintViolationException {
+  public boolean removeANorm(CNorm associate) throws ConstraintViolationException {
     boolean removed = aNorm.remove(associate);
     
     if (removed) {
       // update a1
-      removeM1(associate.getM1());
+      removeA1(associate.getA1());
       
       aNormCount--;
     }
@@ -319,12 +321,12 @@ class M2 {
   /** ASSOCIATION {@link #a1}: maintained via {@link #aNorm} */
   
   @DOpt(type=DOpt.Type.Getter) @AttrRef(value="a1")
-  public Collection<M1> getA1() {
+  public Collection<C1> getA1() {
     return a1;
   }
 
   @DOpt(type=DOpt.Type.Setter) @AttrRef(value="a1")
-  public void setA1(Collection<M1> associates) {
+  public void setA1(Collection<C1> associates) {
     this.a1 = associates;
   }
 
@@ -333,7 +335,7 @@ class M2 {
    *  add <tt>associate</tt> to {@link #a1}
    */
   @AttrRef(value="a1")
-  private void addM1(M1 associate) {
+  private void addA1(C1 associate) {
     if (a1 == null) a1 = new ArrayList<>();
     if (!a1.contains(associate)) {
       a1.add(associate);
@@ -345,7 +347,7 @@ class M2 {
    *  remove <tt>associate</tt> from {@link #a1}
    */
   @AttrRef(value="a1")
-  private void removeM1(M1 associate) {
+  private void removeA1(C1 associate) {
     if (a1 != null) {
       a1.remove(associate);
     }
@@ -356,49 +358,49 @@ class M2 {
 /**
  * 
  * @overview 
- *  Class {@link I}
+ *  Class {@link CNorm}
  *  
  * @author dmle
  */
-class I {
+class CNorm {
   @DAttr(name="a1",type=Type.Domain,optional=false)
-  @DAssoc(ascName="M1-assoc-I",role="r3",
+  @DAssoc(ascName="C1-assoc-CNorm",role="r3",
     ascType=AssocType.One2Many,endType=AssocEndType.Many,
-    associate=@Associate(type=M1.class,cardMin=1,cardMax=1),
+    associate=@Associate(type=C1.class,cardMin=1,cardMax=1),
     dependsOn=true)
-  private M1 a1;
+  private C1 a1;
   
   @DAttr(name="a2",type=Type.Domain,optional=false)
-  @DAssoc(ascName="M2-assoc-I",role="r3",
+  @DAssoc(ascName="C2-assoc-CNorm",role="r3",
       ascType=AssocType.One2Many,endType=AssocEndType.Many,
-    associate=@Associate(type=M2.class,cardMin=1,cardMax=1),
+    associate=@Associate(type=C2.class,cardMin=1,cardMax=1),
     dependsOn=true)
-  private M2 a2;
+  private C2 a2;
   
   // constructor method
-  public I(M1 a1, M2 a2) 
+  public CNorm(C1 v1, C2 v2) 
       throws ConstraintViolationException {
     //
   }
 
   // setter methods
   @DOpt(type=DOpt.Type.Setter)@AttrRef(value="a1")
-  public void setA1(M1 a1) {
-    this.a1 = a1;
+  public void setA1(C1 v) {
+    this.a1 = v;
   }
 
   @DOpt(type=DOpt.Type.Getter)@AttrRef(value="a1")
-  public M1 getA1() {
+  public C1 getA1() {
     return a1;
   }
   
   @DOpt(type=DOpt.Type.Setter)@AttrRef(value="a2")
-  public void setA2(M2 a2) {
-    this.a2 = a2;
+  public void setA2(C2 v) {
+    this.a2 = v;
   }
 
   @DOpt(type=DOpt.Type.Getter)@AttrRef(value="a2")
-  public M2 getA2() {
+  public C2 getA2() {
     return a2;
   }  
 }

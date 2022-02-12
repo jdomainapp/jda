@@ -8,7 +8,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
@@ -355,7 +359,29 @@ public class Dom {
     clsMap.put(fqn, ast);
     return ParserToolkit.getTopLevelClass(cu);
   }
-
+  
+  /**
+   * @modifies {@link #classMap}
+   * @effects 
+   *  adds <code>ast</code> to this 
+   * @version 5.4.1
+   */
+  public void addClass(ClassAST ast) {
+    String pkg = ast.getPackageDeclaration();
+    if (pkg == null) {
+      pkg = getAnyPackage();
+      if (pkg != null)
+        ast.setPackage(pkg);
+    }
+    
+    if (ast.getSrcFile() == null && pkg != null) {
+      String srcFilePath = ToolkitIO.getJavaFilePath(rootSrcPath, pkg, ast.getName()); 
+      ast.setSrcFile(srcFilePath);
+    }
+    
+    clsMap.put(ast.getFqn(), ast);
+  }
+  
   /**
    * @modifies <code>cls</code> in this
    * @effects 
@@ -380,6 +406,23 @@ public class Dom {
     return fd;
   }
 
+
+  /**
+   * @effects 
+   *  if class(<code>fqnClsName</code>) has field named <code>fieldName</code>
+   *    remove it
+   * @version 5.4.1
+   */
+  public void removeFieldIfExists(String fqnClsName, String fieldName) {
+    ClassAST ast = clsMap.get(fqnClsName);
+    FieldDeclaration fd = ast.getField(fieldName);
+    if (fd != null) {
+      // todo: add a comment ?
+      //Comment c = new LineComment("Removed: " + fieldName);
+      fd.remove();
+    }
+  }
+  
   /**
    * @modifies the {@link ClassAST} of <code>Class(fqnClsName)</code>
    * @effects 
@@ -497,6 +540,20 @@ public class Dom {
 
   /**
    * @effects 
+   *  returns a half-deep copy of this.
+   *  
+   * @version 5.4.1
+   */
+  @Override
+  public Dom clone() {
+    Dom newDom = new Dom(rootSrcPath);
+    newDom.outputDir = outputDir;
+    
+    return newDom;
+  }
+  
+  /**
+   * @effects 
    *  if this is not empty
    *    return {@link Map}(String,String): FQN -&gt; Class-file-name of {@link #clsMap}
    *  else
@@ -513,5 +570,151 @@ public class Dom {
           e -> e.getKey(),
           e -> e.getValue().getSrcFile()
       ));
+  }
+
+  /**
+   * @modifies this
+   * 
+   * @effects 
+   *  create and return a clone of this in which 
+   *  all the domain classes are renamed as specified in <code>classNameMap</code>.
+   *  
+   * @version 5.4.1 
+   */
+  public Dom createIModel(Map<String, String> classNameMap) {
+    Dom imodel = clone();
+    
+    forEach((fqn, oldAst) -> {
+      // update classes in classNameMap
+      ClassAST ast = oldAst.clone();
+      final String clsName = DClassTk.getClassNameFromFqn(fqn);
+      for (Entry<String, String> centry: classNameMap.entrySet()) {
+        String currName = centry.getKey();
+        String newName = centry.getValue();
+        String simpleName;
+        int lastDot = newName.lastIndexOf(".");
+        if (lastDot > -1) {
+          // fqn
+          simpleName = newName.substring(lastDot+1);
+        } else {
+          // simple name
+          simpleName = newName;
+        }
+        // rename class 
+        if (clsName.equals(currName)) {
+          ast.rename(simpleName);
+        } 
+
+        // rename class references
+        ast.updateTypeNameRef(currName, simpleName);
+      }
+
+
+      imodel.addClass(ast);
+    });
+
+    return imodel;
+  }
+  
+  /**
+   * @modifies this
+   * 
+   * @effects 
+   * create and return a clone of this in which 
+   *  all the domain classes are renamed as specified in <code>classNameMap</code>.
+   *  and all the domain fields are renamed as specified in <code>fieldsNameMap</code>.
+   *  
+   * @version 5.4.1 
+   */
+  public Dom createIModel(Map<String, String> classNameMap, 
+      Map<String, String> fieldsNameMap) {
+    Dom imodel = clone();
+    
+    forEach((fqn, ast) -> {
+      // update classes in classNameMap
+      final String clsName = DClassTk.getClassNameFromFqn(fqn);
+      for (Entry<String, String> centry: classNameMap.entrySet()) {
+        String currName = centry.getKey();
+        String newName = centry.getValue();
+
+        // rename class 
+        if (clsName.equals(currName)) {
+          ast.rename(newName);
+        } 
+
+        // rename class references
+        ast.updateTypeNameRef(currName, newName);
+      }
+
+
+      imodel.addClass(ast);
+
+      // rename fields in fieldsNameMap
+      for (Entry<String, String> fentry: fieldsNameMap.entrySet()) {
+        String currName = fentry.getKey();
+        String newName = fentry.getValue();
+        ast.renameField(currName, newName);
+      }
+    });
+
+    return imodel;
+  }
+
+  /**
+   * @effects 
+   *  performs action on {@link #clsMap}.entries
+   *  
+   * @version 5.4.1
+   */
+  public void forEach(BiConsumer<? super String, ? super ClassAST> action) {
+    clsMap.forEach((fqn, ast) -> {
+      action.accept(fqn, ast);
+    });
+  }
+
+  /**
+   * @effects 
+   *  return {@link Stream}(String) contains FQNs of all classes in this.
+   *  
+   * @version 5.4.1
+   */
+  public Stream<String> clsFqnStreams() {
+    return clsMap.keySet().stream();
+  }
+  
+  /**
+   * @effects 
+   *  if exists a class in this whose FQN's simple name equals <code>clsSimpleName</code>
+   *    return {@link ClassAST} of that class
+   *  else
+   *    return null
+   * @version 5.4.1
+   * 
+   */
+  public ClassAST getDClassByName(String clsSimpleName) {
+    Optional<Entry<String,ClassAST>> clsEntry = clsMap.entrySet().stream()
+        .filter(e -> DClassTk.getClassNameFromFqn(e.getKey()).equals(clsSimpleName))
+        .findFirst();
+    
+    if (clsEntry.isPresent()) {
+      return clsEntry.get().getValue();
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * @effects 
+   *  get FQN of the package of any domain class in this
+   *  
+   * @version 5.4.1
+   */
+  public String getAnyPackage() {
+    if (clsMap.isEmpty())
+      return null;
+    
+    String anyPkg = DClassTk.getPackageName(clsMap.entrySet().iterator().next().getKey());
+    return anyPkg;
+    
   }
 }

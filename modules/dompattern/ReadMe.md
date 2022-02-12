@@ -29,7 +29,7 @@ The instructions in this section use the command-line interface to run the JUnit
 
 All commands are **executed from within the `test` folder** that was created in the set-up section above.
 
-The test runs will create a sub-folder, named `output`, of the `test` folder, which contains the output source code files. Thus, the test folder structure will look like this:
+The test runs will create a sub-folder, named `output`, of the `test` folder, which contains the output source code files. Thus, the test folder structure with the output will look like this:
 
 ```
 - test/
@@ -42,17 +42,17 @@ The test runs will create a sub-folder, named `output`, of the `test` folder, wh
       - ...
 ```
 
-## TPC
-List of currently implemented TPCs:
-1. TPCEntities: pattern Entities
-2. TPCAggregates: pattern Aggregates
-3. TPCMNormaliser: pattern MNormaliser
+## Transformation procedures
+List of currently implemented TPs:
+1. TPEntities: pattern Entities
+2. TPAggregates: pattern Aggregates
+3. TPMNormaliser: pattern MNormaliser
 4. TPDataSourceAttrib: pattern DataSourceAttribute
 
 ### Example
-To execute `TPCAggregates`. This TPC uses a pre-defined p-mapping to the CourseMan domain model:
+To execute `TPAggregates`. This TP uses a pre-defined p-mapping to the CourseMan domain model:
 ```
-test# java -cp ./module-dompattern-5.4-SNAPSHOT-deploy.jar org.junit.runner.JUnitCore jda.modules.patterndom.test.tpc.TPCAggregatesTest
+test# java -cp ./module-dompattern-5.4-SNAPSHOT-deploy.jar org.junit.runner.JUnitCore jda.modules.patterndom.test.tpc.TPAggregatesTest
 ```
 
 ### Expected output
@@ -60,7 +60,7 @@ test# java -cp ./module-dompattern-5.4-SNAPSHOT-deploy.jar org.junit.runner.JUni
 Root src path: /data/projects/jda/modules/dompattern/target/src
 Root output path: /data/projects/jda/modules/dompattern/target/output
 DOM...initialised
-Aggregates:TPCAggregates...initialised
+Aggregates:TPAggregates...initialised
 ......executed
 DOM...saved
 
@@ -68,13 +68,13 @@ Time: 0.33
 
 OK (1 test)
 ```
-## TGC
+## Transformation program
 
 ### Example
-To execute a TGC, named `TGC1Test`, which consists of multiple patterns, using a pre-defined g-mapping to the CourseMan domain model:
+To execute a TG, named `TG1Test`, which consists of multiple patterns, using a pre-defined g-mapping to the CourseMan domain model:
 
 ```
-test# java -cp ./module-dompattern-5.4-SNAPSHOT-deploy.jar org.junit.runner.JUnitCore jda.modules.patterndom.test.tgc.TGC1Test
+test# java -cp ./module-dompattern-5.4-SNAPSHOT-deploy.jar org.junit.runner.JUnitCore jda.modules.patterndom.test.tgc.TG1Test
 ```
 
 ### Expected output:
@@ -82,7 +82,7 @@ test# java -cp ./module-dompattern-5.4-SNAPSHOT-deploy.jar org.junit.runner.JUni
 Root src path: /data/projects/jda/modules/dompattern/target/src
 Root output path: /data/projects/jda/modules/dompattern/target/output
 DOM...initialised
-TGC1:TGC...initialised
+TG1:TG...initialised
 ......executed
 DOM...updated
 
@@ -92,10 +92,10 @@ OK (1 test)
 ```
 
 ## Example: Cargo shipping
-To execute the pre-defined TGC for the CargoShipping case study: 
+To execute the pre-defined TG for the CargoShipping case study: 
 
 ```
-test# java -cp ./module-dompattern-5.4-SNAPSHOT-deploy.jar org.junit.runner.JUnitCore jda.modules.patterndom.test.cargoshipping.TGCCargoShipping
+test# java -cp ./module-dompattern-5.4-SNAPSHOT-deploy.jar org.junit.runner.JUnitCore jda.modules.patterndom.test.cargoshipping.TGCargoShipping
 ```
 
 ### Expected output
@@ -103,7 +103,7 @@ test# java -cp ./module-dompattern-5.4-SNAPSHOT-deploy.jar org.junit.runner.JUni
 Root src path: /data/projects/jda/modules/dompattern/target/src
 Root output path: /data/projects/jda/modules/dompattern/target/output
 DOM...initialised
-CargoShipping:TGC...initialised
+CargoShipping:TG...initialised
 ......executed
 DOM...saved
 

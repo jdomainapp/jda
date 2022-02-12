@@ -55,7 +55,7 @@ o.a.k.c.p.i.TransactionManager - [Producer clientId=producer-transaction_streams
 ```
 
 ## 3. Run Consumer service
-Run class: `org.jda.example.coursemankafka.services.coursemodule2.CourseModuleService2.java` 
+Run class: `org.jda.example.coursemankafka.services.studentregist2.StudentRegistService2.java` 
 
 Console output (sample):
 

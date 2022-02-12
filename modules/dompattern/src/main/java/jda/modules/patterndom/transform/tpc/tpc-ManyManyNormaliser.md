@@ -26,6 +26,16 @@ class C1 {
 - If symmetrical then C2 is updated with a1 and aNorm
 - All classes are updated with the relevant essential behaviours
 
+# Instantiate p-model
+- rename C1, C2, CNorm. These include:
+  - rename all type references to C1 (e.g. Collection<C1>)
+  - rename all the references to C1 embedded in method names (e.g. C2.addC1(), CNorm.setC1())
+    - all code statements that invoke these methods
+  - all references to C1 in annotation elements (e.g. ascName: "C1-m-assoc-C2")
+- rename fields a1, a2, aNorm that reference the above classes (to make them easier to read). These include:
+  - textual references of a field in strings (e.g. DAttr.name="a1")
+  - code statements referencing a field
+
 # Create C3
 1. class name: C3
 2. attributes:

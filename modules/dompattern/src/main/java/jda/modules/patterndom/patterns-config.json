@@ -1,25 +1,25 @@
 [
   {
     "pattern": "dddcore.Entities",
-    "transfProc": "jda.modules.patterndom.transform.tpc.TPCEntities"
+    "transfProc": "jda.modules.patterndom.transform.tpc.TPEntities"
   }
   ,{
-    "pattern": "dddcore.Factory",
-    "transfProc": "jda.modules.patterndom.transform.tpc.TPCFactory"
+    "pattern": "dddcore.Factories",
+    "transfProc": "jda.modules.patterndom.transform.tpc.TPFactories"
   }
   ,{
     "pattern": "dddcore.DomainEvents",
-    "transfProc": "jda.modules.patterndom.transform.tpc.TPCDomainEvents"
+    "transfProc": "jda.modules.patterndom.transform.tpc.TPDomainEvents"
   },{
     "pattern": "dddcore.Aggregates",
-    "transfProc": "jda.modules.patterndom.transform.tpc.TPCAggregates"
+    "transfProc": "jda.modules.patterndom.transform.tpc.TPAggregates"
   }
   ,{
     "pattern": "dddcore2.MNormaliser",
-    "transfProc": "jda.modules.patterndom.transform.tpc.TPCMNormaliser"
+    "transfProc": "jda.modules.patterndom.transform.tpc.TPMNormaliser"
   }  
   ,{
     "pattern": "dddcore2.DataSourceAttrib",
-    "transfProc": "jda.modules.patterndom.transform.tpc.TPCDataSourceAttrib"
+    "transfProc": "jda.modules.patterndom.transform.tpc.TPDataSourceAttrib"
   }  
 ]

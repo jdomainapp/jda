@@ -1,6 +1,0 @@
-{
-  "pattern": "dddcore.Entities", 
-  "patternFileExt": ".jdp",
-  "Entity": "jda.modules.patterndom.test.dom.entities.Student",
-  "id": "code"
-}

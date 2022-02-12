@@ -67,7 +67,7 @@ import jda.util.events.ChangeEventSource;
  *  
  * @author Duc Minh Le (ducmle)
  */
-class RootCls implements AGRoot {
+class Root implements AGRoot {
   @DAttr(name="members",type=Type.Collection)
   @DAssoc(ascName="has-members",role="root",
     ascType=AssocType.One2Many,endType=AssocEndType.One,
@@ -79,7 +79,7 @@ class RootCls implements AGRoot {
    *  initialises this with <code>id</code>
    * @version 
    */
-  public RootCls() {
+  public Root() {
     members1 = new ArrayList<>();
   }
   
@@ -256,27 +256,21 @@ class RootCls implements AGRoot {
   private void rollbackUpdate(Object prevState) {
     // update this to the previous state recorded in prevState
   }
-} /** END {@link RootCls} */
+} /** END {@link Root} */
 
 /**
  * @overview 
  *  Represents an arbitrary member type in the aggregate that has an association 
- *  to {@link RootCls}.
+ *  to {@link Root}.
  *  
  * @author Duc Minh Le (ducmle)
  */
 class Member1 implements Publisher {
-  @DAttr(name="member2",type=Type.Domain)
-  @DAssoc(ascName="some-assoc",role="member1",
-      ascType=AssocType.One2Many,endType=AssocEndType.Many,
-      associate=@Associate(type=Member2.class,cardMin=0,cardMax=1))
-  private Member2 member2;
-  
   @DAttr(name="root",type=Type.Domain)
   @DAssoc(ascName="has-member",role="member",
       ascType=AssocType.One2Many,endType=AssocEndType.Many,
-      associate=@Associate(type=RootCls.class,cardMin=0,cardMax=1))
-  private RootCls root;
+      associate=@Associate(type=Root.class,cardMin=0,cardMax=1))
+  private Root root;
 
   @DAttr(name="someParam",type=Type.Other)
   private Object someAttrib;
@@ -291,7 +285,7 @@ class Member1 implements Publisher {
    * @effects 
    *  initialises this with the root object
    */
-  public Member1(RootCls root) {
+  public Member1(Root root) {
     this.root = root;
   }
   
@@ -328,46 +322,3 @@ class Member1 implements Publisher {
     return evtSrc;
   }
 }  /** END {@link Member1} */
-
-/**
- * @overview 
- *  Represents some other member type in the aggregate that has an association 
- *  to {@link Member1}.
- *  
- *  This class is designed similar to {@link Member1}.
- *  
- * @author Duc Minh Le (ducmle)
- */
-class Member2 implements Publisher {
-  @Override // Pattern: DomainEvents
-  public ChangeEventSource<?> getEventSource() {
-    // Implement similar to Member1
-    return null;
-  }
-}  /** END {@link Member2} */
-
-/**
- * @overview
- *  A typical client program that uses pattern Aggregates.
- *   
- * @author Duc Minh Le (ducmle)
- */
-class ClientProg {
-  public static void main(String[] args) {
-    // create a root object
-    RootCls root = new RootCls();
-    
-    // add members to root
-    Object someArg  = null;
-    Member1 member1 = root.addMember(Member1.class, someArg);
-    
-    // state update
-    try {
-      Object val = null;
-      member1.setSomeAttrib(val);
-    } catch (ConstraintViolationException e) {
-      System.err.println(e.getMessage());
-      System.out.printf("   Update rolled back: %s%n", root);
-    }
-  }
-} /** END {@link ClientProg} */

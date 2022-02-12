@@ -1,6 +1,7 @@
 package jda.modules.dcsl.parser.jtransform;
 
 import java.lang.annotation.Annotation;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 
 import jda.modules.common.exceptions.NotFoundException;
@@ -157,7 +159,7 @@ public class JTransform {
    *  <p>
    *  Throws NotPossibleException if failed to perform the specified transformation for some reasons.
    */
-  public JTransform addImport(String fqnClsName, Class<?>...classes) throws NotPossibleException {
+  public JTransform mergeImport(String fqnClsName, Class<?>...classes) throws NotPossibleException {
     dom.getDClass(fqnClsName).addImports(classes);
     
     return this;
@@ -168,7 +170,7 @@ public class JTransform {
    * @effects 
    *  
    */
-  public JTransform addImport(String fqnClsName, String...importNames) {
+  public JTransform mergeImport(String fqnClsName, String...importNames) {
     dom.getDClass(fqnClsName).addImports(importNames);
     
     return this;
@@ -186,7 +188,7 @@ public class JTransform {
    *  <p>
    *  Throws NotPossibleException if failed to perform the specified transformation for some reasons.
    */
-  public JTransform addEssentialImport(String fqnClsName, Class<?>...classes) throws NotPossibleException {
+  public JTransform mergeEssentialImport(String fqnClsName, Class<?>...classes) throws NotPossibleException {
     dom.getDClass(fqnClsName).addImports(classes);
 
     // add essential annotations
@@ -204,7 +206,7 @@ public class JTransform {
    *  add the import statements specified in <code>refCls</code> of <code>refDom</code>
    *  to the class <code>fqnClsName</code>
    */
-  public JTransform addImport(String fqnClsName, Dom refDom, String refCls) {
+  public JTransform mergeImport(String fqnClsName, Dom refDom, String refCls) {
     // extract source code of the method
     List<String> imports = refDom.getDClass(refCls).getImport();
     
@@ -217,7 +219,7 @@ public class JTransform {
    * @effects 
    *  create a domain class named <code>fqnClsName</code> with the specified modifier.
    */
-  public JTransform addDClassIfNotExists(String fqnClsName, Modifier mod) {
+  public JTransform mergeDClass(String fqnClsName, Modifier mod) {
     return 
     addClassIfNotExists(fqnClsName, Modifier.PUBLIC)
       .addClassAnoIfNotExists(fqnClsName, DClass.class);
@@ -271,18 +273,46 @@ public class JTransform {
       addClass(fqnClsName, mods);
 //      ast = dom.getDClass(fqnClsName);
 //      ast.setSrcFile();
-      
     }
     return this;
   }
  
+  /**
+   * @modifies <code>fqnClsName</code> in {@link #dom}
+   * @effects 
+   *  let <code>s</code> = supertype declaration of <code>refClsFQN</code> in <code>refDom</code>, 
+   *  merges <code>s</code> with <code>c</code>'s class header
+   * @version 5.4
+   * 
+   */
+  public JTransform mergeSuperTypes(String fqnClsName, Dom refDom,
+      String refClsFQN) throws NotPossibleException {
+
+    ClassAST refCls = refDom.getDClass(refClsFQN);
+    ClassOrInterfaceType superCls = refCls.getSuperClsType();
+    Collection<ClassOrInterfaceType> superIntfs = refCls.getSuperIntfs();
+    
+    ClassAST cls = dom.getDClass(fqnClsName);
+    if (superCls != null) {
+      cls.setSuperCls(superCls);
+    }
+    
+    if (superIntfs != null) {
+      //superIntfs.forEach(cls::addClassImplement);
+      cls.addClassImplement(superIntfs.toArray(new ClassOrInterfaceType[superIntfs.size()]));
+    }
+    
+    // no need to cache
+    return this;
+  }
+  
   /**
    * @effects 
    *  update class <code>fqnClsName</code> with an <code>implements</code> clause
    *  for <code>intfClasses</code>
    *  
    */
-  public JTransform addClassImplement(String fqnClsName, Class<?>...intfClasses) 
+  public JTransform mergeClassImplement(String fqnClsName, Class<?>...intfClasses) 
       throws NotFoundException, NotPossibleException {
 
     dom.getDClass(fqnClsName).addClassImplement(intfClasses);
@@ -366,7 +396,7 @@ public class JTransform {
    *  
    *  <p>Throws NotPossibleException if fails.
    */
-  public JTransform addDGetterMethod(String fqClassName, String fieldName, Type type) throws NotPossibleException {
+  public JTransform mergeDGetterMethod(String fqClassName, String fieldName, Type type) throws NotPossibleException {
     String getter = DClassTk.getGetterNameFor(fieldName);
     addMethod(fqClassName, getter, type, Modifier.PUBLIC)
       .addMethodAno(fqClassName, getter, DOpt.class, "type: DOpt.Type.Getter")
@@ -382,7 +412,7 @@ public class JTransform {
    *  
    *  <p>Throws NotPossibleException if fails.
    */
-  public JTransform addDSetterMethod(String fqClassName, String fieldName, Type type) throws NotPossibleException {
+  public JTransform mergeDSetterMethod(String fqClassName, String fieldName, Type type) throws NotPossibleException {
     String setter = DClassTk.getSetterNameFor(fieldName);
     addMethod(fqClassName, setter, ParserConstants.TypeVoid, Modifier.PUBLIC)
       .addMethodParam(fqClassName, setter, fieldName, type)
@@ -416,7 +446,7 @@ public class JTransform {
    * @version 5.4
    * 
    */
-  public JTransform addDefaultConstructorIfNotExists(String fqnClsName, Dom refDom,
+  public JTransform mergeDefaultConstructor(String fqnClsName, Dom refDom,
       String refClsFQN) throws NotPossibleException {
     ConstructorDeclaration constr = refDom.getDClass(refClsFQN).getDefaultConstructor();
     
@@ -679,7 +709,7 @@ public class JTransform {
    *  add all non-constructor methods from <code>refClsFQN</code> in <code>refDom</code> to 
    *  <code>fqnClsName</code> in {@link #dom}
    */
-  public JTransform addMethods(String fqnClsName, Dom refDom, String refClsFQN) throws NotPossibleException {
+  public JTransform mergeMethods(String fqnClsName, Dom refDom, String refClsFQN) throws NotPossibleException {
     List<MethodDeclaration> refMethods = refDom.getDClass(refClsFQN).getMethods();
     
     ClassAST cls = dom.getDClass(fqnClsName);
@@ -693,7 +723,7 @@ public class JTransform {
    *  add all declared fields from <code>refClsFQN</code> in <code>refDom</code> to 
    *  <code>fqnClsName</code> in {@link #dom}
    */
-  public JTransform addFields(String fqnClsName, Dom refDom, String refClsFQN) throws NotPossibleException {
+  public JTransform mergeFields(String fqnClsName, Dom refDom, String refClsFQN) throws NotPossibleException {
     List<FieldDeclaration> refFields = refDom.getDClass(refClsFQN).getFields();
     
     ClassAST cls = dom.getDClass(fqnClsName);
@@ -703,11 +733,16 @@ public class JTransform {
   
   /**
    * @effects 
-   *  create domain field <code>fqnClsName.fieldName</code> with the 
-   *  constraints specified in <code>constraintSpec</code>
+   *  if class(<code>fqnClsName</code>) has a filed named <code>fieldName</code>
+   *    merges it with the specified field declaration elements
+   *  else 
+   *    create domain field <code>fqnClsName.fieldName</code> with the 
+   *    constraints specified in <code>constraintSpec</code>
    */
-  public JTransform addDField(String fqnClsName, String fieldName,
+  public JTransform mergeDField(String fqnClsName, String fieldName,
       Type type, Modifier mod, String constraintSpec) throws NotFoundException, NotPossibleException {
+    dom.removeFieldIfExists(fqnClsName, fieldName);
+    
     DAttr.Type t = ParserToolkit.lookUpDAttrType(type);
     return 
       addField(fqnClsName, fieldName, type, mod)
@@ -715,6 +750,24 @@ public class JTransform {
             "name: "+fieldName+", type: Type." +t+", " + constraintSpec);
   }
 
+  
+  /**
+   * @effects 
+   *  create domain field <code>fqnClsName.fieldName</code> with the 
+   *  constraints specified in <code>constraintSpec</code>
+   */
+  public JTransform mergeDField(String fqnClsName, String fieldName,
+      Type type, String constraintSpec, Modifier...mod) throws NotFoundException, NotPossibleException {
+    DAttr.Type t = ParserToolkit.lookUpDAttrType(type);
+    
+    JTransform transf = addField(fqnClsName, fieldName, type, mod);
+    if (constraintSpec != null) {
+        transf.addFieldAno(fqnClsName, fieldName, DAttr.class, 
+            "name: "+fieldName+", type: Type." +t+", " + constraintSpec);
+    }
+    
+    return transf;
+  }
   
   /**
    * @modifies {@link #dom}
@@ -743,7 +796,7 @@ public class JTransform {
    * @effects 
    *  
    */
-  public JTransform addAssocOneMany(String fqClassName, String fieldName, 
+  public JTransform mergeAssocOneMany(String fqClassName, String fieldName, 
       String fqnAssocClsName, 
       AssocEndType thisEnd) {
     String thisName = DClassTk.getClassNameFromFqn(fqClassName);
@@ -769,31 +822,31 @@ public class JTransform {
 //        .add("dependsOn", true)
         .build()
         ;
-    addFieldAno(fqClassName, fieldName, DAssoc.class, 
+    mergeFieldAno(fqClassName, fieldName, DAssoc.class, 
         assocJson
         );
-    
+    char c = 'C';
     return this;
   }
   
   /**
-   * A short-cut to {@link #addAssocOneMany(String, String, String, AssocEndType)}.
+   * A short-cut to {@link #mergeAssocOneMany(String, String, String, AssocEndType)}.
    * 
    * @param assocCls 
    * @effects 
    *  
    */
-  public JTransform addAssocOneMany(String fqClassName, String fieldName, 
+  public JTransform mergeAssocOneMany(String fqClassName, String fieldName, 
       Class assocCls, 
       AssocEndType thisEnd) {
-    return addAssocOneMany(fqClassName, fieldName, assocCls.getName(), thisEnd);
+    return mergeAssocOneMany(fqClassName, fieldName, assocCls.getName(), thisEnd);
   }
 
   /**
    * @effects 
    * 
    */
-  public JTransform addAssocManyMany(String fqClassName, String fieldName, Class assocCls, String normAttrib) {
+  public JTransform mergeAssocManyMany(String fqClassName, String fieldName, Class assocCls, String normAttrib) {
     String thisName = DClassTk.getClassNameFromFqn(fqClassName);
     String thisNameCamel = DClassTk.toCamelCase(thisName);
     String assocClsName = assocCls.getSimpleName();
@@ -816,7 +869,7 @@ public class JTransform {
         .add("normAttrib", normAttrib)
         .build()
         ;
-    addFieldAno(fqClassName, fieldName, DAssoc.class, 
+    mergeFieldAno(fqClassName, fieldName, DAssoc.class, 
         assocJson
         );
     
@@ -865,7 +918,7 @@ public class JTransform {
    *  <p>
    *  Throws NotPossibleException if failed to perform the specified transformation for some reasons.
    */
-  public JTransform addFieldAno(String fqnClsName, String fieldName, 
+  public JTransform mergeFieldAno(String fqnClsName, String fieldName, 
       Class<? extends Annotation> anoCls, JsonObject anoPropValsJson) throws NotPossibleException {
     String key = genKey(fqnClsName, fieldName);
     FieldDeclaration fd = (FieldDeclaration) retrieveCache(key);
@@ -927,4 +980,46 @@ public class JTransform {
     }    
   }
 
+  /**
+   * @modifies {@link #dom}
+   * 
+   * @effects 
+   *  merges <code>other</code>'s elements to this.{@link #dom}
+   *  
+   * @version 5.4.1
+   */
+  public void mergeModel(Dom other) {
+    /*
+     * for each domain class c in other
+     *   find matching class c' in this 
+     *    mergeDClass(c', c)
+     */
+    if (other == null || other.isEmpty()) return;
+    
+    other.forEach((otherFqn, otherAst) -> {
+      ClassAST ast = dom.getDClassByName(DClassTk.getClassNameFromFqn(otherFqn));
+      if (ast != null) {
+        mergeDClass(ast, otherAst);
+      } else {
+        // new class: add to model
+        ClassAST newAst = otherAst.clone();
+        // set package name to the same as the existing classes in dom
+        newAst.setPackage(dom.getAnyPackage());
+        dom.addClass(newAst);
+      }
+      
+    });
+  }
+
+  /**
+   * @modifies ast
+   *  
+   * @effects 
+   *  merges elements of <code>otherAst</code> to <code>ast</code>
+   *  
+   * @version 5.4.1
+   */
+  public void mergeDClass(ClassAST ast, ClassAST otherAst) {
+    ast.mergeWith(otherAst);
+  }
 }

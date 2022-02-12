@@ -7,6 +7,8 @@
 	</parent>
 
 	<artifactId>jda-eg-coursemanmdsa</artifactId>
+	<version>1.0</version>
+
 	<name>Example: CourseMan MSA (using module-mdsa)</name>
 	<description>CourseMan example for MDSA</description>
 

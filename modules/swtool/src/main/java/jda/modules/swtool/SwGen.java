@@ -190,7 +190,13 @@ public class SwGen {
       Class c = DClassTk.findClass(clsFQN);
       if (!DClassTk.isEnum(c) && 
           (includesSubTypes || !DClassTk.isProperSubType(c))) {
+        /* v5.4.1: fixed
         String mccPkgName = MCCTk.getMCCPackage(DClassTk.getPackageName(clsFQN));
+        */
+        String clsPkgName = DClassTk.getPackageName(clsFQN);
+        if (clsPkgName == null) clsPkgName = clsFQN;  // why?
+        String mccPkgName = MCCTk.getMCCPackage(clsPkgName);
+        // END 5.4.1
         
         logger.info(mccPkgName);
         

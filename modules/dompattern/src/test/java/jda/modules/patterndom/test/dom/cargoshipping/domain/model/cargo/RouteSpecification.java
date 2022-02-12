@@ -7,23 +7,18 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import jda.modules.dcsl.syntax.DAttr;
-import jda.modules.dcsl.syntax.DClass;
-import jda.modules.dcsl.syntax.DAttr.Type;
-import jda.modules.patterndom.assets.domevents.Publisher;
 import jda.modules.patterndom.test.dom.cargoshipping.domain.model.location.Location;
 import jda.modules.patterndom.test.dom.cargoshipping.domain.shared.AbstractSpecification;
 import jda.modules.patterndom.test.dom.cargoshipping.domain.shared.ValueObject;
-import jda.util.events.ChangeEventSource;
 
 /**
  * Route specification. Describes where a cargo origin and destination is,
  * and the arrival deadline.
  * 
  */
-@DClass(mutable = false)
 public class RouteSpecification 
 extends AbstractSpecification<Itinerary> 
-implements ValueObject<RouteSpecification>, Publisher {
+implements ValueObject<RouteSpecification> {
 
   @DAttr(name="origin",optional=false)
   private Location origin;
@@ -108,23 +103,4 @@ implements ValueObject<RouteSpecification>, Publisher {
   RouteSpecification() {
     // Needed by Hibernate
   }
-
-  // Pattern: Publisher
-  /** 
-   * A reusable event source object that is shared among objects of this class. 
-   * This is used where a single publiser is shared among different subscribers
-   */
-  private static ChangeEventSource<?> evtSrc;
-  
-  @Override
-  public ChangeEventSource<?> getEventSource() {
-    if (evtSrc == null) {
-      evtSrc = createEventSource(this.getClass());
-    } else {
-      resetEventSource(evtSrc);
-    }
-    
-    return evtSrc;
-  }
-  
 }

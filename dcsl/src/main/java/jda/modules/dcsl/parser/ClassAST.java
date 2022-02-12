@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Stack;
 
 import javax.json.JsonObject;
 
@@ -17,6 +18,7 @@ import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
@@ -163,6 +165,33 @@ public class ClassAST {
     this.srcFile = srcFilePath;
   }
   
+  /**
+   * @effects 
+   *  changes this.{@link #className} and update {@link #ast} accordingly
+   *   
+   * @version 5.4.1
+   */
+  public void setSimpleName(String newName) {
+    this.className = newName;
+    
+    int lastDot = (fqn != null) ? fqn.lastIndexOf(".") : -1;
+    String pkgName = (lastDot > -1) ? fqn.substring(0, lastDot) : null;
+
+    if (pkgName != null) {
+      this.fqn = pkgName + "." + newName;
+      
+    } else {
+      this.fqn = newName;
+    }
+    
+    if (srcFile != null) {
+      srcFile = srcFile.substring(0,
+          srcFile.lastIndexOf(File.separator)) + File.separator + newName;
+    }
+    
+    ParserToolkit.setName(cls, newName);
+  }
+
 
   /**
    * @effects 
@@ -683,6 +712,20 @@ public class ClassAST {
     return ParserToolkit.hasField(cls, name, declaredType, modifier);
   }
   
+
+  /**
+   * @effects 
+   *  if exists a field with the specified name
+   *    return {@link FieldDeclaration}
+   *  else
+   *    return null
+   * @version 5.4.1
+   * 
+   */
+  public FieldDeclaration getField(String fieldName) {
+    return ParserToolkit.getFieldByName(cls, fieldName);
+  }
+  
   /**
    * @effects 
    *  return {@link #cls}
@@ -750,6 +793,7 @@ public class ClassAST {
    *    return null 
    */
   public Class getSuperCls() throws NotFoundException {
+    /*
     NodeList<ClassOrInterfaceType> sups = cls.getExtendedTypes();
     if (sups == null || sups.size() == 0) {
       // not a sub-class
@@ -770,8 +814,60 @@ public class ClassAST {
         throw new NotFoundException(NotFoundException.Code.CLASS_NOT_FOUND, e, new String[] {fqn});
       }
     }
+    */
+    return ParserToolkit.getSuperCls(ast, cls);
   }
 
+  /**
+   * @modifies this
+   * 
+   * @requires this is not a sub-class of another class (use {@link #getSuperCls()} to check)
+   * 
+   * @effects 
+   *  makes this the subclass (i.e. <code>extends</code>) <code>superCls</code>  
+   * @version 5.4.1
+   */
+  public void setSuperCls(ClassOrInterfaceType superCls) {
+    //cls.addExtendedType(superCls);
+    ParserToolkit.setSuperCls(cls, superCls);
+  }
+  
+  /**
+   * @effects 
+   *  if this is a sub-class
+   *    return the super-class declaration in {@link #ast} as {@link ClassOrInterfaceType}
+   *  else
+   *    return null 
+   * @version 5.4.1
+   */
+  public ClassOrInterfaceType getSuperClsType() {
+    /* 
+    NodeList<ClassOrInterfaceType> sups = cls.getExtendedTypes();
+    if (sups == null || sups.size() == 0) {
+      // not a sub-class
+      return null;
+    } else {
+      // a sub-class
+      ClassOrInterfaceType supType = sups.get(0);
+      return supType;
+    }
+    */
+    return ParserToolkit.getSuperClsType(cls);
+  }
+  
+
+  /**
+   * @effects 
+   *  if this implements interfaces
+   *    return them as {@link ClassOrInterfaceType}s
+   *  else
+   *    return null 
+   * @version 5.4.1
+   */
+  public Collection<ClassOrInterfaceType> getSuperIntfs() {
+    return ParserToolkit.getSuperIntfs(cls);
+  }
+  
   /**
    * @effects 
    * 
@@ -978,6 +1074,17 @@ public class ClassAST {
   }
 
   /**
+   * @modifies cls
+   * @effects 
+   *  update this with <code>implements</code> clause
+   *  for <code>intfCls</code>
+   * @version 5.4.1
+   */
+  public void addClassImplement(ClassOrInterfaceType...intfClsses) {
+    ParserToolkit.addClassImplement(cls, intfClsses);
+  }
+  
+  /**
    * @effects 
    *  adds the exception classes specified in <code>throwClasses</code> to the specified method.
    * 
@@ -1080,6 +1187,117 @@ public class ClassAST {
     ParserToolkit.updateTypeNameRef(cls, name, newName);
   }
 
+
+  /**
+   * @requires 
+   *  this and <code>otherAst</code> represent a single class compilation unit
+   *  
+   * @modifies this
+   *  
+   * @effects 
+   *  merges elements of <code>otherAst</code> to <code>this</code>
+   *  
+   * @version 5.4.1
+   */
+  public void mergeWith(ClassAST otherAst) {
+    final List<Node> children = cls.getChildNodes();
+    final ClassOrInterfaceDeclaration otherCls = otherAst.getCls();
+    final List<Node> otherChildren = otherCls.getChildNodes();
+    final Stack<BodyDeclaration<?>> newNodes = new Stack<>();
+    
+    final boolean[] matchNode = {false};
+    
+    // merge imports
+    List<String> imports = otherAst.getImport();
+    addImport(imports);
+    
+    // merge class header
+    mergeClassHeader(otherAst);
+    
+    // merge class content
+    otherChildren.forEach(otherChild -> {
+      matchNode[0] = false;
+      if (otherChild instanceof FieldDeclaration) {
+        FieldDeclaration otherFd = (FieldDeclaration) otherChild;
+        final String otherFdName = ParserToolkit.getFieldName(otherFd);
+        for (Node child : children) {
+          if (child instanceof FieldDeclaration) {
+            FieldDeclaration fd = (FieldDeclaration) child;
+            String fdName = ParserToolkit.getFieldName(fd);
+            if (fdName.equals(otherFdName)) {
+              // matching field -> merge
+              ParserToolkit.mergeDField(fd, otherFd);
+              matchNode[0] = true;
+              break;
+            }
+          }
+        } 
+        
+        // if no match found then fd is new -> add it
+        if (!matchNode[0]) {
+          newNodes.push(otherFd);
+        }
+      } else if (otherChild instanceof CallableDeclaration) {
+        CallableDeclaration<?> otherMd = (CallableDeclaration<?>) otherChild;
+        for (Node child : children) {
+          if (child instanceof CallableDeclaration) {
+            CallableDeclaration<?> md = (CallableDeclaration<?>) child;
+            if (ParserToolkit.isSameMethodSignature(md, otherMd)) {
+              // matching method signature -> merge
+              ParserToolkit.mergeDOpts(md, otherMd);
+              matchNode[0] = true;
+              break;
+            }
+          }
+        } 
+        
+        // if no match found then fd is new -> add it
+        if (!matchNode[0]) {
+          newNodes.push(otherMd);
+        } 
+      }
+    }); // end otherChildren
+    
+    // if there are new nodes then add them 
+    if (!newNodes.isEmpty()) {
+      newNodes.forEach(cls::addMember);
+    }
+  }
+
+  
+  /**
+   * @modifies {@link #cls}
+   * @effects 
+   *  merges <code>otherAst</code>'s class header with {@link #cls}'s class header
+   * @version 5.4.1
+   */
+  public void mergeClassHeader(ClassAST otherAst) throws NotPossibleException {
+    // for now, interested in supertypes
+    mergeSuperTypes(otherAst);
+  }
+  
+  /**
+   * @modifies {@link #cls}
+   * @effects 
+   *  merges all supertypes of <code>otherAst</code> (if any) with {@link #cls}'s class header
+   * @version 5.4.1
+   */
+  public void mergeSuperTypes(ClassAST otherAst) throws NotPossibleException {
+
+    ClassOrInterfaceType superCls = otherAst.getSuperClsType();
+    Collection<ClassOrInterfaceType> superIntfs = otherAst.getSuperIntfs();
+    
+    if (superCls != null) {
+      ParserToolkit.setSuperCls(cls, superCls);
+    }
+    
+    if (superIntfs != null) {
+      ParserToolkit.addClassImplement(cls, 
+          superIntfs.toArray(new ClassOrInterfaceType[superIntfs.size()]));
+    }
+  }
+  
+
   /**
    * @effects 
    *  if {@link #srcFile} is specified
@@ -1104,5 +1322,62 @@ public class ClassAST {
     String filePath = pkgPath + File.separator + fileName;
     ToolkitIO.writeUTF8TextFile(
         new File(filePath), ast.toString(), true);
+  }
+  
+  @Override
+  public ClassAST clone() {
+    CompilationUnit newAst = ast.clone();
+    ClassAST newClsAst = new ClassAST(this.className, this.srcFile, 
+        newAst,
+        newAst.getClassByName(className).get()
+        );
+    
+    newClsAst.fqn = fqn;
+    
+    return newClsAst;
+  }
+
+  /**
+   * @modifies this
+   * @effects 
+   *  changes the package declaration of ast to pkg
+   *  
+   * @version 5.4.1
+   */
+  public void setPackage(String pkg) {
+    ParserToolkit.addPackage(ast, pkg);
+  }
+
+  /**
+   * @modifies this
+   * @effects 
+   *   refactor {@link #cls} to have newName
+   *    
+   * @version 5.4.1
+   * 
+   */
+  public void rename(String newName) {
+    setSimpleName(newName);
+    
+    // rename constructor declarations
+    cls.getChildNodes().forEach(n -> {
+      if (n instanceof ConstructorDeclaration) {
+        ((ConstructorDeclaration) n).setName(newName);
+      }
+    });
+  }
+
+  /**
+   * @modifies this
+   * @effects 
+   *  refactor this st. the field named <code>currFieldName</code> is renamed to <code>newName</code>. 
+   *  This also rename all methods whose name reference this field (e.g. getters, setters) and 
+   *  all references to this field in method bodies.   
+   *  
+   * @version 5.4.1
+   * 
+   */
+  public void renameField(String currFieldName, String newName) {
+    ParserToolkit.renameField(cls, currFieldName, newName);
   }
 }

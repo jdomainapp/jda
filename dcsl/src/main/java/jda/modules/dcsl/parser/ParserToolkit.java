@@ -67,6 +67,7 @@ import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
+import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.type.ArrayType;
@@ -84,11 +85,13 @@ import jda.modules.dcsl.parser.behaviourspace.MethodSig;
 import jda.modules.dcsl.parser.statespace.metadef.DAssocDef;
 import jda.modules.dcsl.parser.statespace.metadef.DAttrDef;
 import jda.modules.dcsl.parser.statespace.metadef.FieldDef;
+import jda.modules.dcsl.parser.statespace.parser.AnnotationMerge;
 import jda.modules.dcsl.parser.statespace.parser.AttribPropertyVisitor;
 import jda.modules.dcsl.syntax.AttrRef;
 import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dcsl.syntax.DOpt;
+import jda.modules.dcsl.util.DClassTk;
 
 /**
  * @overview 
@@ -473,6 +476,17 @@ public class ParserToolkit {
     }
   }
   
+
+  /**
+   * @modifies  cu
+   * @effects 
+   *  adds imports to cu
+   * @version 5.4.1
+   */
+  public static void addImport(CompilationUnit cu,
+      ImportDeclaration imports) {
+    cu.addImport(imports);
+  }
   
   /**
    * @effects 
@@ -981,6 +995,8 @@ public class ParserToolkit {
    *  else
    *    call {@link #addMethodStatement(BlockStmt, String)} (block, stmtText)
    *  </pre>  
+   *  @version 
+   *  - 5.4.1: added a check to add '{}' around code statement only if it does not have one
    */
   public static Node addMethodStatements(BlockStmt block, String stmtText) throws ParseProblemException {
     if (stmtText == null || block == null) return null;
@@ -989,7 +1005,8 @@ public class ParserToolkit {
     if (stmtText.indexOf(NL) > -1) {
       // has multiple lines
       // NOTE: needs to put stmtText in-between a pair of { } before parsing
-      BlockStmt stmtTextBlock = JavaParser.parseBlock("{"+stmtText+"}");
+      String blockStmtTxt = stmtText.startsWith("{") ? stmtText : "{"+stmtText+"}";
+      BlockStmt stmtTextBlock = JavaParser.parseBlock(blockStmtTxt);
       result= stmtTextBlock;
       stmtTextBlock.getStatements().forEach(block::addStatement);
     } else {
@@ -1118,7 +1135,7 @@ public class ParserToolkit {
   public static String getPackageDeclaration(CompilationUnit cu) {
     Optional<PackageDeclaration> pkg = cu.getPackageDeclaration();
     
-    if (pkg != null) {
+    if (pkg != null && pkg.isPresent()) {
       return pkg.get().getNameAsString();
     } else {
       return null;
@@ -1343,7 +1360,8 @@ public class ParserToolkit {
    *  else
    *    return null
    *    
-   * @version 5.2
+   * @version 5.2<br>
+   * - 5.4.1: improved to allow nullable optType
    */
   public static Collection<MethodDeclaration> getDomainMethodsByAttrRef(
       ClassOrInterfaceDeclaration cd,
@@ -1355,11 +1373,18 @@ public class ParserToolkit {
       for (MethodDeclaration md : methods) {
         Optional<AnnotationExpr> doptOpt = md.getAnnotationByClass(DOpt.class);
         Optional<AnnotationExpr> attrRefOpt = md.getAnnotationByClass(AttrRef.class);
-        if (doptOpt != null && doptOpt.isPresent() && 
+        /* v5.4.1: 
+         if (doptOpt != null && doptOpt.isPresent() && 
             attrRefOpt != null && attrRefOpt.isPresent()) {
-          NormalAnnotationExpr dopt = (NormalAnnotationExpr) doptOpt.get();
+         */
+        if ((optType == null || (doptOpt != null && doptOpt.isPresent())) && 
+            attrRefOpt != null && attrRefOpt.isPresent()) {
+          NormalAnnotationExpr dopt = (optType!= null) ? (NormalAnnotationExpr) doptOpt.get() : null; // v5.4.1
           NormalAnnotationExpr attrRef = (NormalAnnotationExpr) attrRefOpt.get();
-          if (isDOptType(dopt, optType) && isAttrRef(attrRef, attribName)) {
+          /* v5.4.1: 
+           if (isDOptType(dopt, optType) && isAttrRef(attrRef, attribName)) {
+           */
+          if ((optType == null || isDOptType(dopt, optType)) && isAttrRef(attrRef, attribName)) {
             // found it
             if (match == null) match = new ArrayList<>();
             match.add(md);
@@ -1825,6 +1850,22 @@ public class ParserToolkit {
     Type type = fieldVar.getType();
     
     return type;
+  }
+  
+  /**
+   * @effects 
+   *  sets the type of <tt>fd</tt> to <code>newType</code>
+   * @version 5.4.1
+   */
+  public static void setFieldType(FieldDeclaration fd, Type newType) {
+    NodeList<VariableDeclarator> vars = fd.getVariables();
+
+    VariableDeclarator fieldVar  = vars.get(0);
+
+//    Type type = fieldVar.getType();
+//    return type;
+    
+    fieldVar.setType(newType);
   }
   
   /**
@@ -2926,7 +2967,9 @@ public class ParserToolkit {
     JsonValue jsonVal = jsonObj.get(prop);
     if (JsonArray.class.isAssignableFrom(jsonVal.getClass())) { 
       // array expression
-      Class<?> eleType = valType.getComponentType();
+      // ducmle: fixed 20210127
+//    Class<?> eleType = valType.getComponentType() != null)
+      Class<?> eleType = (valType.getComponentType() != null) ? valType.getComponentType() : valType;
 //      val = createAnoPropValArrayExpr(eleType, ((JsonArray)jsonVal));
       JsonArray valArr = (JsonArray) jsonVal;
       ArrayInitializerExpr expr = new ArrayInitializerExpr();
@@ -3136,6 +3179,11 @@ public class ParserToolkit {
       }
     }
     */
+    
+    /* ducmle: 20220206: fixed to add field access check to some cases
+    String[] valEles = val.split("\\.");
+    final boolean fieldAccessFormat = (valEles.length > 1);
+    
     if (valType.equals(String.class)) {
       expr = createStringExpr(val);
     } else if (valType.equals(Boolean.class) || valType.equals(boolean.class)) {
@@ -3151,8 +3199,54 @@ public class ParserToolkit {
     } else if (!valType.isEnum() && valType.equals(Class.class)) {
       expr = createClassExprFor(val);
     } else {
-      String[] valEles = val.split("\\.");
-      if (valEles.length > 1) {
+//      String[] valEles = val.split("\\.");
+//      if (valEles.length > 1) {
+      if (fieldAccessFormat) {
+        // compound element
+        // needs to use FieldAccessExpr
+        FieldAccessExpr fae = null;
+        
+        for (int i = 0; i < valEles.length; i++) {
+          String ele = valEles[i];
+          if (fae == null) {
+            fae = new FieldAccessExpr();
+            fae.setScope(new NameExpr(ele));
+            fae.setName(valEles[++i]);
+          } else {
+            FieldAccessExpr old = fae;
+            fae = new FieldAccessExpr(old, ele);
+          }
+        }
+        
+        expr = fae;
+      } else { 
+        throw new NotImplementedException(Code.DATA_TYPE_NOT_SUPPORTED, 
+          new Object[] {valType});
+      }
+    }
+    */
+    
+    String[] valEles = val.split("\\.");
+    final boolean fieldAccessVal = (valEles.length > 1);
+    
+    if (valType.equals(String.class)) {
+      expr = createStringExpr(val);
+    } else if (valType.equals(Boolean.class) || valType.equals(boolean.class)) {
+      expr = createBooleanExpr(Boolean.parseBoolean(val));
+    } else if (!fieldAccessVal && (valType.equals(Integer.class) || valType.equals(int.class))) {
+      expr = createIntegerExpr(Integer.parseInt(val));
+    } else if (valType.equals(Long.class) || valType.equals(long.class)) {
+      expr = createLongExpr(Long.parseLong(val));
+    } else if (valType.equals(Float.class) || valType.equals(float.class)) {
+      expr = createFloatExpr(Float.parseFloat(val));
+    } else if (valType.equals(Double.class) || valType.equals(double.class)) {
+      expr = createDoubleExpr(Double.parseDouble(val));
+    } else if (!valType.isEnum() && valType.equals(Class.class)) {
+      expr = createClassExprFor(val);
+    } else {
+//      String[] valEles = val.split("\\.");
+//      if (valEles.length > 1) {
+      if (fieldAccessVal) {
         // compound element
         // needs to use FieldAccessExpr
         FieldAccessExpr fae = null;
@@ -3506,6 +3600,11 @@ public class ParserToolkit {
    * @version 5.2c
    */
   public static StringLiteralExpr createStringExpr(String val) {
+    //ducmle: 20220127: remove quotes if present
+    val = val.trim();
+    if (val.startsWith("\"")) val = val.substring(1);
+    if (val.endsWith("\"")) val = val.substring(0, val.length()-1);
+    
     return new StringLiteralExpr(val);
   }
 
@@ -4322,6 +4421,23 @@ public class ParserToolkit {
     }
   }
 
+ /**
+  * @effects 
+  *  return the {@link BlockStmt} represent the body in <code>opt</code>
+  *  
+  * @version 5.4
+  * 
+  */
+  public static BlockStmt getOperationBody(
+      CallableDeclaration<?> opt) {
+    if (opt instanceof MethodDeclaration) {
+      Optional<BlockStmt> bodyOpt = ((MethodDeclaration) opt).getBody();
+      return (bodyOpt.isPresent()) ? bodyOpt.get() : null;    
+    } else {
+      return ((ConstructorDeclaration) opt).getBody();
+    }
+  }
+  
   /**
    * @effects 
    * 
@@ -4419,6 +4535,40 @@ public class ParserToolkit {
     }
   }
 
+  /**
+   * @modifies cls
+   * @effects 
+   *  update class <code>cls</code> with an <code>implements</code> clause
+   *  for <code>intfClsses</code>
+   * @version 5.4.1
+   */
+  public static void addClassImplement(ClassOrInterfaceDeclaration cls,
+      ClassOrInterfaceType...intfClasses) {
+    for(ClassOrInterfaceType intfCls : intfClasses) {
+      cls.addImplementedType(intfCls);      
+    }
+  }
+  
+
+  /**
+   * @effects 
+   *  if <code>cls</code> implements interfaces
+   *    return them as {@link ClassOrInterfaceType}s
+   *  else
+   *    return null 
+   * @version 5.4.1
+   */
+  public static Collection<ClassOrInterfaceType> getSuperIntfs(final ClassOrInterfaceDeclaration cls) {
+    NodeList<ClassOrInterfaceType> supIntfs = cls.getImplementedTypes();
+    if (supIntfs == null || supIntfs.size() == 0) {
+      // not a sub-type
+      return null;
+    } else {
+      // a sub-type
+      return supIntfs;
+    }
+  }
+  
   /**
    * @effects 
    *  adds the exception classes specified in <code>throwClasses</code> to the specified method.
@@ -4544,5 +4694,530 @@ public class ParserToolkit {
       updateTypeNameRefOnNode(child, name, newName);
     });
   }
+  
+  /**
+   * @modifies <code>node</code>
+   * @effects 
+   *  update all {@link MethodCallExpr}s in <code>node</code>'s syntax tree that 
+   *  uses <code>oldMethodName</code> to use <code>newMethodName</code>. 
+   *  
+   * @version 5.4.1
+   */
+  public static void updateMethodCallsInNode(Node node,
+      String oldMethodName, String newMethodName) {
+    List<Node> children = node.getChildNodes();
+    children.forEach(child -> {
+      if (child instanceof MethodCallExpr){
+        MethodCallExpr ct = (MethodCallExpr) child;
+        if (ct.getNameAsString().equals(oldMethodName)) {
+          // found a match -> change the name
+          ct.getName().setIdentifier(newMethodName);
+        }
+      }
 
+      // recursive
+      updateMethodCallsInNode(child, oldMethodName, newMethodName);
+    });
+  }
+  
+  /**
+   * @requires 
+   *  the specified opts have the same signature (as validated by {@link #isSameMethodSignature(CallableDeclaration, CallableDeclaration)})  
+   *  
+   * @modifies <code>opt</code>
+   * @effects 
+   *  merge declaration elements of <code>otherOpt</code> into <code>opt</code>
+   *   
+   * @version 5.4.1
+   * 
+   */
+  public static void mergeDOpts(CallableDeclaration<?> opt,
+      CallableDeclaration<?> otherOpt) {
+    // merges fd.type, modifier, annotation elements
+    Type ft, otherFt;
+    EnumSet<Modifier> mods = opt.getModifiers(), otherMods = otherOpt.getModifiers();
+    
+    // merges modifiers
+    if (otherMods.contains(Modifier.PUBLIC)) {
+      if (mods.contains(Modifier.PRIVATE))
+        mods.remove(Modifier.PRIVATE);
+      else if (mods.contains(Modifier.PROTECTED))
+        mods.remove(Modifier.PROTECTED);
+      
+      
+      mods.add(Modifier.PUBLIC);
+    } else if (otherMods.contains(Modifier.PROTECTED)) {
+      if (mods.contains(Modifier.PRIVATE))
+        mods.remove(Modifier.PRIVATE);
+      
+      mods.add(Modifier.PROTECTED);
+    } 
+    
+    // merges return type (for methods only)
+    if (opt instanceof MethodDeclaration) {
+      MethodDeclaration md = (MethodDeclaration) opt;
+      MethodDeclaration otherMd = (MethodDeclaration) otherOpt;
+      
+      ft = md.getType();
+      otherFt = otherMd.getType();
+      
+      if (!ft.equals(otherFt)) {
+        md.setType(otherFt);
+      }
+    } 
+    
+    // merges annotation elements
+    // scope: DOpt & AttrRef
+    Optional<AnnotationExpr> otherAnoOpt = otherOpt.getAnnotationByClass(DOpt.class);
+    if (otherAnoOpt.isPresent()) {
+      // otherOpt is a domain method
+      AnnotationExpr otherAno = otherAnoOpt.get();
+      Optional<AnnotationExpr> anoOpt = opt.getAnnotationByClass(DOpt.class);
+
+      AnnotationMerge anoMerge = new AnnotationMerge();
+
+      if (!anoOpt.isPresent()) {
+        // fd is not yet defined with DAttr -> add new
+        opt.addAnnotation(otherAno.clone());
+      } else {
+        // fd has DAttr: merge
+        // merge field declaration 
+        anoOpt.get().accept(anoMerge, otherAno);
+      }
+      
+      // merge AttrRef (if any)
+      otherAnoOpt = otherOpt.getAnnotationByClass(AttrRef.class);
+      if (otherAnoOpt.isPresent()) {
+        otherAno = otherAnoOpt.get();
+        anoOpt = opt.getAnnotationByClass(AttrRef.class);
+
+        if (!anoOpt.isPresent()) {
+          // opt does not have AttrRef: to add
+          opt.addAnnotation(otherAno.clone());
+        } else {
+          // opt has it: to merge
+          anoOpt.get().accept(anoMerge, otherAno);
+        }
+      }
+    }
+    
+    // merge body
+    BlockStmt otherBody = getOperationBody(otherOpt);
+    if (otherBody != null) {
+      mergeOptBody(opt, otherBody);
+    }
+  }
+
+  /**
+   * @effects 
+   *   merges <code>otherBody</code> into <code>opt</code>'s body.
+   *    
+   * @version 5.4.1
+   */
+  public static void mergeOptBody(CallableDeclaration<?> opt,
+      BlockStmt otherBody) {
+    BlockStmt body;
+    if (opt instanceof MethodDeclaration) {
+      body = ((MethodDeclaration) opt).getBody().get();
+    } else {
+      body = ((ConstructorDeclaration) opt).getBody();
+    }
+    otherBody.getStatements().forEach(body::addStatement);
+  }
+
+  /**
+   * @requires
+   *  the specified fields have the same name 
+   *  
+   * @modifies <code>fd</code>
+   * @effects 
+   *  merge declaration elements of <code>otherFd</code> into <code>fd</code>
+   *   
+   * @version 5.4.1
+   * 
+   */
+  public static void mergeDField(FieldDeclaration fd,
+      FieldDeclaration otherFd) {
+    // merges fd.type, modifier, annotation elements
+    Type ft = getFieldType(fd), otherFt = getFieldType(otherFd);
+    EnumSet<Modifier> mods = fd.getModifiers(), otherMods = otherFd.getModifiers();
+    
+    // merges fd.type
+    if (!ft.equals(otherFt)) {
+      setFieldType(fd, otherFt);
+    }
+    
+    // merges modifiers
+    if (!mods.contains(Modifier.PRIVATE) && otherMods.contains(Modifier.PRIVATE)) {
+      if (mods.contains(Modifier.PUBLIC))
+        mods.remove(Modifier.PUBLIC);
+      
+      mods.add(Modifier.PRIVATE);
+    }
+    
+    // merges annotation elements
+    // scope: DAttr & DAssoc
+    Optional<AnnotationExpr> otherAnoOpt = otherFd.getAnnotationByClass(DAttr.class);
+    if (otherAnoOpt.isPresent()) {
+      // otherFd is a domain field
+      AnnotationExpr otherAno = otherAnoOpt.get();
+      Optional<AnnotationExpr> anoOpt = fd.getAnnotationByClass(DAttr.class);
+
+      AnnotationMerge anoMerge = new AnnotationMerge();
+
+      if (!anoOpt.isPresent()) {
+        // fd is not yet defined with DAttr -> add new
+        fd.addAnnotation(otherAno.clone());
+      } else {
+        // fd has DAttr: merge
+        // merge field declaration 
+        anoOpt.get().accept(anoMerge, otherAno);
+      }
+      
+      // merge DAssoc (if any)
+      otherAnoOpt = otherFd.getAnnotationByClass(DAssoc.class);
+      if (otherAnoOpt.isPresent()) {
+        otherAno = otherAnoOpt.get();
+        anoOpt = fd.getAnnotationByClass(DAssoc.class);
+
+        if (!anoOpt.isPresent()) {
+          // fd does not have DAssoc: to add
+          fd.addAnnotation(otherAno.clone());
+        } else {
+          // fd has DAssoc: to merge
+          anoOpt.get().accept(anoMerge, otherAno);
+        }
+      }
+    }
+  }
+
+  
+  /**
+   * @effects 
+   *  return <code>true</code> if <tt>opt</tt>'s signature matches <tt>otherOpt</tt>
+   *  or return false if otherwise.
+   *  
+   *  <p>A {@link CallableDeclaration} is either a method or a constructor.
+   * @version 5.4.1
+   */
+  public static boolean isSameMethodSignature(CallableDeclaration<?> opt,
+      CallableDeclaration<?> otherOpt) {
+    boolean match = true;
+    if (opt.getNameAsString().equals(otherOpt.getNameAsString())) {
+      // found a match by name, check parameters
+      List<Parameter> params = opt.getParameters();
+      List<Parameter> otherParams = otherOpt.getParameters();
+      if (params.size() == otherParams.size()) {
+        // same length, check parameter pairs
+        for (int i = 0; i < params.size(); i++) {
+          Parameter param = params.get(i);
+          Parameter otherParam = otherParams.get(i);
+          if (!matchParam(param, otherParam)) {
+            // no match
+            match = false;
+            break;
+          }
+        }
+      } else {
+        match = false;
+      }
+    } else {
+      match = false;
+    }
+    
+    return match;
+  }
+
+  /**
+   * @effects 
+   *  if param.type matches otherParam.type
+   *    return true
+   *  else
+   *    return false
+   */
+  public static boolean matchParam(Parameter param,
+      Parameter otherParam) {
+    Type ptype = param.getType();
+    Type otherPType = otherParam.getType();
+    
+    return ptype.equals(otherPType);
+    
+//    String paramType = ptype.asString();
+//    String otherParamType = otherPType.asString();
+//    
+//    boolean match = paramType.equals(otherParamType); // || execParamType.equals("Object");
+    
+//    if (!match) {
+//      // paramType could be generic
+//      Type genType = otherParam.getParameterizedType();
+//      if (genType instanceof ParameterizedType) {
+//        ParameterizedType parGenType = (ParameterizedType) genType;
+//        match = matchGenericType(ptype, parGenType);
+//      }
+//    }
+//    return match;
+  }
+
+  /**
+   * @effects 
+   *  change the element name to <code>newName</code>
+   * @version 5.4.1
+   * 
+   */
+  public static void setName(ClassOrInterfaceDeclaration cls, String newName) {
+    // cls.setName(newName);
+    cls.getName().setIdentifier(newName);
+  }
+
+  /**
+   * @requires all referenced classes of this are available in the class path /\
+   *  cu contains cls
+   *   
+   * 
+   * @effects 
+   *  if cls is a sub-class
+   *    return the super-class declaration in {@link #ast} as {@link Class} (using {@link Class#forName(String)} to load it)
+   *    
+   *    Throws NotFoundException if the specified class cannot be found by {@link Class#forName(String).
+   *  else
+   *    return null 
+   */
+  public static Class getSuperCls(CompilationUnit cu, ClassOrInterfaceDeclaration cls) throws NotFoundException {
+    NodeList<ClassOrInterfaceType> sups = cls.getExtendedTypes();
+    if (sups == null || sups.size() == 0) {
+      // not a sub-class
+      return null;
+    } else {
+      // a sub-class
+      ClassOrInterfaceType supType = sups.get(0);
+      
+      // load the class itself
+      String fqn = getFqnFor(cu, supType);
+      
+      Class supCls;
+      try {
+        supCls = Class.forName(fqn);
+        
+        return supCls;
+      } catch (ClassNotFoundException e) { // should not happen
+        throw new NotFoundException(NotFoundException.Code.CLASS_NOT_FOUND, e, new String[] {fqn});
+      }
+    }
+  }
+
+  /**
+   * @modifies cls
+   * 
+   * @requires cls is not a sub-class of another class (use {@link #getSuperCls()} to check)
+   * 
+   * @effects 
+   *  makes cls the subclass (i.e. <code>extends</code>) <code>superCls</code>  
+   * @version 5.4.1
+   */
+  public static void setSuperCls(ClassOrInterfaceDeclaration cls, ClassOrInterfaceType superCls) {
+    cls.addExtendedType(superCls);
+  }
+  
+  /**
+   * @effects 
+   *  if cls is a sub-class
+   *    return the super-class declaration of cls as {@link ClassOrInterfaceType}
+   *  else
+   *    return null 
+   * @version 5.4.1
+   */
+  public static ClassOrInterfaceType getSuperClsType(ClassOrInterfaceDeclaration cls) {
+    NodeList<ClassOrInterfaceType> sups = cls.getExtendedTypes();
+    if (sups == null || sups.size() == 0) {
+      // not a sub-class
+      return null;
+    } else {
+      // a sub-class
+      ClassOrInterfaceType supType = sups.get(0);
+      return supType;
+    }
+  }
+
+  /**
+   * @modifies <code>cls</code>
+   * @effects 
+   *  refactor <code>cls</code> st. the field named <code>currFieldName</code> is renamed to <code>newName</code>. 
+   *  This also rename all methods whose name reference this field (e.g. getters, setters) and 
+   *  all references to this field in method bodies.   
+   *  
+   * @version 5.4.1
+   * 
+   */
+  public static void renameField(ClassOrInterfaceDeclaration cls, 
+      String currFieldName, String newName) {
+    // record (n,oldName) for nodes that have been renamed (to update references later, if necessary)
+    // predominantly record the operations (other nodes and their references will have already been updated) 
+    final Map<Node,String> changeLog = new HashMap<>();
+    
+    cls.getChildNodes().forEach(n -> {
+      if (n instanceof FieldDeclaration) {
+        FieldDeclaration fd = (FieldDeclaration) n;
+        if (getFieldName(fd).equals(currFieldName)) {
+          renameField(cls, fd, currFieldName, newName, changeLog);
+        }
+      }
+    });
+    
+    if (!changeLog.isEmpty()) {
+      changeLog.forEach((node, oldNodeName) -> {
+        if (node instanceof MethodDeclaration) {
+          // update method calls that reference this method
+          String newMethodName = ((MethodDeclaration) node).getNameAsString();
+          updateMethodCallsInNode(cls, oldNodeName, newMethodName);
+        }
+      });
+    }
+  }
+
+  /**
+   * @modifies <code>cls</code>
+   * @effects 
+   *  refactor <code>cls</code> st. the field <code>fd</code> is renamed to <code>newName</code>. 
+   *  This also rename all methods whose name reference this field (e.g. getters, setters) and 
+   *  all references to this field in method bodies.  
+   *  
+   * @version 5.4.1
+   * 
+   */
+  public static void renameField(ClassOrInterfaceDeclaration cls, FieldDeclaration fd, 
+      String currFieldName, String newName, Map<Node, String> changeLog) {
+    // rename the field 
+    setDomainFieldName(fd, newName);
+    
+    // rename all methods whose name reference this field (e.g. getters, setters)
+    // scope: assume methods use AttrRef
+    Collection<MethodDeclaration> opts = getDomainMethodsByAttrRef(cls, null, currFieldName);
+    if (opts != null) {
+      opts.forEach(opt -> {
+        renameMethodRefField(opt, currFieldName, newName, changeLog);
+      });
+    }
+    
+  }
+
+  /**
+   * @modifies opt
+   * @effects 
+   *   refactor opt st. all references to the field named <code>currFieldName</code> are replaced 
+   *   by <code>newName</code>. 
+   *   These include references in annotation elements in the declaration and 
+   *   references in method body statements.
+   *   
+   * @version 5.4.1
+   * 
+   */
+  public static void renameMethodRefField(MethodDeclaration opt,
+      String currFieldName, String newName, Map<Node, String> changeLog) {
+    // rename opt
+    String currCamelName =  DClassTk.toCamelCase(currFieldName);
+    String newCamelName = DClassTk.toCamelCase(newName);
+    final String oldOptName = opt.getNameAsString();
+    StringBuilder optName = new StringBuilder(oldOptName);
+    int index = optName.indexOf(currCamelName);
+    if (index > -1) {
+      optName.replace(index, index+currCamelName.length(), newCamelName);
+      opt.setName(optName.toString());
+      
+      changeLog.put(opt, oldOptName); // record this in log (for method call update later) 
+    }
+    
+    // rename AttrRef
+    // scope: assumes domain method that uses @AttrRef
+    Optional<AnnotationExpr> anoOpt = opt.getAnnotationByClass(AttrRef.class);
+    if (anoOpt.isPresent()) {
+      NormalAnnotationExpr ano = (NormalAnnotationExpr) anoOpt.get();
+      MemberValuePair pair = ano.getPairs().get(0);
+      StringLiteralExpr newNameVal = new StringLiteralExpr(newName);
+      pair.setValue(newNameVal);
+    }
+    
+    // rename field references in method body
+    BlockStmt body = opt.getBody().orElse(null);
+    if (body != null) {
+      BlockStmt newBody = renameVarRefsInCode(body, currFieldName, newName);
+      opt.setBody(newBody);
+    }
+  }
+
+  /**
+   * @effects 
+   *  rename all references to <code>currVar</code> in <code>code</code> to <code>newVar</code>.
+   *  Return a new {@link BlockStmt} that contains the replacements. 
+   *  
+   * @version 5.4.1
+   */
+  public static BlockStmt renameVarRefsInCode(BlockStmt code, String currVar,
+      String newVar) {
+    if (code == null) return null;
+    /*
+    code.getChildNodes().forEach(n -> {
+      Expression exp;
+      
+      if (n instanceof VariableDeclarationExpr) {
+        
+      }
+    });
+    */
+    String codeStr = code.toString();
+    codeStr = codeStr.replaceAll(currVar, newVar);
+    BlockStmt newCode = new BlockStmt();
+    addMethodStatements(newCode, codeStr);
+    
+    return newCode;
+  }
+
+//  /**
+//   * @effects 
+//   *  if <tt>srcType</tt> matches the definition of <tt>genType</tt>
+//   *    return true
+//   *  else
+//   *    return false
+//   */
+//  private static boolean matchGenericType(Type srcType,
+//      ParameterizedType genType) {
+//    String genTypeName = ((Class)genType.getRawType()).getSimpleName();
+//    
+//    java.lang.reflect.Type[] typeVars = genType.getActualTypeArguments();
+//    
+//    List<Node> typeElements = srcType.getChildNodes();
+//    String parentType = typeElements.get(0).toString();
+//    
+//    boolean match = true;
+//    if (parentType.equals(genTypeName)) {
+//      // matching the parent type
+//      // match the type arguments
+//      int typeElIndex = 1;  // excluding parentType (see above)
+//      for (java.lang.reflect.Type t : typeVars) {
+//        if (typeElIndex >= typeElements.size()) {
+//          // no match
+//          match = false;
+//          break;
+//        }
+//        Node typeEl = typeElements.get(typeElIndex);
+//        if (t instanceof Class) {
+//          Class tcls = (Class) t;
+//          String tname = tcls.getSimpleName();
+//          if (!tname.equals(typeEl.toString())) {
+//            // no match
+//            match = false; 
+//            break;
+//          }
+//        } else {
+//          // TODO: any other cases?
+//          match = false; 
+//          break;
+//        }
+//        typeElIndex++;
+//      }
+//    } else {
+//      match = false;
+//    }
+//    
+//    return match;
+//  }
 }

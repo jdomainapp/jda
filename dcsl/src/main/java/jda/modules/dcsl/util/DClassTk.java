@@ -2748,13 +2748,31 @@ public class DClassTk {
   /**
    * @effects 
    *  converts and returns the camel-case version of <code>name</code>
-   * @version 5.4
-   * 
+   * @version 5.4<br>
+   * - 5.4.1: supports the reverse conversion (e.g. hello -> Hello)
    */
   public static String toCamelCase(String name) {
-    if (name == null || name.length() < 2) return name;
+    /* v5.4.1: 
+     if (name == null || name.length() < 2) return name;
     
-    return (name.charAt(0)+"").toLowerCase() +  name.substring(1);
+     return (name.charAt(0)+"").toLowerCase() +  name.substring(1);
+     */
+    if (name == null || name.isEmpty()) return name;
+    
+    StringBuilder sb = new StringBuilder(name);
+    String firstChar = sb.charAt(0)+"";
+    
+    String newName;
+    String lowerFirst = firstChar.toLowerCase();
+    if (lowerFirst.equals(firstChar)) {
+      newName = firstChar.toUpperCase() + sb.delete(0, 1).toString();
+    } else {
+      if (name.length() < 2) return name;
+      
+      newName = lowerFirst +  sb.substring(1);  
+    }
+    
+    return newName;
   }
 
   /**
@@ -2783,8 +2801,11 @@ public class DClassTk {
 
   /**
    * @effects 
-   *  return the package name of the specified class
-   * @version 5.4 
+   *  return the package name of the specified class or null if 
+   *  it has no package name
+   *  
+   * @version 5.4<br> 
+   * - 5.4.1: fixed: return null if no package is specified
    */
   public static String getPackageName(String fqn) {
     if (fqn == null) return null;
@@ -2792,8 +2813,10 @@ public class DClassTk {
     int lastDot = fqn.lastIndexOf(".");
     if (lastDot > -1)
       return fqn.substring(0, lastDot);
-    else // no package
-      return fqn;
+    else { // no package
+      // v5.4.1: return fqn;
+      return null;
+    }
   }
   
   /**

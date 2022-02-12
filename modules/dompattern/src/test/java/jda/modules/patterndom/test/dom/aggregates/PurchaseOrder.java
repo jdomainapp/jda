@@ -1,17 +1,10 @@
 package jda.modules.patterndom.test.dom.aggregates;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.dcsl.syntax.DAssoc.AssocEndType;
-import jda.modules.dcsl.syntax.DAssoc.AssocType;
-import jda.modules.dcsl.syntax.DAssoc.Associate;
 import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dcsl.syntax.DAttr.Type;
-import jda.modules.dcsl.syntax.DCSLConstants;
 
 /**
  * @overview 
@@ -35,6 +28,10 @@ public class PurchaseOrder {
   @DAttr(name = ATTRIB_TOTAL,type=Type.Double, mutable=false, optional=false)
   private double total;
   
+
+  public PurchaseOrder() {
+    System.out.println("Initialised PurchaseOrder...");
+  }
   
 //  /**
 //   * @effects 

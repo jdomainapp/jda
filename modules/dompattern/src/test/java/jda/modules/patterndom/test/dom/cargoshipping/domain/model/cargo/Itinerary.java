@@ -7,13 +7,11 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 
 import jda.modules.dcsl.syntax.DAttr;
-import jda.modules.dcsl.syntax.DClass;
 import jda.modules.dcsl.syntax.DAttr.Type;
-import jda.modules.patterndom.assets.domevents.Publisher;
+import jda.modules.dcsl.syntax.DClass;
 import jda.modules.patterndom.test.dom.cargoshipping.domain.model.handling.HandlingEvent;
 import jda.modules.patterndom.test.dom.cargoshipping.domain.model.location.Location;
 import jda.modules.patterndom.test.dom.cargoshipping.domain.shared.ValueObject;
-import jda.util.events.ChangeEventSource;
 
 /**
  * An itinerary.
@@ -21,9 +19,7 @@ import jda.util.events.ChangeEventSource;
  */
 @DClass
 public class Itinerary 
-implements ValueObject<Itinerary>,
-  Publisher // Pattern: Domain Events
-
+implements ValueObject<Itinerary>
 {
 
   @DAttr(name="legs",type=Type.Collection)
@@ -173,24 +169,5 @@ implements ValueObject<Itinerary>,
   }
 
   // Auto-generated surrogate key
-  private Long id;
-  
-  // Pattern: Publisher
-  /** 
-   * A reusable event source object that is shared among objects of this class. 
-   * This is used where a single publiser is shared among different subscribers
-   */
-  private static ChangeEventSource<?> evtSrc;
-  
-  @Override
-  public ChangeEventSource<?> getEventSource() {
-    if (evtSrc == null) {
-      evtSrc = createEventSource(this.getClass());
-    } else {
-      resetEventSource(evtSrc);
-    }
-    
-    return evtSrc;
-  }
-  
+  private Long id;  
 }

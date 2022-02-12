@@ -1,8 +1,0 @@
-{ "pattern": "dddcore.Factory", 
-  "patternFileExt": ".jdp",
-  "factoryClass": "jda.modules.patterndom.test.dom.factory.PurchaseOrder",
-  "objectClasses": [ 
-    "jda.modules.patterndom.test.dom.factory.POLineItem",
-    "jda.modules.patterndom.test.dom.factory.POPartTest"
-   ] 
-}

@@ -34,6 +34,8 @@ Transformation procedure for the Aggregates pattern <!-- omit in toc -->
 # 2. Transform Member class
 **Member class**: domain class representing a type of member objects.
 
+This should be replaced by adding TPDomainEvents to the g-map of the overall prorgram.
+
 Apply pattern DomainEvents to each member class, making the Publishers:
 1. Update class declaration: `implements Publisher`
 2. Add-copy attribute: `evtSrc`

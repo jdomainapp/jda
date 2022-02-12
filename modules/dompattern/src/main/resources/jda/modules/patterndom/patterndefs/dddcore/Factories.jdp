@@ -22,8 +22,12 @@ class FactoryClass {
    * @effects
    *  create and return new Customer:<name,dob>
    */
-  public static SomeCls createSomeCls() {
-    SomeCls obj = new SomeCls();
+  public static SubjectCls createSubject() {
+    SubjectCls obj = new SubjectCls();
     return obj;
   }
+}
+
+class SubjectCls {
+  //
 }
