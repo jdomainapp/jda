@@ -32,6 +32,7 @@ classes/
 data/
 dist/
 build.xml
+target/
 .project
 .classpath
 .metadata
