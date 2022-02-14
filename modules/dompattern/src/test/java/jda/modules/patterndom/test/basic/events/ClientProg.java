@@ -7,8 +7,6 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import jda.test.model.basic.City;
-
 /**
  * @overview 
  *

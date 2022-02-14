@@ -31,6 +31,7 @@ codeanalysis/
 mccl/docs/
 mccltool/src/test/resources/
 plugineclipse/
+dompattern/
 share/
 
 # old stuff

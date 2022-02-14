@@ -15,10 +15,10 @@
         "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Delivery" ] },    
   { "pattern" : "dddcore.DomainEvents",
     "patternFileExt": ".jdp",
-    "publishers" : [ 
+    "Publishers" : [ 
         "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Itinerary" ,
         "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.RouteSpecification" ],
-    "subscribers": [] },  
+    "Subscribers": [] },  
   { "pattern": "dddcore.Aggregates",
     "patternFileExt": ".jdp",
     "Root": "jda.modules.patterndom.test.dom.cargoshipping.domain.model.cargo.Cargo",

@@ -4545,7 +4545,10 @@ public class ParserToolkit {
   public static void addClassImplement(ClassOrInterfaceDeclaration cls,
       ClassOrInterfaceType...intfClasses) {
     for(ClassOrInterfaceType intfCls : intfClasses) {
-      cls.addImplementedType(intfCls);      
+      Collection<ClassOrInterfaceType> superIntfs = getSuperIntfs(cls);
+      if (superIntfs == null || !superIntfs.contains(intfCls)) {
+        cls.addImplementedType(intfCls);              
+      }
     }
   }
   
@@ -5015,7 +5018,8 @@ public class ParserToolkit {
    * @version 5.4.1
    */
   public static void setSuperCls(ClassOrInterfaceDeclaration cls, ClassOrInterfaceType superCls) {
-    cls.addExtendedType(superCls);
+    cls.setExtendedType(0, superCls);
+//    cls.addExtendedType(superCls);
   }
   
   /**

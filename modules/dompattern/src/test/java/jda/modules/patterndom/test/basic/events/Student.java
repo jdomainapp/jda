@@ -18,7 +18,6 @@ import jda.modules.dcsl.syntax.DOpt;
 import jda.modules.patterndom.assets.domevents.CMEventType;
 import jda.modules.patterndom.assets.domevents.EventType;
 import jda.modules.patterndom.assets.domevents.Subscriber;
-import jda.test.model.basic.City;
 import jda.util.events.ChangeEventSource;
 
 /**
