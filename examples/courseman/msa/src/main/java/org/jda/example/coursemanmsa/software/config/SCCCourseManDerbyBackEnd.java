@@ -29,12 +29,13 @@ import jda.modules.setup.model.SetUpConfig;
 
 @RFSGenDesc(
   stackSpec = 
-    //  StackSpec.FE, // for testing FE
+      StackSpec.FE, // for testing FE
 //    StackSpec.FS, // for production
-      StackSpec.BE, // for testing BE
+//      StackSpec.BE, // for testing BE
 //  execSpec = ExecSpec.Gen,
       genMode = GenerationMode.SOURCE_CODE, 
-      beLangPlatform = LangPlatform.SPRING,
+//      frontend
+//todo:      feLangPlatform=FELangPlatform.ReactNative,
       feProjPath = "/home/ducmle/tmp/restfstool-fe",
       feProjName = "fe-courseman",
       feProjResource = "src/main/resources/react",
@@ -42,6 +43,9 @@ import jda.modules.setup.model.SetUpConfig;
       feServerPort = 5000,  // default: 3000
       feAppClass=FEReactApp.class,
       feThreaded = true,
+      
+//      backend
+      beLangPlatform = LangPlatform.SPRING,
       bePackage = "org.jda.example.coursemanmdsa.modules",
       beOutputPath = "src/main/java", 
       beTargetPackage = "org.jda.example.coursemanmdsa.backend"
