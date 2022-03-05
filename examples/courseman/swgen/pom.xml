@@ -6,7 +6,7 @@
     <version>5.4-SNAPSHOT</version>
   </parent>
   <artifactId>jda-eg-coursemansw</artifactId>
-  <name>Example: JDA Example CourseMan software</name>
+  <name>Example: CourseMan software (with sw-generators)</name>
   <description>A complete CourseMan software example with all the software generator features</description>
   
     <!-- PROPERTIES -->

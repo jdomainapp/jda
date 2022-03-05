@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Form Edit Student</title>
+<link type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<body>
+	<div class="formadd">
+		<form action="#" th:action="@{/save}" th:object="${SUBJECT}"
+			method="POST" novalidate="novalidate">
+			<input type="hidden" name="idstudent" th:field="*{idstudent}" />
+			<table>
+				<tr>
+					<td colspan="2" style="text-align: center;">
+						<div class="title-form">Edit Student</div>
+					</td>
+				</tr>
+				<tr>
+					<td>Name Student</td>
+					<td><input type="text" name="namestudent"
+						th:field="*{namestudent}" /></td>
+				</tr>
+				<tr>
+					<td>DoB Student</td>
+					<td><input type="text" name="dobstudent"
+						th:field="*{dobstudent}" /></td>
+				</tr>
+				<tr>
+					<td>Address</td>
+					<td><input type="text" name="addressstudent"
+						th:field="*{address}" /></td>
+				</tr>
+				<tr>
+					<td>Email</td>
+					<td><input type="text" name="emailstudent" th:field="*{email}" />
+					</td>
+				</tr>
+				<tr>
+					<td>Sclass <input
+						style="width: 10px; padding: 0px; text-align: left;" type="text"
+						name="id" th:field="*{idsclass}" readonly />
+					</td>
+					<td>
+					<input type="text" name="idsclass" th:field="*{idsclass}" />
+						<!--       <option th:each="item:${SCLASS}" th:value="${item.idsclass}" th:text="${item.idsclass+' - '+item.namesclass}">
+
+                        </option>
+                    </select> --> -->
+                    </td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<div class="button-form">
+							<input type="submit" name="sbmadd" value="Save student" />
+						</div> <a href="/"> Back to student</a>
+					</td>
+				</tr>
+
+			</table>
+		</form>
+	</div>
+
+</body>
+</body>
+</html>

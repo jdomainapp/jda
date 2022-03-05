@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Form add Student</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<body>
+<div class="formadd">
+    <form action="#" th:action="@{/save}" th:object="${SUBJECT}"
+          method="POST" novalidate="novalidate">
+        <table>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <div class="title-form"> Add Student</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Input ID
+                </td>
+                <td>
+                    <input type="text" name="idstudent" value="" placeholder="ID- integer"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Input Name
+                </td>
+                <td>
+                    <input type="text" name="namestudent" value="" placeholder="Name student"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Input Date of Birth
+                </td>
+                <td>
+                    <input type="text" name="dobstudent" value="" placeholder="dd/mm/yyyy"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Input Address
+                </td>
+                <td>
+                    <input type="text" name="address" value="" placeholder="province"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Input Email
+                </td>
+                <td>
+                    <input type="text" name="email" value="" placeholder="email: abc@xx.com"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Chose Sclass
+                </td>
+                <td>
+                <input type="text" name="idsclass" th:field="*{idsclass}" />
+                  <!--   <select name="idsclass">
+                        <option th:each="item:${SCLASS}" th:value="${item.idsclass}" th:text="${item.idsclass+' - '+item.namesclass}">
+
+                        </option>
+                    </select> -->
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <div class="button-form">
+                        <input type="submit" name="sbmadd" value="Add student"/>
+                    </div>
+                    <a href="/"> Back to Student</a>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+
+</body>
+</body>
+</html>

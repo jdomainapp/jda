@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Edit Course</title>
+  <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<body>
+<div class="formadd">
+  <form action="#" th:action="@{/save}" th:object="${SUBJECT}"
+        method="POST" novalidate="novalidate">
+    <table>
+      <tr>
+        <td colspan="2" style="text-align: center;">
+          <div class="title-form"> Edit Course</div>
+        </td>
+      </tr>
+
+          <input type="hidden" name="idcourse" th:field="*{idcourse}"/>
+
+      <tr>
+        <td>
+            Name Course
+        </td>
+        <td>
+          <input type="text" name="namecourse" th:field="*{namecourse}"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+           Semester:
+        </td>
+        <td>
+          <input type="text" name="semaster" th:field="*{semaster}"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Input Credits:
+        </td>
+        <td>
+          <input type="text" name="credits" th:field="*{credits}"/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="button-form">
+            <input type="submit" name="sbmadd" value="Save course"/>
+          </div>
+          <a href="/"> Back to Couse</a>
+        </td>
+      </tr>
+
+    </table>
+  </form>
+</div>
+
+</body>
+</body>
+</html>
