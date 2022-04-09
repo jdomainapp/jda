@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NonNull;
 
 @Data
-public class AppGenerator {
+public class AppFactory {
     @NonNull
     private Class<?> AppTemplateCls;
     @NonNull
@@ -24,7 +24,7 @@ public class AppGenerator {
 
             for (Class<?> fileTemplateDesc : appTemplate.getFileTemplates()) {
                 try {
-                    (new FileGenerator(fileTemplateDesc, outputFolder, templateFolder)).genAndSave();
+                    (new FileFactory(fileTemplateDesc, outputFolder, templateFolder)).genAndSave();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -34,7 +34,7 @@ public class AppGenerator {
                 try {
                     for (Class<?> moduleCls : moduleClasses) {
                         ParamsFactory.getInstance().setCurrentModuleCls(moduleCls);
-                        (new FileGenerator(moduleTemplateDesc, outputFolder, templateFolder)).genAndSave();
+                        (new FileFactory(moduleTemplateDesc, outputFolder, templateFolder)).genAndSave();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

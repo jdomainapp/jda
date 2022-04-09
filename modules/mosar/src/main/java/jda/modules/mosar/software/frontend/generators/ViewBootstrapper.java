@@ -5,7 +5,7 @@ import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosar.frontend.MCCUtils;
 import jda.modules.mosar.utils.FileUtils;
-import jda.modules.mosarfrontend.common.factory.AppGenerator;
+import jda.modules.mosarfrontend.common.factory.AppFactory;
 import jda.modules.mosarfrontend.common.factory.ParamsFactory;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
 import jda.modules.mosarfrontend.reactjs.model.common.MCCRegistry;
@@ -94,9 +94,9 @@ public final class ViewBootstrapper {
         Map<Class, MCC> modelModuleMap = getModelModuleMap();
         ParamsFactory.getInstance().setModelModuleMap(getModelModuleMap());
 
-        AppGenerator appGenerator = new AppGenerator(ReactNativeAppGenerator.class, projectSrcDir,
+        AppFactory appFactory = new AppFactory(ReactNativeAppGenerator.class, projectSrcDir,
                 modelModuleMap.keySet().toArray(new Class[0]));
-        appGenerator.genAnSave();
+        appFactory.genAnSave();
         return this;
     }
 

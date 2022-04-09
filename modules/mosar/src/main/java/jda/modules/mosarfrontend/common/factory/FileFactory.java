@@ -32,7 +32,7 @@ class RegexUtils {
 }
 
 @Data
-public class FileGenerator {
+public class FileFactory {
     @NonNull
     private Class<?> FileTemplateDesc;
     @NonNull
