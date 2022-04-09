@@ -3,7 +3,7 @@ package jda.modules.mosarfrontend.reactnative.templates;
 import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
-import jda.modules.mosarfrontend.common.anotation.RequireParam;
+import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.anotation.SlotReplacementDesc;
 import jda.modules.mosarfrontend.common.factory.Slot;
 
@@ -16,7 +16,7 @@ import java.util.Map;
 public class MainTemplate {
 
     @LoopReplacementDesc(slots = {"moduleName"}, id = "1")
-    public Slot[][] replaceImportModules(@RequireParam.ModuleMap Map<Class<?>, MCC> moduleMap) {
+    public Slot[][] replaceImportModules(@RequiredParam.ModuleMap Map<Class<?>, MCC> moduleMap) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         moduleMap.forEach((k, v) -> {
             ArrayList<Slot> slotValues = new ArrayList<>();
@@ -28,12 +28,12 @@ public class MainTemplate {
     }
 
     @SlotReplacementDesc(slot = "initialRoute")
-    public String replaceInitialRoute(@RequireParam.ModuleMap Map<Class, MCC> moduleMap) {
+    public String replaceInitialRoute(@RequiredParam.ModuleMap Map<Class, MCC> moduleMap) {
         return "Hello";
     }
 
     @LoopReplacementDesc(slots = {"moduleComponent", "moduleName"}, id = "2")
-    public Slot[][] replaceRouteModules(@RequireParam.ModuleMap Map<Class, MCC> moduleMap) {
+    public Slot[][] replaceRouteModules(@RequiredParam.ModuleMap Map<Class, MCC> moduleMap) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         moduleMap.forEach((k, v) -> {
             ArrayList<Slot> slotValues = new ArrayList<>();
