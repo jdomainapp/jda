@@ -15,7 +15,7 @@ import java.util.Map;
 )
 public class MainTemplate {
 
-    @LoopReplacementDesc(slots = {"moduleName"})
+    @LoopReplacementDesc(slots = {"moduleName"}, id = "1")
     public Slot[][] replaceImportModules(@RequireParam.ModuleMap Map<Class<?>, MCC> moduleMap) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         moduleMap.forEach((k, v) -> {
@@ -32,7 +32,7 @@ public class MainTemplate {
         return "Hello";
     }
 
-    @LoopReplacementDesc(slots = {"moduleComponent", "moduleName"})
+    @LoopReplacementDesc(slots = {"moduleComponent", "moduleName"}, id = "2")
     public Slot[][] replaceRouteModules(@RequireParam.ModuleMap Map<Class, MCC> moduleMap) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         moduleMap.forEach((k, v) -> {

@@ -24,13 +24,14 @@ class RegexUtils {
         return String.format("@slot\\{\\{\\s*%s\\s*\\}\\}", slot);
     }
 
-    String createLoopRegex(String[] slots) {
+    String createLoopRegex(LoopReplacement loop) {
         StringBuilder singleSlotsRegex = new StringBuilder();
-        for (String slot : slots) {
+        for (String slot : loop.getSlots()) {
             singleSlotsRegex.append(createSlotRegex(slot));
+            singleSlotsRegex.append(".*");
         }
-        return String.format("@loop(?<li>[_\\w\\d]*)\\[\\[(.*%s)]]loop(\\k<li>)@",
-                singleSlotsRegex);
+        return String.format("@loop(?<li>\\{%s})\\[\\[(.*%s)]]loop(\\k<li>)@",
+                loop.getId(), singleSlotsRegex);
     }
 }
 
@@ -134,7 +135,7 @@ public class FileGenerator {
         return args.toArray();
     }
 
-    private void replaceSingleSlot() {
+    private void replaceSlots() {
         for (Method method : this.singleReplacement) {
             try {
                 String value = (String) method.invoke(this.handler, getMethodArgs(method));
@@ -149,7 +150,7 @@ public class FileGenerator {
         }
     }
 
-    private void replaceLoopSlots() {
+    private void replaceLoops() {
         for (Method method : this.loopReplacement) {
             try {
                 Slot[][] loopValues = (Slot[][]) method.invoke(this.handler, getMethodArgs(method));
@@ -157,7 +158,7 @@ public class FileGenerator {
                 LoopReplacementDesc ano = method.getAnnotation(LoopReplacementDesc.class);
                 RFSGenTk.parseAnnotation2Config(ano, desc);
 
-                final String loopRegex = regexUtils.createLoopRegex(desc.getSlots());
+                String loopRegex = regexUtils.createLoopRegex(desc);
                 // get loop content
                 final Pattern pattern = Pattern.compile(loopRegex, Pattern.DOTALL);
                 final Matcher matcher = pattern.matcher(this.fileContent);
@@ -220,8 +221,8 @@ public class FileGenerator {
         initConfig();
         initMethods();
         updateFileInfo();
-        replaceSingleSlot();
-        replaceLoopSlots();
+        replaceSlots();
+        replaceLoops();
         saveFile();
     }
 }
