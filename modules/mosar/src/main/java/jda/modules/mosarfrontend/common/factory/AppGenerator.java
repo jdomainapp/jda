@@ -21,6 +21,7 @@ public class AppGenerator {
             AppTemplate appTemplate = new AppTemplate();
             RFSGenTk.parseAnnotation2Config(ano, appTemplate);
             String templateFolder = appTemplate.getTemplateRootFolder();
+
             for (Class<?> fileTemplateDesc : appTemplate.getFileTemplates()) {
                 try {
                     (new FileGenerator(fileTemplateDesc, outputFolder, templateFolder)).genAndSave();

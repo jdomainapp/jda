@@ -12,7 +12,6 @@ import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,43 +39,21 @@ public class FileGenerator {
     private String outPutFolder;
     @NonNull
     private String templateRootFolder;
+    private FileTemplate fileTemplate;
     private Class<?> moduleClass;
     private Object handler;
-    private FileTemplate config;
+    //Output file info:
     private String fileContent = null;
     private String fileName = null;
     private String filePath = null;
     private String fileExt = null;
-    private Method getFileName = null;
-    private Method getFilePath = null;
-    private ArrayList<Method> singleReplacement = new ArrayList<>();
-    private ArrayList<Method> loopReplacement = new ArrayList<>();
+    // Utils
     private RegexUtils regexUtils = new RegexUtils();
     private final ParamsFactory paramsFactory = ParamsFactory.getInstance();
 
-    private void initConfig() throws Exception {
-        if (!FileTemplateDesc.isAnnotationPresent(FileTemplateDesc.class)) {
-            throw new Exception("The class is not TemplateHandler (without @TemplateHandler annotation)");
-        } else {
-            FileTemplateDesc ano = FileTemplateDesc.getAnnotation(FileTemplateDesc.class);
-            this.handler = this.FileTemplateDesc.getConstructor().newInstance();
-            this.config = new FileTemplate();
-            RFSGenTk.parseAnnotation2Config(ano, this.config);
-            // default output file info
-            initDefaultFileInfo();
-            // get template file content
-            String templateFilePath = templateRootFolder + this.config.getTemplateFile().replace("/", "\\");
-            try {
-                this.fileContent = Files.readString(Paths.get(templateFilePath));
-            } catch (IOException e) {
-                throw new Exception("Template file not found");
-            }
-        }
-    }
-
     private void initDefaultFileInfo() {
         StringBuilder buffer = new StringBuilder("");
-        String templateFile = this.config.getTemplateFile();
+        String templateFile = this.fileTemplate.getTemplateFile();
         for (int i = templateFile.length() - 1; i >= 0; i--) {
             buffer.insert(0, templateFile.charAt(i));
             if (this.fileExt == null && templateFile.charAt(i) == '.') {
@@ -93,81 +70,102 @@ public class FileGenerator {
         }
     }
 
-    private void initMethods() {
+    private void initFileTemplate() throws Exception {
+        if (!FileTemplateDesc.isAnnotationPresent(FileTemplateDesc.class)) {
+            throw new Exception("The class is not TemplateHandler (without @TemplateHandler annotation)");
+        } else {
+            FileTemplateDesc ano = FileTemplateDesc.getAnnotation(FileTemplateDesc.class);
+            this.handler = this.FileTemplateDesc.getConstructor().newInstance();
+            this.fileTemplate = new FileTemplate();
+            RFSGenTk.parseAnnotation2Config(ano, this.fileTemplate);
+            // default output file info
+            initDefaultFileInfo();
+            // get template file content
+            String templateFilePath = templateRootFolder + this.fileTemplate.getTemplateFile().replace("/", "\\");
+            try {
+                this.fileContent = Files.readString(Paths.get(templateFilePath));
+            } catch (IOException e) {
+                throw new Exception("Template file not found");
+            }
+        }
+    }
+
+    private void updateFileName(Method withFileName){
+        try {
+            this.fileName = (String) withFileName.invoke(this.handler, paramsFactory.getParamsForMethod(withFileName));
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateFilePath(Method withFilePath){
+        try {
+            this.filePath = (String) withFilePath.invoke(this.handler, paramsFactory.getParamsForMethod(withFilePath));
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void replaceSlot(Method replaceMethod) {
+        try {
+            String value = (String) replaceMethod.invoke(this.handler, paramsFactory.getParamsForMethod(replaceMethod));
+            SlotReplacement desc = new SlotReplacement();
+            SlotReplacementDesc ano = replaceMethod.getAnnotation(SlotReplacementDesc.class);
+            RFSGenTk.parseAnnotation2Config(ano, desc);
+            this.fileContent = this.fileContent
+                    .replaceAll(regexUtils.createSlotRegex(desc.getSlot()), value);
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void replaceLoops(Method replaceMethod) {
+        try {
+            Slot[][] loopValues = (Slot[][]) replaceMethod.invoke(this.handler, paramsFactory.getParamsForMethod(replaceMethod));
+            LoopReplacement desc = new LoopReplacement();
+            LoopReplacementDesc ano = replaceMethod.getAnnotation(LoopReplacementDesc.class);
+            RFSGenTk.parseAnnotation2Config(ano, desc);
+
+            String loopRegex = regexUtils.createLoopRegex(desc);
+            // get loop content
+            final Pattern pattern = Pattern.compile(loopRegex, Pattern.DOTALL);
+            final Matcher matcher = pattern.matcher(this.fileContent);
+            if (matcher.find()) {
+                //replace single_slot in loop
+                StringBuilder replaceValue = new StringBuilder();
+                for (Slot[] loopValue : loopValues) {
+                    String loopContent = matcher.group(2);
+                    for (Slot slotValue : loopValue) {
+                        String regex = regexUtils.createSlotRegex(slotValue.getSlotName());
+                        loopContent = loopContent.replaceAll(regex,
+                                slotValue.getSlotValue());
+                    }
+                    replaceValue.append(loopContent);
+                }
+                this.fileContent = matcher.replaceAll(replaceValue.toString());
+            }
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateFileContent() {
         for (Method method : this.FileTemplateDesc.getMethods()) {
             if (method.getReturnType() == String.class || method.getReturnType() == Slot[][].class) {
-                if (method.isAnnotationPresent(LoopReplacementDesc.class)) this.loopReplacement.add(method);
-                if (method.isAnnotationPresent(SlotReplacementDesc.class)) this.singleReplacement.add(method);
-                if (method.isAnnotationPresent(GetFileName.class)) this.getFileName = method;
-                if (method.isAnnotationPresent(GetFilePath.class)) this.getFilePath = method;
+                if (method.isAnnotationPresent(LoopReplacementDesc.class)) {
+                    replaceLoops(method);
+                };
+                if (method.isAnnotationPresent(SlotReplacementDesc.class)) {
+                    replaceSlot(method);
+                };
+                if (method.isAnnotationPresent(CustomFileName.class)) {
+                    updateFileName(method);
+                };
+                if (method.isAnnotationPresent(CustomFilePath.class)) {
+                    updateFilePath(method);
+                };
             }
         }
-    }
-
-    private void updateFileInfo() {
-        if (getFileName != null) {
-            try {
-                this.fileName = (String) getFileName.invoke(this.handler, paramsFactory.getParamsForMethod(getFileName));
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        }
-        if (getFilePath != null) {
-            try {
-                this.filePath = (String) getFilePath.invoke(this.handler, paramsFactory.getParamsForMethod(getFilePath));
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    private void replaceSlots() {
-        for (Method method : this.singleReplacement) {
-            try {
-                String value = (String) method.invoke(this.handler, paramsFactory.getParamsForMethod(method));
-                SlotReplacement desc = new SlotReplacement();
-                SlotReplacementDesc ano = method.getAnnotation(SlotReplacementDesc.class);
-                RFSGenTk.parseAnnotation2Config(ano, desc);
-                this.fileContent = this.fileContent
-                        .replaceAll(regexUtils.createSlotRegex(desc.getSlot()), value);
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void replaceLoops() {
-        for (Method method : this.loopReplacement) {
-            try {
-                Slot[][] loopValues = (Slot[][]) method.invoke(this.handler, paramsFactory.getParamsForMethod(method));
-                LoopReplacement desc = new LoopReplacement();
-                LoopReplacementDesc ano = method.getAnnotation(LoopReplacementDesc.class);
-                RFSGenTk.parseAnnotation2Config(ano, desc);
-
-                String loopRegex = regexUtils.createLoopRegex(desc);
-                // get loop content
-                final Pattern pattern = Pattern.compile(loopRegex, Pattern.DOTALL);
-                final Matcher matcher = pattern.matcher(this.fileContent);
-                if (matcher.find()) {
-                    //replace single_slot in loop
-                    StringBuilder replaceValue = new StringBuilder();
-                    for (Slot[] loopValue : loopValues) {
-                        String loopContent = matcher.group(2);
-                        for (Slot slotValue : loopValue) {
-                            String regex = regexUtils.createSlotRegex(slotValue.getSlotName());
-                            loopContent = loopContent.replaceAll(regex,
-                                    slotValue.getSlotValue());
-                        }
-                        replaceValue.append(loopContent);
-                    }
-                    this.fileContent = matcher.replaceAll(replaceValue.toString());
-                }
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        }
-//        System.out.println(this.fileContent);
     }
 
     private void saveFile() {
@@ -203,11 +201,8 @@ public class FileGenerator {
     }
 
     public void genAndSave() throws Exception {
-        initConfig();
-        initMethods();
-        updateFileInfo();
-        replaceSlots();
-        replaceLoops();
+        initFileTemplate();
+        updateFileContent();
         saveFile();
     }
 }

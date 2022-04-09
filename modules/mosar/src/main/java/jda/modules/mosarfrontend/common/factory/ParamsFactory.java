@@ -55,9 +55,7 @@ public class ParamsFactory {
                     }
                     break;
                 }
-                Annotation paramAno = annotations[0];
             } else args.add(null);
-
         }
         return args.toArray();
     }
