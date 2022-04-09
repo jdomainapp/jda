@@ -1,4 +1,4 @@
-export interface @single_slot{{moduleName}} {
-  @start_loop_1[[ @single_slot{{id}}: @single_slot{{number}};
-  ]]_end_loop_1@
+export interface @slot{{moduleName}} {@loop{1}[[
+  slot{{field}}: @slot{{fieldType}};
+  ]]loop{1}@
 }

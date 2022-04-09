@@ -1,6 +1,5 @@
 package jda.modules.mosarfrontend.common.factory;
 
-import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosar.utils.RFSGenTk;
 import jda.modules.mosarfrontend.common.anotation.*;
 import lombok.Data;
@@ -10,12 +9,10 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +37,9 @@ public class FileGenerator {
     @NonNull
     private Class<?> FileTemplateDesc;
     @NonNull
-    private GenConfig genConfig;
+    private String outPutFolder;
+    @NonNull
+    private String templateRootFolder;
     private Class<?> moduleClass;
     private Object handler;
     private FileTemplate config;
@@ -53,6 +52,7 @@ public class FileGenerator {
     private ArrayList<Method> singleReplacement = new ArrayList<>();
     private ArrayList<Method> loopReplacement = new ArrayList<>();
     private RegexUtils regexUtils = new RegexUtils();
+    private final ParamsFactory paramsFactory = ParamsFactory.getInstance();
 
     private void initConfig() throws Exception {
         if (!FileTemplateDesc.isAnnotationPresent(FileTemplateDesc.class)) {
@@ -65,7 +65,7 @@ public class FileGenerator {
             // default output file info
             initDefaultFileInfo();
             // get template file content
-            String templateFilePath = this.genConfig.getTemplateRootFolder() + this.config.getTemplateFile().replace("/", "\\");
+            String templateFilePath = templateRootFolder + this.config.getTemplateFile().replace("/", "\\");
             try {
                 this.fileContent = Files.readString(Paths.get(templateFilePath));
             } catch (IOException e) {
@@ -107,38 +107,25 @@ public class FileGenerator {
     private void updateFileInfo() {
         if (getFileName != null) {
             try {
-                this.fileName = (String) getFileName.invoke(this.handler, getMethodArgs(getFileName));
+                this.fileName = (String) getFileName.invoke(this.handler, paramsFactory.getParamsForMethod(getFileName));
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         }
         if (getFilePath != null) {
             try {
-                this.filePath = (String) getFilePath.invoke(this.handler, getMethodArgs(getFilePath));
+                this.filePath = (String) getFilePath.invoke(this.handler, paramsFactory.getParamsForMethod(getFilePath));
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private Object[] getMethodArgs(Method method) {
-        Parameter[] parameters = method.getParameters();
-        ArrayList<Object> args = new ArrayList<>();
-        for (Parameter p : parameters) {
-            if (p.isAnnotationPresent(RequireParam.MCC.class) && p.getType() == MCC.class
-                    && this.moduleClass != null) {
-                args.add(this.genConfig.getModelModuleMap().get(this.moduleClass));
-            } else if (p.isAnnotationPresent(RequireParam.ModuleMap.class) && p.getType() == Map.class) {
-                args.add(this.genConfig.getModelModuleMap());
-            }
-        }
-        return args.toArray();
-    }
 
     private void replaceSlots() {
         for (Method method : this.singleReplacement) {
             try {
-                String value = (String) method.invoke(this.handler, getMethodArgs(method));
+                String value = (String) method.invoke(this.handler, paramsFactory.getParamsForMethod(method));
                 SlotReplacement desc = new SlotReplacement();
                 SlotReplacementDesc ano = method.getAnnotation(SlotReplacementDesc.class);
                 RFSGenTk.parseAnnotation2Config(ano, desc);
@@ -153,7 +140,7 @@ public class FileGenerator {
     private void replaceLoops() {
         for (Method method : this.loopReplacement) {
             try {
-                Slot[][] loopValues = (Slot[][]) method.invoke(this.handler, getMethodArgs(method));
+                Slot[][] loopValues = (Slot[][]) method.invoke(this.handler, paramsFactory.getParamsForMethod(method));
                 LoopReplacement desc = new LoopReplacement();
                 LoopReplacementDesc ano = method.getAnnotation(LoopReplacementDesc.class);
                 RFSGenTk.parseAnnotation2Config(ano, desc);
@@ -175,8 +162,6 @@ public class FileGenerator {
                         replaceValue.append(loopContent);
                     }
                     this.fileContent = matcher.replaceAll(replaceValue.toString());
-                    System.out.println(replaceValue.toString());
-                    System.out.println(this.fileContent);
                 }
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 e.printStackTrace();
@@ -186,7 +171,7 @@ public class FileGenerator {
     }
 
     private void saveFile() {
-        Path path = new File(genConfig.getOutputFolder()).toPath();
+        Path path = new File(outPutFolder).toPath();
         if (!Files.exists(path)) {
             try {
                 Files.createDirectories(path);
@@ -194,7 +179,7 @@ public class FileGenerator {
                 e.printStackTrace();
             }
         }
-        Path dir = new File(genConfig.getOutputFolder() + this.filePath).toPath();
+        Path dir = new File(outPutFolder + this.filePath).toPath();
         if (!Files.exists(dir)) {
             try {
                 Files.createDirectory(dir);
@@ -202,7 +187,7 @@ public class FileGenerator {
                 e.printStackTrace();
             }
         }
-        Path classFile = new File(genConfig.getOutputFolder() + this.filePath + this.fileName + this.fileExt).toPath();
+        Path classFile = new File(outPutFolder + this.filePath + this.fileName + this.fileExt).toPath();
         if (!Files.exists(classFile)) {
             try {
                 Files.createFile(classFile);
