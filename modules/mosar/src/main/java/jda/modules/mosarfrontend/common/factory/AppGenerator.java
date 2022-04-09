@@ -32,7 +32,7 @@ public class AppGenerator {
             for (Class<?> moduleTemplateDesc : appTemplate.getModuleTemplates()) {
                 try {
                     for (Class<?> moduleCls : moduleClasses) {
-                        ParamsFactory.getInstance().setModuleClass(moduleCls);
+                        ParamsFactory.getInstance().setCurrentModuleCls(moduleCls);
                         (new FileGenerator(moduleTemplateDesc, outputFolder, templateFolder)).genAndSave();
                     }
                 } catch (Exception e) {
