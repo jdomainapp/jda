@@ -89,14 +89,8 @@ public final class ViewBootstrapper {
      * return this for use in fluent-style API
      */
     public ViewBootstrapper bootstrapAndSave() {
-        final MCC mainMCC = MCCUtils.readMCC(null, moduleMainClass);
-
-        Map<Class, MCC> modelModuleMap = getModelModuleMap();
-        ParamsFactory.getInstance().setModelModuleMap(getModelModuleMap());
-
-        AppFactory appFactory = new AppFactory(ReactNativeAppGenerator.class, projectSrcDir,
-                modelModuleMap.keySet().toArray(new Class[0]));
-        appFactory.genAnSave();
+        AppFactory appFactory = new AppFactory(ReactNativeAppGenerator.class, cfg);
+        appFactory.genAndSave();
         return this;
     }
 

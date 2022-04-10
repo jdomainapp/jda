@@ -1,10 +1,8 @@
 package jda.modules.mosarfrontend.reactnative.templates.data_types;
 
-import jda.modules.mccl.conceptualmodel.MCC;
-import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.CustomFileName;
-import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
-import jda.modules.mosarfrontend.common.anotation.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.*;
+import jda.modules.mosarfrontend.common.factory.Slot;
+import jda.modules.mosarfrontend.common.utils.DAttrData;
 
 import java.util.ArrayList;
 
@@ -12,14 +10,25 @@ import java.util.ArrayList;
         templateFile = "/data_types/DataType.ts"
 )
 public class DataType {
-    @CustomFileName
-    public String getFileName(@RequiredParam.MCC MCC mcc) {
-        return mcc.getDomainClass().toString();
+    @WithFileName
+    public String getFileName(@RequiredParam.ModuleName String name) {
+        return name;
+    }
+
+    @SlotReplacementDesc(slot = "moduleName")
+    public String moduleName(@RequiredParam.ModuleName String name) {
+        return name;
     }
 
     @LoopReplacementDesc(slots = {"field", "fieldType"}, id = "1")
-    public ArrayList<ArrayList<String>> fields(@RequiredParam.MCC MCC mcc) {
-        ArrayList<ArrayList<String>> result = new ArrayList<>();
-        return result;
+    public Slot[][] fields(@RequiredParam.ModuleFields DAttrData[] fields) {
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        for (DAttrData field : fields) {
+            ArrayList<Slot> list = new ArrayList<>();
+            list.add(new Slot("field", field.getName()));
+            list.add(new Slot("fieldType", field.getType().toString()));
+            result.add(list);
+        }
+        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 }

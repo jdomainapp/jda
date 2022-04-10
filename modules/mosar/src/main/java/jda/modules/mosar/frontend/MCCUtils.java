@@ -33,7 +33,7 @@ public class MCCUtils {
                 .findFirst().get();
     }
 
-    static Map<String, Object> getPropertiesByAnnotation(FieldDef fieldDef, Class<? extends Annotation> annotationClass) {
+    public static Map<String, Object> getPropertiesByAnnotation(FieldDef fieldDef, Class<? extends Annotation> annotationClass) {
         MetaAttrDef attrDef = fieldDef.getAnnotation(annotationClass);
         if (attrDef == null) return Map.of();
         return attrDef.getProperties().stream()

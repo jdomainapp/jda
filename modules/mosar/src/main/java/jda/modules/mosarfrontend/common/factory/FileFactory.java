@@ -12,15 +12,41 @@ import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+class MethodUtils {
+    public static <T> T execute(Object executor, Method method, Class<T> returnType) {
+        Object[] params = ParamsFactory.getInstance().getParamsForMethod(method);
+        if (method.getParameters().length == params.length) {
+            try {
+                return returnType.cast(method.invoke(executor, params));
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                System.out.println("Error when trigger " + method.getName() + "()");
+                e.printStackTrace();
+                return null;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error when trigger " + method.getName() + "()");
+                System.out.println("Wrong argument type!");
+                System.out.println("Method arguments: " + Arrays.stream(method.getParameters())
+                        .map(p -> String.format("(%s:%s),", p.getName(), p.getType().getSimpleName())).collect(Collectors.joining()));
+                System.out.println("Try to pass arguments: (" + Arrays.stream(params)
+                        .map(p -> String.format("%s ,", p.getClass().getSimpleName())).collect(Collectors.joining()) + ")");
+                e.printStackTrace();
+                return null;
+            }
+        } else return null;
+    }
+}
 
 class RegexUtils {
-    String createSlotRegex(String slot) {
+    public String createSlotRegex(String slot) {
         return String.format("@slot\\{\\{\\s*%s\\s*\\}\\}", slot);
     }
 
-    String createLoopRegex(LoopReplacement loop) {
+    public String createLoopRegex(LoopReplacement loop) {
         StringBuilder singleSlotsRegex = new StringBuilder();
         for (String slot : loop.getSlots()) {
             singleSlotsRegex.append(createSlotRegex(slot));
@@ -90,38 +116,42 @@ public class FileFactory {
         }
     }
 
-    private void updateFileName(Method withFileName){
-        try {
-            this.fileName = (String) withFileName.invoke(this.handler, paramsFactory.getParamsForMethod(withFileName));
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+    private void updateFileName(Method withFileName) {
+        String value = MethodUtils.execute(handler, withFileName, String.class);
+        if (value != null) {
+            this.fileName = value;
         }
     }
 
-    private void updateFilePath(Method withFilePath){
-        try {
-            this.filePath = (String) withFilePath.invoke(this.handler, paramsFactory.getParamsForMethod(withFilePath));
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+    private void updateFilePath(Method withFilePath) {
+        String value = MethodUtils.execute(handler, withFilePath, String.class);
+        if (value != null) {
+            this.filePath = value;
+        }
+    }
+
+    private void updateFileExt(Method withFileExtension) {
+        String value = MethodUtils.execute(handler, withFileExtension, String.class);
+        if (value != null) {
+            this.fileExt = value;
         }
     }
 
     private void replaceSlot(Method replaceMethod) {
-        try {
-            String value = (String) replaceMethod.invoke(this.handler, paramsFactory.getParamsForMethod(replaceMethod));
+        String value = MethodUtils.execute(handler, replaceMethod, String.class);
+        if (value != null) {
             SlotReplacement desc = new SlotReplacement();
             SlotReplacementDesc ano = replaceMethod.getAnnotation(SlotReplacementDesc.class);
             RFSGenTk.parseAnnotation2Config(ano, desc);
             this.fileContent = this.fileContent
                     .replaceAll(regexUtils.createSlotRegex(desc.getSlot()), value);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
         }
+
     }
 
     private void replaceLoops(Method replaceMethod) {
-        try {
-            Slot[][] loopValues = (Slot[][]) replaceMethod.invoke(this.handler, paramsFactory.getParamsForMethod(replaceMethod));
+        Slot[][] loopValues = MethodUtils.execute(handler, replaceMethod, Slot[][].class);
+        if (loopValues != null) {
             LoopReplacement desc = new LoopReplacement();
             LoopReplacementDesc ano = replaceMethod.getAnnotation(LoopReplacementDesc.class);
             RFSGenTk.parseAnnotation2Config(ano, desc);
@@ -133,7 +163,7 @@ public class FileFactory {
             if (matcher.find()) {
                 //replace single_slot in loop
                 StringBuilder replaceValue = new StringBuilder();
-                for (Slot[] loopValue : loopValues) {
+                for (Slot[] loopValue : (Slot[][]) loopValues) {
                     String loopContent = matcher.group(2);
                     for (Slot slotValue : loopValue) {
                         String regex = regexUtils.createSlotRegex(slotValue.getSlotName());
@@ -144,9 +174,8 @@ public class FileFactory {
                 }
                 this.fileContent = matcher.replaceAll(replaceValue.toString());
             }
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
         }
+
     }
 
     private void updateFileContent() {
@@ -154,16 +183,24 @@ public class FileFactory {
             if (method.getReturnType() == String.class || method.getReturnType() == Slot[][].class) {
                 if (method.isAnnotationPresent(LoopReplacementDesc.class)) {
                     replaceLoops(method);
-                };
+                }
+                ;
                 if (method.isAnnotationPresent(SlotReplacementDesc.class)) {
                     replaceSlot(method);
-                };
-                if (method.isAnnotationPresent(CustomFileName.class)) {
+                }
+                ;
+                if (method.isAnnotationPresent(WithFileName.class)) {
                     updateFileName(method);
-                };
-                if (method.isAnnotationPresent(CustomFilePath.class)) {
+                }
+                ;
+                if (method.isAnnotationPresent(WithFilePath.class)) {
                     updateFilePath(method);
-                };
+                }
+                ;
+                if (method.isAnnotationPresent(WithFileExtension.class)) {
+                    updateFileExt(method);
+                }
+                ;
             }
         }
     }
@@ -185,7 +222,7 @@ public class FileFactory {
                 e.printStackTrace();
             }
         }
-        Path classFile = new File(outPutFolder + this.filePath + this.fileName + this.fileExt).toPath();
+        Path classFile = new File(outPutFolder + this.filePath + "\\" + this.fileName + this.fileExt).toPath();
         if (!Files.exists(classFile)) {
             try {
                 Files.createFile(classFile);
