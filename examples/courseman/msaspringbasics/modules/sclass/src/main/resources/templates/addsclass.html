@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Form add Class</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<body>
+<div class="formadd">
+    <form action="#" th:action="@{/save}" th:object="${SCLASS}"
+          method="POST" novalidate="novalidate">
+        <table>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <div class="title-form"> Add SClass</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Input ID sClass
+                </td>
+                <td>
+                    <input type="text" name="idsclass" value="" placeholder="ID- integer"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Input Name Sclass
+                </td>
+                <td>
+                    <input type="text" name="namesclass" value="" placeholder="NameSclass"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <div class="button-form">
+                        <input type="submit" name="sbmadd" value="Add Sclass"/>
+                    </div>
+                    <a href="/"> Back to Sclass</a>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+
+</body>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Edit Enrolment</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<body>
+<div class="formadd">
+    <form action="#" th:action="@{/save}" th:object="${SUBJECT}"
+          method="POST" novalidate="novalidate">
+        <input type="hidden" name="idenrolment" th:field="*{idenrolment}"/>
+
+        <table>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <div class="title-form"> Edit enrolment</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Student <input style="width:10px; padding:0px; text-align: left; " type="text" name="id" th:field="*{idstudent}" readonly/>
+                </td>
+                <td>
+
+                    <input type="text" name="idsclass" th:field="*{idsclass}"/>
+              <!--       <select name="idstudent">
+                        <option th:each="item:${STUDENT}" th:value="${item.idstudent}" th:text="${item.idstudent+' - '+item.namestudent}">
+
+                        </option>
+                    </select> -->
+                </td>
+            </tr>
+            <tr>
+                <td>
+                   Course <input style="width:10px; padding:0px; text-align: left; " type="text" name="id" th:field="*{idcourse}" readonly/>
+                </td>
+                <td>
+
+                    <input type="text" name="idsclass" th:field="*{idsclass}"/>
+                <!--     <select name="idcourse">
+                        <option th:each="item:${COURSE}" th:value="${item.idcourse}" th:text="${item.idcourse+' - '+item.namecourse}">
+
+                        </option>
+                    </select> -->
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Internal Mark
+                </td>
+                <td>
+                    <input type="text" name="internalmark" th:field="*{internalmark}"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    finalmark
+                </td>
+                <td>
+                    <input type="text" name="finalmark" th:field="*{finalmark}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Result
+                </td>
+                <td>
+                    <select name="result">
+                        <!--                        <option th:each="item:${SCLASS}" th:value="${item.idsclass}" th:text="${item.idsclass+' - '+item.namesclass}">-->
+                        <option>
+                            Great
+                        </option>
+                        <option>
+                            Excellent
+                        </option>
+                        <option>
+                            Good
+                        </option>
+                        <option>
+                            Bad
+                        </option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <div class="button-form">
+                        <input type="submit" name="sbmadd" value="Save..."/>
+                    </div>
+                    <a href="/"> Back to enrolment</a>
+                </td>
+            </tr>
+
+        </table>
+
+    </form>
+</div>
+
+</body>
+</body>
+</html>

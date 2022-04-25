@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import jda.test.model.basic.City;
 import org.junit.Test;
 
 /**

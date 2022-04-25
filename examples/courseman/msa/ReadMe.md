@@ -10,10 +10,18 @@ It extends a previous version (`jda-eg-coursemanmosar`) to use MSA instead of th
 ## Domain model
 The domain model is based on that of the example project `jda-eg-coursemanmosar`.
 
-The domain model is **fragmented** into one or more submodels based on the bounded contexts. The following subsections describe some **use cases** of domain model fragmentation that are supported by the software. Some use cases include **extensions** of the domain model to demonstrate the increasing complexity of the domain requirements.
+The domain model is **fragmented** into one or more submodels based on the bounded contexts. 
+
+The following sections describe some **use cases** of domain model fragmentation 
+that are supported by the software. Some use cases include **extensions** of the domain model 
+to demonstrate the increasing complexity of the domain requirements.
 
 ### Use case 1: No extensions
 
+#### Domain modelling requirements
+
+The domain modelling requirements of this use case are given below: 
+ 
 | Submodels | Modules | 
 | :--: | :--: |
 | Address Administration | Address 
@@ -22,7 +30,15 @@ The domain model is **fragmented** into one or more submodels based on the bound
 | Academic Administration | Enrolment 
 | Course Administration | CourseModule, CompulsoryModule, ElectiveModule  
 
+#### Technical requirements
+
+- Github branch: `usecase1`
+
 ### Use case 2: Academic and payment extensions
+
+#### Domain modelling requirements
+
+The domain modelling requirements of this use case are given below:  
 
 | Submodels | Modules | Extensions 
 | :--: | :--: | :--: | 
@@ -34,7 +50,10 @@ The domain model is **fragmented** into one or more submodels based on the bound
 | Course Administration | CourseModule, CompulsoryModule, ElectiveModule |  CourseModule has a unit fee
 | Finance Administration | CoursePayment | Payment for course module enrolment, computed from the unit fees of the enrolled CourseModules
 
-## Architecture
+#### Technical requirements
+- Github branch: `usecase2`
+
+## Architectural requirements
 
 The core requirement is that this software must be **architectured based on MSA**. It consists of as many **microservices** as necessary to address the submodels.
 Each service autonomously operates on a submodel of the domain model.

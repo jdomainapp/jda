@@ -1,0 +1,35 @@
+<div id="root">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container">
+            <div class="navbar-nav"><a href="/" class="navbar-brand">Courseman</a>
+                <div class="dropdown">
+                    <a role="button" class="dropdown-toggle nav-link" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Go to
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <router-link class="dropdown-item" to="/course-module">
+                            Manage Course modules
+                        </router-link>
+                        <router-link class="dropdown-item" to="/enrolment">
+                            Manage Enrolments
+                        </router-link>
+                        <router-link class="dropdown-item" to="/student">
+                            Manage Students
+                        </router-link>
+                        <router-link class="dropdown-item" to="/address">
+                            Manage Addresses
+                        </router-link>
+                        <router-link class="dropdown-item" to="/student-class">
+                            Manage Student classes
+                        </router-link>
+                    </div>
+                </div>
+            </div>
+            <div class="navbar-nav"><a href="#" class="nav-link" role="button">Help</a></div>
+        </div>
+    </nav>
+    </br>
+    <div class="container">
+        <router-view />
+    </div>
+</div>

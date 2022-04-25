@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Edit Course</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<body>
+<div class="formadd">
+    <form action="#" th:action="@{/save}" th:object="${SUBJECT}"
+          method="POST" novalidate="novalidate">
+        <table>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <div class="title-form"> Edit SClass</div>
+                </td>
+            </tr>
+
+            <input type="hidden" name="idsclass" th:field="*{idsclass}"/>
+
+            <tr>
+                <td>
+                    Name Sclass
+                </td>
+                <td>
+                    <input type="text" name="namesclass" th:field="*{namesclass}"/>
+                </td>
+            </tr>
+             <tr>
+                <td colspan="2">
+                    <div class="button-form">
+                        <input type="submit" name="sbmadd" value="Save Sclass"/>
+                    </div>
+                    <a href="/"> Back to Sclass</a>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+
+</body>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>manage course</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="swapper">
+    <div class="banner">
+        <img class="img-logo" th:src="@{/image/springboot1.PNG}"/>
+        <h1> ----- COURSE  -----</h1>
+        <b> Manage course: ID, Nam, Semester, credits</b>
+    </div>
+    <div id="menu">
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/add">AddCourse</a>
+            </li>
+
+        </ul>
+    </div>
+    <div class="content">
+        <div class="content-title" style="text-align: center">
+           <div class="title-list"> LIST of COURSE</div>
+            <div class="form-search">
+                <form action="#" th:action="@{/search}" th:object="${SUBJECT}"
+                      method="GET" novalidate="novalidate">
+                    <div class="search">
+                        <input type="text" name="id" value="" placeholder="Input ID to search"/>
+                        <input type="submit" name="searchid" value="searchid"/>
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+        <th:block th:if="${#lists.isEmpty(SUBJECT)}">
+            <h3>No Course</h3>
+        </th:block>
+
+        <th:block th:unless="${#lists.isEmpty(SUBJECT)}">
+        <table class="list" style="border: 1px solid darkgreen">
+            <tr style="background-color: cornflowerblue; text-align: center">
+
+                <td>
+                    Name course
+                </td>
+                <td>
+                    Semester
+                </td>
+                <td>Credits</td>
+                <td>Edit</td>
+                <td>Delete</td>
+            </tr>
+            <tr th:each= "item: ${SUBJECT}">
+                <td th:text="${item.namecourse}"></td>
+
+                <td style="text-align: center" th:text="${item.semaster}"></td>
+
+                <td style="text-align: center" th:text="${item.credits}"></td>
+                <td style="text-align: center">
+                    <a th:href="@{/{id}/edit(id=${item.idcourse})}"> <img class="img-icon" th:src="@{/image/edit.PNG}"/></a> </td>
+                <td style="text-align: center">
+                    <a th:href="@{/{id}/delete(id=${item.idcourse})}"> <img class="img-icon" th:src="@{/image/delete.PNG}"/></a> </td>
+            </tr>
+
+        </table>
+        </th:block>
+    </div>
+    <div class="footer">
+      @Springboot!
+    </div>
+</div>
+</body>
+</html>

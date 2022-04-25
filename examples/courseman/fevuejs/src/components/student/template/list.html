@@ -1,0 +1,37 @@
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Student ID</th>
+            <th>Full Name</th>
+            <th>Gender</th>
+            <th>Date of birth</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Student class</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr v-for="(student, index) in students" v-if="student" :key="student.id">
+            <td style="vertical-align: middle;">{{index + 1}}</td>
+            <th scope="row">{{student.id}}</th>
+            <td>{{student.name}}</td>
+            <td>{{student.gender}}</td>
+            <td>{{student.dob}}</td>
+            <td>{{student.email}}</td>
+            <td>{{student.address.name}}</td>
+            <td>{{student.studentClass.name}}</td>
+            <td>
+                <button class="btn btn-primary" v-on:click="emitData(student.id)">
+                    Edit
+                </button>
+                <a class="btn btn-danger" id="btnShowModal" data-target="#myModal" v-on:click="getStudentId(student.id)" data-toggle="modal">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    </tbody>
+    <Toasts></Toasts>
+    <modal-confirm  @confirm="deleteStudent(studentId)"></modal-confirm>
+</table>

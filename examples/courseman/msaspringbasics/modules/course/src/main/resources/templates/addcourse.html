@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Form add Course</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<body>
+<div class="formadd">
+    <form action="#" th:action="@{/save}" th:object="${SUBJECT}"
+          method="POST" novalidate="novalidate">
+        <table>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <div class="title-form"> Add Course</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Input ID Course
+                </td>
+                <td>
+                    <input type="text" name="idcourse" value="" placeholder="ID- integer"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Input Name Course
+                </td>
+                <td>
+                    <input type="text" name="namecourse" value="" placeholder="Namecourse"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Input Semester:
+                </td>
+                <td>
+                    <input type="text" name="semaster" value="" placeholder="Semestercourse - integer"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Input Credits:
+                </td>
+                <td>
+                    <input type="text" name="credits" value="" placeholder="Credits course - integer"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="button-form">
+                        <input type="submit" name="sbmadd" value="Add course"/>
+                    </div>
+                    <a href="/"> Back to Couse</a>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+
+</body>
+</body>
+</html>

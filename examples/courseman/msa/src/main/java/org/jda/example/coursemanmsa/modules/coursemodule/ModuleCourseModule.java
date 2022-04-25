@@ -14,6 +14,7 @@ import jda.modules.mccl.syntax.view.ViewDesc;
 import jda.modules.setup.commands.CopyResourceFilesCommand;
 import jda.mosa.controller.Controller;
 import jda.mosa.view.View;
+import jda.mosa.view.assets.datafields.list.JComboField;
 
 /**
  * @Overview
@@ -51,7 +52,8 @@ public class ModuleCourseModule  {
   @AttributeDesc(label="Name")
   private String name;
   
-  @AttributeDesc(label="Semester", alignX=AlignmentX.Center)
+  @AttributeDesc(label="Semester", alignX=AlignmentX.Center,
+      type=JComboField.class)
   private int semester;
   
   @AttributeDesc(label="Credits", alignX=AlignmentX.Center)

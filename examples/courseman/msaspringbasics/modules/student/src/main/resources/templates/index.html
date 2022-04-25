@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>manage Student</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="swapper">
+    <div class="banner">
+        <img class="img-logo" th:src="@{/image/springboot1.PNG}"/>
+        <h1> ----- STUDENT  -----</h1>
+        <b> Manage student: ID, Nam, date of birth, Address, email, ID sclass</b>
+    </div>
+    <div id="menu">
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/add">Addstudent</a>
+            </li>
+
+        </ul>
+    </div>
+    <div>
+
+    </div>
+
+    <div class="content">
+        <div class="content-title" style="text-align: center">
+            <div class="title-list"> LIST of STUDENT</div>
+            <div class="form-search">
+                <form action="#" th:action="@{/search}" th:object="${SUBJECT}"
+                      method="GET" novalidate="novalidate">
+                    <div class="search">
+                        <input type="text" name="idsearch" value="" placeholder="Input ID to search"/>
+                        <input type="submit" name="sbsearch" value="Search.."/>
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+        <th:block th:if="${#lists.isEmpty(SUBJECT)}">
+            <h3>No Student</h3>
+        </th:block>
+
+        <th:block th:unless="${#lists.isEmpty(SUBJECT)}">
+            <!--            <h3> Hello!</h3>-->
+        </th:block>
+        <table class="list" style="border: 1px solid darkgreen">
+            <tr style="background-color: cornflowerblue; text-align: center">
+                <td>
+                    ID Student
+                </td>
+
+                <td>
+                    Name Student
+                </td>
+                <td>
+                    Date o Birth
+                </td>
+                <td>
+                   Address
+                </td>
+                <td>
+                    Email
+                </td>
+                <td>
+                   Class
+                </td>
+                <td>
+                    Edit
+                </td>
+                <td>
+                    Delete
+                </td>
+
+            <tr th:each= "item: ${SUBJECT}">
+                <td th:text="${item.idstudent}"></td>
+
+                <td style="text-align: center" th:text="${item.namestudent}"></td>
+                <td style="text-align: center" th:text="${item.dobstudent}"></td>
+                <td style="text-align: center" th:text="${item.address}"></td>
+                <td style="text-align: center" th:text="${item.email}"></td>
+                <td style="text-align: center" th:text="${item.idsclass}"></td>
+                <td style="text-align: center">
+                    <a th:href="@{/{id}/edit(id=${item.idstudent})}"> <img class="img-icon" th:src="@{/image/edit.PNG}"/></a>
+                </td>
+                <td style="text-align: center">
+                    <a th:href="@{/{id}/delete(id=${item.idstudent})}"> <img class="img-icon" th:src="@{/image/delete.PNG}"/></a>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+    <div class="footer">
+        @Springboot!
+    </div>
+</div>
+</body>
+</html>
