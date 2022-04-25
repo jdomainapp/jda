@@ -19,7 +19,7 @@ The domain model is **fragmented** into one or more submodels based on the bound
 | Address Administration | Address | 
 | Student Registration | Student | uses Address 
 | Class Registration | StudentClass | uses Student
-| Academic Administration | Enrolment | uses StCourse Modules
+| Academic Administration | Enrolment | uses Student, Course Module
 | Course Administration | CourseModule, CompulsoryModule, ElectiveModule  | 
 
 ### Use case 2: Academic and payment extensions
