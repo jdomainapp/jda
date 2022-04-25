@@ -14,13 +14,13 @@ The domain model is **fragmented** into one or more submodels based on the bound
 
 ### Use case 1: No extensions
 
-| Submodels | Modules | 
-| :--: | :--: |
-| Address Administration | Address 
-| Student Registration | Student 
-| Class Registration | StudentClass 
-| Academic Administration | Enrolment 
-| Course Administration | CourseModule, CompulsoryModule, ElectiveModule  
+| Submodels | Modules | |
+| :--: | :--: |  :--: |
+| Address Administration | Address | 
+| Student Registration | Student | uses Address 
+| Class Registration | StudentClass | uses Student
+| Academic Administration | Enrolment | uses Course Modules
+| Course Administration | CourseModule, CompulsoryModule, ElectiveModule  | 
 
 ### Use case 2: Academic and payment extensions
 
