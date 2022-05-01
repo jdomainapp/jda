@@ -6,6 +6,8 @@ import java.lang.annotation.Target;
 
 import jda.modules.mosar.software.backend.BEApp;
 import jda.modules.mosar.software.frontend.FEApp;
+import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
+import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
 
 /**
  * @overview 
@@ -62,7 +64,12 @@ public @interface RFSGenDesc {
 
   /** front-end's shared resources for project */
   String feProjResource();
-  
+
+  /**
+   * config template , added by linh.tq
+   */
+  Class<?> feTemplate() default ReactNativeAppTemplate.class;
+
   /** frontend server port */
   long feServerPort() default 3000;
 

@@ -35,6 +35,150 @@ public class DAttrData {
     private boolean sourceQueryHandler = false;
     private String defaultValue = CommonConstants.NullString;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isId() {
+        return id;
+    }
+
+    public void setId(boolean id) {
+        this.id = id;
+    }
+
+    public boolean isCid() {
+        return cid;
+    }
+
+    public void setCid(boolean cid) {
+        this.cid = cid;
+    }
+
+    public String getCcid() {
+        return ccid;
+    }
+
+    public void setCcid(String ccid) {
+        this.ccid = ccid;
+    }
+
+    public DAttr.Type getType() {
+        return type;
+    }
+
+    public void setType(DAttr.Type type) {
+        this.type = type;
+    }
+
+    public boolean isAuto() {
+        return auto;
+    }
+
+    public void setAuto(boolean auto) {
+        this.auto = auto;
+    }
+
+    public boolean isAutoIncrement() {
+        return autoIncrement;
+    }
+
+    public void setAutoIncrement(boolean autoIncrement) {
+        this.autoIncrement = autoIncrement;
+    }
+
+    public boolean isUnique() {
+        return unique;
+    }
+
+    public void setUnique(boolean unique) {
+        this.unique = unique;
+    }
+
+    public boolean isMutable() {
+        return mutable;
+    }
+
+    public void setMutable(boolean mutable) {
+        this.mutable = mutable;
+    }
+
+    public boolean isOptional() {
+        return optional;
+    }
+
+    public void setOptional(boolean optional) {
+        this.optional = optional;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public double getMin() {
+        return min;
+    }
+
+    public void setMin(double min) {
+        this.min = min;
+    }
+
+    public double getMax() {
+        return max;
+    }
+
+    public void setMax(double max) {
+        this.max = max;
+    }
+
+    public String[] getDerivedForm() {
+        return derivedForm;
+    }
+
+    public void setDerivedForm(String[] derivedForm) {
+        this.derivedForm = derivedForm;
+    }
+
+    public String getSourceAttribute() {
+        return sourceAttribute;
+    }
+
+    public void setSourceAttribute(String sourceAttribute) {
+        this.sourceAttribute = sourceAttribute;
+    }
+
+    public boolean isSourceQuery() {
+        return sourceQuery;
+    }
+
+    public void setSourceQuery(boolean sourceQuery) {
+        this.sourceQuery = sourceQuery;
+    }
+
+    public boolean isSourceQueryHandler() {
+        return sourceQueryHandler;
+    }
+
+    public void setSourceQueryHandler(boolean sourceQueryHandler) {
+        this.sourceQueryHandler = sourceQueryHandler;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
     public DAttrData(MetaAttrDef metaAttrDef) {
         Collection<Map.Entry<String, Object>> properties = metaAttrDef.getProperties();
         for (Map.Entry<String, Object> property : properties) {

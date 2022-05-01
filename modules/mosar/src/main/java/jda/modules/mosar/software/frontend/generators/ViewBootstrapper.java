@@ -6,10 +6,9 @@ import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosar.frontend.MCCUtils;
 import jda.modules.mosar.utils.FileUtils;
 import jda.modules.mosarfrontend.common.factory.AppFactory;
-import jda.modules.mosarfrontend.common.factory.ParamsFactory;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
 import jda.modules.mosarfrontend.reactjs.model.common.MCCRegistry;
-import jda.modules.mosarfrontend.reactnative.ReactNativeAppGenerator;
+import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
 
 import java.io.File;
 import java.util.HashMap;
@@ -89,7 +88,7 @@ public final class ViewBootstrapper {
      * return this for use in fluent-style API
      */
     public ViewBootstrapper bootstrapAndSave() {
-        AppFactory appFactory = new AppFactory(ReactNativeAppGenerator.class, cfg);
+        AppFactory appFactory = new AppFactory(cfg);
         appFactory.genAndSave();
         return this;
     }

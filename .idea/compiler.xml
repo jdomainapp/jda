@@ -2,11 +2,11 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <excludeFromCompile>
-      <directory url="file://$PROJECT_DIR$/modules/mosar/src/main/resources/reactnative" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/modules/mosar/src/main/java/jda/modules/mosarfrontend/reactnative/resources" includeSubdirectories="true" />
     </excludeFromCompile>
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-      <profile name="Maven default annotation processors profile" enabled="true">
+      <profile name="Maven default annotation processors profile" enabled="true" procOnly="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -19,20 +19,28 @@
         <module name="jda-eg-courseman-msaspringbasics-course" />
         <module name="jda-eg-coursemansw" />
         <module name="jda-eg-coursemanmsa" />
-        <module name="jda-eg-coursemanmdsa" />
         <module name="jda-swtool" />
         <module name="jda-eg-coursemanbasics" />
         <module name="jda-sccltool" />
         <module name="jda-mdsa" />
         <module name="jda-dcsltool" />
         <module name="jda-eg-courseman-msaspringbasics-enrolment" />
-        <module name="jda-mosar" />
         <module name="jda-mccl" />
         <module name="jda-common" />
         <module name="jda-mccltool" />
         <module name="jda-sccl" />
         <module name="jda-eg-courseman-msaspringbasics-sclass" />
         <module name="jda-eg-courseman-msaspringbasics-configserver" />
+      </profile>
+      <profile name="Annotation profile for JDA Root" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.22/lombok-1.18.22.jar" />
+        </processorPath>
+        <module name="jda-eg-coursemanmdsa" />
+        <module name="jda-mosar" />
       </profile>
     </annotationProcessing>
   </component>

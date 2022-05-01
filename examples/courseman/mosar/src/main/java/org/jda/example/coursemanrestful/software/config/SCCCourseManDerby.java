@@ -7,7 +7,12 @@ import jda.modules.mccl.conceptmodel.Configuration.Language;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
 import jda.modules.mosar.config.*;
 import jda.modules.mosarbackend.springboot.BESpringApp;
+import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
+import jda.modules.mosarfrontend.common.anotation.template_desc.ComponentGenDesc;
+import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDesc;
+import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesDesc;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
+import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
 import jda.modules.sccl.syntax.*;
 import jda.modules.setup.model.SetUpConfig;
 import org.jda.example.coursemanrestful.modules.ModuleMain;
@@ -24,6 +29,7 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         beLangPlatform = LangPlatform.SPRING,
         feProjPath = "/home/ducmle/tmp/restfstool-fe",
         feProjName = "fe-courseman",
+        feTemplate = ReactNativeAppTemplate.class,
         feProjResource = "src/main/resources/react",
         feOutputPath = "D:\\UET_THS\\JDA\\work\\CourseManReactNative",
         feServerPort = 5000,  // default: 3000
@@ -36,6 +42,7 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         beServerPort = 8080  // default: 8080
         //CourseManBESpringApp.class
 )
+
 @SystemDesc(
         appName = "Courseman",
         splashScreenLogo = "coursemanapplogo.jpg",

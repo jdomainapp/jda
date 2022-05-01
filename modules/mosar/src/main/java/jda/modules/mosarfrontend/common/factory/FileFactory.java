@@ -2,6 +2,8 @@ package jda.modules.mosarfrontend.common.factory;
 
 import jda.modules.mosar.utils.RFSGenTk;
 import jda.modules.mosarfrontend.common.anotation.*;
+import jda.modules.mosarfrontend.common.anotation.FileTemplate;
+import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
 import lombok.Data;
 import lombok.NonNull;
 
@@ -60,7 +62,7 @@ class RegexUtils {
 @Data
 public class FileFactory {
     @NonNull
-    private Class<?> FileTemplateDesc;
+    private Class<?> fileTemplateDesc;
     @NonNull
     private String outPutFolder;
     @NonNull
@@ -97,11 +99,11 @@ public class FileFactory {
     }
 
     private void initFileTemplate() throws Exception {
-        if (!FileTemplateDesc.isAnnotationPresent(FileTemplateDesc.class)) {
+        if (!fileTemplateDesc.isAnnotationPresent(jda.modules.mosarfrontend.common.anotation.FileTemplateDesc.class)) {
             throw new Exception("The class is not TemplateHandler (without @TemplateHandler annotation)");
         } else {
-            FileTemplateDesc ano = FileTemplateDesc.getAnnotation(FileTemplateDesc.class);
-            this.handler = this.FileTemplateDesc.getConstructor().newInstance();
+            FileTemplateDesc ano = fileTemplateDesc.getAnnotation(FileTemplateDesc.class);
+            this.handler = this.fileTemplateDesc.getConstructor().newInstance();
             this.fileTemplate = new FileTemplate();
             RFSGenTk.parseAnnotation2Config(ano, this.fileTemplate);
             // default output file info
@@ -179,7 +181,7 @@ public class FileFactory {
     }
 
     private void updateFileContent() {
-        for (Method method : this.FileTemplateDesc.getMethods()) {
+        for (Method method : this.fileTemplateDesc.getMethods()) {
             if (method.getReturnType() == String.class || method.getReturnType() == Slot[][].class) {
                 if (method.isAnnotationPresent(LoopReplacementDesc.class)) {
                     replaceLoops(method);

@@ -35,7 +35,7 @@ public class ParamsFactory {
         }
     }
 
-    public static synchronized ParamsFactory getInstance() {
+    public static ParamsFactory getInstance() {
         if (instance == null) {
             instance = new ParamsFactory();
         }

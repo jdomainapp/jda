@@ -5,6 +5,7 @@ import java.util.List;
 
 import jda.modules.mosar.software.backend.BEApp;
 import jda.modules.mosar.software.frontend.FEApp;
+import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
 
 
 /**
@@ -32,6 +33,15 @@ public class RFSGenConfig {
 
   /** front-end project name */
   private String feProjName;
+
+  /** front-end template */
+  private Class<? extends AppTemplateDesc> feTemplate;
+  public void setFeTemplate(Class<? extends  AppTemplateDesc> feTemplate){
+    this.feTemplate = feTemplate;
+  }
+  public Class<? extends  AppTemplateDesc> getFeTemplate(){
+    return this.feTemplate;
+  }
 
   /** front-end's shared resources for project */
   private String feProjResource;

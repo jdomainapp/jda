@@ -44,19 +44,7 @@ public class FESoftware {
    */
   public FESoftware generate() {
     logger.info("Generating frontend...");
-    ViewBootstrapper bootstrapper = new ViewBootstrapper(
-        cfg
-//        //frontEndOutputPath,
-//        cfg.getFeOutputPath(),
-////        scc, 
-//        cfg.getSCC(),
-////        mainMCC, 
-//        cfg.getMCCMain(),
-//        //model
-//        cfg.getDomainModel(),
-////        funcMCCs
-//        cfg.getMCCFuncs()
-        );
+    ViewBootstrapper bootstrapper = new ViewBootstrapper(cfg);
 
     bootstrapper
     .init()

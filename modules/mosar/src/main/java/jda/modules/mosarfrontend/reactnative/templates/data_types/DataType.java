@@ -1,6 +1,7 @@
 package jda.modules.mosarfrontend.reactnative.templates.data_types;
 
 import jda.modules.mosarfrontend.common.anotation.*;
+import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DAttrData;
 

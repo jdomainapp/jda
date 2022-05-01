@@ -1,53 +1,141 @@
 package jda.modules.mosarfrontend.common.factory;
 
-import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosar.utils.RFSGenTk;
-import jda.modules.mosarfrontend.common.anotation.AppTemplate;
-import jda.modules.mosarfrontend.common.anotation.AppTemplateDesc;
+import jda.modules.mosarfrontend.common.anotation.template_desc.*;
 import lombok.Data;
 import lombok.NonNull;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
-@Data
 public class AppFactory {
-    @NonNull
-    private Class<?> AppTemplateCls;
-    @NonNull
     private RFSGenConfig rfsGenConfig;
+
+    public AppFactory(RFSGenConfig rfsGenConfig) {
+        this.rfsGenConfig = rfsGenConfig;
+    }
+
+    public void unzip(String zipFilePath, String outputPath) {
+        try {
+            // Open the zip file
+            ZipFile zipFile = new ZipFile(zipFilePath);
+            Enumeration<?> enu = zipFile.entries();
+            while (enu.hasMoreElements()) {
+                ZipEntry zipEntry = (ZipEntry) enu.nextElement();
+
+                String name = zipEntry.getName();
+                long size = zipEntry.getSize();
+                long compressedSize = zipEntry.getCompressedSize();
+                System.out.printf("name: %-20s | size: %6d | compressed size: %6d\n",
+                        name, size, compressedSize);
+
+                // Do we need to create a directory ?
+                File file = new File(outputPath + "/" + name);
+                if (name.endsWith("/")) {
+                    file.mkdirs();
+                    continue;
+                }
+
+                File parent = file.getParentFile();
+                if (parent != null) {
+                    parent.mkdirs();
+                }
+
+                // Extract the file
+                InputStream is = zipFile.getInputStream(zipEntry);
+                FileOutputStream fos = new FileOutputStream(file);
+                byte[] bytes = new byte[1024];
+                int length;
+                while ((length = is.read(bytes)) >= 0) {
+                    fos.write(bytes, 0, length);
+                }
+                is.close();
+                fos.close();
+
+            }
+            zipFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public void genAndSave() {
-        if (this.AppTemplateCls.isAnnotationPresent(AppTemplateDesc.class)) {
+        if (this.rfsGenConfig.getFeTemplate().isAnnotationPresent(AppTemplateDesc.class)) {
             ParamsFactory.getInstance().setRFSGenConfig(rfsGenConfig);
 
-            AppTemplateDesc ano = this.AppTemplateCls.getAnnotation(AppTemplateDesc.class);
+            AppTemplateDesc ano = this.rfsGenConfig.getFeTemplate().getAnnotation(AppTemplateDesc.class);
             AppTemplate appTemplate = new AppTemplate();
             RFSGenTk.parseAnnotation2Config(ano, appTemplate);
+
             String templateFolder = appTemplate.getTemplateRootFolder();
-
-            for (Class<?> fileTemplateDesc : appTemplate.getFileTemplates()) {
+            /** Clean output folder*/
+            File outFolder = new File(rfsGenConfig.getFeOutputPath());
+            if(outFolder.exists()) outFolder.delete();
+            /**
+             * Copy resource to output
+             */
+            System.out.println(appTemplate.getResource());
+            unzip(appTemplate.getResource(), rfsGenConfig.getFeOutputPath());
+            /**
+             * Các Component chỉ gen 1 lần
+             */
+            CrossTemplatesDesc crossTemplatesDesc = appTemplate.getCrossTemplates();
+            Method[] crossTemplates = crossTemplatesDesc.annotationType().getDeclaredMethods();
+            for (Method m : crossTemplates) {
                 try {
-                    (new FileFactory(fileTemplateDesc, rfsGenConfig.getFeOutputPath(), templateFolder))
-                            .genAndSave();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            for (Class<?> moduleTemplateDesc : appTemplate.getModuleTemplates()) {
-                try {
-                    for (Class<?> module : rfsGenConfig.getMCCFuncs()) {
-                        ParamsFactory.getInstance().setCurrentModule(module);
-                        (new FileFactory(moduleTemplateDesc, rfsGenConfig.getFeOutputPath(), templateFolder))
-                                .genAndSave();
+                    ComponentGenDesc componentGenDesc = (ComponentGenDesc) m.invoke(crossTemplatesDesc, (new ArrayList<Object>()).toArray());
+                    System.out.println(m.getName());
+                    for (Class<?> fileTemplateDesc : componentGenDesc.genClasses()) {
+                        System.out.println(fileTemplateDesc);
+                        try {
+                            (new FileFactory(fileTemplateDesc, rfsGenConfig.getFeOutputPath(), templateFolder))
+                                    .genAndSave();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                } catch (Exception e) {
+                } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
+
             }
+
+            /**
+             * Các file gen với mỗi miền (module in domain model) , Ex: Student, Class in CourseMan example
+             */
+            ModuleTemplatesDesc moduleTemplatesDesc = appTemplate.getModuleTemplates();
+            Method[] moduleTemplates = moduleTemplatesDesc.annotationType().getDeclaredMethods();
+            for (Method m : moduleTemplates) {
+                try {
+                    ComponentGenDesc componentGenDesc = (ComponentGenDesc) m.invoke(moduleTemplatesDesc, (new ArrayList<Object>()).toArray());
+                    System.out.println(m.getName());
+                    for (Class<?> moduleTemplateDesc : componentGenDesc.genClasses()) {
+                        try {
+                            for (Class<?> module : rfsGenConfig.getMCCFuncs()) {
+                                ParamsFactory.getInstance().setCurrentModule(module);
+                                (new FileFactory(moduleTemplateDesc, rfsGenConfig.getFeOutputPath(), templateFolder))
+                                        .genAndSave();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
         }
     }
 }

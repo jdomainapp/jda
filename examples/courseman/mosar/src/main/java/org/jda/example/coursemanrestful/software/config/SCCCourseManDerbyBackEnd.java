@@ -1,5 +1,6 @@
 package org.jda.example.coursemanrestful.software.config;
 
+import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
 import org.jda.example.coursemanrestful.modules.ModuleMain;
 import org.jda.example.coursemanrestful.modules.address.ModuleAddress;
 import org.jda.example.coursemanrestful.modules.coursemodule.ModuleCourseModule;
@@ -37,6 +38,7 @@ import jda.modules.setup.model.SetUpConfig;
       beLangPlatform = LangPlatform.SPRING,
       feProjPath = "/home/ducmle/tmp/restfstool-fe",
       feProjName = "fe-courseman",
+      feTemplate = ReactNativeAppTemplate.class,
       feProjResource = "src/main/resources/react",
       feOutputPath = "src/main/java/org/jda/example/coursemanrestful/frontend",
       feServerPort = 5000,  // default: 3000
