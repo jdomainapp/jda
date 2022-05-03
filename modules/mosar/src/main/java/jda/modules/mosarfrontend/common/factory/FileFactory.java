@@ -31,6 +31,7 @@ class RegexUtils {
     }
 }
 
+
 @Data
 public class FileFactory {
     @NonNull
@@ -51,6 +52,12 @@ public class FileFactory {
     private RegexUtils regexUtils = new RegexUtils();
     private final ParamsFactory paramsFactory = ParamsFactory.getInstance();
 
+    public FileFactory(Class<?> fileTemplateDesc, String outputFolder, String templateFolder) {
+    	this.FileTemplateDesc = fileTemplateDesc;
+    	this.outPutFolder = outputFolder;
+    	this.templateRootFolder = templateFolder;
+    }
+    
     private void initDefaultFileInfo() {
         StringBuilder buffer = new StringBuilder("");
         String templateFile = this.fileTemplate.getTemplateFile();
@@ -82,6 +89,7 @@ public class FileFactory {
             initDefaultFileInfo();
             // get template file content
             String templateFilePath = templateRootFolder + this.fileTemplate.getTemplateFile().replace("/", "\\");
+            System.out.print(templateFilePath);
             try {
                 this.fileContent = Files.readString(Paths.get(templateFilePath));
             } catch (IOException e) {

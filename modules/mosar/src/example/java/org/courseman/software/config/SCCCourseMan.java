@@ -17,6 +17,7 @@ import jda.modules.mosar.config.LangPlatform;
 import jda.modules.mosar.config.RFSGenDesc;
 import jda.modules.mosar.config.StackSpec;
 import jda.modules.mosarbackend.springboot.BESpringApp;
+import jda.modules.mosarfrontend.common.FEAppGen;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
 import jda.modules.sccl.syntax.DSDesc;
 import jda.modules.sccl.syntax.OrgDesc;
@@ -45,6 +46,7 @@ import jda.modules.setup.model.SetUpConfig;
     ,beAppClass = BESpringApp.class,
     beServerPort = 8080  // default: 8080
       //CourseManBESpringApp.class
+    , feAppGenClass = FEAppGen.class
 )
 @SystemDesc(
         appName = "Courseman",

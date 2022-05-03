@@ -19,6 +19,8 @@ import jda.modules.mosar.config.LangPlatform;
 import jda.modules.mosar.config.RFSGenDesc;
 import jda.modules.mosar.config.StackSpec;
 import jda.modules.mosarbackend.springboot.BESpringApp;
+import jda.modules.mosarfrontend.angular.AngularAppGenerator;
+import jda.modules.mosarfrontend.common.FEAppGen;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
 import jda.modules.sccl.syntax.DSDesc;
 import jda.modules.sccl.syntax.OrgDesc;
@@ -41,12 +43,14 @@ import jda.modules.setup.model.SetUpConfig;
       feOutputPath = "src/main/java/org/jda/example/coursemanrestful/frontend",
       feServerPort = 5000,  // default: 3000
       feAppClass=FEReactApp.class,
+      feAppGenClass = AngularAppGenerator.class,
       feThreaded = true,
       bePackage = "org.jda.example.coursemanrestful.modules",
       beOutputPath = "src/main/java", 
       beTargetPackage = "org.jda.example.coursemanrestful.backend"
       ,beAppClass = BESpringApp.class,
       beServerPort = 8080  // default: 8080
+      
 )
 @SystemDesc(
         appName = "Courseman",

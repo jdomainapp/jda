@@ -5,6 +5,7 @@ import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosar.frontend.MCCUtils;
 import jda.modules.mosar.utils.FileUtils;
+import jda.modules.mosarfrontend.angular.AngularAppGenerator;
 import jda.modules.mosarfrontend.common.factory.AppFactory;
 import jda.modules.mosarfrontend.common.factory.ParamsFactory;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
@@ -78,9 +79,10 @@ public final class ViewBootstrapper {
                 FileUtils.separatorsToSystem(cfg.getFeProjResource())).toString();
         File constantsTempFile = ToolkitIO.getPath(feProjResource, "common", "templates", "Constants.js").toFile();
         File constantsFile = ToolkitIO.getPath(feProjResource, "common", "Constants.js").toFile();
-        String constantsJs = ToolkitIO.readTextFileContent(constantsTempFile)
-                .replace("{{ beServerPort }}", beServerPort + "");
-        ToolkitIO.writeTextFile(constantsFile, constantsJs, true);
+        
+//        String constantsJs = ToolkitIO.readTextFileContent(constantsTempFile)
+//                .replace("{{ beServerPort }}", beServerPort + "");
+//        ToolkitIO.writeTextFile(constantsFile, constantsJs, true);
         return this;
     }
 
@@ -94,7 +96,7 @@ public final class ViewBootstrapper {
         Map<Class, MCC> modelModuleMap = getModelModuleMap();
         ParamsFactory.getInstance().setModelModuleMap(getModelModuleMap());
 
-        AppFactory appFactory = new AppFactory(ReactNativeAppGenerator.class, projectSrcDir,
+        AppFactory appFactory = new AppFactory(AngularAppGenerator.class, projectSrcDir,
                 modelModuleMap.keySet().toArray(new Class[0]));
         appFactory.genAnSave();
         return this;

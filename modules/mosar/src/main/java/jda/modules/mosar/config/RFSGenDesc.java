@@ -6,6 +6,8 @@ import java.lang.annotation.Target;
 
 import jda.modules.mosar.software.backend.BEApp;
 import jda.modules.mosar.software.frontend.FEApp;
+import jda.modules.mosarfrontend.angular.AngularAppGenerator;
+import jda.modules.mosarfrontend.common.FEAppGen;
 
 /**
  * @overview 
@@ -70,4 +72,7 @@ public @interface RFSGenDesc {
   Class<? extends FEApp> feAppClass();
   
   boolean feThreaded() default false;
+
+  /** frontend gencode class */
+  Class<? extends FEAppGen> feAppGenClass();
 }

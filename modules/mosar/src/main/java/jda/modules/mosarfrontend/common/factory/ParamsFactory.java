@@ -31,10 +31,21 @@ public class ParamsFactory {
         }
         return instance;
     }
+    
+	public void setCurrentModuleCls(Class<?> moduleCls) {
+		// TODO Auto-generated method stub
+		this.currentModuleCls = moduleCls;
+	}
+	
+	public void setModelModuleMap(Map<Class, MCC> modelModuleMap2) {
+		// TODO Auto-generated method stub
+		this.modelModuleMap = modelModuleMap2;
+		
+	}	
     @Setter
     /**
      * current module class in generate process. Ex: Student, Course,.. in courseman example
-     */
+     */ 
     private Class<?> currentModuleCls;
     @Setter
     private Map<Class, MCC> modelModuleMap;
@@ -74,4 +85,6 @@ public class ParamsFactory {
     private void getModuleFields(){
 
     }
+
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import jda.modules.mosar.software.backend.BEApp;
 import jda.modules.mosar.software.frontend.FEApp;
+import jda.modules.mosarfrontend.common.FEAppGen;
 
 
 /**
@@ -39,6 +40,7 @@ public class RFSGenConfig {
   private long feServerPort;
   
   private Class<? extends FEApp> feAppClass;
+  private Class<? extends FEAppGen> feAppGenClass;
   private boolean feThreaded;
   
   private LangPlatform beLangPlatform;
@@ -48,6 +50,7 @@ public class RFSGenConfig {
   private long beServerPort;
 
   private Class<? extends BEApp> beAppClass;
+
   private boolean beThreaded;
 
   private Class scc;
@@ -371,6 +374,18 @@ public class RFSGenConfig {
     this.feAppClass = feAppClass;
   }
 
+  
+  public Class<? extends FEAppGen> getFeAppGenClass() {
+	    return feAppGenClass;
+	  }
+
+	  /**
+	   * @effects set feAppClass = feAppClass
+	   */
+	  public void setFeAppGenClass(Class<? extends FEAppGen> feAppClass) {
+	    this.feAppGenClass = feAppGenClass;
+	  }
+	  
   /**
    * @effects return isFeThreaded
    */
