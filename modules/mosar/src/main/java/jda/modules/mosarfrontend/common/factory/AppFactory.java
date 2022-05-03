@@ -3,8 +3,6 @@ package jda.modules.mosarfrontend.common.factory;
 import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosar.utils.RFSGenTk;
 import jda.modules.mosarfrontend.common.anotation.template_desc.*;
-import lombok.Data;
-import lombok.NonNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
@@ -35,8 +35,8 @@ public class AppFactory {
                 String name = zipEntry.getName();
                 long size = zipEntry.getSize();
                 long compressedSize = zipEntry.getCompressedSize();
-                System.out.printf("name: %-20s | size: %6d | compressed size: %6d\n",
-                        name, size, compressedSize);
+//                System.out.printf("name: %-20s | size: %6d | compressed size: %6d\n",
+//                        name, size, compressedSize);
 
                 // Do we need to create a directory ?
                 File file = new File(outputPath + "/" + name);
@@ -68,7 +68,6 @@ public class AppFactory {
         }
     }
 
-
     public void genAndSave() {
         if (this.rfsGenConfig.getFeTemplate().isAnnotationPresent(AppTemplateDesc.class)) {
             ParamsFactory.getInstance().setRFSGenConfig(rfsGenConfig);
@@ -78,25 +77,18 @@ public class AppFactory {
             RFSGenTk.parseAnnotation2Config(ano, appTemplate);
 
             String templateFolder = appTemplate.getTemplateRootFolder();
-            /** Clean output folder*/
-            File outFolder = new File(rfsGenConfig.getFeOutputPath());
-            if(outFolder.exists()) outFolder.delete();
-            /**
-             * Copy resource to output
-             */
-            System.out.println(appTemplate.getResource());
+            // TODO: Clean output folder before gen/
+            /** Copy resource to output*/
             unzip(appTemplate.getResource(), rfsGenConfig.getFeOutputPath());
-            /**
-             * Các Component chỉ gen 1 lần
-             */
+            /** Các Component chỉ gen 1 lần*/
             CrossTemplatesDesc crossTemplatesDesc = appTemplate.getCrossTemplates();
             Method[] crossTemplates = crossTemplatesDesc.annotationType().getDeclaredMethods();
             for (Method m : crossTemplates) {
                 try {
                     ComponentGenDesc componentGenDesc = (ComponentGenDesc) m.invoke(crossTemplatesDesc, (new ArrayList<Object>()).toArray());
-                    System.out.println(m.getName());
+//                    System.out.println(m.getName());
                     for (Class<?> fileTemplateDesc : componentGenDesc.genClasses()) {
-                        System.out.println(fileTemplateDesc);
+//                        System.out.println(fileTemplateDesc);
                         try {
                             (new FileFactory(fileTemplateDesc, rfsGenConfig.getFeOutputPath(), templateFolder))
                                     .genAndSave();
@@ -118,7 +110,7 @@ public class AppFactory {
             for (Method m : moduleTemplates) {
                 try {
                     ComponentGenDesc componentGenDesc = (ComponentGenDesc) m.invoke(moduleTemplatesDesc, (new ArrayList<Object>()).toArray());
-                    System.out.println(m.getName());
+//                    System.out.println(m.getName());
                     for (Class<?> moduleTemplateDesc : componentGenDesc.genClasses()) {
                         try {
                             for (Class<?> module : rfsGenConfig.getMCCFuncs()) {

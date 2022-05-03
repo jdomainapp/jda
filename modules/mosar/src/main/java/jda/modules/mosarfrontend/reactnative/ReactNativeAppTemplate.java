@@ -4,8 +4,10 @@ import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.ComponentGenDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesDesc;
-import jda.modules.mosarfrontend.reactnative.templates.MainTemplate;
-import jda.modules.mosarfrontend.reactnative.templates.data_types.DataType;
+import jda.modules.mosarfrontend.reactnative.templates.MainGen;
+import jda.modules.mosarfrontend.reactnative.templates.src.data_types.DataTypeGen;
+import jda.modules.mosarfrontend.reactnative.templates.src.modules.FormInputsGen;
+import jda.modules.mosarfrontend.reactnative.templates.src.modules.ModulesGen;
 
 @AppTemplateDesc(
         templateRootFolder = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\templates",
@@ -13,11 +15,15 @@ import jda.modules.mosarfrontend.reactnative.templates.data_types.DataType;
         crossTemplates = @CrossTemplatesDesc(
                 Router = @ComponentGenDesc(
                         templates = {"Main.tsx"},
-                        genClasses = {MainTemplate.class}
+                        genClasses = {MainGen.class}
                 ),
                 BaseService = @ComponentGenDesc(
                         templates = {},
                         genClasses = {}
+                ),
+                Ext = @ComponentGenDesc(
+                        templates = {"Modules.tsx"},
+                        genClasses = {ModulesGen.class, FormInputsGen.class}
                 )
         ),
         moduleTemplates = @ModuleTemplatesDesc(
@@ -35,7 +41,7 @@ import jda.modules.mosarfrontend.reactnative.templates.data_types.DataType;
                 ),
                 Entity = @ComponentGenDesc(
                         templates = {},
-                        genClasses = {}
+                        genClasses = {DataTypeGen.class}
                 ),
                 Ext = @ComponentGenDesc(
                         templates = {},

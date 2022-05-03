@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @FileTemplateDesc(
         templateFile = "/Main.tsx"
 )
-public class MainTemplate {
+public class MainGen {
     @LoopReplacementDesc(slots = {"moduleName"}, id = "1")
     public Slot[][] replaceImportModules(@RequiredParam.ModulesName String[] modulesName) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();

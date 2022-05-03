@@ -3,13 +3,11 @@ package jda.modules.mosarfrontend.common.factory;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import jda.modules.dcsl.parser.ParserToolkit;
 import jda.modules.dcsl.parser.statespace.metadef.FieldDef;
-import jda.modules.dcsl.parser.statespace.metadef.MetaAttrDef;
 import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosar.frontend.MCCUtils;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
-import jda.modules.mosarfrontend.common.utils.DAttrData;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -90,26 +88,19 @@ public class ParamsFactory {
     @RequiredParam.ModulesName
     private String[] getModulesName() {
         if (modulesName == null) {
-            modulesName = modules.keySet().toArray(new String[0]);
+            modulesName = modules.values().stream().map(m-> m.getDomainClass().getName()).toArray(String[]::new);
         }
         return modulesName;
     }
 
     @RequiredParam.ModuleName
     private String getModuleName() {
-        return this.currentMCC.getName();
+        return this.currentMCC.getDomainClass().getName();
     }
 
     @RequiredParam.ModuleFields
-    private DAttrData[] getModuleFields() {
+    private FieldDef[] getModuleFields() {
         FieldDeclaration[] fieldDeclarations = this.currentMCC.getDomainClass().getFields().toArray(FieldDeclaration[]::new);
-        return Arrays.stream(fieldDeclarations).map(fieldDeclaration -> {
-            FieldDef def = ParserToolkit.getFieldDefFull(fieldDeclaration);
-            MetaAttrDef metaAttrDef = def.getAnnotation(DAttr.class);
-            if (metaAttrDef != null) {
-                return new DAttrData(metaAttrDef);
-            }
-            return null;
-        }).filter(Objects::nonNull).filter(e -> e.getName() != null).collect(Collectors.toList()).toArray(DAttrData[]::new);
+        return Arrays.stream(fieldDeclarations).map(ParserToolkit::getFieldDefFull).filter(e -> e.getAnnotation(DAttr.class) != null).toArray(FieldDef[]::new);
     }
 }
