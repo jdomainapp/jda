@@ -6,8 +6,9 @@ import java.lang.annotation.Target;
 
 import jda.modules.mosar.software.backend.BEApp;
 import jda.modules.mosar.software.frontend.FEApp;
-import jda.modules.mosarfrontend.angular.AngularAppGenerator;
 import jda.modules.mosarfrontend.common.FEAppGen;
+import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
+import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
 
 /**
  * @overview 
@@ -64,7 +65,12 @@ public @interface RFSGenDesc {
 
   /** front-end's shared resources for project */
   String feProjResource();
-  
+
+  /**
+   * config template , added by linh.tq
+   */
+  Class<?> feTemplate();
+
   /** frontend server port */
   long feServerPort() default 3000;
 
@@ -72,7 +78,4 @@ public @interface RFSGenDesc {
   Class<? extends FEApp> feAppClass();
   
   boolean feThreaded() default false;
-
-  /** frontend gencode class */
-  Class<? extends FEAppGen> feAppGenClass();
 }

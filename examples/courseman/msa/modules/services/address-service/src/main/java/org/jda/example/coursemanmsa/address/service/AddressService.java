@@ -42,7 +42,9 @@ public class AddressService {
     	address = repository.save(address);
     	simpleSourceBean.publishAddressChange(ActionEnum.CREATED.name(),address.getId());
     	return address;
+    	
     }
+    
 
     public void update(Address address){
     	repository.save(address);

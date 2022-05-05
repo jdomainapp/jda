@@ -7,10 +7,15 @@ import jda.modules.mccl.conceptmodel.Configuration.Language;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
 import jda.modules.mosar.config.*;
 import jda.modules.mosarbackend.springboot.BESpringApp;
-import jda.modules.mosarfrontend.angular.AngularAppGenerator;
+import jda.modules.mosarfrontend.angular.AngularAppTemplate;
 import jda.modules.mosarfrontend.angular.FEAngularApp;
 import jda.modules.mosarfrontend.common.FEAppGen;
+import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
+import jda.modules.mosarfrontend.common.anotation.template_desc.ComponentGenDesc;
+import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDesc;
+import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesDesc;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
+import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
 import jda.modules.sccl.syntax.*;
 import jda.modules.setup.model.SetUpConfig;
 import org.jda.example.coursemanrestful.modules.ModuleMain;
@@ -31,7 +36,6 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         feOutputPath = "src\\main\\resources\\disthome\\angular",
         feServerPort = 4200,  // default: 3000
         feAppClass = FEAngularApp.class,
-        feAppGenClass = AngularAppGenerator.class,
         feThreaded = true,
         bePackage = "org.jda.example.coursemanrestful.modules",
         beOutputPath = "src/main/java",
@@ -39,7 +43,9 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         , beAppClass = BESpringApp.class,
         beServerPort = 8080  // default: 8080
         //CourseManBESpringApp.class
+        , feTemplate = AngularAppTemplate.class
 )
+
 @SystemDesc(
         appName = "Courseman",
         splashScreenLogo = "coursemanapplogo.jpg",

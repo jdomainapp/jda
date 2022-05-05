@@ -1,5 +1,6 @@
 package org.courseman.software.config;
 
+import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
 import org.courseman.modules.ModuleMain;
 import org.courseman.modules.address.ModuleAddress;
 import org.courseman.modules.coursemodule.ModuleCourseModule;
@@ -41,6 +42,7 @@ import jda.modules.setup.model.SetUpConfig;
   feOutputPath = "src/example/java/org/courseman/frontend",
   feServerPort = 5000,  // default: 3000
   feAppClass=FEReactApp.class,
+  feTemplate = ReactNativeAppTemplate.class,
   feThreaded = true,
   bePackage = "org.courseman.modules",
   beOutputPath = "src/example/java", 
@@ -48,7 +50,6 @@ import jda.modules.setup.model.SetUpConfig;
   ,beAppClass = BESpringApp.class,
   beServerPort = 8080  // default: 8080
     //CourseManBESpringApp.class
-, feAppGenClass = FEAppGen.class
 )
 @SystemDesc(
         appName = "Courseman",

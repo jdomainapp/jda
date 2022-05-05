@@ -320,6 +320,7 @@ public class Enrolment implements Comparable, Publisher {
           idCounter = maxIdVal;
       }
       // TODO add support for other attributes here
+      
     }
   }
 

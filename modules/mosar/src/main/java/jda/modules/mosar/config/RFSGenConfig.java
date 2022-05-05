@@ -6,6 +6,7 @@ import java.util.List;
 import jda.modules.mosar.software.backend.BEApp;
 import jda.modules.mosar.software.frontend.FEApp;
 import jda.modules.mosarfrontend.common.FEAppGen;
+import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
 
 
 /**
@@ -34,13 +35,22 @@ public class RFSGenConfig {
   /** front-end project name */
   private String feProjName;
 
+  /** front-end template */
+  private Class<? extends AppTemplateDesc> feTemplate;
+  
+  public void setFeTemplate(Class<? extends  AppTemplateDesc> feTemplate){
+    this.feTemplate = feTemplate;
+  }
+  public Class<? extends  AppTemplateDesc> getFeTemplate(){
+    return this.feTemplate;
+  }
+
   /** front-end's shared resources for project */
   private String feProjResource;
 
   private long feServerPort;
   
   private Class<? extends FEApp> feAppClass;
-  private Class<? extends FEAppGen> feAppGenClass;
   private boolean feThreaded;
   
   private LangPlatform beLangPlatform;
@@ -373,18 +383,6 @@ public class RFSGenConfig {
   public void setFeAppClass(Class<? extends FEApp> feAppClass) {
     this.feAppClass = feAppClass;
   }
-
-  
-  public Class<? extends FEAppGen> getFeAppGenClass() {
-	    return feAppGenClass;
-	  }
-
-	  /**
-	   * @effects set feAppClass = feAppClass
-	   */
-	  public void setFeAppGenClass(Class<? extends FEAppGen> feAppClass) {
-	    this.feAppGenClass = feAppGenClass;
-	  }
 	  
   /**
    * @effects return isFeThreaded
