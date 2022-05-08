@@ -1,30 +1,44 @@
 package jda.modules.mosarfrontend.common.anotation.template_desc;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
 
 @Data
 public class AppTemplate {
-    private String resource;
-    private String templateRootFolder;
-    private CrossTemplatesDesc crossTemplates;
-    private ModuleTemplatesDesc moduleTemplates;
-	public String getTemplateRootFolder() {
-		// TODO Auto-generated method stub
-		return this.templateRootFolder;
-	}
+	private String resource;
+	private String templateRootFolder;
+	private CrossTemplatesDesc crossTemplates;
+	private ModuleTemplatesDesc moduleTemplates;
+
 	public String getResource() {
-		// TODO Auto-generated method stub
-		return this.resource;
+		return resource;
 	}
+
+	public void setResource(String resource) {
+		this.resource = resource;
+	}
+
+	public String getTemplateRootFolder() {
+		return templateRootFolder;
+	}
+
+	public void setTemplateRootFolder(String templateRootFolder) {
+		this.templateRootFolder = templateRootFolder;
+	}
+
 	public CrossTemplatesDesc getCrossTemplates() {
-		// TODO Auto-generated method stub
-		return this.getCrossTemplates();
+		return crossTemplates;
 	}
+
+	public void setCrossTemplates(CrossTemplatesDesc crossTemplates) {
+		this.crossTemplates = crossTemplates;
+	}
+
 	public ModuleTemplatesDesc getModuleTemplates() {
-		// TODO Auto-generated method stub
-		return this.moduleTemplates;
+		return moduleTemplates;
 	}
+
+	public void setModuleTemplates(ModuleTemplatesDesc moduleTemplates) {
+		this.moduleTemplates = moduleTemplates;
+	}
+
 }

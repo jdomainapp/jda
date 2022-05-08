@@ -16,6 +16,7 @@ import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDe
 import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesDesc;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
 import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
+import jda.modules.mosarfrontend.vuejs.VueAppTemplate;
 import jda.modules.sccl.syntax.*;
 import jda.modules.setup.model.SetUpConfig;
 import org.jda.example.coursemanrestful.modules.ModuleMain;
@@ -32,8 +33,8 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         beLangPlatform = LangPlatform.SPRING,
         feProjPath = "/home/ducmle/tmp/restfstool-fe",
         feProjName = "fe-courseman",
-        feProjResource = "src/main/resources/angular",
-        feOutputPath = "src\\main\\resources\\disthome\\angular",
+        feProjResource = "src/main/resources/vuejs",
+        feOutputPath = "src\\main\\resources\\disthome\\fevuejs\\src",
         feServerPort = 4200,  // default: 3000
         feAppClass = FEAngularApp.class,
         feThreaded = true,
@@ -43,7 +44,7 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         , beAppClass = BESpringApp.class,
         beServerPort = 8080  // default: 8080
         //CourseManBESpringApp.class
-        , feTemplate = AngularAppTemplate.class
+        , feTemplate = VueAppTemplate.class
 )
 
 @SystemDesc(
