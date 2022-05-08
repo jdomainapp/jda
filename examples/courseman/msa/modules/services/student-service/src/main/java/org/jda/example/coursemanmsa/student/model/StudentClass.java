@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.address.model;
+package org.jda.example.coursemanmsa.student.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,11 +13,10 @@ import lombok.ToString;
 
 @Getter @Setter @ToString
 @Entity
-@Table(name = "address")
-public class Address {
+@Table(name = "class")
+public class StudentClass {
     @Id
- //   @Column(name = "id", nullable = false)
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     int id;
 
     @Column(name = "name", nullable = false)

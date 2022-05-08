@@ -1,21 +1,21 @@
-package org.jda.example.coursemanmsa.student.events.model;
+package org.jda.example.coursemanmsa.address.events.model;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter @ToString
-public class AddressChangeModel {
+public class ChangeModel {
 	private String type;
 	private String action;
-	int addressId;
+	int id;
 	private String correlationId;
 
-	public AddressChangeModel(String type, String action, int addressId, String correlationId) {
+	public ChangeModel(String type, String action, int addressId, String correlationId) {
 		super();
 		this.type = type;
 		this.action = action;
-		this.addressId = addressId;
+		this.id = addressId;
 		this.correlationId = correlationId;
 	}
 }

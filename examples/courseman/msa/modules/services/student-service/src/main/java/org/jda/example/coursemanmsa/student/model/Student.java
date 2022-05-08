@@ -41,5 +41,8 @@ public class Student extends RepresentationModel<Student> {
 	
 	@Transient
 	private String addressName;
+	
+	@Transient
+	private String studentClassName;
 
 }

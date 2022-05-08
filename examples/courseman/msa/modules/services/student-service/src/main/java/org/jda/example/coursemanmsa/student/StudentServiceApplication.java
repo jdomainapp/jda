@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import org.jda.example.coursemanmsa.student.events.handler.AddressChangeHandler;
-import org.jda.example.coursemanmsa.student.events.model.AddressChangeModel;
+import org.jda.example.coursemanmsa.student.events.handler.ChangeHandler;
+import org.jda.example.coursemanmsa.student.events.model.SinkChangeModel;
 import org.jda.example.coursemanmsa.student.utils.UserContextInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +13,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.client.RestTemplate;
@@ -24,20 +26,14 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 @SpringBootApplication
 @RefreshScope
-@EnableBinding(Sink.class)
+@EnableEurekaClient
+@EnableBinding(Source.class)
 public class StudentServiceApplication {
 	private static final Logger logger = LoggerFactory.getLogger(StudentServiceApplication.class);
 	
 	public static void main(String[] args) {
 		SpringApplication.run(StudentServiceApplication.class, args);
 	}
-	
-	@StreamListener(Sink.INPUT)
-	public void loggerSink(AddressChangeModel addressChange) {
-	logger.debug("Received an {} event for address id {}",
-			addressChange.getAction(), addressChange.getAddressId());
-	}
-	
 	
 	@SuppressWarnings("unchecked")
 	@LoadBalanced

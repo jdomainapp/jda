@@ -1,18 +1,18 @@
 package org.jda.example.coursemanmsa.address.controller;
 
-import java.util.concurrent.TimeoutException;
-
 import org.jda.example.coursemanmsa.address.model.Address;
 import org.jda.example.coursemanmsa.address.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,27 +20,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class AddressController {
     @Autowired
     private AddressService service;
-
-
-    @RequestMapping(value="/{addressId}",method = RequestMethod.GET)
-    public ResponseEntity<Address> getAddress( @PathVariable("addressId") int addressId) throws TimeoutException {
-        return ResponseEntity.ok(service.findById(addressId));
+   
+    @PostMapping()
+    public ResponseEntity<Address> createEntity(@RequestBody Address arg0) {
+    	return ResponseEntity.ok(service.createEntity(arg0));
     }
 
-    @RequestMapping(value="/{addressId}",method = RequestMethod.PUT)
-    public void updateAddress( @PathVariable("addressId") int id, @RequestBody Address address) {
-        service.update(address);
+    @GetMapping()
+    public ResponseEntity<Page<Address>> getEntityListByPage(Pageable arg0) {
+        return ResponseEntity.ok(service.getEntityListByPage(arg0));
+    }
+    
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Address> updateEntity(@PathVariable("id") int arg0, @RequestBody Address arg1) {
+    	return ResponseEntity.ok(service.updateEntity(arg0, arg1));
     }
 
-    @PostMapping
-    public ResponseEntity<Address>  saveAddress(@RequestBody Address address) {
-    	return ResponseEntity.ok(service.create(address));
-    }
-
-    @RequestMapping(value="/{addressId}",method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAddress( @PathVariable("addressId") int id,  @RequestBody Address address) {
-        service.delete(address);
+    @DeleteMapping(value = "/{id}")
+    public void deleteEntityById(@PathVariable("id") int arg0) {
+        service.deleteEntityById(arg0);
     }
 
 }

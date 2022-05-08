@@ -20,6 +20,7 @@ spring:
     enabled: true
     lowerCaseServiceId: true
 
+
 #Enable all Spring Boot Actuator endpoints.
 management:
   endpoints:
