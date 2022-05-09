@@ -17,6 +17,9 @@
 	<modules>
 		<module>student-service</module>
 		<module>address-service</module>
+		<module>class-service</module>
+		<module>course-service</module>
+		<module>academic-service</module>
 	</modules>
 
 	<dependencies>
