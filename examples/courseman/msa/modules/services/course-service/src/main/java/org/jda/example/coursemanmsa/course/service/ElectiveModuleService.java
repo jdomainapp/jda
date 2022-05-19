@@ -17,13 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ElectiveModuleService {
 	
-	public enum ActionEnum{
-		GET,
-		CREATED,
-		UPDATED,
-		DELETED
-	}
-	
     @Autowired
     private ElectiveModuleRepository repository;
 
@@ -38,18 +31,18 @@ public class ElectiveModuleService {
     	return list;
     }
     
-    public CourseModule findById(int id){
+    public CourseModule getEntityById(int id){
     	Optional<Electivemodule> opt = repository.findById(id);
         return (opt.isPresent()) ? opt.get().getCoursemodule() : null;
     }
 
-    public Electivemodule create(Electivemodule obj){
+    public Electivemodule createEntity(Electivemodule obj){
     	obj = repository.save(obj);
     	return obj;
     }
 
 
-    public void delete(int id){
+    public void deleteEntityById(int id){
     	repository.deleteById(id);
     }
 }

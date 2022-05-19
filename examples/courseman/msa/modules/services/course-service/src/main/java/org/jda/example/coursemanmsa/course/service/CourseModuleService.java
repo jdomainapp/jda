@@ -35,6 +35,11 @@ public class CourseModuleService {
   
     
     public CourseModule createEntity(CourseModule arg0) {
+    	if(arg0.getCompulsorymodule()!=null) {
+    		arg0.getCompulsorymodule().setCoursemodule(arg0);
+    	}else if(arg0.getElectivemodule()!=null) {
+    		arg0.getElectivemodule().setCoursemodule(arg0);
+    	}
     	arg0 = repository.save(arg0);
     	simpleSourceBean.publishChange(ActionEnum.CREATED.name(),arg0.getId());
     	return arg0;
@@ -42,6 +47,14 @@ public class CourseModuleService {
 
     public Page getEntityListByPage(Pageable arg0) {
         return repository.findAll(arg0);
+    }
+    
+    public Page getEntityListByTypeAndPage(String arg0, Pageable arg1) {
+    	if(arg0.equals("Electivemodule")) {
+    		return repository.findByCompulsorymodule(null, arg1);
+    	}else {
+    		return repository.findByElectivemodule(null, arg1);
+    	}
     }
 
     public CourseModule getEntityById(int arg0) {
@@ -64,7 +77,7 @@ public class CourseModuleService {
         return (List<CourseModule>) repository.findAll();
     }
     
-    public CoursemoduleView findById(int id){
+    public CoursemoduleView getEntityViewById(int id){
     	Optional<CourseModule> opt = repository.findById(id);
     	CourseModule obj = (opt.isPresent()) ? opt.get() : null;
     	if(null ==obj) {

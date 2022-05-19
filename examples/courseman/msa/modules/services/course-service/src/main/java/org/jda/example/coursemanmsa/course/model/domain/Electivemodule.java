@@ -26,7 +26,8 @@ public class Electivemodule implements Serializable {
 	private String deptname;
 
 	//bi-directional one-to-one association to Coursemodule
-	@OneToOne
+	@OneToOne 
 	@JoinColumn(name="id")
+	@MapsId
 	private CourseModule coursemodule;
 }

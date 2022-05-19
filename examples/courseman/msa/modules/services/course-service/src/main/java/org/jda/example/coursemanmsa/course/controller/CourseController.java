@@ -45,15 +45,13 @@ public class CourseController {
         return service.getEntityListByPage(arg0);
     }
 
-  //TODO: Where is Type field?
-//    @GetMapping()
-//    public Page getEntityListByTypeAndPage(@RequestParam(value = "type", required = false) String arg0, Pageable arg1) { 	
-//    	return super.getEntityListByTypeAndPage(arg0, arg1);
-//    }
-
+    @GetMapping(value = "/type")
+    public Page getEntityListByTypeAndPage(@RequestParam(value = "type", required = false) String arg0, Pageable arg1) { 	
+    	return service.getEntityListByTypeAndPage(arg0, arg1);
+    }
+    
     @PostMapping()
     public ResponseEntity<CourseModule> createEntity(@RequestBody CourseModule arg0) {
-    	//TODO: loi vi lay primary key lam foreign key nen JPA ko tu dong save dc
     	return ResponseEntity.ok(service.createEntity(arg0));
     }
 
@@ -75,7 +73,7 @@ public class CourseController {
     //Return result for academic-service
     @RequestMapping(value="/view/{id}",method = RequestMethod.GET)
     public ResponseEntity<CoursemoduleView> getEntityViewById( @PathVariable("id") int id) throws TimeoutException {
-        return ResponseEntity.ok(service.findById(id));
+        return ResponseEntity.ok(service.getEntityViewById(id));
     }
     
     @RequestMapping(value="/compulsorymodules",method = RequestMethod.GET)
@@ -85,7 +83,7 @@ public class CourseController {
     
     @RequestMapping(value="/compulsorymodule/{id}",method = RequestMethod.GET)
     public ResponseEntity<CourseModule> getCompulsorymodule(@PathVariable("id") int id){
-        return ResponseEntity.ok(compulsoryModuleService.findById(id));
+        return ResponseEntity.ok(compulsoryModuleService.getEntityById(id));
     }
     
     @RequestMapping(value="/electivemodules",method = RequestMethod.GET)
@@ -95,7 +93,7 @@ public class CourseController {
     
     @RequestMapping(value="/electivemodule/{id}",method = RequestMethod.GET)
     public ResponseEntity<CourseModule> getElectivemodule(@PathVariable("id") int id){
-        return ResponseEntity.ok(electiveModuleService.findById(id));
+        return ResponseEntity.ok(electiveModuleService.getEntityById(id));
     }
 
 }

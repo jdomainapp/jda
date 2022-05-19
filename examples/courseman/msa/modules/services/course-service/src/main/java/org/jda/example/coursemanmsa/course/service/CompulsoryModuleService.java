@@ -25,13 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CompulsoryModuleService {
 	
-	public enum ActionEnum{
-		GET,
-		CREATED,
-		UPDATED,
-		DELETED
-	}
-	
     @Autowired
     private CompulsoryModuleRepository repository;
 
@@ -46,18 +39,18 @@ public class CompulsoryModuleService {
     	return list;
     }
     
-    public CourseModule findById(int id){
+    public CourseModule getEntityById(int id){
     	Optional<Compulsorymodule> opt = repository.findById(id);
     	return (opt.isPresent()) ? opt.get().getCoursemodule() : null;
     }
 
-    public Compulsorymodule create(Compulsorymodule obj){
-    	obj = repository.save(obj);
-    	return obj;
+    public Compulsorymodule createEntity(Compulsorymodule arg0){
+    	arg0 = repository.save(arg0);
+    	return arg0;
     }
 
 
-    public void delete(int id){
+    public void deleteEntityById(int id){
     	repository.deleteById(id);
     }
 }

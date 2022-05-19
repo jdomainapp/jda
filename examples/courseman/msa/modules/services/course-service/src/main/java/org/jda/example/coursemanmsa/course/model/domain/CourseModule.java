@@ -31,6 +31,7 @@ public class CourseModule {
 	private int semester;
 
 	//bi-directional one-to-one association to Compulsorymodule
+	@PrimaryKeyJoinColumn
 	@OneToOne(mappedBy="coursemodule",cascade = CascadeType.ALL)
 	private Compulsorymodule compulsorymodule;
 

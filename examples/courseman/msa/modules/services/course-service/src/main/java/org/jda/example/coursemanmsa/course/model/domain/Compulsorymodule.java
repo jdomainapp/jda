@@ -25,6 +25,7 @@ public class Compulsorymodule implements Serializable {
 
 	//bi-directional one-to-one association to Coursemodule
 	@OneToOne
-	@JoinColumn(name="id")
+	@JoinColumn(name="id") 
+	@MapsId
 	private CourseModule coursemodule;
 }
