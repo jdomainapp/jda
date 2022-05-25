@@ -18,6 +18,7 @@ to demonstrate the increasing complexity of the domain requirements.
 
 ### Use case 1: No extensions
 
+<<<<<<< HEAD
 #### Domain modelling requirements
 
 The domain modelling requirements of this use case are given below: 
@@ -29,6 +30,15 @@ The domain modelling requirements of this use case are given below:
 | Class Registration | StudentClass 
 | Academic Administration | Enrolment 
 | Course Administration | CourseModule, CompulsoryModule, ElectiveModule  
+=======
+| Submodels | Modules | |
+| :--: | :--: |  :--: |
+| Address Administration | Address | 
+| Student Registration | Student | uses Address 
+| Class Registration | StudentClass | uses Student
+| Academic Administration | Enrolment | uses Student, Course Module
+| Course Administration | CourseModule, CompulsoryModule, ElectiveModule  | 
+>>>>>>> b0beddd9fc02090df8663c9eac874171e6a35bf5
 
 #### Technical requirements
 

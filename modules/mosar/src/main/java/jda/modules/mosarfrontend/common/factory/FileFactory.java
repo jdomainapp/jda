@@ -1,5 +1,6 @@
 package jda.modules.mosarfrontend.common.factory;
 
+import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosar.utils.RFSGenTk;
 import jda.modules.mosarfrontend.common.anotation.*;
 import jda.modules.mosarfrontend.common.anotation.FileTemplate;
@@ -79,6 +80,12 @@ public class FileFactory {
     private RegexUtils regexUtils = new RegexUtils();
     private final ParamsFactory paramsFactory = ParamsFactory.getInstance();
 
+    public FileFactory(Class<?> fileTemplateDesc, String feOutputPath, String templateFolder) {
+    	this.fileTemplateDesc = fileTemplateDesc;
+    	this.outPutFolder = feOutputPath;
+    	this.templateRootFolder = templateFolder;
+    }
+    
     private void initDefaultFileInfo() {
         StringBuilder buffer = new StringBuilder("");
         String templateFile = this.fileTemplate.getTemplateFile();

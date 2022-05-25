@@ -7,6 +7,9 @@ import jda.modules.mccl.conceptmodel.Configuration.Language;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
 import jda.modules.mosar.config.*;
 import jda.modules.mosarbackend.springboot.BESpringApp;
+import jda.modules.mosarfrontend.angular.AngularAppTemplate;
+import jda.modules.mosarfrontend.angular.FEAngularApp;
+import jda.modules.mosarfrontend.common.FEAppGen;
 import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.ComponentGenDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDesc;
@@ -17,6 +20,7 @@ import jda.modules.mosarfrontend.reactnative.templates.MainGen;
 import jda.modules.mosarfrontend.reactnative.templates.src.data_types.DataTypeGen;
 import jda.modules.mosarfrontend.reactnative.templates.src.modules.FormInputsGen;
 import jda.modules.mosarfrontend.reactnative.templates.src.modules.ModulesGen;
+import jda.modules.mosarfrontend.vuejs.VueAppTemplate;
 import jda.modules.sccl.syntax.*;
 import jda.modules.setup.model.SetUpConfig;
 import org.jda.example.coursemanrestful.modules.ModuleMain;
@@ -46,6 +50,7 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         , beAppClass = BESpringApp.class,
         beServerPort = 8080  // default: 8080
         //CourseManBESpringApp.class
+        , feTemplate = VueAppTemplate.class
 )
 
 @SystemDesc(

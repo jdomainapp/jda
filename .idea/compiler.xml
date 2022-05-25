@@ -13,23 +13,27 @@
         <module name="jda-eg-coursemanmosar" />
         <module name="jda-main" />
         <module name="jda-eg-courseman-msaspringbasics-student" />
-        <module name="jda-dcsl" />
+        <module name="address-service" />
         <module name="jda-eg-courseman-msaspringbasics-discoveryserver" />
+        <module name="jda-swtool" />
+        <module name="jda-eg-coursemanbasics" />
+        <module name="eurekaserver" />
+        <module name="gatewayserver" />
+        <module name="jda-mdsa" />
+        <module name="jda-eg-courseman-msaspringbasics-enrolment" />
+        <module name="student-service" />
+        <module name="jda-eg-courseman-msaspringbasics-sclass" />
+        <module name="jda-dcsl" />
         <module name="jda-dompattern" />
         <module name="jda-eg-courseman-msaspringbasics-course" />
         <module name="jda-eg-coursemansw" />
-        <module name="jda-eg-coursemanmsa" />
-        <module name="jda-swtool" />
-        <module name="jda-eg-coursemanbasics" />
+        <module name="configserver" />
         <module name="jda-sccltool" />
-        <module name="jda-mdsa" />
         <module name="jda-dcsltool" />
-        <module name="jda-eg-courseman-msaspringbasics-enrolment" />
         <module name="jda-mccl" />
         <module name="jda-common" />
         <module name="jda-mccltool" />
         <module name="jda-sccl" />
-        <module name="jda-eg-courseman-msaspringbasics-sclass" />
         <module name="jda-eg-courseman-msaspringbasics-configserver" />
       </profile>
       <profile name="Annotation profile for JDA Root" enabled="true">
@@ -46,6 +50,10 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="address-service" options="-Xpkginfo:always" />
+      <module name="configserver" options="-Xpkginfo:always" />
+      <module name="eurekaserver" options="-Xpkginfo:always" />
+      <module name="gatewayserver" options="-Xpkginfo:always" />
       <module name="jda-common" options="-Xpkginfo:always" />
       <module name="jda-dcsl" options="-Xpkginfo:always" />
       <module name="jda-dcsltool" options="-Xpkginfo:always" />
@@ -69,6 +77,7 @@
       <module name="jda-sccl" options="-Xpkginfo:always" />
       <module name="jda-sccltool" options="-Xpkginfo:always" />
       <module name="jda-swtool" options="-Xpkginfo:always" />
+      <module name="student-service" options="-Xpkginfo:always" />
     </option>
   </component>
 </project>

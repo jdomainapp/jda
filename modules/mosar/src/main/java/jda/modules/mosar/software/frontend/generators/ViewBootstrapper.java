@@ -77,9 +77,10 @@ public final class ViewBootstrapper {
                 FileUtils.separatorsToSystem(cfg.getFeProjResource())).toString();
         File constantsTempFile = ToolkitIO.getPath(feProjResource, "common", "templates", "Constants.js").toFile();
         File constantsFile = ToolkitIO.getPath(feProjResource, "common", "Constants.js").toFile();
-        String constantsJs = ToolkitIO.readTextFileContent(constantsTempFile)
-                .replace("{{ beServerPort }}", beServerPort + "");
-        ToolkitIO.writeTextFile(constantsFile, constantsJs, true);
+        
+//        String constantsJs = ToolkitIO.readTextFileContent(constantsTempFile)
+//                .replace("{{ beServerPort }}", beServerPort + "");
+//        ToolkitIO.writeTextFile(constantsFile, constantsJs, true);
         return this;
     }
 

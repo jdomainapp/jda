@@ -8,6 +8,16 @@
     <file url="file://$PROJECT_DIR$/examples/courseman/mdsa/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/examples/courseman/mosar/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/examples/courseman/mosar/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/examples/courseman/msa/modules/configserver/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/examples/courseman/msa/modules/configserver/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/examples/courseman/msa/modules/eurekaserver/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/examples/courseman/msa/modules/eurekaserver/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/examples/courseman/msa/modules/gatewayserver/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/examples/courseman/msa/modules/gatewayserver/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/examples/courseman/msa/modules/services/address-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/examples/courseman/msa/modules/services/address-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/examples/courseman/msa/modules/services/student-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/examples/courseman/msa/modules/services/student-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/examples/courseman/msa/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/examples/courseman/msaspringbasics/modules/configserver/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/examples/courseman/msaspringbasics/modules/configserver/src/main/resources" charset="UTF-8" />

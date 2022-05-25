@@ -9,10 +9,12 @@ import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosar.frontend.MCCUtils;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -32,6 +34,7 @@ public class ParamsFactory {
             }
         }
     }
+
 
     public static ParamsFactory getInstance() {
         if (instance == null) {
@@ -64,6 +67,7 @@ public class ParamsFactory {
             Annotation[] annotations = p.getAnnotations();
             if (annotations.length > 0) {
                 Method getParamMethod = methods.get(annotations[0]);
+
                 if (getParamMethod != null) {
                     try {
                         args.add(getParamMethod.invoke(this));
@@ -72,6 +76,7 @@ public class ParamsFactory {
                     }
                     break;
                 }
+
             }
             ;
         }
@@ -80,6 +85,7 @@ public class ParamsFactory {
 
     @RequiredParam.MCC
     private MCC getMCC() {
+
         return this.currentMCC;
     }
 
@@ -99,9 +105,12 @@ public class ParamsFactory {
     }
 
     @RequiredParam.ModuleFields
+
     private FieldDef[] getModuleFields() {
         FieldDeclaration[] fieldDeclarations = this.currentMCC.getDomainClass().getFields().toArray(FieldDeclaration[]::new);
         Collection<FieldDeclaration> fields = this.currentMCC.getViewFields();
         return Arrays.stream(fieldDeclarations).map(ParserToolkit::getFieldDefFull).filter(e -> e.getAnnotation(DAttr.class) != null).toArray(FieldDef[]::new);
     }
+
+
 }
