@@ -1,80 +1,107 @@
 package jda.modules.mosar.config;
 
+import jda.modules.mosar.software.backend.BEApp;
+import jda.modules.mosar.software.frontend.FEApp;
+import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import jda.modules.mosar.software.backend.BEApp;
-import jda.modules.mosar.software.frontend.FEApp;
-import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
-import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
-
 /**
- * @overview 
- *  RESTful full-stack generator configuration
- *  
  * @author Duc Minh Le (ducmle)
- *
  * @version 5.4.1
+ * @overview RESTful full-stack generator configuration
  */
-@Retention(value=java.lang.annotation.RetentionPolicy.RUNTIME)
-@Target(value={java.lang.annotation.ElementType.TYPE})
+@Retention(value = java.lang.annotation.RetentionPolicy.RUNTIME)
+@Target(value = {java.lang.annotation.ElementType.TYPE})
 @Documented
 public @interface RFSGenDesc {
-  /**
-   * execution spec
-   */
-  ExecSpec execSpec() default ExecSpec.Full;
+    /**
+     * execution spec
+     */
+    ExecSpec execSpec() default ExecSpec.Full;
 
 
-  StackSpec stackSpec();
-  
-  /** backend language platform */
-  LangPlatform beLangPlatform();
-  
-  /** backend top-level package that contains the domain model */
-  String bePackage();
-  
-  /** backend target top-level package (for all generated code) */
-  String beTargetPackage();
-  
-  /** backend output path (where {@link #beTargetPackage()} lives)*/
-  String beOutputPath();
-  
-  /** backend main application that is executed by the web server.
-   * For now, it is Spring-specific. This may be changed in the future to suit the {@link #beLangPlatform()} */
-  Class<? extends BEApp> beAppClass(); // default Null.class;
+    StackSpec stackSpec();
 
-  /** backend server port */
-  long beServerPort() default 8080;
+    /**
+     * backend language platform
+     */
+    LangPlatform beLangPlatform();
 
-  boolean beThreaded() default false;
-  
-  /** code generation mode (source code or byte code) */
-  GenerationMode genMode();
+    /**
+     * backend top-level package that contains the domain model
+     */
+    String bePackage();
 
-  /** frontend output path */
-  String feOutputPath();
+    /**
+     * front-end platform
+     */
+    FEPlatform fePlatform() default FEPlatform.REACT;
 
-  /** front-end project path */
-  String feProjPath();
+    /**
+     * backend target top-level package (for all generated code)
+     */
+    String beTargetPackage();
 
-  /** front-end project name */
-  String feProjName();
+    /**
+     * backend output path (where {@link #beTargetPackage()} lives)
+     */
+    String beOutputPath();
 
-  /** front-end's shared resources for project */
-  String feProjResource();
+    /**
+     * backend main application that is executed by the web server.
+     * For now, it is Spring-specific. This may be changed in the future to suit the {@link #beLangPlatform()}
+     */
+    Class<? extends BEApp> beAppClass(); // default Null.class;
 
-  /**
-   * config template , added by linh.tq
-   */
-  Class<?> feTemplate() default ReactNativeAppTemplate.class;
+    /**
+     * backend server port
+     */
+    long beServerPort() default 8080;
 
-  /** frontend server port */
-  long feServerPort() default 3000;
+    boolean beThreaded() default false;
 
-  /** frontend main application that is executed by the web server. */
-  Class<? extends FEApp> feAppClass();
-  
-  boolean feThreaded() default false;
+    /**
+     * code generation mode (source code or byte code)
+     */
+    GenerationMode genMode();
+
+    /**
+     * frontend output path
+     */
+    String feOutputPath();
+
+    /**
+     * front-end project path
+     */
+    String feProjPath();
+
+    /**
+     * front-end project name
+     */
+    String feProjName();
+
+    /**
+     * front-end's shared resources for project
+     */
+    String feProjResource();
+
+    /**
+     * config template , added by linh.tq
+     */
+    Class<?> feTemplate() default ReactNativeAppTemplate.class;
+
+    /**
+     * frontend server port
+     */
+    long feServerPort() default 3000;
+
+    /**
+     * frontend main application that is executed by the web server.
+     */
+    Class<? extends FEApp> feAppClass();
+
+    boolean feThreaded() default false;
 }

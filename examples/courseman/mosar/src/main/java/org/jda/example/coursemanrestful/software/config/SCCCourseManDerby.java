@@ -13,6 +13,10 @@ import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDe
 import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesDesc;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
 import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
+import jda.modules.mosarfrontend.reactnative.templates.MainGen;
+import jda.modules.mosarfrontend.reactnative.templates.src.data_types.DataTypeGen;
+import jda.modules.mosarfrontend.reactnative.templates.src.modules.FormInputsGen;
+import jda.modules.mosarfrontend.reactnative.templates.src.modules.ModulesGen;
 import jda.modules.sccl.syntax.*;
 import jda.modules.setup.model.SetUpConfig;
 import org.jda.example.coursemanrestful.modules.ModuleMain;
@@ -29,8 +33,9 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         beLangPlatform = LangPlatform.SPRING,
         feProjPath = "/home/ducmle/tmp/restfstool-fe",
         feProjName = "fe-courseman",
-        feTemplate = ReactNativeAppTemplate.class,
+//        feTemplate = ReactNativeAppTemplate.class,
         feProjResource = "src/main/resources/react",
+        fePlatform= FEPlatform.REACT_NATIVE,
         feOutputPath = "D:\\UET_THS\\JDA\\work\\CourseManReactNative",
         feServerPort = 5000,  // default: 3000
         feAppClass = FEReactApp.class,
@@ -71,5 +76,45 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         sysModules = {},
         setUpDesc = @SysSetUpDesc(setUpConfigType = SetUpConfig.class),
         securityDesc = @SecurityDesc(isEnabled = false))
+@AppTemplateDesc(
+        templateRootFolder = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\templates",
+        resource = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\resources.zip",
+        crossTemplates = @CrossTemplatesDesc(
+                Router = @ComponentGenDesc(
+                        templates = {"Main.tsx"},
+                        genClasses = {MainGen.class}
+                ),
+                BaseService = @ComponentGenDesc(
+                        templates = {},
+                        genClasses = {}
+                ),
+                Ext = @ComponentGenDesc(
+                        templates = {"Modules.tsx"},
+                        genClasses = {ModulesGen.class, FormInputsGen.class}
+                )
+        ),
+        moduleTemplates = @ModuleTemplatesDesc(
+                List = @ComponentGenDesc(
+                        templates = {},
+                        genClasses = {}
+                ),
+                Form = @ComponentGenDesc(
+                        templates = {},
+                        genClasses = {}
+                ),
+                Main = @ComponentGenDesc(
+                        templates = {},
+                        genClasses = {}
+                ),
+                Entity = @ComponentGenDesc(
+                        templates = {},
+                        genClasses = {DataTypeGen.class}
+                ),
+                Ext = @ComponentGenDesc(
+                        templates = {},
+                        genClasses = {}
+                )
+        )
+)
 public class SCCCourseManDerby {
 }
