@@ -95,6 +95,9 @@ mvn spring-boot:run
 or Run by class `org.jda.example.coursemanmsa.gatewayserver.ApiGatewayServerApplication`
 
 ## 3. Run business services
+### Setup
+- Each service create a postgresql database with user/password: admin/password
+
 ### Run Student Service
 #### Create database
 
