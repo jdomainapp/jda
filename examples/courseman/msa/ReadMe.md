@@ -98,49 +98,54 @@ or Run by class `org.jda.example.coursemanmsa.gatewayserver.ApiGatewayServerAppl
 ### Run Student Service
 #### Create database
 
-#### Run by commandline
+#### Run 
+By commandline
 ```
 cd ../courseman/msa/modules/service1/student-service
 mvn spring-boot:run
 ```
-or Run by class `org.jda.example.coursemanmsa.student.StudentServiceApplication`
+By class `org.jda.example.coursemanmsa.student.StudentServiceApplication`
 
 ### Run Address Service
 #### Create database
 
-#### Run by commandline
+#### Run 
+By commandline
 ```
 cd ../courseman/msa/modules/service1/address-service
 mvn spring-boot:run
 ```
-or Run by class `org.jda.example.coursemanmsa.address.AddressServiceApplication`
+By class `org.jda.example.coursemanmsa.address.AddressServiceApplication`
 
 ### Run Class Service
 #### Create database
 
-#### Run by commandline
+#### Run 
+By commandline
 ```
 cd ../courseman/msa/modules/service1/class-service
 mvn spring-boot:run
 ```
-or Run by class `org.jda.example.coursemanmsa.class.ClassServiceApplication`
+By class `org.jda.example.coursemanmsa.class.ClassServiceApplication`
 
 ### Run Course Service
 #### Create database
 
-#### Run by commandline
+#### Run 
+By commandline
 ```
 cd ../courseman/msa/modules/service1/course-service
 mvn spring-boot:run
 ```
-or Run by class `org.jda.example.coursemanmsa.course.CourseServiceApplication`
+By class `org.jda.example.coursemanmsa.course.CourseServiceApplication`
 
 ### Run Academic Service
 #### Create database
 
-#### Run by commandline
+#### Run 
+By commandline
 ```
 cd ../courseman/msa/modules/service1/academic-service
 mvn spring-boot:run
 ```
-or Run by class `org.jda.example.coursemanmsa.academic.AcademicServiceApplication`
+By class `org.jda.example.coursemanmsa.academic.AcademicServiceApplication`
