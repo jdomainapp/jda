@@ -47,4 +47,24 @@ Each service autonomously operates on a submodel of the domain model.
 6. Additional layers/APIs can and should be added on top of Kafka to help more effectively manage the data exchange between services
 
 # Run the example
+===============================
+## 1. Start Apache Kafka and register topics
+```
+# Start the ZooKeeper service
+bin/zookeeper-server-start.sh config/zookeeper.properties
+```
 
+```
+# Start the Kafka broker service
+bin/kafka-server-start.sh config/server.properties
+```
+
+```
+# create topic: "streams-courseman-coursemodules"
+bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic courseChangeTopic --bootstrap-server localhost:9092
+bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic studentChangeTopic --bootstrap-server localhost:9092
+bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic addressChangeTopic --bootstrap-server localhost:9092
+bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic classChangeTopic --bootstrap-server localhost:9092
+```
+
+## 2.Run common services in order
