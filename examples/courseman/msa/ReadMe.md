@@ -81,10 +81,10 @@ or Run by class `org.jda.example.coursemanmsa.configserver.ConfigurationServerAp
 ### Run Discovery Service
 Run by commandline
 ```
-cd ../courseman/msa/modules/gatewayserver
+cd ../courseman/msa/modules/eurekaserver
 mvn spring-boot:run
 ```
-or Run by class `org.jda.example.coursemanmsa.gatewayserver.EurekaServerApplication`
+or Run by class `org.jda.example.coursemanmsa.eurekaserver.EurekaServerApplication`
 
 ### Run Gateway Service
 Run by commandline
@@ -95,3 +95,13 @@ mvn spring-boot:run
 or Run by class `org.jda.example.coursemanmsa.gatewayserver.ApiGatewayServerApplication`
 
 ## 2.Run business services
+### Run Student Service
+####Create database
+
+####Run by commandline
+```
+cd ../courseman/msa/modules/service1/student-service
+mvn spring-boot:run
+```
+or Run by class `org.jda.example.coursemanmsa.student.StudentServiceApplication`
+
