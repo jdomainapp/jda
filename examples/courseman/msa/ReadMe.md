@@ -68,7 +68,7 @@ bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic addre
 bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic classChangeTopic --bootstrap-server localhost:9092
 ```
 
-## 2.Run common services in order
+## 2. Run common services in order
 
 ### Run Config service
 Run by commandline
@@ -94,7 +94,7 @@ mvn spring-boot:run
 ```
 or Run by class `org.jda.example.coursemanmsa.gatewayserver.ApiGatewayServerApplication`
 
-## 2.Run business services
+## 3. Run business services
 ### Run Student Service
 #### Create database
 
@@ -105,3 +105,42 @@ mvn spring-boot:run
 ```
 or Run by class `org.jda.example.coursemanmsa.student.StudentServiceApplication`
 
+### Run Address Service
+#### Create database
+
+#### Run by commandline
+```
+cd ../courseman/msa/modules/service1/address-service
+mvn spring-boot:run
+```
+or Run by class `org.jda.example.coursemanmsa.address.AddressServiceApplication`
+
+### Run Class Service
+#### Create database
+
+#### Run by commandline
+```
+cd ../courseman/msa/modules/service1/class-service
+mvn spring-boot:run
+```
+or Run by class `org.jda.example.coursemanmsa.class.ClassServiceApplication`
+
+### Run Course Service
+#### Create database
+
+#### Run by commandline
+```
+cd ../courseman/msa/modules/service1/course-service
+mvn spring-boot:run
+```
+or Run by class `org.jda.example.coursemanmsa.course.CourseServiceApplication`
+
+### Run Academic Service
+#### Create database
+
+#### Run by commandline
+```
+cd ../courseman/msa/modules/service1/academic-service
+mvn spring-boot:run
+```
+or Run by class `org.jda.example.coursemanmsa.academic.AcademicServiceApplication`
