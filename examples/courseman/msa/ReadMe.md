@@ -47,8 +47,9 @@ Each service autonomously operates on a submodel of the domain model.
 6. Additional layers/APIs can and should be added on top of Kafka to help more effectively manage the data exchange between services
 
 # Run the example
-===============================
+
 ## 1. Start Apache Kafka and register topics
+
 ```
 # Start the ZooKeeper service
 bin/zookeeper-server-start.sh config/zookeeper.properties
@@ -68,3 +69,29 @@ bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic class
 ```
 
 ## 2.Run common services in order
+
+### Run Config service
+Run by commandline
+```
+cd ../courseman/msa/modules/configserver
+mvn spring-boot:run
+```
+or Run by class `org.jda.example.coursemanmsa.configserver.ConfigurationServerApplication`
+
+### Run Discovery Service
+Run by commandline
+```
+cd ../courseman/msa/modules/gatewayserver
+mvn spring-boot:run
+```
+or Run by class `org.jda.example.coursemanmsa.gatewayserver.EurekaServerApplication`
+
+### Run Gateway Service
+Run by commandline
+```
+cd ../courseman/msa/modules/gatewayserver
+mvn spring-boot:run
+```
+or Run by class `org.jda.example.coursemanmsa.gatewayserver.ApiGatewayServerApplication`
+
+## 2.Run business services
