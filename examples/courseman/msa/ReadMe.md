@@ -45,3 +45,6 @@ Each service autonomously operates on a submodel of the domain model.
 4. Services communicate via **Kafka**'s event streaming (see `jda-eg-coursemankafka` for how to achieve this)
 5. Standard **logging** must be used to log each service's action
 6. Additional layers/APIs can and should be added on top of Kafka to help more effectively manage the data exchange between services
+
+# Run the example
+
