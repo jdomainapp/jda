@@ -17,7 +17,7 @@
 		<module>configserver</module>
 		<module>eurekaserver</module>
 		<module>gatewayserver</module>
-		<module>usecase1</module>
+		<module>service1</module>
 	</modules>
 
 	<dependencyManagement>
