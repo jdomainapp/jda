@@ -96,9 +96,9 @@ or Run by class `org.jda.example.coursemanmsa.gatewayserver.ApiGatewayServerAppl
 
 ## 2.Run business services
 ### Run Student Service
-####Create database
+#### Create database
 
-####Run by commandline
+#### Run by commandline
 ```
 cd ../courseman/msa/modules/service1/student-service
 mvn spring-boot:run
