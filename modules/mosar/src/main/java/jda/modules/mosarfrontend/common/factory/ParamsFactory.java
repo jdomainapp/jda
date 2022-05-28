@@ -108,6 +108,7 @@ public class ParamsFactory {
 
     private FieldDef[] getModuleFields() {
         FieldDeclaration[] fieldDeclarations = this.currentMCC.getDomainClass().getFields().toArray(FieldDeclaration[]::new);
+        Collection<FieldDeclaration> fields = this.currentMCC.getViewFields();
         return Arrays.stream(fieldDeclarations).map(ParserToolkit::getFieldDefFull).filter(e -> e.getAnnotation(DAttr.class) != null).toArray(FieldDef[]::new);
     }
 
