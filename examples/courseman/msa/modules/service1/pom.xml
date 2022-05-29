@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>jda.example</groupId>
-		<artifactId>jda-eg-courseman-coursemanmsa-usecase1</artifactId>
+		<artifactId>jda-eg-courseman-coursemanmsa-modules</artifactId>
 		<version>1.0</version>
 	</parent>
 	<artifactId>jda-eg-courseman-coursemanmsa-service1</artifactId>

@@ -60,6 +60,12 @@
 			<version>1.2.3</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>jda.modules</groupId>
+			<artifactId>jda-mosar</artifactId>
+			<version>${jda.version}</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
