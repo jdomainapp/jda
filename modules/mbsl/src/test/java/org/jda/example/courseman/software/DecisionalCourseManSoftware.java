@@ -24,7 +24,8 @@ public class DecisionalCourseManSoftware {
   public static void main(String[] args) {
     try {
       // create a default software needed to run the activity
-      Software sw = SoftwareFactory.createSoftwareWithMemoryBasedConfig(DecisionalSystemClass.class);
+      Software sw = SoftwareFactory.createSoftwareWithMemoryBasedConfig(
+          DecisionalSystemClass.class);
       
       // run the software to show the main GUI
       System.out.printf("Running %s...%n", sw);

@@ -2,7 +2,7 @@
   {
     "pattern": "dddcore.Entities", 
     "patternFileExt": ".jdp",
-    "Entity": "jda.modules.patterndom.test.dom.tgc.*",
+    "entities": ["jda.modules.patterndom.test.dom.tgc.*"],
     "id": "id"
   },
   {
