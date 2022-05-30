@@ -18,6 +18,7 @@
 		<module>eurekaserver</module>
 		<module>gatewayserver</module>
 		<module>service1</module>
+		<module>service2</module>
 	</modules>
 
 	<dependencyManagement>
