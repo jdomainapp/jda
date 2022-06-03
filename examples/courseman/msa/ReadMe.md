@@ -119,7 +119,33 @@ or Run by class `org.jda.example.coursemanmsa.gatewayserver.ApiGatewayServerAppl
 
 ### Run Student Service
 #### Create database
+```
+CREATE TABLE IF NOT EXISTS student.student
+(
+    id character varying(6) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(30) COLLATE pg_catalog."default",
+    gender_name character varying(10) COLLATE pg_catalog."default",
+    dob date,
+    address_id integer,
+    email character varying(30) COLLATE pg_catalog."default",
+    studentclass_id integer,
+    CONSTRAINT student_pkey PRIMARY KEY (id)
+)
 
+CREATE TABLE IF NOT EXISTS student.class
+(
+    id integer NOT NULL,
+    name character varying(20) COLLATE pg_catalog."default",
+    CONSTRAINT class_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE IF NOT EXISTS student.address
+(
+    id integer NOT NULL,
+    name character varying(20) COLLATE pg_catalog."default",
+    CONSTRAINT address_pkey PRIMARY KEY (id)
+)
+```
 #### Run 
 By commandline
 ```
@@ -130,7 +156,14 @@ By class `org.jda.example.coursemanmsa.student.StudentServiceApplication`
 
 ### Run Address Service
 #### Create database
-
+```
+CREATE TABLE IF NOT EXISTS address.address
+(
+    id integer NOT NULL DEFAULT nextval('address.address_id_seq'::regclass),
+    name character varying(20) COLLATE pg_catalog."default",
+    CONSTRAINT address_pkey PRIMARY KEY (id)
+)
+```
 #### Run 
 By commandline
 ```
@@ -141,7 +174,14 @@ By class `org.jda.example.coursemanmsa.address.AddressServiceApplication`
 
 ### Run Class Service
 #### Create database
-
+```
+CREATE TABLE IF NOT EXISTS class.studentclass
+(
+    id integer NOT NULL DEFAULT nextval('class.studentclass_id_seq'::regclass),
+    name character varying(20) COLLATE pg_catalog."default",
+    CONSTRAINT studentclass_pkey PRIMARY KEY (id)
+)
+```
 #### Run 
 By commandline
 ```
@@ -152,7 +192,38 @@ By class `org.jda.example.coursemanmsa.class.ClassServiceApplication`
 
 ### Run Course Service
 #### Create database
+```
+CREATE TABLE IF NOT EXISTS course.coursemodule
+(
+    id integer NOT NULL DEFAULT nextval('course.coursemodule_id_seq'::regclass),
+    code character varying(12) COLLATE pg_catalog."default",
+    name character varying(30) COLLATE pg_catalog."default",
+    semester integer,
+    credits integer,
+    CONSTRAINT coursemodule_pkey PRIMARY KEY (id)
+)
 
+CREATE TABLE IF NOT EXISTS course.compulsorymodule
+(
+    id integer NOT NULL,
+    CONSTRAINT course_compulsorymodulepk PRIMARY KEY (id),
+    CONSTRAINT course_compulsorymodulefk1 FOREIGN KEY (id)
+        REFERENCES course.coursemodule (id) MATCH SIMPLE
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE
+)
+
+CREATE TABLE IF NOT EXISTS course.electivemodule
+(
+    id integer NOT NULL,
+    deptname character varying(50) COLLATE pg_catalog."default",
+    CONSTRAINT course_electivemodulepk PRIMARY KEY (id),
+    CONSTRAINT course_electivemodulefk1 FOREIGN KEY (id)
+        REFERENCES course.coursemodule (id) MATCH SIMPLE
+        ON UPDATE RESTRICT
+        ON DELETE CASCADE
+)
+```
 #### Run 
 By commandline
 ```
@@ -161,13 +232,84 @@ mvn spring-boot:run
 ```
 By class `org.jda.example.coursemanmsa.course.CourseServiceApplication`
 
+
+## Usecase1
 ### Run Academic Service
 #### Create database
+```
+CREATE TABLE IF NOT EXISTS enrolment.coursemodule
+(
+    id integer NOT NULL,
+    code character varying(12) COLLATE pg_catalog."default",
+    name character varying(30) COLLATE pg_catalog."default",
+    semester integer,
+    credits integer,
+    coursemoduletype character varying(30) COLLATE pg_catalog."default",
+    deptname character varying(30) COLLATE pg_catalog."default",
+    CONSTRAINT coursemodule_pkey PRIMARY KEY (id)
+)
 
+CREATE TABLE IF NOT EXISTS enrolment.enrolment
+(
+    id integer NOT NULL DEFAULT nextval('enrolment.enrolment_id_seq'::regclass),
+    student_id character varying(6) COLLATE pg_catalog."default",
+    coursemodule_id integer,
+    internalmark double precision,
+    exammark double precision,
+    finalgrade character(1) COLLATE pg_catalog."default",
+    CONSTRAINT enrolment_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE IF NOT EXISTS enrolment.student
+(
+    id character varying(6) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(30) COLLATE pg_catalog."default",
+    gender_name character varying(10) COLLATE pg_catalog."default",
+    dob date,
+    address_id integer,
+    email character varying(30) COLLATE pg_catalog."default",
+    studentclass_id integer,
+    addressname character varying(30) COLLATE pg_catalog."default",
+    studentclassname character varying(30) COLLATE pg_catalog."default",
+    CONSTRAINT student_pkey PRIMARY KEY (id)
+)
+```
 #### Run 
 By commandline
 ```
 cd ../courseman/msa/modules/service1/academic-service
+mvn spring-boot:run
+```
+By class `org.jda.example.coursemanmsa.academic.AcademicServiceApplication`
+
+## Usecase2
+### Run Enrolment Service
+#### Create database
+Use `enrolment` database of usecase1
+#### Run 
+By commandline
+```
+cd ../courseman/msa/modules/service2/enrolment-service
+mvn spring-boot:run
+```
+By class `org.jda.example.coursemanmsa.academic.EnrolmentServiceApplication`
+
+### Run Academic Service
+#### Create database
+```
+CREATE TABLE IF NOT EXISTS academic.academic
+(
+    id integer NOT NULL DEFAULT nextval('academic.academic_id_seq'::regclass),
+    enrolment_id integer,
+    internalmark double precision,
+    exammark double precision,
+    finalgrade character(1) COLLATE pg_catalog."default"
+)
+```
+#### Run 
+By commandline
+```
+cd ../courseman/msa/modules/service2/academic-service
 mvn spring-boot:run
 ```
 By class `org.jda.example.coursemanmsa.academic.AcademicServiceApplication`
