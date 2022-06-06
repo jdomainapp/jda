@@ -70,7 +70,7 @@ public class AppFactory {
 
     public void genAndSave() {
         if (this.rfsGenConfig.getFeTemplate() != null) {
-            ParamsFactory.getInstance().setRFSGenConfig(rfsGenConfig);
+            String[] appDomains = ParamsFactory.getInstance().setRFSGenConfig(rfsGenConfig);
             AppTemplate appTemplate = this.rfsGenConfig.getFeTemplate();
 
             String templateFolder = appTemplate.getTemplateRootFolder();
@@ -110,8 +110,8 @@ public class AppFactory {
 //                    System.out.println(m.getName());
                     for (Class<?> moduleTemplateDesc : componentGenDesc.genClasses()) {
                         try {
-                            for (Class<?> module : rfsGenConfig.getMCCFuncs()) {
-                                ParamsFactory.getInstance().setCurrentModule(module);
+                            for (String domain : appDomains) {
+                                ParamsFactory.getInstance().setCurrentModule(domain);
                                 (new FileFactory(moduleTemplateDesc, rfsGenConfig.getFeOutputPath(), templateFolder))
                                         .genAndSave();
                             }

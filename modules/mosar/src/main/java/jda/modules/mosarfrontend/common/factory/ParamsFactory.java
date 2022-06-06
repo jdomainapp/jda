@@ -1,29 +1,28 @@
 package jda.modules.mosarfrontend.common.factory;
 
-import com.github.javaparser.ast.body.FieldDeclaration;
-import jda.modules.dcsl.parser.ParserToolkit;
-import jda.modules.dcsl.parser.statespace.metadef.FieldDef;
-import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosar.config.RFSGenConfig;
-import jda.modules.mosar.frontend.MCCUtils;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
-
+import jda.modules.mosarfrontend.common.utils.DField;
+import jda.modules.mosarfrontend.common.utils.NewMCC;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class ParamsFactory {
     private static ParamsFactory instance;
     private final HashMap<Annotation, Method> methods = new HashMap<>();
     private MCC currentMCC;
+    private NewMCC currentNewMCC;
     private Map<String, MCC> modules;
+    private Map<String, NewMCC> domains;
 
     private ParamsFactory() {
         //init methods map
@@ -44,20 +43,21 @@ public class ParamsFactory {
     }
 
     //TODO for @linh.tq : check domainClass meaning and update in readMCC method
-    public void setCurrentModule(Class<?> module) {
-        this.currentMCC = modules.get(module.getSimpleName());
+    public void setCurrentModule(String module) {
+//        this.currentMCC = modules.get(module.getSimpleName());
+        this.currentNewMCC = domains.get(module);
     }
 
     private RFSGenConfig rfsGenConfig;
 
-    public void setRFSGenConfig(RFSGenConfig rfsGenConfig) {
+    public String[] setRFSGenConfig(RFSGenConfig rfsGenConfig) {
         this.rfsGenConfig = rfsGenConfig;
         Class<?>[] models = rfsGenConfig.getDomainModel();
         Class<?>[] mccClasses = rfsGenConfig.getMCCFuncs();
-        this.modules = IntStream.range(0, mccClasses.length)
-                .mapToObj(i -> MCCUtils.readMCC(models[i],
-                        mccClasses[i]))
-                .collect(Collectors.toMap(MCC::getName, mcc -> mcc));
+        this.domains = Arrays.stream(mccClasses).map(NewMCC::readMCC).collect((Collectors.toMap(k -> k.getModuleDescriptor().name(), k -> k)));
+//        this.modules = IntStream.range(0, mccClasses.length).mapToObj(i -> MCCUtils.readMCC(models[i], mccClasses[i])).collect(Collectors.toMap(MCC::getName, mcc -> mcc));
+        System.out.println("");
+        return this.domains.keySet().toArray(new String[0]);
     }
 
     public Object[] getParamsForMethod(Method method) {
@@ -84,9 +84,8 @@ public class ParamsFactory {
     }
 
     @RequiredParam.MCC
-    private MCC getMCC() {
-
-        return this.currentMCC;
+    private NewMCC getMCC() {
+        return this.currentNewMCC;
     }
 
     private String[] modulesName; // Save for later trigger getModulesName()
@@ -94,22 +93,20 @@ public class ParamsFactory {
     @RequiredParam.ModulesName
     private String[] getModulesName() {
         if (modulesName == null) {
-            modulesName = modules.values().stream().map(m-> m.getDomainClass().getName()).toArray(String[]::new);
+            modulesName = domains.values().stream().map(m -> m.getModuleDescriptor().modelDesc().model().getSimpleName()).toArray(String[]::new);
         }
         return modulesName;
     }
 
     @RequiredParam.ModuleName
     private String getModuleName() {
-        return this.currentMCC.getDomainClass().getName();
+        return this.currentNewMCC.getModuleDescriptor().modelDesc().model().getSimpleName();
     }
 
     @RequiredParam.ModuleFields
 
-    private FieldDef[] getModuleFields() {
-        FieldDeclaration[] fieldDeclarations = this.currentMCC.getDomainClass().getFields().toArray(FieldDeclaration[]::new);
-        Collection<FieldDeclaration> fields = this.currentMCC.getViewFields();
-        return Arrays.stream(fieldDeclarations).map(ParserToolkit::getFieldDefFull).filter(e -> e.getAnnotation(DAttr.class) != null).toArray(FieldDef[]::new);
+    private DField[] getModuleFields() {
+        return this.currentNewMCC.getDFields();
     }
 
 

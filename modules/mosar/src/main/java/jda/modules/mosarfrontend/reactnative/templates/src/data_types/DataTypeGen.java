@@ -1,13 +1,10 @@
 package jda.modules.mosarfrontend.reactnative.templates.src.data_types;
 
-import jda.modules.dcsl.parser.statespace.metadef.DAssocDef;
-import jda.modules.dcsl.parser.statespace.metadef.DAttrDef;
-import jda.modules.dcsl.parser.statespace.metadef.FieldDef;
 import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.mosarfrontend.common.anotation.*;
-import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.factory.Slot;
+import jda.modules.mosarfrontend.common.utils.DField;
 
 import java.util.ArrayList;
 
@@ -20,28 +17,39 @@ public class DataTypeGen {
         return name;
     }
 
+    @LoopReplacementDesc(slots = {"importModuleName"}, id = "import")
+    public Slot[][] importInterface(@RequiredParam.ModuleFields DField[] fields) {
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        for (DField field : fields) {
+            if (field.getDAssoc() != null) {
+                ArrayList<Slot> list = new ArrayList<>();
+                list.add(new Slot("importModuleName", field.getDAssoc().associate().type().getSimpleName()));
+                result.add(list);
+            }
+        }
+        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+    }
+
     @SlotReplacementDesc(slot = "moduleName")
     public String moduleName(@RequiredParam.ModuleName String name) {
         return name;
     }
 
     @LoopReplacementDesc(slots = {"field", "fieldType"}, id = "1")
-    public Slot[][] fields(@RequiredParam.ModuleFields FieldDef[] fields) {
+    public Slot[][] fields(@RequiredParam.ModuleFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        for (FieldDef field : fields) {
-            DAttrDef dAttrDef = (DAttrDef) field.getAnnotation(DAttr.class);
-            if(dAttrDef == null) continue;
+        for (DField field : fields) {
             ArrayList<Slot> list = new ArrayList<>();
-            list.add(new Slot("field", dAttrDef.name()));
-            DAssocDef dAssocDef= (DAssocDef) field.getAnnotation(DAssoc.class);
-            list.add(new Slot("fieldType", typeConverter(dAttrDef.type(),dAssocDef)));
+            list.add(new Slot("field", field.getDAttr().name() + (field.getDAttr().optional() ? "?" : "")));
+            list.add(new Slot("fieldType", typeConverter(field.getDAttr().type(), field.getDAssoc())));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    private String typeConverter(DAttr.Type type, DAssoc ass){
-        switch (type){
+
+    private String typeConverter(DAttr.Type type, DAssoc ass) {
+        switch (type) {
             case String:
             case StringMasked:
             case Char:
@@ -61,10 +69,15 @@ public class DataTypeGen {
             case Boolean:
                 return "boolean";
             case Domain:
-                if(ass != null && ass.associate() != null && ass.associate().type()!= null){
+                if (ass != null && ass.associate() != null && ass.associate().type() != null) {
                     return ass.associate().type().getSimpleName();
-                } else return "any";
+                } else {
+                    return "any";
+                }
             case Collection:
+                if (ass != null && ass.associate() != null && ass.associate().type() != null) {
+                    return ass.associate().type().getSimpleName() + "[]";
+                } else return "any[]";
             case Array:
                 return "any[]";
             case File:

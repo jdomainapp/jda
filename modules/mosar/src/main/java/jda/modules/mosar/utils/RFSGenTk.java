@@ -66,7 +66,7 @@ public class RFSGenTk {
     // read all domain classes (including the subtypes)
     addDescendantTypes(cfg.getBePackage(), modelAsCol);
     
-    Class[] model = modelAsCol.toArray(new Class[0]);
+    Class[] model = modelAsCol.toArray(Class[]::new);
     cfg.setDomainModel(model);
     
     Class[] mccs = SwTk.parseMCCs(scc);
