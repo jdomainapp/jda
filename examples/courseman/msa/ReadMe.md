@@ -130,14 +130,14 @@ CREATE TABLE IF NOT EXISTS student.student
     email character varying(30) COLLATE pg_catalog."default",
     studentclass_id integer,
     CONSTRAINT student_pkey PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE IF NOT EXISTS student.class
 (
     id integer NOT NULL,
     name character varying(20) COLLATE pg_catalog."default",
     CONSTRAINT class_pkey PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE IF NOT EXISTS student.address
 (
@@ -159,7 +159,7 @@ By class `org.jda.example.coursemanmsa.student.StudentServiceApplication`
 ```
 CREATE TABLE IF NOT EXISTS address.address
 (
-    id integer NOT NULL DEFAULT nextval('address.address_id_seq'::regclass),
+    id SERIAL,
     name character varying(20) COLLATE pg_catalog."default",
     CONSTRAINT address_pkey PRIMARY KEY (id)
 )
@@ -177,7 +177,7 @@ By class `org.jda.example.coursemanmsa.address.AddressServiceApplication`
 ```
 CREATE TABLE IF NOT EXISTS class.studentclass
 (
-    id integer NOT NULL DEFAULT nextval('class.studentclass_id_seq'::regclass),
+    id SERIAL,
     name character varying(20) COLLATE pg_catalog."default",
     CONSTRAINT studentclass_pkey PRIMARY KEY (id)
 )
@@ -195,13 +195,13 @@ By class `org.jda.example.coursemanmsa.class.ClassServiceApplication`
 ```
 CREATE TABLE IF NOT EXISTS course.coursemodule
 (
-    id integer NOT NULL DEFAULT nextval('course.coursemodule_id_seq'::regclass),
+    id SERIAL,
     code character varying(12) COLLATE pg_catalog."default",
     name character varying(30) COLLATE pg_catalog."default",
     semester integer,
     credits integer,
     CONSTRAINT coursemodule_pkey PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE IF NOT EXISTS course.compulsorymodule
 (
@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS course.compulsorymodule
         REFERENCES course.coursemodule (id) MATCH SIMPLE
         ON UPDATE RESTRICT
         ON DELETE CASCADE
-)
+);
 
 CREATE TABLE IF NOT EXISTS course.electivemodule
 (
@@ -247,18 +247,18 @@ CREATE TABLE IF NOT EXISTS enrolment.coursemodule
     coursemoduletype character varying(30) COLLATE pg_catalog."default",
     deptname character varying(30) COLLATE pg_catalog."default",
     CONSTRAINT coursemodule_pkey PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE IF NOT EXISTS enrolment.enrolment
 (
-    id integer NOT NULL DEFAULT nextval('enrolment.enrolment_id_seq'::regclass),
+    id SERIAL,
     student_id character varying(6) COLLATE pg_catalog."default",
     coursemodule_id integer,
     internalmark double precision,
     exammark double precision,
     finalgrade character(1) COLLATE pg_catalog."default",
     CONSTRAINT enrolment_pkey PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE IF NOT EXISTS enrolment.student
 (
@@ -299,7 +299,7 @@ By class `org.jda.example.coursemanmsa.academic.EnrolmentServiceApplication`
 ```
 CREATE TABLE IF NOT EXISTS academic.academic
 (
-    id integer NOT NULL DEFAULT nextval('academic.academic_id_seq'::regclass),
+    id SERIAL,
     enrolment_id integer,
     internalmark double precision,
     exammark double precision,
