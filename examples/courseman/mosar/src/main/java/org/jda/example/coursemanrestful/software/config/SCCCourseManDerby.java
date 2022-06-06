@@ -37,10 +37,9 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         beLangPlatform = LangPlatform.SPRING,
         feProjPath = "/home/ducmle/tmp/restfstool-fe",
         feProjName = "fe-courseman",
-//        feTemplate = ReactNativeAppTemplate.class,
         feProjResource = "src/main/resources/react",
         fePlatform= FEPlatform.REACT_NATIVE,
-        feOutputPath = "D:\\UET_THS\\JDA\\work\\CourseManReactNative",
+        feOutputPath = "D:\\JDA\\CourseManReactNative",
         feServerPort = 5000,  // default: 3000
         feAppClass = FEReactApp.class,
         feThreaded = true,
@@ -49,8 +48,6 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         beTargetPackage = "org.jda.example.coursemanrestful.backend"
         , beAppClass = BESpringApp.class,
         beServerPort = 8080  // default: 8080
-        //CourseManBESpringApp.class
-        , feTemplate = VueAppTemplate.class
 )
 
 @SystemDesc(
@@ -82,8 +79,8 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         setUpDesc = @SysSetUpDesc(setUpConfigType = SetUpConfig.class),
         securityDesc = @SecurityDesc(isEnabled = false))
 @AppTemplateDesc(
-        templateRootFolder = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\templates",
-        resource = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\resources.zip",
+        templateRootFolder = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\templates",
+        resource = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\resources.zip",
         crossTemplates = @CrossTemplatesDesc(
                 Router = @ComponentGenDesc(
                         templates = {"Main.tsx"},

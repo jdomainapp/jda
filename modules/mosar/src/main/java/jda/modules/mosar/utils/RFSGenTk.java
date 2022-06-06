@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplate;
+import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
 import org.reflections.Reflections;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +54,12 @@ public class RFSGenTk {
     RFSGenConfig cfg = new RFSGenConfig();
     
     parseAnnotation2Config(rfsGenDesc, cfg);
+
+    AppTemplateDesc feTemplateDesc = (AppTemplateDesc) scc.getAnnotation(AppTemplateDesc.class);
+    //TODO If feTemplate not defined, load default template by reading fePlatform info in @RFSGenDesc
+    AppTemplate feTemplate = new AppTemplate();
+    parseAnnotation2Config(feTemplateDesc,feTemplate);
+    cfg.setFeTemplate(feTemplate);
     
     // the domain model
     Collection<Class> modelAsCol = SwTk.parseDomainModel(scc);

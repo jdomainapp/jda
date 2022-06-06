@@ -89,11 +89,6 @@ public @interface RFSGenDesc {
     String feProjResource();
 
     /**
-     * config template , added by linh.tq
-     */
-    Class<?> feTemplate() default ReactNativeAppTemplate.class;
-
-    /**
      * frontend server port
      */
     long feServerPort() default 3000;

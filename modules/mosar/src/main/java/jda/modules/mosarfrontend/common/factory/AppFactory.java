@@ -69,12 +69,9 @@ public class AppFactory {
     }
 
     public void genAndSave() {
-        if (this.rfsGenConfig.getFeTemplate().isAnnotationPresent(AppTemplateDesc.class)) {
+        if (this.rfsGenConfig.getFeTemplate() != null) {
             ParamsFactory.getInstance().setRFSGenConfig(rfsGenConfig);
-
-            AppTemplateDesc ano = this.rfsGenConfig.getFeTemplate().getAnnotation(AppTemplateDesc.class);
-            AppTemplate appTemplate = new AppTemplate();
-            RFSGenTk.parseAnnotation2Config(ano, appTemplate);
+            AppTemplate appTemplate = this.rfsGenConfig.getFeTemplate();
 
             String templateFolder = appTemplate.getTemplateRootFolder();
             // TODO: Clean output folder before gen/

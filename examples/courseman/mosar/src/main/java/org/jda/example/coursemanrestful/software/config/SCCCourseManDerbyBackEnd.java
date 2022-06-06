@@ -50,7 +50,6 @@ import jda.modules.setup.model.SetUpConfig;
       beTargetPackage = "org.jda.example.coursemanrestful.backend"
       ,beAppClass = BESpringApp.class,
       beServerPort = 8080  // default: 8080
-      , feTemplate = AngularAppTemplate.class      
 )
 @SystemDesc(
         appName = "Courseman",
