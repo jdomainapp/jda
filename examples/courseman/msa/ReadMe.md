@@ -241,9 +241,9 @@ cd ../courseman/msa/modules/gatewayserver
 mvn spring-boot:run
 ```
 or Run by class `org.jda.example.coursemanmsa.gatewayserver.ApiGatewayServerApplication`
-- Output
+<details> 
+<summary>- Output</summary>
 ```
-.scroll-100 {
  .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
 ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
@@ -295,7 +295,7 @@ WARNING: All illegal access operations will be denied in a future release
 2022-06-07 05:06:45.454  INFO 187066 --- [           main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
 2022-06-07 05:06:45.456  INFO 187066 --- [           main] o.j.e.c.g.ApiGatewayServerApplication    : Started ApiGatewayServerApplication in 17.272 seconds (JVM running for 17.529)
 ```
-}
+</details> 
 ## 3. Run business services
 ### Setup
 - Each service create a postgresql database `domainds` with user/password: admin/password
