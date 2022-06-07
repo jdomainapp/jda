@@ -90,6 +90,7 @@ bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic class
 ## 2. Run common services in order
 
 ### Run Config service
+- Description:
 - Run by commandline
 ```
 cd ../courseman/msa/modules/configserver
@@ -124,6 +125,7 @@ or Run by class `org.jda.example.coursemanmsa.configserver.ConfigurationServerAp
 ```
 
 ### Run Discovery Service
+- Description:
 - Run by commandline
 ```
 cd ../courseman/msa/modules/eurekaserver
@@ -204,6 +206,7 @@ WARNING: All illegal access operations will be denied in a future release
 05:00:57.311 [main] INFO  o.j.e.c.e.EurekaServerApplication - Started EurekaServerApplication in 11.719 seconds (JVM running for 12.247)
 ```
 ### Run Gateway Service
+- Description:
 - Run by commandline
 ```
 cd ../courseman/msa/modules/gatewayserver
@@ -267,10 +270,11 @@ WARNING: All illegal access operations will be denied in a future release
 ### Setup
 - Each service create a postgresql database `domainds` with user/password: admin/password
 
-### Run Student Service
-#### Create database
-- Create schema `student`
-- Create tables
+### Student Service
+- Description:
+- Create database
+  + Create schema `student`
+  + Create tables
 ```
 CREATE TABLE IF NOT EXISTS student.student
 (
@@ -298,13 +302,17 @@ CREATE TABLE IF NOT EXISTS student.address
     CONSTRAINT address_pkey PRIMARY KEY (id)
 )
 ```
-#### Run 
+- Run 
 By commandline
 ```
 cd ../courseman/msa/modules/service1/student-service
 mvn spring-boot:run
 ```
 By class `org.jda.example.coursemanmsa.student.StudentServiceApplication`
+- Output
+```
+```
+- Services
 
 ### Run Address Service
 #### Create database
