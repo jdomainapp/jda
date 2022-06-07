@@ -9,6 +9,8 @@ public class AppTemplate {
     private CrossTemplatesDesc crossTemplates;
     private ModuleTemplatesDesc moduleTemplates;
 
+    private ModuleFieldTemplateDesc moduleFieldTemplates;
+
     public AppTemplate() {
     }
 
@@ -42,5 +44,14 @@ public class AppTemplate {
 
     public void setModuleTemplates(ModuleTemplatesDesc moduleTemplates) {
         this.moduleTemplates = moduleTemplates;
+    }
+
+
+    public ModuleFieldTemplateDesc getModuleFieldTemplates() {
+        return moduleFieldTemplates;
+    }
+
+    public void setModuleFieldTemplates(ModuleFieldTemplateDesc moduleFieldTemplates) {
+        this.moduleFieldTemplates = moduleFieldTemplates;
     }
 }

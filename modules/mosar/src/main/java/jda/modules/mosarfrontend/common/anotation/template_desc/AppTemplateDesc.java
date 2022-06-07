@@ -17,4 +17,5 @@ public @interface AppTemplateDesc {
 
     CrossTemplatesDesc crossTemplates();
     ModuleTemplatesDesc moduleTemplates();
+    ModuleFieldTemplateDesc moduleFieldTemplates() default @ModuleFieldTemplateDesc;
 }

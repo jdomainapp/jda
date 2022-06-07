@@ -17,24 +17,28 @@ public class NewMCC {
 
     public static NewMCC readMCC(Class<?> cls) {
         System.out.println(cls);
-        NewMCC mccUtils = new NewMCC();
-        mccUtils.setModuleDescriptor((ModuleDescriptor) cls.getAnnotation(ModuleDescriptor.class));
-        Class<?> domainCls =  mccUtils.getModuleDescriptor().modelDesc().model();
-        if(domainCls.isAnnotationPresent(DClass.class)){
-            mccUtils.dClass = domainCls.getAnnotation(DClass.class);
+        NewMCC newMCC = new NewMCC();
+        newMCC.setModuleDescriptor(cls.getAnnotation(ModuleDescriptor.class));
+        Class<?> domainCls = newMCC.getModuleDescriptor().modelDesc().model();
+        if (domainCls.isAnnotationPresent(DClass.class)) {
+            newMCC.dClass = domainCls.getAnnotation(DClass.class);
             ArrayList<DField> fields = new ArrayList<>();
             Arrays.stream(domainCls.getDeclaredFields()).forEach(field -> {
                 DField dField = new DField();
-                if ( field.isAnnotationPresent(DAttr.class)){
+                if (field.isAnnotationPresent(DAttr.class)) {
                     dField.setDAttr(field.getAnnotation(DAttr.class));
-                    if(field.isAnnotationPresent(DAssoc.class)){
+                    if (field.isAnnotationPresent(DAssoc.class)) {
                         dField.setDAssoc(field.getAnnotation(DAssoc.class));
+                    } else if (dField.getDAttr().type() == DAttr.Type.Domain && field.getType().isEnum()) {
+                        Enum[] values = Arrays.stream(field.getType().getEnumConstants()).toArray(Enum[]::new);
+                        dField.setEnumName(field.getType().getSimpleName());
+                        dField.setEnumValues(values);
                     }
                     fields.add(dField);
                 }
             });
-            mccUtils.setDFields(fields.toArray(DField[]::new));
+            newMCC.setDFields(fields.toArray(DField[]::new));
         }
-        return mccUtils;
+        return newMCC;
     }
 }

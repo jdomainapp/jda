@@ -1,7 +1,6 @@
 package jda.modules.mosarfrontend.reactnative.templates.src.data_types;
 
 import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.mosarfrontend.common.anotation.*;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
@@ -25,6 +24,10 @@ public class DataTypeGen {
                 ArrayList<Slot> list = new ArrayList<>();
                 list.add(new Slot("importModuleName", field.getDAssoc().associate().type().getSimpleName()));
                 result.add(list);
+            } else if (field.getEnumName() != null) {
+                ArrayList<Slot> list = new ArrayList<>();
+                list.add(new Slot("importModuleName", field.getEnumName()));
+                result.add(list);
             }
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
@@ -41,15 +44,16 @@ public class DataTypeGen {
         for (DField field : fields) {
             ArrayList<Slot> list = new ArrayList<>();
             list.add(new Slot("field", field.getDAttr().name() + (field.getDAttr().optional() ? "?" : "")));
-            list.add(new Slot("fieldType", typeConverter(field.getDAttr().type(), field.getDAssoc())));
+            list.add(new Slot("fieldType", typeConverter(field)));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
 
-    private String typeConverter(DAttr.Type type, DAssoc ass) {
-        switch (type) {
+    private String typeConverter(DField field) {
+        DAssoc ass = field.getDAssoc();
+        switch (field.getDAttr().type()) {
             case String:
             case StringMasked:
             case Char:
@@ -71,6 +75,8 @@ public class DataTypeGen {
             case Domain:
                 if (ass != null && ass.associate() != null && ass.associate().type() != null) {
                     return ass.associate().type().getSimpleName();
+                } else if (field.getEnumName() != null) {
+                    return field.getEnumName();
                 } else {
                     return "any";
                 }

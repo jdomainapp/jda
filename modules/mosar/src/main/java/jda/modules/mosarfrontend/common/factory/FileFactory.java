@@ -1,10 +1,7 @@
 package jda.modules.mosarfrontend.common.factory;
 
-import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosar.utils.RFSGenTk;
 import jda.modules.mosarfrontend.common.anotation.*;
-import jda.modules.mosarfrontend.common.anotation.FileTemplate;
-import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
 import lombok.Data;
 import lombok.NonNull;
 
@@ -68,7 +65,8 @@ public class FileFactory {
     private String outPutFolder;
     @NonNull
     private String templateRootFolder;
-    private FileTemplate fileTemplate;
+    //    private FileTemplate fileTemplate;
+    private FileTemplateDesc fileTemplate;
     private Class<?> moduleClass;
     private Object handler;
     //Output file info:
@@ -81,14 +79,14 @@ public class FileFactory {
     private final ParamsFactory paramsFactory = ParamsFactory.getInstance();
 
     public FileFactory(Class<?> fileTemplateDesc, String feOutputPath, String templateFolder) {
-    	this.fileTemplateDesc = fileTemplateDesc;
-    	this.outPutFolder = feOutputPath;
-    	this.templateRootFolder = templateFolder;
+        this.fileTemplateDesc = fileTemplateDesc;
+        this.outPutFolder = feOutputPath;
+        this.templateRootFolder = templateFolder;
     }
-    
+
     private void initDefaultFileInfo() {
         StringBuilder buffer = new StringBuilder("");
-        String templateFile = this.fileTemplate.getTemplateFile();
+        String templateFile = this.fileTemplate.templateFile();
         for (int i = templateFile.length() - 1; i >= 0; i--) {
             buffer.insert(0, templateFile.charAt(i));
             if (this.fileExt == null && templateFile.charAt(i) == '.') {
@@ -106,22 +104,17 @@ public class FileFactory {
     }
 
     private void initFileTemplate() throws Exception {
-        if (!fileTemplateDesc.isAnnotationPresent(jda.modules.mosarfrontend.common.anotation.FileTemplateDesc.class)) {
-            throw new Exception("The class is not TemplateHandler (without @TemplateHandler annotation)");
-        } else {
-            FileTemplateDesc ano = fileTemplateDesc.getAnnotation(FileTemplateDesc.class);
-            this.handler = this.fileTemplateDesc.getConstructor().newInstance();
-            this.fileTemplate = new FileTemplate();
-            RFSGenTk.parseAnnotation2Config(ano, this.fileTemplate);
-            // default output file info
-            initDefaultFileInfo();
-            // get template file content
-            String templateFilePath = templateRootFolder + this.fileTemplate.getTemplateFile().replace("/", "\\");
-            try {
-                this.fileContent = Files.readString(Paths.get(templateFilePath));
-            } catch (IOException e) {
-                throw new Exception("Template file not found");
-            }
+
+//        this.fileTemplate = new FileTemplate();
+//        RFSGenTk.parseAnnotation2Config(ano, this.fileTemplate);
+        // default output file info
+        initDefaultFileInfo();
+        // get template file content
+        String templateFilePath = templateRootFolder + this.fileTemplate.templateFile().replace("/", "\\");
+        try {
+            this.fileContent = Files.readString(Paths.get(templateFilePath));
+        } catch (IOException e) {
+            throw new Exception("Template file not found");
         }
     }
 
@@ -246,10 +239,24 @@ public class FileFactory {
         }
     }
 
+    private boolean checkSkip(Method method) {
+        return Boolean.TRUE.equals(MethodUtils.execute(this.handler, method, Boolean.class));
+    }
+
     public void genAndSave() throws Exception {
-        initFileTemplate();
-        updateFileContent();
-        saveFile();
+        this.handler = this.fileTemplateDesc.getConstructor().newInstance();
+        if (!fileTemplateDesc.isAnnotationPresent(jda.modules.mosarfrontend.common.anotation.FileTemplateDesc.class)) {
+            throw new Exception("The class is not TemplateHandler (without @TemplateHandler annotation)");
+        } else {
+            this.fileTemplate = fileTemplateDesc.getAnnotation(FileTemplateDesc.class);
+            Method[] skipDecision = Arrays.stream(fileTemplateDesc.getDeclaredMethods()).filter(m -> m.isAnnotationPresent(SkipGenDecision.class)).toArray(Method[]::new);
+            if (skipDecision.length == 0 || !checkSkip(skipDecision[0])) {
+
+                initFileTemplate();
+                updateFileContent();
+                saveFile();
+            }
+        }
     }
 }
 

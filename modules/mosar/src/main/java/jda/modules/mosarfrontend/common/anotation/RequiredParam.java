@@ -32,4 +32,9 @@ public @interface RequiredParam {
     @Target({ElementType.PARAMETER, ElementType.METHOD})
     @interface ModuleName {
     }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.PARAMETER, ElementType.METHOD})
+    @interface ModuleField {
+    }
 }

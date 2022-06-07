@@ -21,9 +21,9 @@ public class ParamsFactory {
     private final HashMap<Annotation, Method> methods = new HashMap<>();
     private MCC currentMCC;
     private NewMCC currentNewMCC;
+    private DField currentField;
     private Map<String, MCC> modules;
     private Map<String, NewMCC> domains;
-
     private ParamsFactory() {
         //init methods map
         for (Method declaredMethod : this.getClass().getDeclaredMethods()) {
@@ -33,8 +33,6 @@ public class ParamsFactory {
             }
         }
     }
-
-
     public static ParamsFactory getInstance() {
         if (instance == null) {
             instance = new ParamsFactory();
@@ -42,10 +40,14 @@ public class ParamsFactory {
         return instance;
     }
 
-    //TODO for @linh.tq : check domainClass meaning and update in readMCC method
     public void setCurrentModule(String module) {
 //        this.currentMCC = modules.get(module.getSimpleName());
         this.currentNewMCC = domains.get(module);
+    }
+
+    public void setCurrentModuleField(DField field) {
+//        this.currentMCC = modules.get(module.getSimpleName());
+        this.currentField = field;
     }
 
     private RFSGenConfig rfsGenConfig;
@@ -57,7 +59,7 @@ public class ParamsFactory {
         this.domains = Arrays.stream(mccClasses).map(NewMCC::readMCC).collect((Collectors.toMap(k -> k.getModuleDescriptor().name(), k -> k)));
 //        this.modules = IntStream.range(0, mccClasses.length).mapToObj(i -> MCCUtils.readMCC(models[i], mccClasses[i])).collect(Collectors.toMap(MCC::getName, mcc -> mcc));
         System.out.println("");
-        return this.domains.keySet().toArray(new String[0]);
+        return this.domains.keySet().toArray(String[]::new);
     }
 
     public Object[] getParamsForMethod(Method method) {
@@ -84,14 +86,14 @@ public class ParamsFactory {
     }
 
     @RequiredParam.MCC
-    private NewMCC getMCC() {
+    public NewMCC getMCC() {
         return this.currentNewMCC;
     }
 
-    private String[] modulesName; // Save for later trigger getModulesName()
+    public String[] modulesName; // Save for later trigger getModulesName()
 
     @RequiredParam.ModulesName
-    private String[] getModulesName() {
+    public String[] getModulesName() {
         if (modulesName == null) {
             modulesName = domains.values().stream().map(m -> m.getModuleDescriptor().modelDesc().model().getSimpleName()).toArray(String[]::new);
         }
@@ -99,15 +101,18 @@ public class ParamsFactory {
     }
 
     @RequiredParam.ModuleName
-    private String getModuleName() {
+    public String getModuleName() {
         return this.currentNewMCC.getModuleDescriptor().modelDesc().model().getSimpleName();
     }
 
     @RequiredParam.ModuleFields
-
-    private DField[] getModuleFields() {
+    public DField[] getModuleFields() {
         return this.currentNewMCC.getDFields();
     }
 
+    @RequiredParam.ModuleField
+    public DField getCurrentField(){
+        return this.currentField;
+    }
 
 }
