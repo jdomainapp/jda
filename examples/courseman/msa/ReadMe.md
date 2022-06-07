@@ -27,7 +27,7 @@ The domain modelling requirements of this use case are given below:
 | Address Administration | Address | 
 | Student Registration | Student | uses Address 
 | Class Registration | StudentClass | uses Student
-| Academic Administration | Enrolment | uses Student, Course Module
+| Enrolment Administration | Enrolment | uses Student, Course Module
 | Course Administration | CourseModule, CompulsoryModule, ElectiveModule  | 
 
 #### Technical requirements
@@ -86,8 +86,36 @@ bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic stude
 bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic addressChangeTopic --bootstrap-server localhost:9092
 bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic classChangeTopic --bootstrap-server localhost:9092
 ```
-
-## 2. Run common services in order
+## 2. Build projects
+```
+cd ../courseman/msa/
+mvn clean install -DskipTests
+```
+- Output:
+```
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] Example: CourseMan MSA (basics) 1.0 ................ SUCCESS [  0.116 s]
+[INFO] Example: CourseMan MSA basics (Modules) 1.0 ........ SUCCESS [  0.006 s]
+[INFO] Configuration Server 0.0.1-SNAPSHOT ................ SUCCESS [  1.613 s]
+[INFO] Eureka Server 0.0.1-SNAPSHOT ....................... SUCCESS [  0.562 s]
+[INFO] API Gateway server 0.0.1-SNAPSHOT .................. SUCCESS [  0.494 s]
+[INFO] Example: CourseMan MSA basics (Modules) 1.0 ........ SUCCESS [  0.004 s]
+[INFO] address-service 0.0.1-SNAPSHOT ..................... SUCCESS [  5.157 s]
+[INFO] class-service 0.0.1-SNAPSHOT ....................... SUCCESS [  1.209 s]
+[INFO] course-service 0.0.1-SNAPSHOT ...................... SUCCESS [  0.996 s]
+[INFO] student-service 0.0.1-SNAPSHOT ..................... SUCCESS [  1.192 s]
+[INFO] Example: CourseMan MSA basics (Business Services) 1.0 SUCCESS [  0.007 s]
+[INFO] enrolment-service1 0.0.1-SNAPSHOT .................. SUCCESS [  7.284 s]
+[INFO] Example: CourseMan MSA basics (Business Services) 1.0 SUCCESS [  0.016 s]
+[INFO] enrolment-service2 0.0.1-SNAPSHOT .................. SUCCESS [ 15.795 s]
+[INFO] academic-service2 0.0.1-SNAPSHOT ................... SUCCESS [  1.295 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+```
+## 3. Run common services in order
 
 ### Run Config service
 - Description:
@@ -215,6 +243,7 @@ mvn spring-boot:run
 or Run by class `org.jda.example.coursemanmsa.gatewayserver.ApiGatewayServerApplication`
 - Output
 ```
+.scroll-100{
  .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
 ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
@@ -266,6 +295,7 @@ WARNING: All illegal access operations will be denied in a future release
 2022-06-07 05:06:45.454  INFO 187066 --- [           main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
 2022-06-07 05:06:45.456  INFO 187066 --- [           main] o.j.e.c.g.ApiGatewayServerApplication    : Started ApiGatewayServerApplication in 17.272 seconds (JVM running for 17.529)
 ```
+}
 ## 3. Run business services
 ### Setup
 - Each service create a postgresql database `domainds` with user/password: admin/password
@@ -305,17 +335,653 @@ CREATE TABLE IF NOT EXISTS student.address
 - Run 
 By commandline
 ```
-cd ../courseman/msa/modules/service1/student-service
+cd ../courseman/msa/modules/services/student-service
 mvn spring-boot:run
 ```
 By class `org.jda.example.coursemanmsa.student.StudentServiceApplication`
 - Output
 ```
-```
-- Services
+.scroll-200{
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.2.6.RELEASE)
 
-### Run Address Service
-#### Create database
+15:27:04.559 [main] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Fetching config from server at : http://localhost:8071
+15:27:05.912 [main] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Located environment: name=student-service, profiles=[dev], label=null, version=2cd5b0c3f54de5db631958a8c947d99d5a9fbc49, state=null
+15:27:05.913 [main] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-configClient'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/haworker25/microservice-configs.git/student-service-dev.properties'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/haworker25/microservice-configs.git/student-service.properties'}]
+15:27:05.949 [main] INFO  o.j.e.c.s.StudentServiceApplication - The following profiles are active: dev
+15:27:06.612 [main] INFO  i.g.r.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+15:27:06.613 [main] INFO  i.g.r.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Resilience4j Reactor module is not on the classpath.
+15:27:06.635 [main] INFO  i.g.r.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+15:27:06.635 [main] INFO  i.g.r.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Resilience4j Reactor module is not on the classpath.
+15:27:06.658 [main] INFO  i.g.r.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+15:27:06.658 [main] INFO  i.g.r.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Resilience4j Reactor module is not on the classpath.
+15:27:06.671 [main] INFO  i.g.r.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+15:27:06.671 [main] INFO  i.g.r.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Resilience4j Reactor module is not on the classpath.
+15:27:06.682 [main] INFO  i.g.r.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+15:27:06.682 [main] INFO  i.g.r.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Resilience4j Reactor module is not on the classpath.
+15:27:06.693 [main] INFO  i.g.r.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+15:27:06.694 [main] INFO  i.g.r.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Resilience4j Reactor module is not on the classpath.
+15:27:06.905 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+15:27:07.029 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 118ms. Found 3 JPA repository interfaces.
+15:27:07.174 [main] WARN  o.s.boot.actuate.endpoint.EndpointId - Endpoint ID 'service-registry' contains invalid characters, please migrate to a valid format.
+15:27:07.406 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=668c88e7-f27d-3996-af98-b49d6a2198bd
+15:27:07.546 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+15:27:07.551 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+15:27:07.556 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+15:27:07.822 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+15:27:07.827 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+15:27:07.871 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+15:27:08.259 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+15:27:08.267 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+15:27:08.268 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+15:27:08.268 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.33]
+15:27:08.363 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+15:27:08.535 [main] WARN  c.n.c.sources.URLConfigurationSource - No URLs will be polled as dynamic configuration sources.
+15:27:09.782 [main] INFO  o.s.s.c.ThreadPoolTaskScheduler - Initializing ExecutorService 'taskScheduler'
+15:27:10.065 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+15:27:10.114 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.4.12.Final
+15:27:10.202 [main] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+15:27:10.281 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+15:27:10.537 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+15:27:10.552 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+15:27:11.083 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+15:27:11.089 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+15:27:11.537 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+15:27:11.841 [main] WARN  c.n.c.sources.URLConfigurationSource - No URLs will be polled as dynamic configuration sources.
+15:27:12.046 [main] INFO  o.s.c.s.f.FunctionConfiguration$FunctionBindingRegistrar - Functional binding is disabled due to the presense of @EnableBinding annotation in your configuration
+15:27:12.073 [main] INFO  o.s.c.f.c.c.BeanFactoryAwareFunctionRegistry - Looking up function 'null' with acceptedOutputTypes: []
+15:27:12.080 [main] INFO  o.s.c.f.c.c.BeanFactoryAwareFunctionRegistry - Looking up function 'null' with acceptedOutputTypes: []
+15:27:12.584 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. You can switch to using Caffeine cache, by adding it to the classpath.
+15:27:12.628 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 34 endpoint(s) beneath base path '/actuator'
+15:27:12.761 [main] INFO  o.s.c.s.m.DirectWithAttributesChannel - Channel 'student-service-1.inboundAddressChanges' has 1 subscriber(s).
+15:27:12.761 [main] INFO  o.s.c.s.m.DirectWithAttributesChannel - Channel 'student-service-1.inboundClassChanges' has 1 subscriber(s).
+15:27:12.781 [main] INFO  o.s.i.endpoint.EventDrivenConsumer - Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+15:27:12.781 [main] INFO  o.s.i.c.PublishSubscribeChannel - Channel 'student-service-1.errorChannel' has 1 subscriber(s).
+15:27:12.781 [main] INFO  o.s.i.endpoint.EventDrivenConsumer - started bean '_org.springframework.integration.errorLogger'
+15:27:12.821 [main] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Fetching config from server at : http://localhost:8071
+15:27:13.354 [main] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Located environment: name=student-service, profiles=[dev], label=null, version=2cd5b0c3f54de5db631958a8c947d99d5a9fbc49, state=null
+15:27:13.354 [main] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-configClient'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/haworker25/microservice-configs.git/student-service-dev.properties'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/haworker25/microservice-configs.git/student-service.properties'}]
+15:27:13.579 [main] INFO  o.s.c.s.b.k.p.KafkaTopicProvisioner - Using kafka topic for outbound: studentChangeTopic
+15:27:13.583 [main] INFO  o.a.k.c.admin.AdminClientConfig - AdminClientConfig values: 
+	bootstrap.servers = [localhost:9092]
+	client.dns.lookup = default
+	client.id = 
+	connections.max.idle.ms = 300000
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 120000
+	retries = 5
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.mechanism = GSSAPI
+	security.protocol = PLAINTEXT
+	send.buffer.bytes = 131072
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
+	ssl.endpoint.identification.algorithm = https
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLS
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+
+15:27:13.625 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
+15:27:13.625 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
+15:27:13.625 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1654640833624
+15:27:13.818 [main] INFO  o.a.k.c.producer.ProducerConfig - ProducerConfig values: 
+	acks = 1
+	batch.size = 16384
+	bootstrap.servers = [localhost:9092]
+	buffer.memory = 33554432
+	client.dns.lookup = default
+	client.id = 
+	compression.type = none
+	connections.max.idle.ms = 540000
+	delivery.timeout.ms = 120000
+	enable.idempotence = false
+	interceptor.classes = []
+	key.serializer = class org.apache.kafka.common.serialization.ByteArraySerializer
+	linger.ms = 0
+	max.block.ms = 60000
+	max.in.flight.requests.per.connection = 5
+	max.request.size = 1048576
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partitioner.class = class org.apache.kafka.clients.producer.internals.DefaultPartitioner
+	receive.buffer.bytes = 32768
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 0
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.mechanism = GSSAPI
+	security.protocol = PLAINTEXT
+	send.buffer.bytes = 131072
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
+	ssl.endpoint.identification.algorithm = https
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLS
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	transaction.timeout.ms = 60000
+	transactional.id = null
+	value.serializer = class org.apache.kafka.common.serialization.ByteArraySerializer
+
+15:27:13.844 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
+15:27:13.845 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
+15:27:13.846 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1654640833844
+15:27:13.862 [kafka-producer-network-thread | producer-1] INFO  org.apache.kafka.clients.Metadata - [Producer clientId=producer-1] Cluster ID: tUi9gttaSlifOFG7cymdtA
+15:27:13.863 [main] INFO  o.a.k.clients.producer.KafkaProducer - [Producer clientId=producer-1] Closing the Kafka producer with timeoutMillis = 30000 ms.
+15:27:13.879 [main] INFO  o.s.c.s.m.DirectWithAttributesChannel - Channel 'student-service-1.output' has 1 subscriber(s).
+15:27:13.893 [main] INFO  o.s.c.n.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.thoughtworks.xstream.core.util.Fields (file:/home/vietdo/.m2/repository/com/thoughtworks/xstream/xstream/1.4.11.1/xstream-1.4.11.1.jar) to field java.util.TreeMap.comparator
+WARNING: Please consider reporting this to the maintainers of com.thoughtworks.xstream.core.util.Fields
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+15:27:14.423 [main] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Registering application STUDENT-SERVICE with eureka with status UP
+15:27:14.457 [main] INFO  o.a.k.c.admin.AdminClientConfig - AdminClientConfig values: 
+	bootstrap.servers = [localhost:9092]
+	client.dns.lookup = default
+	client.id = 
+	connections.max.idle.ms = 300000
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 120000
+	retries = 5
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.mechanism = GSSAPI
+	security.protocol = PLAINTEXT
+	send.buffer.bytes = 131072
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
+	ssl.endpoint.identification.algorithm = https
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLS
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+
+15:27:14.459 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
+15:27:14.459 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
+15:27:14.459 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1654640834459
+15:27:14.493 [main] INFO  o.a.k.c.consumer.ConsumerConfig - ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 100
+	auto.offset.reset = earliest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = default
+	client.id = 
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = studentAddressGroup
+	group.instance.id = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.mechanism = GSSAPI
+	security.protocol = PLAINTEXT
+	send.buffer.bytes = 131072
+	session.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
+	ssl.endpoint.identification.algorithm = https
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLS
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+
+15:27:14.526 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
+15:27:14.527 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
+15:27:14.528 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1654640834526
+15:27:14.610 [main] INFO  o.s.c.s.binder.BinderErrorChannel - Channel 'addressChangeTopic.studentAddressGroup.errors' has 1 subscriber(s).
+15:27:14.613 [main] INFO  o.s.c.s.binder.BinderErrorChannel - Channel 'addressChangeTopic.studentAddressGroup.errors' has 0 subscriber(s).
+15:27:14.614 [main] INFO  o.s.c.s.binder.BinderErrorChannel - Channel 'addressChangeTopic.studentAddressGroup.errors' has 1 subscriber(s).
+15:27:14.615 [main] INFO  o.s.c.s.binder.BinderErrorChannel - Channel 'addressChangeTopic.studentAddressGroup.errors' has 2 subscriber(s).
+15:27:14.648 [main] INFO  o.a.k.c.consumer.ConsumerConfig - ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 100
+	auto.offset.reset = earliest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = default
+	client.id = 
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = studentAddressGroup
+	group.instance.id = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.mechanism = GSSAPI
+	security.protocol = PLAINTEXT
+	send.buffer.bytes = 131072
+	session.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
+	ssl.endpoint.identification.algorithm = https
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLS
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+
+15:27:14.652 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
+15:27:14.652 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
+15:27:14.653 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1654640834652
+15:27:14.656 [main] INFO  o.a.k.clients.consumer.KafkaConsumer - [Consumer clientId=consumer-2, groupId=studentAddressGroup] Subscribed to topic(s): addressChangeTopic
+15:27:14.661 [main] INFO  o.s.s.c.ThreadPoolTaskScheduler - Initializing ExecutorService
+15:27:14.682 [main] INFO  o.s.i.k.i.KafkaMessageDrivenChannelAdapter - started org.springframework.integration.kafka.inbound.KafkaMessageDrivenChannelAdapter@1d39d660
+15:27:14.689 [main] INFO  o.a.k.c.admin.AdminClientConfig - AdminClientConfig values: 
+	bootstrap.servers = [localhost:9092]
+	client.dns.lookup = default
+	client.id = 
+	connections.max.idle.ms = 300000
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 120000
+	retries = 5
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.mechanism = GSSAPI
+	security.protocol = PLAINTEXT
+	send.buffer.bytes = 131072
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
+	ssl.endpoint.identification.algorithm = https
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLS
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+
+15:27:14.695 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
+15:27:14.695 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
+15:27:14.695 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1654640834695
+15:27:14.723 [KafkaConsumerDestination{consumerDestinationName='addressChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  org.apache.kafka.clients.Metadata - [Consumer clientId=consumer-2, groupId=studentAddressGroup] Cluster ID: tUi9gttaSlifOFG7cymdtA
+15:27:14.726 [KafkaConsumerDestination{consumerDestinationName='addressChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.AbstractCoordinator - [Consumer clientId=consumer-2, groupId=studentAddressGroup] Discovered group coordinator ubuntu:9092 (id: 2147483647 rack: null)
+15:27:14.741 [KafkaConsumerDestination{consumerDestinationName='addressChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-2, groupId=studentAddressGroup] Revoking previously assigned partitions []
+15:27:14.742 [KafkaConsumerDestination{consumerDestinationName='addressChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.s.c.s.b.k.KafkaMessageChannelBinder$1 - studentAddressGroup: partitions revoked: []
+15:27:14.743 [KafkaConsumerDestination{consumerDestinationName='addressChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.AbstractCoordinator - [Consumer clientId=consumer-2, groupId=studentAddressGroup] (Re-)joining group
+15:27:14.759 [main] INFO  o.a.k.c.consumer.ConsumerConfig - ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 100
+	auto.offset.reset = earliest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = default
+	client.id = 
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = studentClassGroup
+	group.instance.id = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.mechanism = GSSAPI
+	security.protocol = PLAINTEXT
+	send.buffer.bytes = 131072
+	session.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
+	ssl.endpoint.identification.algorithm = https
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLS
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+
+15:27:14.761 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
+15:27:14.761 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
+15:27:14.762 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1654640834761
+15:27:14.770 [main] INFO  o.s.c.s.binder.BinderErrorChannel - Channel 'classChangeTopic.studentClassGroup.errors' has 1 subscriber(s).
+15:27:14.770 [main] INFO  o.s.c.s.binder.BinderErrorChannel - Channel 'classChangeTopic.studentClassGroup.errors' has 0 subscriber(s).
+15:27:14.770 [main] INFO  o.s.c.s.binder.BinderErrorChannel - Channel 'classChangeTopic.studentClassGroup.errors' has 1 subscriber(s).
+15:27:14.771 [main] INFO  o.s.c.s.binder.BinderErrorChannel - Channel 'classChangeTopic.studentClassGroup.errors' has 2 subscriber(s).
+15:27:14.771 [main] INFO  o.a.k.c.consumer.ConsumerConfig - ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 100
+	auto.offset.reset = earliest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = default
+	client.id = 
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = studentClassGroup
+	group.instance.id = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.mechanism = GSSAPI
+	security.protocol = PLAINTEXT
+	send.buffer.bytes = 131072
+	session.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
+	ssl.endpoint.identification.algorithm = https
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLS
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+
+15:27:14.779 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
+15:27:14.783 [KafkaConsumerDestination{consumerDestinationName='addressChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.AbstractCoordinator - [Consumer clientId=consumer-2, groupId=studentAddressGroup] (Re-)joining group
+15:27:14.789 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
+15:27:14.789 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1654640834779
+15:27:14.789 [main] INFO  o.a.k.clients.consumer.KafkaConsumer - [Consumer clientId=consumer-4, groupId=studentClassGroup] Subscribed to topic(s): classChangeTopic
+15:27:14.790 [main] INFO  o.s.s.c.ThreadPoolTaskScheduler - Initializing ExecutorService
+15:27:14.804 [main] INFO  o.s.i.k.i.KafkaMessageDrivenChannelAdapter - started org.springframework.integration.kafka.inbound.KafkaMessageDrivenChannelAdapter@268f0cd1
+15:27:14.817 [KafkaConsumerDestination{consumerDestinationName='classChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  org.apache.kafka.clients.Metadata - [Consumer clientId=consumer-4, groupId=studentClassGroup] Cluster ID: tUi9gttaSlifOFG7cymdtA
+15:27:14.820 [KafkaConsumerDestination{consumerDestinationName='classChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.AbstractCoordinator - [Consumer clientId=consumer-4, groupId=studentClassGroup] Discovered group coordinator ubuntu:9092 (id: 2147483647 rack: null)
+15:27:14.828 [KafkaConsumerDestination{consumerDestinationName='classChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-4, groupId=studentClassGroup] Revoking previously assigned partitions []
+15:27:14.829 [KafkaConsumerDestination{consumerDestinationName='classChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.s.c.s.b.k.KafkaMessageChannelBinder$1 - studentClassGroup: partitions revoked: []
+15:27:14.829 [KafkaConsumerDestination{consumerDestinationName='classChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.AbstractCoordinator - [Consumer clientId=consumer-4, groupId=studentClassGroup] (Re-)joining group
+15:27:14.843 [KafkaConsumerDestination{consumerDestinationName='classChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.AbstractCoordinator - [Consumer clientId=consumer-4, groupId=studentClassGroup] (Re-)joining group
+15:27:14.901 [KafkaConsumerDestination{consumerDestinationName='addressChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.AbstractCoordinator - [Consumer clientId=consumer-2, groupId=studentAddressGroup] Successfully joined group with generation 1
+15:27:14.903 [KafkaConsumerDestination{consumerDestinationName='addressChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-2, groupId=studentAddressGroup] Setting newly assigned partitions: addressChangeTopic-0
+15:27:14.904 [KafkaConsumerDestination{consumerDestinationName='classChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.AbstractCoordinator - [Consumer clientId=consumer-4, groupId=studentClassGroup] Successfully joined group with generation 1
+15:27:14.904 [KafkaConsumerDestination{consumerDestinationName='classChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-4, groupId=studentClassGroup] Setting newly assigned partitions: classChangeTopic-0
+15:27:14.927 [KafkaConsumerDestination{consumerDestinationName='addressChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-2, groupId=studentAddressGroup] Found no committed offset for partition addressChangeTopic-0
+15:27:14.927 [KafkaConsumerDestination{consumerDestinationName='classChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-4, groupId=studentClassGroup] Found no committed offset for partition classChangeTopic-0
+15:27:14.952 [KafkaConsumerDestination{consumerDestinationName='classChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.SubscriptionState - [Consumer clientId=consumer-4, groupId=studentClassGroup] Resetting offset for partition classChangeTopic-0 to offset 0.
+15:27:14.952 [KafkaConsumerDestination{consumerDestinationName='addressChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.SubscriptionState - [Consumer clientId=consumer-2, groupId=studentAddressGroup] Resetting offset for partition addressChangeTopic-0 to offset 1.
+15:27:14.979 [KafkaConsumerDestination{consumerDestinationName='addressChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.s.c.s.b.k.KafkaMessageChannelBinder$1 - studentAddressGroup: partitions assigned: [addressChangeTopic-0]
+15:27:14.979 [KafkaConsumerDestination{consumerDestinationName='classChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.s.c.s.b.k.KafkaMessageChannelBinder$1 - studentClassGroup: partitions assigned: [classChangeTopic-0]
+15:27:15.044 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+15:27:15.092 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+15:27:15.093 [main] INFO  o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 8080
+15:27:15.105 [main] INFO  o.j.e.c.s.StudentServiceApplication - Started StudentServiceApplication in 11.353 seconds (JVM running for 11.847)
+```
+}
+- Functions:
+
+### Address Service
+- Description:
+- Create database
+  + Create schema `address`
+  + Create tables
 ```
 CREATE TABLE IF NOT EXISTS address.address
 (
@@ -324,16 +990,23 @@ CREATE TABLE IF NOT EXISTS address.address
     CONSTRAINT address_pkey PRIMARY KEY (id)
 )
 ```
-#### Run 
+- Run 
 By commandline
 ```
-cd ../courseman/msa/modules/service1/address-service
+cd ../courseman/msa/modules/services/address-service
 mvn spring-boot:run
 ```
 By class `org.jda.example.coursemanmsa.address.AddressServiceApplication`
+- Output
+```
+```
+- Functions:
 
-### Run Class Service
-#### Create database
+### Class Service
+- Description: 
+- Create database
+  + Create schema `class`
+  + Create tables
 ```
 CREATE TABLE IF NOT EXISTS class.studentclass
 (
@@ -342,16 +1015,23 @@ CREATE TABLE IF NOT EXISTS class.studentclass
     CONSTRAINT studentclass_pkey PRIMARY KEY (id)
 )
 ```
-#### Run 
+- Run 
 By commandline
 ```
-cd ../courseman/msa/modules/service1/class-service
+cd ../courseman/msa/modules/services/class-service
 mvn spring-boot:run
 ```
 By class `org.jda.example.coursemanmsa.class.ClassServiceApplication`
+- Output
+```
+```
+- Functions:
 
-### Run Course Service
-#### Create database
+### Course Service
+- Description:
+- Create database
+  + Create schema `course`
+  + Create tables
 ```
 CREATE TABLE IF NOT EXISTS course.coursemodule
 (
@@ -384,18 +1064,23 @@ CREATE TABLE IF NOT EXISTS course.electivemodule
         ON DELETE CASCADE
 )
 ```
-#### Run 
+- Run 
 By commandline
 ```
-cd ../courseman/msa/modules/service1/course-service
+cd ../courseman/msa/modules/services/course-service
 mvn spring-boot:run
 ```
 By class `org.jda.example.coursemanmsa.course.CourseServiceApplication`
-
-
+- Output:
+```
+```
+- Functions: 
 ## Usecase1
-### Run Academic Service
-#### Create database
+### Enrolment Service
+- Description:
+- Create database
+  + Create schema `enrolment`
+  + Create tables
 ```
 CREATE TABLE IF NOT EXISTS enrolment.coursemodule
 (
@@ -434,28 +1119,36 @@ CREATE TABLE IF NOT EXISTS enrolment.student
     CONSTRAINT student_pkey PRIMARY KEY (id)
 )
 ```
-#### Run 
+- Run 
 By commandline
 ```
-cd ../courseman/msa/modules/service1/academic-service
+cd ../courseman/msa/modules/services/service1/enrolment-service1
 mvn spring-boot:run
 ```
-By class `org.jda.example.coursemanmsa.academic.AcademicServiceApplication`
+By class `org.jda.example.coursemanmsa.enrolment.EnrolmentServiceApplication`
+- Output:
+```
+```
+- Functions:
 
 ## Usecase2
-### Run Enrolment Service
-#### Create database
-Use `enrolment` database of usecase1
-#### Run 
+### Enrolment Service
+- Description:
+- Create database: Use `enrolment` database of usecase1
+- Run 
 By commandline
 ```
-cd ../courseman/msa/modules/service2/enrolment-service
+cd ../courseman/msa/modules/services/service2/enrolment-service2
 mvn spring-boot:run
 ```
 By class `org.jda.example.coursemanmsa.academic.EnrolmentServiceApplication`
+- Functions:
 
-### Run Academic Service
-#### Create database
+### Academic Service
+- Description
+- Create database
+  + Create schema `academic`
+  + Create tables
 ```
 CREATE TABLE IF NOT EXISTS academic.academic
 (
@@ -466,10 +1159,14 @@ CREATE TABLE IF NOT EXISTS academic.academic
     finalgrade character(1) COLLATE pg_catalog."default"
 )
 ```
-#### Run 
+- Run 
 By commandline
 ```
-cd ../courseman/msa/modules/service2/academic-service
+cd ../courseman/msa/modules/services/service2/academic-service
 mvn spring-boot:run
 ```
 By class `org.jda.example.coursemanmsa.academic.AcademicServiceApplication`
+- Output:
+```
+```
+- Functions: 
