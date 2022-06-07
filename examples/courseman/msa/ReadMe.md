@@ -243,7 +243,7 @@ mvn spring-boot:run
 or Run by class `org.jda.example.coursemanmsa.gatewayserver.ApiGatewayServerApplication`
 - Output
 ```
-.scroll-100{
+.scroll-100 {
  .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
 ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
@@ -341,7 +341,7 @@ mvn spring-boot:run
 By class `org.jda.example.coursemanmsa.student.StudentServiceApplication`
 - Output
 ```
-.scroll-200{
+.scroll-200 {
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
 ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
