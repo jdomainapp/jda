@@ -340,8 +340,7 @@ mvn spring-boot:run
 ```
 By class `org.jda.example.coursemanmsa.student.StudentServiceApplication`
 
-<details> 
-	<summary>- Output</summary>
+- Output
 ```
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -975,7 +974,7 @@ WARNING: All illegal access operations will be denied in a future release
 15:27:15.093 [main] INFO  o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 8080
 15:27:15.105 [main] INFO  o.j.e.c.s.StudentServiceApplication - Started StudentServiceApplication in 11.353 seconds (JVM running for 11.847)
 ```
-</details>
+
 - Functions:
 
 ### Address Service
