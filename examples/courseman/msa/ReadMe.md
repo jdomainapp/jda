@@ -241,8 +241,8 @@ cd ../courseman/msa/modules/gatewayserver
 mvn spring-boot:run
 ```
 or Run by class `org.jda.example.coursemanmsa.gatewayserver.ApiGatewayServerApplication`
-<details> 
-<summary>- Output</summary>
+
+- Output
 ```
  .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -295,7 +295,7 @@ WARNING: All illegal access operations will be denied in a future release
 2022-06-07 05:06:45.454  INFO 187066 --- [           main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
 2022-06-07 05:06:45.456  INFO 187066 --- [           main] o.j.e.c.g.ApiGatewayServerApplication    : Started ApiGatewayServerApplication in 17.272 seconds (JVM running for 17.529)
 ```
-</details> 
+
 ## 3. Run business services
 ### Setup
 - Each service create a postgresql database `domainds` with user/password: admin/password
@@ -339,9 +339,10 @@ cd ../courseman/msa/modules/services/student-service
 mvn spring-boot:run
 ```
 By class `org.jda.example.coursemanmsa.student.StudentServiceApplication`
-- Output
+
+<details> 
+	<summary>- Output</summary>
 ```
-.scroll-200 {
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
 ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
@@ -974,7 +975,7 @@ WARNING: All illegal access operations will be denied in a future release
 15:27:15.093 [main] INFO  o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 8080
 15:27:15.105 [main] INFO  o.j.e.c.s.StudentServiceApplication - Started StudentServiceApplication in 11.353 seconds (JVM running for 11.847)
 ```
-}
+</details>
 - Functions:
 
 ### Address Service
