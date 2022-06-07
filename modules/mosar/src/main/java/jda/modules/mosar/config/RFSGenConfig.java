@@ -40,7 +40,7 @@ public class RFSGenConfig {
      * front-end template
      */
     private FEPlatform fePlatform;
-    private AppTemplate feTemplate;
+    private AppTemplateDesc feTemplate;
 
     /**
      * front-end's shared resources for project
@@ -420,12 +420,11 @@ public class RFSGenConfig {
         this.fePlatform = fePlatform;
     }
 
-
-    public AppTemplate getFeTemplate() {
+    public AppTemplateDesc getFeTemplate() {
         return feTemplate;
     }
 
-    public void setFeTemplate(AppTemplate feTemplate) {
+    public void setFeTemplate(AppTemplateDesc feTemplate) {
         this.feTemplate = feTemplate;
     }
 }

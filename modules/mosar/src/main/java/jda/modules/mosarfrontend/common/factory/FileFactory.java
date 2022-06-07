@@ -251,7 +251,6 @@ public class FileFactory {
             this.fileTemplate = fileTemplateDesc.getAnnotation(FileTemplateDesc.class);
             Method[] skipDecision = Arrays.stream(fileTemplateDesc.getDeclaredMethods()).filter(m -> m.isAnnotationPresent(SkipGenDecision.class)).toArray(Method[]::new);
             if (skipDecision.length == 0 || !checkSkip(skipDecision[0])) {
-
                 initFileTemplate();
                 updateFileContent();
                 saveFile();

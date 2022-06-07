@@ -7,13 +7,7 @@ import jda.modules.mccl.conceptmodel.Configuration.Language;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
 import jda.modules.mosar.config.*;
 import jda.modules.mosarbackend.springboot.BESpringApp;
-import jda.modules.mosarfrontend.common.anotation.template_desc.*;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
-import jda.modules.mosarfrontend.reactnative.templates.MainGen;
-import jda.modules.mosarfrontend.reactnative.templates.src.data_types.DataTypeGen;
-import jda.modules.mosarfrontend.reactnative.templates.src.data_types.EnumTypeGen;
-import jda.modules.mosarfrontend.reactnative.templates.src.modules.FormInputsGen;
-import jda.modules.mosarfrontend.reactnative.templates.src.modules.ModulesGen;
 import jda.modules.sccl.syntax.*;
 import jda.modules.setup.model.SetUpConfig;
 import org.jda.example.coursemanrestful.modules.ModuleMain;
@@ -71,43 +65,5 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         sysModules = {},
         setUpDesc = @SysSetUpDesc(setUpConfigType = SetUpConfig.class),
         securityDesc = @SecurityDesc(isEnabled = false))
-@AppTemplateDesc(
-        templateRootFolder = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\templates",
-        resource = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\resources.zip",
-        crossTemplates = @CrossTemplatesDesc(
-                Router = @ComponentGenDesc(
-                        genClasses = {MainGen.class}
-                ),
-                BaseService = @ComponentGenDesc(
-                        genClasses = {}
-                ),
-                Ext = @ComponentGenDesc(
-                        genClasses = {ModulesGen.class, FormInputsGen.class}
-                )
-        ),
-        moduleTemplates = @ModuleTemplatesDesc(
-                List = @ComponentGenDesc(
-                        genClasses = {}
-                ),
-                Form = @ComponentGenDesc(
-                        genClasses = {}
-                ),
-                Main = @ComponentGenDesc(
-                        genClasses = {}
-                ),
-                Entity = @ComponentGenDesc(
-                        genClasses = {DataTypeGen.class}
-                ),
-                Ext = @ComponentGenDesc(
-                        genClasses = {}
-                )
-        ),
-
-        moduleFieldTemplates = @ModuleFieldTemplateDesc(
-                Ext = @ComponentGenDesc(
-                        genClasses = {EnumTypeGen.class}
-                )
-        )
-)
 public class SCCCourseManDerby {
 }

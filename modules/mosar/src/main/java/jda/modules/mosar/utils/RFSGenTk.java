@@ -56,10 +56,7 @@ public class RFSGenTk {
     parseAnnotation2Config(rfsGenDesc, cfg);
 
     AppTemplateDesc feTemplateDesc = (AppTemplateDesc) scc.getAnnotation(AppTemplateDesc.class);
-    //TODO If feTemplate not defined, load default template by reading fePlatform info in @RFSGenDesc
-    AppTemplate feTemplate = new AppTemplate();
-    parseAnnotation2Config(feTemplateDesc,feTemplate);
-    cfg.setFeTemplate(feTemplate);
+    cfg.setFeTemplate(feTemplateDesc);
     
     // the domain model
     Collection<Class> modelAsCol = SwTk.parseDomainModel(scc);

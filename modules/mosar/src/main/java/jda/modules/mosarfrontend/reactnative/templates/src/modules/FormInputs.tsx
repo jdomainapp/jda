@@ -10,7 +10,7 @@ import {JDAStringInput} from '../base/views/jda_inputs/JDAStringInput';
 @loop{importEnums}[[import {@slot{{enumName}}} from '../data_types/@slot{{enumName}}';
 ]]loop{importEnums}@
 
-@loop{importConfigs}[[import {@slot{{module_name}}ModuleConfig} from './@slot{{module_folder}}/config';
+@loop{importConfigs}[[import {@slot{{module_name}}ModuleConfig} from './@slot{{module_folder}}/ModuleConfig';
 ]]loop{importConfigs}@
 
 // Basic form input components
@@ -38,8 +38,8 @@ export const {
 
 // Module form input components
 @loop{exportModuleInputs}[[export const {
-  Input: @slot{{module_name}}Input,
-  FormInput: Form@slot{{module_name}}Input,
-  FormMultiInput: FormMulti@slot{{module_name}}Input,
-} = createModuleInput(@slot{{module_name}}ModuleConfig);
+  Input: @slot{{moduleName}}Input,
+  FormInput: Form@slot{{moduleName}}Input,
+  FormMultiInput: FormMulti@slot{{moduleName}}Input,
+} = createModuleInput(@slot{{moduleName}}ModuleConfig);
 ]]loop{exportModuleInputs}@

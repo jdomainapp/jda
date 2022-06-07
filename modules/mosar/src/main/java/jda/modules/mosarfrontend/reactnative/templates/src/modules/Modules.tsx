@@ -7,7 +7,7 @@ import {createModuleComponents} from '../base/creators/createModuleComponents';
   @slot{{module_name}}FormConfig,
   @slot{{module_name}}ListConfig,
   @slot{{module_name}}ModuleConfig,
-} from './@slot{{module_folder}}/config';
+} from './@slot{{module_folder}}/ModuleConfig';
 ]]loop{2}@
 
 @loop{3}[[

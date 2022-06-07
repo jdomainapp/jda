@@ -23,7 +23,14 @@ public class ParamsFactory {
     private NewMCC currentNewMCC;
     private DField currentField;
     private Map<String, MCC> modules;
+
+    @RequiredParam.ModuleMap
+    public Map<String, NewMCC> getDomains() {
+        return domains;
+    }
+
     private Map<String, NewMCC> domains;
+
     private ParamsFactory() {
         //init methods map
         for (Method declaredMethod : this.getClass().getDeclaredMethods()) {
@@ -33,6 +40,7 @@ public class ParamsFactory {
             }
         }
     }
+
     public static ParamsFactory getInstance() {
         if (instance == null) {
             instance = new ParamsFactory();
@@ -76,8 +84,7 @@ public class ParamsFactory {
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         e.printStackTrace();
                     }
-                    break;
-                }
+                } else continue;
 
             }
             ;
@@ -111,7 +118,7 @@ public class ParamsFactory {
     }
 
     @RequiredParam.ModuleField
-    public DField getCurrentField(){
+    public DField getCurrentField() {
         return this.currentField;
     }
 

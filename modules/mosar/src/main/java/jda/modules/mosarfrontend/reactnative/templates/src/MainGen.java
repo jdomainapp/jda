@@ -1,4 +1,4 @@
-package jda.modules.mosarfrontend.reactnative.templates;
+package jda.modules.mosarfrontend.reactnative.templates.src;
 
 import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
@@ -9,7 +9,7 @@ import jda.modules.mosarfrontend.common.factory.Slot;
 import java.util.ArrayList;
 
 @FileTemplateDesc(
-        templateFile = "/Main.tsx"
+        templateFile = "/src/Main.tsx"
 )
 public class MainGen {
     @LoopReplacementDesc(slots = {"moduleName"}, id = "1")
@@ -28,15 +28,8 @@ public class MainGen {
         return modulesName[0];
     }
 
-    @LoopReplacementDesc(slots = {"moduleComponent", "moduleName"}, id = "2")
+    @LoopReplacementDesc(slots = {"moduleName"}, id = "2")
     public Slot[][] replaceRouteModules(@RequiredParam.ModulesName String[] modulesName) {
-        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        for (String moduleName : modulesName) {
-            ArrayList<Slot> slotValues = new ArrayList<>();
-            slotValues.add(new Slot("moduleComponent", moduleName));
-            slotValues.add(new Slot("moduleName", moduleName));
-            result.add(slotValues);
-        }
-        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+        return replaceImportModules(modulesName);
     }
 }

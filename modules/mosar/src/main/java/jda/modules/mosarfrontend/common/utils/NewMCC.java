@@ -4,8 +4,10 @@ import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dcsl.syntax.DClass;
 import jda.modules.mccl.syntax.ModuleDescriptor;
+import jda.modules.mccl.syntax.view.AttributeDesc;
 import lombok.Data;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -34,10 +36,17 @@ public class NewMCC {
                         dField.setEnumName(field.getType().getSimpleName());
                         dField.setEnumValues(values);
                     }
+                    //TODO below code add field Label from ModuleDescriptor, but need config label in @DClass -> request to Mr. duc.ml
+                    Field[] viewField = Arrays.stream(cls.getDeclaredFields()).filter(f -> f.isAnnotationPresent(AttributeDesc.class) && f.getName() == field.getName()).toArray(Field[]::new);
+                    if(viewField.length > 0 ){
+                        dField.setAttributeDesc(viewField[0].getAnnotation(AttributeDesc.class));
+                    }
                     fields.add(dField);
                 }
             });
             newMCC.setDFields(fields.toArray(DField[]::new));
+
+
         }
         return newMCC;
     }
