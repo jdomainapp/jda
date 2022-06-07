@@ -90,21 +90,50 @@ bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic class
 ## 2. Run common services in order
 
 ### Run Config service
-Run by commandline
+- Run by commandline
 ```
 cd ../courseman/msa/modules/configserver
 mvn spring-boot:run
 ```
 or Run by class `org.jda.example.coursemanmsa.configserver.ConfigurationServerApplication`
 
+- Output
+```
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.2.6.RELEASE)
+
+11:20:15.893 [main] INFO  o.j.e.c.c.ConfigurationServerApplication - The following profiles are active: git
+11:20:16.679 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=86fe7d1a-d775-34bf-85cc-27ff6b49371c
+11:20:17.075 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8071 (http)
+11:20:17.085 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8071"]
+11:20:17.086 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+11:20:17.086 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.33]
+11:20:17.244 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+11:20:17.245 [main] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 1333 ms
+11:20:17.960 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+11:20:18.334 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 15 endpoint(s) beneath base path '/actuator'
+11:20:18.373 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8071"]
+11:20:18.415 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8071 (http) with context path ''
+11:20:18.536 [main] INFO  o.j.e.c.c.ConfigurationServerApplication - Started ConfigurationServerApplication in 3.726 seconds (JVM running for 4.293)
+```
+
 ### Run Discovery Service
-Run by commandline
+- Run by commandline
 ```
 cd ../courseman/msa/modules/eurekaserver
 mvn spring-boot:run
 ```
 or Run by class `org.jda.example.coursemanmsa.eurekaserver.EurekaServerApplication`
+- Output
+```
 
+```
 ### Run Gateway Service
 Run by commandline
 ```
@@ -115,10 +144,12 @@ or Run by class `org.jda.example.coursemanmsa.gatewayserver.ApiGatewayServerAppl
 
 ## 3. Run business services
 ### Setup
-- Each service create a postgresql database with user/password: admin/password
+- Each service create a postgresql database `domainds` with user/password: admin/password
 
 ### Run Student Service
 #### Create database
+- Create schema `student`
+- Create tables
 ```
 CREATE TABLE IF NOT EXISTS student.student
 (
