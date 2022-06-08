@@ -4,6 +4,8 @@ spring:
     cloud:
         config: 
             uri: http://localhost:8071
+    main:
+        web-application-type: reactive
 
 logging:
   level:
