@@ -1,12 +1,16 @@
 package jda.modules.mosarfrontend.reactnative.templates.src.modules;
 
 import jda.modules.dcsl.syntax.DAssoc;
+import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.mosarfrontend.common.anotation.*;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
+import jda.modules.mosarfrontend.common.utils.NewMCC;
+import org.modeshape.common.text.Inflector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 @FileTemplateDesc(
         templateFile = "/src/modules/ModuleConfig.ts"
@@ -22,10 +26,6 @@ public class ModuleConfigGen {
         return moduleName;
     }
 
-    @SlotReplacementDesc(slot = "moduleName")
-    public String moduleName(@RequiredParam.ModuleName String moduleName) {
-        return moduleName.toLowerCase();
-    }
 
     @SlotReplacementDesc(slot = "fieldID")
     public String fieldID(@RequiredParam.ModuleFields DField[] fields) {
@@ -38,7 +38,13 @@ public class ModuleConfigGen {
 
     @SlotReplacementDesc(slot = "apiResource")
     public String apiResource(@RequiredParam.ModuleName String moduleName) {
-        return moduleName.toLowerCase();
+        return Inflector.getInstance().underscore(Inflector.getInstance().pluralize(moduleName)).replace("_", "-");
+    }
+
+    @SlotReplacementDesc(slot = "moduleTitle")
+    public String moduleTitle(@RequiredParam.ModuleName String moduleName) {
+        Inflector inflector = Inflector.getInstance();
+        return inflector.titleCase(inflector.underscore(inflector.pluralize(moduleName))).replace("_", " ");
     }
 
     @LoopReplacementDesc(id = "importInputs", slots = {"FieldType"})
@@ -48,7 +54,7 @@ public class ModuleConfigGen {
         for (DField field : fields) {
             ArrayList<Slot> list = new ArrayList<>();
             String fieldType = getFieldType(field);
-            if(!imported.contains(fieldType)){
+            if (!imported.contains(fieldType)) {
                 imported.add(fieldType);
                 list.add(new Slot("FieldType", getFieldType(field)));
                 result.add(list);
@@ -75,7 +81,7 @@ public class ModuleConfigGen {
         for (DField field : fields) {
             ArrayList<Slot> list = new ArrayList<>();
             list.add(new Slot("fieldName", field.getDAttr().name()));
-            list.add(new Slot("fieldLabel", field.getAttributeDesc() != null? field.getAttributeDesc().label():field.getDAttr().name()));
+            list.add(new Slot("fieldLabel", field.getAttributeDesc() != null ? field.getAttributeDesc().label() : field.getDAttr().name()));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
@@ -84,7 +90,7 @@ public class ModuleConfigGen {
     @LoopReplacementDesc(id = "quickRender", slots = {"moduleAlias", "fieldName"})
     public Slot[][] quickRender(@RequiredParam.ModuleFields DField[] fields, @RequiredParam.ModuleName String moduleName) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        for (DField field : Arrays.stream(fields).filter(f -> f.getDAssoc() == null).toArray(DField[]::new)) {
+        for (DField field : Arrays.stream(fields).filter(f -> f.getDAssoc() == null && !f.getDAttr().optional()).toArray(DField[]::new)) {
             ArrayList<Slot> list = new ArrayList<>();
             list.add(new Slot("moduleAlias", moduleName.toLowerCase()));
             list.add(new Slot("fieldName", field.getDAttr().name()));
@@ -92,6 +98,7 @@ public class ModuleConfigGen {
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
+
     @LoopReplacementDesc(id = "listTitle", slots = {"moduleAlias", "fieldName"})
     public Slot[][] listTitle(@RequiredParam.ModuleFields DField[] fields, @RequiredParam.ModuleName String moduleName) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
@@ -102,6 +109,26 @@ public class ModuleConfigGen {
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+    }
+
+    @LoopReplacementDesc(id = "toPOST", slots = {"moduleName1", "linkedModule", "linkedOptional", "linkedModuleIdField"})
+    public Slot[][] toPOST(@RequiredParam.ModuleFields DField[] fields, @RequiredParam.ModuleName String moduleName, @RequiredParam.ModuleMap Map<String, NewMCC> domainMap) {
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        for (DField field : Arrays.stream(fields).filter(f -> f.getDAttr().type() == DAttr.Type.Domain && f.getDAssoc() != null && f.getEnumName() == null).toArray(DField[]::new)) {
+            ArrayList<Slot> list = new ArrayList<>();
+            list.add(new Slot("moduleName1", moduleName.toLowerCase()));
+            list.add(new Slot("linkedModule", field.getDAttr().name()));
+            list.add(new Slot("linkedOptional", field.getDAttr().optional() ? "?" : ""));
+            NewMCC domain = domainMap.get(field.getDAssoc().associate().type().getSimpleName());
+            list.add(new Slot("linkedModuleIdField", domain.getIdField().getDAttr().name()));
+            result.add(list);
+        }
+        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+    }
+
+    @SlotReplacementDesc(slot = "moduleName")
+    public String moduleName(@RequiredParam.ModuleName String moduleName) {
+        return moduleName.toLowerCase();
     }
 
     private String getFieldType(DField field) {

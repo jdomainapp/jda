@@ -16,6 +16,7 @@ public class NewMCC {
     private ModuleDescriptor moduleDescriptor;
     private DClass dClass;
     private DField[] dFields;
+    private DField idField;
 
     public static NewMCC readMCC(Class<?> cls) {
         System.out.println(cls);
@@ -42,6 +43,7 @@ public class NewMCC {
                         dField.setAttributeDesc(viewField[0].getAnnotation(AttributeDesc.class));
                     }
                     fields.add(dField);
+                    if (dField.getDAttr().id()) newMCC.setIdField(dField);
                 }
             });
             newMCC.setDFields(fields.toArray(DField[]::new));

@@ -29,7 +29,7 @@
         -->
         <module>mosar</module>
 <!--        <module>msa</module>-->
-<!--        <module>mdsa</module>-->
+        <module>mdsa</module>
 <!--        <module>msaspringbasics</module>-->
     </modules>
 </project>

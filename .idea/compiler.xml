@@ -39,6 +39,7 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.22/lombok-1.18.22.jar" />
         </processorPath>
+        <module name="jda-eg-coursemanmdsa" />
         <module name="jda-mosar" />
       </profile>
     </annotationProcessing>
@@ -70,7 +71,6 @@
       <module name="jda-eg-courseman-coursemanmsa-services" target="1.5" />
       <module name="jda-eg-courseman-coursemanmsa-services (1)" target="1.5" />
       <module name="jda-eg-courseman-coursemanmsa-services (2)" target="1.5" />
-      <module name="jda-eg-coursemanmdsa" target="13" />
       <module name="jda-eg-coursemanmsa" target="1.5" />
       <module name="jda-eg-coursemanmsa (2)" target="1.5" />
       <module name="student-service (1)" target="1.5" />

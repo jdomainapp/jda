@@ -9,11 +9,19 @@ import {@loop{importInputs}[[
 export const @slot{{ModuleName}}ModuleConfig: IJDAModuleConfig<@slot{{ModuleName}}> = {
   primaryKey: '@slot{{fieldID}}',
   apiResource: '@slot{{apiResource}}',
-  moduleName: 'Students',
+  moduleName: '@slot{{moduleTitle}}',
   fieldLabel: {@loop{fieldLabelConfig}[[
     @slot{{fieldName}}: '@slot{{fieldLabel}}',]]loop{fieldLabelConfig}@
   },
   quickRender: @slot{{moduleName}} => (@slot{{moduleName}} ? `@loop{quickRender}[[ \$\{ @slot{{moduleAlias}}.@slot{{fieldName}} \} |]]loop{quickRender}@` : ''),
+  apiConfig:{
+      toPOST:(@slot{{moduleName}})=>{
+        return {
+          ...@slot{{moduleName}},@loop{toPOST}[[
+          @slot{{linkedModule}}Id: @slot{{moduleName1}}.@slot{{linkedModule}}@slot{{linkedOptional}}.@slot{{linkedModuleIdField}},]]loop{toPOST}@
+        }
+      }
+  }
 };
 
 export const @slot{{ModuleName}}FormConfig: IJDAFormConfig<@slot{{ModuleName}}> = {@loop{formConfig}[[

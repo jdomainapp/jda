@@ -24,6 +24,6 @@ public class ModuleAddress {
     @AttributeDesc(label = "City name")
     private String name;
 
-    @AttributeDesc(label = "Student")
-    private Student student;
+//    @AttributeDesc(label = "Student")
+//    private Student student;
 }
