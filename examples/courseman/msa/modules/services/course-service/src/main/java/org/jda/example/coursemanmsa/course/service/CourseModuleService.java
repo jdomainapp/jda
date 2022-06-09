@@ -50,10 +50,12 @@ public class CourseModuleService {
     }
     
     public Page getEntityListByTypeAndPage(String arg0, Pageable arg1) {
-    	if(arg0.equals("Electivemodule")) {
+    	if(arg0.equalsIgnoreCase("Electivemodule")) {
     		return repository.findByCompulsorymodule(null, arg1);
-    	}else {
+    	}else if (arg0.equalsIgnoreCase("Electivemodule")){
     		return repository.findByElectivemodule(null, arg1);
+    	}else {
+    		return null;
     	}
     }
 

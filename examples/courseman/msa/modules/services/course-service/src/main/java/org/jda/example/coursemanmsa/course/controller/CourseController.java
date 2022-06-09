@@ -45,8 +45,8 @@ public class CourseController {
         return service.getEntityListByPage(arg0);
     }
 
-    @GetMapping(value = "/type")
-    public Page getEntityListByTypeAndPage(@RequestParam(value = "type", required = false) String arg0, Pageable arg1) { 	
+    @GetMapping(value = "/type/{type}")
+    public Page getEntityListByTypeAndPage(@PathVariable("type") String arg0, Pageable arg1) { 	
     	return service.getEntityListByTypeAndPage(arg0, arg1);
     }
     
@@ -70,7 +70,7 @@ public class CourseController {
         service.deleteEntityById(arg0);
     }
     
-    //Return result for academic-service
+    //Return result for enrolment-service
     @RequestMapping(value="/view/{id}",method = RequestMethod.GET)
     public ResponseEntity<CoursemoduleView> getEntityViewById( @PathVariable("id") int id) throws TimeoutException {
         return ResponseEntity.ok(service.getEntityViewById(id));
