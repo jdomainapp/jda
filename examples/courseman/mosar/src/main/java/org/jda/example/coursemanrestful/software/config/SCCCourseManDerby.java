@@ -26,7 +26,7 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         feProjName = "fe-courseman",
         feProjResource = "src/main/resources/react",
         fePlatform = FEPlatform.REACT_NATIVE,
-        feOutputPath = "D:\\JDA\\CourseManReactNative",
+        feOutputPath = "D:\\UET_THS\\JDA\\work\\CourseManReactNative",
         feServerPort = 5000,  // default: 3000
         feAppClass = FEReactApp.class,
         feThreaded = true,

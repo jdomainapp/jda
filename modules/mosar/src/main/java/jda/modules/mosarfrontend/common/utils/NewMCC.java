@@ -52,4 +52,36 @@ public class NewMCC {
         }
         return newMCC;
     }
+
+    public ModuleDescriptor getModuleDescriptor() {
+        return moduleDescriptor;
+    }
+
+    public void setModuleDescriptor(ModuleDescriptor moduleDescriptor) {
+        this.moduleDescriptor = moduleDescriptor;
+    }
+
+    public DClass getdClass() {
+        return dClass;
+    }
+
+    public void setDClass(DClass dClass) {
+        this.dClass = dClass;
+    }
+
+    public DField[] getDFields() {
+        return dFields;
+    }
+
+    public void setDFields(DField[] dFields) {
+        this.dFields = dFields;
+    }
+
+    public DField getIdField() {
+        return idField;
+    }
+
+    public void setIdField(DField idField) {
+        this.idField = idField;
+    }
 }

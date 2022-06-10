@@ -71,7 +71,6 @@
       <module name="jda-eg-courseman-coursemanmsa-services" target="1.5" />
       <module name="jda-eg-courseman-coursemanmsa-services (1)" target="1.5" />
       <module name="jda-eg-courseman-coursemanmsa-services (2)" target="1.5" />
-      <module name="jda-eg-coursemanmsa" target="1.5" />
       <module name="jda-eg-coursemanmsa (2)" target="1.5" />
       <module name="student-service (1)" target="1.5" />
       <module name="student-service (2)" target="11" />
