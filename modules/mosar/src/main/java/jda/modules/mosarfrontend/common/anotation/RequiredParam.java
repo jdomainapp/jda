@@ -8,7 +8,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.METHOD})
 public @interface RequiredParam {
-    @Retention(RetentionPolicy.RUNTIME)
+
+	@Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.PARAMETER, ElementType.METHOD})
     @interface MCC {
     }
@@ -37,4 +38,10 @@ public @interface RequiredParam {
     @Target({ElementType.PARAMETER, ElementType.METHOD})
     @interface ModuleField {
     }
+
+	@Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.PARAMETER, ElementType.METHOD})
+    @interface AngularProp {
+    }
+    
 }

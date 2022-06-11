@@ -3,6 +3,7 @@ package jda.modules.mosarfrontend.common.factory;
 import jda.modules.mosar.config.FEPlatform;
 import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosar.utils.RFSGenTk;
+import jda.modules.mosarfrontend.angular.AngularAppTemplate;
 import jda.modules.mosarfrontend.common.anotation.template_desc.*;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
@@ -101,6 +102,11 @@ public class AppFactory {
                 AppTemplateDesc appTemplateDesc = ReactNativeAppTemplate.class.getAnnotation(AppTemplateDesc.class);
                 this.rfsGenConfig.setFeTemplate(ReactNativeAppTemplate.class.getAnnotation(AppTemplateDesc.class));
             }
+            
+            if(this.rfsGenConfig.getFePlatform() == FEPlatform.ANGULAR){
+                AppTemplateDesc appTemplateDesc = AngularAppTemplate.class.getAnnotation(AppTemplateDesc.class);
+                this.rfsGenConfig.setFeTemplate(AngularAppTemplate.class.getAnnotation(AppTemplateDesc.class));
+            }            
         }
         if (this.rfsGenConfig.getFeTemplate() != null) {
             String[] appDomains = ParamsFactory.getInstance().setRFSGenConfig(rfsGenConfig);
