@@ -2326,17 +2326,22 @@ WARNING: All illegal access operations will be denied in a future release
 
 - Functions:
 	+ Create a new enrolment: `http://localhost:8072/enrolment-service1/v1/enrolment/`
-![image](https://user-images.githubusercontent.com/89120031/173246855-70943f1c-37b9-4ddb-9b51-aa9c5400811b.png)
+![image](https://user-images.githubusercontent.com/89120031/173248067-09d76aa7-f6c1-48f1-9d27-0cac62c5aa69.png)
 
 	+ Edit a enrolment: `http://localhost:8072/enrolment-service1/v1/enrolment/KT20`
-![image](https://user-images.githubusercontent.com/89120031/173247326-b33c95b7-59f3-41a1-8720-cca56d80b678.png)
+![image](https://user-images.githubusercontent.com/89120031/173248137-0a5d6ac2-e8e9-4a60-9ae7-bc9eccad5e87.png)
 
 	+ Get a enrolment by Id: `http://localhost:8072/enrolment-service1/v1/enrolment/KT20`
+![image](https://user-images.githubusercontent.com/89120031/173248154-02e67061-02e2-47dd-a644-35f7973dbf47.png)
+	
+	+ Get enrolments by coursemoduleId: `http://localhost:8072/enrolment-service1/v1/enrolment/coursemodule/4`
+![image](https://user-images.githubusercontent.com/89120031/173248249-b8208973-a591-48e0-a5d8-76cc67c1ee51.png)
 
 	+ Delete a enrolment: `http://localhost:8072/enrolment-service1/v1/enrolment/0`
+![image](https://user-images.githubusercontent.com/89120031/173248192-b7435223-3d4a-48ec-b289-492539027930.png)
 
 	+ List all enrolment: `http://localhost:8072/enrolment-service1/v1/enrolment/`
-![image](https://user-images.githubusercontent.com/89120031/173246987-1721088f-14c5-4374-af9d-6bb72368f4e8.png)
+![image](https://user-images.githubusercontent.com/89120031/173248173-503a5fd5-4691-4464-8af7-e64ebb1b0aca.png)
 
 ## Usecase2
 ### Enrolment Service
