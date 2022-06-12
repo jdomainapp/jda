@@ -5,9 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
-public @interface SlotReplacementDesc {
-    String slot() default "";
+@Target(ElementType.METHOD)
+public @interface IfReplacement {
+    String id() default "";
 }

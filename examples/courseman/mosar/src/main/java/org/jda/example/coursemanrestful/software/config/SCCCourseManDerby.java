@@ -31,7 +31,7 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         feAppClass = FEReactApp.class,
         feThreaded = true,
         bePackage = "org.jda.example.coursemanrestful.modules",
-        beOutputPath = "D:\\JDA\\jda\\examples\\courseman\\mosar\\src\\main\\java",
+        beOutputPath = "D:\\UET_THS\\JDA\\work\\jda\\examples\\courseman\\mosar\\src\\main\\java",
         beTargetPackage = "org.jda.example.coursemanrestful.backend"
         , beAppClass = BESpringApp.class,
         beServerPort = 8080  // default: 8080
