@@ -1,6 +1,6 @@
 package jda.modules.mosarfrontend.vuejs;
 
-import jda.modules.mosarfrontend.angular.templates.AppHtmlTemplate;
+import jda.modules.mosarfrontend.angular.templates.src.AppHtmlTemplate;
 import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.ComponentGenDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDesc;

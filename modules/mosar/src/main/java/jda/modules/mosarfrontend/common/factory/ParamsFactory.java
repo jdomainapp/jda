@@ -2,6 +2,7 @@ package jda.modules.mosarfrontend.common.factory;
 
 import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosar.config.RFSGenConfig;
+import jda.modules.mosarfrontend.common.AngularSlotProperty;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.NewMCC;
@@ -122,4 +123,8 @@ public class ParamsFactory {
         return this.currentField;
     }
 
+    @RequiredParam.AngularProp
+    private AngularSlotProperty getAngularSlotProperty() {
+        return new AngularSlotProperty(this.currentNewMCC);
+    }
 }

@@ -16,8 +16,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotificationService } from './common/notification.service';
 @loop{1}[[
+  @slot{{moduleName}},]]loop{1}@
+@loop{3}[[
 @slot{{import-main}}
-@slot{{import-form}}]]loop{1}@
+@slot{{import-form}}]]loop{3}@
 
 @NgModule({
   declarations: [

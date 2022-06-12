@@ -7,6 +7,7 @@ import jda.modules.mccl.conceptmodel.Configuration.Language;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
 import jda.modules.mosar.config.*;
 import jda.modules.mosarbackend.springboot.BESpringApp;
+import jda.modules.mosarfrontend.angular.FEAngularApp;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
 import jda.modules.sccl.syntax.*;
 import jda.modules.setup.model.SetUpConfig;
@@ -25,10 +26,10 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         feProjPath = "/home/ducmle/tmp/restfstool-fe",
         feProjName = "fe-courseman",
         feProjResource = "src/main/resources/react",
-        fePlatform = FEPlatform.REACT_NATIVE,
-        feOutputPath = "D:\\UET_THS\\JDA\\work\\CourseManReactNative",
+        fePlatform = FEPlatform.ANGULAR,
+        feOutputPath = "D:\\Laptrinh\\4_DDD\\gencode\\output_fe",
         feServerPort = 5000,  // default: 3000
-        feAppClass = FEReactApp.class,
+        feAppClass = FEAngularApp.class,
         feThreaded = true,
         bePackage = "org.jda.example.coursemanrestful.modules",
         beOutputPath = "D:\\UET_THS\\JDA\\work\\jda\\examples\\courseman\\mosar\\src\\main\\java",

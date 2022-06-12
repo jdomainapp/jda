@@ -9,8 +9,10 @@
             Go to
           </button>
           <div class="dropdown-menu" x-placement="top-start" style="position: absolute; transform: translate3d(0px, -2px, 0px); top: 0px; left: 0px; will-change: transform;">
-            @loop{1}[[
-            <a routerLink="/@slot{{api}}" class="dropdown-item">@slot{{title}}</a>]]loop{1}@
+@loop{importEnums}[[import {@slot{{enumName}}} from '../data_types/@slot{{enumName}}';
+]]loop{importEnums}@
+			
+
           </div>
         </div>
       </div>

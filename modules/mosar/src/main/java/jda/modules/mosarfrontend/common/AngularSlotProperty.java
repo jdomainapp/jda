@@ -7,6 +7,7 @@ import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.anotation.SlotReplacementDesc;
 import jda.modules.mosarfrontend.common.factory.Slot;
+import jda.modules.mosarfrontend.common.utils.NewMCC;
 import jda.modules.mosarfrontend.reactjs.model.views.ViewFactory;
 
 import java.util.ArrayList;
@@ -16,24 +17,27 @@ import org.modeshape.common.text.Inflector;
 
 public class AngularSlotProperty {
     private static final Inflector inflector = Inflector.getInstance();
-    private MCC viewDesc;
-    private final String mainAPI;
+    private NewMCC mcc;
+//    private final String mainAPI;
     private final String title;
     private final String moduleName;
 //    private final String api;
     
-    public AngularSlotProperty(MCC mcc) {
-        this.viewDesc = mcc;
-        this.title = escapeQuotes(createTitle(mcc));
-        this.mainAPI = inflector.lowerCamelCase(viewDesc.getDomainClass().getName()).concat("API");
-        this.moduleName = viewDesc.getDomainClass().getName();
-        System.out.print("mainAPI" + this.mainAPI);
+    public AngularSlotProperty(NewMCC currentNewMCC) {
+        this.mcc = currentNewMCC;
+//        this.title = escapeQuotes(createTitle(currentNewMCC));
+//        this.mainAPI = inflector.lowerCamelCase(viewDesc.getDomainClass().getName()).concat("API");
+//        this.moduleName = viewDesc.getDomainClass().getName();
+        this.moduleName = currentNewMCC.getModuleDescriptor().modelDesc().model().getSimpleName();
+        this.title = this.mcc.getModuleDescriptor().viewDesc().formTitle();
+//        this.mainAPI = inflector.lowerCamelCase(viewDesc.getDomainClass().getName()).concat("API");
+//        System.out.print("mainAPI" + this.mainAPI);
 //        this.api = createApi(MCC mcc);
     }
     
-    private static String createTitle(MCC mcc) {
-        return mcc.getPropertyVal("viewDesc", "formTitle").toString();
-    }
+//    private static String createTitle(MCC mcc) {
+//        return mcc.getPropertyVal("viewDesc", "formTitle").toString();
+//    }
       
     private static String makeFileName(String backingClass) {
     	
@@ -46,7 +50,7 @@ public class AngularSlotProperty {
 //                        this.viewDesc.getDomainClass().getName())
 //                .replace("_", "-"));
         return inflector.underscore(
-                        this.viewDesc.getDomainClass().getName())
+                        this.moduleName)
                 .replace("_", "-");
     }
 
@@ -61,7 +65,7 @@ public class AngularSlotProperty {
     public String getAPI() {
     	return inflector.pluralize(
                 inflector.underscore(
-                        this.viewDesc.getDomainClass().getName())
+                        this.moduleName)
                 .replace("_", "-"));
     }
     
@@ -90,11 +94,11 @@ public class AngularSlotProperty {
         return str.replace("\"", "").replace("'", "");
     }
 
-    private static String makeApiDeclaration(final String apiName) {
-        final String objName = apiName.replace("API", "");
-        return String.format("const %sAPI = new BaseAPI(\"%s\", providers.axios);\n",
-                objName, lowerFirstChar(makePlural(objName)));
-    }
+//    private static String makeApiDeclaration(final String apiName) {
+//        final String objName = apiName.replace("API", "");
+//        return String.format("const %sAPI = new BaseAPI(\"%s\", providers.axios);\n",
+//                objName, lowerFirstChar(makePlural(objName)));
+//    }
 
     private static String lowerFirstChar(String str) {
         return Character.toLowerCase(str.charAt(0)) + str.substring(1);
@@ -102,11 +106,12 @@ public class AngularSlotProperty {
 
   
   public String getFileName() {
-	return makeFileName(viewDesc.getDomainClass().getName());
+	return makeFileName(this.moduleName);
   }
-  private static String makeSelector(String baseName) {
-    return "app-" + inflector.underscore(baseName).replace("_", "-");
+  public String getSelector() {
+    return "app-" + inflector.underscore(this.moduleName).replace("_", "-");
   }    
+    
 //    private Collection<String> getImports() {
 //        return frontendModules.stream()
 //                .map(module -> String.format("import %s from './%s'",
