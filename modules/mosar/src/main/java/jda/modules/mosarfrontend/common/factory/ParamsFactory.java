@@ -67,7 +67,13 @@ public class ParamsFactory {
         Class<?>[] mccClasses = rfsGenConfig.getMCCFuncs();
         this.domains = Arrays.stream(mccClasses).map(NewMCC::readMCC).collect((Collectors.toMap(k -> k.getModuleDescriptor().modelDesc().model().getSimpleName(), k -> k)));
 //        this.modules = IntStream.range(0, mccClasses.length).mapToObj(i -> MCCUtils.readMCC(models[i], mccClasses[i])).collect(Collectors.toMap(MCC::getName, mcc -> mcc));
-        System.out.println("");
+        // link domain to field in each dField
+        for (String domain : this.domains.keySet()) {
+            for (DField dField : this.domains.get(domain).getDFields()) {
+                if (dField.getDAssoc() != null)
+                    dField.setLinkedDomain(this.domains.get(dField.getDAssoc().associate().type().getSimpleName()));
+            }
+        }
         return this.domains.keySet().toArray(String[]::new);
     }
 

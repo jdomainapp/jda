@@ -26,6 +26,13 @@ public class ModuleConfigGen {
         return moduleName;
     }
 
+    @SlotReplacementDesc(slot = "importDataType")
+    public String importDataType(@RequiredParam.ModuleName String moduleName, @RequiredParam.MCC NewMCC domain) {
+        if (Arrays.stream(domain.getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
+            moduleName = moduleName + ", " + "Sub" + moduleName;
+        }
+        return moduleName;
+    }
 
     @SlotReplacementDesc(slot = "fieldID")
     public String fieldID(@RequiredParam.ModuleFields DField[] fields) {

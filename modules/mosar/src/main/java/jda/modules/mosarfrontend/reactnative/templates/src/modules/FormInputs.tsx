@@ -42,4 +42,5 @@ export const {
   FormInput: Form@slot{{moduleName}}Input,
   FormMultiInput: FormMulti@slot{{moduleName}}Input,
 } = createModuleInput(@slot{{moduleName}}ModuleConfig);
+
 ]]loop{exportModuleInputs}@

@@ -1,6 +1,6 @@
 @loop{importEnum}[[import {@slot{{importEnumName}}} from './@slot{{importEnumName}}';
 ]]loop{importEnum}@
-@loop{import}[[import {Sub@slot{{importModuleName}}} from './@slot{{importModuleName}}';
+@loop{import}[[import {@slot{{importModuleName}}} from './@slot{{importLocation}}';
 ]]loop{import}@
 export interface @slot{{moduleName}} {@loop{1}[[
   @slot{{field}}: @slot{{fieldType}};]]loop{1}@

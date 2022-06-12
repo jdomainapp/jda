@@ -19,13 +19,18 @@ public class DataTypeGen {
         return name;
     }
 
-    @LoopReplacementDesc(slots = {"importModuleName"}, id = "import")
+    @LoopReplacementDesc(slots = {"importModuleName", "importLocation"}, id = "import")
     public Slot[][] importInterface(@RequiredParam.ModuleFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : fields) {
             if (field.getDAssoc() != null) {
                 ArrayList<Slot> list = new ArrayList<>();
-                list.add(new Slot("importModuleName", field.getDAssoc().associate().type().getSimpleName()));
+                String interfaceName = field.getDAssoc().associate().type().getSimpleName();
+                list.add(new Slot("importLocation", interfaceName));
+                if (Arrays.stream(field.getLinkedDomain().getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
+                    interfaceName = "Sub" + interfaceName;
+                }
+                list.add(new Slot("importModuleName", interfaceName));
                 result.add(list);
             }
         }
@@ -119,7 +124,10 @@ public class DataTypeGen {
                 return "boolean";
             case Domain:
                 if (ass != null && ass.associate() != null && ass.associate().type() != null) {
-                    return "Sub" + ass.associate().type().getSimpleName();
+                    String type = ass.associate().type().getSimpleName();
+                    if (Arrays.stream(field.getLinkedDomain().getDFields()).anyMatch(f -> f.getDAssoc() != null))
+                        type = "Sub" + type;
+                    return type;
                 } else if (field.getEnumName() != null) {
                     return field.getEnumName();
                 } else {
