@@ -10,6 +10,7 @@ import javax.persistence.Transient;
 
 import org.springframework.hateoas.RepresentationModel;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class Student extends RepresentationModel<Student> {
 	@Column(name = "gender_name")
 	private String studentGender;
 	@Column(name = "dob")
+	
 	private Date studentDob;
 	@Column(name = "address_id", nullable = false)
 	private int addressId;

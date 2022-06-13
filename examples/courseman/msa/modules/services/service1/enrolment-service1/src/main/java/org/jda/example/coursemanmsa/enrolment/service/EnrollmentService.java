@@ -53,6 +53,10 @@ public class EnrollmentService {
         return repository.findAll(arg0);
     }
     
+    public List<Enrolment> getEntityByCoursemoduleId(int id){
+    	return repository.findByCoursemoduleId(id);
+    }
+    
 //	@CircuitBreaker(name = "enrolmentService", fallbackMethod = "buildFallbackEnrolment")
 //	@RateLimiter(name = "enrolmentService", fallbackMethod = "buildFallbackEnrolment")
 //	@Retry(name = "retryEnrolmentService", fallbackMethod = "buildFallbackEnrolment")

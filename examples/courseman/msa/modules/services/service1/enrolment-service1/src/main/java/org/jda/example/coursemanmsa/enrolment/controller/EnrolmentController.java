@@ -1,5 +1,6 @@
 package org.jda.example.coursemanmsa.enrolment.controller;
 
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import org.jda.example.coursemanmsa.enrolment.model.Enrolment;
@@ -35,8 +36,13 @@ public class EnrolmentController {
     }
     
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Enrolment> getEntityById(int arg0) throws TimeoutException{
+    public ResponseEntity<Enrolment> getEntityById(@PathVariable("id") int arg0) throws TimeoutException{
         return ResponseEntity.ok(service.getEntityById(arg0));
+    }
+    
+    @GetMapping(value = "/coursemodule/{id}")
+    public ResponseEntity<List<Enrolment>> getEntityByCoursemoduleId(@PathVariable("id") int arg0) {
+        return ResponseEntity.ok(service.getEntityByCoursemoduleId(arg0));
     }
 
     @PutMapping(value = "/{id}")

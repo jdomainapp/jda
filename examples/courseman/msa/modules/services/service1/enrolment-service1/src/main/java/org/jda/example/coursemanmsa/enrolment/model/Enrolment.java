@@ -2,6 +2,8 @@ package org.jda.example.coursemanmsa.enrolment.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -23,6 +25,7 @@ public class Enrolment extends RepresentationModel<Enrolment> {
 
 	@Id
 	@Column(name = "id", nullable = false)
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private int id;
 	@Column(name = "student_id", nullable = false)
 	private String studentId;
