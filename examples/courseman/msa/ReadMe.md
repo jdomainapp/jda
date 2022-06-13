@@ -2354,7 +2354,7 @@ cd ../courseman/msa/modules/services/service2/enrolment-service2
 mvn spring-boot:run
 ```
 By class `org.jda.example.coursemanmsa.academic.EnrolmentServiceApplication`
-- Functions: **Any changes to `enrolment` will be notified to `academic-service` through `enrolmentChangeTopic` Kafka topic
+- Functions: **Any changes to `enrolment` will be notified to `academic-service` through `enrolmentChangeTopic` Kafka topic**
 
 ### Academic Service
 - Description
