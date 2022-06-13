@@ -1,10 +1,10 @@
-package org.jda.example.coursemanmsa.student;
+package org.jda.example.coursemanmsa.academic;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class StudentServiceApplicationTests {
+class AcademicServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

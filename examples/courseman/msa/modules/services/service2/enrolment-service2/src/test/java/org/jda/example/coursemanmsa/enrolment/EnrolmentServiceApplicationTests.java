@@ -1,10 +1,10 @@
-package org.jda.example.coursemanmsa.address;
+package org.jda.example.coursemanmsa.enrolment;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AddressServiceApplicationTests {
+class EnrolmentServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
