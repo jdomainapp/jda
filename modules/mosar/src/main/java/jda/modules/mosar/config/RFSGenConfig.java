@@ -2,7 +2,6 @@ package jda.modules.mosar.config;
 
 import jda.modules.mosar.software.backend.BEApp;
 import jda.modules.mosar.software.frontend.FEApp;
-import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplate;
 import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
 
 import java.util.ArrayList;

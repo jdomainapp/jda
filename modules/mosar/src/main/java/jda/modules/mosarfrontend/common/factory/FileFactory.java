@@ -50,14 +50,14 @@ class RegexUtils {
         return Pattern.compile(String.format("@slot\\{\\{\\s*%s\\s*\\}\\}", slot), Pattern.DOTALL);
     }
 
-    public Pattern createLoopRegex(LoopReplacement loop) {
+    public Pattern createLoopRegex(LoopReplacementDesc loop) {
         StringBuilder singleSlotsRegex = new StringBuilder();
-        for (String slot : loop.getSlots()) {
+        for (String slot : loop.slots()) {
             singleSlotsRegex.append(createSlotRegex(slot));
             singleSlotsRegex.append(".*");
         }
         return Pattern.compile(String.format("@loop(?<li>\\{%s})\\[\\[(.*%s)]]loop(\\k<li>)@",
-                loop.getId(), singleSlotsRegex), Pattern.DOTALL);
+                loop.id(), singleSlotsRegex), Pattern.DOTALL);
     }
 
     public Pattern createIfRegex(String id) {
@@ -163,10 +163,10 @@ public class FileFactory {
         if (replaceMethod.getReturnType() != String.class) return;
         String value = MethodUtils.execute(handler, replaceMethod, String.class);
         if (value != null) {
-            SlotReplacement desc = new SlotReplacement();
+//            SlotReplacement desc = new SlotReplacement();
             SlotReplacementDesc ano = replaceMethod.getAnnotation(SlotReplacementDesc.class);
-            RFSGenTk.parseAnnotation2Config(ano, desc);
-            Pattern pattern = regexUtils.createSlotRegex(desc.getSlot());
+//            RFSGenTk.parseAnnotation2Config(ano, desc);
+            Pattern pattern = regexUtils.createSlotRegex(ano.slot());
             this.fileContent = pattern.matcher(this.fileContent)
                     .replaceAll(value);
         }
@@ -178,11 +178,11 @@ public class FileFactory {
         if (replaceMethod.getReturnType() != Slot[][].class) return;
         Slot[][] loopValues = MethodUtils.execute(handler, replaceMethod, Slot[][].class);
         if (loopValues != null) {
-            LoopReplacement desc = new LoopReplacement();
+//            LoopReplacement desc = new LoopReplacement();
             LoopReplacementDesc ano = replaceMethod.getAnnotation(LoopReplacementDesc.class);
-            RFSGenTk.parseAnnotation2Config(ano, desc);
+//            RFSGenTk.parseAnnotation2Config(ano, desc);
             // get loop content
-            final Pattern pattern = regexUtils.createLoopRegex(desc);
+            final Pattern pattern = regexUtils.createLoopRegex(ano);
             final Matcher matcher = pattern.matcher(this.fileContent);
             if (matcher.find()) {
                 //replace single_slot in loop

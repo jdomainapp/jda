@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplate;
 import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
 import org.reflections.Reflections;
 import org.slf4j.LoggerFactory;

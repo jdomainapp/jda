@@ -101,7 +101,7 @@ public class DataTypeGen {
         return dField.getDAttr().type().isCollection() ? type += "[]" : type;
     }
 
-    private String typeConverter(DField field) {
+    public String typeConverter(DField field) {
         DAssoc ass = field.getDAssoc();
         switch (field.getDAttr().type()) {
             case String:

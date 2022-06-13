@@ -4,6 +4,7 @@ import jda.modules.mosarfrontend.common.anotation.template_desc.*;
 import jda.modules.mosarfrontend.reactnative.templates.src.MainGen;
 import jda.modules.mosarfrontend.reactnative.templates.src.data_types.DataTypeGen;
 import jda.modules.mosarfrontend.reactnative.templates.src.data_types.EnumTypeGen;
+import jda.modules.mosarfrontend.reactnative.templates.src.data_types.SubTypeGen;
 import jda.modules.mosarfrontend.reactnative.templates.src.modules.FormInputsGen;
 import jda.modules.mosarfrontend.reactnative.templates.src.modules.module.*;
 
@@ -36,6 +37,12 @@ import jda.modules.mosarfrontend.reactnative.templates.src.modules.module.*;
                 ),
                 Ext = @ComponentGenDesc(
                         genClasses = {ModuleConfigGen.class}
+                )
+        ),
+
+        subModuleTemplates = @SubModuleTemplateDesc(
+                Ext = @ComponentGenDesc(
+                        genClasses = {SubTypeGen.class}
                 )
         ),
 
