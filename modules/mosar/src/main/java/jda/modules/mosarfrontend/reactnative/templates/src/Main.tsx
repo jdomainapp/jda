@@ -1,9 +1,7 @@
 import * as React from 'react';
 import JDADrawer from './base/views/jda_drawer/JDADrawer';
-import {@loop{1}[[
-  @slot{{moduleName}}Module,]]loop{1}@
-} from './modules/Modules';
-
+@loop{importModules}[[import { @slot{{ModuleName}}Module } from './modules/@slot{{moduleName}}/Index';
+]]loop{importModules}@
 export default class MainScreen extends React.Component {
   public render() {
     return (

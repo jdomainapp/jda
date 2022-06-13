@@ -12,12 +12,13 @@ import java.util.ArrayList;
         templateFile = "/src/Main.tsx"
 )
 public class MainGen {
-    @LoopReplacementDesc(slots = {"moduleName"}, id = "1")
+    @LoopReplacementDesc(slots = {"ModuleName", "moduleName"}, id = "importModules")
     public Slot[][] replaceImportModules(@RequiredParam.ModulesName String[] modulesName) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String moduleName : modulesName) {
             ArrayList<Slot> slotValues = new ArrayList<>();
-            slotValues.add(new Slot("moduleName", moduleName));
+            slotValues.add(new Slot("moduleName", moduleName.toLowerCase()));
+            slotValues.add(new Slot("ModuleName", moduleName));
             result.add(slotValues);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
@@ -30,6 +31,12 @@ public class MainGen {
 
     @LoopReplacementDesc(slots = {"moduleName"}, id = "2")
     public Slot[][] replaceRouteModules(@RequiredParam.ModulesName String[] modulesName) {
-        return replaceImportModules(modulesName);
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        for (String moduleName : modulesName) {
+            ArrayList<Slot> slotValues = new ArrayList<>();
+            slotValues.add(new Slot("moduleName", moduleName));
+            result.add(slotValues);
+        }
+        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 }

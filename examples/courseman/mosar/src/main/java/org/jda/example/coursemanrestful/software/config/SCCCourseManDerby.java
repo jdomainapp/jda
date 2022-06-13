@@ -27,12 +27,12 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         feProjName = "fe-courseman",
         feProjResource = "src/main/resources/react",
         fePlatform = FEPlatform.REACT_NATIVE,
-        feOutputPath = "D:\\UET_THS\\JDA\\work\\CourseManReactNative",
+        feOutputPath = "D:\\JDA\\CourseManReactNative",
         feServerPort = 5000,  // default: 3000
         feAppClass = FEAngularApp.class,
         feThreaded = true,
         bePackage = "org.jda.example.coursemanrestful.modules",
-        beOutputPath = "D:\\UET_THS\\JDA\\work\\jda\\examples\\courseman\\mosar\\src\\main\\java",
+        beOutputPath = "D:\\JDA\\jda\\examples\\courseman\\mosar\\src\\main\\java",
         beTargetPackage = "org.jda.example.coursemanrestful.backend"
         , beAppClass = BESpringApp.class,
         beServerPort = 8080  // default: 8080

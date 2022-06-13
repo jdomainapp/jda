@@ -5,6 +5,7 @@ import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.NewMCC;
+import jda.modules.mosarfrontend.reactnative.templates.src.modules.module.ModuleConfigGen;
 
 import java.util.ArrayList;
 import java.util.Locale;
