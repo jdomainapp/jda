@@ -525,23 +525,22 @@ WARNING: All illegal access operations will be denied in a future release
 </p>
 </details>
 	
-- Functions: **Any changes to `address` will be notified to `student-service` through `addressChangeTopic` Kafka topic
-+ Create a new address: `http://localhost:8072/address-service/v1/address/`
+- Functions: **Any changes to `address` will be notified to `student-service` through `addressChangeTopic` Kafka topic**
+	+ Create a new address: `http://localhost:8072/address-service/v1/address/`
 ![image](https://user-images.githubusercontent.com/89120031/172946004-d9109f25-3f3c-46cf-a828-46572eedfb36.png)
 
-+ Edit a address: `http://localhost:8072/address-service/v1/address/1`
+	+ Edit a address: `http://localhost:8072/address-service/v1/address/1`
 ![image](https://user-images.githubusercontent.com/89120031/172946079-d76089a2-d714-443e-b156-9fc75aea1aaa.png)
 
-+ Get a address by Id: `http://localhost:8072/address-service/v1/address/1`
+	+ Get a address by Id: `http://localhost:8072/address-service/v1/address/1`
 ![image](https://user-images.githubusercontent.com/89120031/172951195-5931bc51-5271-437e-8b59-051a22207b70.png)
 
-+ List all address: `http://localhost:8072/address-service/v1/address/`
+	+ List all address: `http://localhost:8072/address-service/v1/address/`
 ![image](https://user-images.githubusercontent.com/89120031/172946905-6836067f-1822-4949-957b-c6d39e403ff2.png)
 
-+ Delete a address: `http://localhost:8072/address-service/v1/address/2`
+	+ Delete a address: `http://localhost:8072/address-service/v1/address/2`
 ![image](https://user-images.githubusercontent.com/89120031/172947320-6c025bed-a0ea-40fb-81a7-e2feec6b109d.png)
 
-+ When 
 ### Class Service
 - Description: 
 - Create database
@@ -766,20 +765,20 @@ WARNING: All illegal access operations will be denied in a future release
 </p>
 </details>
 	
-- Functions: **Any changes to `class` will be notified to `student-service` through `classChangeTopic` Kafka topic
-+ Create a new class: `http://localhost:8072/class-service/v1/class/`
+- Functions: **Any changes to `class` will be notified to `student-service` through `classChangeTopic` Kafka topic**
+	+ Create a new class: `http://localhost:8072/class-service/v1/class/`
 ![image](https://user-images.githubusercontent.com/89120031/172952921-18aaa826-5f37-44ef-9b87-62658870db18.png)
 
-+ Edit a class: `http://localhost:8072/class-service/v1/class/1`
+	+ Edit a class: `http://localhost:8072/class-service/v1/class/1`
 ![image](https://user-images.githubusercontent.com/89120031/172953267-fde5ec87-8657-44c5-acdc-ad9dca73fe60.png)
 
-+ Get a address by Id: `http://localhost:8072/class-service/v1/class/1`
+	+ Get a address by Id: `http://localhost:8072/class-service/v1/class/1`
 ![image](https://user-images.githubusercontent.com/89120031/172953374-b686e499-a8d3-46c9-8b19-b54e64d64912.png)
 
-+ List all class: `http://localhost:8072/class-service/v1/class/`
+	+ List all class: `http://localhost:8072/class-service/v1/class/`
 ![image](https://user-images.githubusercontent.com/89120031/172953433-7b955b79-c22f-4456-9b1b-38822a337d26.png)
 
-+ Delete a class: `http://localhost:8072/class-service/v1/class/2`
+	+ Delete a class: `http://localhost:8072/class-service/v1/class/2`
 ![image](https://user-images.githubusercontent.com/89120031/172953483-65100eba-a3da-4238-8061-2d2f70a0dc86.png)
 
 ### Course Service
@@ -1031,35 +1030,35 @@ WARNING: All illegal access operations will be denied in a future release
 </p>
 </details>
 
-- Functions: **Any changes to `course` will be notified to `enrolment-service` through `courseChangeTopic` Kafka topic
-+ Create a new course: `http://localhost:8072/course-service/v1/course/`
+- Functions: **Any changes to `course` will be notified to `enrolment-service` through `courseChangeTopic` Kafka topic**
+	+ Create a new course: `http://localhost:8072/course-service/v1/course/`
 ![image](https://user-images.githubusercontent.com/89120031/172954328-26328033-3d65-46eb-b7f6-9d798de210f9.png)
 
-+ Edit a course: `http://localhost:8072/course-service/v1/course/1`
+	+ Edit a course: `http://localhost:8072/course-service/v1/course/1`
 ![image](https://user-images.githubusercontent.com/89120031/172955131-4d05acc9-85dd-482b-970b-0a8e0bc744a5.png)
 
-+ Get a course by Id: `http://localhost:8072/course-service/v1/course/1`
+	+ Get a course by Id: `http://localhost:8072/course-service/v1/course/1`
 ![image](https://user-images.githubusercontent.com/89120031/172955207-014c6a29-e41c-4311-a517-4afec20334fd.png)
 
-+ Delete a course: `http://localhost:8072/course-service/v1/course/2`
+	+ Delete a course: `http://localhost:8072/course-service/v1/course/2`
 ![image](https://user-images.githubusercontent.com/89120031/172955378-15748c14-f65d-4185-9a5a-7242be304354.png)
 
-+ List all course: `http://localhost:8072/course-service/v1/course/`
+	+ List all course: `http://localhost:8072/course-service/v1/course/`
 ![image](https://user-images.githubusercontent.com/89120031/172955296-adab8945-f16a-4b42-9fcd-e754c9e14c57.png)
 
-+ List all course by type **compulsorymodule** or **electivemodule**: `http://localhost:8072/course-service/v1/course/compulsorymodule`
+	+ List all course by type **compulsorymodule** or **electivemodule**: `http://localhost:8072/course-service/v1/course/compulsorymodule`
 ![image](https://user-images.githubusercontent.com/89120031/172958289-d2ad1700-b1d3-40ad-b26c-07e8c3f1d966.png)
 
-+ List all **compulsorymodule** course: `http://localhost:8072/course-service/v1/course/compulsorymodules`
+	+ List all **compulsorymodule** course: `http://localhost:8072/course-service/v1/course/compulsorymodules`
 ![image](https://user-images.githubusercontent.com/89120031/172958791-038c3047-6d74-472a-b861-f068402525c7.png)
 
-+ List all **compulsorymodule** by Id: `http://localhost:8072/course-service/v1/course/compulsorymodule/4`
+	+ List all **compulsorymodule** by Id: `http://localhost:8072/course-service/v1/course/compulsorymodule/4`
 ![image](https://user-images.githubusercontent.com/89120031/172958890-4b4a1df4-f274-4191-b9f0-21f742c0f54a.png)
 
-+ List all **electivemodule** course: `http://localhost:8072/course-service/v1/course/electivemodules`
+	+ List all **electivemodule** course: `http://localhost:8072/course-service/v1/course/electivemodules`
 ![image](https://user-images.githubusercontent.com/89120031/172958995-b83cb3d1-5435-47e9-88aa-64d0115ad746.png)
 
-+ List all **electivemodule** by Id:`http://localhost:8072/course-service/v1/course/electivemodule/3`
+	+ List all **electivemodule** by Id:`http://localhost:8072/course-service/v1/course/electivemodule/3`
 ![image](https://user-images.githubusercontent.com/89120031/172959036-273644a3-586c-4337-b6be-0c7d47d925b8.png)
 
 ### Student Service
@@ -1741,7 +1740,21 @@ WARNING: All illegal access operations will be denied in a future release
 </p>
 </details>
 
-- Functions: **Any changes to `student` will be notified to `enrolment-service` through `studentChangeTopic` Kafka topic
+- Functions: **Any changes to `student` will be notified to `enrolment-service` through `studentChangeTopic` Kafka topic**
+	+ Create a new student: `http://localhost:8072/student-service/v1/student/`
+![image](https://user-images.githubusercontent.com/89120031/173244278-1d81a361-9a5b-4f17-828a-076ae1c88318.png)
+
+	+ Edit a student: `http://localhost:8072/student-service/v1/student/KT20`
+![image](https://user-images.githubusercontent.com/89120031/173245588-e802a32f-409b-4b8b-a773-50e417acadf0.png)
+
+	+ Get a student by Id: `http://localhost:8072/student-service/v1/student/KT20`
+![image](https://user-images.githubusercontent.com/89120031/173245846-d30af20a-e92c-43bc-86b1-0a1aa94e1dd6.png)
+
+	+ Delete a student: `http://localhost:8072/student-service/v1/student/0`
+![image](https://user-images.githubusercontent.com/89120031/173245711-0ebc0b87-a6dc-48ea-badd-39c62b36cd57.png)
+
+	+ List all student: `http://localhost:8072/student-service/v1/student/`
+![image](https://user-images.githubusercontent.com/89120031/173245691-4f09743e-ac36-466e-843c-44188274f0af.png)
 
 ## Usecase1
 ### Enrolment Service
@@ -2312,6 +2325,23 @@ WARNING: All illegal access operations will be denied in a future release
 </details>
 
 - Functions:
+	+ Create a new enrolment: `http://localhost:8072/enrolment-service1/v1/enrolment/`
+![image](https://user-images.githubusercontent.com/89120031/173248067-09d76aa7-f6c1-48f1-9d27-0cac62c5aa69.png)
+
+	+ Edit a enrolment: `http://localhost:8072/enrolment-service1/v1/enrolment/KT20`
+![image](https://user-images.githubusercontent.com/89120031/173248137-0a5d6ac2-e8e9-4a60-9ae7-bc9eccad5e87.png)
+
+	+ Get a enrolment by Id: `http://localhost:8072/enrolment-service1/v1/enrolment/KT20`
+![image](https://user-images.githubusercontent.com/89120031/173248154-02e67061-02e2-47dd-a644-35f7973dbf47.png)
+	
+	+ Get enrolments by coursemoduleId: `http://localhost:8072/enrolment-service1/v1/enrolment/coursemodule/4`
+![image](https://user-images.githubusercontent.com/89120031/173248249-b8208973-a591-48e0-a5d8-76cc67c1ee51.png)
+
+	+ Delete a enrolment: `http://localhost:8072/enrolment-service1/v1/enrolment/0`
+![image](https://user-images.githubusercontent.com/89120031/173248192-b7435223-3d4a-48ec-b289-492539027930.png)
+
+	+ List all enrolment: `http://localhost:8072/enrolment-service1/v1/enrolment/`
+![image](https://user-images.githubusercontent.com/89120031/173248173-503a5fd5-4691-4464-8af7-e64ebb1b0aca.png)
 
 ## Usecase2
 ### Enrolment Service
@@ -2324,7 +2354,7 @@ cd ../courseman/msa/modules/services/service2/enrolment-service2
 mvn spring-boot:run
 ```
 By class `org.jda.example.coursemanmsa.academic.EnrolmentServiceApplication`
-- Functions: **Any changes to `enrolment` will be notified to `academic-service` through `enrolmentChangeTopic` Kafka topic
+- Functions: **Any changes to `enrolment` will be notified to `academic-service` through `enrolmentChangeTopic` Kafka topic**
 
 ### Academic Service
 - Description
