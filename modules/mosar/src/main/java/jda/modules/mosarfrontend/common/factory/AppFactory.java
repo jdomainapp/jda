@@ -77,10 +77,13 @@ public class AppFactory {
 
     private void loopGenMethod(Annotation genDesc, Callback callback) {
         Method[] genMethods = genDesc.annotationType().getDeclaredMethods();
+        
         for (Method m : genMethods) {
+        	
             try {
                 ComponentGenDesc componentGenDesc = (ComponentGenDesc) m.invoke(genDesc, (new ArrayList<Object>()).toArray());
                 for (Class<?> fileTemplateDesc : componentGenDesc.genClasses()) {
+//                	System.out.println(fileTemplateDesc);
                     try {
                         callback.gen(fileTemplateDesc);
                     } catch (Exception e) {
@@ -132,6 +135,7 @@ public class AppFactory {
                  * Các file gen với mỗi miền (module in domain model) , Ex: Student, Class in CourseMan example
                  */
                 ModuleTemplatesDesc moduleTemplatesDesc = appTemplate.moduleTemplates();
+                
                 loopGenMethod(moduleTemplatesDesc, (genClass) -> {
                     (new FileFactory(genClass, rfsGenConfig.getFeOutputPath(), templateFolder))
                             .genAndSave();

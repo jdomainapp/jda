@@ -1,4 +1,4 @@
-package jda.modules.mosarfrontend.angular.templates.src;
+package jda.modules.mosarfrontend.angular.templates;
 
 import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosarfrontend.common.AngularSlotProperty;
@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 @FileTemplateDesc(
-        templateFile = "/src/app-routing.module.ts"
+        templateFile = "/app-routing.module.ts"
 )
 public class AppRoutingTemplate {
 

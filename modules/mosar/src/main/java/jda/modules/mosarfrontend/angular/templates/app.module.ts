@@ -15,11 +15,9 @@ import { AlertComponent } from './alert/alert.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotificationService } from './common/notification.service';
-@loop{1}[[
-  @slot{{moduleName}},]]loop{1}@
-@loop{3}[[
+@loop{import}[[
 @slot{{import-main}}
-@slot{{import-form}}]]loop{3}@
+@slot{{import-form}}]]loop{import}@
 
 @NgModule({
   declarations: [
@@ -31,9 +29,9 @@ import { NotificationService } from './common/notification.service';
     CompDirective,
     BaseCommonComponent,
     AlertComponent,
-    @loop{2}[[
+    @loop{declare}[[
     @slot{{decl-main}},
-    @slot{{decl-form}}]]loop{2}@
+    @slot{{decl-form}}]]loop{declare}@
   ],
   imports: [
     BrowserModule,

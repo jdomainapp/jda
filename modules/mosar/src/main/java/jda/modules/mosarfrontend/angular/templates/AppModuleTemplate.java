@@ -1,4 +1,4 @@
-package jda.modules.mosarfrontend.angular.templates.src;
+package jda.modules.mosarfrontend.angular.templates;
 
 import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
@@ -43,11 +43,11 @@ import jda.modules.mosarfrontend.common.utils.NewMCC;
 import java.util.Map;
 
 @FileTemplateDesc(
-        templateFile = "/src/app.module.ts"
+        templateFile = "/app.module.ts"
 )
 public class AppModuleTemplate {
-
-    @LoopReplacementDesc(slots = {"import-main", "import-form"}, id = "1")
+    
+    @LoopReplacementDesc(slots = {"import-main", "import-form"}, id = "import")
     public Slot[][] replaceImportModules(@RequiredParam.ModuleMap Map<String, NewMCC> moduleMap) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (NewMCC mcc : moduleMap.values()) {
@@ -57,11 +57,11 @@ public class AppModuleTemplate {
             slotValues.add(new Slot("import-form", prop.getFormImport()));
             result.add(slotValues);
         }
-        
+//        System.out.println(result.toArray());
         return result.stream().map(v-> v.stream().toArray(Slot[]::new)).toArray(Slot[][]::new);
-    }
+    }    
 
-    @LoopReplacementDesc(slots = {"decl-main", "decl-form"}, id = "2")
+    @LoopReplacementDesc(slots = {"decl-main", "decl-form"}, id = "declare")
     public Slot[][] replaceRouteModules(@RequiredParam.ModuleMap Map<String, NewMCC> moduleMap) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (NewMCC mcc : moduleMap.values()) {

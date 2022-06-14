@@ -1,0 +1,4 @@
+ <div class="form-group" base-form>
+    <label class="form-label">@slot{{fieldLabel}}</label>
+    <input disabled="" type="@slot{{fieldType}}" class="form-control" [(ngModel)]="item.@slot{{fieldName}}">
+  </div><br>

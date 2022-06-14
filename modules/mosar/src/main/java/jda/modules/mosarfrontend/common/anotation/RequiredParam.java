@@ -43,5 +43,9 @@ public @interface RequiredParam {
     @Target({ElementType.PARAMETER, ElementType.METHOD})
     @interface AngularProp {
     }
-    
+
+	@Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.PARAMETER, ElementType.METHOD})
+    @interface DomainFields {
+    }
 }
