@@ -12,10 +12,9 @@ public @interface AppTemplateDesc {
      * @return Path to resource folder - which includes all requirement resource (don't need to generate) like image, common code,...
      */
     String resource() default "";
-
     String templateRootFolder();
-
     CrossTemplatesDesc crossTemplates();
     ModuleTemplatesDesc moduleTemplates();
+    SubModuleTemplateDesc subModuleTemplates() default @SubModuleTemplateDesc;
     ModuleFieldTemplateDesc moduleFieldTemplates() default @ModuleFieldTemplateDesc;
 }

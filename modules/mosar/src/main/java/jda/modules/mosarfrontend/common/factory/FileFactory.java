@@ -7,12 +7,16 @@ import lombok.NonNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -42,32 +46,34 @@ class MethodUtils {
 }
 
 class RegexUtils {
-    public String createSlotRegex(String slot) {
-        return String.format("@slot\\{\\{\\s*%s\\s*\\}\\}", slot);
+    public Pattern createSlotRegex(String slot) {
+        return Pattern.compile(String.format("@slot\\{\\{\\s*%s\\s*\\}\\}", slot), Pattern.DOTALL);
     }
 
-    public String createLoopRegex(LoopReplacement loop) {
+    public Pattern createLoopRegex(LoopReplacementDesc loop) {
         StringBuilder singleSlotsRegex = new StringBuilder();
-        for (String slot : loop.getSlots()) {
+        for (String slot : loop.slots()) {
             singleSlotsRegex.append(createSlotRegex(slot));
             singleSlotsRegex.append(".*");
         }
-        return String.format("@loop(?<li>\\{%s})\\[\\[(.*%s)]]loop(\\k<li>)@",
-                loop.getId(), singleSlotsRegex);
+        return Pattern.compile(String.format("@loop(?<li>\\{%s})\\[\\[(.*%s)]]loop(\\k<li>)@",
+                loop.id(), singleSlotsRegex), Pattern.DOTALL);
+    }
+
+    public Pattern createIfRegex(String id) {
+        return Pattern.compile(String.format("@if(?<li>\\{%s\\})\\(\\((.*)\\)\\)if(\\k<li>)@", id), Pattern.DOTALL);
     }
 }
 
 @Data
 public class FileFactory {
     @NonNull
-    private Class<?> fileTemplateDesc;
+    private final Class<?> fileTemplateDesc;
     @NonNull
-    private String outPutFolder;
+    private final String outPutFolder;
     @NonNull
-    private String templateRootFolder;
-    //    private FileTemplate fileTemplate;
+    private final String templateRootFolder;
     private FileTemplateDesc fileTemplate;
-    private Class<?> moduleClass;
     private Object handler;
     //Output file info:
     private String fileContent = null;
@@ -75,13 +81,22 @@ public class FileFactory {
     private String filePath = null;
     private String fileExt = null;
     // Utils
-    private RegexUtils regexUtils = new RegexUtils();
+    private final RegexUtils regexUtils = new RegexUtils();
     private final ParamsFactory paramsFactory = ParamsFactory.getInstance();
+
+    private final Map<Class<? extends Annotation>, ArrayList<Method>> handlerMapByAnnotation = new HashMap<>();
+    private final Map<Class<? extends Annotation>, Method> actionMapByAnnotation = new HashMap<>();
 
     public FileFactory(Class<?> fileTemplateDesc, String feOutputPath, String templateFolder) {
         this.fileTemplateDesc = fileTemplateDesc;
         this.outPutFolder = feOutputPath;
         this.templateRootFolder = templateFolder;
+        for (Method declaredMethod : this.getClass().getDeclaredMethods()) {
+            Annotation[] annotations = declaredMethod.getDeclaredAnnotations();
+            if (annotations.length > 0) {
+                this.actionMapByAnnotation.put(annotations[0].annotationType(), declaredMethod);
+            }
+        }
     }
 
     private void initDefaultFileInfo() {
@@ -104,11 +119,6 @@ public class FileFactory {
     }
 
     private void initFileTemplate() throws Exception {
-
-//        this.fileTemplate = new FileTemplate();
-//        RFSGenTk.parseAnnotation2Config(ano, this.fileTemplate);
-        // default output file info
-        initDefaultFileInfo();
         // get template file content
         String templateFilePath = templateRootFolder + this.fileTemplate.templateFile().replace("/", "\\");        
         try {
@@ -116,51 +126,63 @@ public class FileFactory {
         } catch (IOException e) {
             throw new Exception("Template file not found");
         }
+        // init default properties of file ( ext, name, path)
+        initDefaultFileInfo();
+
     }
 
+    @WithFileName
     private void updateFileName(Method withFileName) {
+        if (withFileName.getReturnType() != String.class) return;
         String value = MethodUtils.execute(handler, withFileName, String.class);
         if (value != null) {
             this.fileName = value;
         }
     }
 
+    @WithFilePath
     private void updateFilePath(Method withFilePath) {
+        if (withFilePath.getReturnType() != String.class) return;
         String value = MethodUtils.execute(handler, withFilePath, String.class);
         if (value != null) {
             this.filePath = value;
         }
     }
 
+    @WithFileExtension
     private void updateFileExt(Method withFileExtension) {
+        if (withFileExtension.getReturnType() != String.class) return;
         String value = MethodUtils.execute(handler, withFileExtension, String.class);
         if (value != null) {
             this.fileExt = value;
         }
     }
 
+    @SlotReplacementDesc
     private void replaceSlot(Method replaceMethod) {
+        if (replaceMethod.getReturnType() != String.class) return;
         String value = MethodUtils.execute(handler, replaceMethod, String.class);
         if (value != null) {
-            SlotReplacement desc = new SlotReplacement();
+//            SlotReplacement desc = new SlotReplacement();
             SlotReplacementDesc ano = replaceMethod.getAnnotation(SlotReplacementDesc.class);
-            RFSGenTk.parseAnnotation2Config(ano, desc);
-            this.fileContent = this.fileContent
-                    .replaceAll(regexUtils.createSlotRegex(desc.getSlot()), value);
+//            RFSGenTk.parseAnnotation2Config(ano, desc);
+            Pattern pattern = regexUtils.createSlotRegex(ano.slot());
+            this.fileContent = pattern.matcher(this.fileContent)
+                    .replaceAll(value);
         }
 
     }
 
+    @LoopReplacementDesc
     private void replaceLoops(Method replaceMethod) {
+        if (replaceMethod.getReturnType() != Slot[][].class) return;
         Slot[][] loopValues = MethodUtils.execute(handler, replaceMethod, Slot[][].class);
         if (loopValues != null) {
-            LoopReplacement desc = new LoopReplacement();
+//            LoopReplacement desc = new LoopReplacement();
             LoopReplacementDesc ano = replaceMethod.getAnnotation(LoopReplacementDesc.class);
-            RFSGenTk.parseAnnotation2Config(ano, desc);
-
-            String loopRegex = regexUtils.createLoopRegex(desc);
+//            RFSGenTk.parseAnnotation2Config(ano, desc);
             // get loop content
-            final Pattern pattern = Pattern.compile(loopRegex, Pattern.DOTALL);
+            final Pattern pattern = regexUtils.createLoopRegex(ano);
             final Matcher matcher = pattern.matcher(this.fileContent);
             if (matcher.find()) {
                 //replace single_slot in loop
@@ -168,8 +190,8 @@ public class FileFactory {
                 for (Slot[] loopValue : (Slot[][]) loopValues) {
                     String loopContent = matcher.group(2);
                     for (Slot slotValue : loopValue) {
-                        String regex = regexUtils.createSlotRegex(slotValue.getSlotName());
-                        loopContent = loopContent.replaceAll(regex,
+                        Pattern regex = regexUtils.createSlotRegex(slotValue.getSlotName());
+                        loopContent = regex.matcher(loopContent).replaceAll(
                                 slotValue.getSlotValue());
                     }
                     replaceValue.append(loopContent);
@@ -180,31 +202,66 @@ public class FileFactory {
 
     }
 
-    private void updateFileContent() {
-        for (Method method : this.fileTemplateDesc.getMethods()) {
-            if (method.getReturnType() == String.class || method.getReturnType() == Slot[][].class) {
-                if (method.isAnnotationPresent(LoopReplacementDesc.class)) {
-                    replaceLoops(method);
-                }
-                ;
-                if (method.isAnnotationPresent(SlotReplacementDesc.class)) {
-                    replaceSlot(method);
-                }
-                ;
-                if (method.isAnnotationPresent(WithFileName.class)) {
-                    updateFileName(method);
-                }
-                ;
-                if (method.isAnnotationPresent(WithFilePath.class)) {
-                    updateFilePath(method);
-                }
-                ;
-                if (method.isAnnotationPresent(WithFileExtension.class)) {
-                    updateFileExt(method);
-                }
-                ;
+    @IfReplacement
+    private void replaceIf(Method conditionMethod) {
+        if (conditionMethod.getReturnType() != boolean.class) return;
+        IfReplacement ifReplacement = conditionMethod.getAnnotation(IfReplacement.class);
+        Pattern pattern = regexUtils.createIfRegex(ifReplacement.id());
+        Matcher matcher = pattern.matcher(this.fileContent);
+        if (matcher.find()) {
+            if (Boolean.FALSE.equals(MethodUtils.execute(this.handler, conditionMethod, Boolean.class))) {
+                this.fileContent = matcher.replaceAll("");
+            } else {
+                this.fileContent = matcher.replaceAll(matcher.group(2));
             }
         }
+    }
+
+    private boolean checkSkip(Method method) {
+        if (method.getReturnType() != boolean.class) return false;
+        return Boolean.TRUE.equals(MethodUtils.execute(this.handler, method, Boolean.class));
+    }
+
+    private void updateFileContent() {
+        for (Class<? extends Annotation> aClass : this.handlerMapByAnnotation.keySet()) {
+            Method[] handlerMethods = this.handlerMapByAnnotation.get(aClass).toArray(Method[]::new);
+            for (Method handlerMethod : handlerMethods) {
+                Method action = this.actionMapByAnnotation.get(aClass);
+                if (action != null) {
+                    Object[] params = {handlerMethod};
+                    try {
+                        action.invoke(this, params);
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+//                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+//        for (Method method : this.fileTemplateDesc.getMethods()) {
+//            if (method.getReturnType() == String.class || method.getReturnType() == Slot[][].class) {
+//                if (method.isAnnotationPresent(LoopReplacementDesc.class)) {
+//                    replaceLoops(method);
+//                }
+//                ;
+//                if (method.isAnnotationPresent(SlotReplacementDesc.class)) {
+//                    replaceSlot(method);
+//                }
+//                ;
+//                if (method.isAnnotationPresent(WithFileName.class)) {
+//                    updateFileName(method);
+//                }
+//                ;
+//                if (method.isAnnotationPresent(WithFilePath.class)) {
+//                    updateFilePath(method);
+//                }
+//                ;
+//                if (method.isAnnotationPresent(WithFileExtension.class)) {
+//                    updateFileExt(method);
+//                }
+//                ;
+//            }
+//        }
     }
 
     private void saveFile() {
@@ -243,22 +300,27 @@ public class FileFactory {
         
     }
 
-    private boolean checkSkip(Method method) {
-        return Boolean.TRUE.equals(MethodUtils.execute(this.handler, method, Boolean.class));
-    }
-
     public void genAndSave() throws Exception {
         this.handler = this.fileTemplateDesc.getConstructor().newInstance();
         if (!fileTemplateDesc.isAnnotationPresent(jda.modules.mosarfrontend.common.anotation.FileTemplateDesc.class)) {
             throw new Exception("The class is not TemplateHandler (without @TemplateHandler annotation)");
         } else {
             this.fileTemplate = fileTemplateDesc.getAnnotation(FileTemplateDesc.class);
-            Method[] skipDecision = Arrays.stream(fileTemplateDesc.getDeclaredMethods()).filter(m -> m.isAnnotationPresent(SkipGenDecision.class)).toArray(Method[]::new);
-            if (skipDecision.length == 0 || !checkSkip(skipDecision[0])) {
-                initFileTemplate();
-                updateFileContent();
-                saveFile();
+            // init template handler methods
+            Method[] methods = Arrays.stream(this.fileTemplateDesc.getDeclaredMethods()).toArray(Method[]::new);
+            for (Method method : methods) {
+                Annotation[] annotations = method.getDeclaredAnnotations();
+                if (annotations.length > 0) {
+                    this.handlerMapByAnnotation.computeIfAbsent(annotations[0].annotationType(), k -> new ArrayList<>()); // init new if not exits
+                    ArrayList<Method> listMethod = this.handlerMapByAnnotation.get(annotations[0].annotationType());
+                    listMethod.add(method);
+                    if (annotations[0].annotationType() == SkipGenDecision.class && checkSkip(method)) return;
+                }
             }
+
+            initFileTemplate();
+            updateFileContent();
+            saveFile();
         }
     }
     

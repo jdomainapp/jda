@@ -6,6 +6,7 @@ import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosarfrontend.common.AngularSlotProperty;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.utils.DField;
+import jda.modules.mosarfrontend.common.utils.Domain;
 import jda.modules.mosarfrontend.common.utils.NewMCC;
 
 import java.lang.annotation.Annotation;
@@ -19,19 +20,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ParamsFactory {
+    public String[] modulesName; // Save for later trigger getModulesName()
     private static ParamsFactory instance;
     private final HashMap<Annotation, Method> methods = new HashMap<>();
-    private MCC currentMCC;
     private NewMCC currentNewMCC;
+    private Domain currentSubDomain;
     private DField currentField;
-    private Map<String, MCC> modules;
-
-    @RequiredParam.ModuleMap
-    public Map<String, NewMCC> getDomains() {
-        return domains;
-    }
-
     private Map<String, NewMCC> domains;
+
+
 
     private ParamsFactory() {
         //init methods map
@@ -50,25 +47,35 @@ public class ParamsFactory {
         return instance;
     }
 
+    @RequiredParam.ModuleMap
+    public Map<String, NewMCC> getDomains() {
+        return domains;
+    }
+
     public void setCurrentModule(String module) {
-//        this.currentMCC = modules.get(module.getSimpleName());
         this.currentNewMCC = domains.get(module);
     }
+
+    public void setCurrentSubDomain(String subDomainName) {
+        this.currentSubDomain = this.currentNewMCC.getSubDomains().get(subDomainName);
+    }
+
 
     public void setCurrentModuleField(DField field) {
 //        this.currentMCC = modules.get(module.getSimpleName());
         this.currentField = field;
     }
 
-    private RFSGenConfig rfsGenConfig;
-
     public String[] setRFSGenConfig(RFSGenConfig rfsGenConfig) {
-        this.rfsGenConfig = rfsGenConfig;
-        Class<?>[] models = rfsGenConfig.getDomainModel();
         Class<?>[] mccClasses = rfsGenConfig.getMCCFuncs();
         this.domains = Arrays.stream(mccClasses).map(NewMCC::readMCC).collect((Collectors.toMap(k -> k.getModuleDescriptor().modelDesc().model().getSimpleName(), k -> k)));
-//        this.modules = IntStream.range(0, mccClasses.length).mapToObj(i -> MCCUtils.readMCC(models[i], mccClasses[i])).collect(Collectors.toMap(MCC::getName, mcc -> mcc));
-        System.out.println("");
+        // link domain to field in each dField
+        for (String domain : this.domains.keySet()) {
+            for (DField dField : this.domains.get(domain).getDFields()) {
+                if (dField.getDAssoc() != null)
+                    dField.setLinkedDomain(this.domains.get(dField.getDAssoc().associate().type().getSimpleName()));
+            }
+        }
         return this.domains.keySet().toArray(String[]::new);
     }
 
@@ -93,13 +100,15 @@ public class ParamsFactory {
         }
         return args.toArray();
     }
-
     @RequiredParam.MCC
     public NewMCC getMCC() {
         return this.currentNewMCC;
     }
 
-    public String[] modulesName; // Save for later trigger getModulesName()
+    @RequiredParam.CurrentSubDomain
+    private Domain getCurrentSubDomain(){
+        return this.currentSubDomain;
+    }
 
     @RequiredParam.ModulesName
     public String[] getModulesName() {

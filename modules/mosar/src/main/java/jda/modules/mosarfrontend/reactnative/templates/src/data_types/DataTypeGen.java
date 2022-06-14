@@ -4,8 +4,11 @@ import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.mosarfrontend.common.anotation.*;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
+import jda.modules.mosarfrontend.common.utils.NewMCC;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
 
 @FileTemplateDesc(
         templateFile = "/src/data_types/DataType.ts"
@@ -16,17 +19,31 @@ public class DataTypeGen {
         return name;
     }
 
-    @LoopReplacementDesc(slots = {"importModuleName"}, id = "import")
+    @LoopReplacementDesc(slots = {"importModuleName", "importLocation"}, id = "import")
     public Slot[][] importInterface(@RequiredParam.ModuleFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : fields) {
             if (field.getDAssoc() != null) {
                 ArrayList<Slot> list = new ArrayList<>();
-                list.add(new Slot("importModuleName", field.getDAssoc().associate().type().getSimpleName()));
+                String interfaceName = field.getDAssoc().associate().type().getSimpleName();
+                list.add(new Slot("importLocation", interfaceName));
+                if (Arrays.stream(field.getLinkedDomain().getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
+                    interfaceName = "Sub" + interfaceName;
+                }
+                list.add(new Slot("importModuleName", interfaceName));
                 result.add(list);
-            } else if (field.getEnumName() != null) {
+            }
+        }
+        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+    }
+
+    @LoopReplacementDesc(slots = {"importEnumName"}, id = "importEnum")
+    public Slot[][] importEnumInterface(@RequiredParam.ModuleFields DField[] fields) {
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        for (DField field : fields) {
+            if (field.getEnumName() != null) {
                 ArrayList<Slot> list = new ArrayList<>();
-                list.add(new Slot("importModuleName", field.getEnumName()));
+                list.add(new Slot("importEnumName", field.getEnumName()));
                 result.add(list);
             }
         }
@@ -50,8 +67,41 @@ public class DataTypeGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
+    @LoopReplacementDesc(slots = {"field", "fieldType"}, id = "subInterface")
+    public Slot[][] subInterface(@RequiredParam.ModuleFields DField[] fields, @RequiredParam.ModuleMap Map<String, NewMCC> moduleMap) {
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        for (DField field : Arrays.stream(fields).filter(f -> f.getDAssoc() != null).toArray(DField[]::new)) {
+            ArrayList<Slot> list = new ArrayList<>();
+            list.add(new Slot("field", field.getDAttr().name() + "ID" + (field.getDAttr().optional() ? "?" : "")));
+            list.add(new Slot("fieldType", getIDTypeOfDomain(field, moduleMap)));
+            result.add(list);
+        }
+        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+    }
 
-    private String typeConverter(DField field) {
+    @LoopReplacementDesc(slots = {"domainFieldName"}, id = "domainFields")
+    public Slot[][] domainFields(@RequiredParam.ModuleFields DField[] fields, @RequiredParam.ModuleMap Map<String, NewMCC> moduleMap) {
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        for (DField field : Arrays.stream(fields).filter(f -> f.getDAssoc() != null).toArray(DField[]::new)) {
+            ArrayList<Slot> list = new ArrayList<>();
+            list.add(new Slot("domainFieldName", field.getDAttr().name()));
+            result.add(list);
+        }
+        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+    }
+
+    @IfReplacement(id = "subtype")
+    public boolean subtype(@RequiredParam.ModuleFields DField[] fields) {
+        return Arrays.stream(fields).anyMatch(f -> f.getDAssoc() != null);
+    }
+
+    private String getIDTypeOfDomain(DField dField, Map<String, NewMCC> moduleMap) {
+        NewMCC domain = moduleMap.get(dField.getDAssoc().associate().type().getSimpleName());
+        String type = typeConverter(domain.getIdField());
+        return dField.getDAttr().type().isCollection() ? type += "[]" : type;
+    }
+
+    public String typeConverter(DField field) {
         DAssoc ass = field.getDAssoc();
         switch (field.getDAttr().type()) {
             case String:
@@ -74,7 +124,10 @@ public class DataTypeGen {
                 return "boolean";
             case Domain:
                 if (ass != null && ass.associate() != null && ass.associate().type() != null) {
-                    return ass.associate().type().getSimpleName();
+                    String type = ass.associate().type().getSimpleName();
+                    if (Arrays.stream(field.getLinkedDomain().getDFields()).anyMatch(f -> f.getDAssoc() != null))
+                        type = "Sub" + type;
+                    return type;
                 } else if (field.getEnumName() != null) {
                     return field.getEnumName();
                 } else {
@@ -82,7 +135,7 @@ public class DataTypeGen {
                 }
             case Collection:
                 if (ass != null && ass.associate() != null && ass.associate().type() != null) {
-                    return ass.associate().type().getSimpleName() + "[]";
+                    return "Sub" + ass.associate().type().getSimpleName() + "[]";
                 } else return "any[]";
             case Array:
                 return "any[]";

@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 public @interface LoopReplacementDesc {
     String id() default "";
 
-    String[] slots();
+    String[] slots() default {};
 }

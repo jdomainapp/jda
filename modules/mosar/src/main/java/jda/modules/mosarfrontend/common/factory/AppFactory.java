@@ -1,8 +1,6 @@
 package jda.modules.mosarfrontend.common.factory;
 
-import jda.modules.mosar.config.FEPlatform;
 import jda.modules.mosar.config.RFSGenConfig;
-import jda.modules.mosar.utils.RFSGenTk;
 import jda.modules.mosarfrontend.angular.AngularAppTemplate;
 import jda.modules.mosarfrontend.common.anotation.template_desc.*;
 import jda.modules.mosarfrontend.common.utils.DField;
@@ -98,18 +96,16 @@ public class AppFactory {
     }
 
     public void genAndSave() {
-        if(this.rfsGenConfig.getFeTemplate() == null){
+        if (this.rfsGenConfig.getFeTemplate() == null) {
             // use default Template
-            AppTemplate defaultAppTemplate = new AppTemplate();
-            if(this.rfsGenConfig.getFePlatform() == FEPlatform.REACT_NATIVE){
-                AppTemplateDesc appTemplateDesc = ReactNativeAppTemplate.class.getAnnotation(AppTemplateDesc.class);
-                this.rfsGenConfig.setFeTemplate(ReactNativeAppTemplate.class.getAnnotation(AppTemplateDesc.class));
+            switch (this.rfsGenConfig.getFePlatform()) {
+                case REACT:
+                case ANGULAR:
+                    this.rfsGenConfig.setFeTemplate(AngularAppTemplate.class.getAnnotation(AppTemplateDesc.class));
+                case REACT_NATIVE:
+                    this.rfsGenConfig.setFeTemplate(ReactNativeAppTemplate.class.getAnnotation(AppTemplateDesc.class));
+                case VUE_JS:
             }
-            
-            if(this.rfsGenConfig.getFePlatform() == FEPlatform.ANGULAR){
-                AppTemplateDesc appTemplateDesc = AngularAppTemplate.class.getAnnotation(AppTemplateDesc.class);
-                this.rfsGenConfig.setFeTemplate(AngularAppTemplate.class.getAnnotation(AppTemplateDesc.class));
-            }            
         }
         if (this.rfsGenConfig.getFeTemplate() != null) {
             String[] appDomains = ParamsFactory.getInstance().setRFSGenConfig(rfsGenConfig);
@@ -151,6 +147,18 @@ public class AppFactory {
                                     .genAndSave();
                         }));
                     }
+                    /**
+                     * Các file gen với mỗi sub domain. Ex: CompulsoryCourseModule vs ElectiveCourseModule
+                     */
+                    for (String subDomain : ParamsFactory.getInstance().getMCC().getSubDomains().keySet()) {
+                        ParamsFactory.getInstance().setCurrentSubDomain(subDomain);
+                        SubModuleTemplateDesc subModuleTemplateDesc = appTemplate.subModuleTemplates();
+                        loopGenMethod(subModuleTemplateDesc, (genClassForSubDomain -> {
+                            (new FileFactory(genClassForSubDomain, rfsGenConfig.getFeOutputPath(), templateFolder))
+                                    .genAndSave();
+                        }));
+                    }
+                    ParamsFactory.getInstance().setCurrentSubDomain(null);
 
                 });
 

@@ -1,4 +1,4 @@
-package jda.modules.mosarfrontend.reactnative.templates.src.modules;
+package jda.modules.mosarfrontend.reactnative.templates.src.modules.module;
 
 import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.dcsl.syntax.DAttr;
@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 @FileTemplateDesc(
-        templateFile = "/src/modules/ModuleConfig.ts"
+        templateFile = "/src/modules/module/ModuleConfig.ts"
 )
 public class ModuleConfigGen {
     @WithFilePath
@@ -26,6 +26,13 @@ public class ModuleConfigGen {
         return moduleName;
     }
 
+    @SlotReplacementDesc(slot = "importDataType")
+    public String importDataType(@RequiredParam.ModuleName String moduleName, @RequiredParam.MCC NewMCC domain) {
+        if (Arrays.stream(domain.getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
+            moduleName = moduleName + ", " + "Sub" + moduleName;
+        }
+        return moduleName;
+    }
 
     @SlotReplacementDesc(slot = "fieldID")
     public String fieldID(@RequiredParam.ModuleFields DField[] fields) {
@@ -47,34 +54,6 @@ public class ModuleConfigGen {
         return inflector.titleCase(inflector.underscore(inflector.pluralize(moduleName))).replace("_", " ");
     }
 
-    @LoopReplacementDesc(id = "importInputs", slots = {"FieldType"})
-    public Slot[][] importImputs(@RequiredParam.ModuleFields DField[] fields) {
-        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        ArrayList<String> imported = new ArrayList<>();
-        for (DField field : fields) {
-            ArrayList<Slot> list = new ArrayList<>();
-            String fieldType = getFieldType(field);
-            if (!imported.contains(fieldType)) {
-                imported.add(fieldType);
-                list.add(new Slot("FieldType", getFieldType(field)));
-                result.add(list);
-            }
-        }
-        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
-    }
-
-    @LoopReplacementDesc(id = "formConfig", slots = {"fieldName", "formType"})
-    public Slot[][] formConfig(@RequiredParam.ModuleFields DField[] fields) {
-        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        for (DField field : fields) {
-            ArrayList<Slot> list = new ArrayList<>();
-            list.add(new Slot("fieldName", field.getDAttr().name()));
-            list.add(new Slot("formType", "Form" + getFieldType(field) + "Input"));
-            result.add(list);
-        }
-        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
-    }
-
     @LoopReplacementDesc(id = "fieldLabelConfig", slots = {"fieldName", "fieldLabel"})
     public Slot[][] fieldLabelConfig(@RequiredParam.ModuleFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
@@ -91,18 +70,6 @@ public class ModuleConfigGen {
     public Slot[][] quickRender(@RequiredParam.ModuleFields DField[] fields, @RequiredParam.ModuleName String moduleName) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : Arrays.stream(fields).filter(f -> f.getDAssoc() == null && !f.getDAttr().optional()).toArray(DField[]::new)) {
-            ArrayList<Slot> list = new ArrayList<>();
-            list.add(new Slot("moduleAlias", moduleName.toLowerCase()));
-            list.add(new Slot("fieldName", field.getDAttr().name()));
-            result.add(list);
-        }
-        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
-    }
-
-    @LoopReplacementDesc(id = "listTitle", slots = {"moduleAlias", "fieldName"})
-    public Slot[][] listTitle(@RequiredParam.ModuleFields DField[] fields, @RequiredParam.ModuleName String moduleName) {
-        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        for (DField field : Arrays.stream(fields).filter(f -> f.getDAssoc() == null).toArray(DField[]::new)) {
             ArrayList<Slot> list = new ArrayList<>();
             list.add(new Slot("moduleAlias", moduleName.toLowerCase()));
             list.add(new Slot("fieldName", field.getDAttr().name()));
@@ -131,51 +98,4 @@ public class ModuleConfigGen {
         return moduleName.toLowerCase();
     }
 
-    private String getFieldType(DField field) {
-        DAssoc ass = field.getDAssoc();
-        switch (field.getDAttr().type()) {
-            case String:
-            case StringMasked:
-            case Char:
-            case Image:
-            case Serializable:
-            case Font:
-            case Color:
-                return "String";
-            case Integer:
-            case BigInteger:
-            case Long:
-            case Float:
-            case Double:
-            case Short:
-            case Byte:
-                return "Number";
-            case Boolean:
-                // TODO this case is not handled
-                return "Boolean";
-            case Domain:
-                if (ass != null && ass.associate() != null && ass.associate().type() != null) {
-                    return ass.associate().type().getSimpleName();
-                } else if (field.getEnumName() != null) {
-                    return field.getEnumName();
-                } else {
-                    return null;
-                }
-            case Collection:
-            case Array:
-                if (ass != null && ass.associate() != null && ass.associate().type() != null) {
-                    return "Multi" + ass.associate().type().getSimpleName();
-                } else return null;
-            case File:
-            case Other:
-            case Null:
-                return null;
-            case Date:
-                return "Date";
-            case ByteArraySmall:
-            case ByteArrayLarge:
-                return "MultiNumber";
-        }
-        return "any";
-    }
 }
