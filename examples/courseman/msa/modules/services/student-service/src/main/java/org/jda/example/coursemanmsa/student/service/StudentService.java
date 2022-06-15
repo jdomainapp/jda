@@ -1,15 +1,14 @@
 package org.jda.example.coursemanmsa.student.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeoutException;
 
 import org.jda.example.coursemanmsa.student.config.ServiceConfig;
 import org.jda.example.coursemanmsa.student.events.source.SimpleSourceBean;
+import org.jda.example.coursemanmsa.student.model.Address;
 import org.jda.example.coursemanmsa.student.model.Student;
 import org.jda.example.coursemanmsa.student.model.StudentClass;
-import org.jda.example.coursemanmsa.student.model.Address;
 import org.jda.example.coursemanmsa.student.repository.StudentRepository;
 import org.jda.example.coursemanmsa.student.service.client.AddressRestTemplateClient;
 import org.jda.example.coursemanmsa.student.service.client.ClassRestTemplateClient;

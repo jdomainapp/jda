@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeoutException;
 
 import org.jda.example.coursemanmsa.enrolment.config.ServiceConfig;
+import org.jda.example.coursemanmsa.enrolment.events.source.SimpleSourceBean;
 import org.jda.example.coursemanmsa.enrolment.model.Student;
 import org.jda.example.coursemanmsa.enrolment.model.Enrolment;
 import org.jda.example.coursemanmsa.enrolment.model.Coursemodule;
@@ -31,87 +32,88 @@ public class EnrolmentService {
 	@Autowired
 	ServiceConfig config;
 
+
 	@Autowired
 	StudentRestTemplateClient studentRestClient;
 	@Autowired
 	CourseRestTemplateClient courseRestClient;
+	
+	@Autowired
+	SimpleSourceBean simpleSourceBean;
+	
+	public enum ActionEnum {
+		GET, CREATED, UPDATED, DELETED
+	}
 
 	private static final Logger logger = LoggerFactory.getLogger(EnrolmentService.class);
 
-	public Enrolment createEntity(Enrolment arg0) {
-		return repository.save(arg0);
-	}
+    
+    public Enrolment createEntity(Enrolment arg0) {
+    	arg0 = repository.save(arg0);
+    	simpleSourceBean.publishChange(ActionEnum.CREATED.name(),""+arg0.getId());
+        return arg0;
+    }
 
-	public Page getEntityListByPage(Pageable arg0) {
-		return repository.findAll(arg0);
-	}
-
+    public Page getEntityListByPage(Pageable arg0) {
+        return repository.findAll(arg0);
+    }
+    
+    public List<Enrolment> getEntityByCoursemoduleId(int id){
+    	return repository.findByCoursemoduleId(id);
+    }
+    
 //	@CircuitBreaker(name = "enrolmentService", fallbackMethod = "buildFallbackEnrolment")
 //	@RateLimiter(name = "enrolmentService", fallbackMethod = "buildFallbackEnrolment")
 //	@Retry(name = "retryEnrolmentService", fallbackMethod = "buildFallbackEnrolment")
 //	@Bulkhead(name = "bulkheadEnrolmentService", type= Type.THREADPOOL, fallbackMethod = "buildFallbackEnrolment")
-	public Enrolment getEntityById(int id) throws TimeoutException {
+	public Enrolment getEntityById(int id) throws TimeoutException{
 		Optional<Enrolment> opt = repository.findById(id);
-		Enrolment entity = (opt.isPresent()) ? opt.get() : null;
-		if (null == entity) {
-			throw new IllegalArgumentException(
-					String.format(messages.getMessage("student.search.error.message", null, null), "" + id));
+		Enrolment obj = (opt.isPresent()) ? opt.get() : null;
+		if (null == obj) {
+			throw new IllegalArgumentException(String.format(messages.getMessage("student.search.error.message", null, null),""+ id));	
 		}
-		Student student = retrieveStudentInfo(entity.getStudentId());
+		Student student = retrieveStudentInfo(obj.getStudentId());
 		if (null != student) {
-			entity.setStudent(student);
+			obj.setStudent(student);
+		}
+		
+		Coursemodule coursemodule = retrieveCourseInfo(obj.getCoursemoduleId());
+		if(null != coursemodule) {
+			obj.setCoursemodule(coursemodule);
 		}
 
-		Coursemodule coursemodule = retrieveCourseInfo(entity.getCoursemoduleId());
-		if (null != coursemodule) {
-			entity.setCoursemodule(coursemodule);
-		}
-
-		return entity;
+		return obj;
 	}
 
 	public Student retrieveStudentInfo(String id) throws TimeoutException {
 		Student obj = studentRestClient.getData(id);
 		return obj;
 	}
-
+	
 	public Coursemodule retrieveCourseInfo(int id) throws TimeoutException {
 		Coursemodule obj = courseRestClient.getData(id);
 		return obj;
 	}
 
 	@SuppressWarnings("unused")
-	private Enrolment buildFallbackEnrolment(String id, Throwable t) {
+	private Enrolment buildFallbackEnrolment(String id, Throwable t){
 		Enrolment failEntity = new Enrolment();
 		return failEntity;
 	}
 
-	public Enrolment updateEntity(int arg0, Enrolment arg1) {
-		return repository.save(arg1);
-	}
+    public Enrolment updateEntity(int arg0, Enrolment arg1) {
+    	arg1 = repository.save(arg1);
+    	simpleSourceBean.publishChange(ActionEnum.UPDATED.name(),""+arg0);
+        return arg1;
+    }
 
-	public void deleteEntityById(int arg0) {
-		repository.deleteById(arg0);
-	}
+    public void deleteEntityById(int arg0) {
+        repository.deleteById(arg0);
+        simpleSourceBean.publishChange(ActionEnum.DELETED.name(),""+arg0);
+    }
 
-	public List<Enrolment> getAllEntities() {
-		return (List<Enrolment>) repository.findAll();
-	}
-
-	public List<Enrolment> getEntityListByCoursemoduleId(int id) throws TimeoutException {
-		List<Enrolment> entityList = repository.findByCoursemoduleId(id);
-		for (Enrolment entity : entityList) {
-			Student student = retrieveStudentInfo(entity.getStudentId());
-			if (null != student) {
-				entity.setStudent(student);
-			}
-
-			Coursemodule coursemodule = retrieveCourseInfo(entity.getCoursemoduleId());
-			if (null != coursemodule) {
-				entity.setCoursemodule(coursemodule);
-			}
-		}
-		return entityList;
-	}
-
+    public List<Enrolment> getAllEntities() {
+        return (List<Enrolment>) repository.findAll();
+    }
+    
 }

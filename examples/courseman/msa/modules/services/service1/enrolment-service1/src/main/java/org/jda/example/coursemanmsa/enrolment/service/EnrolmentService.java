@@ -9,7 +9,7 @@ import org.jda.example.coursemanmsa.enrolment.config.ServiceConfig;
 import org.jda.example.coursemanmsa.enrolment.model.Student;
 import org.jda.example.coursemanmsa.enrolment.model.Enrolment;
 import org.jda.example.coursemanmsa.enrolment.model.Coursemodule;
-import org.jda.example.coursemanmsa.enrolment.repository.EnrollmentRepository;
+import org.jda.example.coursemanmsa.enrolment.repository.EnrolmentRepository;
 import org.jda.example.coursemanmsa.enrolment.service.client.StudentRestTemplateClient;
 import org.jda.example.coursemanmsa.enrolment.service.client.CourseRestTemplateClient;
 import org.slf4j.Logger;
@@ -25,13 +25,13 @@ import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 
 @Service
-public class EnrollmentService {
+public class EnrolmentService {
 
 	@Autowired
 	MessageSource messages;
 
 	@Autowired
-	private EnrollmentRepository repository;
+	private EnrolmentRepository repository;
 
 	@Autowired
 	ServiceConfig config;
@@ -42,7 +42,7 @@ public class EnrollmentService {
 	@Autowired
 	CourseRestTemplateClient courseRestClient;
 
-	private static final Logger logger = LoggerFactory.getLogger(EnrollmentService.class);
+	private static final Logger logger = LoggerFactory.getLogger(EnrolmentService.class);
 
     
     public Enrolment createEntity(Enrolment arg0) {

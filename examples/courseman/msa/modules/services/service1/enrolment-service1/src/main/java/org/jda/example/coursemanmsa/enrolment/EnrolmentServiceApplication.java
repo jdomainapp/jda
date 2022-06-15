@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import org.jda.example.coursemanmsa.enrolment.events.handler.ChangeHandler;
 import org.jda.example.coursemanmsa.enrolment.events.model.ChangeModel;
 import org.jda.example.coursemanmsa.enrolment.utils.UserContextInterceptor;
 import org.slf4j.Logger;

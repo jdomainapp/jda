@@ -1,9 +1,7 @@
-package org.jda.example.coursemanmsa.enrolment.model;
+package org.jda.example.coursemanmsa.academic.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -19,13 +17,12 @@ import lombok.ToString;
 
 @Getter @Setter @ToString
 @Entity
-@Table(name="enrolment")
+@Table(name="academic")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Enrolment extends RepresentationModel<Enrolment> {
+public class Academic extends RepresentationModel<Academic> {
 
 	@Id
 	@Column(name = "id", nullable = false)
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private int id;
 	@Column(name = "student_id", nullable = false)
 	private String studentId;

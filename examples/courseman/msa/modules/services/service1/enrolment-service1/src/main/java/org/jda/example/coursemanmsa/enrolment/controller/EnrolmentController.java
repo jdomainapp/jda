@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import org.jda.example.coursemanmsa.enrolment.model.Enrolment;
-import org.jda.example.coursemanmsa.enrolment.service.EnrollmentService;
+import org.jda.example.coursemanmsa.enrolment.service.EnrolmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EnrolmentController {
 
 	@Autowired
-	private EnrollmentService service;
+	private EnrolmentService service;
     
     @PostMapping()
     public ResponseEntity<Enrolment> createEntity(@RequestBody Enrolment arg0) {

@@ -35,14 +35,14 @@ public class EnrolmentController {
         return ResponseEntity.ok(service.getEntityListByPage(arg0));
     }
     
-    @GetMapping(value = "/coursemodule/{id}")
-    public ResponseEntity<List<Enrolment>> getEntityListByCoursemoduleId(@PathVariable("id") int arg0) throws TimeoutException {
-        return ResponseEntity.ok(service.getEntityListByCoursemoduleId(arg0));
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Enrolment> getEntityById(@PathVariable("id") int arg0) throws TimeoutException{
+        return ResponseEntity.ok(service.getEntityById(arg0));
     }
     
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Enrolment> getEntityById(int arg0) throws TimeoutException{
-        return ResponseEntity.ok(service.getEntityById(arg0));
+    @GetMapping(value = "/coursemodule/{id}")
+    public ResponseEntity<List<Enrolment>> getEntityByCoursemoduleId(@PathVariable("id") int arg0) {
+        return ResponseEntity.ok(service.getEntityByCoursemoduleId(arg0));
     }
 
     @PutMapping(value = "/{id}")

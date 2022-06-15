@@ -7,6 +7,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EnrollmentRepository extends PagingAndSortingRepository<Enrolment,Integer>  {
+public interface EnrolmentRepository extends PagingAndSortingRepository<Enrolment,Integer>  {
 	List<Enrolment> findByCoursemoduleId(int id);
 }

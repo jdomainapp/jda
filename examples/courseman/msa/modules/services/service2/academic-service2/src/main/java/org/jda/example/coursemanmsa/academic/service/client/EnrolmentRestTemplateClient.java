@@ -2,7 +2,7 @@ package org.jda.example.coursemanmsa.academic.service.client;
 
 import java.util.List;
 
-import org.jda.example.coursemanmsa.academic.model.Enrolment;
+import org.jda.example.coursemanmsa.academic.model.Academic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +22,30 @@ public class EnrolmentRestTemplateClient {
 	private static final Logger logger = LoggerFactory.getLogger(EnrolmentRestTemplateClient.class);
 
 	
-	public List<Enrolment> getDataByREST(int id) {
-		ResponseEntity<List<Enrolment>> restExchange = restTemplate.exchange(
+	public List<Academic> getEntityByCoursemoduleIdAndREST(int id) {
+		ResponseEntity<List<Academic>> restExchange = restTemplate.exchange(
 				"http://gateway-server/enrolment-service/v1/enrolment/coursemodule/{id}", HttpMethod.GET, 
-				null, new ParameterizedTypeReference<List<Enrolment>>() {},id);
+				null, new ParameterizedTypeReference<List<Academic>>() {},id);
 
 		return restExchange.getBody();
 	}
 	
-	public Enrolment updateDataByREST(int arg0, Enrolment entity) {
-		HttpEntity<Enrolment> requestBody = new HttpEntity<>(entity);
-		ResponseEntity<Enrolment> restExchange = restTemplate.exchange(
+	public Academic updateDataByREST(int arg0, Academic entity) {
+		HttpEntity<Academic> requestBody = new HttpEntity<>(entity);
+		ResponseEntity<Academic> restExchange = restTemplate.exchange(
 				"http://gateway-server/enrolment-service/v1/enrolment/{id}", HttpMethod.PUT, 
-				requestBody, Enrolment.class,arg0);
+				requestBody, Academic.class,arg0);
 
 		return restExchange.getBody();
 	}
+	
+	public Academic getEntityByIdAndREST(int id) {
+		ResponseEntity<Academic> restExchange = restTemplate.exchange(
+				"http://gateway-server/enrolment-service/v1/enrolment/{id}", HttpMethod.GET, 
+				null, Academic.class,id);
+
+		return restExchange.getBody();
+	}
+	
+
 }
