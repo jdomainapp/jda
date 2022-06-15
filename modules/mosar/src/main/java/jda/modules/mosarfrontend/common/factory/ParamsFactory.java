@@ -1,7 +1,5 @@
 package jda.modules.mosarfrontend.common.factory;
 
-import jda.modules.dcsl.syntax.DAttr.Type;
-import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosarfrontend.common.AngularSlotProperty;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
@@ -27,7 +25,6 @@ public class ParamsFactory {
     private Domain currentSubDomain;
     private DField currentField;
     private Map<String, NewMCC> domains;
-
 
 
     private ParamsFactory() {
@@ -100,13 +97,14 @@ public class ParamsFactory {
         }
         return args.toArray();
     }
+
     @RequiredParam.MCC
     public NewMCC getMCC() {
         return this.currentNewMCC;
     }
 
     @RequiredParam.CurrentSubDomain
-    private Domain getCurrentSubDomain(){
+    private Domain getCurrentSubDomain() {
         return this.currentSubDomain;
     }
 
@@ -137,17 +135,22 @@ public class ParamsFactory {
     private AngularSlotProperty getAngularSlotProperty() {
         return new AngularSlotProperty(this.currentNewMCC);
     }
-    
+
     @RequiredParam.DomainFields
     public DField[] getDomainFields() {
-    	DField[] moduleFields = this.currentNewMCC.getDFields();
-    	ArrayList<DField> result = new ArrayList<>();
+        DField[] moduleFields = this.currentNewMCC.getDFields();
+        ArrayList<DField> result = new ArrayList<>();
         for (DField field : moduleFields) {
-        	if (field.getDAssoc() != null) {
-        		result.add(field);
-        	}
+            if (field.getDAssoc() != null) {
+                result.add(field);
+            }
         }
         DField[] domainFields = result.stream().toArray(DField[]::new);
-    	return domainFields;
-    }    
+        return domainFields;
+    }
+
+    @RequiredParam.SubDomains
+    public Map<String, Domain> getSubDomains() {
+        return this.currentNewMCC.getSubDomains();
+    }
 }

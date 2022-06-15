@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @FileTemplateDesc(templateFile = "/src/modules/module/sub_modules/FormConfig.ts")
-public class SubFormConfigGen extends SubModuleCommonGen {
+public class SubFormConfigGen extends CommonSubModuleGen {
 
 //    @WithFilePath
 //    public String withFilePath(@RequiredParam.ModuleName String moduleName, @RequiredParam.CurrentSubDomain Domain subDomain) {

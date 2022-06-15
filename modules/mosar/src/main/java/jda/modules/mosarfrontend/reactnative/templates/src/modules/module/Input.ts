@@ -1,7 +1,7 @@
 import { createModuleInput } from '../../base/creators/createInputComponents';
-import {@slot{{moduleName}}ModuleConfig} from './ModuleConfig'
+import {@slot{{ModuleName}}ModuleConfig} from './ModuleConfig'
 export const {
-  Input: @slot{{moduleName}}Input,
-  FormInput: Form@slot{{moduleName}}Input,
-  FormMultiInput: FormMulti@slot{{moduleName}}Input,
-} = createModuleInput(@slot{{moduleName}}ModuleConfig);
+  Input: @slot{{ModuleName}}Input,
+  FormInput: Form@slot{{ModuleName}}Input,
+  FormMultiInput: FormMulti@slot{{ModuleName}}Input,
+} = createModuleInput(@slot{{ModuleName}}ModuleConfig);

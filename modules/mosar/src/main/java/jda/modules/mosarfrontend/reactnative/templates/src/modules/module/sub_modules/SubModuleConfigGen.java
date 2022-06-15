@@ -18,7 +18,7 @@ import java.util.Map;
 @FileTemplateDesc(
         templateFile = "/src/modules/module/sub_modules/ModuleConfig.ts"
 )
-public class SubModuleConfigGen extends SubModuleCommonGen {
+public class SubModuleConfigGen extends CommonSubModuleGen {
 
     @SlotReplacementDesc(slot = "importDataType")
     public String importDataType(@RequiredParam.ModuleName String moduleName, @RequiredParam.MCC NewMCC domain) {

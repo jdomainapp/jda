@@ -8,7 +8,7 @@ import jda.modules.mosarfrontend.common.utils.Domain;
 import java.util.Arrays;
 
 @FileTemplateDesc(templateFile = "/src/modules/module/sub_modules/Index.ts")
-public class SubIndexGen extends SubModuleCommonGen {
+public class SubIndexGen extends CommonSubModuleGen {
 
     @SlotReplacementDesc(slot = "importDataType")
     public String importDataType(@RequiredParam.CurrentSubDomain Domain domain) {

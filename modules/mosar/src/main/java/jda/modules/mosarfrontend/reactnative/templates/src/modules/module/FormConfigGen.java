@@ -1,25 +1,21 @@
 package jda.modules.mosarfrontend.reactnative.templates.src.modules.module;
 
 import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.mosarfrontend.common.anotation.*;
+import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
+import jda.modules.mosarfrontend.common.anotation.IfReplacement;
+import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
+import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
+import jda.modules.mosarfrontend.common.utils.Domain;
+import jda.modules.mosarfrontend.common.utils.NewMCC;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 @FileTemplateDesc(templateFile = "/src/modules/module/FormConfig.ts")
-public class FormConfigGen {
-
-    @WithFilePath
-    public String withFilePath(@RequiredParam.ModuleName String moduleName) {
-        return "/src/modules/" + moduleName.toLowerCase();
-    }
-
-    @SlotReplacementDesc(slot = "ModuleName")
-    public String ModuleName(@RequiredParam.ModuleName String moduleName) {
-        return moduleName;
-    }
+public class FormConfigGen extends CommonModuleGen {
 
     @IfReplacement(id = "BasicFormInputGen")
     public boolean BasicFormInputGen(@RequiredParam.ModuleFields DField[] fields) {
@@ -57,7 +53,7 @@ public class FormConfigGen {
             if (!imported.contains(fieldType)) {
                 imported.add(fieldType);
                 list.add(new Slot("DomainName", fieldType));
-                list.add(new Slot("domainName", field.getDAssoc().associate().type().getSimpleName().toLowerCase()));
+                list.add(new Slot("domainName", moduleName(field.getDAssoc().associate().type().getSimpleName())));
                 result.add(list);
             }
         }
@@ -71,6 +67,42 @@ public class FormConfigGen {
             ArrayList<Slot> list = new ArrayList<>();
             list.add(new Slot("fieldName", field.getDAttr().name()));
             list.add(new Slot("formType", "Form" + getFieldType(field) + "Input"));
+            result.add(list);
+        }
+        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+    }
+
+    @IfReplacement(id = "FormList")
+    public boolean importTypedFormItem(@RequiredParam.MCC NewMCC mcc) {
+        return !mcc.getSubDomains().isEmpty();
+    }
+
+    @IfReplacement(id = "importTypedFormItem")
+    public boolean GenFormList(@RequiredParam.MCC NewMCC mcc) {
+        return !mcc.getSubDomains().isEmpty();
+    }
+
+    @LoopReplacementDesc(id = "formTypeItem", slots = {"EnumType", "type", "SubModuleName"})
+    public Slot[][] formTypeItem(@RequiredParam.ModuleName String moduleName, @RequiredParam.SubDomains Map<String, Domain> moduleMap) {
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        for (String type : moduleMap.keySet()) {
+            ArrayList<Slot> list = new ArrayList<>();
+            list.add(new Slot("EnumType", moduleName));
+            list.add(new Slot("type", type));
+            list.add(new Slot("SubModuleName", moduleMap.get(type).getDomainClass().getSimpleName()));
+            result.add(list);
+        }
+        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+    }
+
+    @LoopReplacementDesc(id = "importSubModuleConfig", slots = {"EnumType", "type", "SubModuleName"})
+    public Slot[][] importSubModuleConfig(@RequiredParam.ModuleName String moduleName, @RequiredParam.SubDomains Map<String, Domain> moduleMap) {
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        for (String type : moduleMap.keySet()) {
+            ArrayList<Slot> list = new ArrayList<>();
+            list.add(new Slot("EnumType", moduleName));
+            list.add(new Slot("type", type));
+            list.add(new Slot("SubModuleName", moduleMap.get(type).getDomainClass().getSimpleName()));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);

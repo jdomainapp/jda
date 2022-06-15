@@ -15,17 +15,7 @@ import java.util.Map;
 @FileTemplateDesc(
         templateFile = "/src/modules/module/ModuleConfig.ts"
 )
-public class ModuleConfigGen {
-    @WithFilePath
-    public String filePath(@RequiredParam.ModuleName String moduleName) {
-        return "/src/modules/" + moduleName.toLowerCase();
-    }
-
-    @SlotReplacementDesc(slot = "ModuleName")
-    public String ModuleName(@RequiredParam.ModuleName String moduleName) {
-        return moduleName;
-    }
-
+public class ModuleConfigGen extends CommonModuleGen{
     @SlotReplacementDesc(slot = "importDataType")
     public String importDataType(@RequiredParam.ModuleName String moduleName, @RequiredParam.MCC NewMCC domain) {
         if (Arrays.stream(domain.getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
@@ -71,7 +61,7 @@ public class ModuleConfigGen {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : Arrays.stream(fields).filter(f -> f.getDAssoc() == null && !f.getDAttr().optional()).toArray(DField[]::new)) {
             ArrayList<Slot> list = new ArrayList<>();
-            list.add(new Slot("moduleAlias", moduleName.toLowerCase()));
+            list.add(new Slot("moduleAlias",moduleName(moduleName)));
             list.add(new Slot("fieldName", field.getDAttr().name()));
             result.add(list);
         }
@@ -83,7 +73,7 @@ public class ModuleConfigGen {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : Arrays.stream(fields).filter(f -> f.getDAttr().type() == DAttr.Type.Domain && f.getDAssoc() != null && f.getEnumName() == null).toArray(DField[]::new)) {
             ArrayList<Slot> list = new ArrayList<>();
-            list.add(new Slot("moduleName1", moduleName.toLowerCase()));
+            list.add(new Slot("moduleName1", moduleName(moduleName)));
             list.add(new Slot("linkedModule", field.getDAttr().name()));
             list.add(new Slot("linkedOptional", field.getDAttr().optional() ? "?" : ""));
             NewMCC domain = domainMap.get(field.getDAssoc().associate().type().getSimpleName());
@@ -91,11 +81,6 @@ public class ModuleConfigGen {
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
-    }
-
-    @SlotReplacementDesc(slot = "moduleName")
-    public String moduleName(@RequiredParam.ModuleName String moduleName) {
-        return moduleName.toLowerCase();
     }
 
 }

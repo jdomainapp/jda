@@ -4,21 +4,13 @@ import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.anotation.SlotReplacementDesc;
 import jda.modules.mosarfrontend.common.anotation.WithFilePath;
 import jda.modules.mosarfrontend.common.utils.Domain;
+import jda.modules.mosarfrontend.reactnative.templates.src.modules.module.CommonModuleGen;
+import org.modeshape.common.text.Inflector;
 
-public class SubModuleCommonGen {
+public class CommonSubModuleGen extends CommonModuleGen {
     @WithFilePath
-    public String withFilePath(@RequiredParam.ModuleName String moduleName, @RequiredParam.CurrentSubDomain Domain subDomain) {
-        return "/src/modules/" + moduleName.toLowerCase() + "/sub_modules/" + subDomain.getDomainClass().getSimpleName().toLowerCase();
-    }
-
-    @SlotReplacementDesc(slot = "ModuleName")
-    public String ModuleName(@RequiredParam.ModuleName String moduleName) {
-        return moduleName;
-    }
-
-    @SlotReplacementDesc(slot = "moduleName")
-    public String moduleName(@RequiredParam.ModuleName String moduleName) {
-        return moduleName.toLowerCase();
+    public String WithFilePath(@RequiredParam.ModuleName String moduleName, @RequiredParam.CurrentSubDomain Domain subDomain) {
+        return "/src/modules/" + moduleName(moduleName) + "/sub_modules/" + subModuleName(subDomain);
     }
 
 
@@ -29,6 +21,6 @@ public class SubModuleCommonGen {
 
     @SlotReplacementDesc(slot = "subModuleName")
     public String subModuleName(@RequiredParam.CurrentSubDomain Domain domain) {
-        return domain.getDomainClass().getSimpleName().toLowerCase();
+        return Inflector.getInstance().underscore(domain.getDomainClass().getSimpleName());
     }
 }

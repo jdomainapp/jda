@@ -5,6 +5,7 @@ import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.anotation.SlotReplacementDesc;
 import jda.modules.mosarfrontend.common.factory.Slot;
+import org.modeshape.common.text.Inflector;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ public class MainGen {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String moduleName : modulesName) {
             ArrayList<Slot> slotValues = new ArrayList<>();
-            slotValues.add(new Slot("moduleName", moduleName.toLowerCase()));
+            slotValues.add(new Slot("moduleName", Inflector.getInstance().underscore(moduleName)));
             slotValues.add(new Slot("ModuleName", moduleName));
             result.add(slotValues);
         }

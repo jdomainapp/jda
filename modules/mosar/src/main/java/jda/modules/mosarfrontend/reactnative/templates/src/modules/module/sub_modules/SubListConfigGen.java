@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @FileTemplateDesc(templateFile = "/src/modules/module/sub_modules/ListConfig.ts")
-public class SubListConfigGen extends SubModuleCommonGen {
+public class SubListConfigGen extends CommonSubModuleGen {
     @LoopReplacementDesc(id = "listTitle", slots = {"moduleAlias", "fieldName"})
     public Slot[][] listTitle(@RequiredParam.ModuleFields DField[] fields, @RequiredParam.ModuleName String moduleName) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
