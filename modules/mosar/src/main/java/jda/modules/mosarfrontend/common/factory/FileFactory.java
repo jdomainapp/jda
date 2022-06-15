@@ -119,7 +119,7 @@ public class FileFactory {
 
     private void initFileTemplate() throws Exception {
         // get template file content
-        String templateFilePath = templateRootFolder + this.fileTemplate.templateFile().replace("/", "\\");
+        String templateFilePath = templateRootFolder + this.fileTemplate.templateFile().replace("/", "\\");        
         try {
             this.fileContent = Files.readString(Paths.get(templateFilePath));
         } catch (IOException e) {
@@ -241,6 +241,7 @@ public class FileFactory {
 
     private void saveFile() {
         Path path = new File(outPutFolder).toPath();
+        
         if (!Files.exists(path)) {
             try {
                 Files.createDirectories(path);
@@ -263,6 +264,7 @@ public class FileFactory {
 
         Path classFile = new File(outPutFolder + this.filePath + "\\" + this.fileName + this.fileExt).toPath();
         if (!Files.exists(classFile)) {
+        	System.out.println("Path: " + classFile);
             try {
                 Files.createFile(classFile);
             } catch (IOException e) {
@@ -271,9 +273,11 @@ public class FileFactory {
         }
         try {
             Files.writeString(classFile, this.fileContent);
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
     }
 
     public void genAndSave() throws Exception {
@@ -298,6 +302,24 @@ public class FileFactory {
             updateFileContent();
             saveFile();
         }
+    }
+    
+    public String genAndGetContent() throws Exception {
+        this.handler = this.fileTemplateDesc.getConstructor().newInstance();
+        if (!fileTemplateDesc.isAnnotationPresent(jda.modules.mosarfrontend.common.anotation.FileTemplateDesc.class)) {
+            throw new Exception("The class is not TemplateHandler (without @TemplateHandler annotation)");
+            
+        } else {
+            this.fileTemplate = fileTemplateDesc.getAnnotation(FileTemplateDesc.class);
+            Method[] skipDecision = Arrays.stream(fileTemplateDesc.getDeclaredMethods()).filter(m -> m.isAnnotationPresent(SkipGenDecision.class)).toArray(Method[]::new);
+            if (skipDecision.length == 0 || !checkSkip(skipDecision[0])) {
+                initFileTemplate();
+                updateFileContent();
+                return this.fileContent;
+            }
+        } 
+        
+        return null;
     }
 }
 

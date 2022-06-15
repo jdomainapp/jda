@@ -1,4 +1,4 @@
-package jda.modules.mosarfrontend.angular.templates.src.modules;
+package jda.modules.mosarfrontend.angular.templates.fields;
 
 import jda.modules.dcsl.parser.statespace.metadef.DAssocDef;
 import jda.modules.dcsl.parser.statespace.metadef.DAttrDef;
@@ -12,32 +12,37 @@ import jda.modules.mosarfrontend.common.utils.DField;
 import java.util.ArrayList;
 
 @FileTemplateDesc(
-        templateFile = "/src/modules/form.html"
+        templateFile = "/fields/input.html.tp"
 )
-public class FormHtml {
-    @WithFileName
-    public String getFileName(@RequiredParam.ModuleName String name) {
-        return name;
+public class InputHtml {
+    @SlotReplacementDesc(slot = "fieldLabel")
+    public String fieldLabel(@RequiredParam.ModuleField DField field) {
+    	if (field != null) {
+//    		System.out.println(field.getDAttr().name());
+    		return field.getAttributeDesc() != null ? field.getAttributeDesc().label() : field.getDAttr().name();
+    	} else {
+    		return "ABCD";
+    	}        
     }
 
-    @SlotReplacementDesc(slot = "moduleName")
-    public String moduleName(@RequiredParam.ModuleName String name) {
-        return name;
+    @SlotReplacementDesc(slot = "fieldType")
+    public String fieldType(@RequiredParam.ModuleField DField field) {
+    	if (field != null) {
+    		return typeConverter(field);
+    	} else {
+    		return "ABC";
+    	}
     }
 
-    @LoopReplacementDesc(slots = {"field", "fieldType"}, id = "1")
-    public Slot[][] fields(@RequiredParam.ModuleFields DField[] fields) {
-        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        for (DField field : fields) {
-            ArrayList<Slot> list = new ArrayList<>();
-            list.add(new Slot("field", field.getDAttr().name() + (field.getDAttr().optional() ? "?" : "")));
-            list.add(new Slot("fieldType", typeConverter(field)));
-            result.add(list);
-        }
-        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+    @SlotReplacementDesc(slot = "fieldName")
+    public String fieldName(@RequiredParam.ModuleField DField field) {
+    	if (field != null) {
+          return field.getDAttr().name();    		
+    	} else {
+    		return "AAA";
+    	}
     }
-
-
+    
     private String typeConverter(DField field) {
         DAssoc ass = field.getDAssoc();
         switch (field.getDAttr().type()) {
@@ -48,7 +53,7 @@ public class FormHtml {
             case Serializable:
             case Font:
             case Color:
-                return "string";
+                return "text";
             case Integer:
             case BigInteger:
             case Long:
@@ -79,7 +84,7 @@ public class FormHtml {
             case Null:
                 return "null";
             case Date:
-                return "Date";
+                return "date";
             case ByteArraySmall:
             case ByteArrayLarge:
                 return "number[]";

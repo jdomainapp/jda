@@ -168,6 +168,7 @@ public class Enrolment implements Comparable, Publisher {
       updateFinalMark();
   }
 
+  
   @DOpt(type=DOpt.Type.DerivedAttributeUpdater)
   @AttrRef(value=AttributeName_FinalMark)
   public void updateFinalMark() {

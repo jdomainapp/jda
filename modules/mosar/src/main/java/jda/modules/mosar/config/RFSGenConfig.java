@@ -14,6 +14,7 @@ import java.util.List;
  * @overview Represents the configuration for RFSGen. It is created from {@link RFSGenDesc}.
  */
 public class RFSGenConfig {
+	
 
     private ExecSpec execSpec;
 

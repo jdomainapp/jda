@@ -1,5 +1,7 @@
 package jda.modules.mosarfrontend.common.factory;
 
+import jda.modules.dcsl.syntax.DAttr.Type;
+import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosarfrontend.common.AngularSlotProperty;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
@@ -25,6 +27,7 @@ public class ParamsFactory {
     private Domain currentSubDomain;
     private DField currentField;
     private Map<String, NewMCC> domains;
+
 
 
     private ParamsFactory() {
@@ -134,4 +137,17 @@ public class ParamsFactory {
     private AngularSlotProperty getAngularSlotProperty() {
         return new AngularSlotProperty(this.currentNewMCC);
     }
+    
+    @RequiredParam.DomainFields
+    public DField[] getDomainFields() {
+    	DField[] moduleFields = this.currentNewMCC.getDFields();
+    	ArrayList<DField> result = new ArrayList<>();
+        for (DField field : moduleFields) {
+        	if (field.getDAssoc() != null) {
+        		result.add(field);
+        	}
+        }
+        DField[] domainFields = result.stream().toArray(DField[]::new);
+    	return domainFields;
+    }    
 }

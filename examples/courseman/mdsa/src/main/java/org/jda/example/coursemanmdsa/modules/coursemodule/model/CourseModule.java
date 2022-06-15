@@ -39,6 +39,7 @@ public abstract class CourseModule {
   @DAttr(name="code",auto=true,type=Type.String, length=12,
       mutable=false,optional=false,derivedFrom={"semester"})
   private String code;
+  
 
   @DAttr(name="name",type=Type.String,length=30,optional=false)
   private String name;

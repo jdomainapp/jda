@@ -1,4 +1,4 @@
-package jda.modules.mosarfrontend.angular.templates.src.modules;
+package jda.modules.mosarfrontend.angular.templates.modules;
 
 import jda.modules.dcsl.parser.statespace.metadef.DAssocDef;
 import jda.modules.dcsl.parser.statespace.metadef.DAttrDef;
@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 @FileTemplateDesc(
-        templateFile = "/src/modules/main.component.ts"
+        templateFile = "/modules/main.component.ts"
 )
 public class MainModuleTs {
     @WithFileName
@@ -27,7 +27,7 @@ public class MainModuleTs {
 
     @WithFilePath
     public String getFilePath(@RequiredParam.AngularProp AngularSlotProperty prop) {
-    	return "/src/" + prop.getFileName();
+    	return "/" + prop.getFileName();
     }
     
     @SlotReplacementDesc(slot = "import")
@@ -60,15 +60,16 @@ public class MainModuleTs {
         return moduleName + "FormComponent";
     }
     
-    @LoopReplacementDesc(slots = {"field", "fieldType"}, id = "1")
+    @LoopReplacementDesc(slots = {"field", "fieldTitle"}, id = "1")
     public Slot[][] fields(@RequiredParam.ModuleFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : fields) {
             ArrayList<Slot> list = new ArrayList<>();
-            list.add(new Slot("field", field.getDAttr().name() + (field.getDAttr().optional() ? "?" : "")));
-            list.add(new Slot("fieldType", "ABC"));
+            list.add(new Slot("field", field.getDAttr().name()));
+            list.add(new Slot("fieldTitle", field.getAttributeDesc() != null ? field.getAttributeDesc().label() : field.getDAttr().name()));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
-    }
+    }  
+      
 }

@@ -35,6 +35,11 @@ public class AngularSlotProperty {
 //        this.api = createApi(MCC mcc);
     }
     
+    public AngularSlotProperty(String moduleName) {
+    	this.moduleName = moduleName;
+    	this.title = moduleName;
+    }
+    
 //    private static String createTitle(MCC mcc) {
 //        return mcc.getPropertyVal("viewDesc", "formTitle").toString();
 //    }

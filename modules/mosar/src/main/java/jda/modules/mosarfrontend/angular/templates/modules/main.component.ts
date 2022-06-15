@@ -17,7 +17,6 @@ export class @slot{{componentName}} extends BaseComponent implements OnInit {
       columns: [@loop{1}[[
         {field: '@slot{{field}}', title: '@slot{{fieldTitle}}'},]]loop{1}@
       ]
-    };
     
     this.form_type = @slot{{form_class}};
   }
