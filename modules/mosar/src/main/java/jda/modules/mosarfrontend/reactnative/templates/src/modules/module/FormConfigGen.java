@@ -95,14 +95,13 @@ public class FormConfigGen extends CommonModuleGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacementDesc(id = "importSubModuleConfig", slots = {"EnumType", "type", "SubModuleName"})
-    public Slot[][] importSubModuleConfig(@RequiredParam.ModuleName String moduleName, @RequiredParam.SubDomains Map<String, Domain> moduleMap) {
+    @LoopReplacementDesc(id = "importSubModuleConfig", slots = {"SubModuleName", "submoduleFolder"})
+    public Slot[][] importSubModuleConfig(@RequiredParam.SubDomains Map<String, Domain> moduleMap) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        for (String type : moduleMap.keySet()) {
+        for (Domain type : moduleMap.values()) {
             ArrayList<Slot> list = new ArrayList<>();
-            list.add(new Slot("EnumType", moduleName));
-            list.add(new Slot("type", type));
-            list.add(new Slot("SubModuleName", moduleMap.get(type).getDomainClass().getSimpleName()));
+            list.add(new Slot("SubModuleName", type.getDomainClass().getSimpleName()));
+            list.add(new Slot("submoduleFolder", moduleName(type.getDomainClass().getSimpleName())));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);

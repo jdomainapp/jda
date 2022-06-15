@@ -1,8 +1,10 @@
 package jda.modules.mosarfrontend.reactnative.templates.src.modules.module;
 
-import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.dcsl.syntax.DAttr;
-import jda.modules.mosarfrontend.common.anotation.*;
+import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
+import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
+import jda.modules.mosarfrontend.common.anotation.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.SlotReplacementDesc;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.NewMCC;
@@ -15,7 +17,7 @@ import java.util.Map;
 @FileTemplateDesc(
         templateFile = "/src/modules/module/ModuleConfig.ts"
 )
-public class ModuleConfigGen extends CommonModuleGen{
+public class ModuleConfigGen extends CommonModuleGen {
     @SlotReplacementDesc(slot = "importDataType")
     public String importDataType(@RequiredParam.ModuleName String moduleName, @RequiredParam.MCC NewMCC domain) {
         if (Arrays.stream(domain.getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
@@ -50,7 +52,7 @@ public class ModuleConfigGen extends CommonModuleGen{
         for (DField field : fields) {
             ArrayList<Slot> list = new ArrayList<>();
             list.add(new Slot("fieldName", field.getDAttr().name()));
-            list.add(new Slot("fieldLabel", field.getAttributeDesc() != null ? field.getAttributeDesc().label() : field.getDAttr().name()));
+            list.add(new Slot("fieldLabel", field.getAttributeDesc() != null ? field.getAttributeDesc().label() : Inflector.getInstance().titleCase(field.getDAttr().name())));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
@@ -61,7 +63,7 @@ public class ModuleConfigGen extends CommonModuleGen{
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : Arrays.stream(fields).filter(f -> f.getDAssoc() == null && !f.getDAttr().optional()).toArray(DField[]::new)) {
             ArrayList<Slot> list = new ArrayList<>();
-            list.add(new Slot("moduleAlias",moduleName(moduleName)));
+            list.add(new Slot("moduleAlias", moduleName(moduleName)));
             list.add(new Slot("fieldName", field.getDAttr().name()));
             result.add(list);
         }
