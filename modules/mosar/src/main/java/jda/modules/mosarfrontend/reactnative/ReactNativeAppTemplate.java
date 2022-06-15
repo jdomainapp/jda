@@ -3,10 +3,11 @@ package jda.modules.mosarfrontend.reactnative;
 import jda.modules.mosarfrontend.common.anotation.template_desc.*;
 import jda.modules.mosarfrontend.reactnative.templates.src.MainGen;
 import jda.modules.mosarfrontend.reactnative.templates.src.data_types.DataTypeGen;
-import jda.modules.mosarfrontend.reactnative.templates.src.data_types.EnumTypeGen;
+import jda.modules.mosarfrontend.reactnative.templates.src.data_types.enums.EnumTypeGen;
 import jda.modules.mosarfrontend.reactnative.templates.src.data_types.SubTypeGen;
 import jda.modules.mosarfrontend.reactnative.templates.src.modules.FormInputsGen;
 import jda.modules.mosarfrontend.reactnative.templates.src.modules.module.*;
+import jda.modules.mosarfrontend.reactnative.templates.src.modules.module.sub_modules.*;
 
 @AppTemplateDesc(
         templateRootFolder = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\templates",
@@ -42,7 +43,9 @@ import jda.modules.mosarfrontend.reactnative.templates.src.modules.module.*;
 
         subModuleTemplates = @SubModuleTemplateDesc(
                 Ext = @ComponentGenDesc(
-                        genClasses = {SubTypeGen.class}
+                        genClasses = {SubTypeGen.class, SubFormConfigGen.class,
+                                SubIndexGen.class, SubListConfigGen.class,
+                                SubModuleConfigGen.class, SubInputGen.class}
                 )
         ),
 

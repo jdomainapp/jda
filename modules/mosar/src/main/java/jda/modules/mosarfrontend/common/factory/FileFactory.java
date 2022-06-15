@@ -1,6 +1,5 @@
 package jda.modules.mosarfrontend.common.factory;
 
-import jda.modules.mosar.utils.RFSGenTk;
 import jda.modules.mosarfrontend.common.anotation.*;
 import lombok.Data;
 import lombok.NonNull;
@@ -238,30 +237,6 @@ public class FileFactory {
             }
 
         }
-//        for (Method method : this.fileTemplateDesc.getMethods()) {
-//            if (method.getReturnType() == String.class || method.getReturnType() == Slot[][].class) {
-//                if (method.isAnnotationPresent(LoopReplacementDesc.class)) {
-//                    replaceLoops(method);
-//                }
-//                ;
-//                if (method.isAnnotationPresent(SlotReplacementDesc.class)) {
-//                    replaceSlot(method);
-//                }
-//                ;
-//                if (method.isAnnotationPresent(WithFileName.class)) {
-//                    updateFileName(method);
-//                }
-//                ;
-//                if (method.isAnnotationPresent(WithFilePath.class)) {
-//                    updateFilePath(method);
-//                }
-//                ;
-//                if (method.isAnnotationPresent(WithFileExtension.class)) {
-//                    updateFileExt(method);
-//                }
-//                ;
-//            }
-//        }
     }
 
     private void saveFile() {
@@ -273,14 +248,19 @@ public class FileFactory {
                 e.printStackTrace();
             }
         }
-        Path dir = new File(outPutFolder + this.filePath).toPath();
-        if (!Files.exists(dir)) {
-            try {
-                Files.createDirectory(dir);
-            } catch (IOException e) {
-                e.printStackTrace();
+        String currentFolder = outPutFolder;
+        for (String folder : this.filePath.split("/")) {
+            currentFolder = currentFolder + "/" + folder;
+            Path dir = new File(currentFolder).toPath();
+            if (!Files.exists(dir)) {
+                try {
+                    Files.createDirectory(dir);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
         Path classFile = new File(outPutFolder + this.filePath + "\\" + this.fileName + this.fileExt).toPath();
         if (!Files.exists(classFile)) {
             try {
@@ -303,7 +283,7 @@ public class FileFactory {
         } else {
             this.fileTemplate = fileTemplateDesc.getAnnotation(FileTemplateDesc.class);
             // init template handler methods
-            Method[] methods = Arrays.stream(this.fileTemplateDesc.getDeclaredMethods()).toArray(Method[]::new);
+            Method[] methods = Arrays.stream(this.fileTemplateDesc.getMethods()).toArray(Method[]::new);
             for (Method method : methods) {
                 Annotation[] annotations = method.getDeclaredAnnotations();
                 if (annotations.length > 0) {

@@ -1,4 +1,4 @@
-package jda.modules.mosarfrontend.reactnative.templates.src.data_types;
+package jda.modules.mosarfrontend.reactnative.templates.src.data_types.enums;
 
 import jda.modules.mosarfrontend.common.anotation.*;
 import jda.modules.mosarfrontend.common.factory.Slot;
@@ -7,7 +7,7 @@ import jda.modules.mosarfrontend.common.utils.DField;
 import java.util.ArrayList;
 
 @FileTemplateDesc(
-        templateFile = "/src/data_types/EnumType.ts"
+        templateFile = "/src/data_types/enums/EnumType.ts"
 )
 public class EnumTypeGen {
     @SkipGenDecision
