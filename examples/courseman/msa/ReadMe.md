@@ -88,6 +88,9 @@ bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic class
 bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic enrolmentChangeTopic --bootstrap-server localhost:9092
 ```
 ## 2. Build projects
+- Install lombk project on Eclipse: https://www.baeldung.com/lombok-ide
+- Copy library folder `.../json-path/2.4.0` in `local-maven-repo` to your Maven repository
+- Run command:
 ```
 cd ../courseman/msa/
 mvn clean install -DskipTests
@@ -119,7 +122,8 @@ mvn clean install -DskipTests
 ## 3. Run common services in order
 
 ### Run Config service
-- Description:
+- Description: The Spring Cloud Configuration Server (aka Config Server) allows you to set
+up application properties with environment-specific values. The other services will retrieve its properties from Config Server when the services lanch.
 - Run by commandline
 ```
 cd ../courseman/msa/modules/configserver
@@ -154,7 +158,8 @@ or Run by class `org.jda.example.coursemanmsa.configserver.ConfigurationServerAp
 ```
 
 ### Run Discovery Service
-- Description:
+- Description:  Discovery service like Eureka will abstract away the physical location of our services. Eureka can seamlessly add and remove service
+instances from an environment without impacting the service clients. We use Eureka to look up a service.
 - Run by commandline
 ```
 cd ../courseman/msa/modules/eurekaserver
@@ -235,7 +240,7 @@ WARNING: All illegal access operations will be denied in a future release
 05:00:57.311 [main] INFO  o.j.e.c.e.EurekaServerApplication - Started EurekaServerApplication in 11.719 seconds (JVM running for 12.247)
 ```
 ### Run Gateway Service
-- Description:
+- Description: A service gateway acts as an intermediary between the service client and an invoked service, pulls apart the path coming in from the service client call and determines what service the service client is trying to invoke. It is a central point to apply rules, policies for requests and responses from/to servcies. The Spring Cloud Gateway allows us to implement custom business logic through filters (pre- and post-filters), it integrates with Netflix’s Eureka Server and can automatically map services registered with Eureka to a route. 
 - Run by commandline
 ```
 cd ../courseman/msa/modules/gatewayserver
@@ -302,7 +307,7 @@ WARNING: All illegal access operations will be denied in a future release
 - Each service create a postgresql database `domainds` with user/password: admin/password
 
 ### Address Service
-- Description:
+- Description: This service manages all information about `address`, provides data for `student-service`
 - Create database
   + Create schema `address`
   + Create tables
@@ -542,7 +547,7 @@ WARNING: All illegal access operations will be denied in a future release
 ![image](https://user-images.githubusercontent.com/89120031/172947320-6c025bed-a0ea-40fb-81a7-e2feec6b109d.png)
 
 ### Class Service
-- Description: 
+- Description: This service manages all information about `class`, provides data for `student-service`
 - Create database
   + Create schema `class`
   + Create tables
@@ -782,7 +787,7 @@ WARNING: All illegal access operations will be denied in a future release
 ![image](https://user-images.githubusercontent.com/89120031/172953483-65100eba-a3da-4238-8061-2d2f70a0dc86.png)
 
 ### Course Service
-- Description:
+- Description: This service manages all information about `course`, provides data for `enrolment-service`
 - Create database
   + Create schema `course`
   + Create tables
@@ -1062,7 +1067,7 @@ WARNING: All illegal access operations will be denied in a future release
 ![image](https://user-images.githubusercontent.com/89120031/172959036-273644a3-586c-4337-b6be-0c7d47d925b8.png)
 
 ### Student Service
-- Description:
+- Description: This service manages all information about `student`, provides data for `enrolment-service`
 - Create database
   + Create schema `student`
   + Create tables
@@ -1740,7 +1745,7 @@ WARNING: All illegal access operations will be denied in a future release
 </p>
 </details>
 
-- Functions: **Any changes to `student` will be notified to `enrolment-service` through `studentChangeTopic` Kafka topic**
+- Functions: **Any changes to `student` will be notified to `enrolment-service*` and `academic-service` through `studentChangeTopic` Kafka topic**
 	+ Create a new student: `http://localhost:8072/student-service/v1/student/`
 ![image](https://user-images.githubusercontent.com/89120031/173244278-1d81a361-9a5b-4f17-828a-076ae1c88318.png)
 
@@ -1758,7 +1763,7 @@ WARNING: All illegal access operations will be denied in a future release
 
 ## Usecase1
 ### Enrolment Service
-- Description:
+- Description: This service manages all information about `enrolment` (Students registers Coursemodules). In **usecase1**, we can update student marks driectly in the `enrolment-service`.
 - Create database
   + Create schema `enrolment`
   + Create tables
@@ -2345,7 +2350,7 @@ WARNING: All illegal access operations will be denied in a future release
 
 ## Usecase2
 ### Enrolment Service
-- Description:
+- Description: This service manages all information about `enrolment` (Students registers Coursemodules). In usecase2, we can't update student marks driectly in the `enrolment-service2`. When an enrolment will create/update/delete, it will create/update/delete in the `academic-service`
 - Create database: Use `enrolment` database of usecase1
 - Run 
 By commandline
@@ -3008,7 +3013,7 @@ WARNING: All illegal access operations will be denied in a future release
 ![image](https://user-images.githubusercontent.com/89120031/174207032-67f47272-9679-4839-a98b-b404f4e491f9.png)
 
 ### Academic Service
-- Description
+- Description: This service manages all information about `academic` (Students registers Coursemodules and their marks). In usecase2, we only update student marks driectly in the `academic-service`.
 - Create database
   + Create schema `academic`
   + Create tables
@@ -3792,13 +3797,15 @@ WARNING: All illegal access operations will be denied in a future release
 </details>
 
 - Functions: 
+- 	+ List all academic: `http://localhost:8072/academic-service/v1/academic/`
+![image](https://user-images.githubusercontent.com/89120031/174212734-7a1e9af8-b82d-4411-9a44-30164cfc22ac.png)
 
-	+ Edit a academic: `http://localhost:8072/academic-service/v1/academic/KT20`
-
-	+ Get a academic by Id: `http://localhost:8072/academic-service/v1/academic/KT20`
+	+ Get a academic by Id: `http://localhost:8072/academic-service/v1/academic/4`
+![image](https://user-images.githubusercontent.com/89120031/174212813-cc1f5fa1-4d6d-4c15-bd42-43b47eef2ab1.png)
 	
-	+ Get academic by coursemoduleId: `http://localhost:8072/academic-service/v1/academic/coursemodule/4`
+	+ Get academic by coursemoduleId: `http://localhost:8072/academic-service/v1/academic/coursemodule/1`
+![image](https://user-images.githubusercontent.com/89120031/174214544-245b3b17-c11d-4780-a8d2-53ed9a6ef413.png)
 
-	+ Delete a academic: `http://localhost:8072/academic-service/v1/academic/0`
+	+ Edit a academic: `http://localhost:8072/academic-service/v1/academic/4` (Only for editing mark)
+![image](https://user-images.githubusercontent.com/89120031/174214664-e901cca7-fa2b-4435-a017-f32ea3882620.png)
 
-	+ List all academic: `http://localhost:8072/academic-service/v1/academic/`
