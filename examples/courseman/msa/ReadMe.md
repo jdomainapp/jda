@@ -2328,10 +2328,10 @@ WARNING: All illegal access operations will be denied in a future release
 	+ Create a new enrolment: `http://localhost:8072/enrolment-service1/v1/enrolment/`
 ![image](https://user-images.githubusercontent.com/89120031/173248067-09d76aa7-f6c1-48f1-9d27-0cac62c5aa69.png)
 
-	+ Edit a enrolment: `http://localhost:8072/enrolment-service1/v1/enrolment/KT20`
+	+ Edit a enrolment: `http://localhost:8072/enrolment-service1/v1/enrolment/1`
 ![image](https://user-images.githubusercontent.com/89120031/173248137-0a5d6ac2-e8e9-4a60-9ae7-bc9eccad5e87.png)
 
-	+ Get a enrolment by Id: `http://localhost:8072/enrolment-service1/v1/enrolment/KT20`
+	+ Get a enrolment by Id: `http://localhost:8072/enrolment-service1/v1/enrolment/1`
 ![image](https://user-images.githubusercontent.com/89120031/173248154-02e67061-02e2-47dd-a644-35f7973dbf47.png)
 	
 	+ Get enrolments by coursemoduleId: `http://localhost:8072/enrolment-service1/v1/enrolment/coursemodule/4`
@@ -2991,11 +2991,14 @@ WARNING: All illegal access operations will be denied in a future release
 - Functions:
 	+ Create a new enrolment: `http://localhost:8072/enrolment-service2/v1/enrolment/`
 
-	+ Edit a enrolment: `http://localhost:8072/enrolment-service2/v1/enrolment/KT20`
+	+ Edit a enrolment: `http://localhost:8072/enrolment-service2/v1/enrolment/1`
+![image](https://user-images.githubusercontent.com/89120031/174205834-c2dd9efa-c605-40f9-9cf5-d7fff4f8e082.png)
 
-	+ Get a enrolment by Id: `http://localhost:8072/enrolment-service2/v1/enrolment/KT20`
-	
+	+ Get a enrolment by Id: `http://localhost:8072/enrolment-service2/v1/enrolment/1`
+![image](https://user-images.githubusercontent.com/89120031/174206834-e20a3201-ea26-4c43-85e9-a482a4469c2a.png)
+
 	+ Get enrolments by coursemoduleId: `http://localhost:8072/enrolment-service2/v1/enrolment/coursemodule/4`
+![image](https://user-images.githubusercontent.com/89120031/174206884-ea158f19-6474-4795-ae23-59e12f3a99d8.png)
 
 	+ Delete a enrolment: `http://localhost:8072/enrolment-service2/v1/enrolment/0`
 
