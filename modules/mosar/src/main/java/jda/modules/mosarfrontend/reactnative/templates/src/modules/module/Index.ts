@@ -4,7 +4,17 @@ import { @slot{{ModuleName}}ModuleConfig } from "./ModuleConfig";
 
 @if{haveSubType}((
 import { createTypedModuleComponents } from '../../base/creators/createTypedModuleComponents';
-import { @slot{{ModuleName}}FormList } from "./FormConfig";
+import { ITypedFormItem } from "../../base/controllers/jda_form_controllers/withTypedFormController";
+import { @slot{{ModuleName}}Type } from "../../data_types/enums/@slot{{ModuleName}}Type";@loop{importSubModuleConfig}[[
+import { @slot{{SubModuleName}}Form } from "./sub_modules/@slot{{submoduleFolder}}/Index";]]loop{importSubModuleConfig}@
+
+export const @slot{{ModuleName}}FormList: ITypedFormItem[] = [
+  @loop{formTypeItem}[[{
+    type: @slot{{EnumType}}Type.@slot{{type}},
+    formComponent: @slot{{SubModuleName}}Form
+  },]]loop{formTypeItem}@
+]
+
 export const {
     Module: @slot{{ModuleName}}Module,
     List: @slot{{ModuleName}}List,

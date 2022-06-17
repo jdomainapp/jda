@@ -6,6 +6,7 @@ import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
 import jda.modules.mosarfrontend.common.utils.NewMCC;
+import jda.modules.sccl.syntax.SystemDesc;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -25,6 +26,8 @@ public class ParamsFactory {
     private Domain currentSubDomain;
     private DField currentField;
     private Map<String, NewMCC> domains;
+
+    private SystemDesc systemDesc;
 
 
     private ParamsFactory() {
@@ -73,6 +76,7 @@ public class ParamsFactory {
                     dField.setLinkedDomain(this.domains.get(dField.getDAssoc().associate().type().getSimpleName()));
             }
         }
+        this.systemDesc = rfsGenConfig.getSystemDesc();
         return this.domains.keySet().toArray(String[]::new);
     }
 
@@ -152,5 +156,10 @@ public class ParamsFactory {
     @RequiredParam.SubDomains
     public Map<String, Domain> getSubDomains() {
         return this.currentNewMCC.getSubDomains();
+    }
+
+    @RequiredParam.AppName
+    public String getAppName() {
+        return this.systemDesc != null ? this.systemDesc.appName() : "Unknown App gen by JDA";
     }
 }

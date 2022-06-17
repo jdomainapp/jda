@@ -72,10 +72,10 @@ public class FormConfigGen extends CommonModuleGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @IfReplacement(id = "FormList")
-    public boolean importTypedFormItem(@RequiredParam.MCC NewMCC mcc) {
-        return !mcc.getSubDomains().isEmpty();
-    }
+//    @IfReplacement(id = "FormList")
+//    public boolean importTypedFormItem(@RequiredParam.MCC NewMCC mcc) {
+//        return !mcc.getSubDomains().isEmpty();
+//    }
 
     @IfReplacement(id = "importTypedFormItem")
     public boolean GenFormList(@RequiredParam.MCC NewMCC mcc) {
@@ -95,17 +95,7 @@ public class FormConfigGen extends CommonModuleGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacementDesc(id = "importSubModuleConfig", slots = {"SubModuleName", "submoduleFolder"})
-    public Slot[][] importSubModuleConfig(@RequiredParam.SubDomains Map<String, Domain> moduleMap) {
-        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        for (Domain type : moduleMap.values()) {
-            ArrayList<Slot> list = new ArrayList<>();
-            list.add(new Slot("SubModuleName", type.getDomainClass().getSimpleName()));
-            list.add(new Slot("submoduleFolder", moduleName(type.getDomainClass().getSimpleName())));
-            result.add(list);
-        }
-        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
-    }
+
 
     public String getFieldType(DField field) {
         DAssoc ass = field.getDAssoc();

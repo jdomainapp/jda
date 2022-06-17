@@ -6,6 +6,7 @@ import jda.modules.mosarfrontend.reactnative.templates.src.data_types.DataTypeGe
 import jda.modules.mosarfrontend.reactnative.templates.src.data_types.SubTypeGen;
 import jda.modules.mosarfrontend.reactnative.templates.src.data_types.enums.EnumTypeGen;
 import jda.modules.mosarfrontend.reactnative.templates.src.data_types.enums.ModuleTypeGen;
+import jda.modules.mosarfrontend.reactnative.templates.src.data_types.enums.ModulesGen;
 import jda.modules.mosarfrontend.reactnative.templates.src.modules.FormInputsGen;
 import jda.modules.mosarfrontend.reactnative.templates.src.modules.module.*;
 import jda.modules.mosarfrontend.reactnative.templates.src.modules.module.sub_modules.*;
@@ -21,7 +22,7 @@ import jda.modules.mosarfrontend.reactnative.templates.src.modules.module.sub_mo
                         genClasses = {}
                 ),
                 Ext = @ComponentGenDesc(
-                        genClasses = {FormInputsGen.class}
+                        genClasses = {FormInputsGen.class, ModulesGen.class}
                 )
         ),
         moduleTemplates = @ModuleTemplatesDesc(

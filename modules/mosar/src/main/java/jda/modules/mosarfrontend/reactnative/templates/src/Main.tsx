@@ -1,17 +1,21 @@
 import * as React from 'react';
-import JDADrawer from './base/views/jda_drawer/JDADrawer';
+import JDARouter from './base/views/jda_router/JDARouter';
+import { Modules } from './data_types/enums/Modules';
 @loop{importModules}[[import { @slot{{ModuleName}}Module } from './modules/@slot{{moduleName}}/Index';
 ]]loop{importModules}@
 export default class MainScreen extends React.Component {
   public render() {
     return (
-      <JDADrawer
-        initialRoute={'@slot{{initialRoute}}'}
-        routes={[@loop{2}[[
+      <JDARouter
+        homeScreenOptions={{
+          title: '@slot{{AppName}}'
+        }}
+        routeConfigs={[@loop{routeConfigs}[[
           {
-            component: <@slot{{moduleName}}Module />,
-            name: '@slot{{moduleName}}',
-          },]]loop{2}@
+            component: @slot{{ModuleName}}Module,
+            name: Modules.@slot{{ModuleName}},
+            title: '@slot{{ModuleTitle}}'
+          },]]loop{routeConfigs}@
         ]}
       />
     );

@@ -3,6 +3,7 @@ package jda.modules.mosar.config;
 import jda.modules.mosar.software.backend.BEApp;
 import jda.modules.mosar.software.frontend.FEApp;
 import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
+import jda.modules.sccl.syntax.SystemDesc;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class RFSGenConfig {
      */
     private FEPlatform fePlatform;
     private AppTemplateDesc feTemplate;
+    private SystemDesc systemDesc;
 
     /**
      * front-end's shared resources for project
@@ -426,5 +428,13 @@ public class RFSGenConfig {
 
     public void setFeTemplate(AppTemplateDesc feTemplate) {
         this.feTemplate = feTemplate;
+    }
+
+    public SystemDesc getSystemDesc() {
+        return systemDesc;
+    }
+
+    public void setSystemDesc(SystemDesc systemDesc) {
+        this.systemDesc = systemDesc;
     }
 }
