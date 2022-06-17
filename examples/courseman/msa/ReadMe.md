@@ -2990,6 +2990,7 @@ WARNING: All illegal access operations will be denied in a future release
 - Functions: **Any changes to `enrolment` will be notified to `academic-service` through `enrolmentChangeTopic` Kafka topic**
 - Functions:
 	+ Create a new enrolment: `http://localhost:8072/enrolment-service2/v1/enrolment/`
+![image](https://user-images.githubusercontent.com/89120031/174207757-fab374b3-b063-4aab-83a4-e7a0826b9fbb.png)
 
 	+ Edit a enrolment: `http://localhost:8072/enrolment-service2/v1/enrolment/1`
 ![image](https://user-images.githubusercontent.com/89120031/174205834-c2dd9efa-c605-40f9-9cf5-d7fff4f8e082.png)
@@ -3000,9 +3001,11 @@ WARNING: All illegal access operations will be denied in a future release
 	+ Get enrolments by coursemoduleId: `http://localhost:8072/enrolment-service2/v1/enrolment/coursemodule/4`
 ![image](https://user-images.githubusercontent.com/89120031/174206884-ea158f19-6474-4795-ae23-59e12f3a99d8.png)
 
-	+ Delete a enrolment: `http://localhost:8072/enrolment-service2/v1/enrolment/0`
+	+ Delete a enrolment: `http://localhost:8072/enrolment-service2/v1/enrolment/1`
+![image](https://user-images.githubusercontent.com/89120031/174207115-562da6ac-4874-493a-81e8-661c419bda6e.png)
 
 	+ List all enrolment: `http://localhost:8072/enrolment-service2/v1/enrolment/`
+![image](https://user-images.githubusercontent.com/89120031/174207032-67f47272-9679-4839-a98b-b404f4e491f9.png)
 
 ### Academic Service
 - Description
