@@ -18,4 +18,8 @@ public class ChangeModel {
 		this.id = id;
 		this.correlationId = correlationId;
 	}
+	
+	public ChangeModel() {
+		
+	}
 }

@@ -27,6 +27,9 @@ public class EnrolmentController {
     
     @PostMapping()
     public ResponseEntity<Enrolment> createEntity(@RequestBody Enrolment arg0) {
+    	arg0.setExammark(0);
+    	arg0.setInternalmark(0);
+    	arg0.setFinalgrade(null);
     	return ResponseEntity.ok(service.createEntity(arg0));
     }
 
@@ -47,6 +50,9 @@ public class EnrolmentController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Enrolment> updateEntity(@PathVariable("id") int arg0, @RequestBody Enrolment arg1) {
+    	arg1.setExammark(0);
+    	arg1.setInternalmark(0);
+    	arg1.setFinalgrade(null);
     	return ResponseEntity.ok(service.updateEntity(arg0, arg1));
     }
 

@@ -24,7 +24,7 @@ public class EnrolmentRestTemplateClient {
 	
 	public List<Academic> getEntityByCoursemoduleIdAndREST(int id) {
 		ResponseEntity<List<Academic>> restExchange = restTemplate.exchange(
-				"http://gateway-server/enrolment-service/v1/enrolment/coursemodule/{id}", HttpMethod.GET, 
+				"http://gateway-server/enrolment-service2/v1/enrolment/coursemodule/{id}", HttpMethod.GET, 
 				null, new ParameterizedTypeReference<List<Academic>>() {},id);
 
 		return restExchange.getBody();
@@ -33,7 +33,7 @@ public class EnrolmentRestTemplateClient {
 	public Academic updateDataByREST(int arg0, Academic entity) {
 		HttpEntity<Academic> requestBody = new HttpEntity<>(entity);
 		ResponseEntity<Academic> restExchange = restTemplate.exchange(
-				"http://gateway-server/enrolment-service/v1/enrolment/{id}", HttpMethod.PUT, 
+				"http://gateway-server/enrolment-service2/v1/enrolment/{id}", HttpMethod.PUT, 
 				requestBody, Academic.class,arg0);
 
 		return restExchange.getBody();
@@ -41,7 +41,7 @@ public class EnrolmentRestTemplateClient {
 	
 	public Academic getEntityByIdAndREST(int id) {
 		ResponseEntity<Academic> restExchange = restTemplate.exchange(
-				"http://gateway-server/enrolment-service/v1/enrolment/{id}", HttpMethod.GET, 
+				"http://gateway-server/enrolment-service2/v1/enrolment/{id}", HttpMethod.GET, 
 				null, Academic.class,id);
 
 		return restExchange.getBody();

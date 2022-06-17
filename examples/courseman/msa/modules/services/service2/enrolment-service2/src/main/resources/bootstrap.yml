@@ -57,7 +57,7 @@ resilience4j.bulkhead:
 
 resilience4j.thread-pool-bulkhead:
   instances:
-    bulkheadEcademicService:
+    bulkheadEnrolmentService:
       maxThreadPoolSize: 1
       coreThreadPoolSize: 1
       queueCapacity: 1
