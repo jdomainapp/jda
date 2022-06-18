@@ -1,11 +1,5 @@
 package jda.modules.mosarfrontend.common.factory;
 
-import jda.modules.mosar.config.RFSGenConfig;
-import jda.modules.mosarfrontend.angular.AngularAppTemplate;
-import jda.modules.mosarfrontend.common.anotation.template_desc.*;
-import jda.modules.mosarfrontend.common.utils.DField;
-import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,6 +11,17 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import jda.modules.mosar.config.RFSGenConfig;
+import jda.modules.mosarfrontend.angular.AngularAppTemplate;
+import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
+import jda.modules.mosarfrontend.common.anotation.template_desc.ComponentGenDesc;
+import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDesc;
+import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleFieldTemplateDesc;
+import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesDesc;
+import jda.modules.mosarfrontend.common.anotation.template_desc.SubModuleTemplateDesc;
+import jda.modules.mosarfrontend.common.utils.DField;
+import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
 
 public class AppFactory {
     private RFSGenConfig rfsGenConfig;
@@ -36,8 +41,8 @@ public class AppFactory {
                 String name = zipEntry.getName();
                 long size = zipEntry.getSize();
                 long compressedSize = zipEntry.getCompressedSize();
-//                System.out.printf("name: %-20s | size: %6d | compressed size: %6d\n",
-//                        name, size, compressedSize);
+                // System.out.printf("name: %-20s | size: %6d | compressed size: %6d\n",
+                // name, size, compressedSize);
 
                 // Do we need to create a directory ?
                 File file = new File(outputPath + "/" + name);
@@ -79,9 +84,10 @@ public class AppFactory {
         for (Method m : genMethods) {
 
             try {
-                ComponentGenDesc componentGenDesc = (ComponentGenDesc) m.invoke(genDesc, (new ArrayList<Object>()).toArray());
+                ComponentGenDesc componentGenDesc = (ComponentGenDesc) m.invoke(genDesc,
+                        (new ArrayList<Object>()).toArray());
                 for (Class<?> genClass : componentGenDesc.genClasses()) {
-//                	System.out.println(genClass);
+                    // System.out.println(genClass);
                     try {
                         (new FileFactory(genClass, rfsGenConfig.getFeOutputPath(), templateFolder))
                                 .genAndSave();
@@ -102,11 +108,15 @@ public class AppFactory {
             // use default Template
             switch (this.rfsGenConfig.getFePlatform()) {
                 case REACT:
+                    break;
                 case ANGULAR:
                     this.rfsGenConfig.setFeTemplate(AngularAppTemplate.class.getAnnotation(AppTemplateDesc.class));
+                    break;
                 case REACT_NATIVE:
                     this.rfsGenConfig.setFeTemplate(ReactNativeAppTemplate.class.getAnnotation(AppTemplateDesc.class));
+                    break;
                 case VUE_JS:
+                    break;
             }
         }
         if (this.rfsGenConfig.getFeTemplate() != null) {
@@ -115,26 +125,26 @@ public class AppFactory {
 
             String templateFolder = appTemplate.templateRootFolder();
             // TODO: Clean output folder before gen/
-            /** Copy resource to output*/
+            /** Copy resource to output */
             unzip(appTemplate.resource(), rfsGenConfig.getFeOutputPath());
 
-
-            /** Các Component chỉ gen 1 lần*/
+            /** Các Component chỉ gen 1 lần */
             CrossTemplatesDesc crossTemplatesDesc = appTemplate.crossTemplates();
             loopGenMethod(crossTemplatesDesc, templateFolder, () -> {
             });
 
-
             for (String domain : appDomains) {
                 ParamsFactory.getInstance().setCurrentModule(domain);
                 /**
-                 * Các file gen với mỗi miền (module in domain model) , Ex: Student, Class in CourseMan example
+                 * Các file gen với mỗi miền (module in domain model) , Ex: Student, Class in
+                 * CourseMan example
                  */
                 ModuleTemplatesDesc moduleTemplatesDesc = appTemplate.moduleTemplates();
 
                 loopGenMethod(moduleTemplatesDesc, templateFolder, () -> {
                     /**
-                     * Các file gen với mỗi field trong miền (module in domain model) , Ex: Student, Class in CourseMan example
+                     * Các file gen với mỗi field trong miền (module in domain model) , Ex: Student,
+                     * Class in CourseMan example
                      */
                     for (DField field : ParamsFactory.getInstance().getModuleFields()) {
                         ParamsFactory.getInstance().setCurrentModuleField(field);
@@ -143,7 +153,8 @@ public class AppFactory {
                         }));
                     }
                     /**
-                     * Các file gen với mỗi sub domain. Ex: CompulsoryCourseModule vs ElectiveCourseModule
+                     * Các file gen với mỗi sub domain. Ex: CompulsoryCourseModule vs
+                     * ElectiveCourseModule
                      */
                     for (String subDomain : ParamsFactory.getInstance().getMCC().getSubDomains().keySet()) {
                         ParamsFactory.getInstance().setCurrentSubDomain(subDomain);
@@ -154,7 +165,6 @@ public class AppFactory {
                     ParamsFactory.getInstance().setCurrentSubDomain(null);
 
                 });
-
 
             }
         }
