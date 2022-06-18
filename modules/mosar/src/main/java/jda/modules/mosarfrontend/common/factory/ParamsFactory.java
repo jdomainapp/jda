@@ -132,11 +132,6 @@ public class ParamsFactory {
     public DField getCurrentField() {
         return this.currentField;
     }
-
-    @RequiredParam.AngularProp
-    private AngularSlotProperty getAngularSlotProperty() {
-        return new AngularSlotProperty(this.currentNewMCC);
-    }
     
     @RequiredParam.DomainFields
     public DField[] getDomainFields() {

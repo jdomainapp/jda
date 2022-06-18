@@ -12,6 +12,7 @@ import jda.modules.mosarfrontend.common.anotation.*;
 import jda.modules.mosarfrontend.common.factory.FileFactory;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
+import jda.modules.mosarfrontend.common.utils.NewMCC;
 
 import java.util.ArrayList;
 
@@ -20,12 +21,14 @@ import java.util.ArrayList;
 )
 public class FormHtml {
     @WithFileName
-    public String getFileName(@RequiredParam.AngularProp AngularSlotProperty prop) {
+    public String getFileName(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getFileName() + "-form.component";
     }
     
     @WithFilePath
-    public String getFilePath(@RequiredParam.AngularProp AngularSlotProperty prop) {
+    public String getFilePath(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
     	return "\\" + prop.getFileName() + "\\" +  prop.getFileName() + "-form";
     } 
     
@@ -35,9 +38,11 @@ public class FormHtml {
         for (DField field : fields) {
             ArrayList<Slot> list = new ArrayList<>();
             Class<?> fieldGenClass = getFieldGenClass(field);
+            System.out.println(field.getDAttr().name());
             String templateFolder = "D:\\Laptrinh\\4_DDD\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\angular\\templates";
             String genContent = new FileFactory(fieldGenClass, "", templateFolder).genAndGetContent();
             list.add(new Slot("fieldText", genContent));
+            System.out.println(genContent);
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);

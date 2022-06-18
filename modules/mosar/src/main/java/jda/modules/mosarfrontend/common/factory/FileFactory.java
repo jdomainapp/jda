@@ -223,45 +223,45 @@ public class FileFactory {
     }
 
     private void updateFileContent() {
-        for (Class<? extends Annotation> aClass : this.handlerMapByAnnotation.keySet()) {
-            Method[] handlerMethods = this.handlerMapByAnnotation.get(aClass).toArray(Method[]::new);
-            for (Method handlerMethod : handlerMethods) {
-                Method action = this.actionMapByAnnotation.get(aClass);
-                if (action != null) {
-                    Object[] params = {handlerMethod};
-                    try {
-                        action.invoke(this, params);
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-//                        e.printStackTrace();
-                    }
-                }
-            }
-
-        }
-//        for (Method method : this.fileTemplateDesc.getMethods()) {
-//            if (method.getReturnType() == String.class || method.getReturnType() == Slot[][].class) {
-//                if (method.isAnnotationPresent(LoopReplacementDesc.class)) {
-//                    replaceLoops(method);
+//        for (Class<? extends Annotation> aClass : this.handlerMapByAnnotation.keySet()) {
+//            Method[] handlerMethods = this.handlerMapByAnnotation.get(aClass).toArray(Method[]::new);
+//            for (Method handlerMethod : handlerMethods) {
+//                Method action = this.actionMapByAnnotation.get(aClass);
+//                if (action != null) {
+//                    Object[] params = {handlerMethod};
+//                    try {
+//                        action.invoke(this, params);
+//                    } catch (IllegalAccessException | InvocationTargetException e) {
+////                        e.printStackTrace();
+//                    }
 //                }
-//                ;
-//                if (method.isAnnotationPresent(SlotReplacementDesc.class)) {
-//                    replaceSlot(method);
-//                }
-//                ;
-//                if (method.isAnnotationPresent(WithFileName.class)) {
-//                    updateFileName(method);
-//                }
-//                ;
-//                if (method.isAnnotationPresent(WithFilePath.class)) {
-//                    updateFilePath(method);
-//                }
-//                ;
-//                if (method.isAnnotationPresent(WithFileExtension.class)) {
-//                    updateFileExt(method);
-//                }
-//                ;
 //            }
+//
 //        }
+        for (Method method : this.fileTemplateDesc.getMethods()) {
+            if (method.getReturnType() == String.class || method.getReturnType() == Slot[][].class) {
+                if (method.isAnnotationPresent(LoopReplacementDesc.class)) {
+                    replaceLoops(method);
+                }
+                ;
+                if (method.isAnnotationPresent(SlotReplacementDesc.class)) {
+                    replaceSlot(method);
+                }
+                ;
+                if (method.isAnnotationPresent(WithFileName.class)) {
+                    updateFileName(method);
+                }
+                ;
+                if (method.isAnnotationPresent(WithFilePath.class)) {
+                    updateFilePath(method);
+                }
+                ;
+                if (method.isAnnotationPresent(WithFileExtension.class)) {
+                    updateFileExt(method);
+                }
+                ;
+            }
+        }
     }
 
     private void saveFile() {
@@ -328,18 +328,24 @@ public class FileFactory {
         this.handler = this.fileTemplateDesc.getConstructor().newInstance();
         if (!fileTemplateDesc.isAnnotationPresent(jda.modules.mosarfrontend.common.anotation.FileTemplateDesc.class)) {
             throw new Exception("The class is not TemplateHandler (without @TemplateHandler annotation)");
-            
         } else {
             this.fileTemplate = fileTemplateDesc.getAnnotation(FileTemplateDesc.class);
-            Method[] skipDecision = Arrays.stream(fileTemplateDesc.getDeclaredMethods()).filter(m -> m.isAnnotationPresent(SkipGenDecision.class)).toArray(Method[]::new);
-            if (skipDecision.length == 0 || !checkSkip(skipDecision[0])) {
-                initFileTemplate();
-                updateFileContent();
-                return this.fileContent;
+            // init template handler methods
+            Method[] methods = Arrays.stream(this.fileTemplateDesc.getDeclaredMethods()).toArray(Method[]::new);
+            for (Method method : methods) {
+                Annotation[] annotations = method.getDeclaredAnnotations();
+                if (annotations.length > 0) {
+                    this.handlerMapByAnnotation.computeIfAbsent(annotations[0].annotationType(), k -> new ArrayList<>()); // init new if not exits
+                    ArrayList<Method> listMethod = this.handlerMapByAnnotation.get(annotations[0].annotationType());
+                    listMethod.add(method);
+                    if (annotations[0].annotationType() == SkipGenDecision.class && checkSkip(method)) return null;
+                }
             }
-        } 
-        
-        return null;
+
+            initFileTemplate();
+            updateFileContent();
+            return this.fileContent;
+        }
     }
 }
 

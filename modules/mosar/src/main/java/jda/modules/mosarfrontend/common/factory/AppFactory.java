@@ -96,18 +96,25 @@ public class AppFactory {
     }
 
     public void genAndSave() {
+    	
         if (this.rfsGenConfig.getFeTemplate() == null) {
-            // use default Template
+            // use default Template        	
             switch (this.rfsGenConfig.getFePlatform()) {
                 case REACT:
+                	break;
                 case ANGULAR:
                     this.rfsGenConfig.setFeTemplate(AngularAppTemplate.class.getAnnotation(AppTemplateDesc.class));
+                    break;
                 case REACT_NATIVE:
-                    this.rfsGenConfig.setFeTemplate(ReactNativeAppTemplate.class.getAnnotation(AppTemplateDesc.class));
+                	this.rfsGenConfig.setFeTemplate(ReactNativeAppTemplate.class.getAnnotation(AppTemplateDesc.class));
+                    break;
                 case VUE_JS:
+                	break;
             }
         }
+       
         if (this.rfsGenConfig.getFeTemplate() != null) {
+//        	System.out.println("3");
             String[] appDomains = ParamsFactory.getInstance().setRFSGenConfig(rfsGenConfig);
             AppTemplateDesc appTemplate = this.rfsGenConfig.getFeTemplate();
 
