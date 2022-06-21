@@ -1,4 +1,4 @@
-@loop{importEnum}[[import {@slot{{importEnumName}}} from './@slot{{importEnumName}}';
+@loop{importEnum}[[import {@slot{{importEnumName}}} from './enums/@slot{{importEnumName}}';
 ]]loop{importEnum}@
 @loop{import}[[import {@slot{{importModuleName}}} from './@slot{{importLocation}}';
 ]]loop{import}@
