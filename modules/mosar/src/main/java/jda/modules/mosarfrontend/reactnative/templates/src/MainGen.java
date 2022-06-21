@@ -5,6 +5,7 @@ import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.anotation.SlotReplacementDesc;
 import jda.modules.mosarfrontend.common.factory.Slot;
+import org.modeshape.common.text.Inflector;
 
 import java.util.ArrayList;
 
@@ -17,11 +18,16 @@ public class MainGen {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String moduleName : modulesName) {
             ArrayList<Slot> slotValues = new ArrayList<>();
-            slotValues.add(new Slot("moduleName", moduleName.toLowerCase()));
+            slotValues.add(new Slot("moduleName", Inflector.getInstance().underscore(moduleName)));
             slotValues.add(new Slot("ModuleName", moduleName));
             result.add(slotValues);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+    }
+
+    @SlotReplacementDesc(slot = "AppName")
+    public String AppName(@RequiredParam.AppName String appName) {
+        return appName;
     }
 
     @SlotReplacementDesc(slot = "initialRoute")
@@ -29,12 +35,14 @@ public class MainGen {
         return modulesName[0];
     }
 
-    @LoopReplacementDesc(slots = {"moduleName"}, id = "2")
+    @LoopReplacementDesc(slots = {"ModuleName", "ModuleTitle"}, id = "routeConfigs")
     public Slot[][] replaceRouteModules(@RequiredParam.ModulesName String[] modulesName) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        Inflector wordUtil = Inflector.getInstance();
         for (String moduleName : modulesName) {
             ArrayList<Slot> slotValues = new ArrayList<>();
-            slotValues.add(new Slot("moduleName", moduleName));
+            slotValues.add(new Slot("ModuleName", moduleName));
+            slotValues.add(new Slot("ModuleTitle", wordUtil.humanize(wordUtil.underscore(wordUtil.pluralize(moduleName)))));
             result.add(slotValues);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);

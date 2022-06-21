@@ -313,6 +313,7 @@ public class Enrolment implements Comparable, Publisher {
                                               Tuple derivingValue, Object minVal, Object maxVal)
           throws ConstraintViolationException {
     if (minVal != null && maxVal != null) {
+    	
       // check the right attribute
       if (attrib.name().equals("id")) {
         int maxIdVal = (Integer) maxVal;

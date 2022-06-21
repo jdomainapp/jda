@@ -70,20 +70,22 @@ public class AppFactory {
     }
 
     public interface Callback {
-        public void gen(Class<?> genClass) throws Exception;
+        public void gen() throws Exception;
     }
 
-    private void loopGenMethod(Annotation genDesc, Callback callback) {
+    private void loopGenMethod(Annotation genDesc, String templateFolder, Callback callback) {
         Method[] genMethods = genDesc.annotationType().getDeclaredMethods();
-        
+
         for (Method m : genMethods) {
-        	
+
             try {
                 ComponentGenDesc componentGenDesc = (ComponentGenDesc) m.invoke(genDesc, (new ArrayList<Object>()).toArray());
-                for (Class<?> fileTemplateDesc : componentGenDesc.genClasses()) {
-//                	System.out.println(fileTemplateDesc);
+                for (Class<?> genClass : componentGenDesc.genClasses()) {
+//                	System.out.println(genClass);
                     try {
-                        callback.gen(fileTemplateDesc);
+                        (new FileFactory(genClass, rfsGenConfig.getFeOutputPath(), templateFolder))
+                                .genAndSave();
+                        callback.gen();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -126,9 +128,7 @@ public class AppFactory {
 
             /** Các Component chỉ gen 1 lần*/
             CrossTemplatesDesc crossTemplatesDesc = appTemplate.crossTemplates();
-            loopGenMethod(crossTemplatesDesc, (genClass) -> {
-                (new FileFactory(genClass, rfsGenConfig.getFeOutputPath(), templateFolder))
-                        .genAndSave();
+            loopGenMethod(crossTemplatesDesc, templateFolder, () -> {
             });
 
 
@@ -138,20 +138,15 @@ public class AppFactory {
                  * Các file gen với mỗi miền (module in domain model) , Ex: Student, Class in CourseMan example
                  */
                 ModuleTemplatesDesc moduleTemplatesDesc = appTemplate.moduleTemplates();
-                
-                loopGenMethod(moduleTemplatesDesc, (genClass) -> {
-                    (new FileFactory(genClass, rfsGenConfig.getFeOutputPath(), templateFolder))
-                            .genAndSave();
 
+                loopGenMethod(moduleTemplatesDesc, templateFolder, () -> {
                     /**
                      * Các file gen với mỗi field trong miền (module in domain model) , Ex: Student, Class in CourseMan example
                      */
                     for (DField field : ParamsFactory.getInstance().getModuleFields()) {
                         ParamsFactory.getInstance().setCurrentModuleField(field);
                         ModuleFieldTemplateDesc moduleFieldTemplateDesc = appTemplate.moduleFieldTemplates();
-                        loopGenMethod(moduleFieldTemplateDesc, (genClassForField -> {
-                            (new FileFactory(genClassForField, rfsGenConfig.getFeOutputPath(), templateFolder))
-                                    .genAndSave();
+                        loopGenMethod(moduleFieldTemplateDesc, templateFolder, (() -> {
                         }));
                     }
                     /**
@@ -160,9 +155,7 @@ public class AppFactory {
                     for (String subDomain : ParamsFactory.getInstance().getMCC().getSubDomains().keySet()) {
                         ParamsFactory.getInstance().setCurrentSubDomain(subDomain);
                         SubModuleTemplateDesc subModuleTemplateDesc = appTemplate.subModuleTemplates();
-                        loopGenMethod(subModuleTemplateDesc, (genClassForSubDomain -> {
-                            (new FileFactory(genClassForSubDomain, rfsGenConfig.getFeOutputPath(), templateFolder))
-                                    .genAndSave();
+                        loopGenMethod(subModuleTemplateDesc, templateFolder, (() -> {
                         }));
                     }
                     ParamsFactory.getInstance().setCurrentSubDomain(null);

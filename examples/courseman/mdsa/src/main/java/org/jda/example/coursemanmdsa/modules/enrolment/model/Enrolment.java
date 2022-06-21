@@ -33,6 +33,7 @@ import jda.util.events.ChangeEventSource;
  */
 @DClass(schema = "courseman")
 public class Enrolment implements Comparable, Publisher {
+	
 
   private static final String AttributeName_InternalMark = "internalMark";
   private static final String AttributeName_ExamMark = "examMark";

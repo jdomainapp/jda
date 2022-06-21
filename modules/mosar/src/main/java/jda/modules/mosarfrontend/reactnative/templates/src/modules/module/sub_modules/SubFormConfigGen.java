@@ -1,37 +1,47 @@
-package jda.modules.mosarfrontend.reactnative.templates.src.modules.module;
+package jda.modules.mosarfrontend.reactnative.templates.src.modules.module.sub_modules;
 
 import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.IfReplacement;
-import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
-import jda.modules.mosarfrontend.common.anotation.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.*;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
-import jda.modules.mosarfrontend.common.utils.NewMCC;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 
-@FileTemplateDesc(templateFile = "/src/modules/module/FormConfig.ts")
-public class FormConfigGen extends CommonModuleGen {
+@FileTemplateDesc(templateFile = "/src/modules/module/sub_modules/FormConfig.ts")
+public class SubFormConfigGen extends CommonSubModuleGen {
+
+//    @WithFilePath
+//    public String withFilePath(@RequiredParam.ModuleName String moduleName, @RequiredParam.CurrentSubDomain Domain subDomain) {
+//        return "/src/modules/" + moduleName.toLowerCase() + "/sub_modules/" + subDomain.getDomainClass().getSimpleName().toLowerCase();
+//    }
+
+    @SlotReplacementDesc(slot = "ModuleName")
+    public String ModuleName(@RequiredParam.ModuleName String moduleName) {
+        return moduleName;
+    }
+
+    @SlotReplacementDesc(slot = "SubModuleName")
+    public String SubModuleName(@RequiredParam.CurrentSubDomain Domain subDomain) {
+        return subDomain.getDomainClass().getSimpleName();
+    }
 
     @IfReplacement(id = "BasicFormInputGen")
-    public boolean BasicFormInputGen(@RequiredParam.ModuleFields DField[] fields) {
-        return Arrays.stream(fields).anyMatch(f -> f.getDAssoc() == null);
+    public boolean BasicFormInputGen(@RequiredParam.CurrentSubDomain Domain subDomain) {
+        return Arrays.stream(subDomain.getDFields()).anyMatch(f -> f.getDAssoc() == null);
     }
 
     @IfReplacement(id = "ModuleFormInputGen")
-    public boolean ModuleFormInputGen(@RequiredParam.ModuleFields DField[] fields) {
-        return Arrays.stream(fields).anyMatch(f -> f.getDAssoc() != null);
+    public boolean ModuleFormInputGen(@RequiredParam.CurrentSubDomain Domain subDomain) {
+        return Arrays.stream(subDomain.getDFields()).anyMatch(f -> f.getDAssoc() != null);
     }
 
     @LoopReplacementDesc(id = "importInputs", slots = {"FieldType"})
-    public Slot[][] importImputs(@RequiredParam.ModuleFields DField[] fields) {
+    public Slot[][] importImputs(@RequiredParam.CurrentSubDomain Domain subDomain) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         ArrayList<String> imported = new ArrayList<>();
-        for (DField field : Arrays.stream(fields).filter(f -> f.getDAssoc() == null).toArray(DField[]::new)) {
+        for (DField field : Arrays.stream(subDomain.getDFields()).filter(f -> f.getDAssoc() == null).toArray(DField[]::new)) {
             ArrayList<Slot> list = new ArrayList<>();
             String fieldType = getFieldType(field);
             if (!imported.contains(fieldType)) {
@@ -44,16 +54,16 @@ public class FormConfigGen extends CommonModuleGen {
     }
 
     @LoopReplacementDesc(id = "importDomainInput", slots = {"DomainName", "domainName"})
-    public Slot[][] importDomainInput(@RequiredParam.ModuleFields DField[] fields) {
+    public Slot[][] importDomainInput(@RequiredParam.CurrentSubDomain Domain subDomain) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         ArrayList<String> imported = new ArrayList<>();
-        for (DField field : Arrays.stream(fields).filter(f -> f.getDAssoc() != null).toArray(DField[]::new)) {
+        for (DField field : Arrays.stream(subDomain.getDFields()).filter(f -> f.getDAssoc() != null).toArray(DField[]::new)) {
             ArrayList<Slot> list = new ArrayList<>();
             String fieldType = getFieldType(field);
             if (!imported.contains(fieldType)) {
                 imported.add(fieldType);
                 list.add(new Slot("DomainName", fieldType));
-                list.add(new Slot("domainName", moduleName(field.getDAssoc().associate().type().getSimpleName())));
+                list.add(new Slot("domainName", field.getDAssoc().associate().type().getSimpleName().toLowerCase()));
                 result.add(list);
             }
         }
@@ -61,9 +71,9 @@ public class FormConfigGen extends CommonModuleGen {
     }
 
     @LoopReplacementDesc(id = "formConfig", slots = {"fieldName", "formType"})
-    public Slot[][] formConfig(@RequiredParam.ModuleFields DField[] fields) {
+    public Slot[][] formConfig(@RequiredParam.CurrentSubDomain Domain subDomain) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        for (DField field : fields) {
+        for (DField field : subDomain.getDFields()) {
             ArrayList<Slot> list = new ArrayList<>();
             list.add(new Slot("fieldName", field.getDAttr().name()));
             list.add(new Slot("formType", "Form" + getFieldType(field) + "Input"));
@@ -71,31 +81,6 @@ public class FormConfigGen extends CommonModuleGen {
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
-
-//    @IfReplacement(id = "FormList")
-//    public boolean importTypedFormItem(@RequiredParam.MCC NewMCC mcc) {
-//        return !mcc.getSubDomains().isEmpty();
-//    }
-
-    @IfReplacement(id = "importTypedFormItem")
-    public boolean GenFormList(@RequiredParam.MCC NewMCC mcc) {
-        return !mcc.getSubDomains().isEmpty();
-    }
-
-    @LoopReplacementDesc(id = "formTypeItem", slots = {"EnumType", "type", "SubModuleName"})
-    public Slot[][] formTypeItem(@RequiredParam.ModuleName String moduleName, @RequiredParam.SubDomains Map<String, Domain> moduleMap) {
-        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        for (String type : moduleMap.keySet()) {
-            ArrayList<Slot> list = new ArrayList<>();
-            list.add(new Slot("EnumType", moduleName));
-            list.add(new Slot("type", type));
-            list.add(new Slot("SubModuleName", moduleMap.get(type).getDomainClass().getSimpleName()));
-            result.add(list);
-        }
-        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
-    }
-
-
 
     public String getFieldType(DField field) {
         DAssoc ass = field.getDAssoc();

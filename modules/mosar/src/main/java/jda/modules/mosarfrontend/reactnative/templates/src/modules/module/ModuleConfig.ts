@@ -1,8 +1,10 @@
 import {IJDAModuleConfig} from '../../base/controllers/jda_module_controller/withModuleController';
+import { Modules } from '../../data_types/enums/Modules';
 import {@slot{{importDataType}}} from '../../data_types/@slot{{ModuleName}}';
 
 export const @slot{{ModuleName}}ModuleConfig: IJDAModuleConfig<@slot{{importDataType}}> = {
   primaryKey: '@slot{{fieldID}}',
+  route: Modules.@slot{{ModuleName}},
   apiResource: '@slot{{apiResource}}',
   moduleName: '@slot{{moduleTitle}}',
   fieldLabel: {@loop{fieldLabelConfig}[[

@@ -10,3 +10,4 @@ import { Form@slot{{DomainName}}Input } from "../@slot{{domainName}}/Input";]]lo
 export const @slot{{ModuleName}}FormConfig: IJDAFormConfig<@slot{{ModuleName}}> = {@loop{formConfig}[[
   @slot{{fieldName}}: @slot{{formType}},]]loop{formConfig}@
 };
+
