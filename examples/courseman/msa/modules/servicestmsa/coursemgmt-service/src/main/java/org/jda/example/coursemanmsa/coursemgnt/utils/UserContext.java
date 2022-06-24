@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.enrolment.utils;
+package org.jda.example.coursemanmsa.coursemgnt.utils;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;

@@ -1,15 +1,15 @@
 /**
  * 
  */
-package org.jda.example.coursemanmsa.enrolment.controller;
+package org.jda.example.coursemanmsa.coursemgnt.controller;
 
 import static java.util.Collections.singletonMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.jda.example.coursemanmsa.enrolment.model.utils.ErrorMessage;
-import org.jda.example.coursemanmsa.enrolment.model.utils.ResponseWrapper;
-import org.jda.example.coursemanmsa.enrolment.model.utils.RestErrorList;
+import org.jda.example.coursemanmsa.coursemgnt.utils.ErrorMessage;
+import org.jda.example.coursemanmsa.coursemgnt.utils.ResponseWrapper;
+import org.jda.example.coursemanmsa.coursemgnt.utils.RestErrorList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
