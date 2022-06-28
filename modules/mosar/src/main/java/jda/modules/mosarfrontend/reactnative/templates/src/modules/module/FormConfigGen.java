@@ -1,6 +1,7 @@
 package jda.modules.mosarfrontend.reactnative.templates.src.modules.module;
 
 import jda.modules.dcsl.syntax.DAssoc;
+import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.IfReplacement;
 import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
@@ -8,7 +9,6 @@ import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
-import jda.modules.mosarfrontend.common.utils.NewMCC;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,26 +60,42 @@ public class FormConfigGen extends CommonModuleGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacementDesc(id = "formConfig", slots = {"fieldName", "formType"})
+    @LoopReplacementDesc(id = "formConfig", slots = {"fieldName", "formType", "options"})
     public Slot[][] formConfig(@RequiredParam.ModuleFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : fields) {
             ArrayList<Slot> list = new ArrayList<>();
             list.add(new Slot("fieldName", field.getDAttr().name()));
             list.add(new Slot("formType", "Form" + getFieldType(field) + "Input"));
+            list.add(new Slot("options", getOptions(field.getDAttr())));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-//    @IfReplacement(id = "FormList")
-//    public boolean importTypedFormItem(@RequiredParam.MCC NewMCC mcc) {
-//        return !mcc.getSubDomains().isEmpty();
-//    }
+    private String getOptions(DAttr dAttr) {
+        boolean haveOption = false;
+        String options = "options:{";
+        String ruleCheck = getRuleCheck(dAttr);
+        if (ruleCheck.length() > 0) {
+            haveOption = true;
+            options += "rules:{" + ruleCheck + "},";
+        }
+        options += "},";
+        return haveOption ? options : "";
+    }
 
-    @IfReplacement(id = "importTypedFormItem")
-    public boolean GenFormList(@RequiredParam.MCC NewMCC mcc) {
-        return !mcc.getSubDomains().isEmpty();
+    public static String getRuleCheck(DAttr dAttr) {
+        String ruleCheck = "";
+        if (!dAttr.optional() && !dAttr.id() && !dAttr.auto())
+            ruleCheck += "required:true,\n";
+        if (!Double.isInfinite(dAttr.max()))
+            ruleCheck += "max:" + dAttr.max() + ",\n";
+        if (!Double.isInfinite(dAttr.min()))
+            ruleCheck += "min:" + dAttr.min() + ",\n";
+        if (dAttr.length() > 0)
+            ruleCheck += "maxLength:" + dAttr.length() + ",\n";
+        return ruleCheck;
     }
 
     @LoopReplacementDesc(id = "formTypeItem", slots = {"EnumType", "type", "SubModuleName"})
@@ -94,7 +110,6 @@ public class FormConfigGen extends CommonModuleGen {
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
-
 
 
     public String getFieldType(DField field) {

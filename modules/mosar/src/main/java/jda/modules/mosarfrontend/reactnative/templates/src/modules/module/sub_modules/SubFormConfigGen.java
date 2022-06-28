@@ -5,6 +5,7 @@ import jda.modules.mosarfrontend.common.anotation.*;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
+import jda.modules.mosarfrontend.reactnative.templates.src.modules.module.FormConfigGen;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -70,13 +71,14 @@ public class SubFormConfigGen extends CommonSubModuleGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacementDesc(id = "formConfig", slots = {"fieldName", "formType"})
+    @LoopReplacementDesc(id = "formConfig", slots = {"fieldName", "formType", "ruleChecks"})
     public Slot[][] formConfig(@RequiredParam.CurrentSubDomain Domain subDomain) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : subDomain.getDFields()) {
             ArrayList<Slot> list = new ArrayList<>();
             list.add(new Slot("fieldName", field.getDAttr().name()));
             list.add(new Slot("formType", "Form" + getFieldType(field) + "Input"));
+            list.add(new Slot("ruleChecks", FormConfigGen.getRuleCheck(field.getDAttr())));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);

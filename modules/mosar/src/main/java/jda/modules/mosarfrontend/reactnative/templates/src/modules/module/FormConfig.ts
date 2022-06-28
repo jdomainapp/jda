@@ -8,6 +8,9 @@ import {@slot{{ModuleName}}} from '../../data_types/@slot{{ModuleName}}';
 import { Form@slot{{DomainName}}Input } from "../@slot{{domainName}}/Input";]]loop{importDomainInput}@
 ))if{ModuleFormInputGen}@
 export const @slot{{ModuleName}}FormConfig: IJDAFormConfig<@slot{{ModuleName}}> = {@loop{formConfig}[[
-  @slot{{fieldName}}: @slot{{formType}},]]loop{formConfig}@
+  @slot{{fieldName}}: {
+    component: @slot{{formType}},
+    @slot{{options}}
+  },]]loop{formConfig}@
 };
 
