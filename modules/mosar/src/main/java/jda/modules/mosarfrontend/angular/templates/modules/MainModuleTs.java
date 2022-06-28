@@ -21,22 +21,26 @@ import java.util.Map;
 )
 public class MainModuleTs {
     @WithFileName
-    public String getFileName(@RequiredParam.AngularProp AngularSlotProperty prop) {
+    public String getFileName(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
     	return prop.getFileName() + ".component";
     }
 
     @WithFilePath
-    public String getFilePath(@RequiredParam.AngularProp AngularSlotProperty prop) {
+    public String getFilePath(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
     	return "/" + prop.getFileName();
     }
     
     @SlotReplacementDesc(slot = "import")
-    public String getImport(@RequiredParam.AngularProp AngularSlotProperty prop) {
+    public String getImport(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getFormImport();
     }
 
     @SlotReplacementDesc(slot = "selector")
-    public String getSelector(@RequiredParam.AngularProp AngularSlotProperty prop) {
+    public String getSelector(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getSelector();
     }
     
@@ -46,12 +50,14 @@ public class MainModuleTs {
     }
 
     @SlotReplacementDesc(slot = "title")
-    public String getTitle(@RequiredParam.AngularProp AngularSlotProperty prop) {
+    public String getTitle(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getTitle();
     }
 
     @SlotReplacementDesc(slot = "api")
-    public String getApi(@RequiredParam.AngularProp AngularSlotProperty prop) {
+    public String getApi(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getAPI();
     }
 

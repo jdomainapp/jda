@@ -295,21 +295,43 @@ public class FileFactory {
     }
 
     public String genAndGetContent() throws Exception {
+//        this.handler = this.fileTemplateDesc.getConstructor().newInstance();
+//        if (!fileTemplateDesc.isAnnotationPresent(jda.modules.mosarfrontend.common.anotation.FileTemplateDesc.class)) {
+//            throw new Exception("The class is not TemplateHandler (without @TemplateHandler annotation)");
+//
+//        } else {
+//            this.fileTemplate = fileTemplateDesc.getAnnotation(FileTemplateDesc.class);
+//            Method[] skipDecision = Arrays.stream(fileTemplateDesc.getDeclaredMethods()).filter(m -> m.isAnnotationPresent(SkipGenDecision.class)).toArray(Method[]::new);
+//            if (skipDecision.length == 0 || !checkSkip(skipDecision[0])) {
+//                initFileTemplate();
+//                updateFileContent();
+//                return this.fileContent;
+//            }
+//        }
         this.handler = this.fileTemplateDesc.getConstructor().newInstance();
         if (!fileTemplateDesc.isAnnotationPresent(jda.modules.mosarfrontend.common.anotation.FileTemplateDesc.class)) {
             throw new Exception("The class is not TemplateHandler (without @TemplateHandler annotation)");
-
         } else {
             this.fileTemplate = fileTemplateDesc.getAnnotation(FileTemplateDesc.class);
-            Method[] skipDecision = Arrays.stream(fileTemplateDesc.getDeclaredMethods()).filter(m -> m.isAnnotationPresent(SkipGenDecision.class)).toArray(Method[]::new);
-            if (skipDecision.length == 0 || !checkSkip(skipDecision[0])) {
-                initFileTemplate();
-                updateFileContent();
-                return this.fileContent;
+            // init template handler methods
+            Method[] methods = this.fileTemplateDesc.getMethods();
+            // Reverse array to ensure the last method (have same annotation with previous declared method) will be executed last
+            Collections.reverse(Arrays.asList(methods));
+            for (Method method : methods) {
+                Annotation[] annotations = method.getDeclaredAnnotations();
+                for (Annotation annotation : annotations) {
+                    this.handlerMapByAnnotation.computeIfAbsent(annotation.annotationType(), k -> new ArrayList<>()); // init new if not exits
+                    ArrayList<Method> listMethod = this.handlerMapByAnnotation.get(annotation.annotationType());
+                    listMethod.add(method);
+                    if (annotation.annotationType() == SkipGenDecision.class && checkSkip(method)) return null;
+                }
             }
-        }
 
-        return null;
+            initFileTemplate();
+            updateFileContent();
+            return this.fileContent;
+        }
+//        return null;
     }
 }
 

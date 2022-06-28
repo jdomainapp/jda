@@ -30,6 +30,7 @@ include = As.PROPERTY, property = "type") @JsonSubTypes({
 })
 @DClass(schema="courseman")
 public abstract class CourseModule {
+	
 
   // attributes
   @DAttr(name="id",id=true,auto=true,type=Type.Integer,length=3,mutable=false,optional=false)

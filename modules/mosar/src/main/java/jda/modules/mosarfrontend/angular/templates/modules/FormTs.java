@@ -10,6 +10,7 @@ import jda.modules.mosarfrontend.common.AngularSlotProperty;
 import jda.modules.mosarfrontend.common.anotation.*;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
+import jda.modules.mosarfrontend.common.utils.NewMCC;
 
 import java.util.ArrayList;
 
@@ -18,12 +19,14 @@ import java.util.ArrayList;
 )
 public class FormTs {
     @WithFileName
-    public String getFileName(@RequiredParam.AngularProp AngularSlotProperty prop) {
+    public String getFileName(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getFileName() + "-form.component";
     }
     
     @WithFilePath
-    public String getFilePath(@RequiredParam.AngularProp AngularSlotProperty prop) {
+    public String getFilePath(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
     	return "\\" + prop.getFileName() + "\\" +  prop.getFileName() + "-form";
     }    
     @SlotReplacementDesc(slot = "componentName")
@@ -32,17 +35,20 @@ public class FormTs {
     }
 
     @SlotReplacementDesc(slot = "selector")
-    public String getSelector(@RequiredParam.AngularProp AngularSlotProperty prop) {
+    public String getSelector(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getSelector() + "-form";
     }
     
     @SlotReplacementDesc(slot = "html-path")
-    public String getHtmlPath(@RequiredParam.AngularProp AngularSlotProperty prop) {
+    public String getHtmlPath(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return "./" + prop.getFileName() + "-form.component.html";
     }
 
     @SlotReplacementDesc(slot = "api")
-    public String getApi(@RequiredParam.AngularProp AngularSlotProperty prop) {
+    public String getApi(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getAPI();
     } 
     

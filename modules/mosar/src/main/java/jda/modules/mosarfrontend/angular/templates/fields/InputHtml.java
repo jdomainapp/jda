@@ -18,13 +18,14 @@ public class InputHtml {
     @SlotReplacementDesc(slot = "fieldLabel")
     public String fieldLabel(@RequiredParam.ModuleField DField field) {
     	if (field != null) {
-//    		System.out.println(field.getDAttr().name());
+    		System.out.println(field.getDAttr().name());
     		return field.getAttributeDesc() != null ? field.getAttributeDesc().label() : field.getDAttr().name();
     	} else {
     		return "ABCD";
     	}        
     }
 
+    
     @SlotReplacementDesc(slot = "fieldType")
     public String fieldType(@RequiredParam.ModuleField DField field) {
     	if (field != null) {
