@@ -6,6 +6,13 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Default implementation of {@link #RestfulController}
@@ -21,19 +28,20 @@ public abstract class DefaultSpringController<T, ID> implements SpringController
         return genericType;
     }
 
-    protected <U> PagingAndSortingRepository<U, ID> getServiceOfGenericType(Class<U> cls) {
+    protected <U> PagingAndSortingRepository<T, ID> getServiceOfGenericType(Class<U> cls) {
         return ServiceRegistry.getInstance().get(cls.getSimpleName());
+    }
+    
+
+    protected <X> PagingAndSortingRepository<T, ID> getServiceOfGenericType(String clsName) {
+        return ServiceRegistry.getInstance().get(clsName);
     }
 
     @Override
-    public T createEntity(T inputEntity) {
+    public T createEntity(@RequestBody T inputEntity) {
     	PagingAndSortingRepository<T, ID> service = getServiceOfGenericType(genericType);
         T createdEntity = service.save(inputEntity);
         return createdEntity;
-    }
-
-    protected <X> PagingAndSortingRepository<X, ID> getServiceOfGenericType(String clsName) {
-        return ServiceRegistry.getInstance().get(clsName);
     }
 
     @Override

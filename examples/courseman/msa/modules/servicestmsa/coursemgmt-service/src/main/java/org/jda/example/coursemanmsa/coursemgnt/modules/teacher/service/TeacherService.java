@@ -1,9 +1,9 @@
-package org.jda.example.coursemanmsa.assessmenthub.modules.teacher.service;
+package org.jda.example.coursemanmsa.coursemgnt.modules.teacher.service;
 
 import java.util.Optional;
 
-import org.jda.example.coursemanmsa.assessmenthub.modules.teacher.model.Teacher;
-import org.jda.example.coursemanmsa.assessmenthub.modules.teacher.repository.TeacherRepository;
+import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.model.Teacher;
+import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.repository.TeacherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

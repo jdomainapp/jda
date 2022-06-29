@@ -1,9 +1,9 @@
-package org.jda.example.coursemanmsa.assessmenthub.modules.student.service;
+package org.jda.example.coursemanmsa.coursemgnt.modules.student.service;
 
 import java.util.Optional;
 
-import org.jda.example.coursemanmsa.assessmenthub.modules.student.model.Student;
-import org.jda.example.coursemanmsa.assessmenthub.modules.student.repository.StudentRepository;
+import org.jda.example.coursemanmsa.coursemgnt.modules.student.model.Student;
+import org.jda.example.coursemanmsa.coursemgnt.modules.student.repository.StudentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

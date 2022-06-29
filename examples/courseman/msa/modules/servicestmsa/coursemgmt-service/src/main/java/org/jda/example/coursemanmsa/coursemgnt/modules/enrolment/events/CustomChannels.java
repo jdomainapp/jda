@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.assessmenthub.modules.enrolment.events;
+package org.jda.example.coursemanmsa.coursemgnt.modules.enrolment.events;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.messaging.SubscribableChannel;

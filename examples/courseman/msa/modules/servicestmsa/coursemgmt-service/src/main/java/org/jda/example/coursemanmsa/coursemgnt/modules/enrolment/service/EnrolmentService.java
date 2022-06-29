@@ -1,14 +1,12 @@
-package org.jda.example.coursemanmsa.assessmenthub.modules.enrolment.service;
+package org.jda.example.coursemanmsa.coursemgnt.modules.enrolment.service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeoutException;
 
-import org.jda.example.coursemanmsa.assessmenthub.config.ServiceConfig;
-import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.Coursemodule;
-import org.jda.example.coursemanmsa.assessmenthub.modules.enrolment.model.Enrolment;
-import org.jda.example.coursemanmsa.assessmenthub.modules.enrolment.repository.EnrolmentRepository;
-import org.jda.example.coursemanmsa.assessmenthub.modules.student.model.Student;
+import org.jda.example.coursemanmsa.coursemgnt.config.ServiceConfig;
+import org.jda.example.coursemanmsa.coursemgnt.modules.enrolment.model.Enrolment;
+import org.jda.example.coursemanmsa.coursemgnt.modules.enrolment.repository.EnrolmentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

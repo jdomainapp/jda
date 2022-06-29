@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.assessmenthub.modules.student;
+package org.jda.example.coursemanmsa.coursemgnt.modules.student;
 
 public class StudentController {
 

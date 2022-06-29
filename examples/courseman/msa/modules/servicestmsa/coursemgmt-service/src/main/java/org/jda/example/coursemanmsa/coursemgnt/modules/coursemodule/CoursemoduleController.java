@@ -1,5 +1,5 @@
-package org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule;
+package org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule;
 
-public class CourseModuleController {
+public class CoursemoduleController {
 
 }

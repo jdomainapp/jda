@@ -1,7 +1,7 @@
-package org.jda.example.coursemanmsa.assessmenthub.modules.teacher.events.source;
+package org.jda.example.coursemanmsa.coursemgnt.modules.teacher.events.source;
 
-import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.events.model.ChangeModel;
-import org.jda.example.coursemanmsa.assessmenthub.utils.UserContext;
+import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.events.model.ChangeModel;
+import org.jda.example.coursemanmsa.coursemgnt.utils.UserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

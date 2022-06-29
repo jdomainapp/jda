@@ -1,16 +1,20 @@
-package org.jda.example.coursemanmsa.assessmenthub.modules.teacher.model;
+package org.jda.example.coursemanmsa.coursemgnt.modules.teacher.model;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.model.Coursemodule;
 import org.springframework.hateoas.RepresentationModel;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +23,9 @@ import lombok.ToString;
 @Getter @Setter @ToString
 @Entity
 @Table(name="teacher")
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id", scope = Teacher.class)
 public class Teacher extends RepresentationModel<Teacher> {
 
 	@Id
@@ -39,4 +45,6 @@ public class Teacher extends RepresentationModel<Teacher> {
 	@Column(name = "deptname", nullable = false)
 	private String deptName;
 
+	@OneToMany(mappedBy="teacher")
+    private List<Coursemodule> coursemodules;
 }

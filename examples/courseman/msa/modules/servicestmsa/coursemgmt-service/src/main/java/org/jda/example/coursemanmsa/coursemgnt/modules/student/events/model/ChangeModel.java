@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.assessmenthub.modules.student.events.model;
+package org.jda.example.coursemanmsa.coursemgnt.modules.student.events.model;
 
 import lombok.Getter;
 import lombok.Setter;

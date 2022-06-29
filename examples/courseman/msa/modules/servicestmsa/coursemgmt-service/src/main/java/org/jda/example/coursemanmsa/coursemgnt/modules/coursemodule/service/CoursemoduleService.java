@@ -1,9 +1,9 @@
-package org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.service;
+package org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.service;
 
 import java.util.Optional;
 
-import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.Coursemodule;
-import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.repository.CourseModuleRepository;
+import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.model.Coursemodule;
+import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.repository.CoursemoduleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class CourseModuleService {
+public class CoursemoduleService {
 	
 	
     @Autowired
-    private CourseModuleRepository repository;
+    private CoursemoduleRepository repository;
 
-    private static final Logger logger = LoggerFactory.getLogger(CourseModuleService.class);
+    private static final Logger logger = LoggerFactory.getLogger(CoursemoduleService.class);
     
     
     public Coursemodule createEntity(Coursemodule arg0){

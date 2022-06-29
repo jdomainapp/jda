@@ -16,7 +16,7 @@
 	</properties>
 
 	<modules>
-		<module>academic-service</module>
+		<module>academicadmin-service</module>
 		<module>coursemgmt-service</module>
 		<module>assessmenthub-service</module>
 		

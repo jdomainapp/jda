@@ -1,8 +1,8 @@
-package org.jda.example.coursemanmsa.assessmenthub.modules.enrolment.repository;
+package org.jda.example.coursemanmsa.coursemgnt.modules.enrolment.repository;
 
 import java.util.List;
 
-import org.jda.example.coursemanmsa.assessmenthub.modules.enrolment.model.Enrolment;
+import org.jda.example.coursemanmsa.coursemgnt.modules.enrolment.model.Enrolment;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
