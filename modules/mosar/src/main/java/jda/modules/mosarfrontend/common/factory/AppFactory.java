@@ -22,6 +22,7 @@ import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesD
 import jda.modules.mosarfrontend.common.anotation.template_desc.SubModuleTemplateDesc;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
+import jda.modules.mosarfrontend.vuejs.VueAppTemplate;
 
 public class AppFactory {
     private RFSGenConfig rfsGenConfig;
@@ -116,6 +117,7 @@ public class AppFactory {
                     this.rfsGenConfig.setFeTemplate(ReactNativeAppTemplate.class.getAnnotation(AppTemplateDesc.class));
                     break;
                 case VUE_JS:
+                    this.rfsGenConfig.setFeTemplate(VueAppTemplate.class.getAnnotation(AppTemplateDesc.class));
                     break;
             }
         }

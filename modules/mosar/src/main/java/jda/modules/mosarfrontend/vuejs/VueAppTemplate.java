@@ -6,22 +6,25 @@ import jda.modules.mosarfrontend.common.anotation.template_desc.ComponentGenDesc
 import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesDesc;
 import jda.modules.mosarfrontend.reactnative.templates.src.data_types.DataTypeGen;
+import jda.modules.mosarfrontend.vuejs.templates.router.componentGen;
+import jda.modules.mosarfrontend.vuejs.templates.router.nameGen;
+import jda.modules.mosarfrontend.vuejs.templates.router.pathGen;
+import jda.modules.mosarfrontend.vuejs.templates.router.routerGen;
 
 @AppTemplateDesc(
-        templateRootFolder = "D:\\HOC_THS\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\templates",
-        resource = "D:\\HOC_THS\\JDA\\jda\\examples\\courseman\\mosar\\src\\main\\resources\\vuejs\\api.zip",
+        templateRootFolder = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\templates",
+        resource = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\vueTemplateResources.zip",
         crossTemplates = @CrossTemplatesDesc(
                 Router = @ComponentGenDesc(
                         templates = {},
-                        genClasses = {}
+                        genClasses = {routerGen.class, pathGen.class, nameGen.class}
                 ),
                 BaseService = @ComponentGenDesc(
                         templates = {},
                         genClasses = {}
                 ),
                 Ext = @ComponentGenDesc(
-                        templates = {"app.component.html"},
-                        genClasses = {AppHtmlTemplate.class}
+                        genClasses = {componentGen.class}
                 )
         ),
         moduleTemplates = @ModuleTemplatesDesc(
@@ -39,7 +42,7 @@ import jda.modules.mosarfrontend.reactnative.templates.src.data_types.DataTypeGe
                 ),
                 Entity = @ComponentGenDesc(
                         templates = {},
-                        genClasses = {DataTypeGen.class}
+                        genClasses = {}
                 ),
                 Ext = @ComponentGenDesc(
                         templates = {},
