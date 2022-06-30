@@ -9,7 +9,7 @@ import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class SimpleSourceBean {
     private Source source;
 
