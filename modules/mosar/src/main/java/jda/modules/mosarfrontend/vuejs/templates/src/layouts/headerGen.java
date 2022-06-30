@@ -13,13 +13,13 @@ import java.util.ArrayList;
         templateFile = "/src/layouts/header.html"
 )
 public class headerGen {
-    @LoopReplacementDesc(id = "routerLinks", slots = {"Module__name", "module_name"})
+    @LoopReplacementDesc(id = "routerLinks", slots = {"Module__name", "moduleJname"})
     public Slot[][] moduleComponents(@RequiredParam.ModulesName String[] modulesName) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String moduleName : modulesName) {
             ArrayList<Slot> slotValues = new ArrayList<>();
-            slotValues.add(new Slot("Module__name", VueNameUtil.Module__name(moduleName)));
-            slotValues.add(new Slot("module_name", VueNameUtil.module_name(moduleName)));
+            slotValues.add(new Slot("Module__name", VueNameUtil.module__name(moduleName)));
+            slotValues.add(new Slot("moduleJname", VueNameUtil.moduleJname(moduleName)));
             result.add(slotValues);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);

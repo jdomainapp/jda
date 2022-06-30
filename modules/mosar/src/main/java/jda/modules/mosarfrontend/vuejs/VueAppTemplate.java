@@ -4,6 +4,8 @@ import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.ComponentGenDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesDesc;
+import jda.modules.mosarfrontend.vuejs.templates.src.api.moduleAPIGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.constants.messageGen;
 import jda.modules.mosarfrontend.vuejs.templates.src.layouts.headerGen;
 import jda.modules.mosarfrontend.vuejs.templates.src.router.componentGen;
 import jda.modules.mosarfrontend.vuejs.templates.src.router.nameGen;
@@ -23,7 +25,7 @@ import jda.modules.mosarfrontend.vuejs.templates.src.router.routerGen;
                         genClasses = {}
                 ),
                 Ext = @ComponentGenDesc(
-                        genClasses = {componentGen.class}
+                        genClasses = {componentGen.class, messageGen.class}
                 )
         ),
         moduleTemplates = @ModuleTemplatesDesc(
@@ -45,7 +47,7 @@ import jda.modules.mosarfrontend.vuejs.templates.src.router.routerGen;
                 ),
                 Ext = @ComponentGenDesc(
                         templates = {},
-                        genClasses = {}
+                        genClasses = {moduleAPIGen.class}
                 )
         )
 )

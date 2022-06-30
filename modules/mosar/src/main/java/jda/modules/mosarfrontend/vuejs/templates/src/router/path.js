@@ -1,6 +1,6 @@
 export const HOME_PATH = '/';
-@loop{MODULE_NAME&module_name}[[
-export const @slot{{MODULE_NAME}}_INDEX_PATH = '/@slot{{module_name}}';
-export const @slot{{MODULE_NAME}}_EDIT_PATH = '/@slot{{module_name}}-edit';
-export const @slot{{MODULE_NAME}}_LIST_PATH = '/@slot{{module_name}}-list';
-export const @slot{{MODULE_NAME}}_ADD_PATH = '/@slot{{module_name}}-add';]]loop{MODULE_NAME&module_name}@
+@loop{MODULE_NAME&moduleJname}[[
+export const @slot{{MODULE_NAME}}_INDEX_PATH = '/@slot{{moduleJname}}';
+export const @slot{{MODULE_NAME}}_EDIT_PATH = '/@slot{{moduleJname}}-edit';
+export const @slot{{MODULE_NAME}}_LIST_PATH = '/@slot{{moduleJname}}-list';
+export const @slot{{MODULE_NAME}}_ADD_PATH = '/@slot{{moduleJname}}-add';]]loop{MODULE_NAME&moduleJname}@

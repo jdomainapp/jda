@@ -1,27 +1,49 @@
 package jda.modules.mosarfrontend.vuejs;
 
+import jda.modules.mosarfrontend.common.anotation.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.SlotReplacementDesc;
 import org.modeshape.common.text.Inflector;
 
 public class VueNameUtil {
     public static final Inflector inflector = Inflector.getInstance();
 
-    public static String moduleName(String name) {
+    @SlotReplacementDesc(slot = "moduleName")
+    public static String moduleName(@RequiredParam.ModuleName String name) {
         return inflector.camelCase(name, false);
     }
 
-    public static String ModuleName(String name) {
+    @SlotReplacementDesc(slot = "ModuleName")
+    public static String ModuleName(@RequiredParam.ModuleName String name) {
         return inflector.camelCase(name, true);
     }
 
-    public static String MODULE_NAME(String name) {
+    @SlotReplacementDesc(slot = "ModuleNames")
+    public static String ModuleNames(@RequiredParam.ModuleName String name) {
+        return inflector.camelCase(inflector.pluralize(name), true);
+    }
+
+    @SlotReplacementDesc(slot = "MODULE_NAME")
+    public static String MODULE_NAME(@RequiredParam.ModuleName String name) {
         return inflector.underscore(name).toUpperCase();
     }
 
-    public static String module_name(String name) {
+    @SlotReplacementDesc(slot = "module_name")
+    public static String module_name(@RequiredParam.ModuleName String name) {
+        return inflector.underscore(name);
+    }
+
+    @SlotReplacementDesc(slot = "moduleJname")
+    public static String moduleJname(@RequiredParam.ModuleName String name) {
         return inflector.underscore(name).replaceAll("_", "-");
     }
 
-    public static String Module__name(String name) {
-        return inflector.underscore(inflector.upperCamelCase(inflector.pluralize(name))).replaceAll("_"," ");
+    @SlotReplacementDesc(slot = "module__name")
+    public static String module__name(@RequiredParam.ModuleName String name) {
+        return inflector.underscore(inflector.upperCamelCase(inflector.pluralize(name))).replaceAll("_", " ");
+    }
+
+    @SlotReplacementDesc(slot = "moduleJnames")
+    public static String moduleJnames(@RequiredParam.ModuleName String name) {
+        return inflector.underscore(inflector.upperCamelCase(inflector.pluralize(name))).replaceAll("_", "-");
     }
 }
