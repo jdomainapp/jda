@@ -1,15 +1,14 @@
 package jda.modules.mosarfrontend.vuejs;
 
-import jda.modules.mosarfrontend.angular.templates.AppHtmlTemplate;
 import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.ComponentGenDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesDesc;
-import jda.modules.mosarfrontend.reactnative.templates.src.data_types.DataTypeGen;
-import jda.modules.mosarfrontend.vuejs.templates.router.componentGen;
-import jda.modules.mosarfrontend.vuejs.templates.router.nameGen;
-import jda.modules.mosarfrontend.vuejs.templates.router.pathGen;
-import jda.modules.mosarfrontend.vuejs.templates.router.routerGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.layouts.headerGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.router.componentGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.router.nameGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.router.pathGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.router.routerGen;
 
 @AppTemplateDesc(
         templateRootFolder = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\templates",
@@ -17,7 +16,7 @@ import jda.modules.mosarfrontend.vuejs.templates.router.routerGen;
         crossTemplates = @CrossTemplatesDesc(
                 Router = @ComponentGenDesc(
                         templates = {},
-                        genClasses = {routerGen.class, pathGen.class, nameGen.class}
+                        genClasses = {routerGen.class, pathGen.class, nameGen.class, headerGen.class}
                 ),
                 BaseService = @ComponentGenDesc(
                         templates = {},

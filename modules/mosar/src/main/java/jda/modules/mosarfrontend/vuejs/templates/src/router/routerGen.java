@@ -1,15 +1,12 @@
-package jda.modules.mosarfrontend.vuejs.templates.router;
+package jda.modules.mosarfrontend.vuejs.templates.src.router;
 
 import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.factory.Slot;
-import jda.modules.mosarfrontend.vuejs.VueNameUtil;
-
-import java.util.ArrayList;
 
 @FileTemplateDesc(
-        templateFile = "/router/router.js"
+        templateFile = "/src/router/router.js"
 )
 public class routerGen extends BaseRouterGen {
     @LoopReplacementDesc(id = "importPaths", slots = {"MODULE_NAME"})

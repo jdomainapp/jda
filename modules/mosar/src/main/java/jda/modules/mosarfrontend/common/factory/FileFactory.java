@@ -50,8 +50,8 @@ class RegexUtils {
             singleSlotsRegex.append(createSlotRegex(slot));
             singleSlotsRegex.append(".*");
         }
-        return Pattern.compile(String.format("@loop(?<li>\\{%s})\\[\\[(.*%s)]]loop(\\k<li>)@",
-                loop.id(), singleSlotsRegex), Pattern.DOTALL);
+        return Pattern.compile(String.format("@loop(?<li>\\{%s})\\[\\[(.*)]]loop(\\k<li>)@",
+                loop.id()), Pattern.DOTALL);
     }
 
     public Pattern createIfRegex(String id) {

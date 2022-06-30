@@ -1,4 +1,4 @@
-package jda.modules.mosarfrontend.vuejs.templates.router;
+package jda.modules.mosarfrontend.vuejs.templates.src.router;
 
 import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
