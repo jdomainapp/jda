@@ -1,11 +1,5 @@
 package jda.modules.mosarfrontend.angular.templates.modules;
 
-import jda.modules.dcsl.parser.statespace.metadef.DAssocDef;
-import jda.modules.dcsl.parser.statespace.metadef.DAttrDef;
-import jda.modules.dcsl.parser.statespace.metadef.FieldDef;
-import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.dcsl.syntax.DAttr;
-import jda.modules.dcsl.syntax.DAttr.Type;
 import jda.modules.mosarfrontend.common.AngularSlotProperty;
 import jda.modules.mosarfrontend.common.anotation.*;
 import jda.modules.mosarfrontend.common.factory.Slot;
@@ -29,30 +23,30 @@ public class FormTs {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
     	return "\\" + prop.getFileName() + "\\" +  prop.getFileName() + "-form";
     }    
-    @SlotReplacementDesc(slot = "componentName")
+    @SlotReplacement(slot = "componentName")
     public String moduleName(@RequiredParam.ModuleName String name) {
         return name + "FormComponent";
     }
 
-    @SlotReplacementDesc(slot = "selector")
+    @SlotReplacement(slot = "selector")
     public String getSelector(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getSelector() + "-form";
     }
     
-    @SlotReplacementDesc(slot = "html-path")
+    @SlotReplacement(slot = "html-path")
     public String getHtmlPath(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return "./" + prop.getFileName() + "-form.component.html";
     }
 
-    @SlotReplacementDesc(slot = "api")
+    @SlotReplacement(slot = "api")
     public String getApi(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getAPI();
     } 
     
-    @LoopReplacementDesc(slots = {"field", "getSubFunction", "subAPI"}, id = "subview")
+    @LoopReplacement(slots = {"field", "getSubFunction", "subAPI"}, id = "subview")
     public Slot[][] fields(@RequiredParam.DomainFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : fields) {

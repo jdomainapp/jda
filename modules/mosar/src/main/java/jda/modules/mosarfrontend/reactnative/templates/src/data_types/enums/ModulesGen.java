@@ -1,7 +1,7 @@
 package jda.modules.mosarfrontend.reactnative.templates.src.data_types.enums;
 
 import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
+import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.factory.Slot;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 @FileTemplateDesc(templateFile = "/src/data_types/enums/Modules.ts")
 public class ModulesGen {
-    @LoopReplacementDesc(id = "modules", slots = {"ModuleName"})
+    @LoopReplacement(id = "modules", slots = {"ModuleName"})
     public Slot[][] modules(@RequiredParam.ModulesName String[] ModulesName) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String moduleName : ModulesName) {

@@ -1,17 +1,13 @@
 package jda.modules.mosarfrontend.angular.templates;
 
-import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosarfrontend.common.AngularSlotProperty;
 import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
+import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
-import jda.modules.mosarfrontend.common.anotation.SlotReplacementDesc;
 import jda.modules.mosarfrontend.common.factory.Slot;
-import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.NewMCC;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 @FileTemplateDesc(
@@ -19,7 +15,7 @@ import java.util.Map;
 )
 public class AppRoutingTemplate {
 
-    @LoopReplacementDesc(slots = {"import"}, id = "1")
+    @LoopReplacement(slots = {"import"}, id = "1")
     public Slot[][] replaceImportModules(@RequiredParam.ModuleMap Map<String, NewMCC> moduleMap) {
 //      System.out.print(moduleMap);
     	ArrayList<ArrayList<Slot>> result = new ArrayList<>();
@@ -39,7 +35,7 @@ public class AppRoutingTemplate {
 //        return "Hello";
 //    }
 
-    @LoopReplacementDesc(slots = {"apiName", "moduleComponent"}, id = "2")
+    @LoopReplacement(slots = {"apiName", "moduleComponent"}, id = "2")
     public Slot[][] replaceRouteModules(@RequiredParam.ModuleMap Map<String, NewMCC> moduleMap) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (NewMCC mcc : moduleMap.values()) {

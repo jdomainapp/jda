@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 @FileTemplateDesc(templateFile = "/src/modules/module/sub_modules/ListConfig.ts")
 public class SubListConfigGen extends CommonSubModuleGen {
-    @LoopReplacementDesc(id = "listTitle", slots = {"moduleAlias", "fieldName"})
+    @LoopReplacement(id = "listTitle", slots = {"moduleAlias", "fieldName"})
     public Slot[][] listTitle(@RequiredParam.ModuleFields DField[] fields, @RequiredParam.ModuleName String moduleName) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : Arrays.stream(fields).filter(f -> f.getDAssoc() == null).toArray(DField[]::new)) {

@@ -6,7 +6,7 @@
     <br>
     <div class="form-group">
         <label class="form-label">Name</label>
-        <input type="text" class="form-control" id="name" v-model="studentClass.name">
+        <input type="text" class="form-control" id="name" v-model="studentClass.name" required pattern="[A-Za-z1-9]+">
     </div>
     <br>
     <div class="d-flex flex-wrap justify-content-between align-items-end form-group">

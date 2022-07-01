@@ -1,9 +1,9 @@
 package jda.modules.mosarfrontend.reactnative.templates.src;
 
 import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
+import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
-import jda.modules.mosarfrontend.common.anotation.SlotReplacementDesc;
+import jda.modules.mosarfrontend.common.anotation.SlotReplacement;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import org.modeshape.common.text.Inflector;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
         templateFile = "/src/Main.tsx"
 )
 public class MainGen {
-    @LoopReplacementDesc(slots = {"ModuleName", "moduleName"}, id = "importModules")
+    @LoopReplacement(slots = {"ModuleName", "moduleName"}, id = "importModules")
     public Slot[][] replaceImportModules(@RequiredParam.ModulesName String[] modulesName) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String moduleName : modulesName) {
@@ -25,17 +25,17 @@ public class MainGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @SlotReplacementDesc(slot = "AppName")
+    @SlotReplacement(slot = "AppName")
     public String AppName(@RequiredParam.AppName String appName) {
         return appName;
     }
 
-    @SlotReplacementDesc(slot = "initialRoute")
+    @SlotReplacement(slot = "initialRoute")
     public String replaceInitialRoute(@RequiredParam.ModulesName String[] modulesName) {
         return modulesName[0];
     }
 
-    @LoopReplacementDesc(slots = {"ModuleName", "ModuleTitle"}, id = "routeConfigs")
+    @LoopReplacement(slots = {"ModuleName", "ModuleTitle"}, id = "routeConfigs")
     public Slot[][] replaceRouteModules(@RequiredParam.ModulesName String[] modulesName) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         Inflector wordUtil = Inflector.getInstance();

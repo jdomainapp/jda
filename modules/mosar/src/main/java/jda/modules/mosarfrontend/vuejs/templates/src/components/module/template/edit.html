@@ -1,12 +1,12 @@
 <form v-on:submit.prevent="update">
     <div class="form-group" v-if="form.hidId == true">
         <label class="form-label">Id</label>
-        <input disabled="" type="number" class="form-control" id="id" v-model="address.id">
+        <input disabled="" type="number" class="form-control" id="id" v-model="@slot{{moduleName}}.id">
     </div>
     <br>
     <div class="form-group" v-if="form.hidName == true">
         <label class="form-label">Name</label>
-        <input type="text" class="form-control" id="name" v-model="address.name">
+        <input type="text" class="form-control" id="name" v-model="@slot{{moduleName}}.name">
     </div>
     <br>
     <div class="d-flex flex-wrap justify-content-between align-items-end form-group" v-if="form.hidSubModule == true">

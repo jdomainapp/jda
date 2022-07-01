@@ -1,7 +1,7 @@
 package jda.modules.mosarfrontend.reactnative.templates.src.modules.module.sub_modules;
 
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
-import jda.modules.mosarfrontend.common.anotation.SlotReplacementDesc;
+import jda.modules.mosarfrontend.common.anotation.SlotReplacement;
 import jda.modules.mosarfrontend.common.anotation.WithFilePath;
 import jda.modules.mosarfrontend.common.utils.Domain;
 import jda.modules.mosarfrontend.reactnative.templates.src.modules.module.CommonModuleGen;
@@ -14,12 +14,12 @@ public class CommonSubModuleGen extends CommonModuleGen {
     }
 
 
-    @SlotReplacementDesc(slot = "SubModuleName")
+    @SlotReplacement(slot = "SubModuleName")
     public String SubModuleName(@RequiredParam.CurrentSubDomain Domain domain) {
         return domain.getDomainClass().getSimpleName();
     }
 
-    @SlotReplacementDesc(slot = "subModuleName")
+    @SlotReplacement(slot = "subModuleName")
     public String subModuleName(@RequiredParam.CurrentSubDomain Domain domain) {
         return Inflector.getInstance().underscore(domain.getDomainClass().getSimpleName());
     }

@@ -18,12 +18,12 @@ public class SubFormConfigGen extends CommonSubModuleGen {
 //        return "/src/modules/" + moduleName.toLowerCase() + "/sub_modules/" + subDomain.getDomainClass().getSimpleName().toLowerCase();
 //    }
 
-    @SlotReplacementDesc(slot = "ModuleName")
+    @SlotReplacement(slot = "ModuleName")
     public String ModuleName(@RequiredParam.ModuleName String moduleName) {
         return moduleName;
     }
 
-    @SlotReplacementDesc(slot = "SubModuleName")
+    @SlotReplacement(slot = "SubModuleName")
     public String SubModuleName(@RequiredParam.CurrentSubDomain Domain subDomain) {
         return subDomain.getDomainClass().getSimpleName();
     }
@@ -38,7 +38,7 @@ public class SubFormConfigGen extends CommonSubModuleGen {
         return Arrays.stream(subDomain.getDFields()).anyMatch(f -> f.getDAssoc() != null);
     }
 
-    @LoopReplacementDesc(id = "importInputs", slots = {"FieldType"})
+    @LoopReplacement(id = "importInputs", slots = {"FieldType"})
     public Slot[][] importImputs(@RequiredParam.CurrentSubDomain Domain subDomain) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         ArrayList<String> imported = new ArrayList<>();
@@ -54,7 +54,7 @@ public class SubFormConfigGen extends CommonSubModuleGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacementDesc(id = "importDomainInput", slots = {"DomainName", "domainName"})
+    @LoopReplacement(id = "importDomainInput", slots = {"DomainName", "domainName"})
     public Slot[][] importDomainInput(@RequiredParam.CurrentSubDomain Domain subDomain) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         ArrayList<String> imported = new ArrayList<>();
@@ -71,7 +71,7 @@ public class SubFormConfigGen extends CommonSubModuleGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacementDesc(id = "formConfig", slots = {"fieldName", "formType", "ruleChecks"})
+    @LoopReplacement(id = "formConfig", slots = {"fieldName", "formType", "ruleChecks"})
     public Slot[][] formConfig(@RequiredParam.CurrentSubDomain Domain subDomain) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : subDomain.getDFields()) {

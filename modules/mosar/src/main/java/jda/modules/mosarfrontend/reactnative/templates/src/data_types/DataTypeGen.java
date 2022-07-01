@@ -19,7 +19,7 @@ public class DataTypeGen {
         return name;
     }
 
-    @LoopReplacementDesc(slots = {"importModuleName", "importLocation"}, id = "import")
+    @LoopReplacement(slots = {"importModuleName", "importLocation"}, id = "import")
     public Slot[][] importInterface(@RequiredParam.ModuleFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : fields) {
@@ -37,7 +37,7 @@ public class DataTypeGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacementDesc(slots = {"importEnumName"}, id = "importEnum")
+    @LoopReplacement(slots = {"importEnumName"}, id = "importEnum")
     public Slot[][] importEnumInterface(@RequiredParam.ModuleFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : fields) {
@@ -50,12 +50,12 @@ public class DataTypeGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @SlotReplacementDesc(slot = "moduleName")
+    @SlotReplacement(slot = "moduleName")
     public String moduleName(@RequiredParam.ModuleName String name) {
         return name;
     }
 
-    @LoopReplacementDesc(slots = {"field", "fieldType"}, id = "1")
+    @LoopReplacement(slots = {"field", "fieldType"}, id = "1")
     public Slot[][] fields(@RequiredParam.ModuleFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : fields) {
@@ -67,7 +67,7 @@ public class DataTypeGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacementDesc(slots = {"field", "fieldType"}, id = "subInterface")
+    @LoopReplacement(slots = {"field", "fieldType"}, id = "subInterface")
     public Slot[][] subInterface(@RequiredParam.ModuleFields DField[] fields, @RequiredParam.ModuleMap Map<String, NewMCC> moduleMap) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : Arrays.stream(fields).filter(f -> f.getDAssoc() != null).toArray(DField[]::new)) {
@@ -79,7 +79,7 @@ public class DataTypeGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacementDesc(slots = {"domainFieldName"}, id = "domainFields")
+    @LoopReplacement(slots = {"domainFieldName"}, id = "domainFields")
     public Slot[][] domainFields(@RequiredParam.ModuleFields DField[] fields, @RequiredParam.ModuleMap Map<String, NewMCC> moduleMap) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : Arrays.stream(fields).filter(f -> f.getDAssoc() != null).toArray(DField[]::new)) {

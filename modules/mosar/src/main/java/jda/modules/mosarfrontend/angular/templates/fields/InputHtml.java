@@ -1,21 +1,14 @@
 package jda.modules.mosarfrontend.angular.templates.fields;
 
-import jda.modules.dcsl.parser.statespace.metadef.DAssocDef;
-import jda.modules.dcsl.parser.statespace.metadef.DAttrDef;
-import jda.modules.dcsl.parser.statespace.metadef.FieldDef;
 import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.mosarfrontend.common.anotation.*;
-import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
-
-import java.util.ArrayList;
 
 @FileTemplateDesc(
         templateFile = "/fields/input.html.tp"
 )
 public class InputHtml {
-    @SlotReplacementDesc(slot = "fieldLabel")
+    @SlotReplacement(slot = "fieldLabel")
     public String fieldLabel(@RequiredParam.ModuleField DField field) {
     	if (field != null) {
     		System.out.println(field.getDAttr().name());
@@ -26,7 +19,7 @@ public class InputHtml {
     }
 
     
-    @SlotReplacementDesc(slot = "fieldType")
+    @SlotReplacement(slot = "fieldType")
     public String fieldType(@RequiredParam.ModuleField DField field) {
     	if (field != null) {
     		return typeConverter(field);
@@ -35,7 +28,7 @@ public class InputHtml {
     	}
     }
 
-    @SlotReplacementDesc(slot = "fieldName")
+    @SlotReplacement(slot = "fieldName")
     public String fieldName(@RequiredParam.ModuleField DField field) {
     	if (field != null) {
           return field.getDAttr().name();    		

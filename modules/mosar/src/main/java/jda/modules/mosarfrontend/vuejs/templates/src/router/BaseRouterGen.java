@@ -1,20 +1,20 @@
 package jda.modules.mosarfrontend.vuejs.templates.src.router;
 
-import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
+import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.factory.Slot;
-import jda.modules.mosarfrontend.vuejs.VueNameUtil;
+import jda.modules.mosarfrontend.vuejs.common_gen.DomainNameUtil;
 
 import java.util.ArrayList;
 
 public class BaseRouterGen {
-    @LoopReplacementDesc(id = "MODULE_NAME&moduleJname", slots = {"MODULE_NAME", "moduleJname"})
+    @LoopReplacement(id = "MODULE_NAME&moduleJname", slots = {"MODULE_NAME", "moduleJname"})
     public Slot[][] moduleComponents(@RequiredParam.ModulesName String[] modulesName) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String moduleName : modulesName) {
             ArrayList<Slot> slotValues = new ArrayList<>();
-            slotValues.add(new Slot("MODULE_NAME", VueNameUtil.MODULE_NAME(moduleName)));
-            slotValues.add(new Slot("moduleJname", VueNameUtil.moduleJname(moduleName)));
+            slotValues.add(new Slot("MODULE_NAME", DomainNameUtil.MODULE_NAME(moduleName)));
+            slotValues.add(new Slot("moduleJname", DomainNameUtil.moduleJname(moduleName)));
             result.add(slotValues);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
@@ -24,7 +24,7 @@ public class BaseRouterGen {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String moduleName : modulesName) {
             ArrayList<Slot> slotValues = new ArrayList<>();
-            slotValues.add(new Slot("MODULE_NAME", VueNameUtil.MODULE_NAME(moduleName)));
+            slotValues.add(new Slot("MODULE_NAME", DomainNameUtil.MODULE_NAME(moduleName)));
             result.add(slotValues);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);

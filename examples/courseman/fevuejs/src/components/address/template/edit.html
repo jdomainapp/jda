@@ -6,7 +6,7 @@
     <br>
     <div class="form-group" v-if="form.hidName == true">
         <label class="form-label">Name</label>
-        <input type="text" class="form-control" id="name" v-model="address.name">
+        <input type="text" class="form-control" id="name" required pattern="[A-Za-z1-9]" v-model="address.name" >
     </div>
     <br>
     <div class="d-flex flex-wrap justify-content-between align-items-end form-group" v-if="form.hidSubModule == true">

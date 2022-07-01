@@ -1,10 +1,5 @@
 package jda.modules.mosarfrontend.angular.templates.modules;
 
-import jda.modules.dcsl.parser.statespace.metadef.DAssocDef;
-import jda.modules.dcsl.parser.statespace.metadef.DAttrDef;
-import jda.modules.dcsl.parser.statespace.metadef.FieldDef;
-import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.mosarfrontend.angular.templates.fields.InputHtml;
 import jda.modules.mosarfrontend.angular.templates.fields.SubViewHtml;
 import jda.modules.mosarfrontend.common.AngularSlotProperty;
@@ -32,7 +27,7 @@ public class FormHtml {
     	return "\\" + prop.getFileName() + "\\" +  prop.getFileName() + "-form";
     } 
     
-    @LoopReplacementDesc(slots = {"fieldText"}, id = "field")
+    @LoopReplacement(slots = {"fieldText"}, id = "field")
     public Slot[][] fields(@RequiredParam.ModuleFields DField[] fields) throws Exception {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : fields) {

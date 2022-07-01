@@ -1,7 +1,7 @@
 package jda.modules.mosarfrontend.reactnative.templates.src.modules.module;
 
 import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
+import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 @FileTemplateDesc(templateFile = "/src/modules/module/ListConfig.ts")
 public class ListConfigGen extends CommonModuleGen {
-    @LoopReplacementDesc(id = "listTitle", slots = {"moduleAlias", "fieldName"})
+    @LoopReplacement(id = "listTitle", slots = {"moduleAlias", "fieldName"})
     public Slot[][] listTitle(@RequiredParam.ModuleFields DField[] fields, @RequiredParam.ModuleName String moduleName) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : Arrays.stream(fields).filter(f -> f.getDAssoc() == null).toArray(DField[]::new)) {

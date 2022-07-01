@@ -1,6 +1,6 @@
 <template src="./template/list.html"></template>
 <script>
-    import {getAllAddresses, deleteAddress} from '../../api/address';
+    import {getAll@slot{{ModuleNames}}, delete@slot{{ModuleName}}} from '../../api/@slot{{module_name}}';
     import ModalConfirm from '../modal/confirm.vue';
     import Message from '../../constants/message';
 
@@ -11,44 +11,44 @@
 
         data() {
             return {
-                addresses: [],
-                addressId: 0,
+                @slot{{moduleNames}}: [],
+                @slot{{moduleName}}Id: 0,
                 data: {
-                    addressId: 0,
+                    @slot{{moduleName}}Id: 0,
                 }
             }
         },
 
         mounted() {
-            this.getAddresses()
+            this.get@slot{{ModuleNames}}()
         },
 
         methods: {
             emitData(id) {
-                this.data.addressId = id;
+                this.data.@slot{{moduleName}}Id = id;
                 this.$emit("data", this.data);
             },
 
-            getAddressId(id) {
-                this.addressId = id;
+            get@slot{{ModuleName}}Id(id) {
+                this.@slot{{moduleName}}Id = id;
             },
 
-            getAddresses() {
-                var result = getAllAddresses();
+            get@slot{{ModuleNames}}() {
+                var result = getAll@slot{{ModuleNames}}();
                 result.then(response => {
-                    this.addresses = response.data;
+                    this.@slot{{moduleNames}} = response.data;
                 })
                 .catch(e => {
                     this.$toast.error(Message.GET_LIST_ADDRESS_ERR + ' - ' + e.message);
                 })
             },
 
-            deleteAddress(id) {
-                var result = deleteAddress(id);
+            delete@slot{{ModuleName}}(id) {
+                var result = delete@slot{{ModuleName}}(id);
                 result.then(response => {
                     console.log(response);
 
-                    this.getAddresses();
+                    this.get@slot{{ModuleNames}}();
 
                     this.$toast.success(Message.DELETE_STUDENT_SUC);
                 })

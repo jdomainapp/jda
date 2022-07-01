@@ -40,6 +40,7 @@ public class Domain {
     public Class<?> getDomainClass() {
         return domainClass;
     }
+
     public Map<String, Domain> getSubDomains() {
         return subDomains;
     }
@@ -52,8 +53,6 @@ public class Domain {
     protected DField[] dFields;
     protected DField idField;
     protected Map<String, Domain> subDomains = new HashMap<>();
-
-
 
     protected Class<?> domainClass;
 

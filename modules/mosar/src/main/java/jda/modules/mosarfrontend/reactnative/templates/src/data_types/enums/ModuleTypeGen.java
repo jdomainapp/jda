@@ -2,7 +2,6 @@ package jda.modules.mosarfrontend.reactnative.templates.src.data_types.enums;
 
 import jda.modules.mosarfrontend.common.anotation.*;
 import jda.modules.mosarfrontend.common.factory.Slot;
-import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.NewMCC;
 
 import java.util.ArrayList;
@@ -16,12 +15,12 @@ public class ModuleTypeGen {
     }
 
     @WithFileName
-    @SlotReplacementDesc(slot = "enumName")
+    @SlotReplacement(slot = "enumName")
     public String getFileName(@RequiredParam.ModuleName String moduleName) {
         return moduleName + "Type";
     }
 
-    @LoopReplacementDesc(slots = {"alias", "value"}, id = "enumValues")
+    @LoopReplacement(slots = {"alias", "value"}, id = "enumValues")
     public Slot[][] importInterface(@RequiredParam.MCC NewMCC mcc) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String subType : mcc.getSubDomains().keySet()) {

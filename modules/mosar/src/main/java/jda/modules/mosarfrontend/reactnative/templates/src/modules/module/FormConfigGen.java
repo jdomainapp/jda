@@ -4,7 +4,7 @@ import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.IfReplacement;
-import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
+import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
@@ -27,7 +27,7 @@ public class FormConfigGen extends CommonModuleGen {
         return Arrays.stream(fields).anyMatch(f -> f.getDAssoc() != null);
     }
 
-    @LoopReplacementDesc(id = "importInputs", slots = {"FieldType"})
+    @LoopReplacement(id = "importInputs", slots = {"FieldType"})
     public Slot[][] importImputs(@RequiredParam.ModuleFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         ArrayList<String> imported = new ArrayList<>();
@@ -43,7 +43,7 @@ public class FormConfigGen extends CommonModuleGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacementDesc(id = "importDomainInput", slots = {"DomainName", "domainName"})
+    @LoopReplacement(id = "importDomainInput", slots = {"DomainName", "domainName"})
     public Slot[][] importDomainInput(@RequiredParam.ModuleFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         ArrayList<String> imported = new ArrayList<>();
@@ -60,7 +60,7 @@ public class FormConfigGen extends CommonModuleGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacementDesc(id = "formConfig", slots = {"fieldName", "formType", "options"})
+    @LoopReplacement(id = "formConfig", slots = {"fieldName", "formType", "options"})
     public Slot[][] formConfig(@RequiredParam.ModuleFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : fields) {
@@ -98,7 +98,7 @@ public class FormConfigGen extends CommonModuleGen {
         return ruleCheck;
     }
 
-    @LoopReplacementDesc(id = "formTypeItem", slots = {"EnumType", "type", "SubModuleName"})
+    @LoopReplacement(id = "formTypeItem", slots = {"EnumType", "type", "SubModuleName"})
     public Slot[][] formTypeItem(@RequiredParam.ModuleName String moduleName, @RequiredParam.SubDomains Map<String, Domain> moduleMap) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String type : moduleMap.keySet()) {

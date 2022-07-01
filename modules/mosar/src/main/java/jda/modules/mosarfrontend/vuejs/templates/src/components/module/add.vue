@@ -1,27 +1,28 @@
 <template src="./template/add.html"></template>
 <script>
-    import Address from "../../model/address";
-    import AddressForm from '../../model/form/address';
-    import Student from '../../model/student';
+    import @slot{{ModuleName}} from "../../model/@slot{{module_name}}";
+    import @slot{{ModuleName}}Form from '../../model/form/@slot{{module_name}}';
+    import {add@slot{{ModuleName}}} from '../../api/@slot{{module_name}}';
     import Message from '../../constants/message';
-    import {addAddress} from '../../api/address';
-    import {getStudent} from '../../api/student';
+    @loop{importLinkedDomains}[[
+    import @slot{{LinkedDomain}} from '../../model/@slot{{linked_domain}}';
+    import {get@slot{{LinkedDomain}}} from '../../api/@slot{{linked_domain}}';]]loop{importLinkedDomains}@
 
     export default {
         props: {
             data:Object
         },
 
-        components: {
-            "form-sub-module-student": () => import('../student/add.vue'),
+        components: {@loop{linkedComponents}[[
+            "form-sub-module-@slot{{linked_domain}}": () => import('../@slot{{linked_domain}}/add.vue'),]]loop{linkedComponents}@
         },
 
         data() {
             return {
-                address: new Address(),
-                formSubModuleStudentSeen: false,
-                form: new AddressForm(),
-                student: new Student(),
+                @slot{{module_name}}: new @slot{{ModuleName}}(),
+                form: new @slot{{ModuleName}}Form(),@loop{initLinkedModules}[[
+                formSubModule@slot{{LinkedDomain}}Seen: false,
+                @slot{{linked_domain}}: new @slot{{LinkedDomain}}(),]]loop{initLinkedModules}@
             };
         },
 
@@ -37,28 +38,29 @@
             },
 
             create() {
-                var result = addAddress(this.address);
+                var result = add@slot{{ModuleName}}(this.@slot{{module_name}});
                 result.then((res) => {
                     console.log(res);
-                    this.$toast.success(Message.ADD_ADDRESS_SUC);
+                    this.$toast.success(Message.ADD_@slot{{MODULE_NAME}}_SUC);
                 }).catch((error) => {
-                    this.$toast.error(Message.ADD_ADDRESS_ERR + ' - ' + error.message);
+                    this.$toast.error(Message.ADD_@slot{{MODULE_NAME}}_ERR + ' - ' + error.message);
                 }).finally(() => {});
             },
+            @loop{getLinkedModuleByID}[[
+            get@slot{{LinkedDomain}}ById(event) {
+                let @slot{{linked_domain}}Id =  event.target.value;
 
-            getStudentById(event) {
-                let studentId =  event.target.value;
-                
-                var result = getStudent(studentId);
+                var result = get@slot{{LinkedDomain}}(@slot{{linked_domain}}Id);
                 result.then((res) => {
-                    this.student = res.data;
+                    this.@slot{{linked_domain}} = res.data;
                 })
                 .catch((error) => {
-                    this.$toast.error(Message.ADD_ADDRESS_ERR + ' - ' + error.message);
+                    this.\$toast.error(Message.ADD_@slot{{MODULE_NAME}}_ERR + ' - ' + error.message);
                 }).finally(() => {
 
                 });
             },
+            ]]loop{getLinkedModuleByID}@
         },
     };
 </script>

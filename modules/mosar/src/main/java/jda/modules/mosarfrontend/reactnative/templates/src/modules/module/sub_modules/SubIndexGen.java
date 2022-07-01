@@ -2,7 +2,7 @@ package jda.modules.mosarfrontend.reactnative.templates.src.modules.module.sub_m
 
 import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
-import jda.modules.mosarfrontend.common.anotation.SlotReplacementDesc;
+import jda.modules.mosarfrontend.common.anotation.SlotReplacement;
 import jda.modules.mosarfrontend.common.utils.Domain;
 
 import java.util.Arrays;
@@ -10,7 +10,7 @@ import java.util.Arrays;
 @FileTemplateDesc(templateFile = "/src/modules/module/sub_modules/Index.ts")
 public class SubIndexGen extends CommonSubModuleGen {
 
-    @SlotReplacementDesc(slot = "importDataType")
+    @SlotReplacement(slot = "importDataType")
     public String importDataType(@RequiredParam.CurrentSubDomain Domain domain) {
         String moduleName = domain.getDomainClass().getSimpleName();
         if (Arrays.stream(domain.getDFields()).anyMatch(f -> f.getDAssoc() != null)) {

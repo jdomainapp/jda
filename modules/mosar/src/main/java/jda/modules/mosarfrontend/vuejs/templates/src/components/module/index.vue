@@ -10,7 +10,7 @@
         data() {
             return {
                 display: 1,
-                addressId: 0,
+                @slot{{moduleName}}Id: 0,
             }
         },
 
@@ -20,9 +20,9 @@
 
         methods: {
             setData(data){
-                this.addressId = data.addressId;
+                this.@slot{{moduleName}}Id = data.@slot{{moduleName}}Id;
                 this.display = 2;
-                console.log(this.addressId)
+                console.log(this.@slot{{moduleName}}Id)
             },
         }
     };
