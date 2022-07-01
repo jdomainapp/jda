@@ -8,10 +8,10 @@ import lombok.ToString;
 public class ChangeModel {
 	private String type;
 	private String action;
-	String id;
+	int id;
 	private String correlationId;
 
-	public ChangeModel(String type, String action, String id, String correlationId) {
+	public ChangeModel(String type, String action, int id, String correlationId) {
 		super();
 		this.type = type;
 		this.action = action;

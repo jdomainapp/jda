@@ -7,7 +7,8 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SuppressWarnings("unchecked")
 public abstract class DefaultController<T, ID> implements IController<T, ID> {
 
+	private static final Logger logger = LoggerFactory.getLogger(DefaultController.class);
+	
     private final Class<T> genericType =
         (Class<T>) ((ParameterizedType) getClass()
             .getGenericSuperclass()).getActualTypeArguments()[0];
@@ -40,20 +43,16 @@ public abstract class DefaultController<T, ID> implements IController<T, ID> {
         return ServiceRegistry.getInstance().get(clsName);
     }
     
-    public ResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String pathPatern) throws IOException {
+    public ResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String pathPatern){
+    	try {
 		String requestMethod = req.getMethod();
 		String path = req.getServletPath();
-		T entity=null;
 		ID id= null;
-		if(path.matches(pathPatern)) {
+		if(path.matches("(.*)"+pathPatern+"(.+)")) {
 			String pathVariable = path.substring(path.lastIndexOf("/")+1);
 			id = (ID) pathVariable;
 		}
-		String requestData = req.getReader().lines().collect(Collectors.joining());
-		if (!requestData.isEmpty()) {
-			ObjectMapper mapper = new ObjectMapper();
-			entity = mapper.readValue(requestData,genericType);
-		}
+		
 		if (requestMethod.equals(RequestMethod.GET.toString())) {
 			if (id != null) {
 				return getEntityById(id);
@@ -61,11 +60,30 @@ public abstract class DefaultController<T, ID> implements IController<T, ID> {
 				return getEntityListByPage(PageRequest.of(0, 10));
 			}
 		} else if (requestMethod.equals(RequestMethod.POST.toString())) {
-			return createEntity(entity);
+			String requestData = req.getReader().lines().collect(Collectors.joining()).trim();
+			if (!requestData.isEmpty()) {
+				ObjectMapper mapper = new ObjectMapper();
+				T entity = mapper.readValue(requestData,genericType);
+				return createEntity(entity);
+			}else {
+				return ResponseEntity.ok("No Request body");
+			}
+			
 		} else if (requestMethod.equals(RequestMethod.PUT.toString())) {
-			return updateEntity(id, entity);
+			String requestData = req.getReader().lines().collect(Collectors.joining()).trim();
+			if (!requestData.isEmpty()) {
+				ObjectMapper mapper = new ObjectMapper();
+				T entity = mapper.readValue(requestData,genericType);
+				return updateEntity(id, entity);
+			}else {
+				return ResponseEntity.ok("No Request body");
+			}
+			
 		} else if (requestMethod.equals(RequestMethod.DELETE.toString())) {
 			deleteEntityById(id);
+		}
+    	}catch (Exception e) {
+			logger.error(e.getMessage());
 		}
 		return ResponseEntity.ok("No method for request URL");
 	}

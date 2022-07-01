@@ -12,6 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.messaging.Source;
 //import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 //import org.springframework.cloud.context.config.annotation.RefreshScope;
 //import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -27,9 +32,9 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 
 @SpringBootApplication
-//@RefreshScope
-//@EnableEurekaClient
-//@EnableBinding(Source.class)
+@RefreshScope
+@EnableEurekaClient
+@EnableBinding(Source.class)
 public class AssessmentHubServiceApplication {
 	private static final Logger logger = LoggerFactory.getLogger(AssessmentHubServiceApplication.class);
 	
@@ -47,7 +52,7 @@ public class AssessmentHubServiceApplication {
 	}
 	
 	@SuppressWarnings("unchecked")
-//	@LoadBalanced
+	@LoadBalanced
 	@Bean
 	public RestTemplate getRestTemplate(){
 		RestTemplate template = new RestTemplate();

@@ -5,10 +5,6 @@ import org.springframework.messaging.SubscribableChannel;
 
 public interface CustomChannels {
 	
-    @Input("inboundCourseChanges")
-    SubscribableChannel courseSubscribableChannel();
-    
-    @Input("inboundStudentChanges")
-    SubscribableChannel studentSubscribableChannel();
-    
+    @Input("inboundCoursemoduleChanges")
+    SubscribableChannel coursemoduleSubscribableChannel();
 }

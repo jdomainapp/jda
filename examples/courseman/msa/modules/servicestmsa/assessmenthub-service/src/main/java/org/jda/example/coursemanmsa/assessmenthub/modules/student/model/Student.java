@@ -13,6 +13,7 @@ import org.jda.example.coursemanmsa.assessmenthub.modules.enrolment.model.Enrolm
 import org.jda.example.coursemanmsa.assessmenthub.modules.teacher.model.Teacher;
 import org.springframework.hateoas.RepresentationModel;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -38,6 +39,7 @@ public class Student extends RepresentationModel<Student> {
 	@Column(name = "gender_name")
 	private String studentGender;
 	@Column(name = "dob")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date studentDob;
 	@Column(name = "address_id", nullable = false)
 	private int addressId;

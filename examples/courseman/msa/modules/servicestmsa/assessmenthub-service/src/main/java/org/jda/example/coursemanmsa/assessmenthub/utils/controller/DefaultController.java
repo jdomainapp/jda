@@ -43,17 +43,12 @@ public abstract class DefaultController<T, ID> implements IController<T, ID> {
     public ResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String pathPatern) throws IOException {
 		String requestMethod = req.getMethod();
 		String path = req.getServletPath();
-		T entity=null;
 		ID id= null;
-		if(path.matches(pathPatern)) {
+		if(path.matches("(.*)"+pathPatern+"(.+)")) {
 			String pathVariable = path.substring(path.lastIndexOf("/")+1);
 			id = (ID) pathVariable;
 		}
-		String requestData = req.getReader().lines().collect(Collectors.joining());
-		if (!requestData.isEmpty()) {
-			ObjectMapper mapper = new ObjectMapper();
-			entity = mapper.readValue(requestData,genericType);
-		}
+		
 		if (requestMethod.equals(RequestMethod.GET.toString())) {
 			if (id != null) {
 				return getEntityById(id);
@@ -61,9 +56,25 @@ public abstract class DefaultController<T, ID> implements IController<T, ID> {
 				return getEntityListByPage(PageRequest.of(0, 10));
 			}
 		} else if (requestMethod.equals(RequestMethod.POST.toString())) {
-			return createEntity(entity);
+			String requestData = req.getReader().lines().collect(Collectors.joining()).trim();
+			if (!requestData.isEmpty()) {
+				ObjectMapper mapper = new ObjectMapper();
+				T entity = mapper.readValue(requestData,genericType);
+				return createEntity(entity);
+			}else {
+				return ResponseEntity.ok("No Request body");
+			}
+			
 		} else if (requestMethod.equals(RequestMethod.PUT.toString())) {
-			return updateEntity(id, entity);
+			String requestData = req.getReader().lines().collect(Collectors.joining()).trim();
+			if (!requestData.isEmpty()) {
+				ObjectMapper mapper = new ObjectMapper();
+				T entity = mapper.readValue(requestData,genericType);
+				return updateEntity(id, entity);
+			}else {
+				return ResponseEntity.ok("No Request body");
+			}
+			
 		} else if (requestMethod.equals(RequestMethod.DELETE.toString())) {
 			deleteEntityById(id);
 		}

@@ -49,8 +49,8 @@ public class Coursemodule {
 	
 	private String deptname;
 	
-	@Column(name = "teacher_id")
-	private int teacherId;
+//	@Column(name = "teacher_id")
+//	private int teacherId;
 	
 	@ManyToOne
     @JoinColumn(name="teacher_id", nullable=false)
