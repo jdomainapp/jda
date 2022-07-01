@@ -15,6 +15,7 @@ import jda.modules.mosarfrontend.vuejs.templates.src.components.module.template.
 import jda.modules.mosarfrontend.vuejs.templates.src.components.module.template.listHtmlGen;
 import jda.modules.mosarfrontend.vuejs.templates.src.constants.messageGen;
 import jda.modules.mosarfrontend.vuejs.templates.src.layouts.headerGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.model.form.formGen;
 import jda.modules.mosarfrontend.vuejs.templates.src.model.modelGen;
 import jda.modules.mosarfrontend.vuejs.templates.src.router.componentGen;
 import jda.modules.mosarfrontend.vuejs.templates.src.router.nameGen;
@@ -22,8 +23,8 @@ import jda.modules.mosarfrontend.vuejs.templates.src.router.pathGen;
 import jda.modules.mosarfrontend.vuejs.templates.src.router.routerGen;
 
 @AppTemplateDesc(
-        templateRootFolder = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\templates",
-        resource = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\vueTemplateResources.zip",
+        templateRootFolder = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\templates",
+        resource = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\vueTemplateResources.zip",
         crossTemplates = @CrossTemplatesDesc(
                 Router = @ComponentGenDesc(
                         genClasses = {routerGen.class, pathGen.class, nameGen.class, headerGen.class}
@@ -46,7 +47,7 @@ import jda.modules.mosarfrontend.vuejs.templates.src.router.routerGen;
                         genClasses = {indexGen.class, indexHtmlGen.class}
                 ),
                 Entity = @ComponentGenDesc(
-                        genClasses = {modelGen.class}
+                        genClasses = {modelGen.class, formGen.class}
                 ),
                 Ext = @ComponentGenDesc(
                         genClasses = {moduleAPIGen.class}

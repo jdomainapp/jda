@@ -14,7 +14,7 @@
         },
 
         components: {@loop{linkedComponents}[[
-            "form-sub-module-@slot{{linked_domain}}": () => import('../@slot{{linked_domain}}/add.vue'),]]loop{linkedComponents}@
+            "form-sub-module-@slot{{linkedJdomain}}": () => import('../@slot{{linked_domain}}/add.vue'),]]loop{linkedComponents}@
         },
 
         data() {
@@ -22,7 +22,7 @@
                 @slot{{module_name}}: new @slot{{ModuleName}}(),
                 form: new @slot{{ModuleName}}Form(),@loop{initLinkedModules}[[
                 formSubModule@slot{{LinkedDomain}}Seen: false,
-                @slot{{linked_domain}}: new @slot{{LinkedDomain}}(),]]loop{initLinkedModules}@
+                @slot{{fieldName}}: new @slot{{LinkedDomain}}(),]]loop{initLinkedModules}@
             };
         },
 
@@ -32,8 +32,8 @@
 
         methods: {
             setFrom() {
-                if (this.data !== undefined) {
-                    this.form.setHidSubModule(false)
+                if (this.data !== undefined) {@loop{hideSubForm}[[
+                    this.form.setHid@slot{{LinkedDomain}}(false)]]loop{hideSubForm}@
                 }
             },
 

@@ -15,6 +15,7 @@ public class BaseRouterGen {
             ArrayList<Slot> slotValues = new ArrayList<>();
             slotValues.add(new Slot("MODULE_NAME", DomainNameUtil.MODULE_NAME(moduleName)));
             slotValues.add(new Slot("moduleJname", DomainNameUtil.moduleJname(moduleName)));
+            slotValues.add(new Slot("module_name", DomainNameUtil.module_name(moduleName)));
             result.add(slotValues);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);

@@ -27,7 +27,7 @@ import jda.modules.setup.model.SetUpConfig;
         feProjName = "fe-courseman",
         feProjResource = "src/main/resources/angular",
         fePlatform = FEPlatform.VUE_JS,
-        feOutputPath = "D:\\JDA\\VueJS",
+        feOutputPath = "D:\\UET_THS\\JDA\\VUEJS",
         feServerPort = 5000,  // default: 3000
         feAppClass = FEReactApp.class,
         feThreaded = true,

@@ -16,7 +16,7 @@ import java.util.Arrays;
 )
 public class modelGen extends BaseModelGen {
     @LoopReplacement(id = "importLinkedModel")
-    public Slot[][] importLinkedDomain(@RequiredParam.LinkedDomains Domain[] linkedDomains) {
+    public Slot[][] importLinkedDomain(@RequiredParam.DomainFields DField[] linkedDomains) {
         return ModuleGenBase.LinkedDomain_linked_domain(linkedDomains);
     }
     @LoopReplacement(id = "normalFieldParams")
