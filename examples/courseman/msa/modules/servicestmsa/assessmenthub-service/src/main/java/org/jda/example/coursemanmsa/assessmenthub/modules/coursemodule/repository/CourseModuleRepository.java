@@ -2,8 +2,9 @@ package org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.reposito
 
 import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.Coursemodule;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CourseModuleRepository extends CrudRepository<Coursemodule,Integer>  {
+public interface CourseModuleRepository extends PagingAndSortingRepository<Coursemodule,Integer>  {
 }

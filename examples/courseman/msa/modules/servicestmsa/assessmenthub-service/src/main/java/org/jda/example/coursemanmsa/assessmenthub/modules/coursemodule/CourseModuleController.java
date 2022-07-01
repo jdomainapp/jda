@@ -1,36 +1,45 @@
 package org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule;
 
 import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.Coursemodule;
-import org.jda.example.coursemanmsa.assessmenthub.utils.controller.DefaultSpringController;
+import org.jda.example.coursemanmsa.assessmenthub.utils.controller.DefaultController;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 
-public class CourseModuleController extends DefaultSpringController<Coursemodule, Integer>{
+@Controller
+public class CourseModuleController extends DefaultController<Coursemodule, Integer>{
 
 	@Override
-	public Coursemodule createEntity(Coursemodule inputEntity) {
+	public ResponseEntity<Coursemodule> createEntity(Coursemodule inputEntity) {
+		// TODO Auto-generated method stub
 		return super.createEntity(inputEntity);
 	}
 
 	@Override
-	public Page<Coursemodule> getEntityListByPage(Pageable pagingModel) {
+	public ResponseEntity<Page<Coursemodule>> getEntityListByPage(Pageable pagingModel) {
+		// TODO Auto-generated method stub
 		return super.getEntityListByPage(pagingModel);
 	}
 
 	@Override
-	public Coursemodule getEntityById(Integer id) {
+	public ResponseEntity<Coursemodule> getEntityById(Integer id) {
+		// TODO Auto-generated method stub
 		return super.getEntityById(id);
 	}
 
 	@Override
-	public Coursemodule updateEntity(Integer id, Coursemodule updatedInstance) {
+	public ResponseEntity<Coursemodule> updateEntity(Integer id, Coursemodule updatedInstance) {
+		// TODO Auto-generated method stub
 		return super.updateEntity(id, updatedInstance);
 	}
 
 	@Override
-	public void deleteEntityById(Integer id) {
-		super.deleteEntityById(id);
+	public ResponseEntity<String> deleteEntityById(Integer id) {
+		// TODO Auto-generated method stub
+		return super.deleteEntityById(id);
 	}
+
 
 }

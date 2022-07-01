@@ -1,40 +1,44 @@
 package org.jda.example.coursemanmsa.assessmenthub.modules.teacher;
 
 import org.jda.example.coursemanmsa.assessmenthub.modules.teacher.model.Teacher;
-import org.jda.example.coursemanmsa.assessmenthub.utils.controller.DefaultSpringController;
+import org.jda.example.coursemanmsa.assessmenthub.utils.controller.DefaultController;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
-public class TeacherController extends DefaultSpringController<Teacher, Integer>{
+@Controller
+public class TeacherController extends DefaultController<Teacher, Integer>{
 
 	@Override
-	public Teacher createEntity(Teacher inputEntity) {
+	public ResponseEntity<Teacher> createEntity(Teacher inputEntity) {
 		// TODO Auto-generated method stub
 		return super.createEntity(inputEntity);
 	}
 
 	@Override
-	public Page<Teacher> getEntityListByPage(Pageable pagingModel) {
+	public ResponseEntity<Page<Teacher>> getEntityListByPage(Pageable pagingModel) {
 		// TODO Auto-generated method stub
 		return super.getEntityListByPage(pagingModel);
 	}
 
 	@Override
-	public Teacher getEntityById(Integer id) {
+	public ResponseEntity<Teacher> getEntityById(Integer id) {
 		// TODO Auto-generated method stub
 		return super.getEntityById(id);
 	}
 
 	@Override
-	public Teacher updateEntity(Integer id, Teacher updatedInstance) {
+	public ResponseEntity<Teacher> updateEntity(Integer id, Teacher updatedInstance) {
 		// TODO Auto-generated method stub
 		return super.updateEntity(id, updatedInstance);
 	}
 
 	@Override
-	public void deleteEntityById(Integer id) {
+	public ResponseEntity<String> deleteEntityById(Integer id) {
 		// TODO Auto-generated method stub
-		super.deleteEntityById(id);
+		return super.deleteEntityById(id);
 	}
 
 }

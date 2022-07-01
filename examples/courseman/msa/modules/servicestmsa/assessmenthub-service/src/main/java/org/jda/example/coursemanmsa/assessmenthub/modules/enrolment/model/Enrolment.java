@@ -36,10 +36,10 @@ public class Enrolment extends RepresentationModel<Enrolment> {
 	@Column(name = "id", nullable = false)
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column(name = "student_id", nullable = false)
-	private String studentId;
-	@Column(name = "coursemodule_id")
-	private int coursemoduleId;
+//	@Column(name = "student_id", nullable = false)
+//	private String studentId;
+//	@Column(name = "coursemodule_id")
+//	private int coursemoduleId;
 	@Column(name = "internalmark")
 	private double internalmark;
 	@Column(name="exammark")

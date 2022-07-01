@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.assessmenthub.utils.controller;
+package org.jda.example.coursemanmsa.academicadmin.utils.controller;
 
 import java.util.Locale;
 import java.util.Map;
