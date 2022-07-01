@@ -13,20 +13,20 @@
         <input disabled="" type="text" class="form-control" value="" v-model="coursemodule.code"></div><br>
     <div class="form-group">
         <label class="form-label">Name</label>
-        <input type="text" class="form-control" value="" v-model="coursemodule.name">
+        <input type="text" class="form-control" value="" v-model="coursemodule.name" required pattern="[A-Za-z1-9]+">
     </div>
     <br>
     <div class="form-group">
         <label class="form-label">Semester</label>
-        <input type="number" class="form-control" value="" v-model="coursemodule.semester"></div><br>
+        <input type="number" class="form-control" value="" v-model="coursemodule.semester" required pattern="[A-Za-z1-9]+"></div><br>
     <div class="form-group">
         <label class="form-label">Credits</label>
-        <input type="number" class="form-control" value="" v-model="coursemodule.credits">
+        <input type="number" class="form-control" value="" v-model="coursemodule.credits" required>
     </div>
     <br>
     <div class="form-group" v-if="coursemodule.type == 'elective'">
         <label class="form-label" v-model="coursemodule.deptName">Dept name</label>
-        <input type="text" class="form-control" value=""></div>
+        <input type="text" class="form-control" value="" required></div>
     <br><br>
     <div class="d-flex justify-content-end mx-0 row">
         <div class="col-md-9"></div>

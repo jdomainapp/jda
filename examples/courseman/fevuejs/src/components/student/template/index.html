@@ -37,7 +37,7 @@
             <form-edit v-bind:subStudentId="studentId" v-if="display == 2"></form-edit>
         </div>
         <div>
-            <form-list @data="setData" v-if="display == 3"></form-list>
+            <form-list @data="setData" v-bind:subStudentClassId="subStudentClassId" v-if="display == 3"></form-list>
         </div>
     </div>
     <Toasts></Toasts>
