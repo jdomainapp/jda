@@ -12,7 +12,7 @@ import { HOME_NAME } from './name.js'
 import { @slot{{MODULE_NAME}}_INDEX_NAME, @slot{{MODULE_NAME}}_LIST_NAME, @slot{{MODULE_NAME}}_ADD_NAME, @slot{{MODULE_NAME}}_EDIT_NAME } from './name.js']]loop{importNames}@
 
 //component
-import { HOME } from '/src/component.js'
+import { HOME } from './component.js'
 @loop{importComponents}[[
 import { @slot{{MODULE_NAME}}_INDEX, @slot{{MODULE_NAME}}_LIST, @slot{{MODULE_NAME}}_ADD, @slot{{MODULE_NAME}}_EDIT } from './component.js']]loop{importComponents}@
 

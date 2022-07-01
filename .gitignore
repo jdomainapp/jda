@@ -2,3 +2,4 @@
 *.log
 *.idea
 *.class
+node_modules
