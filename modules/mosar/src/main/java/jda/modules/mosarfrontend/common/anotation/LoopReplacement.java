@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface LoopReplacementDesc {
+public @interface LoopReplacement {
     String id() default "";
 
     String[] slots() default {};

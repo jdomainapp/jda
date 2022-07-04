@@ -1,7 +1,7 @@
+
 package jda.modules.mosarfrontend.common.factory;
 
 import jda.modules.mosar.config.RFSGenConfig;
-import jda.modules.mosarfrontend.common.AngularSlotProperty;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
@@ -29,7 +29,6 @@ public class ParamsFactory {
     private String templateFolder;
 
     private SystemDesc systemDesc;
-
 
     private ParamsFactory() {
         //init methods map
@@ -71,10 +70,13 @@ public class ParamsFactory {
         Class<?>[] mccClasses = rfsGenConfig.getMCCFuncs();
         this.domains = Arrays.stream(mccClasses).map(NewMCC::readMCC).collect((Collectors.toMap(k -> k.getModuleDescriptor().modelDesc().model().getSimpleName(), k -> k)));
         // link domain to field in each dField
-        for (String domain : this.domains.keySet()) {
-            for (DField dField : this.domains.get(domain).getDFields()) {
-                if (dField.getDAssoc() != null)
-                    dField.setLinkedDomain(this.domains.get(dField.getDAssoc().associate().type().getSimpleName()));
+        for (String domainName : this.domains.keySet()) {
+            Domain domain = this.domains.get(domainName);
+            for (DField dField : domain.getDFields()) {
+                if (dField.getDAssoc() != null) {
+                    NewMCC linkedDomain = this.domains.get(dField.getDAssoc().associate().type().getSimpleName());
+                    dField.setLinkedDomain(linkedDomain);
+                }
             }
         }
         this.systemDesc = rfsGenConfig.getSystemDesc();
@@ -102,6 +104,7 @@ public class ParamsFactory {
         }
         return args.toArray();
     }
+
     
 	public void setTemplateFolder(String templateFolder) {
 		this.templateFolder = templateFolder;
@@ -167,4 +170,18 @@ public class ParamsFactory {
 	public String getTemplateFolder() {
 		return templateFolder;
 	}    
+
+    @RequiredParam.LinkedDomains
+    public Domain[] getLinkedDomains() {
+        ArrayList<Domain> domains = new ArrayList<>();
+        Arrays.stream(this.currentNewMCC.getDFields()).forEach(f -> {
+            if (f.getLinkedDomain() !=null){
+                NewMCC mcc = f.getLinkedDomain();
+                domains.add(mcc);
+            };
+        });
+        return domains.toArray(Domain[]::new);
+    }
 }
+
+

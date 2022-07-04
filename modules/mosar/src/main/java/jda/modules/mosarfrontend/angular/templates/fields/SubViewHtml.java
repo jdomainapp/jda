@@ -22,12 +22,12 @@ public class SubViewHtml {
         return name;
     }
 
-    @SlotReplacementDesc(slot = "moduleName")
+    @SlotReplacement(slot = "moduleName")
     public String moduleName(@RequiredParam.ModuleName String name) {
         return name;
     }
 
-    @SlotReplacementDesc(slot = "fieldName")
+    @SlotReplacement(slot = "fieldName")
     public String fieldName(@RequiredParam.ModuleField DField field) {
     	if (field != null) {
           return field.getDAttr().name();    		
@@ -36,7 +36,7 @@ public class SubViewHtml {
     	}
     }
     
-    @SlotReplacementDesc(slot = "form-selector")
+    @SlotReplacement(slot = "form-selector")
     public String getSelector(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getSelector() + "-form";

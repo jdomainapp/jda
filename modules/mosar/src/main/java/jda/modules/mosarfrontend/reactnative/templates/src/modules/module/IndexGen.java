@@ -11,14 +11,14 @@ import java.util.Map;
 
 @FileTemplateDesc(templateFile = "/src/modules/module/Index.ts")
 public class IndexGen extends CommonModuleGen {
-    @SlotReplacementDesc(slot = "importDataType")
+    @SlotReplacement(slot = "importDataType")
     public String importDataType(@RequiredParam.ModuleName String moduleName, @RequiredParam.MCC NewMCC domain) {
         if (Arrays.stream(domain.getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
             moduleName = moduleName + ", " + "Sub" + moduleName;
         }
         return moduleName;
     }
-    @LoopReplacementDesc(id = "formTypeItem", slots = {"EnumType", "type", "SubModuleName"})
+    @LoopReplacement(id = "formTypeItem", slots = {"EnumType", "type", "SubModuleName"})
     public Slot[][] formTypeItem(@RequiredParam.ModuleName String moduleName, @RequiredParam.SubDomains Map<String, Domain> moduleMap) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String type : moduleMap.keySet()) {
@@ -31,7 +31,7 @@ public class IndexGen extends CommonModuleGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacementDesc(id = "importSubModuleConfig", slots = {"SubModuleName", "submoduleFolder"})
+    @LoopReplacement(id = "importSubModuleConfig", slots = {"SubModuleName", "submoduleFolder"})
     public Slot[][] importSubModuleConfig(@RequiredParam.SubDomains Map<String, Domain> moduleMap) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (Domain type : moduleMap.values()) {

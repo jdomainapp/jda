@@ -21,7 +21,7 @@ public class EnumTypeGen {
         return field.getEnumName();
     }
 
-    @LoopReplacementDesc(slots = {"alias", "value"}, id = "enumValues")
+    @LoopReplacement(slots = {"alias", "value"}, id = "enumValues")
     public Slot[][] importInterface(@RequiredParam.ModuleField DField field) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (Enum<?> enumValue : field.getEnumValues()) {
@@ -33,7 +33,7 @@ public class EnumTypeGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @SlotReplacementDesc(slot = "enumName")
+    @SlotReplacement(slot = "enumName")
     public String moduleName(@RequiredParam.ModuleField DField field) {
         return field.getEnumName();
     }

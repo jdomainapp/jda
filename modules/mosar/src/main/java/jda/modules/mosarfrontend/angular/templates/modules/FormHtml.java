@@ -1,10 +1,5 @@
 package jda.modules.mosarfrontend.angular.templates.modules;
 
-import jda.modules.dcsl.parser.statespace.metadef.DAssocDef;
-import jda.modules.dcsl.parser.statespace.metadef.DAttrDef;
-import jda.modules.dcsl.parser.statespace.metadef.FieldDef;
-import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.mosarfrontend.angular.templates.fields.InputHtml;
 import jda.modules.mosarfrontend.angular.templates.fields.SubViewHtml;
 import jda.modules.mosarfrontend.common.AngularSlotProperty;
@@ -30,18 +25,23 @@ public class FormHtml {
     @WithFilePath
     public String getFilePath(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
+
     	return "\\" + prop.getFileName() + "\\" +  prop.getFormFileName() + "\\";
     } 
     
-    @LoopReplacementDesc(slots = {"fieldText"}, id = "field")
+
+    @LoopReplacement(slots = {"fieldText"}, id = "field")
+
     public Slot[][] fields(@RequiredParam.ModuleFields DField[] fields, @RequiredParam.TemplateFolder String templateFolder) throws Exception {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : fields) {
             ArrayList<Slot> list = new ArrayList<>();
             Class<?> fieldGenClass = getFieldGenClass(field);
+
             ParamsFactory.getInstance().setCurrentModuleField(field);
             String genContent = new FileFactory(fieldGenClass, "", templateFolder).genAndGetContent();
             list.add(new Slot("fieldText", genContent));
+
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
@@ -67,7 +67,7 @@ public class FormHtml {
             return InputHtml.class;
         case Domain:
         case Collection:
-        	return InputHtml.class;
+        	return SubViewHtml.class;
         default:
         	return InputHtml.class;
     	}

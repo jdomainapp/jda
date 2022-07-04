@@ -15,17 +15,17 @@ public class SubTypeGen {
         return subDomain.getDomainClass().getSimpleName();
     }
 
-    @SlotReplacementDesc(slot = "ModuleName")
+    @SlotReplacement(slot = "ModuleName")
     public String ModuleName(@RequiredParam.ModuleName String moduleName) {
         return moduleName;
     }
 
-    @SlotReplacementDesc(slot = "SubModuleName")
+    @SlotReplacement(slot = "SubModuleName")
     public String ModuleName(@RequiredParam.CurrentSubDomain Domain subDomain) {
         return getFileName(subDomain);
     }
 
-    @LoopReplacementDesc(id = "fields", slots = {"field", "fieldType"})
+    @LoopReplacement(id = "fields", slots = {"field", "fieldType"})
     public Slot[][] fields(@RequiredParam.CurrentSubDomain Domain subDomain) {
         DataTypeGen dataTypeGen = new DataTypeGen();
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();

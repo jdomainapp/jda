@@ -44,14 +44,14 @@ class RegexUtils {
         return Pattern.compile(String.format("@slot\\{\\{\\s*%s\\s*\\}\\}", slot), Pattern.DOTALL);
     }
 
-    public Pattern createLoopRegex(LoopReplacementDesc loop) {
+    public Pattern createLoopRegex(LoopReplacement loop) {
         StringBuilder singleSlotsRegex = new StringBuilder();
         for (String slot : loop.slots()) {
             singleSlotsRegex.append(createSlotRegex(slot));
             singleSlotsRegex.append(".*");
         }
-        return Pattern.compile(String.format("@loop(?<li>\\{%s})\\[\\[(.*%s)]]loop(\\k<li>)@",
-                loop.id(), singleSlotsRegex), Pattern.DOTALL);
+        return Pattern.compile(String.format("@loop(?<li>\\{%s})\\[\\[(.*)]]loop(\\k<li>)@",
+                loop.id()), Pattern.DOTALL);
     }
 
     public Pattern createIfRegex(String id) {
@@ -147,12 +147,12 @@ public class FileFactory {
         }
     }
 
-    @SlotReplacementDesc
+    @SlotReplacement
     private void replaceSlot(Method replaceMethod) {
         if (replaceMethod.getReturnType() != String.class) return;
         String value = MethodUtils.execute(handler, replaceMethod, String.class);
         if (value != null) {
-            SlotReplacementDesc ano = replaceMethod.getAnnotation(SlotReplacementDesc.class);
+            SlotReplacement ano = replaceMethod.getAnnotation(SlotReplacement.class);
             Pattern pattern = regexUtils.createSlotRegex(ano.slot());
             this.fileContent = pattern.matcher(this.fileContent)
                     .replaceAll(value);
@@ -160,26 +160,26 @@ public class FileFactory {
 
     }
 
-    @LoopReplacementDesc
+    @LoopReplacement
     private void replaceLoops(Method replaceMethod) {
         if (replaceMethod.getReturnType() != Slot[][].class) return;
         Slot[][] loopValues = MethodUtils.execute(handler, replaceMethod, Slot[][].class);
         if (loopValues != null) {
-//            LoopReplacement desc = new LoopReplacement();
-            LoopReplacementDesc ano = replaceMethod.getAnnotation(LoopReplacementDesc.class);
-//            RFSGenTk.parseAnnotation2Config(ano, desc);
+            LoopReplacement ano = replaceMethod.getAnnotation(LoopReplacement.class);
             // get loop content
             final Pattern pattern = regexUtils.createLoopRegex(ano);
             final Matcher matcher = pattern.matcher(this.fileContent);
             if (matcher.find()) {
                 //replace single_slot in loop
                 StringBuilder replaceValue = new StringBuilder();
-                for (Slot[] loopValue : (Slot[][]) loopValues) {
+                for (Slot[] loopValue : loopValues) {
                     String loopContent = matcher.group(2);
-                    for (Slot slotValue : loopValue) {
-                        Pattern regex = regexUtils.createSlotRegex(slotValue.getSlotName());
-                        loopContent = regex.matcher(loopContent).replaceAll(
-                                slotValue.getSlotValue());
+                    for (Slot slot : loopValue) {
+                        Pattern regex = regexUtils.createSlotRegex(slot.getSlotName());
+                        Matcher subMatcher = regex.matcher(loopContent);
+                        if (subMatcher.find()) {
+                            loopContent = subMatcher.replaceAll(slot.getSlotValue());
+                        }
                     }
                     replaceValue.append(loopContent);
                 }

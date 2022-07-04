@@ -1,17 +1,6 @@
 package jda.modules.mosarfrontend.common;
 
-import jda.modules.mccl.conceptualmodel.MCC;
-import jda.modules.mosar.utils.ClassAssocUtils;
-import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
-import jda.modules.mosarfrontend.common.anotation.RequiredParam;
-import jda.modules.mosarfrontend.common.anotation.SlotReplacementDesc;
-import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.NewMCC;
-import jda.modules.mosarfrontend.reactjs.model.views.ViewFactory;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 import org.modeshape.common.text.Inflector;
 

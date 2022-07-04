@@ -1,7 +1,7 @@
 package jda.modules.mosarfrontend.reactnative.templates.src.modules;
 
 import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
+import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.NewMCC;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 @FileTemplateDesc(templateFile = "/src/modules/Modules.tsx")
 public class ModulesGen {
-    @LoopReplacementDesc(id = "importDomainTypes", slots = {"requiredInterface", "module_name"})
+    @LoopReplacement(id = "importDomainTypes", slots = {"requiredInterface", "module_name"})
     public Slot[][] importDomainTypes(@RequiredParam.ModuleMap Map<String, NewMCC> moduleMap) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String name : moduleMap.keySet()) {
@@ -26,7 +26,7 @@ public class ModulesGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacementDesc(id = "importDomainConfig", slots = {"module_name", "module_folder"})
+    @LoopReplacement(id = "importDomainConfig", slots = {"module_name", "module_folder"})
     public Slot[][] replace2(@RequiredParam.ModulesName String[] moduleNames) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String name : moduleNames) {
@@ -39,7 +39,7 @@ public class ModulesGen {
     }
 
 
-    @LoopReplacementDesc(id = "3", slots = {"module_name"})
+    @LoopReplacement(id = "3", slots = {"module_name"})
     public Slot[][] replace3(@RequiredParam.ModuleMap Map<String, NewMCC> moduleMap) {
         return importDomainTypes(moduleMap);
     }

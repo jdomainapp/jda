@@ -12,8 +12,8 @@ import jda.modules.mosarfrontend.reactnative.templates.src.modules.module.*;
 import jda.modules.mosarfrontend.reactnative.templates.src.modules.module.sub_modules.*;
 
 @AppTemplateDesc(
-        templateRootFolder = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\templates",
-        resource = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\resources.zip",
+        templateRootFolder = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\templates",
+        resource = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\resources.zip",
         crossTemplates = @CrossTemplatesDesc(
                 Router = @ComponentGenDesc(
                         genClasses = {MainGen.class}
