@@ -26,6 +26,7 @@ public class ParamsFactory {
     private Domain currentSubDomain;
     private DField currentField;
     private Map<String, NewMCC> domains;
+    private String templateFolder;
 
     private SystemDesc systemDesc;
 
@@ -101,6 +102,10 @@ public class ParamsFactory {
         }
         return args.toArray();
     }
+    
+	public void setTemplateFolder(String templateFolder) {
+		this.templateFolder = templateFolder;
+	}    
 
     @RequiredParam.MCC
     public NewMCC getMCC() {
@@ -157,4 +162,9 @@ public class ParamsFactory {
     public String getAppName() {
         return this.systemDesc != null ? this.systemDesc.appName() : "Unknown App gen by JDA";
     }
+
+    @RequiredParam.TemplateFolder
+	public String getTemplateFolder() {
+		return templateFolder;
+	}    
 }

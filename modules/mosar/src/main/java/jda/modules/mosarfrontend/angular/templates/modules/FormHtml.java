@@ -10,6 +10,7 @@ import jda.modules.mosarfrontend.angular.templates.fields.SubViewHtml;
 import jda.modules.mosarfrontend.common.AngularSlotProperty;
 import jda.modules.mosarfrontend.common.anotation.*;
 import jda.modules.mosarfrontend.common.factory.FileFactory;
+import jda.modules.mosarfrontend.common.factory.ParamsFactory;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.NewMCC;
@@ -23,26 +24,24 @@ public class FormHtml {
     @WithFileName
     public String getFileName(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
-        return prop.getFileName() + "-form.component";
+        return prop.getFormFileName() + ".component";
     }
     
     @WithFilePath
     public String getFilePath(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
-    	return "\\" + prop.getFileName() + "\\" +  prop.getFileName() + "-form";
+    	return "\\" + prop.getFileName() + "\\" +  prop.getFormFileName() + "\\";
     } 
     
     @LoopReplacementDesc(slots = {"fieldText"}, id = "field")
-    public Slot[][] fields(@RequiredParam.ModuleFields DField[] fields) throws Exception {
+    public Slot[][] fields(@RequiredParam.ModuleFields DField[] fields, @RequiredParam.TemplateFolder String templateFolder) throws Exception {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : fields) {
             ArrayList<Slot> list = new ArrayList<>();
             Class<?> fieldGenClass = getFieldGenClass(field);
-            System.out.println(field.getDAttr().name());
-            String templateFolder = "D:\\Laptrinh\\4_DDD\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\angular\\templates";
+            ParamsFactory.getInstance().setCurrentModuleField(field);
             String genContent = new FileFactory(fieldGenClass, "", templateFolder).genAndGetContent();
             list.add(new Slot("fieldText", genContent));
-            System.out.println(genContent);
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
@@ -68,7 +67,7 @@ public class FormHtml {
             return InputHtml.class;
         case Domain:
         case Collection:
-        	return SubViewHtml.class;
+        	return InputHtml.class;
         default:
         	return InputHtml.class;
     	}

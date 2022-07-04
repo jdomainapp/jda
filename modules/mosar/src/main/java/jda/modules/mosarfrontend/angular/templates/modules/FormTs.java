@@ -21,13 +21,13 @@ public class FormTs {
     @WithFileName
     public String getFileName(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
-        return prop.getFileName() + "-form.component";
+        return prop.getFormFileName() + ".component";
     }
     
     @WithFilePath
     public String getFilePath(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
-    	return "\\" + prop.getFileName() + "\\" +  prop.getFileName() + "-form";
+    	return "\\" + prop.getFileName() + "\\" +  prop.getFormFileName() + "\\";
     }    
     @SlotReplacementDesc(slot = "componentName")
     public String moduleName(@RequiredParam.ModuleName String name) {
@@ -43,7 +43,7 @@ public class FormTs {
     @SlotReplacementDesc(slot = "html-path")
     public String getHtmlPath(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
-        return "./" + prop.getFileName() + "-form.component.html";
+        return "./" + prop.getFormFileName() + ".component.html";
     }
 
     @SlotReplacementDesc(slot = "api")
@@ -66,6 +66,5 @@ public class FormTs {
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
-    }
-
+    }    
 }

@@ -19,7 +19,7 @@ import org.jda.example.coursemanrestful.modules.student.ModuleStudent;
 import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
 
 @RFSGenDesc(
-        stackSpec = StackSpec.FE,
+        stackSpec = StackSpec.BE,
         execSpec = ExecSpec.Gen,
         genMode = GenerationMode.SOURCE_CODE,
         beLangPlatform = LangPlatform.SPRING,
@@ -32,7 +32,7 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         feAppClass = FEAngularApp.class,
         feThreaded = true,
         bePackage = "org.jda.example.coursemanrestful.modules",
-        beOutputPath = "D:\\JDA\\jda\\examples\\courseman\\mosar\\src\\main\\java",
+        beOutputPath = "D:\\Laptrinh\\4_DDD\\jda\\examples\\courseman\\mosar\\src\\main\\java",
         beTargetPackage = "org.jda.example.coursemanrestful.backend"
         , beAppClass = BESpringApp.class,
         beServerPort = 8080  // default: 8080

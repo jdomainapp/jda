@@ -328,6 +328,7 @@ public class Enrolment implements Comparable, Publisher {
   // implements Comparable interface
   public int compareTo(Object o) {
     if (o == null || (!(o instanceof Enrolment)))
+    
       return -1;
 
     Enrolment e = (Enrolment) o;

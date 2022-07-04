@@ -18,7 +18,6 @@ public class InputHtml {
     @SlotReplacementDesc(slot = "fieldLabel")
     public String fieldLabel(@RequiredParam.ModuleField DField field) {
     	if (field != null) {
-    		System.out.println(field.getDAttr().name());
     		return field.getAttributeDesc() != null ? field.getAttributeDesc().label() : field.getDAttr().name();
     	} else {
     		return "ABCD";
@@ -31,7 +30,7 @@ public class InputHtml {
     	if (field != null) {
     		return typeConverter(field);
     	} else {
-    		return "ABC";
+    		return "";
     	}
     }
 
@@ -40,7 +39,7 @@ public class InputHtml {
     	if (field != null) {
           return field.getDAttr().name();    		
     	} else {
-    		return "AAA";
+    		return "";
     	}
     }
     

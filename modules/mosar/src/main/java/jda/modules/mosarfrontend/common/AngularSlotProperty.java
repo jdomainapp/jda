@@ -50,10 +50,6 @@ public class AngularSlotProperty {
       }
 
     public String getFolder() {
-//        return inflector.pluralize(
-//                inflector.underscore(
-//                        this.viewDesc.getDomainClass().getName())
-//                .replace("_", "-"));
         return inflector.underscore(
                         this.moduleName)
                 .replace("_", "-");
@@ -82,14 +78,25 @@ public class AngularSlotProperty {
     	return "import {" + this.moduleName + "FormComponent" + "} from " + getFormPath() + ";";
     }
     
+    public String getFormImportFull() {
+    	return "import {" + this.moduleName + "FormComponent" + "} from " + getFormPathFull() + ";";
+    }    
+    
     private String getMainPath() {
-    	return "./" + makeFileName(this.moduleName) + "/" + makeFileName(this.moduleName) + ".component";
+    	return "'./" + makeFileName(this.moduleName) + "/" + makeFileName(this.moduleName) + ".component'";
+    }
+    
+    public String getFormFileName() {
+  	  return makeFileName(this.moduleName) + "-form";
     }
  
     private String getFormPath() {
-    	return "./" + makeFileName(this.moduleName) + "-form/" + makeFileName(this.moduleName) + "-form.component";
+    	return "'./" + getFormFileName() + "/" + getFormFileName() + ".component'";
       }
     
+    private String getFormPathFull() {
+    	return "'./" + makeFileName(this.moduleName) + "/"+ getFormFileName() + "/" + getFormFileName() + ".component'";
+    }
     private static String makePlural(String original) {
         return inflector.pluralize(inflector.pluralize(inflector.underscore(original)))
                 .replace("_", "-");
@@ -117,19 +124,5 @@ public class AngularSlotProperty {
     return "app-" + inflector.underscore(this.moduleName).replace("_", "-");
   }    
     
-//    private Collection<String> getImports() {
-//        return frontendModules.stream()
-//                .map(module -> String.format("import %s from './%s'",
-//                        module.getModuleAlias(), module.getFolder()))
-//                .collect(Collectors.toList());	
-//
-//    }
-//    
-//    private Collection<String> getMenu() {    	
-//        return frontendModules.stream()
-//                .map(module -> String.format(" <a routerLink=\'/%s\' class=\"dropdown-item\">%s</a>",
-//                		module.getFolder(), module.getModuleTitle()))
-//                .collect(Collectors.toList());
-//    }
-//   
+
 }

@@ -124,6 +124,7 @@ public class AppFactory {
             AppTemplateDesc appTemplate = this.rfsGenConfig.getFeTemplate();
 
             String templateFolder = appTemplate.templateRootFolder();
+            ParamsFactory.getInstance().setTemplateFolder(templateFolder);
             // TODO: Clean output folder before gen/
             /** Copy resource to output */
             unzip(appTemplate.resource(), rfsGenConfig.getFeOutputPath());

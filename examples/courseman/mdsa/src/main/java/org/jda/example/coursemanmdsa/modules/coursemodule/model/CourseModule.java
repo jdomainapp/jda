@@ -21,6 +21,7 @@ import jda.modules.dcsl.syntax.DOpt;
  *
  * @author dmle
  * @version 2.0
+ * 
  */
 // ducmle: feature#55
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, 

@@ -54,7 +54,7 @@ public class AppModuleTemplate {
             ArrayList<Slot> slotValues = new ArrayList<>();
             AngularSlotProperty prop = new AngularSlotProperty(mcc);
             slotValues.add(new Slot("import-main", prop.getMainImport()));
-            slotValues.add(new Slot("import-form", prop.getFormImport()));
+            slotValues.add(new Slot("import-form", prop.getFormImportFull()));
             result.add(slotValues);
         }
 //        System.out.println(result.toArray());
