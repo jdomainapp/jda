@@ -1,12 +1,5 @@
 package org.jda.example.coursemanrestful.software.config;
 
-import org.courseman.modules.ModuleMain;
-import org.courseman.modules.address.ModuleAddress;
-import org.courseman.modules.coursemodule.ModuleCourseModule;
-import org.courseman.modules.enrolment.ModuleEnrolment;
-import org.courseman.modules.student.ModuleStudent;
-import org.courseman.modules.studentclass.ModuleStudentClass;
-
 import jda.modules.dodm.dom.DOM;
 import jda.modules.dodm.dsm.DSM;
 import jda.modules.dodm.osm.javadb.JavaDbOSM;
@@ -14,25 +7,32 @@ import jda.modules.mccl.conceptmodel.Configuration.Language;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
 import jda.modules.mosar.config.*;
 import jda.modules.mosarbackend.springboot.BESpringApp;
+import jda.modules.mosarfrontend.angular.FEAngularApp;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
 import jda.modules.sccl.syntax.*;
 import jda.modules.setup.model.SetUpConfig;
+import org.jda.example.coursemanrestful.modules.ModuleMain;
+import org.jda.example.coursemanrestful.modules.address.ModuleAddress;
+import org.jda.example.coursemanrestful.modules.coursemodule.ModuleCourseModule;
+import org.jda.example.coursemanrestful.modules.enrolment.ModuleEnrolment;
+import org.jda.example.coursemanrestful.modules.student.ModuleStudent;
+import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
 
 @RFSGenDesc(
         stackSpec = StackSpec.FE,
         execSpec = ExecSpec.Gen,
         genMode = GenerationMode.SOURCE_CODE,
         beLangPlatform = LangPlatform.SPRING,
-        feProjPath = "",
+        feProjPath = "/home/ducmle/tmp/restfstool-fe",
         feProjName = "fe-courseman",
         feProjResource = "src/main/resources/angular",
-        fePlatform = FEPlatform.ANGULAR,
-        feOutputPath = "D:\\Laptrinh\\4_DDD\\gencode\\output_fe\\src\\app",
+        fePlatform = FEPlatform.REACT_NATIVE,
+        feOutputPath = "D:\\JDA\\CourseManReactNative",
         feServerPort = 5000,  // default: 3000
-        feAppClass = FEReactApp.class,
+        feAppClass = FEAngularApp.class,
         feThreaded = true,
         bePackage = "org.jda.example.coursemanrestful.modules",
-        beOutputPath = "D:\\Laptrinh\\4_DDD\\jda\\examples\\courseman\\mosar\\src\\main\\java",
+        beOutputPath = "D:\\JDA\\jda\\examples\\courseman\\mosar\\src\\main\\java",
         beTargetPackage = "org.jda.example.coursemanrestful.backend"
         , beAppClass = BESpringApp.class,
         beServerPort = 8080  // default: 8080

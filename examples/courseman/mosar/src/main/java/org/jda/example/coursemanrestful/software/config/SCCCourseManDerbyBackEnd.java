@@ -1,13 +1,12 @@
 package org.jda.example.coursemanrestful.software.config;
 
 import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
-
-import org.courseman.modules.ModuleMain;
-import org.courseman.modules.address.ModuleAddress;
-import org.courseman.modules.coursemodule.ModuleCourseModule;
-import org.courseman.modules.enrolment.ModuleEnrolment;
-import org.courseman.modules.student.ModuleStudent;
-import org.courseman.modules.studentclass.ModuleStudentClass;
+import org.jda.example.coursemanrestful.modules.ModuleMain;
+import org.jda.example.coursemanrestful.modules.address.ModuleAddress;
+import org.jda.example.coursemanrestful.modules.coursemodule.ModuleCourseModule;
+import org.jda.example.coursemanrestful.modules.enrolment.ModuleEnrolment;
+import org.jda.example.coursemanrestful.modules.student.ModuleStudent;
+import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
 
 import jda.modules.dodm.dom.DOM;
 import jda.modules.dodm.dsm.DSM;
