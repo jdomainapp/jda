@@ -4,7 +4,7 @@ import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.factory.Slot;
-import jda.modules.mosarfrontend.vuejs.common_gen.DomainNameUtil;
+import jda.modules.mosarfrontend.common.utils.common_gen.DomainNameUtil;
 
 import java.util.ArrayList;
 

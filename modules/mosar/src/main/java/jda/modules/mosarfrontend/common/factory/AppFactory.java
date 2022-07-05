@@ -1,5 +1,13 @@
 package jda.modules.mosarfrontend.common.factory;
 
+import jda.modules.mosar.config.RFSGenConfig;
+import jda.modules.mosarfrontend.angular.AngularAppTemplate;
+import jda.modules.mosarfrontend.common.anotation.template_desc.*;
+import jda.modules.mosarfrontend.common.utils.DField;
+import jda.modules.mosarfrontend.reactjs_new_gen.ReactAppTemplate;
+import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
+import jda.modules.mosarfrontend.vuejs.VueAppTemplate;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,18 +19,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import jda.modules.mosar.config.RFSGenConfig;
-import jda.modules.mosarfrontend.angular.AngularAppTemplate;
-import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.template_desc.ComponentGenDesc;
-import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDesc;
-import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleFieldTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesDesc;
-import jda.modules.mosarfrontend.common.anotation.template_desc.SubModuleTemplateDesc;
-import jda.modules.mosarfrontend.common.utils.DField;
-import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
-import jda.modules.mosarfrontend.vuejs.VueAppTemplate;
 
 public class AppFactory {
     private RFSGenConfig rfsGenConfig;
@@ -109,6 +105,7 @@ public class AppFactory {
             // use default Template
             switch (this.rfsGenConfig.getFePlatform()) {
                 case REACT:
+                    this.rfsGenConfig.setFeTemplate(ReactAppTemplate.class.getAnnotation(AppTemplateDesc.class));
                     break;
                 case ANGULAR:
                     this.rfsGenConfig.setFeTemplate(AngularAppTemplate.class.getAnnotation(AppTemplateDesc.class));

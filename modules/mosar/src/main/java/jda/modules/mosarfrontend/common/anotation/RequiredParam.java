@@ -63,8 +63,8 @@ public @interface RequiredParam {
     }
 
     /**
-    * @Ussage Require list sub domains of current module as a parameter of function
-    * @DataType {@link jda.modules.mosarfrontend.common.utils.Domain}
+    * @Ussage Require map of subDomainType to  subDomain (Map<\String,Domain>) of current module as a parameter of function
+    * @DataType {@link jda.modules.common.collection.Map<String,jda.modules.mosarfrontend.common.utils.Domain>}
     */
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.PARAMETER, ElementType.METHOD})

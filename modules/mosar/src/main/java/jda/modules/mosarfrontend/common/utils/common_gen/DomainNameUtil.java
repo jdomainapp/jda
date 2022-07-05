@@ -1,8 +1,13 @@
-package jda.modules.mosarfrontend.vuejs.common_gen;
+package jda.modules.mosarfrontend.common.utils.common_gen;
 
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.anotation.SlotReplacement;
+import jda.modules.mosarfrontend.common.factory.Slot;
 import org.modeshape.common.text.Inflector;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class DomainNameUtil {
     public static final Inflector inflector = Inflector.getInstance();
@@ -37,6 +42,16 @@ public class DomainNameUtil {
         return inflector.underscore(name);
     }
 
+    @SlotReplacement(slot = "module_names")
+    public static String module_names(@RequiredParam.ModuleName String name) {
+        return module_name(inflector.pluralize(name));
+    }
+
+    @SlotReplacement(slot = "moduleJnames")
+    public static String moduleJnames(@RequiredParam.ModuleName String name) {
+        return inflector.underscore(inflector.upperCamelCase(inflector.pluralize(name))).replaceAll("_", "-");
+    }
+
     @SlotReplacement(slot = "moduleJname")
     public static String moduleJname(@RequiredParam.ModuleName String name) {
         return inflector.underscore(name).replaceAll("_", "-");
@@ -52,8 +67,27 @@ public class DomainNameUtil {
         return inflector.camelCase(module__name(name), true);
     }
 
-    @SlotReplacement(slot = "moduleJnames")
-    public static String moduleJnames(@RequiredParam.ModuleName String name) {
-        return inflector.underscore(inflector.upperCamelCase(inflector.pluralize(name))).replaceAll("_", "-");
+    @SlotReplacement(slot = "Module__names")
+    public static String Module__names(@RequiredParam.ModuleName String name) {
+        return Module__name(inflector.pluralize(name));
+    }
+
+    public static Slot[][] getBasicDomainNameSlots(String[] names) {
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        for (String name : names) {
+            ArrayList<Slot> slotValues = new ArrayList<>();
+            for (Method declaredMethod : DomainNameUtil.class.getDeclaredMethods()) {
+                if (declaredMethod.isAnnotationPresent(SlotReplacement.class)) {
+                    SlotReplacement ano = declaredMethod.getAnnotation(SlotReplacement.class);
+                    try {
+                        slotValues.add(new Slot(ano.slot(), (String) declaredMethod.invoke(null, name)));
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            result.add(slotValues);
+        }
+        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 }
