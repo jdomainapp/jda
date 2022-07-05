@@ -1,11 +1,11 @@
 package org.jda.example.coursemanmsa.assessmenthub.modules.enrolment.events;
 
-import org.springframework.cloud.stream.annotation.Output;
-import org.springframework.messaging.MessageChannel;
+import org.springframework.cloud.stream.annotation.Input;
+import org.springframework.messaging.SubscribableChannel;
 
 public interface CustomChannels {
 	
-	@Output("outboundEnrolmentChanges")
-	MessageChannel output();
+    @Input("inboundEnrolmentChanges")
+    SubscribableChannel enrolmentSubscribableChannel();
+    
 }
-

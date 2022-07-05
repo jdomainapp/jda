@@ -33,7 +33,7 @@ public class Teacher extends RepresentationModel<Teacher> {
 	@Id
 	@Column(name = "id", nullable = false)
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private String id;
+	private int id;
 	@Column(name = "name", nullable = false)
 	private String teacherName;
 	@Column(name = "gender_name")

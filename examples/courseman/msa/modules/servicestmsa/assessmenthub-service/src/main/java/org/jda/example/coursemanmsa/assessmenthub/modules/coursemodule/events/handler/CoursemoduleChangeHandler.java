@@ -1,9 +1,9 @@
-package org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.events.handler;
+package org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.events.handler;
 
-import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.events.CustomChannels;
-import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.events.model.ChangeModel;
-import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.model.Coursemodule;
-import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.repository.CoursemoduleRepository;
+import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.events.CustomChannels;
+import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.events.model.ChangeModel;
+import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.Coursemodule;
+import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.repository.CoursemoduleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +54,7 @@ public class CoursemoduleChangeHandler {
 	
 	public Coursemodule getDataByREST(int id) {
 		ResponseEntity<Coursemodule> restExchange = restTemplate.exchange(
-				"http://gateway-server/assessmenthub-service/coursemodule/{id}", HttpMethod.GET, null, Coursemodule.class,id);
+				"http://gateway-server/coursemgnt-service/coursemodulemgnt/coursemodule/{id}", HttpMethod.GET, null, Coursemodule.class,id);
 
 		return restExchange.getBody();
 	}

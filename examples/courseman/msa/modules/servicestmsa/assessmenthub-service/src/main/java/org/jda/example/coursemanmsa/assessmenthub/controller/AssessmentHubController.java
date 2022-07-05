@@ -17,28 +17,57 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/")
 public class AssessmentHubController {
+	
+	public final static String PATH_STUDENT="/student/";
+	public final static String PATH_TEACHER="/teacher/";
+	public final static String PATH_COURSEMODULE="/coursemodule/";
+	public final static String PATH_ENROLMENT="/enrolment/";
 
-	@RequestMapping(value = "/student/**")
+	@RequestMapping(value = PATH_STUDENT+"**")
 	public ResponseEntity handleStudent(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		DefaultController<Student, String> controller = ControllerRegistry.getInstance().get(Student.class);
-		return controller.handleRequest(req, res, "/assessmenthub/student/");
+		String path = req.getServletPath();
+		String id= null;
+		if(path.matches("(.*)"+PATH_STUDENT+"(.+)")) {
+			String pathVariable = path.substring(path.lastIndexOf("/")+1);
+			id = pathVariable;
+		}
+		return controller.handleRequest(req, res, id);
 	}
 	
-	@RequestMapping(value = "/teacher/**")
+	@RequestMapping(value = PATH_TEACHER+"**")
 	public ResponseEntity handleTeacher(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		DefaultController<Teacher, String> controller = ControllerRegistry.getInstance().get(Teacher.class);
-		return controller.handleRequest(req, res, "/assessmenthub/teacher/");
+		DefaultController<Teacher, Integer> controller = ControllerRegistry.getInstance().get(Teacher.class);
+		String path = req.getServletPath();
+		Integer id= null;
+		if(path.matches("(.*)"+PATH_TEACHER+"(.+)")) {
+			String pathVariable = path.substring(path.lastIndexOf("/")+1);
+			id = Integer.parseInt(pathVariable);
+		}
+		return controller.handleRequest(req, res, id);
 	}
 	
-	@RequestMapping(value = "/coursemodule/**")
+	@RequestMapping(value = PATH_COURSEMODULE+"**")
 	public ResponseEntity handleCoursemodule(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		DefaultController<Coursemodule, String> controller = ControllerRegistry.getInstance().get(Coursemodule.class);
-		return controller.handleRequest(req, res, "/assessmenthub/coursemodule/");
+		DefaultController<Coursemodule, Integer> controller = ControllerRegistry.getInstance().get(Coursemodule.class);
+		String path = req.getServletPath();
+		Integer id= null;
+		if(path.matches("(.*)"+PATH_COURSEMODULE+"(.+)")) {
+			String pathVariable = path.substring(path.lastIndexOf("/")+1);
+			id = Integer.parseInt(pathVariable);
+		}
+		return controller.handleRequest(req, res, id);
 	}
 	
-	@RequestMapping(value = "/enrolment/**")
+	@RequestMapping(value = PATH_ENROLMENT+"**")
 	public ResponseEntity handleEnrolment(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		DefaultController<Enrolment, String> controller = ControllerRegistry.getInstance().get(Enrolment.class);
-		return controller.handleRequest(req, res, "/assessmenthub/enrolment/(.+)");
+		DefaultController<Enrolment, Integer> controller = ControllerRegistry.getInstance().get(Enrolment.class);
+		String path = req.getServletPath();
+		Integer id= null;
+		if(path.matches("(.*)"+PATH_ENROLMENT+"(.+)")) {
+			String pathVariable = path.substring(path.lastIndexOf("/")+1);
+			id = Integer.parseInt(pathVariable);
+		}
+		return controller.handleRequest(req, res, id);
 	}
 }

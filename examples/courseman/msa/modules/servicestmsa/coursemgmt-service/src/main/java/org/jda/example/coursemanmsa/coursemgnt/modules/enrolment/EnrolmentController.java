@@ -1,7 +1,10 @@
 package org.jda.example.coursemanmsa.coursemgnt.modules.enrolment;
 
-import org.courseman.modules.enrolment.model.Enrolment;
+import org.jda.example.coursemanmsa.coursemgnt.modules.enrolment.events.source.EnrolmentSourceBean;
+import org.jda.example.coursemanmsa.coursemgnt.modules.enrolment.model.Enrolment;
+import org.jda.example.coursemanmsa.coursemgnt.utils.KafkaChangeAction;
 import org.jda.example.coursemanmsa.coursemgnt.utils.controller.DefaultController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +13,14 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class EnrolmentController extends DefaultController<Enrolment, Integer>{
 
+	@Autowired
+	EnrolmentSourceBean sourceBean;
+	
 	@Override
 	public ResponseEntity<Enrolment> createEntity(Enrolment inputEntity) {
-		// TODO Auto-generated method stub
-		return super.createEntity(inputEntity);
+		ResponseEntity<Enrolment> result=super.createEntity(inputEntity);
+		sourceBean.publishChange(KafkaChangeAction.CREATED, result.getBody().getId());
+		return result;
 	}
 
 	@Override
@@ -30,13 +37,13 @@ public class EnrolmentController extends DefaultController<Enrolment, Integer>{
 
 	@Override
 	public ResponseEntity<Enrolment> updateEntity(Integer id, Enrolment updatedInstance) {
-		// TODO Auto-generated method stub
+		sourceBean.publishChange(KafkaChangeAction.UPDATED, id.intValue());
 		return super.updateEntity(id, updatedInstance);
 	}
 
 	@Override
 	public ResponseEntity<String> deleteEntityById(Integer id) {
-		// TODO Auto-generated method stub
+		sourceBean.publishChange(KafkaChangeAction.DELETED, id.intValue());
 		return super.deleteEntityById(id);
 	}
 

@@ -1,43 +1,50 @@
 package org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule;
 
-import org.courseman.modules.coursemodule.model.CourseModule;
+import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.events.source.CoursemoduleSourceBean;
+import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.model.Coursemodule;
+import org.jda.example.coursemanmsa.coursemgnt.utils.KafkaChangeAction;
 import org.jda.example.coursemanmsa.coursemgnt.utils.controller.DefaultController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class CoursemoduleController extends DefaultController<CourseModule, Integer>{
-
+public class CoursemoduleController extends DefaultController<Coursemodule, Integer>{
+	@Autowired
+	CoursemoduleSourceBean sourceBean;
+	
 	@Override
-	public ResponseEntity<CourseModule> createEntity(CourseModule inputEntity) {
-		// TODO Auto-generated method stub
-		return super.createEntity(inputEntity);
+	public ResponseEntity<Coursemodule> createEntity(Coursemodule inputEntity) {
+		ResponseEntity<Coursemodule> result=super.createEntity(inputEntity);
+		sourceBean.publishChange(KafkaChangeAction.CREATED, result.getBody().getId());
+		return result;
 	}
 
 	@Override
-	public ResponseEntity<Page<CourseModule>> getEntityListByPage(Pageable pagingModel) {
+	public ResponseEntity<Page<Coursemodule>> getEntityListByPage(Pageable pagingModel) {
 		// TODO Auto-generated method stub
 		return super.getEntityListByPage(pagingModel);
 	}
 
 	@Override
-	public ResponseEntity<CourseModule> getEntityById(Integer id) {
+	public ResponseEntity<Coursemodule> getEntityById(Integer id) {
 		// TODO Auto-generated method stub
 		return super.getEntityById(id);
 	}
 
 	@Override
-	public ResponseEntity<CourseModule> updateEntity(Integer id, CourseModule updatedInstance) {
-		// TODO Auto-generated method stub
+	public ResponseEntity<Coursemodule> updateEntity(Integer id, Coursemodule updatedInstance) {
+		sourceBean.publishChange(KafkaChangeAction.UPDATED, id.intValue());
 		return super.updateEntity(id, updatedInstance);
 	}
 
 	@Override
 	public ResponseEntity<String> deleteEntityById(Integer id) {
-		// TODO Auto-generated method stub
+		sourceBean.publishChange(KafkaChangeAction.DELETED, id.intValue());
 		return super.deleteEntityById(id);
 	}
+
 
 }

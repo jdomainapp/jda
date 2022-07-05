@@ -1,11 +1,11 @@
 package org.jda.example.coursemanmsa.coursemgnt.modules.teacher.events;
 
-import org.springframework.cloud.stream.annotation.Input;
-import org.springframework.messaging.SubscribableChannel;
+import org.springframework.cloud.stream.annotation.Output;
+import org.springframework.messaging.MessageChannel;
 
 public interface CustomChannels {
 	
-    @Input("inboundTeacherChanges")
-    SubscribableChannel teacherSubscribableChannel();
-    
+	@Output("outboundTeacherChanges")
+	MessageChannel output();
 }
+

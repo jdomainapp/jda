@@ -43,16 +43,9 @@ public abstract class DefaultController<T, ID> implements IController<T, ID> {
         return ServiceRegistry.getInstance().get(clsName);
     }
     
-    public ResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String pathPatern){
+    public ResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, ID id){
     	try {
 		String requestMethod = req.getMethod();
-		String path = req.getServletPath();
-		ID id= null;
-		if(path.matches("(.*)"+pathPatern+"(.+)")) {
-			String pathVariable = path.substring(path.lastIndexOf("/")+1);
-			id = (ID) pathVariable;
-		}
-		
 		if (requestMethod.equals(RequestMethod.GET.toString())) {
 			if (id != null) {
 				return getEntityById(id);
@@ -84,6 +77,7 @@ public abstract class DefaultController<T, ID> implements IController<T, ID> {
 		}
     	}catch (Exception e) {
 			logger.error(e.getMessage());
+			return ResponseEntity.ok("ERROR");
 		}
 		return ResponseEntity.ok("No method for request URL");
 	}
