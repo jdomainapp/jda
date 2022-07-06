@@ -77,7 +77,7 @@ public class FormGen extends BaseModuleGen {
 
     private String getFieldOptions(DAttr dAttr) {
         StringBuilder fieldOptions = new StringBuilder();
-        if (dAttr.id() && !dAttr.mutable())
+        if (dAttr.id() || !dAttr.mutable() || dAttr.auto())
             fieldOptions.append("disabled");
         return fieldOptions.toString();
     }
