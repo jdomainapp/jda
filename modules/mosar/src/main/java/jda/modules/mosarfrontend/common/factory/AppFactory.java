@@ -87,7 +87,7 @@ public class AppFactory {
                     // System.out.println(genClass);
                     try {
                         (new FileFactory(genClass, rfsGenConfig.getFeOutputPath(), templateFolder))
-                                .genAndSave();
+                                .genFile(true);
                         callback.gen();
                     } catch (Exception e) {
                         e.printStackTrace();

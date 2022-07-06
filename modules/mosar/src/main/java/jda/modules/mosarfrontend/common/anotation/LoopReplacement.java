@@ -1,5 +1,7 @@
 package jda.modules.mosarfrontend.common.anotation;
 
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.SubLoopReplacement;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -9,6 +11,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface LoopReplacement {
     String id() default "";
-
     String[] slots() default {};
 }

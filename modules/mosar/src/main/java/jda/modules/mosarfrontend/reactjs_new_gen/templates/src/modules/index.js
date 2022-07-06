@@ -7,7 +7,7 @@ import @slot{{ModuleName}}ListView from "./@slot{{ModuleName}}ListView";
 
 const @slot{{moduleName}}API = new BaseAPI("@slot{{moduleJnames}}", providers.axios);
 @loop{linkedModuleApi}[[
-const @slot{{linkedDomain}}API = new BaseAPI("@slot{{linkedJdomain}}", providers.axios);]]loop{linkedModuleApi}@
+const @slot{{linkedDomain}}API = new BaseAPI("@slot{{linkedJdomains}}", providers.axios);]]loop{linkedModuleApi}@
 
 
 export default function @slot{{ModuleName}}Module(props) {

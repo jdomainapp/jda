@@ -37,6 +37,7 @@ public class indexGen extends BaseModuleGen {
             String linkedDomain = domain.getDomainClass().getSimpleName();
             slotValues.add(new Slot("linkedDomain", moduleName(linkedDomain)));
             slotValues.add(new Slot("linkedJdomain", moduleJname(linkedDomain)));
+            slotValues.add(new Slot("linkedJdomains", moduleJnames(linkedDomain)));
             result.add(slotValues);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);

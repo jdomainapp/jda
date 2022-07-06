@@ -39,26 +39,8 @@ export default class @slot{{ModuleName}}Form extends BaseForm {
         </FormControl>
         </FormGroup>]]loop{formEnumInputs}@
         @loop{formLinkedInputs}[[
-        {this.props.excludes && this.props.excludes.includes("@slot{{fieldName}}") ? "" : <><FormGroup className='d-flex flex-wrap justify-content-between align-items-end'><Col md={2.5} className='px-0'>
-          <Form.Label>@slot{{LinkedDomain}} ID</Form.Label>
-          <FormControl type="text" value={this.renderObject("current.@slot{{fieldName}}Id")} onChange={(e) => this.props.handleStateChange("current.@slot{{fieldName}}Id", e.target.value, true)} />
-        </Col>
-          <Col md={7} className='px-0'>
-            <Form.Label>@slot{{Linked__domain}}</Form.Label>
-            <FormControl type="text" value={this.renderObject("current.@slot{{fieldName}}")} onChange={(e) => this.props.handleStateChange("current.@slot{{fieldName}}", e.target.value, false)} disabled />
-          </Col><@slot{{LinkedDomain}}Submodule compact={true} mode='submodule'
-            viewType={this.props.viewType}
-            title="Form: @slot{{LinkedDomain}}"
-            current={this.props.current.@slot{{fieldName}}}
-            currentId={this.props.current.@slot{{fieldName}}?.@slot{{fieldName}}Id}
-            parentName='@slot{{moduleName}}' parent={this.props.current}
-            parentId={this.props.currentId}
-            parentAPI={this.props.mainAPI}
-            partialApplyWithCallbacks={this.partialApplyWithCallbacks}
-            handleUnlink={() =>
-              this.props.handleStateChange("current.@slot{{fieldName}}", null, false,
-                this.props.handleStateChange("current.@slot{{fieldName}}Id", ""))} />
-        </FormGroup></>}
+        @slot{{AssocWithSideOne}}
+        @slot{{AssocWithSideMany}}
         ]]loop{formLinkedInputs}@
       </>);
   }
@@ -92,26 +74,8 @@ export default class @slot{{ModuleName}}Form extends BaseForm {
         </FormControl>
         </FormGroup></>}]]loop{formTypeEnumInputs}@
         @loop{formTypeLinkedInputs}[[
-        {type==='@slot{{type}}' && this.props.excludes && this.props.excludes.includes("@slot{{fieldName}}") ? "" : <><FormGroup className='d-flex flex-wrap justify-content-between align-items-end'><Col md={2.5} className='px-0'>
-          <Form.Label>@slot{{LinkedDomain}} ID</Form.Label>
-          <FormControl type="text" value={this.renderObject("current.@slot{{fieldName}}Id")} onChange={(e) => this.props.handleStateChange("current.@slot{{fieldName}}Id", e.target.value, true)} />
-        </Col>
-          <Col md={7} className='px-0'>
-            <Form.Label>@slot{{Linked__domain}}</Form.Label>
-            <FormControl type="text" value={this.renderObject("current.@slot{{fieldName}}")} onChange={(e) => this.props.handleStateChange("current.@slot{{fieldName}}", e.target.value, false)} disabled />
-          </Col><@slot{{LinkedDomain}}Submodule compact={true} mode='submodule'
-            viewType={this.props.viewType}
-            title="Form: @slot{{LinkedDomain}}"
-            current={this.props.current.@slot{{fieldName}}}
-            currentId={this.props.current.@slot{{fieldName}}?.@slot{{fieldName}}Id}
-            parentName='@slot{{moduleName}}' parent={this.props.current}
-            parentId={this.props.currentId}
-            parentAPI={this.props.mainAPI}
-            partialApplyWithCallbacks={this.partialApplyWithCallbacks}
-            handleUnlink={() =>
-              this.props.handleStateChange("current.@slot{{fieldName}}", null, false,
-                this.props.handleStateChange("current.@slot{{fieldName}}Id", ""))} />
-        </FormGroup></>}
+            @slot{{AssocWithSideOne}}
+            @slot{{AssocWithSideMany}}
         ]]loop{formTypeLinkedInputs}@
         </>
     )

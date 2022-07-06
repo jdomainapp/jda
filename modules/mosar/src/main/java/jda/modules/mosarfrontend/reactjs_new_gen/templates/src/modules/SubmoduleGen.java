@@ -20,6 +20,10 @@ public class SubmoduleGen extends BaseModuleGen {
     public String LinkedModule(@RequiredParam.ModuleField DField field) {
         return DomainNameUtil.ModuleName(field.getLinkedDomain().getDomainClass().getSimpleName());
     }
+    @SlotReplacement(slot = "linked_modules")
+    public String linked_modules(@RequiredParam.ModuleField DField field) {
+        return DomainNameUtil.module_names(field.getLinkedDomain().getDomainClass().getSimpleName());
+    }
 
     @SlotReplacement(slot = "excludeFields")
     public String excludeFields(@RequiredParam.ModuleField DField field, @RequiredParam.ModuleName String moduleName) {
