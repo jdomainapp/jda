@@ -188,18 +188,19 @@ public class FormGen extends BaseModuleGen {
     private String renderInputForSideMany(DField field, String ModuleName) {
         if (field.getDAssoc().ascType() == DAssoc.AssocType.One2One || field.getDAssoc().endType() == DAssoc.AssocEndType.Many)
             return "";
-        String template = "{this.props.excludes && this.props.excludes.includes(\"@slot{{fieldName}}\") ? \"\" : <>\n" +
+        String template = "{this.props.excludes && this.props.excludes.includes(\"@slot{{moduleJnames}}\") ? \"\" : <>\n" +
                 "        <@slot{{LinkedDomain}}Submodule\n" +
                 "          mode='submodule'\n" +
                 "          viewType={this.props.viewType}\n" +
                 "          title=\"Form: @slot{{LinkedDomain}}\"\n" +
                 "          current={this.props.current.@slot{{fieldName}}}\n" +
-                "          thisNamePlural='@slot{{fieldName}}' parentName='@slot{{linkedField}}' parent='@slot{{linkedField}}'\n" +
+                "          thisNamePlural='@slot{{fieldName}}' parentName='@slot{{moduleJnames}}' parent='@slot{{moduleJnames}}'\n" +
                 "          parentId={this.props.currentId}\n" +
                 "          parentAPI={this.props.mainAPI}\n" +
                 "          partialApplyWithCallbacks={this.partialApplyWithCallbacks} /></>}";
         String LinkedDomain = field.getLinkedDomain().getDomainClass().getSimpleName();
         template = RegexUtils.createSlotRegex("LinkedDomain").matcher(template).replaceAll(LinkedDomain);
+        template = RegexUtils.createSlotRegex("moduleJnames").matcher(template).replaceAll(DomainNameUtil.moduleJnames(ModuleName));
         template = RegexUtils.createSlotRegex("linkedField").matcher(template).replaceAll(Arrays.stream(field.getLinkedDomain().getDFields()).filter(f -> f.getLinkedDomain() != null && f.getLinkedDomain().getDomainClass().getSimpleName() == ModuleName).toArray(DField[]::new)[0].getDAttr().name());
         template = RegexUtils.createSlotRegex("fieldName").matcher(template).replaceAll(field.getDAttr().name());
         return template;
