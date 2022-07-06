@@ -3,6 +3,7 @@ package org.jda.example.coursemanmsa.coursemgnt.modules.studentenrolment;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jda.example.coursemanmsa.coursemgnt.model.MyResponseEntity;
 import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.model.Coursemodule;
 import org.jda.example.coursemanmsa.coursemgnt.modules.enrolment.model.Enrolment;
 import org.jda.example.coursemanmsa.coursemgnt.modules.student.model.Student;
@@ -21,18 +22,18 @@ public class StudentEnrolmentController extends RedirectController{
 	public final static String PATH_ENROLMENT="/enrolment";
 	
 	@Override
-	public ResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String pathPattern) {
+	public MyResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String pathPattern) {
 		String path = req.getServletPath();
 		if(path.matches("(.*)"+PATH_STUDENT+"(.*)")) {
 			return handleStudent(req, res);
 		}else if(path.matches("(.*)"+PATH_ENROLMENT+"(.*)")) {
 			return handleEnrolment(req, res);
 		}else {
-			return ResponseEntity.ok("No method for request URL");
+			return new MyResponseEntity (ResponseEntity.ok("No method for request URL"), null);
 		}
 	}
 	
-	public ResponseEntity handleStudent(HttpServletRequest req, HttpServletResponse res){
+	public MyResponseEntity handleStudent(HttpServletRequest req, HttpServletResponse res){
 		DefaultController<Student, String> controller = ControllerRegistry.getInstance().get(Student.class);
 		String path = req.getServletPath();
 		String id= null;
@@ -43,7 +44,7 @@ public class StudentEnrolmentController extends RedirectController{
 		return controller.handleRequest(req, res, id);
 	}
 	
-	public ResponseEntity handleEnrolment(HttpServletRequest req, HttpServletResponse res){
+	public MyResponseEntity handleEnrolment(HttpServletRequest req, HttpServletResponse res){
 		DefaultController<Enrolment, Integer> controller = ControllerRegistry.getInstance().get(Enrolment.class);
 		String path = req.getServletPath();
 		Integer id= null;

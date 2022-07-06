@@ -7,6 +7,12 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.jda.example.coursemanmsa.coursemgnt.events.model.ChangeModel;
+import org.jda.example.coursemanmsa.coursemgnt.model.MyResponseEntity;
+import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.model.Teacher;
+import org.jda.example.coursemanmsa.coursemgnt.utils.KafkaChangeAction;
+import org.jda.example.coursemanmsa.coursemgnt.utils.UserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -43,23 +49,25 @@ public abstract class DefaultController<T, ID> implements IController<T, ID> {
         return ServiceRegistry.getInstance().get(clsName);
     }
     
-    public ResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, ID id){
+    public MyResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, ID id){
     	try {
 		String requestMethod = req.getMethod();
 		if (requestMethod.equals(RequestMethod.GET.toString())) {
 			if (id != null) {
-				return getEntityById(id);
+				return new MyResponseEntity(getEntityById(id),null);
 			} else {
-				return getEntityListByPage(PageRequest.of(0, 10));
+				return new MyResponseEntity(getEntityListByPage(PageRequest.of(0, 10)), null);
 			}
 		} else if (requestMethod.equals(RequestMethod.POST.toString())) {
 			String requestData = req.getReader().lines().collect(Collectors.joining()).trim();
 			if (!requestData.isEmpty()) {
 				ObjectMapper mapper = new ObjectMapper();
 				T entity = mapper.readValue(requestData,genericType);
-				return createEntity(entity);
+				ResponseEntity<T> result = createEntity(entity);
+				ChangeModel changeModel = new ChangeModel(genericType.getTypeName(), KafkaChangeAction.CREATED, "", UserContext.getCorrelationId());
+				return new MyResponseEntity(result, changeModel);
 			}else {
-				return ResponseEntity.ok("No Request body");
+				return new MyResponseEntity (ResponseEntity.ok("No Request body"), null);
 			}
 			
 		} else if (requestMethod.equals(RequestMethod.PUT.toString())) {
@@ -67,19 +75,23 @@ public abstract class DefaultController<T, ID> implements IController<T, ID> {
 			if (!requestData.isEmpty()) {
 				ObjectMapper mapper = new ObjectMapper();
 				T entity = mapper.readValue(requestData,genericType);
-				return updateEntity(id, entity);
+				ResponseEntity<T> result=updateEntity(id, entity);
+				ChangeModel changeModel = new ChangeModel(genericType.getTypeName(), KafkaChangeAction.UPDATED, id.toString(), UserContext.getCorrelationId());
+				return new MyResponseEntity(result, changeModel);
 			}else {
-				return ResponseEntity.ok("No Request body");
+				return new MyResponseEntity (ResponseEntity.ok("No Request body"), null);
 			}
 			
 		} else if (requestMethod.equals(RequestMethod.DELETE.toString())) {
-			deleteEntityById(id);
+			ResponseEntity<String> result= deleteEntityById(id);
+			ChangeModel changeModel = new ChangeModel(genericType.getTypeName(), KafkaChangeAction.DELETED, id.toString(), UserContext.getCorrelationId());
+			return new MyResponseEntity(result, changeModel);
 		}
     	}catch (Exception e) {
 			logger.error(e.getMessage());
-			return ResponseEntity.ok("ERROR");
+			return new MyResponseEntity (ResponseEntity.ok("ERROR"), null);
 		}
-		return ResponseEntity.ok("No method for request URL");
+		return new MyResponseEntity (ResponseEntity.ok("No method for request URL"), null);
 	}
 
     @Override
