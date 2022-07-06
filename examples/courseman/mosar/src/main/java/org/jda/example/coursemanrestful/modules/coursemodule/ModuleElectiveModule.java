@@ -1,6 +1,6 @@
 package org.jda.example.coursemanrestful.modules.coursemodule;
 
-import org.jda.example.coursemanrestful.modules.coursemodule.model.CourseModule;
+import org.jda.example.coursemanrestful.modules.coursemodule.model.ElectiveModule;
 
 import jda.modules.mccl.conceptmodel.view.RegionName;
 import jda.modules.mccl.conceptmodel.view.RegionType;
@@ -17,17 +17,17 @@ import jda.mosa.view.View;
 
 /**
  * @Overview
- *  Module for {@link CourseModule}
+ *  Module for {@link ElectiveModule}
  * 
  * @author dmle
  */
-@ModuleDescriptor(name="ModuleCourseModule",
+@ModuleDescriptor(name="ModuleElectiveModule",
 modelDesc=@ModelDesc(
-    model= CourseModule.class
+    model= ElectiveModule.class
 ),
 viewDesc=@ViewDesc(
-    formTitle="Manage Course Modules",
-    domainClassLabel="Course Module",    
+    formTitle="Manage Elective Module",
+    domainClassLabel="Elective Module",    
     imageIcon="coursemodule.jpg",
     viewType=RegionType.Data,
     view=View.class,
@@ -37,23 +37,10 @@ controllerDesc=@ControllerDesc(controller=Controller.class),
 isPrimary=true
 ,setUpDesc=@SetUpDesc(postSetUp=CopyResourceFilesCommand.class)
 )
-public class ModuleCourseModule  {
-  @AttributeDesc(label="Form: Course Module")
+public class ModuleElectiveModule  extends ModuleCourseModule {
+  @AttributeDesc(label="Form: Elective Module")
   private String title;
   
-  // attributes
-  @AttributeDesc(label="Id",alignX=AlignmentX.Center)
-  private int id;
-  
-  @AttributeDesc(label="Code", alignX=AlignmentX.Center)
-  private String code;
-  
-  @AttributeDesc(label="Name")
-  private String name;
-  
-  @AttributeDesc(label="Semester", alignX=AlignmentX.Center)
-  private int semester;
-  
-  @AttributeDesc(label="Credits", alignX=AlignmentX.Center)
-  private int credits;
+  @AttributeDesc(label="Dept. Name", alignX=AlignmentX.Center)
+  private String deptName;
 }

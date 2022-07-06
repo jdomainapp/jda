@@ -315,6 +315,7 @@ public class SimpleDomServiceAdapter<T> implements CrudService<T> {
                 associates.forEach(associate ->
                         processDeleteOnAssociates(toDelete, associate));
             }
+            
             sw.deleteObject(toDelete, type);
 
             // cascade update

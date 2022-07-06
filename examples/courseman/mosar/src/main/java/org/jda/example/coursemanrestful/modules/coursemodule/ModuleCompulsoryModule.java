@@ -1,10 +1,9 @@
 package org.jda.example.coursemanrestful.modules.coursemodule;
 
-import org.jda.example.coursemanrestful.modules.coursemodule.model.CourseModule;
+import org.jda.example.coursemanrestful.modules.coursemodule.model.CompulsoryModule;
 
 import jda.modules.mccl.conceptmodel.view.RegionName;
 import jda.modules.mccl.conceptmodel.view.RegionType;
-import jda.modules.mccl.syntax.MCCLConstants.AlignmentX;
 import jda.modules.mccl.syntax.ModuleDescriptor;
 import jda.modules.mccl.syntax.SetUpDesc;
 import jda.modules.mccl.syntax.controller.ControllerDesc;
@@ -17,17 +16,17 @@ import jda.mosa.view.View;
 
 /**
  * @Overview
- *  Module for {@link CourseModule}
+ *  Module for {@link CompulsoryModule}
  * 
  * @author dmle
  */
-@ModuleDescriptor(name="ModuleCourseModule",
+@ModuleDescriptor(name="ModuleCompulsoryModule",
 modelDesc=@ModelDesc(
-    model= CourseModule.class
+    model= CompulsoryModule.class
 ),
 viewDesc=@ViewDesc(
-    formTitle="Manage Course Modules",
-    domainClassLabel="Course Module",    
+    formTitle="Manage Compulsory Module",
+    domainClassLabel="Compulsory Module",    
     imageIcon="coursemodule.jpg",
     viewType=RegionType.Data,
     view=View.class,
@@ -37,23 +36,7 @@ controllerDesc=@ControllerDesc(controller=Controller.class),
 isPrimary=true
 ,setUpDesc=@SetUpDesc(postSetUp=CopyResourceFilesCommand.class)
 )
-public class ModuleCourseModule  {
-  @AttributeDesc(label="Form: Course Module")
+public class ModuleCompulsoryModule  extends ModuleCourseModule {
+  @AttributeDesc(label="Form: Compulsory Module")
   private String title;
-  
-  // attributes
-  @AttributeDesc(label="Id",alignX=AlignmentX.Center)
-  private int id;
-  
-  @AttributeDesc(label="Code", alignX=AlignmentX.Center)
-  private String code;
-  
-  @AttributeDesc(label="Name")
-  private String name;
-  
-  @AttributeDesc(label="Semester", alignX=AlignmentX.Center)
-  private int semester;
-  
-  @AttributeDesc(label="Credits", alignX=AlignmentX.Center)
-  private int credits;
 }
