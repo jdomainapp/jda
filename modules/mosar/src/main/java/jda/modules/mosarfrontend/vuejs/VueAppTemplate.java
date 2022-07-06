@@ -1,53 +1,56 @@
 package jda.modules.mosarfrontend.vuejs;
 
-import jda.modules.mosarfrontend.angular.templates.AppHtmlTemplate;
-import jda.modules.mosarfrontend.angular.templates.AppModuleTemplate;
 import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.ComponentGenDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesDesc;
-import jda.modules.mosarfrontend.reactnative.templates.MainGen;
-import jda.modules.mosarfrontend.reactnative.templates.src.data_types.DataTypeGen;
-import jda.modules.mosarfrontend.reactnative.templates.src.modules.FormInputsGen;
-import jda.modules.mosarfrontend.reactnative.templates.src.modules.ModulesGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.api.moduleAPIGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.components.module.addGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.components.module.editGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.components.module.indexGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.components.module.listGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.components.module.template.addHtmlGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.components.module.template.editHtmlGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.components.module.template.indexHtmlGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.components.module.template.listHtmlGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.constants.messageGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.layouts.headerGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.model.form.formGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.model.modelGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.router.componentGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.router.nameGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.router.pathGen;
+import jda.modules.mosarfrontend.vuejs.templates.src.router.routerGen;
 
 @AppTemplateDesc(
-        templateRootFolder = "D:\\HOC_THS\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\templates",
-        resource = "D:\\HOC_THS\\JDA\\jda\\examples\\courseman\\mosar\\src\\main\\resources\\vuejs\\api.zip",
+        templateRootFolder = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\templates",
+        resource = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\vueTemplateResources.zip",
         crossTemplates = @CrossTemplatesDesc(
                 Router = @ComponentGenDesc(
-                        templates = {},
-                        genClasses = {}
+                        genClasses = {routerGen.class, pathGen.class, nameGen.class, headerGen.class}
                 ),
                 BaseService = @ComponentGenDesc(
-                        templates = {},
                         genClasses = {}
                 ),
                 Ext = @ComponentGenDesc(
-                        templates = {"app.component.html"},
-                        genClasses = {AppHtmlTemplate.class}
+                        genClasses = {componentGen.class, messageGen.class}
                 )
         ),
         moduleTemplates = @ModuleTemplatesDesc(
                 List = @ComponentGenDesc(
-                        templates = {},
-                        genClasses = {}
+                        genClasses = {listGen.class, listHtmlGen.class}
                 ),
                 Form = @ComponentGenDesc(
-                        templates = {},
-                        genClasses = {}
+                        genClasses = {addGen.class, addHtmlGen.class, editGen.class, editHtmlGen.class}
                 ),
                 Main = @ComponentGenDesc(
-                        templates = {},
-                        genClasses = {}
+                        genClasses = {indexGen.class, indexHtmlGen.class}
                 ),
                 Entity = @ComponentGenDesc(
-                        templates = {},
-                        genClasses = {DataTypeGen.class}
+                        genClasses = {modelGen.class, formGen.class}
                 ),
                 Ext = @ComponentGenDesc(
-                        templates = {},
-                        genClasses = {}
+                        genClasses = {moduleAPIGen.class}
                 )
         )
 )

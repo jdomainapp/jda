@@ -1,25 +1,15 @@
 package jda.modules.mosarfrontend.common.anotation;
 
-import lombok.Data;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.SubLoopReplacement;
 
-@Data
-public class LoopReplacement {
-    private String[] slots;
-    private String id;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String[] getSlots() {
-        return slots;
-    }
-
-    public void setSlots(String[] slots) {
-        this.slots = slots;
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface LoopReplacement {
+    String id() default "";
+    String[] slots() default {};
 }

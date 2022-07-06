@@ -1,5 +1,6 @@
 package jda.modules.mosar.software.frontend;
 
+import jda.modules.mosarfrontend.common.factory.AppFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -44,12 +45,8 @@ public class FESoftware {
    */
   public FESoftware generate() {
     logger.info("Generating frontend...");
-    ViewBootstrapper bootstrapper = new ViewBootstrapper(cfg);
-
-    bootstrapper
-    .init()
-    .bootstrapAndSave();
-    
+    AppFactory appFactory = new AppFactory(cfg);
+    appFactory.genAndSave();
     return this;
   }
   

@@ -1,16 +1,13 @@
 package jda.modules.mosarfrontend.common.anotation;
 
-import lombok.Data;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@Data
-public class SlotReplacement {
-    private String slot;
 
-    public String getSlot() {
-        return slot;
-    }
-
-    public void setSlot(String slot) {
-        this.slot = slot;
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD})
+public @interface SlotReplacement {
+    String slot() default "";
 }

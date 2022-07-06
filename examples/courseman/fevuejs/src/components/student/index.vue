@@ -1,6 +1,10 @@
 <template src="./template/index.html"></template>
 <script>
     export default {
+        props: {
+            subStudentClassId:Object
+        },
+
         components: {
             "form-add": () => import('./add.vue'),
             "form-edit": () => import('./edit.vue'),

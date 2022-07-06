@@ -30,8 +30,8 @@ import jda.modules.setup.model.SetUpConfig;
 @RFSGenDesc(
   stackSpec = 
 //      StackSpec.FE, // for testing FE
-    StackSpec.FS, // for production
-//      StackSpec.BE, // for testing BE
+//    StackSpec.FS, // for production
+      StackSpec.BE, // for testing BE
     genMode = GenerationMode.SOURCE_CODE, 
     beLangPlatform = LangPlatform.SPRING,
     feProjPath = "/home/ducmle/tmp/restfstool-fe",
@@ -46,7 +46,6 @@ import jda.modules.setup.model.SetUpConfig;
     beTargetPackage = "org.jda.example.coursemanrestful.backend"
     ,beAppClass = BESpringApp.class,
     beServerPort = 8080  // default: 8080
-    , feTemplate = AngularAppTemplate.class
 )
 @SystemDesc(
         appName = "Courseman",

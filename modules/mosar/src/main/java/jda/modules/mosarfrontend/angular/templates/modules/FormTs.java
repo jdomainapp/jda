@@ -1,83 +1,64 @@
 package jda.modules.mosarfrontend.angular.templates.modules;
 
-import jda.modules.dcsl.parser.statespace.metadef.DAssocDef;
-import jda.modules.dcsl.parser.statespace.metadef.DAttrDef;
-import jda.modules.dcsl.parser.statespace.metadef.FieldDef;
-import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.dcsl.syntax.DAttr;
+import jda.modules.mosarfrontend.common.AngularSlotProperty;
 import jda.modules.mosarfrontend.common.anotation.*;
-import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.factory.Slot;
+import jda.modules.mosarfrontend.common.utils.DField;
+import jda.modules.mosarfrontend.common.utils.NewMCC;
 
 import java.util.ArrayList;
 
 @FileTemplateDesc(
-        templateFile = "/src/data_types/DataType.ts"
+        templateFile = "/modules/form.component.ts"
 )
 public class FormTs {
     @WithFileName
-    public String getFileName(@RequiredParam.ModuleName String name) {
-        return name;
+    public String getFileName(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
+        return prop.getFormFileName() + ".component";
     }
-
-    @SlotReplacementDesc(slot = "moduleName")
+    
+    @WithFilePath
+    public String getFilePath(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
+    	return "\\" + prop.getFileName() + "\\" +  prop.getFormFileName() + "\\";
+    }    
+    @SlotReplacement(slot = "componentName")
     public String moduleName(@RequiredParam.ModuleName String name) {
-        return name;
+        return name + "FormComponent";
     }
 
-    @LoopReplacementDesc(slots = {"field", "fieldType"}, id = "1")
-    public Slot[][] fields(@RequiredParam.ModuleFields FieldDef[] fields) {
+    @SlotReplacement(slot = "selector")
+    public String getSelector(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
+        return prop.getSelector() + "-form";
+    }
+    
+    @SlotReplacement(slot = "html-path")
+    public String getHtmlPath(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
+        return "./" + prop.getFormFileName() + ".component.html";
+    }
+
+    @SlotReplacement(slot = "api")
+    public String getApi(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
+        return prop.getAPI();
+    } 
+    
+    @LoopReplacement(slots = {"field", "getSubFunction", "subAPI"}, id = "subview")
+    public Slot[][] fields(@RequiredParam.DomainFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        for (FieldDef field : fields) {
-            DAttrDef dAttrDef = (DAttrDef) field.getAnnotation(DAttr.class);
-            if(dAttrDef == null) continue;
+        for (DField field : fields) {
             ArrayList<Slot> list = new ArrayList<>();
-            list.add(new Slot("field", dAttrDef.name()));
-            DAssocDef dAssocDef= (DAssocDef) field.getAnnotation(DAssoc.class);
-            list.add(new Slot("fieldType", typeConverter(dAttrDef.type(),dAssocDef)));
+            String moduleName = field.getDAssoc().associate().type().getSimpleName();
+            String fieldName = field.getDAttr().name();
+            AngularSlotProperty prop = new AngularSlotProperty(moduleName);
+            list.add(new Slot("field", fieldName));  
+            list.add(new Slot("getSubFunction", "get" + moduleName));
+            list.add(new Slot("subAPI", prop.getAPI()));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
-    }
-
-    private String typeConverter(DAttr.Type type, DAssoc ass){
-        switch (type){
-            case String:
-            case StringMasked:
-            case Char:
-            case Image:
-            case Serializable:
-            case Font:
-            case Color:
-                return "string";
-            case Integer:
-            case BigInteger:
-            case Long:
-            case Float:
-            case Double:
-            case Short:
-            case Byte:
-                return "number";
-            case Boolean:
-                return "boolean";
-            case Domain:
-                if(ass != null && ass.associate() != null && ass.associate().type()!= null){
-                    return ass.associate().type().getSimpleName();
-                } else return "any";
-            case Collection:
-            case Array:
-                return "any[]";
-            case File:
-            case Other:
-                return "any";
-            case Null:
-                return "null";
-            case Date:
-                return "Date";
-            case ByteArraySmall:
-            case ByteArrayLarge:
-                return "number[]";
-        }
-        return "any";
-    }
+    }    
 }

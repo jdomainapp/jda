@@ -11,13 +11,12 @@ import { BaseFormDirectiveComponent } from './base/base-form/base-form-directive
 import { CompDirective } from './common/comp.directive';
 import { BaseService } from './base/base.service';
 import { BaseCommonComponent } from './base/base-common/base-common.component';
-import { AlertComponent } from './alert/alert.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotificationService } from './common/notification.service';
-@loop{1}[[
+@loop{import}[[
 @slot{{import-main}}
-@slot{{import-form}}]]loop{1}@
+@slot{{import-form}}]]loop{import}@
 
 @NgModule({
   declarations: [
@@ -28,10 +27,9 @@ import { NotificationService } from './common/notification.service';
     BaseFormDirectiveComponent,
     CompDirective,
     BaseCommonComponent,
-    AlertComponent,
-    @loop{2}[[
+    @loop{declare}[[
     @slot{{decl-main}},
-    @slot{{decl-form}}]]loop{2}@
+    @slot{{decl-form}},]]loop{declare}@
   ],
   imports: [
     BrowserModule,

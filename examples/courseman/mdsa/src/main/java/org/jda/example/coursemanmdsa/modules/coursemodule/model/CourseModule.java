@@ -21,6 +21,7 @@ import jda.modules.dcsl.syntax.DOpt;
  *
  * @author dmle
  * @version 2.0
+ * 
  */
 // ducmle: feature#55
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, 
@@ -30,6 +31,7 @@ include = As.PROPERTY, property = "type") @JsonSubTypes({
 })
 @DClass(schema="courseman")
 public abstract class CourseModule {
+	
 
   // attributes
   @DAttr(name="id",id=true,auto=true,type=Type.Integer,length=3,mutable=false,optional=false)
@@ -39,6 +41,7 @@ public abstract class CourseModule {
   @DAttr(name="code",auto=true,type=Type.String, length=12,
       mutable=false,optional=false,derivedFrom={"semester"})
   private String code;
+  
 
   @DAttr(name="name",type=Type.String,length=30,optional=false)
   private String name;

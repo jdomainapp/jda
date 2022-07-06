@@ -1,17 +1,20 @@
 package jda.modules.mosarfrontend.common.factory;
 
 import jda.modules.mosar.config.RFSGenConfig;
-import jda.modules.mosar.utils.RFSGenTk;
+import jda.modules.mosarfrontend.angular.AngularAppTemplate;
 import jda.modules.mosarfrontend.common.anotation.template_desc.*;
+import jda.modules.mosarfrontend.common.utils.DField;
+import jda.modules.mosarfrontend.reactjs_new_gen.ReactAppTemplate;
+import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
+import jda.modules.mosarfrontend.vuejs.VueAppTemplate;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
@@ -35,8 +38,8 @@ public class AppFactory {
                 String name = zipEntry.getName();
                 long size = zipEntry.getSize();
                 long compressedSize = zipEntry.getCompressedSize();
-//                System.out.printf("name: %-20s | size: %6d | compressed size: %6d\n",
-//                        name, size, compressedSize);
+                // System.out.printf("name: %-20s | size: %6d | compressed size: %6d\n",
+                // name, size, compressedSize);
 
                 // Do we need to create a directory ?
                 File file = new File(outputPath + "/" + name);
@@ -68,66 +71,103 @@ public class AppFactory {
         }
     }
 
-    public void genAndSave() {
-        if (this.rfsGenConfig.getFeTemplate().isAnnotationPresent(AppTemplateDesc.class)) {
-            ParamsFactory.getInstance().setRFSGenConfig(rfsGenConfig);
+    public interface Callback {
+        public void gen() throws Exception;
+    }
 
-            AppTemplateDesc ano = this.rfsGenConfig.getFeTemplate().getAnnotation(AppTemplateDesc.class);
-            AppTemplate appTemplate = new AppTemplate();
-            RFSGenTk.parseAnnotation2Config(ano, appTemplate);
+    private void loopGenMethod(Annotation genDesc, String templateFolder, Callback callback) {
+        Method[] genMethods = genDesc.annotationType().getDeclaredMethods();
 
-            String templateFolder = appTemplate.getTemplateRootFolder();
-            // TODO: Clean output folder before gen/
-            /** Copy resource to output*/
-            unzip(appTemplate.getResource(), rfsGenConfig.getFeOutputPath());
-            /** Các Component chỉ gen 1 lần*/
-            CrossTemplatesDesc crossTemplatesDesc = appTemplate.getCrossTemplates();
-            Method[] crossTemplates = crossTemplatesDesc.annotationType().getDeclaredMethods();
-            for (Method m : crossTemplates) {
-                try {
-                    ComponentGenDesc componentGenDesc = (ComponentGenDesc) m.invoke(crossTemplatesDesc, (new ArrayList<Object>()).toArray());
-//                    System.out.println(m.getName());
-                    for (Class<?> fileTemplateDesc : componentGenDesc.genClasses()) {
-//                        System.out.println(fileTemplateDesc);
-                        try {
-                            (new FileFactory(fileTemplateDesc, rfsGenConfig.getFeOutputPath(), templateFolder))
-                                    .genAndSave();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+        for (Method m : genMethods) {
+
+            try {
+                ComponentGenDesc componentGenDesc = (ComponentGenDesc) m.invoke(genDesc,
+                        (new ArrayList<Object>()).toArray());
+                for (Class<?> genClass : componentGenDesc.genClasses()) {
+                    // System.out.println(genClass);
+                    try {
+                        (new FileFactory(genClass, rfsGenConfig.getFeOutputPath(), templateFolder))
+                                .genFile(true);
+                        callback.gen();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
                 }
-
-            }
-
-            /**
-             * Các file gen với mỗi miền (module in domain model) , Ex: Student, Class in CourseMan example
-             */
-            ModuleTemplatesDesc moduleTemplatesDesc = appTemplate.getModuleTemplates();
-            Method[] moduleTemplates = moduleTemplatesDesc.annotationType().getDeclaredMethods();
-            for (Method m : moduleTemplates) {
-                try {
-                    ComponentGenDesc componentGenDesc = (ComponentGenDesc) m.invoke(moduleTemplatesDesc, (new ArrayList<Object>()).toArray());
-//                    System.out.println(m.getName());
-                    for (Class<?> moduleTemplateDesc : componentGenDesc.genClasses()) {
-                        try {
-                            for (Class<?> module : rfsGenConfig.getMCCFuncs()) {
-                                ParamsFactory.getInstance().setCurrentModule(module);
-                                (new FileFactory(moduleTemplateDesc, rfsGenConfig.getFeOutputPath(), templateFolder))
-                                        .genAndSave();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
             }
 
         }
     }
+
+    public void genAndSave() {
+        if (this.rfsGenConfig.getFeTemplate() == null) {
+            // use default Template
+            switch (this.rfsGenConfig.getFePlatform()) {
+                case REACT:
+                    this.rfsGenConfig.setFeTemplate(ReactAppTemplate.class.getAnnotation(AppTemplateDesc.class));
+                    break;
+                case ANGULAR:
+                    this.rfsGenConfig.setFeTemplate(AngularAppTemplate.class.getAnnotation(AppTemplateDesc.class));
+                    break;
+                case REACT_NATIVE:
+                    this.rfsGenConfig.setFeTemplate(ReactNativeAppTemplate.class.getAnnotation(AppTemplateDesc.class));
+                    break;
+                case VUE_JS:
+                    this.rfsGenConfig.setFeTemplate(VueAppTemplate.class.getAnnotation(AppTemplateDesc.class));
+                    break;
+            }
+        }
+        if (this.rfsGenConfig.getFeTemplate() != null) {
+            String[] appDomains = ParamsFactory.getInstance().setRFSGenConfig(rfsGenConfig);
+            AppTemplateDesc appTemplate = this.rfsGenConfig.getFeTemplate();
+
+            String templateFolder = appTemplate.templateRootFolder();
+            ParamsFactory.getInstance().setTemplateFolder(templateFolder);
+            // TODO: Clean output folder before gen/
+            /** Copy resource to output */
+            unzip(appTemplate.resource(), rfsGenConfig.getFeOutputPath());
+
+            /** Các Component chỉ gen 1 lần */
+            CrossTemplatesDesc crossTemplatesDesc = appTemplate.crossTemplates();
+            loopGenMethod(crossTemplatesDesc, templateFolder, () -> {
+            });
+
+            for (String domain : appDomains) {
+                ParamsFactory.getInstance().setCurrentModule(domain);
+                /**
+                 * Các file gen với mỗi miền (module in domain model) , Ex: Student, Class in
+                 * CourseMan example
+                 */
+                ModuleTemplatesDesc moduleTemplatesDesc = appTemplate.moduleTemplates();
+
+                loopGenMethod(moduleTemplatesDesc, templateFolder, () -> {
+                    /**
+                     * Các file gen với mỗi field trong miền (module in domain model) , Ex: Student,
+                     * Class in CourseMan example
+                     */
+                    for (DField field : ParamsFactory.getInstance().getModuleFields()) {
+                        ParamsFactory.getInstance().setCurrentModuleField(field);
+                        ModuleFieldTemplateDesc moduleFieldTemplateDesc = appTemplate.moduleFieldTemplates();
+                        loopGenMethod(moduleFieldTemplateDesc, templateFolder, (() -> {
+                        }));
+                    }
+                    /**
+                     * Các file gen với mỗi sub domain. Ex: CompulsoryCourseModule vs
+                     * ElectiveCourseModule
+                     */
+                    for (String subDomain : ParamsFactory.getInstance().getMCC().getSubDomains().keySet()) {
+                        ParamsFactory.getInstance().setCurrentSubDomain(subDomain);
+                        SubModuleTemplateDesc subModuleTemplateDesc = appTemplate.subModuleTemplates();
+                        loopGenMethod(subModuleTemplateDesc, templateFolder, (() -> {
+                        }));
+                    }
+                    ParamsFactory.getInstance().setCurrentSubDomain(null);
+
+                });
+
+            }
+        }
+    }
 }
+

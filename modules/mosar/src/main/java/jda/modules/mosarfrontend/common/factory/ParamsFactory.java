@@ -1,29 +1,34 @@
+
 package jda.modules.mosarfrontend.common.factory;
 
-import com.github.javaparser.ast.body.FieldDeclaration;
-import jda.modules.dcsl.parser.ParserToolkit;
-import jda.modules.dcsl.parser.statespace.metadef.FieldDef;
-import jda.modules.dcsl.syntax.DAttr;
-import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosar.config.RFSGenConfig;
-import jda.modules.mosar.frontend.MCCUtils;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
-
+import jda.modules.mosarfrontend.common.utils.DField;
+import jda.modules.mosarfrontend.common.utils.Domain;
+import jda.modules.mosarfrontend.common.utils.NewMCC;
+import jda.modules.sccl.syntax.SystemDesc;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class ParamsFactory {
+    public String[] modulesName; // Save for later trigger getModulesName()
     private static ParamsFactory instance;
     private final HashMap<Annotation, Method> methods = new HashMap<>();
-    private MCC currentMCC;
-    private Map<String, MCC> modules;
+    private NewMCC currentNewMCC;
+    private Domain currentSubDomain;
+    private DField currentField;
+    private Map<String, NewMCC> domains;
+    private String templateFolder;
+
+    private SystemDesc systemDesc;
 
     private ParamsFactory() {
         //init methods map
@@ -35,7 +40,6 @@ public class ParamsFactory {
         }
     }
 
-
     public static ParamsFactory getInstance() {
         if (instance == null) {
             instance = new ParamsFactory();
@@ -43,21 +47,40 @@ public class ParamsFactory {
         return instance;
     }
 
-    //TODO for @linh.tq : check domainClass meaning and update in readMCC method
-    public void setCurrentModule(Class<?> module) {
-        this.currentMCC = modules.get(module.getSimpleName());
+    @RequiredParam.ModuleMap
+    public Map<String, NewMCC> getDomains() {
+        return domains;
     }
 
-    private RFSGenConfig rfsGenConfig;
+    public void setCurrentModule(String module) {
+        this.currentNewMCC = domains.get(module);
+    }
 
-    public void setRFSGenConfig(RFSGenConfig rfsGenConfig) {
-        this.rfsGenConfig = rfsGenConfig;
-        Class<?>[] models = rfsGenConfig.getDomainModel();
+    public void setCurrentSubDomain(String subDomainName) {
+        this.currentSubDomain = this.currentNewMCC.getSubDomains().get(subDomainName);
+    }
+
+
+    public void setCurrentModuleField(DField field) {
+//        this.currentMCC = modules.get(module.getSimpleName());
+        this.currentField = field;
+    }
+
+    public String[] setRFSGenConfig(RFSGenConfig rfsGenConfig) {
         Class<?>[] mccClasses = rfsGenConfig.getMCCFuncs();
-        this.modules = IntStream.range(0, mccClasses.length)
-                .mapToObj(i -> MCCUtils.readMCC(models[i],
-                        mccClasses[i]))
-                .collect(Collectors.toMap(MCC::getName, mcc -> mcc));
+        this.domains = Arrays.stream(mccClasses).map(NewMCC::readMCC).collect((Collectors.toMap(k -> k.getModuleDescriptor().modelDesc().model().getSimpleName(), k -> k)));
+        // link domain to field in each dField
+        for (String domainName : this.domains.keySet()) {
+            Domain domain = this.domains.get(domainName);
+            for (DField dField : domain.getDFields()) {
+                if (dField.getDAssoc() != null) {
+                    NewMCC linkedDomain = this.domains.get(dField.getDAssoc().associate().type().getSimpleName());
+                    dField.setLinkedDomain(linkedDomain);
+                }
+            }
+        }
+        this.systemDesc = rfsGenConfig.getSystemDesc();
+        return this.domains.keySet().toArray(String[]::new);
     }
 
     public Object[] getParamsForMethod(Method method) {
@@ -74,8 +97,7 @@ public class ParamsFactory {
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         e.printStackTrace();
                     }
-                    break;
-                }
+                } else continue;
 
             }
             ;
@@ -83,34 +105,83 @@ public class ParamsFactory {
         return args.toArray();
     }
 
-    @RequiredParam.MCC
-    private MCC getMCC() {
+    
+	public void setTemplateFolder(String templateFolder) {
+		this.templateFolder = templateFolder;
+	}    
 
-        return this.currentMCC;
+    @RequiredParam.MCC
+    public NewMCC getMCC() {
+        return this.currentNewMCC;
     }
 
-    private String[] modulesName; // Save for later trigger getModulesName()
+    @RequiredParam.CurrentSubDomain
+    private Domain getCurrentSubDomain() {
+        return this.currentSubDomain;
+    }
 
     @RequiredParam.ModulesName
-    private String[] getModulesName() {
+    public String[] getModulesName() {
         if (modulesName == null) {
-            modulesName = modules.values().stream().map(m-> m.getDomainClass().getName()).toArray(String[]::new);
+            modulesName = domains.values().stream().map(m -> m.getModuleDescriptor().modelDesc().model().getSimpleName()).toArray(String[]::new);
         }
         return modulesName;
     }
 
     @RequiredParam.ModuleName
-    private String getModuleName() {
-        return this.currentMCC.getDomainClass().getName();
+    public String getModuleName() {
+        return this.currentNewMCC.getModuleDescriptor().modelDesc().model().getSimpleName();
     }
 
     @RequiredParam.ModuleFields
-
-    private FieldDef[] getModuleFields() {
-        FieldDeclaration[] fieldDeclarations = this.currentMCC.getDomainClass().getFields().toArray(FieldDeclaration[]::new);
-        Collection<FieldDeclaration> fields = this.currentMCC.getViewFields();
-        return Arrays.stream(fieldDeclarations).map(ParserToolkit::getFieldDefFull).filter(e -> e.getAnnotation(DAttr.class) != null).toArray(FieldDef[]::new);
+    public DField[] getModuleFields() {
+        return this.currentNewMCC.getDFields();
     }
 
+    @RequiredParam.ModuleField
+    public DField getCurrentField() {
+        return this.currentField;
+    }
 
+    @RequiredParam.DomainFields
+    public DField[] getDomainFields() {
+        DField[] moduleFields = this.currentNewMCC.getDFields();
+        ArrayList<DField> result = new ArrayList<>();
+        for (DField field : moduleFields) {
+            if (field.getDAssoc() != null) {
+                result.add(field);
+            }
+        }
+        DField[] domainFields = result.stream().toArray(DField[]::new);
+        return domainFields;
+    }
+
+    @RequiredParam.SubDomains
+    public Map<String, Domain> getSubDomains() {
+        return this.currentNewMCC.getSubDomains();
+    }
+
+    @RequiredParam.AppName
+    public String getAppName() {
+        return this.systemDesc != null ? this.systemDesc.appName() : "Unknown App gen by JDA";
+    }
+
+    @RequiredParam.TemplateFolder
+	public String getTemplateFolder() {
+		return templateFolder;
+	}    
+
+    @RequiredParam.LinkedDomains
+    public Domain[] getLinkedDomains() {
+        ArrayList<Domain> domains = new ArrayList<>();
+        Arrays.stream(this.currentNewMCC.getDFields()).forEach(f -> {
+            if (f.getLinkedDomain() !=null){
+                NewMCC mcc = f.getLinkedDomain();
+                domains.add(mcc);
+            };
+        });
+        return domains.toArray(Domain[]::new);
+    }
 }
+
+

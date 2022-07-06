@@ -66,11 +66,11 @@ public class Address implements Subscriber, Publisher {
         this(null, name, null);
     }
 
-    // from object form: Student is included
-    @DOpt(type = DOpt.Type.ObjectFormConstructor)
-    public Address(@AttrRef("name") String name, @AttrRef("student") Student student) {
-        this(null, name, student);
-    }
+//    // from object form: Student is included
+//    @DOpt(type = DOpt.Type.ObjectFormConstructor)
+//    public Address(@AttrRef("name") String name, @AttrRef("student") Student student) {
+//        this(null, name, student);
+//    }
 
     // from data source
     @DOpt(type = DOpt.Type.DataSourceConstructor)

@@ -1,14 +1,14 @@
 import {createModuleComponents} from '../base/creators/createModuleComponents';
 
-@loop{1}[[import {@slot{{module_name}}} from '../data_types/@slot{{module_name}}';
-]]loop{1}@
+@loop{importDomainTypes}[[import {@slot{{requiredInterface}}} from '../data_types/@slot{{module_name}}';
+]]loop{importDomainTypes}@
 
-@loop{2}[[import {
+@loop{importDomainConfig}[[import {
   @slot{{module_name}}FormConfig,
   @slot{{module_name}}ListConfig,
   @slot{{module_name}}ModuleConfig,
-} from './@slot{{module_folder}}/config';
-]]loop{2}@
+} from './@slot{{module_folder}}/ModuleConfig';
+]]loop{importDomainConfig}@
 
 @loop{3}[[
 export const {
@@ -16,7 +16,7 @@ export const {
   List: @slot{{module_name}}List,
   ListItem: @slot{{module_name}}ListItem,
   Form: @slot{{module_name}}Form,
-} = createModuleComponents<@slot{{module_name}}>(
+} = createModuleComponents<@slot{{requiredInterface}}>(
   @slot{{module_name}}ModuleConfig,
   @slot{{module_name}}ListConfig,
   @slot{{module_name}}FormConfig,

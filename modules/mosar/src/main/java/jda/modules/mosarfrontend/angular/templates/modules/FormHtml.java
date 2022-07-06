@@ -1,83 +1,76 @@
 package jda.modules.mosarfrontend.angular.templates.modules;
 
-import jda.modules.dcsl.parser.statespace.metadef.DAssocDef;
-import jda.modules.dcsl.parser.statespace.metadef.DAttrDef;
-import jda.modules.dcsl.parser.statespace.metadef.FieldDef;
-import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.dcsl.syntax.DAttr;
+import jda.modules.mosarfrontend.angular.templates.fields.InputHtml;
+import jda.modules.mosarfrontend.angular.templates.fields.SubViewHtml;
+import jda.modules.mosarfrontend.common.AngularSlotProperty;
 import jda.modules.mosarfrontend.common.anotation.*;
-import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
+import jda.modules.mosarfrontend.common.factory.FileFactory;
+import jda.modules.mosarfrontend.common.factory.ParamsFactory;
 import jda.modules.mosarfrontend.common.factory.Slot;
+import jda.modules.mosarfrontend.common.utils.DField;
+import jda.modules.mosarfrontend.common.utils.NewMCC;
 
 import java.util.ArrayList;
 
 @FileTemplateDesc(
-        templateFile = "/src/data_types/DataType.ts"
+        templateFile = "/modules/form.html"
 )
 public class FormHtml {
     @WithFileName
-    public String getFileName(@RequiredParam.ModuleName String name) {
-        return name;
+    public String getFileName(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
+        return prop.getFormFileName() + ".component";
     }
+    
+    @WithFilePath
+    public String getFilePath(@RequiredParam.MCC NewMCC mcc) {
+    	AngularSlotProperty prop = new AngularSlotProperty(mcc);
 
-    @SlotReplacementDesc(slot = "moduleName")
-    public String moduleName(@RequiredParam.ModuleName String name) {
-        return name;
-    }
+    	return "\\" + prop.getFileName() + "\\" +  prop.getFormFileName() + "\\";
+    } 
+    
 
-    @LoopReplacementDesc(slots = {"field", "fieldType"}, id = "1")
-    public Slot[][] fields(@RequiredParam.ModuleFields FieldDef[] fields) {
+    @LoopReplacement(slots = {"fieldText"}, id = "field")
+
+    public Slot[][] fields(@RequiredParam.ModuleFields DField[] fields, @RequiredParam.TemplateFolder String templateFolder) throws Exception {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        for (FieldDef field : fields) {
-            DAttrDef dAttrDef = (DAttrDef) field.getAnnotation(DAttr.class);
-            if(dAttrDef == null) continue;
+        for (DField field : fields) {
             ArrayList<Slot> list = new ArrayList<>();
-            list.add(new Slot("field", dAttrDef.name()));
-            DAssocDef dAssocDef= (DAssocDef) field.getAnnotation(DAssoc.class);
-            list.add(new Slot("fieldType", typeConverter(dAttrDef.type(),dAssocDef)));
+            Class<?> fieldGenClass = getFieldGenClass(field);
+
+            ParamsFactory.getInstance().setCurrentModuleField(field);
+            String genContent = new FileFactory(fieldGenClass, "", templateFolder).genAndGetContent();
+            list.add(new Slot("fieldText", genContent));
+
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    private String typeConverter(DAttr.Type type, DAssoc ass){
-        switch (type){
-            case String:
-            case StringMasked:
-            case Char:
-            case Image:
-            case Serializable:
-            case Font:
-            case Color:
-                return "string";
-            case Integer:
-            case BigInteger:
-            case Long:
-            case Float:
-            case Double:
-            case Short:
-            case Byte:
-                return "number";
-            case Boolean:
-                return "boolean";
-            case Domain:
-                if(ass != null && ass.associate() != null && ass.associate().type()!= null){
-                    return ass.associate().type().getSimpleName();
-                } else return "any";
-            case Collection:
-            case Array:
-                return "any[]";
-            case File:
-            case Other:
-                return "any";
-            case Null:
-                return "null";
-            case Date:
-                return "Date";
-            case ByteArraySmall:
-            case ByteArrayLarge:
-                return "number[]";
-        }
-        return "any";
+
+    private Class<?> getFieldGenClass(DField field) {
+    	switch (field.getDAttr().type()) {
+        case String:
+        case StringMasked:
+        case Char:
+        case Image:
+        case Serializable:
+        case Font:
+        case Color:
+        case Integer:
+        case BigInteger:
+        case Long:
+        case Float:
+        case Double:
+        case Short:
+        case Byte:
+            return InputHtml.class;
+        case Domain:
+        case Collection:
+        	return SubViewHtml.class;
+        default:
+        	return InputHtml.class;
+    	}
+    	
     }
 }

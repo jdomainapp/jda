@@ -7,20 +7,8 @@ import jda.modules.mccl.conceptmodel.Configuration.Language;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
 import jda.modules.mosar.config.*;
 import jda.modules.mosarbackend.springboot.BESpringApp;
-import jda.modules.mosarfrontend.angular.AngularAppTemplate;
 import jda.modules.mosarfrontend.angular.FEAngularApp;
-import jda.modules.mosarfrontend.common.FEAppGen;
-import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.template_desc.ComponentGenDesc;
-import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDesc;
-import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesDesc;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
-import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
-import jda.modules.mosarfrontend.reactnative.templates.MainGen;
-import jda.modules.mosarfrontend.reactnative.templates.src.data_types.DataTypeGen;
-import jda.modules.mosarfrontend.reactnative.templates.src.modules.FormInputsGen;
-import jda.modules.mosarfrontend.reactnative.templates.src.modules.ModulesGen;
-import jda.modules.mosarfrontend.vuejs.VueAppTemplate;
 import jda.modules.sccl.syntax.*;
 import jda.modules.setup.model.SetUpConfig;
 import org.jda.example.coursemanrestful.modules.ModuleMain;
@@ -37,20 +25,17 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         beLangPlatform = LangPlatform.SPRING,
         feProjPath = "/home/ducmle/tmp/restfstool-fe",
         feProjName = "fe-courseman",
-//        feTemplate = ReactNativeAppTemplate.class,
-        feProjResource = "src/main/resources/react",
-        fePlatform= FEPlatform.REACT_NATIVE,
-        feOutputPath = "D:\\UET_THS\\JDA\\work\\CourseManReactNative",
+        feProjResource = "src/main/resources/angular",
+        fePlatform = FEPlatform.REACT,
+        feOutputPath = "D:\\JDA\\CourseManReact",
         feServerPort = 5000,  // default: 3000
-        feAppClass = FEReactApp.class,
+        feAppClass = FEAngularApp.class,
         feThreaded = true,
         bePackage = "org.jda.example.coursemanrestful.modules",
-        beOutputPath = "src/main/java",
+        beOutputPath = "D:\\JDA\\jda\\examples\\courseman\\mosar\\src\\main\\java",
         beTargetPackage = "org.jda.example.coursemanrestful.backend"
         , beAppClass = BESpringApp.class,
         beServerPort = 8080  // default: 8080
-        //CourseManBESpringApp.class
-        , feTemplate = VueAppTemplate.class
 )
 
 @SystemDesc(
@@ -81,45 +66,5 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         sysModules = {},
         setUpDesc = @SysSetUpDesc(setUpConfigType = SetUpConfig.class),
         securityDesc = @SecurityDesc(isEnabled = false))
-@AppTemplateDesc(
-        templateRootFolder = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\templates",
-        resource = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactnative\\resources.zip",
-        crossTemplates = @CrossTemplatesDesc(
-                Router = @ComponentGenDesc(
-                        templates = {"Main.tsx"},
-                        genClasses = {MainGen.class}
-                ),
-                BaseService = @ComponentGenDesc(
-                        templates = {},
-                        genClasses = {}
-                ),
-                Ext = @ComponentGenDesc(
-                        templates = {"Modules.tsx"},
-                        genClasses = {ModulesGen.class, FormInputsGen.class}
-                )
-        ),
-        moduleTemplates = @ModuleTemplatesDesc(
-                List = @ComponentGenDesc(
-                        templates = {},
-                        genClasses = {}
-                ),
-                Form = @ComponentGenDesc(
-                        templates = {},
-                        genClasses = {}
-                ),
-                Main = @ComponentGenDesc(
-                        templates = {},
-                        genClasses = {}
-                ),
-                Entity = @ComponentGenDesc(
-                        templates = {},
-                        genClasses = {DataTypeGen.class}
-                ),
-                Ext = @ComponentGenDesc(
-                        templates = {},
-                        genClasses = {}
-                )
-        )
-)
 public class SCCCourseManDerby {
 }

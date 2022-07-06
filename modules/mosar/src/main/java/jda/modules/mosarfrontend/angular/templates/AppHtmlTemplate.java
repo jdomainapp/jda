@@ -1,12 +1,11 @@
 package jda.modules.mosarfrontend.angular.templates;
 
-import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosarfrontend.common.AngularSlotProperty;
 import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.LoopReplacementDesc;
+import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
-import jda.modules.mosarfrontend.common.anotation.SlotReplacementDesc;
 import jda.modules.mosarfrontend.common.factory.Slot;
+import jda.modules.mosarfrontend.common.utils.NewMCC;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -16,22 +15,17 @@ import java.util.Map;
 )
 public class AppHtmlTemplate {
 
-    @LoopReplacementDesc(slots = {"api", "title"}, id = "1")
-    public Slot[][] replaceImportModules(@RequiredParam.ModuleMap Map<Class<?>, MCC> moduleMap) {
+    @LoopReplacement(slots = {"api", "title"}, id = "1")
+    public Slot[][] replaceImportModules(@RequiredParam.ModuleMap Map<String, NewMCC> moduleMap) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        moduleMap.forEach((k, v) -> {
+        for (NewMCC mcc : moduleMap.values()) {
             ArrayList<Slot> slotValues = new ArrayList<>();
-            AngularSlotProperty prop = new AngularSlotProperty(v);
+            AngularSlotProperty prop = new AngularSlotProperty(mcc);
             slotValues.add(new Slot("api", prop.getAPI()));
             slotValues.add(new Slot("title", prop.getTitle()));
             result.add(slotValues);
-        });
-        System.out.println(result.toArray());
+        }
+//        System.out.println(result.toArray());
         return result.stream().map(v-> v.stream().toArray(Slot[]::new)).toArray(Slot[][]::new);
-    }
-
-    @SlotReplacementDesc(slot = "initialRoute")
-    public String replaceInitialRoute(@RequiredParam.ModuleMap Map<Class, MCC> moduleMap) {
-        return "Hello";
     }
 }

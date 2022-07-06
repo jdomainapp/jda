@@ -42,7 +42,6 @@ import jda.modules.setup.model.SetUpConfig;
   feOutputPath = "src/example/java/org/courseman/frontend",
   feServerPort = 5000,  // default: 3000
   feAppClass=FEReactApp.class,
-  feTemplate = ReactNativeAppTemplate.class,
   feThreaded = true,
   bePackage = "org.courseman.modules",
   beOutputPath = "src/example/java", 

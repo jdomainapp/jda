@@ -3,10 +3,10 @@ import { BaseFormComponent } from 'src/app/base/base-form/base-form.component';
 import { FormComponent } from 'src/app/common/form.component';
 
 @Component({
-  selector: '{{ view.form.selector }}',
-  templateUrl: '{{ view.form.html.path }}', //./address-form.component.html
+  selector: '@slot{{selector}}',
+  templateUrl: '@slot{{html-path}}', //./address-form.component.html
 })
-export class {{  view.name.form }} extends BaseFormComponent implements FormComponent{
+export class @slot{{componentName}} extends BaseFormComponent implements FormComponent{
     // item: any = {};  
     @Input()
     set _item(_item: any) {
@@ -14,26 +14,23 @@ export class {{  view.name.form }} extends BaseFormComponent implements FormComp
     }
     get _item(): number { return this.item; }
 
-    @Input() studentId: string = '';
-
+	override apiName = '@slot{{api}}';
+	
+	@loop{subview}[[
+    @Input() @slot{{field}}Id: string = '';    
     ngAfterViewInit() {
-      if (this.studentId) {
-        this.getStudent(this.studentId);
-        console.log('Student: ', this.item.student);
+      if (this.@slot{{field}}Id) {
+        this.@slot{{getSubFunction}}(this.@slot{{field}}Id);
+        console.log('Student: ', this.item.@slot{{field}});
       }
-    } 
-    // @Input() override show_component: boolean;
-    // set _show_component(_show_component: boolean) {
-    //   this.show_component = _show_component;
-    // }
-    // get _show_component(): boolean { return this.show_component};
-    
-    override apiName = '{{ view.api }}';
-
-    getStudent(event: any) {
+    }
+             
+    @slot{{getSubFunction}}(event: any) {
       console.log(event);
-      this.service.init('students');
-      this.getItem(event, 'student');
+      this.service.init('@slot{{subAPI}}');
+      this.getItem(event, '@slot{{field}}');
       this.service.init(this.apiName);
-    }    
+    }  
+    ]]loop{subview}@
+      
   }
