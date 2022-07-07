@@ -31,6 +31,7 @@
   <module>dompattern</module>
  <module>mosar</module>
  <module>mdsa</module>
+ <module>msacommon</module>
 <!--     <module>plugineclipse</module> -->
   </modules>
   
