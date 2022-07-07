@@ -34,7 +34,7 @@ export default class @slot{{ModuleName}}Form extends BaseForm {
         <br />
         <FormGroup>
         <Form.Label>@slot{{fieldLabel}}</Form.Label>
-        <FormControl as="select" value={this.renderObject("current.@slot{{fieldName}}")} onChange={(e) => this.props.handleStateChange("current.@slot{{fieldName}}", e.target.value, false)} custom  >
+        <FormControl as="select" value={this.renderObject("current.@slot{{fieldName}}")} onChange={(e) => this.props.handleStateChange("current.@slot{{fieldName}}", e.target.value, false)} custom @slot{{fieldOptions}} >
           <option value='' disabled selected>&lt;Please choose one&gt;</option>@slot{{enumOptions}}
         </FormControl>
         </FormGroup>]]loop{formEnumInputs}@
@@ -69,7 +69,7 @@ export default class @slot{{ModuleName}}Form extends BaseForm {
         {type==='@slot{{type}}' && <><br />
         <FormGroup>
         <Form.Label>@slot{{fieldLabel}}</Form.Label>
-        <FormControl as="select" value={this.renderObject("current.@slot{{fieldName}}")} onChange={(e) => this.props.handleStateChange("current.@slot{{fieldName}}", e.target.value, false)} custom  >
+        <FormControl as="select" value={this.renderObject("current.@slot{{fieldName}}")} onChange={(e) => this.props.handleStateChange("current.@slot{{fieldName}}", e.target.value, false)} custom @slot{{fieldOptions}} >
           <option value='' disabled selected>&lt;Please choose one&gt;</option>@slot{{enumOptions}}
         </FormControl>
         </FormGroup></>}]]loop{formTypeEnumInputs}@

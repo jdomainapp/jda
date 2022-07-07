@@ -78,7 +78,16 @@ public class FormGen extends BaseModuleGen {
     private String getFieldOptions(DAttr dAttr) {
         StringBuilder fieldOptions = new StringBuilder();
         if (dAttr.id() || !dAttr.mutable() || dAttr.auto())
-            fieldOptions.append("disabled");
+            fieldOptions.append("disabled ");
+        if (!dAttr.optional() && !dAttr.id() && !dAttr.auto()) {
+            fieldOptions.append("required ");
+        }
+        if (!Double.isInfinite(dAttr.max()))
+            fieldOptions.append("max={" + dAttr.max() + "} ");
+        if (!Double.isInfinite(dAttr.min()))
+            fieldOptions.append("min={" + dAttr.min() + "} ");
+        if (dAttr.length() > 0)
+            fieldOptions.append("maxLength={" + dAttr.length() + "} ");
         return fieldOptions.toString();
     }
 
@@ -126,6 +135,8 @@ public class FormGen extends BaseModuleGen {
             slotValues.add(new Slot("fieldLabel", fieldLabel));
             slotValues.add(new Slot("fieldName", fieldName));
             slotValues.add(new Slot("enumOptions", renderEnumOption(field.getEnumValues())));
+            slotValues.add(new Slot("fieldOptions", getFieldOptions(field.getDAttr())));
+
             result.add(slotValues);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
@@ -144,6 +155,7 @@ public class FormGen extends BaseModuleGen {
                 slotValues.add(new Slot("type", type));
                 slotValues.add(new Slot("fieldName", fieldName));
                 slotValues.add(new Slot("enumOptions", renderEnumOption(field.getEnumValues())));
+                slotValues.add(new Slot("fieldOptions", getFieldOptions(field.getDAttr())));
                 result.add(slotValues);
             }
         }
@@ -179,7 +191,7 @@ public class FormGen extends BaseModuleGen {
             String fieldLabel = field.getAttributeDesc() != null ? field.getAttributeDesc().label() : DomainNameUtil.Module__name(field.getDAttr().name());
             String fieldName = field.getDAttr().name();
             slotValues.add(new Slot("AssocWithSideOne", renderInputForSideOne(field, ModuleName)));
-            slotValues.add(new Slot("AssocWithSideMany", renderInputForSideMany(field,ModuleName)));
+            slotValues.add(new Slot("AssocWithSideMany", renderInputForSideMany(field, ModuleName)));
             slotValues.add(new Slot("type", type));
             result.add(slotValues);
         }
