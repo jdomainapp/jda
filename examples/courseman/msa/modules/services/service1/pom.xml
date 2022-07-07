@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>jda.example</groupId>
+		<artifactId>jda-eg-coursemanmsa-services</artifactId>
+		<version>1.0</version>
+	</parent>
+	<artifactId>jda-eg-coursemanmsa-service1</artifactId>
+	<name>Example: CourseMan MSA basics (Business Services)</name>
+	<packaging>pom</packaging>
+
+	<properties>
+		<jda.version>5.4-SNAPSHOT</jda.version>
+		<resilience4j.version>1.5.0</resilience4j.version>
+	</properties>
+
+	<modules>
+		<module>enrolment-service1</module>
+	</modules>
+
+</project>
