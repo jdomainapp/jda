@@ -19,7 +19,7 @@ import org.jda.example.coursemanrestful.modules.coursemodule.model.CourseModule;
  * @Overview Module for {@link CourseModule}
  */
 @ModuleDescriptor(name = "ModuleCourseModule",
-        childModules = {
+        subtypes = {
                 ModuleCompulsoryModule.class,
                 ModuleElectiveModule.class
         },

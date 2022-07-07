@@ -152,6 +152,13 @@ public @interface ModuleDescriptor {
    */
   PropertyDesc[] props() default {};
 
+  /**
+   * @author Linh Quang tran
+   * Use for declare sub-modules that extended this
+   * @return
+   */
+  Class<?>[] subtypes() default {};
+
 //  /**
 //   * List of service-typed MCCs whose services are used by this module.<br> 
 //   *  

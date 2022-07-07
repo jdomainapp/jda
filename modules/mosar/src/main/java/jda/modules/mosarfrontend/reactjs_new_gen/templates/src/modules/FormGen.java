@@ -39,19 +39,27 @@ public class FormGen extends BaseModuleGen {
         return !subDomains.isEmpty();
     }
 
-    @LoopReplacement(id = "formInputs")
-    public Slot[][] formInputs(@RequiredParam.ModuleFields DField[] dFields) {
-        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        for (DField field : Arrays.stream(dFields).filter(f -> f.getDAssoc() == null && f.getEnumValues() == null).toArray(DField[]::new)) {
+    public void addBasicSlotForInput(DField[] dFields, ArrayList<ArrayList<Slot>> result, String type) {
+        for (DField field : dFields) {
             ArrayList<Slot> slotValues = new ArrayList<>();
             String fieldLabel = field.getAttributeDesc() != null ? field.getAttributeDesc().label() : Inflector.getInstance().titleCase(field.getDAttr().name());
             String fieldName = field.getDAttr().name();
             slotValues.add(new Slot("fieldLabel", fieldLabel));
+            slotValues.add(new Slot("type", type));
             slotValues.add(new Slot("fieldName", fieldName));
             slotValues.add(new Slot("fieldType", getFieldType(field.getDAttr().type())));
+            if (field.getEnumValues() != null)
+                slotValues.add(new Slot("enumOptions", renderEnumOption(field.getEnumValues())));
             slotValues.add(new Slot("fieldOptions", getFieldOptions(field.getDAttr())));
             result.add(slotValues);
         }
+    }
+
+    @LoopReplacement(id = "formInputs")
+    public Slot[][] formInputs(@RequiredParam.ModuleFields DField[] dFields) {
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        DField[] fields = Arrays.stream(dFields).filter(f -> f.getDAssoc() == null).toArray(DField[]::new);
+        addBasicSlotForInput(fields, result, null);
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
@@ -59,18 +67,8 @@ public class FormGen extends BaseModuleGen {
     public Slot[][] formTypeInputs(@RequiredParam.SubDomains Map<String, Domain> subDomain) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String type : subDomain.keySet()) {
-            DField[] dFields = subDomain.get(type).getDFields();
-            for (DField field : Arrays.stream(dFields).filter(f -> f.getDAssoc() == null && f.getEnumValues() == null).toArray(DField[]::new)) {
-                ArrayList<Slot> slotValues = new ArrayList<>();
-                String fieldLabel = field.getAttributeDesc() != null ? field.getAttributeDesc().label() : Inflector.getInstance().titleCase(field.getDAttr().name());
-                String fieldName = field.getDAttr().name();
-                slotValues.add(new Slot("fieldLabel", fieldLabel));
-                slotValues.add(new Slot("type", type));
-                slotValues.add(new Slot("fieldName", fieldName));
-                slotValues.add(new Slot("fieldType", getFieldType(field.getDAttr().type())));
-                slotValues.add(new Slot("fieldOptions", getFieldOptions(field.getDAttr())));
-                result.add(slotValues);
-            }
+            DField[] dFields = Arrays.stream(subDomain.get(type).getDFields()).filter(f -> f.getDAssoc() == null).toArray(DField[]::new);
+            addBasicSlotForInput(dFields, result, type);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
@@ -128,17 +126,7 @@ public class FormGen extends BaseModuleGen {
     @LoopReplacement(id = "formEnumInputs")
     public Slot[][] formEnumInputs(@RequiredParam.ModuleFields DField[] dFields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        for (DField field : Arrays.stream(dFields).filter(f -> f.getEnumValues() != null).toArray(DField[]::new)) {
-            ArrayList<Slot> slotValues = new ArrayList<>();
-            String fieldLabel = field.getAttributeDesc() != null ? field.getAttributeDesc().label() : Inflector.getInstance().titleCase(field.getDAttr().name());
-            String fieldName = field.getDAttr().name();
-            slotValues.add(new Slot("fieldLabel", fieldLabel));
-            slotValues.add(new Slot("fieldName", fieldName));
-            slotValues.add(new Slot("enumOptions", renderEnumOption(field.getEnumValues())));
-            slotValues.add(new Slot("fieldOptions", getFieldOptions(field.getDAttr())));
-
-            result.add(slotValues);
-        }
+        addBasicSlotForInput(Arrays.stream(dFields).filter(f -> f.getEnumValues() != null).toArray(DField[]::new), result, null);
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
@@ -146,18 +134,8 @@ public class FormGen extends BaseModuleGen {
     public Slot[][] formTypeEnumInputs(@RequiredParam.SubDomains Map<String, Domain> subDomain) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String type : subDomain.keySet()) {
-            DField[] dFields = subDomain.get(type).getDFields();
-            for (DField field : Arrays.stream(dFields).filter(f -> f.getEnumValues() != null).toArray(DField[]::new)) {
-                ArrayList<Slot> slotValues = new ArrayList<>();
-                String fieldLabel = field.getAttributeDesc() != null ? field.getAttributeDesc().label() : Inflector.getInstance().titleCase(field.getDAttr().name());
-                String fieldName = field.getDAttr().name();
-                slotValues.add(new Slot("fieldLabel", fieldLabel));
-                slotValues.add(new Slot("type", type));
-                slotValues.add(new Slot("fieldName", fieldName));
-                slotValues.add(new Slot("enumOptions", renderEnumOption(field.getEnumValues())));
-                slotValues.add(new Slot("fieldOptions", getFieldOptions(field.getDAttr())));
-                result.add(slotValues);
-            }
+            DField[] dFields = Arrays.stream(subDomain.get(type).getDFields()).filter(f -> f.getEnumValues() != null).toArray(DField[]::new);
+            addBasicSlotForInput(dFields, result, type);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
