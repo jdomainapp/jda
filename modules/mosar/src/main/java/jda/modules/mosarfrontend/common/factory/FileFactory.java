@@ -159,7 +159,7 @@ public class FileFactory {
                         Pattern regex = regexUtils.createSlotRegex(slot.getSlotName());
                         Matcher subMatcher = regex.matcher(loopContent);
                         if (subMatcher.find()) {
-                            loopContent = subMatcher.replaceAll(slot.getSlotValue());
+                            loopContent = subMatcher.replaceAll(slot.getSlotValue() != null ? slot.getSlotValue() : "");
                         }
                     }
                     replaceValue.append(loopContent);

@@ -6,17 +6,25 @@ import lombok.Data;
 @Data
 public class NewMCC extends Domain {
     private ModuleDescriptor moduleDescriptor;
+
+
     public static NewMCC readMCC(Class<?> cls) {
-        System.out.println(cls);
         NewMCC newMCC = new NewMCC();
         newMCC.setModuleDescriptor(cls.getAnnotation(ModuleDescriptor.class));
         Class<?> domainCls = newMCC.getModuleDescriptor().modelDesc().model();
         newMCC.readDomain(domainCls);
+        // read sub module:
+        for (Class aClass : newMCC.moduleDescriptor.childModules()) {
+            NewMCC subMCC = NewMCC.readMCC(aClass);
+            newMCC.addSubDomain(subMCC, subMCC.type);
+        }
         return newMCC;
     }
+
     public ModuleDescriptor getModuleDescriptor() {
         return moduleDescriptor;
     }
+
     public void setModuleDescriptor(ModuleDescriptor moduleDescriptor) {
         this.moduleDescriptor = moduleDescriptor;
     }

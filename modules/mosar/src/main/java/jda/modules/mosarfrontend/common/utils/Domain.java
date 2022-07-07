@@ -1,6 +1,7 @@
 package jda.modules.mosarfrontend.common.utils;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dcsl.syntax.DClass;
@@ -45,11 +46,12 @@ public class Domain {
         return subDomains;
     }
 
-    public void setSubDomains(Map<String, Domain> subDomains) {
-        this.subDomains = subDomains;
+    public void addSubDomain(Domain domain, String type) {
+        this.subDomains.put(type, domain);
     }
 
     protected DClass dClass;
+    protected String type;// use for sub domain
     protected DField[] dFields;
     protected DField idField;
     protected Map<String, Domain> subDomains = new HashMap<>();
@@ -84,14 +86,9 @@ public class Domain {
             this.dFields = fields.toArray(DField[]::new);
 
             // Read subModule
-            if (domainCls.isAnnotationPresent(JsonSubTypes.class)) {
-                JsonSubTypes anno = (JsonSubTypes) domainCls.getAnnotation(JsonSubTypes.class);
-                ArrayList<Domain> subDomains = new ArrayList<>();
-                for (JsonSubTypes.Type type : anno.value()) {
-                    Domain subDomain = new Domain();
-                    subDomain.readDomain(type.value());
-                    this.subDomains.put(type.name(), subDomain);
-                }
+            if (domainCls.isAnnotationPresent(JsonTypeName.class)) {
+                JsonTypeName anno = (JsonTypeName) domainCls.getAnnotation(JsonTypeName.class);
+                this.type = anno.value();
             }
         }
 
