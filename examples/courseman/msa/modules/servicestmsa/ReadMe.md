@@ -173,11 +173,15 @@ CREATE TABLE IF NOT EXISTS coursemgnt.teacher
 
 # Link patterns 
 `http://localhost:8072/academicadmin-service/assessmenthub/[student/teacher/enrolment/coursemodule]/{id}`
+
 `http://localhost:8072/assessmenthub-service/[student/teacher/enrolment/coursemodule]/{id}`
 
 `http://localhost:8072/academicadmin-service/coursemgnt/studentenrolment/[student/enrolment]/{id}`
+
 `http://localhost:8072/academicadmin-service/coursemgnt/coursemodulemgnt/[student/coursemodule]/{id}`
+
 `http://localhost:8072/coursemgnt-service/studentenrolment/[student/enrolment]/{id}`
+
 `http://localhost:8072/coursemgnt-service/coursemodulemgnt/[student/coursemodule]/{id}`
 
 
