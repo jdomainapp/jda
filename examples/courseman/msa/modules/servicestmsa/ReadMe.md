@@ -34,7 +34,7 @@ bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic teach
 # Create databases
 
 - Each service create a postgresql database `domainds` with user/password: admin/password
-- Create schema `assessmenthub` have 4 tables:
+## Create schema `assessmenthub` have 4 tables:
 ```
 CREATE TABLE IF NOT EXISTS assessmenthub.coursemodule
 (
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS assessmenthub.teacher
     CONSTRAINT teacher_pkey PRIMARY KEY (id)
 );
 ```
-- Create schema `coursemgnt` have 4 tables:
+## Create schema `coursemgnt` have 4 tables:
 ```
 CREATE TABLE IF NOT EXISTS coursemgnt.coursemodule
 (
