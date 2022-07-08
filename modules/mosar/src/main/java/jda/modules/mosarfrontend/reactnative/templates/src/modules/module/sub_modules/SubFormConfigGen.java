@@ -1,6 +1,5 @@
 package jda.modules.mosarfrontend.reactnative.templates.src.modules.module.sub_modules;
 
-import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.mosarfrontend.common.anotation.*;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
@@ -12,16 +11,6 @@ import java.util.Arrays;
 
 @FileTemplateDesc(templateFile = "/src/modules/module/sub_modules/FormConfig.ts")
 public class SubFormConfigGen extends CommonSubModuleGen {
-
-//    @WithFilePath
-//    public String withFilePath(@RequiredParam.ModuleName String moduleName, @RequiredParam.CurrentSubDomain Domain subDomain) {
-//        return "/src/modules/" + moduleName.toLowerCase() + "/sub_modules/" + subDomain.getDomainClass().getSimpleName().toLowerCase();
-//    }
-
-    @SlotReplacement(slot = "ModuleName")
-    public String ModuleName(@RequiredParam.ModuleName String moduleName) {
-        return moduleName;
-    }
 
     @SlotReplacement(slot = "SubModuleName")
     public String SubModuleName(@RequiredParam.CurrentSubDomain Domain subDomain) {
@@ -44,10 +33,10 @@ public class SubFormConfigGen extends CommonSubModuleGen {
         ArrayList<String> imported = new ArrayList<>();
         for (DField field : Arrays.stream(subDomain.getDFields()).filter(f -> f.getDAssoc() == null).toArray(DField[]::new)) {
             ArrayList<Slot> list = new ArrayList<>();
-            String fieldType = getFieldType(field);
+            String fieldType = FormConfigGen.getFieldType(field);
             if (!imported.contains(fieldType)) {
                 imported.add(fieldType);
-                list.add(new Slot("FieldType", getFieldType(field)));
+                list.add(new Slot("FieldType", FormConfigGen.getFieldType(field)));
                 result.add(list);
             }
         }
@@ -60,7 +49,7 @@ public class SubFormConfigGen extends CommonSubModuleGen {
         ArrayList<String> imported = new ArrayList<>();
         for (DField field : Arrays.stream(subDomain.getDFields()).filter(f -> f.getDAssoc() != null).toArray(DField[]::new)) {
             ArrayList<Slot> list = new ArrayList<>();
-            String fieldType = getFieldType(field);
+            String fieldType = FormConfigGen.getFieldType(field);
             if (!imported.contains(fieldType)) {
                 imported.add(fieldType);
                 list.add(new Slot("DomainName", fieldType));
@@ -77,59 +66,10 @@ public class SubFormConfigGen extends CommonSubModuleGen {
         for (DField field : subDomain.getDFields()) {
             ArrayList<Slot> list = new ArrayList<>();
             list.add(new Slot("fieldName", field.getDAttr().name()));
-            list.add(new Slot("formType", "Form" + getFieldType(field) + "Input"));
-            list.add(new Slot("ruleChecks", FormConfigGen.getRuleCheck(field.getDAttr())));
+            list.add(new Slot("formType", "Form" + FormConfigGen.getFieldType(field) + "Input"));
+            list.add(new Slot("options", FormConfigGen.getOptions(field)));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
-
-    public String getFieldType(DField field) {
-        DAssoc ass = field.getDAssoc();
-        switch (field.getDAttr().type()) {
-            case String:
-            case StringMasked:
-            case Char:
-            case Image:
-            case Serializable:
-            case Font:
-            case Color:
-                return "String";
-            case Integer:
-            case BigInteger:
-            case Long:
-            case Float:
-            case Double:
-            case Short:
-            case Byte:
-                return "Number";
-            case Boolean:
-                // TODO this case is not handled
-                return "Boolean";
-            case Domain:
-                if (ass != null && ass.associate() != null && ass.associate().type() != null) {
-                    return ass.associate().type().getSimpleName();
-                } else if (field.getEnumName() != null) {
-                    return field.getEnumName();
-                } else {
-                    return null;
-                }
-            case Collection:
-            case Array:
-                if (ass != null && ass.associate() != null && ass.associate().type() != null) {
-                    return "Multi" + ass.associate().type().getSimpleName();
-                } else return null;
-            case File:
-            case Other:
-            case Null:
-                return null;
-            case Date:
-                return "Date";
-            case ByteArraySmall:
-            case ByteArrayLarge:
-                return "MultiNumber";
-        }
-        return "any";
-    }
-
 }

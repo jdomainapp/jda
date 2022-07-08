@@ -43,7 +43,7 @@ public class FormConfigGen extends CommonModuleGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacement(id = "importDomainInput", slots = {"DomainName", "domainName"})
+    @LoopReplacement(id = "importDomainInput")
     public Slot[][] importDomainInput(@RequiredParam.ModuleFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         ArrayList<String> imported = new ArrayList<>();
@@ -52,12 +52,13 @@ public class FormConfigGen extends CommonModuleGen {
             String fieldType = getFieldType(field);
             if (!imported.contains(fieldType)) {
                 imported.add(fieldType);
-                list.add(new Slot("DomainName", fieldType));
-                list.add(new Slot("domainName", moduleName(field.getDAssoc().associate().type().getSimpleName())));
+                list.add(new Slot("InputType", fieldType));
+                list.add(new Slot("linked_domain", module_name(field.getDAssoc().associate().type().getSimpleName())));
                 result.add(list);
             }
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+
     }
 
     @LoopReplacement(id = "formConfig", slots = {"fieldName", "formType", "options"})
@@ -67,19 +68,27 @@ public class FormConfigGen extends CommonModuleGen {
             ArrayList<Slot> list = new ArrayList<>();
             list.add(new Slot("fieldName", field.getDAttr().name()));
             list.add(new Slot("formType", "Form" + getFieldType(field) + "Input"));
-            list.add(new Slot("options", getOptions(field.getDAttr())));
+            list.add(new Slot("options", getOptions(field)));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    private String getOptions(DAttr dAttr) {
+    public static String getOptions(DField field) {
         boolean haveOption = false;
         String options = "options:{";
-        String ruleCheck = getRuleCheck(dAttr);
+        if (!field.getDAttr().mutable() && field.getDAttr().id() || field.getDAttr().auto()) {
+            haveOption = true;
+            options += "disabled:true, ";
+        }
+        String ruleCheck = getRuleCheck(field.getDAttr());
         if (ruleCheck.length() > 0) {
             haveOption = true;
             options += "rules:{" + ruleCheck + "},";
+        }
+        if (field.getLinkedDomain() != null) {
+            haveOption = true;
+            options += "module: Modules." + field.getLinkedDomain().getDomainClass().getSimpleName() + ",";
         }
         options += "},";
         return haveOption ? options : "";
@@ -88,13 +97,13 @@ public class FormConfigGen extends CommonModuleGen {
     public static String getRuleCheck(DAttr dAttr) {
         String ruleCheck = "";
         if (!dAttr.optional() && !dAttr.id() && !dAttr.auto())
-            ruleCheck += "required:true,\n";
+            ruleCheck += "required:true, ";
         if (!Double.isInfinite(dAttr.max()))
-            ruleCheck += "max:" + dAttr.max() + ",\n";
+            ruleCheck += "max:" + dAttr.max() + ", ";
         if (!Double.isInfinite(dAttr.min()))
-            ruleCheck += "min:" + dAttr.min() + ",\n";
+            ruleCheck += "min:" + dAttr.min() + ", ";
         if (dAttr.length() > 0)
-            ruleCheck += "maxLength:" + dAttr.length() + ",\n";
+            ruleCheck += "maxLength:" + dAttr.length() + ", ";
         return ruleCheck;
     }
 
@@ -112,7 +121,7 @@ public class FormConfigGen extends CommonModuleGen {
     }
 
 
-    public String getFieldType(DField field) {
+    public static String getFieldType(DField field) {
         DAssoc ass = field.getDAssoc();
         switch (field.getDAttr().type()) {
             case String:

@@ -37,7 +37,7 @@ public class IndexGen extends CommonModuleGen {
         for (Domain type : moduleMap.values()) {
             ArrayList<Slot> list = new ArrayList<>();
             list.add(new Slot("SubModuleName", type.getDomainClass().getSimpleName()));
-            list.add(new Slot("submoduleFolder", moduleName(type.getDomainClass().getSimpleName())));
+            list.add(new Slot("submoduleFolder", module_name(type.getDomainClass().getSimpleName())));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
