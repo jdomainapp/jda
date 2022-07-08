@@ -3,7 +3,7 @@ package jda.modules.mosarfrontend.reactjs_new_gen.templates.src.modules;
 import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.mosarfrontend.common.anotation.*;
-import jda.modules.mosarfrontend.common.factory.RegexUtils;
+import jda.modules.mosarfrontend.common.utils.RegexUtils;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;

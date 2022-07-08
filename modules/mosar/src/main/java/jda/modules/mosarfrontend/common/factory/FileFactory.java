@@ -1,6 +1,8 @@
 package jda.modules.mosarfrontend.common.factory;
 
 import jda.modules.mosarfrontend.common.anotation.*;
+import jda.modules.mosarfrontend.common.utils.MethodUtils;
+import jda.modules.mosarfrontend.common.utils.RegexUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,29 +15,6 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-class MethodUtils {
-    public static <T> T execute(Object executor, Method method, Class<T> returnType) {
-        Object[] params = ParamsFactory.getInstance().getParamsForMethod(method);
-        if (method.getParameters().length == params.length) {
-            try {
-                return returnType.cast(method.invoke(executor, params));
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                System.out.println("Error when trigger " + method.getName() + "()");
-                e.printStackTrace();
-                return null;
-            } catch (IllegalArgumentException e) {
-                System.out.println("Error when trigger " + method.getName() + "()");
-                System.out.println("Wrong argument type!");
-                System.out.println("Method arguments: " + Arrays.stream(method.getParameters()).map(p -> String.format("(%s:%s),", p.getName(), p.getType().getSimpleName())).collect(Collectors.joining()));
-                System.out.println("Try to pass arguments: (" + Arrays.stream(params).map(p -> String.format("%s ,", p.getClass().getSimpleName())).collect(Collectors.joining()) + ")");
-                e.printStackTrace();
-                return null;
-            }
-        } else return null;
-    }
-}
 
 
 public class FileFactory {
@@ -86,14 +65,18 @@ public class FileFactory {
         }
     }
 
+    private static String getTemplate(String pathFromRoot) throws Exception {
+        try {
+            return Files.readString(Paths.get(ParamsFactory.getInstance().getTEMPLATE_ROOT_FOLDER())
+                    .resolve(pathFromRoot.charAt(0) == '/' ? pathFromRoot.substring(1) : pathFromRoot));
+        } catch (IOException e) {
+            throw new Exception("Template file not found: " + pathFromRoot);
+        }
+    }
+
     private void initFileTemplate() throws Exception {
         // get template file content
-        String templateFilePath = templateRootFolder + this.fileTemplate.templateFile().replace("/", "\\");
-        try {
-            this.fileContent = Files.readString(Paths.get(templateFilePath));
-        } catch (IOException e) {
-            throw new Exception("Template file not found");
-        }
+        this.fileContent = getTemplate(this.fileTemplate.templateFile());
         // init default properties of file ( ext, name, path)
         initDefaultFileInfo();
 
@@ -141,6 +124,38 @@ public class FileFactory {
         return false;
     }
 
+    public static String replaceLoopWithTemplate(String template, String loopID, Slot[][] slots) {
+        String content = new String(template);
+        final Pattern pattern = RegexUtils.createLoopRegex(loopID);
+        final Matcher matcher = pattern.matcher(content);
+        if (matcher.find()) {
+            //replace single_slot in loop
+            StringBuilder replaceValue = new StringBuilder();
+            for (Slot[] loopValue : slots) {
+                String loopContent = matcher.group(2);
+                for (Slot slot : loopValue) {
+                    Pattern regex = RegexUtils.createSlotRegex(slot.getSlotName());
+                    Matcher subMatcher = regex.matcher(loopContent);
+                    if (subMatcher.find()) {
+                        loopContent = subMatcher.replaceAll(slot.getSlotValue() != null ? slot.getSlotValue() : "");
+                    }
+                }
+                replaceValue.append(loopContent);
+            }
+            content = matcher.replaceAll(replaceValue.toString());
+        }
+        return content;
+    }
+
+    public static String replaceLoopWithFileTemplate(String filePath, String loopID, Slot[][] slots) throws Exception {
+        try {
+            String template = FileFactory.getTemplate(filePath);
+            return replaceLoopWithTemplate(template, loopID, slots);
+        } catch (IOException e) {
+            throw new Exception("Template file not found");
+        }
+    }
+
     @LoopReplacement
     private boolean replaceLoops(Method replaceMethod) {
         if (replaceMethod.getReturnType() != Slot[][].class) return true;
@@ -148,24 +163,7 @@ public class FileFactory {
         if (loopValues != null) {
             LoopReplacement ano = replaceMethod.getAnnotation(LoopReplacement.class);
             // get loop content
-            final Pattern pattern = regexUtils.createLoopRegex(ano);
-            final Matcher matcher = pattern.matcher(this.fileContent);
-            if (matcher.find()) {
-                //replace single_slot in loop
-                StringBuilder replaceValue = new StringBuilder();
-                for (Slot[] loopValue : loopValues) {
-                    String loopContent = matcher.group(2);
-                    for (Slot slot : loopValue) {
-                        Pattern regex = regexUtils.createSlotRegex(slot.getSlotName());
-                        Matcher subMatcher = regex.matcher(loopContent);
-                        if (subMatcher.find()) {
-                            loopContent = subMatcher.replaceAll(slot.getSlotValue() != null ? slot.getSlotValue() : "");
-                        }
-                    }
-                    replaceValue.append(loopContent);
-                }
-                this.fileContent = matcher.replaceAll(replaceValue.toString());
-            }
+            this.fileContent = replaceLoopWithTemplate(this.fileContent, ano.id(), loopValues);
         }
         return false;
     }

@@ -1,4 +1,4 @@
-export default class AddressForm {
+export default class @slot{{ModuleName}}Form {
     constructor() {
         @loop{initHid}[[
         this.hid@slot{{FieldName}} = true;]]loop{initHid}@

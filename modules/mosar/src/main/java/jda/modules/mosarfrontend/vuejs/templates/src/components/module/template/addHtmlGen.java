@@ -1,26 +1,57 @@
 package jda.modules.mosarfrontend.vuejs.templates.src.components.module.template;
 
-import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
-import jda.modules.mosarfrontend.common.anotation.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.*;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
-import jda.modules.mosarfrontend.common.utils.common_gen.FieldsUtil;
+import jda.modules.mosarfrontend.common.utils.Domain;
+import jda.modules.mosarfrontend.common.utils.MethodUtils;
+import jda.modules.mosarfrontend.common.utils.common_gen.DomainNameUtil;
+import jda.modules.mosarfrontend.vuejs.templates.src.components.module.template.inputTemplates.InputsGen;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 @FileTemplateDesc(
-        templateFile = "/src/components/module/template/add.html"
+        templateFile = "/src/components/module/template/form.html"
 )
 public class addHtmlGen extends ModuleTemplateGenBase {
-
-    @LoopReplacement(id = "linkedDomainFormInput")
-    public Slot[][] LinkedDomainFormInput(@RequiredParam.DomainFields DField[] dFields) {
-        return LinkedDomain_linked_domain(dFields);
+    public boolean getAddMode() {
+        return true;
     }
 
-    @LoopReplacement(id = "NormalFormInput")
-    public Slot[][] NormalFormInput(@RequiredParam.ModuleFields DField[] dFields) {
-        return FieldsUtil.getBasicFieldSlots(Arrays.stream(dFields).filter(f -> f.getDAssoc() == null).toArray(DField[]::new));
+    @WithFileName
+    public String fileName() {
+        return "add";
+    }
+
+    ;
+
+    @SlotReplacement(slot = "normalInputs")
+    public String normalInputs(@RequiredParam.ModuleFields DField[] dFields, @RequiredParam.ModuleName String ModuleName) {
+        return InputsGen.getNormalInputs(dFields, DomainNameUtil.moduleName(ModuleName), null);
+    }
+
+    @SlotReplacement(slot = "enumInputs")
+    public String enumInputs(@RequiredParam.ModuleFields DField[] dFields, @RequiredParam.ModuleName String ModuleName) {
+        return InputsGen.getEnumInputs(dFields, DomainNameUtil.moduleName(ModuleName), null);
+    }
+
+    @SlotReplacement(slot = "linkedInputs")
+    public String linkedInputs(@RequiredParam.ModuleFields DField[] dFields, @RequiredParam.ModuleName String ModuleName) {
+        return InputsGen.getLinkedInputs(dFields, DomainNameUtil.moduleName(ModuleName), null, this.getAddMode());
+    }
+
+    @LoopReplacement(id = "subTypeInputs")
+    public Slot[][] subTypeInputs(@RequiredParam.SubDomains Map<String, Domain> subDomains, @RequiredParam.ModuleName String ModuleName) {
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        for (String type : subDomains.keySet()) {
+            result.add(new ArrayList<>(Arrays.asList(
+                    new Slot("normalTypedInputs", InputsGen.getNormalInputs(subDomains.get(type).getDFields(), ModuleName, type)),
+                    new Slot("enumTypedInputs", InputsGen.getEnumInputs(subDomains.get(type).getDFields(), ModuleName, type)),
+                    new Slot("linkedTypedInputs", InputsGen.getLinkedInputs(subDomains.get(type).getDFields(), ModuleName, type, this.getAddMode()))
+            )));
+        }
+        return MethodUtils.toLoopData(result);
     }
 }

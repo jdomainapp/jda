@@ -1,0 +1,12 @@
+<form v-on:submit.prevent="create">
+    @slot{{normalInputs}}
+    @slot{{enumInputs}}
+    @slot{{linkedInputs}}@loop{subTypeInputs}[[    @slot{{normalTypedInputs}}    @slot{{enumTypedInputs}}    @slot{{linkedTypedInputs}}
+    ]]loop{subTypeInputs}@
+    <div class="d-flex justify-content-end mx-0 row">
+        <div class="col-md-9"></div>
+        <button type="button" class="btn btn-secondary">Reset</button>
+        <button class="ml-2 btn btn-primary">Save</button>
+    </div>
+    <Toasts></Toasts>
+</form>

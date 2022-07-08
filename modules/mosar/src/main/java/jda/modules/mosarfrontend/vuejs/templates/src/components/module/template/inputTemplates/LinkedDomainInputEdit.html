@@ -1,12 +1,5 @@
-<form v-on:submit.prevent="create">
-    @loop{NormalFormInput}[[
-    <div class="form-group" v-if="form.hid@slot{{fieldLabel}} == true">
-        <label class="form-label">@slot{{fieldLabel}}</label>
-        <input disabled="" type="number" class="form-control" id="@slot{{fieldName}}" v-model="@slot{{moduleName}}.@slot{{fieldName}}">
-    </div>
-    <br>]]loop{NormalFormInput}@
-@loop{linkedDomainFormInput}[[
-    <div class="d-flex flex-wrap justify-content-between align-items-end form-group" v-if="form.hid@slot{{LinkedDomain}} == true">
+    @loop{linkedDomainFormInput}[[
+    <div class="d-flex flex-wrap justify-content-between align-items-end form-group" v-if="form.hid@slot{{LinkedDomain}} == true @slot{{vIfForTyped}}">
         <div class="px-0 col-md-2.5">
             <label class="form-label">@slot{{Linked__domain}} ID</label>
             <input type="text"class="form-control" value="" v-model="student.id" v-on:change="getStudentById">
@@ -26,12 +19,4 @@
     <div class="form-group" v-if="formSubModule@slot{{LinkedDomain}}Seen">
         <form-sub-module-@slot{{linkedJdomain}} v-bind:@slot{{linkedDomain}}Id="@slot{{linkedDomain}}.@slot{{linkedIdField}}"></form-sub-module-@slot{{linkedJdomain}}>
     </div>
-    <br><br>
-]]loop{linkedDomainFormInput}@
-    <div class="d-flex justify-content-end mx-0 row">
-        <div class="col-md-9"></div>
-        <button type="button" class="btn btn-secondary">Reset</button>
-        <button class="ml-2 btn btn-primary">Save</button>
-    </div>
-    <Toasts></Toasts>
-</form>
+    <br>]]loop{linkedDomainFormInput}@

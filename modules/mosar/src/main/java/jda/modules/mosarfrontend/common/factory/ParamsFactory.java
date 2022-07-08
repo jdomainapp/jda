@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ParamsFactory {
+    private String TEMPLATE_ROOT_FOLDER;
     public String[] modulesName; // Save for later trigger getModulesName()
     private static ParamsFactory instance;
     private final HashMap<Annotation, Method> methods = new HashMap<>();
@@ -181,6 +182,14 @@ public class ParamsFactory {
             };
         });
         return domains.toArray(Domain[]::new);
+    }
+
+    public String getTEMPLATE_ROOT_FOLDER() {
+        return TEMPLATE_ROOT_FOLDER;
+    }
+
+    public void setTEMPLATE_ROOT_FOLDER(String TEMPLATE_ROOT_FOLDER) {
+        this.TEMPLATE_ROOT_FOLDER = TEMPLATE_ROOT_FOLDER;
     }
 }
 

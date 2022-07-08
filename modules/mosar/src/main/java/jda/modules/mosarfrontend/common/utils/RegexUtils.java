@@ -1,4 +1,4 @@
-package jda.modules.mosarfrontend.common.factory;
+package jda.modules.mosarfrontend.common.utils;
 
 import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
 
@@ -9,13 +9,9 @@ public class RegexUtils {
         return Pattern.compile(String.format("@slot\\{\\{\\s*%s\\s*\\}\\}", slot), Pattern.DOTALL);
     }
 
-    public static Pattern createLoopRegex(LoopReplacement loop) {
+    public static Pattern createLoopRegex(String id) {
         StringBuilder singleSlotsRegex = new StringBuilder();
-        for (String slot : loop.slots()) {
-            singleSlotsRegex.append(createSlotRegex(slot));
-            singleSlotsRegex.append(".*");
-        }
-        return Pattern.compile(String.format("@loop(?<li>\\{%s})\\[\\[(.*)]]loop(\\k<li>)@", loop.id()), Pattern.DOTALL);
+        return Pattern.compile(String.format("@loop(?<li>\\{%s})\\[\\[(.*)]]loop(\\k<li>)@", id), Pattern.DOTALL);
     }
 
     public static Pattern createIfRegex(String id) {

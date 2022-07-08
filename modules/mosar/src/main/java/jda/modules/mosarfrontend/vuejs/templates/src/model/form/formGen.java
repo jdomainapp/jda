@@ -12,7 +12,7 @@ import jda.modules.mosarfrontend.common.utils.common_gen.FieldsUtil;
 @FileTemplateDesc(
         templateFile = "/src/model/form/form.js"
 )
-public class formGen{
+public class formGen extends DomainNameUtil{
     @LoopReplacement(id = "initHid")
     public Slot[][] initHid(@RequiredParam.ModuleFields DField[] dFields){
         return FieldsUtil.getBasicFieldSlots(dFields);
