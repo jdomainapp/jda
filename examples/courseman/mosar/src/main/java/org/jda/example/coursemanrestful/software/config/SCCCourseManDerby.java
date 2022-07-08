@@ -26,8 +26,8 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         feProjPath = "/home/ducmle/tmp/restfstool-fe",
         feProjName = "fe-courseman",
         feProjResource = "src/main/resources/angular",
-        fePlatform = FEPlatform.REACT,
-        feOutputPath = "D:\\JDA\\CourseManReact",
+        fePlatform = FEPlatform.VUE_JS,
+        feOutputPath = "D:\\JDA\\CourseManVueJs",
         feServerPort = 5000,  // default: 3000
         feAppClass = FEAngularApp.class,
         feThreaded = true,

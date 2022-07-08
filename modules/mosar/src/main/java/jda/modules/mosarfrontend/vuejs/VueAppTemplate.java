@@ -23,8 +23,8 @@ import jda.modules.mosarfrontend.vuejs.templates.src.router.pathGen;
 import jda.modules.mosarfrontend.vuejs.templates.src.router.routerGen;
 
 @AppTemplateDesc(
-        templateRootFolder = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\templates",
-        resource = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\vueTemplateResources.zip",
+        templateRootFolder = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\templates",
+        resource = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\vueTemplateResources.zip",
         crossTemplates = @CrossTemplatesDesc(
                 Router = @ComponentGenDesc(
                         genClasses = {routerGen.class, pathGen.class, nameGen.class, headerGen.class}
