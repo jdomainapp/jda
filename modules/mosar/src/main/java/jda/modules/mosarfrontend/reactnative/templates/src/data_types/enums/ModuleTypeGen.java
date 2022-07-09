@@ -15,7 +15,7 @@ public class ModuleTypeGen {
     }
 
     @WithFileName
-    @SlotReplacement(slot = "enumName")
+    @SlotReplacement(id = "enumName")
     public String getFileName(@RequiredParam.ModuleName String moduleName) {
         return moduleName + "Type";
     }

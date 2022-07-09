@@ -5,7 +5,7 @@ import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
 import jda.modules.mosarfrontend.common.utils.MethodUtils;
-import jda.modules.mosarfrontend.common.utils.common_gen.DomainNameUtil;
+import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
 import jda.modules.mosarfrontend.vuejs.templates.src.components.module.template.inputTemplates.InputsGen;
 
 import java.util.ArrayList;
@@ -27,19 +27,19 @@ public class addHtmlGen extends ModuleTemplateGenBase {
 
     ;
 
-    @SlotReplacement(slot = "normalInputs")
+    @SlotReplacement(id = "normalInputs")
     public String normalInputs(@RequiredParam.ModuleFields DField[] dFields, @RequiredParam.ModuleName String ModuleName) {
-        return InputsGen.getNormalInputs(dFields, DomainNameUtil.moduleName(ModuleName), null);
+        return InputsGen.getNormalInputs(dFields, NameFormatter.moduleName(ModuleName), null);
     }
 
-    @SlotReplacement(slot = "enumInputs")
+    @SlotReplacement(id = "enumInputs")
     public String enumInputs(@RequiredParam.ModuleFields DField[] dFields, @RequiredParam.ModuleName String ModuleName) {
-        return InputsGen.getEnumInputs(dFields, DomainNameUtil.moduleName(ModuleName), null);
+        return InputsGen.getEnumInputs(dFields, NameFormatter.moduleName(ModuleName), null);
     }
 
-    @SlotReplacement(slot = "linkedInputs")
+    @SlotReplacement(id = "linkedInputs")
     public String linkedInputs(@RequiredParam.ModuleFields DField[] dFields, @RequiredParam.ModuleName String ModuleName) {
-        return InputsGen.getLinkedInputs(dFields, DomainNameUtil.moduleName(ModuleName), null, this.getAddMode());
+        return InputsGen.getLinkedInputs(dFields, NameFormatter.moduleName(ModuleName), null, this.getAddMode());
     }
 
     @LoopReplacement(id = "subTypeInputs")

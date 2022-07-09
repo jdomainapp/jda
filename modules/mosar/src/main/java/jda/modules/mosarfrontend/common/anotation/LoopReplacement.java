@@ -9,5 +9,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface LoopReplacement {
     String id() default "";
+
+    String[] ids() default {};
+
     String[] slots() default {};
 }

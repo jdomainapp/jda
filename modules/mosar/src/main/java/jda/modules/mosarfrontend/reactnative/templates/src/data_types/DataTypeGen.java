@@ -50,7 +50,7 @@ public class DataTypeGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @SlotReplacement(slot = "moduleName")
+    @SlotReplacement(id = "moduleName")
     public String moduleName(@RequiredParam.ModuleName String name) {
         return name;
     }

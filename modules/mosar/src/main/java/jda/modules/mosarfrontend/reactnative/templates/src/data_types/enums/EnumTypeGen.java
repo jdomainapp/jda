@@ -33,7 +33,7 @@ public class EnumTypeGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @SlotReplacement(slot = "enumName")
+    @SlotReplacement(id = "enumName")
     public String moduleName(@RequiredParam.ModuleField DField field) {
         return field.getEnumName();
     }

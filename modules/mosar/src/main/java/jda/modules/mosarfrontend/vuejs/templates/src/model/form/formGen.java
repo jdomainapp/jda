@@ -6,13 +6,13 @@ import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.anotation.WithFileName;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
-import jda.modules.mosarfrontend.common.utils.common_gen.DomainNameUtil;
+import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
 import jda.modules.mosarfrontend.common.utils.common_gen.FieldsUtil;
 
 @FileTemplateDesc(
         templateFile = "/src/model/form/form.js"
 )
-public class formGen extends DomainNameUtil{
+public class formGen extends NameFormatter {
     @LoopReplacement(id = "initHid")
     public Slot[][] initHid(@RequiredParam.ModuleFields DField[] dFields){
         return FieldsUtil.getBasicFieldSlots(dFields);
@@ -25,6 +25,6 @@ public class formGen extends DomainNameUtil{
 
     @WithFileName
     public String withFileName(@RequiredParam.ModuleName String name){
-        return DomainNameUtil.module_name(name);
+        return NameFormatter.module_name(name);
     }
 }

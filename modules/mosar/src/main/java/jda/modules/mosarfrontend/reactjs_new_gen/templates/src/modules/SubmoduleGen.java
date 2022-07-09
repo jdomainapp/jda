@@ -3,7 +3,7 @@ package jda.modules.mosarfrontend.reactjs_new_gen.templates.src.modules;
 import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.mosarfrontend.common.anotation.*;
 import jda.modules.mosarfrontend.common.utils.DField;
-import jda.modules.mosarfrontend.common.utils.common_gen.DomainNameUtil;
+import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
 
 @FileTemplateDesc(templateFile = "/src/modules/Submodule.js")
 public class SubmoduleGen extends BaseModuleGen {
@@ -16,16 +16,16 @@ public class SubmoduleGen extends BaseModuleGen {
         return field.getLinkedDomain() == null || field.getDAssoc().endType()== DAssoc.AssocEndType.Many;
     }
 
-    @SlotReplacement(slot = "LinkedModule")
+    @SlotReplacement(id = "LinkedModule")
     public String LinkedModule(@RequiredParam.ModuleField DField field) {
-        return DomainNameUtil.ModuleName(field.getLinkedDomain().getDomainClass().getSimpleName());
+        return NameFormatter.ModuleName(field.getLinkedDomain().getDomainClass().getSimpleName());
     }
-    @SlotReplacement(slot = "linked_modules")
+    @SlotReplacement(id = "linked_modules")
     public String linked_modules(@RequiredParam.ModuleField DField field) {
-        return DomainNameUtil.module_names(field.getLinkedDomain().getDomainClass().getSimpleName());
+        return NameFormatter.module_names(field.getLinkedDomain().getDomainClass().getSimpleName());
     }
 
-    @SlotReplacement(slot = "excludeFields")
+    @SlotReplacement(id = "excludeFields")
     public String excludeFields(@RequiredParam.ModuleField DField field, @RequiredParam.ModuleName String moduleName) {
         StringBuilder exclude = new StringBuilder();
         for (DField dField : field.getLinkedDomain().getDFields()) {

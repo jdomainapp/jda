@@ -4,14 +4,14 @@ import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.anotation.WithFilePath;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
-import jda.modules.mosarfrontend.common.utils.common_gen.DomainNameUtil;
+import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
 
 import java.util.ArrayList;
 
-public class ModuleGenBase extends DomainNameUtil {
+public class ModuleGenBase extends NameFormatter {
     @WithFilePath
     public String withFilePath(@RequiredParam.ModuleName String moduleName) {
-        return "/src/components/" + DomainNameUtil.module_name(moduleName);
+        return "/src/components/" + NameFormatter.module_name(moduleName);
     }
 
     public static Slot[][] LinkedDomain_linked_domain(@RequiredParam.DomainFields DField[] dFields) {
@@ -19,13 +19,13 @@ public class ModuleGenBase extends DomainNameUtil {
         for (DField dField : dFields) {
             ArrayList<Slot> slotValues = new ArrayList<>();
             String name = dField.getLinkedDomain().getDomainClass().getSimpleName();
-            slotValues.add(new Slot("LinkedDomain", DomainNameUtil.ModuleName(name)));
-            slotValues.add(new Slot("linkedDomain", DomainNameUtil.moduleName(name)));
-            slotValues.add(new Slot("Linked__domain", DomainNameUtil.Module__name(name)));
-            slotValues.add(new Slot("linked_domain", DomainNameUtil.module_name(name)));
-            slotValues.add(new Slot("linkedJdomain", DomainNameUtil.moduleJname(name)));
-            slotValues.add(new Slot("fieldName", DomainNameUtil.moduleName(dField.getDAttr().name())));
-            slotValues.add(new Slot("linkedIdField", DomainNameUtil.moduleName(dField.getLinkedDomain().getIdField().getDAttr().name())));
+            slotValues.add(new Slot("LinkedDomain", NameFormatter.ModuleName(name)));
+            slotValues.add(new Slot("linkedDomain", NameFormatter.moduleName(name)));
+            slotValues.add(new Slot("Linked__domain", NameFormatter.Module__name(name)));
+            slotValues.add(new Slot("linked_domain", NameFormatter.module_name(name)));
+            slotValues.add(new Slot("linkedJdomain", NameFormatter.moduleJname(name)));
+            slotValues.add(new Slot("fieldName", NameFormatter.moduleName(dField.getDAttr().name())));
+            slotValues.add(new Slot("linkedIdField", NameFormatter.moduleName(dField.getLinkedDomain().getIdField().getDAttr().name())));
             result.add(slotValues);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);

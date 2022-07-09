@@ -4,7 +4,7 @@ import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.mosarfrontend.common.factory.FileFactory;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
-import jda.modules.mosarfrontend.common.utils.common_gen.DomainNameUtil;
+import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,13 +14,13 @@ public class InputsGen {
     private static String templateFolder = "src/components/module/template/inputTemplates/";
 
     private static ArrayList getBasicSlots(DField dField, String moduleName, String type) {
-        moduleName = DomainNameUtil.moduleName(moduleName);
+        moduleName = NameFormatter.moduleName(moduleName);
         return new ArrayList(Arrays.asList(
                 new Slot("vIfForTyped", type != null ? " && " + moduleName + ".type == '" + type + "'" : ""),
                 new Slot("fieldName", dField.getDAttr().name()),
-                new Slot("FieldName", DomainNameUtil.ModuleName(dField.getDAttr().name())),
+                new Slot("FieldName", NameFormatter.ModuleName(dField.getDAttr().name())),
                 new Slot("moduleName", moduleName),
-                new Slot("fieldLabel", dField.getAttributeDesc() != null ? dField.getAttributeDesc().label() : DomainNameUtil.Module__name(dField.getDAttr().name()))
+                new Slot("fieldLabel", dField.getAttributeDesc() != null ? dField.getAttributeDesc().label() : NameFormatter.Module__name(dField.getDAttr().name()))
         ));
     }
 
@@ -107,15 +107,15 @@ public class InputsGen {
         for (DField dField : Arrays.stream(dFields).filter(f -> f.getLinkedDomain() != null).toArray(DField[]::new)) {
             ArrayList<Slot> inputFieldSlots = getBasicSlots(dField, moduleName, type);
             String LinkedDomain = dField.getLinkedDomain().getDomainClass().getSimpleName();
-            inputFieldSlots.add(new Slot("Linked__domain", DomainNameUtil.Module__name(LinkedDomain)));
+            inputFieldSlots.add(new Slot("Linked__domain", NameFormatter.Module__name(LinkedDomain)));
             inputFieldSlots.add(new Slot("LinkedDomain", LinkedDomain));
-            inputFieldSlots.add(new Slot("linkedJdomain", DomainNameUtil.moduleJname(LinkedDomain)));
-            inputFieldSlots.add(new Slot("linkedDomain", DomainNameUtil.moduleName(LinkedDomain)));
+            inputFieldSlots.add(new Slot("linkedJdomain", NameFormatter.moduleJname(LinkedDomain)));
+            inputFieldSlots.add(new Slot("linkedDomain", NameFormatter.moduleName(LinkedDomain)));
             inputFieldSlots.add(new Slot("linkedIdField", dField.getLinkedDomain().getIdField().getDAttr().name()));
             result.add(inputFieldSlots);
         }
         try {
-            return FileFactory.replaceLoopWithFileTemplate(InputsGen.templateFolder + (addMode ? "LinkedDomainInputAdd.html" : "LinkedDomainInputEdit.html"), "linkedDomainFormInput", result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new));
+            return FileFactory.replaceLoopWithFileTemplate(InputsGen.templateFolder +  "LinkedDomainOneOneInput.html", "linkedDomainFormInput", result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new));
         } catch (Exception e) {
             System.out.println(e);
             return "";

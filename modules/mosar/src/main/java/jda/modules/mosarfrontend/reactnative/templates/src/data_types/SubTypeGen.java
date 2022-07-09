@@ -15,12 +15,12 @@ public class SubTypeGen {
         return subDomain.getDomainClass().getSimpleName();
     }
 
-    @SlotReplacement(slot = "ModuleName")
+    @SlotReplacement(id = "ModuleName")
     public String ModuleName(@RequiredParam.ModuleName String moduleName) {
         return moduleName;
     }
 
-    @SlotReplacement(slot = "SubModuleName")
+    @SlotReplacement(id = "SubModuleName")
     public String ModuleName(@RequiredParam.CurrentSubDomain Domain subDomain) {
         return getFileName(subDomain);
     }

@@ -12,7 +12,7 @@ import java.util.Arrays;
 @FileTemplateDesc(templateFile = "/src/modules/module/sub_modules/FormConfig.ts")
 public class SubFormConfigGen extends CommonSubModuleGen {
 
-    @SlotReplacement(slot = "SubModuleName")
+    @SlotReplacement(id = "SubModuleName")
     public String SubModuleName(@RequiredParam.CurrentSubDomain Domain subDomain) {
         return subDomain.getDomainClass().getSimpleName();
     }

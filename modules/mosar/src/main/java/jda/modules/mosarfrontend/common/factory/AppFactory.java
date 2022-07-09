@@ -1,7 +1,7 @@
 package jda.modules.mosarfrontend.common.factory;
 
 import jda.modules.mosar.config.RFSGenConfig;
-import jda.modules.mosarfrontend.angular.AngularAppTemplate;
+import jda.modules.mosarfrontend.angular_new_gen.AngularAppTemplate;
 import jda.modules.mosarfrontend.common.anotation.template_desc.*;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.reactjs_new_gen.ReactAppTemplate;

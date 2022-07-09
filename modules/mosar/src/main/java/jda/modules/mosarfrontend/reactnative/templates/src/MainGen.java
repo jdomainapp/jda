@@ -25,12 +25,12 @@ public class MainGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @SlotReplacement(slot = "AppName")
+    @SlotReplacement(id = "AppName")
     public String AppName(@RequiredParam.AppName String appName) {
         return appName;
     }
 
-    @SlotReplacement(slot = "initialRoute")
+    @SlotReplacement(id = "initialRoute")
     public String replaceInitialRoute(@RequiredParam.ModulesName String[] modulesName) {
         return modulesName[0];
     }

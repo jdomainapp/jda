@@ -23,24 +23,24 @@ public class FormTs {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
     	return "\\" + prop.getFileName() + "\\" +  prop.getFormFileName() + "\\";
     }    
-    @SlotReplacement(slot = "componentName")
+    @SlotReplacement(id = "componentName")
     public String moduleName(@RequiredParam.ModuleName String name) {
         return name + "FormComponent";
     }
 
-    @SlotReplacement(slot = "selector")
+    @SlotReplacement(id = "selector")
     public String getSelector(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getSelector() + "-form";
     }
     
-    @SlotReplacement(slot = "html-path")
+    @SlotReplacement(id = "html-path")
     public String getHtmlPath(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return "./" + prop.getFormFileName() + ".component.html";
     }
 
-    @SlotReplacement(slot = "api")
+    @SlotReplacement(id = "api")
     public String getApi(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getAPI();

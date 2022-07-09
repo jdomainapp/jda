@@ -24,36 +24,36 @@ public class MainModuleTs {
     	return "/" + prop.getFileName();
     }
     
-    @SlotReplacement(slot = "import")
+    @SlotReplacement(id = "import")
     public String getImport(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getFormImport();
     }
 
-    @SlotReplacement(slot = "selector")
+    @SlotReplacement(id = "selector")
     public String getSelector(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getSelector();
     }
     
-    @SlotReplacement(slot = "componentName")
+    @SlotReplacement(id = "componentName")
     public String getComponentName(@RequiredParam.ModuleName String moduleName) {
         return moduleName + "Component";
     }
 
-    @SlotReplacement(slot = "title")
+    @SlotReplacement(id = "title")
     public String getTitle(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getTitle();
     }
 
-    @SlotReplacement(slot = "api")
+    @SlotReplacement(id = "api")
     public String getApi(@RequiredParam.MCC NewMCC mcc) {
     	AngularSlotProperty prop = new AngularSlotProperty(mcc);
         return prop.getAPI();
     }
 
-    @SlotReplacement(slot = "form_class")
+    @SlotReplacement(id = "form_class")
     public String getFormClass(@RequiredParam.ModuleName String moduleName) {
         return moduleName + "FormComponent";
     }

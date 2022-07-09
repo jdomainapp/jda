@@ -11,7 +11,7 @@ import java.util.Map;
 
 @FileTemplateDesc(templateFile = "/src/modules/module/Index.ts")
 public class IndexGen extends CommonModuleGen {
-    @SlotReplacement(slot = "importDataType")
+    @SlotReplacement(id = "importDataType")
     public String importDataType(@RequiredParam.ModuleName String moduleName, @RequiredParam.MCC NewMCC domain) {
         if (Arrays.stream(domain.getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
             moduleName = moduleName + ", " + "Sub" + moduleName;

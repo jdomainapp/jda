@@ -8,7 +8,7 @@ import jda.modules.mosarfrontend.common.utils.DField;
         templateFile = "/fields/input.html.tp"
 )
 public class InputHtml {
-    @SlotReplacement(slot = "fieldLabel")
+    @SlotReplacement(id = "fieldLabel")
     public String fieldLabel(@RequiredParam.ModuleField DField field) {
     	if (field != null) {
     		return field.getAttributeDesc() != null ? field.getAttributeDesc().label() : field.getDAttr().name();
@@ -18,7 +18,7 @@ public class InputHtml {
     }
 
     
-    @SlotReplacement(slot = "fieldType")
+    @SlotReplacement(id = "fieldType")
     public String fieldType(@RequiredParam.ModuleField DField field) {
     	if (field != null) {
     		return typeConverter(field);
@@ -27,7 +27,7 @@ public class InputHtml {
     	}
     }
 
-    @SlotReplacement(slot = "fieldName")
+    @SlotReplacement(id = "fieldName")
     public String fieldName(@RequiredParam.ModuleField DField field) {
     	if (field != null) {
           return field.getDAttr().name();    		

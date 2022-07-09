@@ -6,7 +6,7 @@ import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
-import jda.modules.mosarfrontend.common.utils.common_gen.DomainNameUtil;
+import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
 
 import java.util.ArrayList;
 
@@ -23,8 +23,8 @@ public class editGen extends ModuleGenBase{
         for (Domain domain : domains) {
             ArrayList<Slot> slotValues = new ArrayList<>();
             String name = domain.getDomainClass().getSimpleName();
-            slotValues.add(new Slot("moduleJname", DomainNameUtil.moduleJname(name)));
-            slotValues.add(new Slot("module_name", DomainNameUtil.module_name(name)));
+            slotValues.add(new Slot("moduleJname", NameFormatter.moduleJname(name)));
+            slotValues.add(new Slot("module_name", NameFormatter.module_name(name)));
             result.add(slotValues);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);

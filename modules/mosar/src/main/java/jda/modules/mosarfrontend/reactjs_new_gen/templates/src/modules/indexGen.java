@@ -1,24 +1,20 @@
 package jda.modules.mosarfrontend.reactjs_new_gen.templates.src.modules;
 
-import jda.modules.dcsl.parser.Dom;
 import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
 import jda.modules.mosarfrontend.common.anotation.SlotReplacement;
 import jda.modules.mosarfrontend.common.factory.Slot;
-import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
-import org.modeshape.common.text.Inflector;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 @FileTemplateDesc(
         templateFile = "/src/modules/index.js"
 )
 public class indexGen extends BaseModuleGen {
-    @SlotReplacement(slot = "moduleTypes")
+    @SlotReplacement(id = "moduleTypes")
     public String moduleTypes(@RequiredParam.SubDomains Map<String,Domain> domains){
         StringBuilder moduleTypes = new StringBuilder();
         for (String type : domains.keySet()) {

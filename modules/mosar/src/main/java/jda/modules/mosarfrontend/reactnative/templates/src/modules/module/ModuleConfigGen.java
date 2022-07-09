@@ -18,7 +18,7 @@ import java.util.Map;
         templateFile = "/src/modules/module/ModuleConfig.ts"
 )
 public class ModuleConfigGen extends CommonModuleGen {
-    @SlotReplacement(slot = "importDataType")
+    @SlotReplacement(id = "importDataType")
     public String importDataType(@RequiredParam.ModuleName String moduleName, @RequiredParam.MCC NewMCC domain) {
         if (Arrays.stream(domain.getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
             moduleName = moduleName + ", " + "Sub" + moduleName;
@@ -26,7 +26,7 @@ public class ModuleConfigGen extends CommonModuleGen {
         return moduleName;
     }
 
-    @SlotReplacement(slot = "fieldID")
+    @SlotReplacement(id = "fieldID")
     public String fieldID(@RequiredParam.ModuleFields DField[] fields) {
         DField[] idField = Arrays.stream(fields).filter(f -> f.getDAttr().id()).toArray(DField[]::new);
         if (idField.length > 0) {
@@ -35,12 +35,12 @@ public class ModuleConfigGen extends CommonModuleGen {
             return fields[0].getDAttr().name();
     }
 
-    @SlotReplacement(slot = "apiResource")
+    @SlotReplacement(id = "apiResource")
     public String apiResource(@RequiredParam.ModuleName String moduleName) {
         return Inflector.getInstance().underscore(Inflector.getInstance().pluralize(moduleName)).replace("_", "-");
     }
 
-    @SlotReplacement(slot = "moduleTitle")
+    @SlotReplacement(id = "moduleTitle")
     public String moduleTitle(@RequiredParam.ModuleName String moduleName) {
         Inflector inflector = Inflector.getInstance();
         return inflector.titleCase(inflector.underscore(inflector.pluralize(moduleName))).replace("_", " ");

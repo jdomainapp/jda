@@ -7,7 +7,7 @@ import jda.modules.mosarfrontend.common.utils.RegexUtils;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
-import jda.modules.mosarfrontend.common.utils.common_gen.DomainNameUtil;
+import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
 import jda.modules.mosarfrontend.common.utils.common_gen.FieldsUtil;
 import org.modeshape.common.text.Inflector;
 
@@ -24,7 +24,7 @@ public class FormGen extends BaseModuleGen {
         return name + "Form";
     }
 
-    @SlotReplacement(slot = "formBase")
+    @SlotReplacement(id = "formBase")
     public String formBase(@RequiredParam.SubDomains Map<String, Domain> subDomains) {
         return subDomains.isEmpty() ? "" : "Base";
     }
@@ -166,7 +166,7 @@ public class FormGen extends BaseModuleGen {
     public void addLinkedInputSlots(DField[] dFields, ArrayList<ArrayList<Slot>> result, String type, String ModuleName) {
         for (DField field : dFields) {
             ArrayList<Slot> slotValues = new ArrayList<>();
-            String fieldLabel = field.getAttributeDesc() != null ? field.getAttributeDesc().label() : DomainNameUtil.Module__name(field.getDAttr().name());
+            String fieldLabel = field.getAttributeDesc() != null ? field.getAttributeDesc().label() : NameFormatter.Module__name(field.getDAttr().name());
             String fieldName = field.getDAttr().name();
             slotValues.add(new Slot("AssocWithSideOne", renderInputForSideOne(field, ModuleName)));
             slotValues.add(new Slot("AssocWithSideMany", renderInputForSideMany(field, ModuleName)));
@@ -190,7 +190,7 @@ public class FormGen extends BaseModuleGen {
                 "          partialApplyWithCallbacks={this.partialApplyWithCallbacks} /></>}";
         String LinkedDomain = field.getLinkedDomain().getDomainClass().getSimpleName();
         template = RegexUtils.createSlotRegex("LinkedDomain").matcher(template).replaceAll(LinkedDomain);
-        template = RegexUtils.createSlotRegex("moduleJnames").matcher(template).replaceAll(DomainNameUtil.moduleJnames(ModuleName));
+        template = RegexUtils.createSlotRegex("moduleJnames").matcher(template).replaceAll(NameFormatter.moduleJnames(ModuleName));
         template = RegexUtils.createSlotRegex("linkedField").matcher(template).replaceAll(Arrays.stream(field.getLinkedDomain().getDFields()).filter(f -> f.getLinkedDomain() != null && f.getLinkedDomain().getDomainClass().getSimpleName() == ModuleName).toArray(DField[]::new)[0].getDAttr().name());
         template = RegexUtils.createSlotRegex("fieldName").matcher(template).replaceAll(field.getDAttr().name());
         return template;
@@ -223,7 +223,7 @@ public class FormGen extends BaseModuleGen {
                 "          </Col>";
         String LinkedDomain = field.getLinkedDomain().getDomainClass().getSimpleName();
         template = RegexUtils.createSlotRegex("LinkedDomain").matcher(template).replaceAll(LinkedDomain);
-        template = RegexUtils.createSlotRegex("Linked__domain").matcher(template).replaceAll(DomainNameUtil.Module__name(LinkedDomain));
+        template = RegexUtils.createSlotRegex("Linked__domain").matcher(template).replaceAll(NameFormatter.Module__name(LinkedDomain));
         template = RegexUtils.createSlotRegex("linkedIdType").matcher(template).replaceAll(getFieldType(field.getLinkedDomain().getIdField().getDAttr().type()));
         template = RegexUtils.createSlotRegex("fieldName").matcher(template).replaceAll(field.getDAttr().name());
         template = RegexUtils.createSlotRegex("colSize").matcher(template).replaceAll(field.getDAssoc().ascType() != DAssoc.AssocType.One2One ? "9" : "7");
@@ -255,7 +255,7 @@ public class FormGen extends BaseModuleGen {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String type : subDomains.keySet()) {
             ArrayList<Slot> slotValues = new ArrayList<>();
-            slotValues.add(new Slot("type", DomainNameUtil.moduleName(type)));
+            slotValues.add(new Slot("type", NameFormatter.moduleName(type)));
             result.add(slotValues);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
@@ -266,7 +266,7 @@ public class FormGen extends BaseModuleGen {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String type : subDomains.keySet()) {
             ArrayList<Slot> slotValues = new ArrayList<>();
-            slotValues.add(new Slot("type", DomainNameUtil.moduleName(type)));
+            slotValues.add(new Slot("type", NameFormatter.moduleName(type)));
             result.add(slotValues);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);

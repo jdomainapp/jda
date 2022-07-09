@@ -16,7 +16,7 @@ public class SelectHtml {
         return name;
     }
 
-    @SlotReplacement(slot = "moduleName")
+    @SlotReplacement(id = "moduleName")
     public String moduleName(@RequiredParam.ModuleName String name) {
         return name;
     }
