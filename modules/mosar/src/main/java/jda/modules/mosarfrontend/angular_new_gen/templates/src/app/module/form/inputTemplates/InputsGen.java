@@ -120,7 +120,10 @@ public class InputsGen {
 
     public static String getLinkedManySideInput(DField dField, String moduleName, String type) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        result.add(FieldsUtil.getBasicFieldSlots(dField));
+        ArrayList<Slot> basicSlots = getBasicSlots(dField,moduleName,type);
+        basicSlots.addAll(FieldsUtil.getBasicFieldSlots(dField));
+        result.add(basicSlots);
+
         try {
             return FileFactory.replaceLoopWithFileTemplate(InputsGen.templateFolder + "LinkedDomainManySideInput.html", "linkedDomainFormInput", MethodUtils.toLoopData(result));
         } catch (Exception e) {
@@ -131,7 +134,9 @@ public class InputsGen {
 
     public static String getLinkedOneSideInput(DField dField, String moduleName, String type) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        result.add(FieldsUtil.getBasicFieldSlots(dField));
+        ArrayList<Slot> basicSlots = getBasicSlots(dField,moduleName,type);
+        basicSlots.addAll(FieldsUtil.getBasicFieldSlots(dField));
+        result.add(basicSlots);
         try {
             return FileFactory.replaceLoopWithFileTemplate(InputsGen.templateFolder + "LinkedDomainOneSideInput.html", "linkedDomainFormInput", MethodUtils.toLoopData(result));
         } catch (Exception e) {
@@ -142,7 +147,10 @@ public class InputsGen {
 
     public static String getLinkedOneOneInput(DField dField, String moduleName, String type) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        result.add(FieldsUtil.getBasicFieldSlots(dField, moduleName));
+        ArrayList<Slot> basicSlots = getBasicSlots(dField,moduleName,type);
+        basicSlots.addAll(FieldsUtil.getBasicFieldSlots(dField));
+        result.add(basicSlots);
+
         try {
             return FileFactory.replaceLoopWithFileTemplate(InputsGen.templateFolder + "LinkedDomainOneOneInput.html", "linkedDomainFormInput", MethodUtils.toLoopData(result));
         } catch (Exception e) {

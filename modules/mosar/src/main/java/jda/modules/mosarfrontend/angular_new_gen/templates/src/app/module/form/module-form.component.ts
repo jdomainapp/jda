@@ -26,9 +26,7 @@ export class @slot{{ModuleName}}FormComponent extends BaseFormComponent implemen
     }
 @loop{getLinkedDomainMethods}[[
     get@slot{{LinkedDomain}}(event: any) {
-      this.service.init('@slot{{linkedJdomains}}');
-      this.getItem(event, '@slot{{linkedDomain}}');
-      this.service.init(this.apiName);
+      this.getItem(event, '@slot{{linkedDomain}}', '@slot{{linkedJdomains}}');
     }]]loop{getLinkedDomainMethods}@
 @loop{changeShowLinkedDomainFlagMethods}[[
     change@slot{{LinkedDomain}}Flag() {
