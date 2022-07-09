@@ -46,6 +46,8 @@
                     result = getInnerListByOuterId(this.studentClassId)
                 }
 
+                this.students = []
+
                 result.then(response => {
                     for(let i = 0; i < response.data.content.length; i++) {
                         let item = response.data.content[i]

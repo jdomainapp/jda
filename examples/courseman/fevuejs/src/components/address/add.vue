@@ -39,7 +39,12 @@
             create() {
                 var result = addAddress(this.address);
                 result.then((res) => {
-                    console.log(res);
+                    console.log(res.data);
+                    
+                    this.address.id = res.data.id
+                    this.address.name = res.data.name
+                    this.student.setAddress(this.address)
+
                     this.$toast.success(Message.ADD_ADDRESS_SUC);
                 }).catch((error) => {
                     this.$toast.error(Message.ADD_ADDRESS_ERR + ' - ' + error.message);

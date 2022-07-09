@@ -39,6 +39,7 @@ export default {
         setFrom() {
             if (this.data !== undefined) {
                 this.form.setHidAddress(false)
+                this.student.setAddress(this.data.address)
             }
         },
 
@@ -78,6 +79,7 @@ export default {
 
         create() {
             this.studentClasses = null;
+            this.student.setAddress(this.data.address)
 
             var result = addStudent(this.student);
             result.then((res) => {
