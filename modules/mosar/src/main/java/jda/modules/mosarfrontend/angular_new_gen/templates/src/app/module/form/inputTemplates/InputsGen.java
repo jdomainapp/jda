@@ -18,13 +18,12 @@ public class InputsGen {
 
     private static ArrayList getBasicSlots(DField dField, String moduleName, String type) {
         moduleName = NameFormatter.moduleName(moduleName);
-        return new ArrayList(Arrays.asList(
-                new Slot("vIfForTyped", type != null ? " && " + moduleName + ".type == '" + type + "'" : ""),
-                new Slot("fieldName", dField.getDAttr().name()),
-                new Slot("FieldName", NameFormatter.ModuleName(dField.getDAttr().name())),
-                new Slot("moduleName", moduleName),
-                new Slot("fieldLabel", dField.getAttributeDesc() != null ? dField.getAttributeDesc().label() : NameFormatter.Module__name(dField.getDAttr().name()))
+        ArrayList<Slot> list = FieldsUtil.getBasicFieldSlots(dField, moduleName);
+        list.addAll(Arrays.asList(
+                new Slot("ngIfForType", type != null ? String.format("*ngIf=\"item.type == '%s'\"", type) : "")
         ));
+        return list;
+
     }
 
     private static String getFieldType(DAttr.Type type) {
@@ -150,5 +149,22 @@ public class InputsGen {
             System.out.println("----------ERROR GEN LinkedDomainOneOneInput.html---------" + e);
             return "";
         }
+    }
+
+    public static String getSelectFormTypeInput(String[] types) {
+        if (types.length > 0) {
+            ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+            for (String type : types) {
+                result.add(new ArrayList<>(Arrays.asList(
+                        new Slot("formType", type)
+                )));
+            }
+            try {
+                return FileFactory.replaceLoopWithFileTemplate(InputsGen.templateFolder + "SelectFormTypeInput.html", "typeOptions", MethodUtils.toLoopData(result));
+            } catch (Exception e) {
+                System.out.println("----------ERROR GEN LinkedDomainOneOneInput.html---------" + e);
+                return "";
+            }
+        } else return "";
     }
 }

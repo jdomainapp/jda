@@ -1,5 +1,5 @@
 @loop{linkedDomainFormInput}[[
-    <div class="d-flex flex-wrap justify-content-between align-items-end form-group">
+    <div @slot{{ngIfForType}} class="d-flex flex-wrap justify-content-between align-items-end form-group">
         <div class="px-0 col-md-2.5">
             <label class="form-label">@slot{{Linked__domain}} Id</label>
             <input type="@slot{{LinkedDomainIdType}}" class="form-control" [ngModel]="(item.@slot{{fieldName}})?item.@slot{{fieldName}}.id:''" (ngModelChange)="get@slot{{LinkedDomain}}(@slot{{DOLAR}}event)">

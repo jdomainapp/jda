@@ -1,6 +1,5 @@
 package jda.modules.mosarfrontend.vuejs.templates.src.model;
 
-import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
 import jda.modules.mosarfrontend.common.anotation.RequiredParam;
@@ -32,7 +31,7 @@ public class modelGen extends BaseModelGen {
 
     @LoopReplacement(id = "initLinkedFields")
     public Slot[][] initLinkedFields(@RequiredParam.ModuleFields DField[] dFields) {
-        DField[] fields = Arrays.stream(dFields).filter(f -> f.getDAssoc() != null && f.getDAssoc().ascType() ==  DAssoc.AssocType.One2One).toArray(DField[]::new);
+        DField[] fields = Arrays.stream(dFields).filter(f -> f.getDAssoc() != null).toArray(DField[]::new);
         return FieldsUtil.getBasicFieldSlots(fields);
     }
     @LoopReplacement(id = "setLinkedDomain")

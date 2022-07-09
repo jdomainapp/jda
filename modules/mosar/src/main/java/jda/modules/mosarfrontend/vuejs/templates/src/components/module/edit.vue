@@ -55,7 +55,7 @@
                     }
                 })
                 .catch((error) => {
-                    this.\$toast.error(Message.GET_@slot{{MODULE_NAME}}_ERR + ' - ' + error.message);
+                    this.$toast.error(Message.GET_@slot{{MODULE_NAME}}_ERR + ' - ' + error.message);
                 }).finally(() => {
 
                 });
@@ -63,7 +63,7 @@
 
              @loop{getLinkedModuleByID}[[
             get@slot{{LinkedDomain}}ById(event) {
-                let @slot{{linked_domain}}Id =  event.target.value;F
+                let @slot{{linked_domain}}Id =  event.target.value;
 
                 var result = get@slot{{LinkedDomain}}(@slot{{linked_domain}}Id);
                 result.then((res) => {
@@ -81,10 +81,10 @@
                 var result = update@slot{{ModuleName}}(this.@slot{{moduleName}}Id, this.@slot{{module_name}});
                 result.then((res) => {
                     console.log(res);
-                    this.\$toast.success(Message.UPDATE_@slot{{MODULE_NAME}}_SUC);
+                    this.$toast.success(Message.UPDATE_@slot{{MODULE_NAME}}_SUC);
                 })
                 .catch((error) => {
-                    this.\$toast.error(Message.UPDATE_@slot{{MODULE_NAME}}_ERR + ' - ' + error.message);
+                    this.$toast.error(Message.UPDATE_@slot{{MODULE_NAME}}_ERR + ' - ' + error.message);
                 }).finally(() => {
 
                 });

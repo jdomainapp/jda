@@ -1,4 +1,5 @@
 @loop{linkedDomainFormInput}[[
+<div @slot{{ngIfForType}}>
 <button type="button" class="mr-1 btn btn-success" (click)="change@slot{{LinkedDomain}}Flag()">Form: @slot{{Linked__domain}}
     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-up"
          class="svg-inline--fa fa-chevron-up fa-w-14 ml-1" role="img" xmlns="http://www.w3.org/2000/svg"
@@ -10,5 +11,6 @@
 </button>
 <div *ngIf="@slot{{linked_domain}}_flag == true">
     <app-@slot{{linkedJdomain}}></app-@slot{{linkedJdomain}}>
+</div>
 </div>
 <br>]]loop{linkedDomainFormInput}@
