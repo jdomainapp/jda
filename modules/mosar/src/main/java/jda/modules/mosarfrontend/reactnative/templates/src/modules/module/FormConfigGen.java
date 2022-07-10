@@ -77,6 +77,10 @@ public class FormConfigGen extends CommonModuleGen {
     public static String getOptions(DField field) {
         boolean haveOption = false;
         String options = "options:{";
+        if (field.getLinkedDomain() != null) {
+            haveOption = true;
+            options += "module: Modules." + field.getLinkedDomain().getDomainClass().getSimpleName() + ",";
+        }
         if (!field.getDAttr().mutable() && field.getDAttr().id() || field.getDAttr().auto()) {
             haveOption = true;
             options += "disabled:true, ";
@@ -86,9 +90,9 @@ public class FormConfigGen extends CommonModuleGen {
             haveOption = true;
             options += "rules:{" + ruleCheck + "},";
         }
-        if (field.getLinkedDomain() != null) {
+        if(field.getLinkedDomain()!= null && field.getDAssoc().associate().determinant()){
             haveOption = true;
-            options += "module: Modules." + field.getLinkedDomain().getDomainClass().getSimpleName() + ",";
+            options += "hideInMode: [JDAFormMode.CREATE, JDAFormMode.EDIT], ";
         }
         options += "},";
         return haveOption ? options : "";

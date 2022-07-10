@@ -1,4 +1,7 @@
-import { IJDAFormConfig } from "../../base/controllers/jda_form_controllers/withFormController";
+import {
+  IJDAFormConfig,
+  JDAFormMode,
+} from '../../base/controllers/jda_form_controllers/withFormController';
 import {@slot{{ModuleName}}} from '../../data_types/@slot{{ModuleName}}';
 @if{haveLinkedModule}((import {Modules} from '../../data_types/enums/Modules';))if{haveLinkedModule}@
 
