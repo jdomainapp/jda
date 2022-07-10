@@ -20,10 +20,27 @@ public class InputsGen {
         moduleName = NameFormatter.moduleName(moduleName);
         ArrayList<Slot> list = FieldsUtil.getBasicFieldSlots(dField, moduleName);
         list.addAll(Arrays.asList(
-                new Slot("ngIfForType", type != null ? String.format("*ngIf=\"item.type == '%s'\"", type) : "")
+                new Slot("ngIfForType", type != null ? String.format("*ngIf=\"item.type == '%s'\"", type) : ""),
+                new Slot("fieldOptions", getFieldOptions(dField.getDAttr()))
         ));
         return list;
 
+    }
+
+    private static String getFieldOptions(DAttr dAttr) {
+        StringBuilder fieldOptions = new StringBuilder();
+        if (dAttr.id() || !dAttr.mutable() || dAttr.auto())
+            fieldOptions.append("disabled ");
+        if (!dAttr.optional() && !dAttr.id() && !dAttr.auto()) {
+            fieldOptions.append("required ");
+        }
+        if (!Double.isInfinite(dAttr.max()))
+            fieldOptions.append("max=\"" + dAttr.max() + "\" ");
+        if (!Double.isInfinite(dAttr.min()))
+            fieldOptions.append("min=\"" + dAttr.min() + "\" ");
+        if (dAttr.length() > 0)
+            fieldOptions.append("maxLength=\"" + dAttr.length() + "\" ");
+        return fieldOptions.toString();
     }
 
     private static String getFieldType(DAttr.Type type) {
@@ -120,7 +137,7 @@ public class InputsGen {
 
     public static String getLinkedManySideInput(DField dField, String moduleName, String type) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        ArrayList<Slot> basicSlots = getBasicSlots(dField,moduleName,type);
+        ArrayList<Slot> basicSlots = getBasicSlots(dField, moduleName, type);
         basicSlots.addAll(FieldsUtil.getBasicFieldSlots(dField));
         result.add(basicSlots);
 
@@ -134,7 +151,7 @@ public class InputsGen {
 
     public static String getLinkedOneSideInput(DField dField, String moduleName, String type) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        ArrayList<Slot> basicSlots = getBasicSlots(dField,moduleName,type);
+        ArrayList<Slot> basicSlots = getBasicSlots(dField, moduleName, type);
         basicSlots.addAll(FieldsUtil.getBasicFieldSlots(dField));
         result.add(basicSlots);
         try {
@@ -147,7 +164,7 @@ public class InputsGen {
 
     public static String getLinkedOneOneInput(DField dField, String moduleName, String type) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        ArrayList<Slot> basicSlots = getBasicSlots(dField,moduleName,type);
+        ArrayList<Slot> basicSlots = getBasicSlots(dField, moduleName, type);
         basicSlots.addAll(FieldsUtil.getBasicFieldSlots(dField));
         result.add(basicSlots);
 
