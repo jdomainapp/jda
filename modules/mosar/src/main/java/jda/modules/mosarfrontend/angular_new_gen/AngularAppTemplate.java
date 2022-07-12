@@ -16,33 +16,19 @@ import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesD
         resource = "fe/angular/angularResources.zip",
         crossTemplates = @CrossTemplatesDesc(
                 Router = @ComponentGenDesc(
-                        templates = {},
                         genClasses = {AppComponentGen.class, AppRoutingModuleGen.class}
                 ),
                 BaseService = @ComponentGenDesc(
-                        templates = {},
                         genClasses = {AppModuleGen.class}
-                ),
-                Ext = @ComponentGenDesc(
-                        templates = {},
-                        genClasses = {}
                 )
+
         ),
         moduleTemplates = @ModuleTemplatesDesc(
                 Form = @ComponentGenDesc(
                         genClasses = {formComponentGen.class, formComponentHtmlGen.class}
                 ),
                 Main = @ComponentGenDesc(
-                        templates = {},
                         genClasses = {moduleComponentGen.class}
-                ),
-                Entity = @ComponentGenDesc(
-                        templates = {},
-                        genClasses = {}
-                ),
-                Ext = @ComponentGenDesc(
-                        templates = {},
-                        genClasses = {}
                 )
         )
 )
