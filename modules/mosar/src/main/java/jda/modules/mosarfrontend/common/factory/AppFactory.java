@@ -1,12 +1,12 @@
 package jda.modules.mosarfrontend.common.factory;
 
 import jda.modules.mosar.config.RFSGenConfig;
-import jda.modules.mosarfrontend.angular_new_gen.AngularAppTemplate;
 import jda.modules.mosarfrontend.common.anotation.template_desc.*;
 import jda.modules.mosarfrontend.common.utils.DField;
-import jda.modules.mosarfrontend.reactjs_new_gen.ReactAppTemplate;
-import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
 import jda.modules.mosarfrontend.vuejs.VueAppTemplate;
+import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
+import jda.modules.mosarfrontend.reactjs_new_gen.ReactAppTemplate;
+import jda.modules.mosarfrontend.angular_new_gen.AngularAppTemplate;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,6 +15,9 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
@@ -29,8 +32,9 @@ public class AppFactory {
 
     public void unzip(String zipFilePath, String outputPath) {
         try {
+            URL path = getClass().getClassLoader().getResource(zipFilePath);
             // Open the zip file
-            ZipFile zipFile = new ZipFile(zipFilePath);
+            ZipFile zipFile = new ZipFile(path != null ? path.getPath() : zipFilePath); // try to read from resource folder first
             Enumeration<?> enu = zipFile.entries();
             while (enu.hasMoreElements()) {
                 ZipEntry zipEntry = (ZipEntry) enu.nextElement();
@@ -76,19 +80,19 @@ public class AppFactory {
     }
 
     private void loopGenMethod(Annotation genDesc, String templateFolder, Callback callback) {
+
         Method[] genMethods = genDesc.annotationType().getDeclaredMethods();
 
         for (Method m : genMethods) {
 
             try {
-                ComponentGenDesc componentGenDesc = (ComponentGenDesc) m.invoke(genDesc,
-                        (new ArrayList<Object>()).toArray());
+                ComponentGenDesc componentGenDesc = (ComponentGenDesc) m.invoke(genDesc, (new ArrayList<Object>()).toArray());
                 for (Class<?> genClass : componentGenDesc.genClasses()) {
                     // System.out.println(genClass);
                     try {
-                        (new FileFactory(genClass, rfsGenConfig.getFeOutputPath(), templateFolder))
-                                .genFile(true);
-                        callback.gen();
+                        (new FileFactory(genClass, rfsGenConfig.getFeOutputPath(), templateFolder)).genFile(true);
+                        if (callback != null)
+                            callback.gen();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -123,16 +127,27 @@ public class AppFactory {
             AppTemplateDesc appTemplate = this.rfsGenConfig.getFeTemplate();
 
             String templateFolder = appTemplate.templateRootFolder();
-            ParamsFactory.getInstance().setTemplateFolder(templateFolder);
-            ParamsFactory.getInstance().setTEMPLATE_ROOT_FOLDER(appTemplate.templateRootFolder());
+            //try to read template folder from resource first instead of absolute file path (default)
+            try {
+                URL templateFolderPath = getClass().getClassLoader().getResource(appTemplate.templateRootFolder());
+                if (templateFolderPath != null) {
+                    File file = null;
+                    file = Paths.get(templateFolderPath.toURI()).toFile();
+                    templateFolder = file.getAbsolutePath();
+                }
+            } catch (URISyntaxException e) {
+                templateFolder = appTemplate.templateRootFolder();
+            }
+
+            ParamsFactory.getInstance().setTEMPLATE_ROOT_FOLDER(templateFolder);
+
             // TODO: Clean output folder before gen/
             /** Copy resource to output */
             unzip(appTemplate.resource(), rfsGenConfig.getFeOutputPath());
 
             /** Các Component chỉ gen 1 lần */
             CrossTemplatesDesc crossTemplatesDesc = appTemplate.crossTemplates();
-            loopGenMethod(crossTemplatesDesc, templateFolder, () -> {
-            });
+            loopGenMethod(crossTemplatesDesc, templateFolder, null);
 
             for (String domain : appDomains) {
                 ParamsFactory.getInstance().setCurrentModule(domain);
@@ -142,6 +157,7 @@ public class AppFactory {
                  */
                 ModuleTemplatesDesc moduleTemplatesDesc = appTemplate.moduleTemplates();
 
+                String finalTemplateFolder = templateFolder;
                 loopGenMethod(moduleTemplatesDesc, templateFolder, () -> {
                     /**
                      * Các file gen với mỗi field trong miền (module in domain model) , Ex: Student,
@@ -150,7 +166,7 @@ public class AppFactory {
                     for (DField field : ParamsFactory.getInstance().getModuleFields()) {
                         ParamsFactory.getInstance().setCurrentModuleField(field);
                         ModuleFieldTemplateDesc moduleFieldTemplateDesc = appTemplate.moduleFieldTemplates();
-                        loopGenMethod(moduleFieldTemplateDesc, templateFolder, (() -> {
+                        loopGenMethod(moduleFieldTemplateDesc, finalTemplateFolder, (() -> {
                         }));
                     }
                     /**
@@ -160,7 +176,7 @@ public class AppFactory {
                     for (String subDomain : ParamsFactory.getInstance().getMCC().getSubDomains().keySet()) {
                         ParamsFactory.getInstance().setCurrentSubDomain(subDomain);
                         SubModuleTemplateDesc subModuleTemplateDesc = appTemplate.subModuleTemplates();
-                        loopGenMethod(subModuleTemplateDesc, templateFolder, (() -> {
+                        loopGenMethod(subModuleTemplateDesc, finalTemplateFolder, (() -> {
                         }));
                     }
                     ParamsFactory.getInstance().setCurrentSubDomain(null);

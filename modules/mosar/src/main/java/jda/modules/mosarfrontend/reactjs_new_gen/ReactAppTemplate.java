@@ -1,15 +1,15 @@
 package jda.modules.mosarfrontend.reactjs_new_gen;
 
 import jda.modules.mosarfrontend.common.anotation.template_desc.*;
-import jda.modules.mosarfrontend.reactjs_new_gen.templates.src.AppGen;
-import jda.modules.mosarfrontend.reactjs_new_gen.templates.src.modules.FormGen;
-import jda.modules.mosarfrontend.reactjs_new_gen.templates.src.modules.ListViewGen;
-import jda.modules.mosarfrontend.reactjs_new_gen.templates.src.modules.SubmoduleGen;
-import jda.modules.mosarfrontend.reactjs_new_gen.templates.src.modules.indexGen;
+import jda.modules.mosarfrontend.reactjs_new_gen.src.AppGen;
+import jda.modules.mosarfrontend.reactjs_new_gen.src.modules.FormGen;
+import jda.modules.mosarfrontend.reactjs_new_gen.src.modules.ListViewGen;
+import jda.modules.mosarfrontend.reactjs_new_gen.src.modules.SubmoduleGen;
+import jda.modules.mosarfrontend.reactjs_new_gen.src.modules.indexGen;
 
 @AppTemplateDesc(
-        resource = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactjs_new_gen\\resources.zip",
-        templateRootFolder = "D:\\JDA\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\reactjs_new_gen\\templates",
+        resource = "fe/react/resources.zip",
+        templateRootFolder = "fe/react",
         crossTemplates = @CrossTemplatesDesc(
                 Router = @ComponentGenDesc(
                         genClasses = {AppGen.class}

@@ -22,15 +22,15 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         stackSpec = StackSpec.FE,
         execSpec = ExecSpec.Gen,
         genMode = GenerationMode.SOURCE_CODE,
-        beLangPlatform = LangPlatform.SPRING,
         feProjPath = "/home/ducmle/tmp/restfstool-fe",
         feProjName = "fe-courseman",
         feProjResource = "src/main/resources/angular",
-        fePlatform = FEPlatform.VUE_JS,
-        feOutputPath = "D:\\JDA\\CourseManVueJs",
+        fePlatform = FEPlatform.ANGULAR,
+        feOutputPath = "D:\\JDA\\CourseManAngular",
         feServerPort = 5000,  // default: 3000
         feAppClass = FEAngularApp.class,
         feThreaded = true,
+        beLangPlatform = LangPlatform.SPRING,
         bePackage = "org.jda.example.coursemanrestful.modules",
         beOutputPath = "D:\\JDA\\jda\\examples\\courseman\\mosar\\src\\main\\java",
         beTargetPackage = "org.jda.example.coursemanrestful.backend"
@@ -68,3 +68,7 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         securityDesc = @SecurityDesc(isEnabled = false))
 public class SCCCourseManDerby {
 }
+
+
+
+

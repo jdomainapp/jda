@@ -23,14 +23,11 @@ import jda.modules.mosarfrontend.vuejs.templates.src.router.pathGen;
 import jda.modules.mosarfrontend.vuejs.templates.src.router.routerGen;
 
 @AppTemplateDesc(
-        templateRootFolder = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\templates",
-        resource = "D:\\UET_THS\\JDA\\work\\jda\\modules\\mosar\\src\\main\\java\\jda\\modules\\mosarfrontend\\vuejs\\vueTemplateResources.zip",
+        templateRootFolder = "fe/vuejs",
+        resource = "fe/vuejs/vueTemplateResources.zip",
         crossTemplates = @CrossTemplatesDesc(
                 Router = @ComponentGenDesc(
                         genClasses = {routerGen.class, pathGen.class, nameGen.class, headerGen.class}
-                ),
-                BaseService = @ComponentGenDesc(
-                        genClasses = {}
                 ),
                 Ext = @ComponentGenDesc(
                         genClasses = {componentGen.class, messageGen.class}
