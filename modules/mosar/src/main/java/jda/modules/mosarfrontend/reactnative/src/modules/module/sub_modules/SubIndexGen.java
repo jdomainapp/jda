@@ -13,9 +13,9 @@ public class SubIndexGen extends CommonSubModuleGen {
     @SlotReplacement(id = "importDataType")
     public String importDataType(@RequiredParam.CurrentSubDomain Domain domain) {
         String moduleName = domain.getDomainClass().getSimpleName();
-        if (Arrays.stream(domain.getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
-            moduleName = moduleName + ", " + "Sub" + moduleName;
-        }
+//        if (Arrays.stream(domain.getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
+//            moduleName = moduleName + ", " + "Sub" + moduleName;
+//        }
         return moduleName;
     }
 }

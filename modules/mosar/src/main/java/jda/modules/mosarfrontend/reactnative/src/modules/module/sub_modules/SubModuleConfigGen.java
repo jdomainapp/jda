@@ -22,9 +22,9 @@ public class SubModuleConfigGen extends CommonSubModuleGen {
 
     @SlotReplacement(id = "importDataType")
     public String importDataType(@RequiredParam.ModuleName String moduleName, @RequiredParam.MCC NewMCC domain) {
-        if (Arrays.stream(domain.getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
-            moduleName = moduleName + ", " + "Sub" + moduleName;
-        }
+//        if (Arrays.stream(domain.getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
+//            moduleName = moduleName + ", " + "Sub" + moduleName;
+//        }
         return moduleName;
     }
 

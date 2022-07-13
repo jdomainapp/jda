@@ -20,9 +20,9 @@ import java.util.Map;
 public class ModuleConfigGen extends CommonModuleGen {
     @SlotReplacement(id = "importDataType")
     public String importDataType(@RequiredParam.ModuleName String moduleName, @RequiredParam.MCC NewMCC domain) {
-        if (Arrays.stream(domain.getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
-            moduleName = moduleName + ", " + "Sub" + moduleName;
-        }
+//        if (Arrays.stream(domain.getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
+//            moduleName = moduleName + ", " + "Sub" + moduleName;
+//        }
         return moduleName;
     }
 

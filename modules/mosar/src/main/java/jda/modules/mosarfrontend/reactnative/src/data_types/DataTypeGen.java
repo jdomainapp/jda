@@ -28,7 +28,7 @@ public class DataTypeGen {
                 String interfaceName = field.getDAssoc().associate().type().getSimpleName();
                 list.add(new Slot("importLocation", interfaceName));
                 if (Arrays.stream(field.getLinkedDomain().getDFields()).anyMatch(f -> f.getDAssoc() != null)) {
-                    interfaceName = "Sub" + interfaceName;
+                    interfaceName = interfaceName;
                 }
                 list.add(new Slot("importModuleName", interfaceName));
                 result.add(list);
@@ -92,7 +92,8 @@ public class DataTypeGen {
 
     @IfReplacement(id = "subtype")
     public boolean subtype(@RequiredParam.ModuleFields DField[] fields) {
-        return Arrays.stream(fields).anyMatch(f -> f.getDAssoc() != null);
+        return  false;
+//        return Arrays.stream(fields).anyMatch(f -> f.getDAssoc() != null);
     }
 
     private String getIDTypeOfDomain(DField dField, Map<String, NewMCC> moduleMap) {
@@ -125,8 +126,8 @@ public class DataTypeGen {
             case Domain:
                 if (ass != null && ass.associate() != null && ass.associate().type() != null) {
                     String type = ass.associate().type().getSimpleName();
-                    if (Arrays.stream(field.getLinkedDomain().getDFields()).anyMatch(f -> f.getDAssoc() != null))
-                        type = "Sub" + type;
+//                    if (Arrays.stream(field.getLinkedDomain().getDFields()).anyMatch(f -> f.getDAssoc() != null))
+//                        type = "Sub" + type;
                     return type;
                 } else if (field.getEnumName() != null) {
                     return field.getEnumName();
@@ -135,7 +136,7 @@ public class DataTypeGen {
                 }
             case Collection:
                 if (ass != null && ass.associate() != null && ass.associate().type() != null) {
-                    return "Sub" + ass.associate().type().getSimpleName() + "[]";
+                    return ass.associate().type().getSimpleName() + "[]";
                 } else return "any[]";
             case Array:
                 return "any[]";
