@@ -1,6 +1,5 @@
 package org.courseman.software.config;
 
-import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
 import org.courseman.modules.ModuleMain;
 import org.courseman.modules.address.ModuleAddress;
 import org.courseman.modules.coursemodule.ModuleCourseModule;
@@ -18,7 +17,6 @@ import jda.modules.mosar.config.LangPlatform;
 import jda.modules.mosar.config.RFSGenDesc;
 import jda.modules.mosar.config.StackSpec;
 import jda.modules.mosarbackend.springboot.BESpringApp;
-import jda.modules.mosarfrontend.common.FEAppGen;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
 import jda.modules.sccl.syntax.DSDesc;
 import jda.modules.sccl.syntax.OrgDesc;

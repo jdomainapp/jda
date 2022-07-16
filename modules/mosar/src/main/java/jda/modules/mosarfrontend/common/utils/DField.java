@@ -12,6 +12,7 @@ public class DField {
     private AttributeDesc attributeDesc;
     private String enumName; // null if not enum
     private NewMCC linkedDomain;
+    private DField linkedField;
 
     public DAttr getDAttr() {
         return dAttr;
@@ -61,5 +62,13 @@ public class DField {
 
     public void setLinkedDomain(NewMCC linkedDomain) {
         this.linkedDomain = linkedDomain;
+    }
+
+    public DField getLinkedField() {
+        return linkedField;
+    }
+
+    public void setLinkedField(DField linkedField) {
+        this.linkedField = linkedField;
     }
 }

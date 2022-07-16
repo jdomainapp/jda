@@ -1,8 +1,8 @@
 package jda.modules.mosarfrontend.vuejs.src.api;
 
-import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.RequiredParam;
-import jda.modules.mosarfrontend.common.anotation.WithFileName;
+import jda.modules.mosarfrontend.common.anotation.template_desc.FileTemplateDesc;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.WithFileName;
 import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
 
 @FileTemplateDesc(templateFile = "/src/api/moduleAPI.js")

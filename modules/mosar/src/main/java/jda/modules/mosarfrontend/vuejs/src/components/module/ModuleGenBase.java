@@ -1,7 +1,7 @@
 package jda.modules.mosarfrontend.vuejs.src.components.module;
 
-import jda.modules.mosarfrontend.common.anotation.RequiredParam;
-import jda.modules.mosarfrontend.common.anotation.WithFilePath;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.WithFilePath;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;

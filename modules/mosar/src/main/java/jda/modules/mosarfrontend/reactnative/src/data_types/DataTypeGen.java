@@ -1,7 +1,8 @@
 package jda.modules.mosarfrontend.reactnative.src.data_types;
 
 import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.mosarfrontend.common.anotation.*;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.*;
+import jda.modules.mosarfrontend.common.anotation.template_desc.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.NewMCC;
@@ -92,7 +93,7 @@ public class DataTypeGen {
 
     @IfReplacement(id = "subtype")
     public boolean subtype(@RequiredParam.ModuleFields DField[] fields) {
-        return  false;
+        return false;
 //        return Arrays.stream(fields).anyMatch(f -> f.getDAssoc() != null);
     }
 
@@ -126,8 +127,8 @@ public class DataTypeGen {
             case Domain:
                 if (ass != null && ass.associate() != null && ass.associate().type() != null) {
                     String type = ass.associate().type().getSimpleName();
-//                    if (Arrays.stream(field.getLinkedDomain().getDFields()).anyMatch(f -> f.getDAssoc() != null))
-//                        type = "Sub" + type;
+                    if (field.getLinkedField() != null)
+                        type = String.format("Omit<%s, '%s'>", type, field.getLinkedField().getDAttr().name());
                     return type;
                 } else if (field.getEnumName() != null) {
                     return field.getEnumName();
