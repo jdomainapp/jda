@@ -72,6 +72,7 @@ public class SubFormConfigGen extends CommonSubModuleGen {
             list.add(new Slot("fieldName", field.getDAttr().name()));
             list.add(new Slot("formType", "Form" + FormConfigGen.getFieldType(field) + "Input"));
             list.add(new Slot("options", FormConfigGen.getOptions(field)));
+            list.add(new Slot("props", FormConfigGen.getProps(field)));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
