@@ -96,10 +96,10 @@ public class FormConfigGen extends CommonModuleGen {
             haveOption = true;
             options += "rules:{" + ruleCheck + "},";
         }
-        if (field.getLinkedDomain() != null && field.getDAssoc().dependsOn()) {
-            haveOption = true;
-            options += "hideInMode: [JDAFormMode.CREATE, JDAFormMode.EDIT], ";
-        }
+//        if (field.getLinkedDomain() != null && field.getDAssoc().dependsOn()) {
+//            haveOption = true;
+//            options += "hideInMode: [JDAFormMode.CREATE, JDAFormMode.EDIT], ";
+//        }
         options += "},";
         return haveOption ? options : "";
     }
