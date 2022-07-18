@@ -1,10 +1,10 @@
 package jda.modules.mosarfrontend.reactjs_new_gen.src.modules;
 
 import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
-import jda.modules.mosarfrontend.common.anotation.RequiredParam;
-import jda.modules.mosarfrontend.common.anotation.WithFileName;
+import jda.modules.mosarfrontend.common.anotation.template_desc.FileTemplateDesc;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.LoopReplacement;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.WithFileName;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.common_gen.FieldsUtil;

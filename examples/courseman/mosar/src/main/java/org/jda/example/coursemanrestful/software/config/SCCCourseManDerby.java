@@ -7,7 +7,6 @@ import jda.modules.mccl.conceptmodel.Configuration.Language;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
 import jda.modules.mosar.config.*;
 import jda.modules.mosarbackend.springboot.BESpringApp;
-import jda.modules.mosarfrontend.angular.FEAngularApp;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
 import jda.modules.sccl.syntax.*;
 import jda.modules.setup.model.SetUpConfig;
@@ -17,6 +16,7 @@ import org.jda.example.coursemanrestful.modules.coursemodule.ModuleCourseModule;
 import org.jda.example.coursemanrestful.modules.enrolment.ModuleEnrolment;
 import org.jda.example.coursemanrestful.modules.student.ModuleStudent;
 import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
+
 
 @RFSGenDesc(
         stackSpec = StackSpec.FE,
@@ -28,7 +28,7 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         fePlatform = FEPlatform.REACT_NATIVE,
         feOutputPath = "D:\\JDA\\CourseManReactNative",
         feServerPort = 5000,  // default: 3000
-        feAppClass = FEAngularApp.class,
+        feAppClass = FEReactApp.class,
         feThreaded = true,
         beLangPlatform = LangPlatform.SPRING,
         bePackage = "org.jda.example.coursemanrestful.modules",

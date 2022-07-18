@@ -14,7 +14,7 @@ import { Form@slot{{InputType}}Input } from "../@slot{{linked_domain}}/Input";]]
 export const @slot{{ModuleName}}FormConfig: IJDAFormConfig<@slot{{ModuleName}}> = {@loop{formConfig}[[
   @slot{{fieldName}}: {
     component: @slot{{formType}},
-    @slot{{options}}
+    @slot{{options}}@slot{{props}}
   },]]loop{formConfig}@
 };
 

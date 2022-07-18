@@ -14,6 +14,6 @@ export const @slot{{SubModuleName}}FormConfig: IJDAFormConfig<@slot{{SubModuleNa
   ...@slot{{ModuleName}}FormConfig,@loop{formConfig}[[
     @slot{{fieldName}}: {
       component: @slot{{formType}},
-      @slot{{options}}
+      @slot{{options}}@slot{{props}}
     },]]loop{formConfig}@
 };

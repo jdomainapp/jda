@@ -2,10 +2,10 @@ package jda.modules.mosarfrontend.reactnative.src.modules.module;
 
 import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.dcsl.syntax.DAttr;
-import jda.modules.mosarfrontend.common.anotation.FileTemplateDesc;
-import jda.modules.mosarfrontend.common.anotation.IfReplacement;
-import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
-import jda.modules.mosarfrontend.common.anotation.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.IfReplacement;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.LoopReplacement;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.template_desc.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
@@ -69,9 +69,15 @@ public class FormConfigGen extends CommonModuleGen {
             list.add(new Slot("fieldName", field.getDAttr().name()));
             list.add(new Slot("formType", "Form" + getFieldType(field) + "Input"));
             list.add(new Slot("options", getOptions(field)));
+            list.add(new Slot("props", getProps(field)));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+    }
+
+    public static String getProps(DField field) {
+        return field.getLinkedField() != null ? String.format("props:{%s:'%s'}", field.getLinkedField().getDAttr().type() == DAttr.Type.Collection ? "associateCollection" : "associateField", field.getLinkedField().getDAttr().name()) : "";
+
     }
 
     public static String getOptions(DField field) {
@@ -90,7 +96,7 @@ public class FormConfigGen extends CommonModuleGen {
             haveOption = true;
             options += "rules:{" + ruleCheck + "},";
         }
-        if(field.getLinkedDomain()!= null && field.getDAssoc().associate().determinant()){
+        if (field.getLinkedDomain() != null && field.getDAssoc().dependsOn()) {
             haveOption = true;
             options += "hideInMode: [JDAFormMode.CREATE, JDAFormMode.EDIT], ";
         }

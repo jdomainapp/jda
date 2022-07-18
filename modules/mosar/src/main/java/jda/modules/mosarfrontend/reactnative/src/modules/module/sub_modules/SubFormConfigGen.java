@@ -1,6 +1,10 @@
 package jda.modules.mosarfrontend.reactnative.src.modules.module.sub_modules;
 
-import jda.modules.mosarfrontend.common.anotation.*;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.IfReplacement;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.LoopReplacement;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.SlotReplacement;
+import jda.modules.mosarfrontend.common.anotation.template_desc.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
@@ -68,6 +72,7 @@ public class SubFormConfigGen extends CommonSubModuleGen {
             list.add(new Slot("fieldName", field.getDAttr().name()));
             list.add(new Slot("formType", "Form" + FormConfigGen.getFieldType(field) + "Input"));
             list.add(new Slot("options", FormConfigGen.getOptions(field)));
+            list.add(new Slot("props", FormConfigGen.getProps(field)));
             result.add(list);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);

@@ -1,7 +1,7 @@
 package jda.modules.mosarfrontend.common.utils.common_gen;
 
-import jda.modules.mosarfrontend.common.anotation.RequiredParam;
-import jda.modules.mosarfrontend.common.anotation.SlotReplacement;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.SlotReplacement;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.MethodUtils;
 import org.modeshape.common.text.Inflector;

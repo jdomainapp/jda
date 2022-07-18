@@ -6,7 +6,7 @@ import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.vuejs.VueAppTemplate;
 import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
 import jda.modules.mosarfrontend.reactjs_new_gen.ReactAppTemplate;
-import jda.modules.mosarfrontend.angular_new_gen.AngularAppTemplate;
+import jda.modules.mosarfrontend.angular.AngularAppTemplate;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -1,8 +1,8 @@
 package jda.modules.mosarfrontend.reactnative.src.modules.module;
 
-import jda.modules.mosarfrontend.common.anotation.IfReplacement;
-import jda.modules.mosarfrontend.common.anotation.RequiredParam;
-import jda.modules.mosarfrontend.common.anotation.WithFilePath;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.IfReplacement;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.WithFilePath;
 import jda.modules.mosarfrontend.common.utils.Domain;
 import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
 

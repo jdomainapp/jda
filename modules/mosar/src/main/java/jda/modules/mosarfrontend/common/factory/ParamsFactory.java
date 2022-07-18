@@ -2,7 +2,7 @@
 package jda.modules.mosarfrontend.common.factory;
 
 import jda.modules.mosar.config.RFSGenConfig;
-import jda.modules.mosarfrontend.common.anotation.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.RequiredParam;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
 import jda.modules.mosarfrontend.common.utils.NewMCC;
@@ -75,6 +75,12 @@ public class ParamsFactory {
                 if (dField.getDAssoc() != null) {
                     NewMCC linkedDomain = this.domains.get(dField.getDAssoc().associate().type().getSimpleName());
                     dField.setLinkedDomain(linkedDomain);
+                    for (DField field : linkedDomain.getDFields()) {
+                        if (field.getDAssoc() != null && field.getDAssoc().ascName().equals(dField.getDAssoc().ascName())) {
+                            dField.setLinkedField(field);
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -164,13 +170,15 @@ public class ParamsFactory {
     public Domain[] getLinkedDomains() {
         ArrayList<Domain> domains = new ArrayList<>();
         Arrays.stream(this.currentNewMCC.getDFields()).forEach(f -> {
-            if (f.getLinkedDomain() !=null){
+            if (f.getLinkedDomain() != null) {
                 NewMCC mcc = f.getLinkedDomain();
                 domains.add(mcc);
-            };
+            }
+            ;
         });
         return domains.toArray(Domain[]::new);
     }
+
     @RequiredParam.TemplateFolder
     public String getTEMPLATE_ROOT_FOLDER() {
         return TEMPLATE_ROOT_FOLDER;

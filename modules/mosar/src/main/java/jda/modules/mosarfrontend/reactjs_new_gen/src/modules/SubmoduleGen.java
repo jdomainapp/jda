@@ -1,7 +1,11 @@
 package jda.modules.mosarfrontend.reactjs_new_gen.src.modules;
 
 import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.mosarfrontend.common.anotation.*;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.SkipGenDecision;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.SlotReplacement;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.WithFileName;
+import jda.modules.mosarfrontend.common.anotation.template_desc.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
 
