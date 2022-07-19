@@ -90,6 +90,7 @@ bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic enrol
 ## 2. Build projects
 - Install lombk project on Eclipse: https://projectlombok.org/setup/eclipse
 (alt: https://www.baeldung.com/lombok-ide)
+	- Note: after installation: (1) restart the IDE, (2) Rebuild all projects
 - Copy library folder `.../json-path/2.4.0` in `local-maven-repo` to your Maven repository
 - Run command:
 ```
