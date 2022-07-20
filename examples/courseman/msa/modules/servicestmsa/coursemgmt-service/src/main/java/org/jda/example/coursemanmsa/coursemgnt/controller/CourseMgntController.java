@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jda.modules.dodm.dsm.DSM;
+
 @RestController
 @RequestMapping(value="/")
 public class CourseMgntController {
@@ -33,14 +35,15 @@ public class CourseMgntController {
   public final static String PATH_STUDENTENROLMENT="/stenrolment/";
 	
 	@RequestMapping(value = PATH_COURSEMODULEMGNT+"**")
-	public ResponseEntity handleCoursemodulemgnt(HttpServletRequest req, HttpServletResponse res) throws IOException {
+	public ResponseEntity handleCourseModuleMgnt(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		RedirectController controller = RedirectControllerRegistry.getInstance().get("cmodulemgnt");
 
 		MyResponseEntity myResposeEntiy =  controller.handleRequest(req, res, PATH_COURSEMODULEMGNT);
 		ChangeModel changeModel = myResposeEntiy.getChangeModel();
 		if(changeModel!=null) {
 			if(changeModel.getId()==null) {
-				Object result = myResposeEntiy.getResponseEntity().getBody();
+        Object result = myResposeEntiy.getResponseEntity().getBody();
+			  /* ducmle: use generic code
 				if(result instanceof Coursemodule) {
 					int id = ((Coursemodule) result).getId();
 					changeModel.setId(id);
@@ -48,6 +51,9 @@ public class CourseMgntController {
 					int id = ((Teacher) result).getId();
 					changeModel.setId(id);
 				}
+				*/
+			  int id = DSM.doGetterMethod(result.getClass(), result, "id", Integer.class);
+        changeModel.setId(id);
 			}
 			sourceBean.publishChange(changeModel);
 		}
@@ -55,20 +61,21 @@ public class CourseMgntController {
 	}
 	
 	@RequestMapping(value = PATH_STUDENTENROLMENT+"**")
-	public ResponseEntity handleStudentenrolment(HttpServletRequest req, HttpServletResponse res) throws IOException {
+	public ResponseEntity handleStudentEnrolment(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		RedirectController controller = RedirectControllerRegistry.getInstance().get("stenrolment");
 		MyResponseEntity myResposeEntiy =  controller.handleRequest(req, res, PATH_STUDENTENROLMENT);
 		ChangeModel changeModel = myResposeEntiy.getChangeModel();
 		if(changeModel!=null) {
 			if(changeModel.getId()==null) {
 				Object result = myResposeEntiy.getResponseEntity().getBody();
-				if(result instanceof Student) {
-					String id = ((Student) result).getId();
-					changeModel.setId(id);
-				}else if(result instanceof Enrolment) {
-					int id = ((Enrolment) result).getId();
-					changeModel.setId(id);
-				}
+        /* ducmle: use generic code
+         * if(result instanceof Student) { String id = ((Student)
+         * result).getId(); changeModel.setId(id); }else if(result instanceof
+         * Enrolment) { int id = ((Enrolment) result).getId();
+         * changeModel.setId(id); }
+         */
+				int id = DSM.doGetterMethod(result.getClass(), result, "id", Integer.class);
+        changeModel.setId(id);
 			}
 			sourceBean.publishChange(changeModel);
 		}

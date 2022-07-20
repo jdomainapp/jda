@@ -4869,8 +4869,30 @@ public class DSMBasic {
   
   /**
    * @effects 
-   *  find in class <tt>c</tt> a getter method for attribute <tt>attribName</tt> whose return type is <tt>methodReturnType</tt>.
-   *  <br>If found, execute method on object <tt>o</tt> and return the result
+   *  find in class <tt>c</tt> a getter method for attribute <tt>attribName</tt>.
+   *  <br>If found, execute method on object <tt>o</tt> and return the result, casted to the expected return type <tt>T</tt>.
+   *  
+   *  <p>Throws NotFoundException if method is not found, NotPossibleException if failed to execute the method.
+   *  
+   * @version 5.4.1
+   */
+  public static <T> T doGetterMethod(Class cls, Object o, String attribName, Class<T> returnType, Object...args) 
+      throws NotPossibleException, NotFoundException {
+    Method m = findGetterMethod(attribName, cls);
+    
+    try {
+      return (T) m.invoke(o, args);
+    } catch (IllegalAccessException | IllegalArgumentException
+        | InvocationTargetException e) {
+      throw new NotPossibleException(
+          NotPossibleException.Code.FAIL_TO_PERFORM_METHOD, e, new Object[] {o, "getter_" + attribName, ""});
+    } 
+  }
+  
+  /**
+   * @effects 
+   *  find in class <tt>c</tt> a setter method for attribute <tt>attribName</tt>.
+   *  <br>If found, execute method on object <tt>o</tt>, using <tt>args</tt>, and return the result.
    *  
    *  <p>Throws NotFoundException if method is not found, NotPossibleException if failed to execute the method.
    *  
