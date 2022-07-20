@@ -37,14 +37,15 @@ public class AcademicAdminController {
 	}
 	
 	@RequestMapping(value = "/coursemgnt/**")
-	public ResponseEntity handleStudentenrolment(HttpServletRequest req, HttpServletResponse res) throws IOException {
+	public ResponseEntity handleCourseManagement(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		String path = "http://gateway-server/coursemgnt-service/"+req.getServletPath().replace("/coursemgnt/", "");;
 		String requestData = req.getReader().lines().collect(Collectors.joining()).trim();
 		return getDataByREST(path, req.getMethod(), requestData);
 	}
 	
 	public ResponseEntity getDataByREST(String path, String method, String body) {
-		ResponseEntity restExchange = restTemplate.exchange(path, HttpMethod.resolve(method), new HttpEntity<String>(body), String.class);
+		ResponseEntity restExchange = restTemplate.exchange(path, 
+		    HttpMethod.resolve(method), new HttpEntity<String>(body), String.class);
 		return restExchange;
 	}
 
