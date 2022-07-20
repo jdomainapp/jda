@@ -30,7 +30,7 @@ public class AcademicAdminController {
 	RestTemplate restTemplate;
 
 	@RequestMapping(value = "/assessmenthub/**")
-	public ResponseEntity handleCoursemodulemgnt(HttpServletRequest req, HttpServletResponse res) throws IOException {
+	public ResponseEntity handleAssessment(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		String path = "http://gateway-server/assessmenthub-service/"+req.getServletPath().replace("/assessmenthub/", "");
 		String requestData = req.getReader().lines().collect(Collectors.joining()).trim();
 		return getDataByREST(path, req.getMethod(), requestData);
