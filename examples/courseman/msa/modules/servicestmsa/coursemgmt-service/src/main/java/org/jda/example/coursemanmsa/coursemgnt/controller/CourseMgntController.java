@@ -25,12 +25,16 @@ public class CourseMgntController {
 	@Autowired
 	SimpleSourceBean sourceBean;
 	
+	/** ducmle: renamed to avoid path matching error:
 	public final static String PATH_COURSEMODULEMGNT="/coursemodulemgnt/";
 	public final static String PATH_STUDENTENROLMENT="/studentenrolment/";
+	*/
+  public final static String PATH_COURSEMODULEMGNT="/cmodulemgnt/";
+  public final static String PATH_STUDENTENROLMENT="/stenrolment/";
 	
 	@RequestMapping(value = PATH_COURSEMODULEMGNT+"**")
 	public ResponseEntity handleCoursemodulemgnt(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		RedirectController controller = RedirectControllerRegistry.getInstance().get("coursemodulemgnt");
+		RedirectController controller = RedirectControllerRegistry.getInstance().get("cmodulemgnt");
 
 		MyResponseEntity myResposeEntiy =  controller.handleRequest(req, res, PATH_COURSEMODULEMGNT);
 		ChangeModel changeModel = myResposeEntiy.getChangeModel();
@@ -52,7 +56,7 @@ public class CourseMgntController {
 	
 	@RequestMapping(value = PATH_STUDENTENROLMENT+"**")
 	public ResponseEntity handleStudentenrolment(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		RedirectController controller = RedirectControllerRegistry.getInstance().get("studentenrolment");
+		RedirectController controller = RedirectControllerRegistry.getInstance().get("stenrolment");
 		MyResponseEntity myResposeEntiy =  controller.handleRequest(req, res, PATH_STUDENTENROLMENT);
 		ChangeModel changeModel = myResposeEntiy.getChangeModel();
 		if(changeModel!=null) {

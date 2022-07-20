@@ -34,28 +34,28 @@ import jda.mosa.controller.assets.util.MethodName;
 @DClass(serialisable=false, singleton=true)
 /**Activity graph configuration */
 @AGraph(nodes={
-@ANode(refCls=Student.class, serviceCls=DataController.class, outClses={DHelpOrSClass.class}, init=true, 
-      actSeq={
-        // create new and wait until a new object is created
-        @MAct(actName=MethodName.newObject, endStates={AppState.Created})
-        }),
-@ANode(refCls=DHelpOrSClass.class, nodeType=NodeType.Decision, 
-      outClses={HelpRequest.class, SClassRegistration.class}),
-@ANode(refCls=HelpRequest.class, serviceCls=DataController.class 
-      //,outClses={SClassRegistration.class}
-      ,actSeq={
-        // prepare to create new
-        @MAct(actName=MethodName.newObject, endStates={AppState.NewObject}),  
-        // set value for HelpDesk.Student
-        @MAct(actName=MethodName.setDataFieldValues, attribNames={HelpRequest.A_student}, endStates={AppState.Created}),  
-        }),
-@ANode(refCls=SClassRegistration.class, serviceCls=DataController.class, 
-      actSeq={
-        //prepare to create new
-        @MAct(actName=MethodName.newObject, endStates={AppState.NewObject}),  
-        // set value for SClassRegistration.Student
-        @MAct(actName=MethodName.setDataFieldValues, attribNames={SClassRegistration.A_student}, endStates={AppState.Created}),  
-        })
+  @ANode(refCls=Student.class, serviceCls=DataController.class, outClses={DHelpOrSClass.class}, init=true, 
+        actSeq={
+          // create new and wait until a new object is created
+          @MAct(actName=MethodName.newObject, endStates={AppState.Created})
+          }),
+  @ANode(refCls=DHelpOrSClass.class, nodeType=NodeType.Decision, 
+        outClses={HelpRequest.class, SClassRegistration.class}),
+  @ANode(refCls=HelpRequest.class, serviceCls=DataController.class 
+        //,outClses={SClassRegistration.class}
+        ,actSeq={
+          // prepare to create new
+          @MAct(actName=MethodName.newObject, endStates={AppState.NewObject}),  
+          // set value for HelpDesk.Student
+          @MAct(actName=MethodName.setDataFieldValues, attribNames={HelpRequest.A_student}, endStates={AppState.Created}),  
+          }),
+  @ANode(refCls=SClassRegistration.class, serviceCls=DataController.class, 
+        actSeq={
+          //prepare to create new
+          @MAct(actName=MethodName.newObject, endStates={AppState.NewObject}),  
+          // set value for SClassRegistration.Student
+          @MAct(actName=MethodName.setDataFieldValues, attribNames={SClassRegistration.A_student}, endStates={AppState.Created}),  
+          })
 })
 /**END: activity graph configuration */
 public class EnrolmentMgmt {

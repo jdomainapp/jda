@@ -36,9 +36,34 @@ bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic teach
 - Each service create a postgresql database `domainds` with user/password: admin/password
 ## Create schema `assessmenthub` have 4 tables:
 ```
+CREATE TABLE IF NOT EXISTS assessmenthub.student
+(
+    id character varying(6) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(30) COLLATE pg_catalog."default",
+    gender_name character varying(10) COLLATE pg_catalog."default",
+    dob date,
+    address_id integer,
+    email character varying(30) COLLATE pg_catalog."default",
+    studentclass_id integer,
+    deptname character varying(30) COLLATE pg_catalog."default",
+    CONSTRAINT student_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS assessmenthub.teacher
+(
+    id serial NOT NULL,
+    name character varying(30) COLLATE pg_catalog."default",
+    gender_name character varying(10) COLLATE pg_catalog."default",
+    dob date,
+    address_id integer,
+    email character varying(30) COLLATE pg_catalog."default",
+    deptname character varying(30) COLLATE pg_catalog."default",
+    CONSTRAINT teacher_pkey PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS assessmenthub.coursemodule
 (
-    id integer NOT NULL DEFAULT nextval('assessmenthub.coursemodule_id_seq'::regclass),
+    id serial NOT NULL,
     code character varying(12) COLLATE pg_catalog."default",
     name character varying(30) COLLATE pg_catalog."default",
     semester integer,
@@ -56,7 +81,7 @@ CREATE TABLE IF NOT EXISTS assessmenthub.coursemodule
 
 CREATE TABLE IF NOT EXISTS assessmenthub.enrolment
 (
-    id integer NOT NULL DEFAULT nextval('assessmenthub.enrolment_id_seq'::regclass),
+    id serial NOT NULL,
     student_id character varying(6) COLLATE pg_catalog."default",
     coursemodule_id integer,
     internalmark double precision,
@@ -74,8 +99,10 @@ CREATE TABLE IF NOT EXISTS assessmenthub.enrolment
         ON DELETE CASCADE
         NOT VALID
 );
-
-CREATE TABLE IF NOT EXISTS assessmenthub.student
+```
+## Create schema `coursemgnt` have 4 tables:
+```
+CREATE TABLE IF NOT EXISTS coursemgnt.student
 (
     id character varying(6) COLLATE pg_catalog."default" NOT NULL,
     name character varying(30) COLLATE pg_catalog."default",
@@ -88,9 +115,9 @@ CREATE TABLE IF NOT EXISTS assessmenthub.student
     CONSTRAINT student_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS assessmenthub.teacher
+CREATE TABLE IF NOT EXISTS coursemgnt.teacher
 (
-    id integer SERIAL,
+    id SERIAL NOT NULL,
     name character varying(30) COLLATE pg_catalog."default",
     gender_name character varying(10) COLLATE pg_catalog."default",
     dob date,
@@ -99,12 +126,10 @@ CREATE TABLE IF NOT EXISTS assessmenthub.teacher
     deptname character varying(30) COLLATE pg_catalog."default",
     CONSTRAINT teacher_pkey PRIMARY KEY (id)
 );
-```
-## Create schema `coursemgnt` have 4 tables:
-```
+
 CREATE TABLE IF NOT EXISTS coursemgnt.coursemodule
 (
-    id integer NOT NULL DEFAULT nextval('assessmenthub.coursemodule_id_seq'::regclass),
+    id serial NOT NULL,
     code character varying(12) COLLATE pg_catalog."default",
     name character varying(30) COLLATE pg_catalog."default",
     semester integer,
@@ -122,7 +147,7 @@ CREATE TABLE IF NOT EXISTS coursemgnt.coursemodule
 
 CREATE TABLE IF NOT EXISTS coursemgnt.enrolment
 (
-    id integer NOT NULL DEFAULT nextval('assessmenthub.enrolment_id_seq'::regclass),
+    id serial NOT NULL,
     student_id character varying(6) COLLATE pg_catalog."default",
     coursemodule_id integer,
     internalmark double precision,
@@ -141,30 +166,6 @@ CREATE TABLE IF NOT EXISTS coursemgnt.enrolment
         NOT VALID
 );
 
-CREATE TABLE IF NOT EXISTS coursemgnt.student
-(
-    id character varying(6) COLLATE pg_catalog."default" NOT NULL,
-    name character varying(30) COLLATE pg_catalog."default",
-    gender_name character varying(10) COLLATE pg_catalog."default",
-    dob date,
-    address_id integer,
-    email character varying(30) COLLATE pg_catalog."default",
-    studentclass_id integer,
-    deptname character varying(30) COLLATE pg_catalog."default",
-    CONSTRAINT student_pkey PRIMARY KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS coursemgnt.teacher
-(
-    id integer SERIAL,
-    name character varying(30) COLLATE pg_catalog."default",
-    gender_name character varying(10) COLLATE pg_catalog."default",
-    dob date,
-    address_id integer,
-    email character varying(30) COLLATE pg_catalog."default",
-    deptname character varying(30) COLLATE pg_catalog."default",
-    CONSTRAINT teacher_pkey PRIMARY KEY (id)
-);
 ```
 
 # Run academicadmin-service

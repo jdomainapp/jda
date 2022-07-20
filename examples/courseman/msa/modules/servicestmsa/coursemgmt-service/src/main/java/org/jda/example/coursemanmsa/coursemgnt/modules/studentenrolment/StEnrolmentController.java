@@ -14,8 +14,11 @@ import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.model.Teacher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+/**ducmle: renamed to match path update */
 @Controller
-public class StudentEnrolmentController extends RedirectController{
+//public class StudentEnrolmentController 
+public class StEnrolmentController
+extends RedirectController{
 	
 	
 	public final static String PATH_STUDENT="/student";
