@@ -17,6 +17,8 @@ import org.springframework.stereotype.Controller;
 /**ducmle: renamed to match path update */
 @Controller
 //public class StudentEnrolmentController 
+// FIXME: refactor this class to use PathMap and match...Path functions, similar to CModuleMgntController 
+// 
 public class StEnrolmentController
 extends RedirectController{
 	

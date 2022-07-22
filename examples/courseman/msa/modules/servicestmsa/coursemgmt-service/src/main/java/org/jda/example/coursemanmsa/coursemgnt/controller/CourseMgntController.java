@@ -38,11 +38,12 @@ public class CourseMgntController {
 	public ResponseEntity handleCourseModuleMgnt(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		RedirectController controller = RedirectControllerRegistry.getInstance().get("cmodulemgnt");
 
-		MyResponseEntity myResposeEntiy =  controller.handleRequest(req, res, PATH_COURSEMODULEMGNT);
-		ChangeModel changeModel = myResposeEntiy.getChangeModel();
+		MyResponseEntity myResponseEntiy =  controller.handleRequest(req, res, PATH_COURSEMODULEMGNT);
+		ChangeModel changeModel = myResponseEntiy.getChangeModel();
+		/** TODO: can we move the following id update of ChangeModel to MyResponseEntity, when the ResponseEntity is set ? */
 		if(changeModel!=null) {
 			if(changeModel.getId()==null) {
-        Object result = myResposeEntiy.getResponseEntity().getBody();
+        Object result = myResponseEntiy.getResponseEntity().getBody();
 			  /* ducmle: use generic code
 				if(result instanceof Coursemodule) {
 					int id = ((Coursemodule) result).getId();
@@ -57,17 +58,17 @@ public class CourseMgntController {
 			}
 			sourceBean.publishChange(changeModel);
 		}
-		return myResposeEntiy.getResponseEntity();
+		return myResponseEntiy.getResponseEntity();
 	}
 	
 	@RequestMapping(value = PATH_STUDENTENROLMENT+"**")
 	public ResponseEntity handleStudentEnrolment(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		RedirectController controller = RedirectControllerRegistry.getInstance().get("stenrolment");
-		MyResponseEntity myResposeEntiy =  controller.handleRequest(req, res, PATH_STUDENTENROLMENT);
-		ChangeModel changeModel = myResposeEntiy.getChangeModel();
+		MyResponseEntity myResponseEntiy =  controller.handleRequest(req, res, PATH_STUDENTENROLMENT);
+		ChangeModel changeModel = myResponseEntiy.getChangeModel();
 		if(changeModel!=null) {
 			if(changeModel.getId()==null) {
-				Object result = myResposeEntiy.getResponseEntity().getBody();
+				Object result = myResponseEntiy.getResponseEntity().getBody();
         /* ducmle: use generic code
          * if(result instanceof Student) { String id = ((Student)
          * result).getId(); changeModel.setId(id); }else if(result instanceof
@@ -79,6 +80,6 @@ public class CourseMgntController {
 			}
 			sourceBean.publishChange(changeModel);
 		}
-		return myResposeEntiy.getResponseEntity();
+		return myResponseEntiy.getResponseEntity();
 	}
 }

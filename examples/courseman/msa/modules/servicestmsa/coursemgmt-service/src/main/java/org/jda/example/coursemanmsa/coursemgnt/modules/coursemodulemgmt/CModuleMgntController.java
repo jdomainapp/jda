@@ -37,22 +37,26 @@ extends RedirectController{
 	public MyResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String pathPattern) {
 		String path = req.getServletPath();
 		/* ducmle: use generic code
-		if(path.matches("(.*)"+PATH_COURSEMODULE+"(.*)")) {
+		if (path.matches("(.*)"+PATH_COURSEMODULE+"(.*)")) {
 			return handleCoursemodule(req, res);
-		}else if(path.matches("(.*)"+PATH_TEACHER+"(.*)")) {
+		} else if(path.matches("(.*)"+PATH_TEACHER+"(.*)")) {
 			return handleTeacher(req, res);
-		}else {
+		} else {
 			return new MyResponseEntity(ResponseEntity.ok("No method for request URL"), null);
 		}
 		*/
 		for (Entry<String, Class<?>> e : PathMap.entrySet()) {
 		  String p = e.getKey(); 
 		  Class<?> cls = e.getValue();
-      if(path.matches("(.*)"+p+"(.*)")) {
+      // ducmle: to generalise
+      // if(path.matches("(.*)"+p+"(.*)")) {
+		  if(matchDescendantModulePath(path,p)) {
         // handle invocation
         DefaultController<?, Integer> controller = ControllerRegistry.getInstance().get(cls);
         Integer id= null;
-        if(path.matches("(.*)"+p+"/(.+)")) {  // id available in path
+        // ducmle: to generalise
+        //if(path.matches("(.*)"+p+"/(.+)")) {  // id available in path
+        if(matchDescendantModulePathWithId(path, p)) {  // id available in path
           String pathVariable = path.substring(path.lastIndexOf("/")+1);
           id = Integer.parseInt(pathVariable);
         }        
@@ -63,7 +67,7 @@ extends RedirectController{
 		// invalid path
     return new MyResponseEntity(ResponseEntity.ok("Invalid path: " + path), null);
 	}
-	
+
 	/* ducmle: to generalise 
 	public MyResponseEntity handleCoursemodule(HttpServletRequest req, HttpServletResponse res){
 		DefaultController<Coursemodule, Integer> controller = ControllerRegistry.getInstance().get(Coursemodule.class);
