@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS assessmenthub.student
 
 CREATE TABLE IF NOT EXISTS assessmenthub.teacher
 (
-    id serial NOT NULL,
+    id INTEGER NOT NULL,
     name character varying(30) COLLATE pg_catalog."default",
     gender_name character varying(10) COLLATE pg_catalog."default",
     dob date,
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS assessmenthub.teacher
 
 CREATE TABLE IF NOT EXISTS assessmenthub.coursemodule
 (
-    id serial NOT NULL,
+    id INTEGER NOT NULL,
     code character varying(12) COLLATE pg_catalog."default",
     name character varying(30) COLLATE pg_catalog."default",
     semester integer,
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS assessmenthub.coursemodule
 
 CREATE TABLE IF NOT EXISTS assessmenthub.enrolment
 (
-    id serial NOT NULL,
+    id INTEGER NOT NULL,
     student_id character varying(6) COLLATE pg_catalog."default",
     coursemodule_id integer,
     internalmark double precision,
