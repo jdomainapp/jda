@@ -25,8 +25,10 @@ public class AcademicAdminController {
 	@RequestMapping(value = "/assessmenthub/**")
 	public ResponseEntity handleAssessment(HttpServletRequest req, HttpServletResponse res) throws IOException {
 	  // ducmle: to generalise
-		String path = ControllerTk.getServiceUri(req, "assessmenthub"); 
-		    //"http://gateway-server/assessmenthub-service/"+req.getServletPath().replace("/assessmenthub/", "");
+		String path = 
+//				Error
+//				ControllerTk.getServiceUri(req, "assessmenthub"); 
+		    "http://gateway-server/assessmenthub-service/"+req.getServletPath().replace("/assessmenthub/", "");
 		String requestData = ControllerTk.getRequestData(req);
 		    //req.getReader().lines().collect(Collectors.joining()).trim();
 		
@@ -37,8 +39,10 @@ public class AcademicAdminController {
   @RequestMapping(value = "/coursemgnt/**")
 	public ResponseEntity handleCourseManagement(HttpServletRequest req, HttpServletResponse res) throws IOException {
     // ducmle: to generalise
-		String path = ControllerTk.getServiceUri(req, "coursemgnt"); 
-		    // "http://gateway-server/coursemgnt-service/"+req.getServletPath().replace("/coursemgnt/", "");;
+		String path = 
+//				Error
+//				ControllerTk.getServiceUri(req, "coursemgnt"); 
+		     "http://gateway-server/coursemgnt-service/"+req.getServletPath().replace("/coursemgnt/", "");
 		String requestData = ControllerTk.getRequestData(req); 
 		    //req.getReader().lines().collect(Collectors.joining()).trim();
 		return invokeService(path, req.getMethod(), requestData);

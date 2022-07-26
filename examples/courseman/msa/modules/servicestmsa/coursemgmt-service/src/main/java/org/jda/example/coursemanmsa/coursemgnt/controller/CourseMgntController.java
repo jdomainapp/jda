@@ -56,6 +56,8 @@ public class CourseMgntController {
 			  int id = DSM.doGetterMethod(result.getClass(), result, "id", Integer.class);
         changeModel.setId(id);
 			}
+			String kafkaPath ="http://gateway-server/coursemgnt-service/"+req.getServletPath()+"/{id}";
+			changeModel.setPath(kafkaPath);
 			sourceBean.publishChange(changeModel);
 		}
 		return myResponseEntiy.getResponseEntity();
@@ -78,6 +80,8 @@ public class CourseMgntController {
 				int id = DSM.doGetterMethod(result.getClass(), result, "id", Integer.class);
         changeModel.setId(id);
 			}
+			String kafkaPath ="http://gateway-server/coursemgnt-service/"+req.getServletPath()+"/{id}";
+			changeModel.setPath(kafkaPath);
 			sourceBean.publishChange(changeModel);
 		}
 		return myResponseEntiy.getResponseEntity();

@@ -16,8 +16,10 @@ import javax.persistence.Transient;
 
 import org.jda.example.coursemanmsa.coursemgnt.modules.enrolment.model.Enrolment;
 import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.model.Teacher;
+import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Getter;

@@ -34,7 +34,6 @@ public class Enrolment extends RepresentationModel<Enrolment> {
 
 	@Id
 	@Column(name = "id", nullable = false)
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private int id;
 //	@Column(name = "student_id", nullable = false)
 //	private String studentId;

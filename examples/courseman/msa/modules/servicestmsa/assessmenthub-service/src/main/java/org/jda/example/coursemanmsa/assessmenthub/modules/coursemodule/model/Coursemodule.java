@@ -14,9 +14,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.jda.example.coursemanmsa.assessmenthub.modules.enrolment.model.Enrolment;
 import org.jda.example.coursemanmsa.assessmenthub.modules.teacher.model.Teacher;
+import org.springframework.hateoas.RepresentationModel;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,23 +33,16 @@ import lombok.ToString;
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
 		  property = "id", scope = Coursemodule.class)
-public class Coursemodule {
+public class Coursemodule{
 
 	@Id
 	@Column(name = "id", nullable = false)
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private int id;
-
 	private String code;
-
 	private int credits;
-
 	private String name;
-
 	private int semester;
-	
 	private String coursemoduletype;
-	
 	private String deptname;
 	
 //	@Column(name = "teacher_id")

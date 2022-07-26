@@ -18,36 +18,36 @@ public class ChangeHandler {
 
 	private static final Logger logger = LoggerFactory.getLogger(ChangeHandler.class);
 
-	@StreamListener("inboundCoursemoduleChanges")
+	@StreamListener("inboundCourseChanges")
 	public void processCoursemoduleChanges(ChangeModel<Integer> model) {
 		logger.debug("Received a message of type " + model.getType());
-		String restPath="http://gateway-server/coursemgnt-service/coursemodulemgnt/coursemodule/{id}";
+//		String restPath="http://gateway-server/coursemgnt-service/coursemodulemgnt/coursemodule/{id}";
 		DefaultController<Coursemodule, Integer> controller = ControllerRegistry.getInstance().get(Coursemodule.class);
-		controller.executeReceivedEvent(model.getAction(), model.getId(), restPath);
+		controller.executeReceivedEvent(model.getAction(), model.getId(), model.getPath());
 	}
 	
 	@StreamListener("inboundEnrolmentChanges")
 	public void processEnrolmentChanges(ChangeModel<Integer> model) {
 		logger.debug("Received a message of type " + model.getType());
-		String restPath="http://gateway-server/coursemgnt-service/studentenrolment/enrolment/{id}";
+//		String restPath="http://gateway-server/coursemgnt-service/studentenrolment/enrolment/{id}";
 		DefaultController<Enrolment, Integer> controller = ControllerRegistry.getInstance().get(Enrolment.class);
-		controller.executeReceivedEvent(model.getAction(), model.getId(), restPath);
+		controller.executeReceivedEvent(model.getAction(), model.getId(), model.getPath());
 	}
 	
 	@StreamListener("inboundStudentChanges")
 	public void processStudentChanges(ChangeModel<String> model) {
 		logger.debug("Received a message of type " + model.getType());
-		String restPath="http://gateway-server/coursemgnt-service/studentenrolment/student/{id}";
+//		String restPath="http://gateway-server/coursemgnt-service/studentenrolment/student/{id}";
 		DefaultController<Student, String> controller = ControllerRegistry.getInstance().get(Student.class);
-		controller.executeReceivedEvent(model.getAction(), model.getId(), restPath);
+		controller.executeReceivedEvent(model.getAction(), model.getId(), model.getPath());
 	}
 	
 	@StreamListener("inboundTeacherChanges")
 	public void processTeacherChanges(ChangeModel<Integer> model) {
 		logger.debug("Received a message of type " + model.getType());
-		String restPath="http://gateway-server/coursemgnt-service/coursemodulemgnt/teacher/{id}";
+//		String restPath="http://gateway-server/coursemgnt-service/coursemodulemgnt/teacher/{id}";
 		DefaultController<Teacher, Integer> controller = ControllerRegistry.getInstance().get(Teacher.class);
-		controller.executeReceivedEvent(model.getAction(), model.getId(), restPath);
+		controller.executeReceivedEvent(model.getAction(), model.getId(), model.getPath());
 	}
 
 }

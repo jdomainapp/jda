@@ -28,11 +28,10 @@ import lombok.ToString;
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
 		  property = "id", scope = Teacher.class)
-public class Teacher extends RepresentationModel<Teacher> {
+public class Teacher {
 
 	@Id
 	@Column(name = "id", nullable = false)
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private int id;
 	@Column(name = "name", nullable = false)
 	private String teacherName;
