@@ -19,6 +19,7 @@
 		<module>academicadmin-service</module>
 		<module>coursemgmt-service</module>
 		<module>assessmenthub-service</module>
+		<module>financehub-service</module>
 
 	</modules>
 

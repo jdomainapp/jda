@@ -5,6 +5,11 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 /**
  * @overview 
  *  Implement shared features for controllers.
@@ -39,4 +44,10 @@ public class ControllerTk {
   public static String getRequestData(HttpServletRequest req) throws IOException {
     return req.getReader().lines().collect(Collectors.joining()).trim();
   }
+  
+  public static ResponseEntity invokeService(RestTemplate restTemplate, String path, String method, String body) {
+		ResponseEntity restExchange = restTemplate.exchange(path, 
+		    HttpMethod.resolve(method), new HttpEntity<String>(body), String.class);
+		return restExchange;
+	}
 }

@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.academicadmin.controller;
+package org.jda.example.coursemanmsa.financehub.controller;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping(value="/")
-public class AcademicAdminController {
+public class FinanceController {
 	
 	@Autowired
 	RestTemplate restTemplate;
@@ -33,19 +33,6 @@ public class AcademicAdminController {
 		    //req.getReader().lines().collect(Collectors.joining()).trim();
 		
 		//ducmle: renamed
-		return ControllerTk.invokeService(restTemplate,path, req.getMethod(), requestData);
+		return ControllerTk.invokeService(restTemplate, path, req.getMethod(), requestData);
 	}
-	
-  @RequestMapping(value = "/coursemgnt/**")
-	public ResponseEntity handleCourseManagement(HttpServletRequest req, HttpServletResponse res) throws IOException {
-    // ducmle: to generalise
-		String path = 
-//				Error
-//				ControllerTk.getServiceUri(req, "coursemgnt"); 
-		     "http://gateway-server/coursemgnt-service/"+req.getServletPath().replace("/coursemgnt/", "");
-		String requestData = ControllerTk.getRequestData(req); 
-		    //req.getReader().lines().collect(Collectors.joining()).trim();
-		return ControllerTk.invokeService(restTemplate,path, req.getMethod(), requestData);
-	}
-
 }
