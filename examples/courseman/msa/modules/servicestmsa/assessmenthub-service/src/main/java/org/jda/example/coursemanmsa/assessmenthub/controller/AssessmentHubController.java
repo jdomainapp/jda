@@ -4,7 +4,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.Coursemodule;
+import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.CourseModule;
 import org.jda.example.coursemanmsa.assessmenthub.modules.enrolment.model.Enrolment;
 import org.jda.example.coursemanmsa.assessmenthub.modules.student.model.Student;
 import org.jda.example.coursemanmsa.assessmenthub.modules.teacher.model.Teacher;
@@ -50,7 +50,7 @@ public class AssessmentHubController {
 	
 	@RequestMapping(value = PATH_COURSEMODULE+"**")
 	public ResponseEntity handleCoursemodule(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		DefaultController<Coursemodule, Integer> controller = ControllerRegistry.getInstance().get(Coursemodule.class);
+		DefaultController<CourseModule, Integer> controller = ControllerRegistry.getInstance().get(CourseModule.class);
 		String path = req.getServletPath();
 		Integer id= null;
 		if(path.matches("(.*)"+PATH_COURSEMODULE+"(.+)")) {

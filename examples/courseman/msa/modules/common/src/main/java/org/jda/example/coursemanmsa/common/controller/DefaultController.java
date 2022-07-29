@@ -124,6 +124,7 @@ public abstract class DefaultController<T, ID> implements IController<T, ID> {
     public ResponseEntity<T> createEntity(@RequestBody T inputEntity) {
     	PagingAndSortingRepository<T, ID> service = getServiceOfGenericType(genericType);
         T createdEntity = service.save(inputEntity);
+        
         return ResponseEntity.ok(createdEntity);
     }
 

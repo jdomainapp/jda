@@ -7,7 +7,7 @@ import org.jda.example.coursemanmsa.common.controller.ControllerRegistry;
 import org.jda.example.coursemanmsa.common.controller.DefaultController;
 import org.jda.example.coursemanmsa.common.controller.RedirectController;
 import org.jda.example.coursemanmsa.common.model.MyResponseEntity;
-import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.model.Coursemodule;
+import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.model.CourseModule;
 import org.jda.example.coursemanmsa.coursemgnt.modules.enrolment.model.Enrolment;
 import org.jda.example.coursemanmsa.coursemgnt.modules.student.model.Student;
 import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.model.Teacher;

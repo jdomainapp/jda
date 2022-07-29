@@ -29,9 +29,9 @@ public class ControllerTk {
   public static String getServiceUri(HttpServletRequest req, String serviceName) {
     // e.g "http://gateway-server/assessmenthub-service/"+req.getServletPath().replace("/assessmenthub/", "")
     final String gwUri = "http://gateway-server";
-    String serviceUriPattern = "%s/%s-service/%s";
-    String serviceUri = String.format(serviceUriPattern, gwUri, 
-        req.getServletPath().replace("/"+serviceName+"/", ""));
+    String serviceUriPattern = "%s%s-service/%s";
+    String reqPath = req.getServletPath().replace(serviceName+"/", "");
+    String serviceUri = String.format(serviceUriPattern, gwUri,serviceName, reqPath);
     return serviceUri;
   }
   
@@ -49,5 +49,13 @@ public class ControllerTk {
 		ResponseEntity restExchange = restTemplate.exchange(path, 
 		    HttpMethod.resolve(method), new HttpEntity<String>(body), String.class);
 		return restExchange;
+	}
+  
+  public static <ID> ID parseDomainId(Class <?> cls, String pathVariable) {
+//		TODO: 1, get domain field id from class
+//		2, convert pathVariable to id.type
+//		3, cast to ID
+		  
+		return (ID) Integer.getInteger(pathVariable);
 	}
 }

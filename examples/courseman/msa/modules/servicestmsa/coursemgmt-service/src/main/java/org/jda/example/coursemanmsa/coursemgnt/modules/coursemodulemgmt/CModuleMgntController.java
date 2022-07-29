@@ -9,19 +9,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.courseman.modules.coursemodule.model.CourseModule;
 import org.jda.example.coursemanmsa.common.controller.ControllerRegistry;
+import org.jda.example.coursemanmsa.common.controller.ControllerTk;
 import org.jda.example.coursemanmsa.common.controller.DefaultController;
 import org.jda.example.coursemanmsa.common.controller.RedirectController;
 import org.jda.example.coursemanmsa.common.model.MyResponseEntity;
-import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.model.Coursemodule;
 import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.model.Teacher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import jda.modules.dodm.dsm.DSM;
+
 /**ducmle: renamed to match path update */
 @Controller
 //public class CourseModuleMgntController 
-public class CModuleMgntController 
-extends RedirectController{
+public class CModuleMgntController<ID> extends RedirectController<ID>{
 	
   /* ducmle: to generalise
 	public final static String PATH_TEACHER="/teacher";
@@ -34,7 +35,7 @@ extends RedirectController{
   	}};
 	
 	@Override
-	public MyResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String pathPattern) {
+	public MyResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String parentElement) {
 		String path = req.getServletPath();
 		/* ducmle: use generic code
 		if (path.matches("(.*)"+PATH_COURSEMODULE+"(.*)")) {
@@ -50,15 +51,16 @@ extends RedirectController{
 		  Class<?> cls = e.getValue();
       // ducmle: to generalise
       // if(path.matches("(.*)"+p+"(.*)")) {
-		  if(matchDescendantModulePath(path,p)) {
+		  if(matchDescendantModulePath(path,parentElement, p)) {
         // handle invocation
-        DefaultController<?, Integer> controller = ControllerRegistry.getInstance().get(cls);
-        Integer id= null;
+        DefaultController<?, ID> controller = ControllerRegistry.getInstance().get(cls);
+        ID id= null;
         // ducmle: to generalise
         //if(path.matches("(.*)"+p+"/(.+)")) {  // id available in path
-        if(matchDescendantModulePathWithId(path, p)) {  // id available in path
+        if(matchDescendantModulePathWithId(path, parentElement, p)) {  // id available in path
           String pathVariable = path.substring(path.lastIndexOf("/")+1);
-          id = Integer.parseInt(pathVariable);
+//          id = Integer.parseInt(pathVariable);
+          id=ControllerTk.parseDomainId(cls, pathVariable);
         }        
         return controller.handleRequest(req, res, id);
       }
@@ -67,6 +69,9 @@ extends RedirectController{
 		// invalid path
     return new MyResponseEntity(ResponseEntity.ok("Invalid path: " + path), null);
 	}
+
+	
+
 
 	/* ducmle: to generalise 
 	public MyResponseEntity handleCoursemodule(HttpServletRequest req, HttpServletResponse res){

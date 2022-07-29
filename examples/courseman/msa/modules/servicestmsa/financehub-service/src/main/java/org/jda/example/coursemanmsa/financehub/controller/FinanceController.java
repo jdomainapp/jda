@@ -21,18 +21,18 @@ public class FinanceController {
 	
 	@Autowired
 	RestTemplate restTemplate;
+	
+	public final static String PATH_ASSESSMENTHUB="assessmenthub";
 
-	@RequestMapping(value = "/assessmenthub/**")
+	@RequestMapping(value = "/"+PATH_ASSESSMENTHUB+"/**")
 	public ResponseEntity handleAssessment(HttpServletRequest req, HttpServletResponse res) throws IOException {
 	  // ducmle: to generalise
-		String path = 
-//				Error
-//				ControllerTk.getServiceUri(req, "assessmenthub"); 
-		    "http://gateway-server/assessmenthub-service/"+req.getServletPath().replace("/assessmenthub/", "");
+		String path = ControllerTk.getServiceUri(req, PATH_ASSESSMENTHUB); 
+//		    "http://gateway-server/assessmenthub-service/"+req.getServletPath().replace("/assessmenthub/", "");
 		String requestData = ControllerTk.getRequestData(req);
 		    //req.getReader().lines().collect(Collectors.joining()).trim();
 		
 		//ducmle: renamed
-		return ControllerTk.invokeService(restTemplate, path, req.getMethod(), requestData);
+		return ControllerTk.invokeService(restTemplate,path, req.getMethod(), requestData);
 	}
 }

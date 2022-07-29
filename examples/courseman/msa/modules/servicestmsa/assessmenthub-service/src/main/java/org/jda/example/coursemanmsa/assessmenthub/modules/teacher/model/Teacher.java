@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.Coursemodule;
+import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.CourseModule;
 import org.jda.example.coursemanmsa.assessmenthub.modules.enrolment.model.Enrolment;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -47,5 +47,5 @@ public class Teacher {
 	private String deptName;
 
 	@OneToMany(mappedBy="teacher")
-    private List<Coursemodule> coursemodules;
+    private List<CourseModule> coursemodules;
 }

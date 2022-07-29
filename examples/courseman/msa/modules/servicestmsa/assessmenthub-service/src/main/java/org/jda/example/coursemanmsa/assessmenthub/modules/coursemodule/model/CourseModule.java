@@ -1,5 +1,5 @@
 //Serialisable = true
-package org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.model;
+package org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model;
 
 import java.util.List;
 
@@ -12,15 +12,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.jda.example.coursemanmsa.coursemgnt.modules.enrolment.model.Enrolment;
-import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.model.Teacher;
+import org.jda.example.coursemanmsa.assessmenthub.modules.enrolment.model.Enrolment;
+import org.jda.example.coursemanmsa.assessmenthub.modules.teacher.model.Teacher;
 import org.springframework.hateoas.RepresentationModel;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -31,24 +32,17 @@ import lombok.ToString;
 @Table(name = "coursemodule")
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id", scope = Coursemodule.class)
-public class Coursemodule {
+		  property = "id", scope = CourseModule.class)
+public class CourseModule{
 
 	@Id
 	@Column(name = "id", nullable = false)
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private int id;
-
 	private String code;
-
 	private int credits;
-
 	private String name;
-
 	private int semester;
-	
 	private String coursemoduletype;
-	
 	private String deptname;
 	
 //	@Column(name = "teacher_id")

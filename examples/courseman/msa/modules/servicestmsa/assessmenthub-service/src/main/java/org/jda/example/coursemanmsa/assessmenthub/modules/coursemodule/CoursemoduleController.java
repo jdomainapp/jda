@@ -1,6 +1,6 @@
 package org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule;
 
-import org.courseman.modules.coursemodule.model.CourseModule;
+import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.CourseModule;
 import org.jda.example.coursemanmsa.common.controller.DefaultController;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

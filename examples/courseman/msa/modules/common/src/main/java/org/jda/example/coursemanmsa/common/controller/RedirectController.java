@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.jda.example.coursemanmsa.common.model.MyResponseEntity;
 import org.springframework.http.ResponseEntity;
 
-public abstract class RedirectController {
+public abstract class RedirectController<ID> {
 	
 	public MyResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String pathPattern) {
 		return new MyResponseEntity(ResponseEntity.ok("Call child class to process request"), null);
@@ -21,10 +21,10 @@ public abstract class RedirectController {
    *    return false
    * 
    */
-  protected boolean matchDescendantModulePathWithId(String urlPath, String pathElement) {
+  protected boolean matchDescendantModulePathWithId(String urlPath, String parentElement, String pathElement) {
     // FIXME: fix path matching to correctly implement the behaviour specification (above)
     return urlPath != null && pathElement != null && 
-        urlPath.matches("(.*)"+pathElement+"/(.+)");
+        urlPath.matches("(.*)"+parentElement+pathElement+"/(.+)");
   }
 
   /**
@@ -35,9 +35,11 @@ public abstract class RedirectController {
    *  else
    *    return false
    */
-  protected boolean matchDescendantModulePath(String urlPath, String pathElement) {
+  protected boolean matchDescendantModulePath(String urlPath, String parentElement, String pathElement) {
     // FIXME: fix path matching to correctly implement the behaviour specification (above)
     return urlPath != null && pathElement != null && 
-        urlPath.matches("(.*)"+pathElement+"(.*)");
+        urlPath.matches("(.*)"+parentElement+pathElement+"(.*)");
   }
+  
+ 
 }

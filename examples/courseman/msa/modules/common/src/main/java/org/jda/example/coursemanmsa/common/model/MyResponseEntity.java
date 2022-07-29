@@ -1,21 +1,45 @@
 package org.jda.example.coursemanmsa.common.model;
 
 import org.jda.example.coursemanmsa.common.events.model.ChangeModel;
+
 import org.springframework.http.ResponseEntity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import jda.modules.dodm.dsm.DSM;
 
-@Getter @Setter @ToString
-public class MyResponseEntity<T,ID>{
+public class MyResponseEntity<T, ID> {
 	private ResponseEntity responseEntity;
 	private ChangeModel<ID> changeModel;
+
 	public MyResponseEntity(ResponseEntity responseEntity, ChangeModel<ID> changeModel) {
 		super();
 		this.responseEntity = responseEntity;
 		this.changeModel = changeModel;
 	}
-	
-	
+
+	public ResponseEntity getResponseEntity() {
+		return responseEntity;
+	}
+
+	public void setResponseEntity(ResponseEntity responseEntity) {
+		this.responseEntity = responseEntity;
+	}
+
+	public ChangeModel<ID> getChangeModel() {
+		if (changeModel != null) {
+			if (changeModel.getId() == null) {
+				Object result = responseEntity.getBody();
+				// ducmle: use generic code
+				// TODO: check type of ID
+
+				ID id = (ID) DSM.doGetterMethod(result.getClass(), result, "id", Object.class);
+				changeModel.setId(id);
+			}
+		}
+		return changeModel;
+	}
+
+	public void setChangeModel(ChangeModel<ID> changeModel) {
+		this.changeModel = changeModel;
+	}
+
 }

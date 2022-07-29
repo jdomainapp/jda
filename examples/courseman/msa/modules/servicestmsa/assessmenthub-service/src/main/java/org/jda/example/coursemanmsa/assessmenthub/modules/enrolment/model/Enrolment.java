@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.Coursemodule;
+import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.CourseModule;
 import org.jda.example.coursemanmsa.assessmenthub.modules.student.model.Student;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -48,7 +48,7 @@ public class Enrolment extends RepresentationModel<Enrolment> {
 	
 	@ManyToOne
     @JoinColumn(name="coursemodule_id", nullable=false)
-	private Coursemodule coursemodule;
+	private CourseModule coursemodule;
 	
 	@ManyToOne
     @JoinColumn(name="student_id", nullable=false)

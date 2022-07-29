@@ -1,7 +1,7 @@
 package org.jda.example.coursemanmsa.assessmenthub.events.handler;
 
 import org.jda.example.coursemanmsa.assessmenthub.events.CustomChannels;
-import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.Coursemodule;
+import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.CourseModule;
 import org.jda.example.coursemanmsa.assessmenthub.modules.enrolment.model.Enrolment;
 import org.jda.example.coursemanmsa.assessmenthub.modules.student.model.Student;
 import org.jda.example.coursemanmsa.assessmenthub.modules.teacher.model.Teacher;
@@ -22,7 +22,7 @@ public class ChangeHandler {
 	public void processCoursemoduleChanges(ChangeModel<Integer> model) {
 		logger.debug("Received a message of type " + model.getType());
 //		String restPath="http://gateway-server/coursemgnt-service/coursemodulemgnt/coursemodule/{id}";
-		DefaultController<Coursemodule, Integer> controller = ControllerRegistry.getInstance().get(Coursemodule.class);
+		DefaultController<CourseModule, Integer> controller = ControllerRegistry.getInstance().get(CourseModule.class);
 		controller.executeReceivedEvent(model.getAction(), model.getId(), model.getPath());
 	}
 	
