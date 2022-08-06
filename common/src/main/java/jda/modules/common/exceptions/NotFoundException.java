@@ -60,7 +60,11 @@ public class NotFoundException extends ApplicationRuntimeException {
      * 1: class name
      */
     ATTRIBUTE_NOT_FOUND("Không tìm thấy thuộc tính {0} của lớp {1}"),  
-    ATTRIBUTE_ID_NOT_FOUND(""), //
+    /**
+     * 0: attribute name
+     * 1: class name
+     */
+    ATTRIBUTE_ID_NOT_FOUND("Không tìm thấy thuộc tính ID: {0}, của lớp {1}"), //
     /**
      * 0: class
      * 1: attribute

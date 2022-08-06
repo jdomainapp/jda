@@ -1,6 +1,7 @@
 package org.jda.example.coursemanmsa.common.controller;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
+import jda.modules.common.exceptions.NotFoundException;
+import jda.modules.dcsl.util.DClassTk;
+import jda.modules.dodm.dsm.DSMBasic;
 
 /**
  * @overview 
@@ -51,11 +56,25 @@ public class ControllerTk {
 		return restExchange;
 	}
   
-  public static <ID> ID parseDomainId(Class <?> cls, String pathVariable) {
-//		TODO: 1, get domain field id from class
-//		2, convert pathVariable to id.type
-//		3, cast to ID
-		  
-		return (ID) Integer.getInteger(pathVariable);
+  /**
+   * 
+   * @effects 
+   *  parse <tt>idVal</tt> into a value compatible to ID-typed, 
+   *    which is suitable for the domain id field: <tt>cls.idFieldName</tt>.
+   *  
+   *  <br>Throws NotFoundException if <tt>cls.idFieldName</tt> is not a valid field.
+   */
+  public static <ID> ID parseDomainId(Class <?> cls, String idFieldName, String idVal) throws NotFoundException {
+    // get the id field
+    Field idField = DClassTk.getField(cls, idFieldName, true);
+    
+    if (idField == null)
+      throw new NotFoundException(NotFoundException.Code.ATTRIBUTE_ID_NOT_FOUND, new Object[] {idFieldName, cls.getSimpleName()});
+    // convert idVal to idField's type
+    Object val = DClassTk.convertToTypeValue(idVal, idField.getType());
+		
+    // cast to OD
+    return (ID) val;
+    //return (ID) Integer.getInteger(idVal);
 	}
 }
