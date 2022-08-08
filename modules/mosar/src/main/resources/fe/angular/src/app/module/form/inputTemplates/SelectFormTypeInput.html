@@ -1,0 +1,7 @@
+    <div class="form-group">
+        <label class="form-label">Type</label>
+        <select class="custom-select" [(ngModel)]="item.type">
+            <option value="" disabled="">&lt;Please choose one&gt;</option>@loop{typeOptions}[[
+            <option value="@slot{{formType}}">@slot{{formType}}</option>]]loop{typeOptions}@
+        </select>
+    </div><br>

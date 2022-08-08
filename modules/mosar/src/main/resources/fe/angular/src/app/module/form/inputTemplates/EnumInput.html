@@ -1,0 +1,8 @@
+    @loop{EnumInputs}[[
+    <div @slot{{ngIfForType}} class="form-group">
+        <label class="form-label">@slot{{fieldLabel}}</label>
+        <select class="custom-select" name = "@slot{{fieldName}}" [(ngModel)]="item.@slot{{fieldName}}" @slot{{fieldOptions}}>
+            <option value="" disabled="">&lt;Please choose one&gt;</option>@slot{{EnumOptions}}
+        </select>
+    </div>
+    <br>]]loop{EnumInputs}@

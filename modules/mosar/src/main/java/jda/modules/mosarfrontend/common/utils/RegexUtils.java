@@ -1,7 +1,5 @@
 package jda.modules.mosarfrontend.common.utils;
 
-import jda.modules.mosarfrontend.common.anotation.LoopReplacement;
-
 import java.util.regex.Pattern;
 
 public class RegexUtils {

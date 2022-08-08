@@ -7,7 +7,6 @@ import jda.modules.mccl.conceptmodel.Configuration.Language;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
 import jda.modules.mosar.config.*;
 import jda.modules.mosarbackend.springboot.BESpringApp;
-import jda.modules.mosarfrontend.angular.FEAngularApp;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
 import jda.modules.sccl.syntax.*;
 import jda.modules.setup.model.SetUpConfig;
@@ -18,19 +17,20 @@ import org.jda.example.coursemanrestful.modules.enrolment.ModuleEnrolment;
 import org.jda.example.coursemanrestful.modules.student.ModuleStudent;
 import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
 
+
 @RFSGenDesc(
         stackSpec = StackSpec.FE,
         execSpec = ExecSpec.Gen,
         genMode = GenerationMode.SOURCE_CODE,
-        beLangPlatform = LangPlatform.SPRING,
         feProjPath = "/home/ducmle/tmp/restfstool-fe",
         feProjName = "fe-courseman",
         feProjResource = "src/main/resources/angular",
-        fePlatform = FEPlatform.VUE_JS,
-        feOutputPath = "D:\\JDA\\CourseManVueJs",
+        fePlatform = FEPlatform.REACT_NATIVE,
+        feOutputPath = "D:\\JDA\\CourseManReactNative",
         feServerPort = 5000,  // default: 3000
-        feAppClass = FEAngularApp.class,
+        feAppClass = FEReactApp.class,
         feThreaded = true,
+        beLangPlatform = LangPlatform.SPRING,
         bePackage = "org.jda.example.coursemanrestful.modules",
         beOutputPath = "D:\\JDA\\jda\\examples\\courseman\\mosar\\src\\main\\java",
         beTargetPackage = "org.jda.example.coursemanrestful.backend"
@@ -68,3 +68,7 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         securityDesc = @SecurityDesc(isEnabled = false))
 public class SCCCourseManDerby {
 }
+
+
+
+

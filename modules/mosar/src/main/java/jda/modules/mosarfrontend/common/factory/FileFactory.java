@@ -1,6 +1,7 @@
 package jda.modules.mosarfrontend.common.factory;
 
-import jda.modules.mosarfrontend.common.anotation.*;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.*;
+import jda.modules.mosarfrontend.common.anotation.template_desc.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.utils.MethodUtils;
 import jda.modules.mosarfrontend.common.utils.RegexUtils;
 
@@ -118,7 +119,7 @@ public class FileFactory {
         String value = MethodUtils.execute(handler, replaceMethod, String.class);
         if (value != null) {
             SlotReplacement ano = replaceMethod.getAnnotation(SlotReplacement.class);
-            Pattern pattern = regexUtils.createSlotRegex(ano.slot());
+            Pattern pattern = regexUtils.createSlotRegex(ano.id());
             this.fileContent = pattern.matcher(this.fileContent).replaceAll(value);
         }
         return false;
@@ -164,6 +165,9 @@ public class FileFactory {
             LoopReplacement ano = replaceMethod.getAnnotation(LoopReplacement.class);
             // get loop content
             this.fileContent = replaceLoopWithTemplate(this.fileContent, ano.id(), loopValues);
+            for (String id : ano.ids()) {
+                this.fileContent = replaceLoopWithTemplate(this.fileContent,id,loopValues);
+            }
         }
         return false;
     }
@@ -218,8 +222,8 @@ public class FileFactory {
                     }
                 }
             }
-
         }
+        this.fileContent = RegexUtils.createSlotRegex("DOLAR").matcher(this.fileContent).replaceAll("\\$");
         if (saveWhenDone) saveFile();
     }
 
@@ -246,9 +250,9 @@ public class FileFactory {
             }
         }
 
-        Path classFile = new File(outPutFolder + this.filePath + "\\" + this.fileName + this.fileExt).toPath();
+        Path classFile = new File(outPutFolder + this.filePath + "/" + this.fileName + this.fileExt).toPath();
         if (!Files.exists(classFile)) {
-            System.out.println("Path: " + classFile);
+            System.out.println("Create new file : " + classFile);
             try {
                 Files.createFile(classFile);
             } catch (IOException e) {
@@ -257,7 +261,6 @@ public class FileFactory {
         }
         try {
             Files.writeString(classFile, this.fileContent);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -266,7 +269,7 @@ public class FileFactory {
 
     public String genFile(boolean saveFileAfterDone) throws Exception {
         this.handler = this.fileTemplateDesc.getConstructor().newInstance();
-        if (!fileTemplateDesc.isAnnotationPresent(jda.modules.mosarfrontend.common.anotation.FileTemplateDesc.class)) {
+        if (!fileTemplateDesc.isAnnotationPresent(FileTemplateDesc.class)) {
             throw new Exception("The class is not TemplateHandler (without @TemplateHandler annotation)");
         } else {
             this.fileTemplate = fileTemplateDesc.getAnnotation(FileTemplateDesc.class);
