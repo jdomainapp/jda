@@ -23,7 +23,7 @@
             <td>{{student.address.name}}</td>
             <td>{{student.studentClass.name}}</td>
             <td>
-                <button class="btn btn-primary" v-on:click="emitData(student.id)">
+                <button class="btn btn-primary" v-on:click="emitData(student)">
                     Edit
                 </button>
                 <a class="btn btn-danger" id="btnShowModal" data-target="#myModal" v-on:click="getStudentId(student.id)" data-toggle="modal">

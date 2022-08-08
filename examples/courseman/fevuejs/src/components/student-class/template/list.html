@@ -14,7 +14,7 @@
                 <td style="vertical-align: middle;">{{studentClass.id}}</td>
                 <td style="vertical-align: middle;">{{studentClass.name}}</td>
                 <td style="vertical-align: middle; width: 200px;">
-                    <button class="btn btn-primary" v-on:click="emitData(studentClass.id)">
+                    <button class="btn btn-primary" v-on:click="emitData(studentClass)">
                         Edit
                     </button>
                     <a class="btn btn-danger" data-target="#myModal" v-on:click="getStudentClassId(studentClass.id)" da data-toggle="modal">

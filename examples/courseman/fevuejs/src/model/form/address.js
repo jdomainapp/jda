@@ -2,7 +2,7 @@ export default class AddressForm {
     constructor() {
         this.hidId = true,
         this.hidName = true,
-        this.hidSubModule = true
+        this.hidStudent = true
     }
 
     setHidId(hidId) {
@@ -13,7 +13,7 @@ export default class AddressForm {
         this.hidName = hidName;
     }
 
-    setHidSubModule(hidSubModule) {
-        this.hidSubModule = hidSubModule;
+    setHidStudent(hidStudent) {
+        this.hidStudent = hidStudent;
     }
 }

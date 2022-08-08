@@ -14,7 +14,8 @@
                 enrolments: [],
                 enrolmentId: 0,
                 data: {
-                    enrolmentId: 0,
+                    enrolment: null,
+                    mode: "edit"
                 }
             }
         },
@@ -24,8 +25,8 @@
         },
 
         methods: {
-            emitData(id) {
-                this.data.enrolmentId = id;
+            emitData(enrolment) {
+                this.data.enrolment = enrolment;
                 this.$emit("data", this.data);
             },
 

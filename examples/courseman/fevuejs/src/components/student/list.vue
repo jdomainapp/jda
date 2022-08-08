@@ -22,6 +22,7 @@
                 studentClassId: this.subStudentClassId === undefined ? 0 : this.subStudentClassId,
                 data: {
                     studentId: 0,
+                    mode: "edit"
                 }
             }
         },
@@ -30,8 +31,8 @@
         },
 
         methods: {
-            emitData(id) {
-                this.data.studentId = id;
+            emitData(student) {
+                this.data.student = student;
                 this.$emit("data", this.data);
             },
 

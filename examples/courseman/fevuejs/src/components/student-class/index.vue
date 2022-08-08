@@ -3,7 +3,7 @@
     export default {
         components: {
             "form-add": () => import('./add.vue'),
-            "form-edit": () => import('./edit.vue'),
+            //"form-edit": () => import('./edit.vue'),
             "form-list": () => import('./list.vue'),
         },
 
@@ -11,6 +11,11 @@
             return {
                 display: 1,
                 studentClassId: 0,
+                data: {
+                    mode: "create",
+                    studentClass: null
+                }
+                
             }
         },
 
@@ -20,10 +25,15 @@
 
         methods: {
             setData(data){
-                this.studentClassId = data.studentClassId;
-                this.display = 2;
-                console.log(this.studentClassId)
+                this.data.studentClass = data.studentClass;
+                this.display = 1;
+                this.data.mode = data.mode;
             },
+
+            mainForm() {
+                this.display = 2;
+                this.data.mode = "create";
+            }
         }
     };
 </script>

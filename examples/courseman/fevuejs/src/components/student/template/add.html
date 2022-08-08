@@ -1,4 +1,4 @@
-<form v-on:submit.prevent="create">
+<form v-on:submit.prevent="onSubmit">
     <div class="form-group" v-if="form.hidId == true">
         <label class="form-label">Id</label>
         <input disabled="" class="form-control" id="id" v-model="student.id">
@@ -6,7 +6,7 @@
     <br>
     <div class="form-group" v-if="form.hidName">
         <label class="form-label">Name</label>
-        <input type="text" class="form-control" id="name" v-model="student.name" required pattern="[A-Za-z1-9]+">
+        <input type="text" class="form-control" id="name" v-model="student.name" required pattern="[A-Za-z0-9]+">
     </div>
     <br>
     <div class="form-group" v-if="form.hidGender">
@@ -30,7 +30,7 @@
         </div>
         <div class="px-0 col-md-7">
             <label class="form-label">Address</label>
-            <input disabled="" type="text" class="form-control" value="" v-model="address.name">
+            <input disabled="" type="text" class="form-control" value="" v-model="student.address.name">
         </div>
         <button disabled="" type="button" class="btn btn-outline-danger">Unlink</button>
         <button type="button" class="btn btn-outline-secondary" v-on:click="formSubModuleAddressSeen = !formSubModuleAddressSeen">
@@ -40,7 +40,7 @@
         </button>
     </div>
     <div class="form-group" v-if="formSubModuleAddressSeen">
-        <form-sub-module-address v-bind:data="address"></form-sub-module-address>
+        <form-sub-module-address v-bind:data="dataSubForm"></form-sub-module-address>
     </div>
     <br><br>
     <div class="form-group" v-if="form.hidEmail">
@@ -55,7 +55,7 @@
         </div>
         <div class="px-0 col-md-9">
             <label class="form-label">Student class</label>
-            <input disabled="" type="text" class="form-control" value="">
+            <input disabled="" type="text" class="form-control" v-model="student.studentClass.name">
         </div>
     </div>
     <br>
@@ -65,7 +65,7 @@
         </svg>
     </button>
     <div class="form-group" v-if="formSubModuleEnrolmentSeen">
-        <form-sub-module-enrolment></form-sub-module-enrolment>
+        <form-sub-module-enrolment v-bind:data="dataSubForm"></form-sub-module-enrolment>
     </div>
     <br><br>
     <div class="d-flex justify-content-end mx-0 row">

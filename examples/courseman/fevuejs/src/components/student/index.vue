@@ -7,14 +7,17 @@
 
         components: {
             "form-add": () => import('./add.vue'),
-            "form-edit": () => import('./edit.vue'),
+            //"form-edit": () => import('./edit.vue'),
             "form-list": () => import('./list.vue'),
         },
 
         data() {
             return {
                  display: 1,
-                 studentId: 0,
+                 data: {
+                    mode: "create",
+                    student: null
+                }
             }
         },
 
@@ -24,10 +27,15 @@
 
         methods: {
             setData(data){
-                this.studentId = data.studentId;
-                this.display = 2;
-                console.log(this.studentId)
+                this.data.student = data.student;
+                this.display = 1;
+                this.data.mode = data.mode;
             },
+
+            mainForm() {
+                this.display = 2;
+                this.data.mode = "create";
+            }
         }
     };
 </script>

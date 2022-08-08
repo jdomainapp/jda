@@ -4,7 +4,7 @@
     import AddressForm from '../../model/form/address';
     import Student from '../../model/student';
     import Message from '../../constants/message';
-    import {addAddress} from '../../api/address';
+    import {updateAddress,addAddress} from '../../api/address';
     import {getStudent} from '../../api/student';
 
     export default {
@@ -18,21 +18,32 @@
 
         data() {
             return {
-                address: new Address(),
+                address: new Address(null, null, new Student()),
                 formSubModuleStudentSeen: false,
                 form: new AddressForm(),
-                student: new Student(),
+                dataSubForm: {
+                    mode: "create",
+                    student: null,
+                    parent: "address"
+                }
             };
         },
 
         mounted() {
             this.setFrom();
+            if (this.data.mode === "edit") {
+                this.address = this.data.address;
+                this.dataSubForm.mode = "edit";
+                this.dataSubForm.student = this.data.address.student
+                console.log("address=" + this.address)
+            }
+            console.log(this.address.id)
         },
 
         methods: {
             setFrom() {
-                if (this.data !== undefined) {
-                    this.form.setHidSubModule(false)
+                if (this.data.parent !== undefined && this.data.parent === "student") {
+                    this.form.setHidStudent(false)
                 }
             },
 
@@ -43,7 +54,7 @@
                     
                     this.address.id = res.data.id
                     this.address.name = res.data.name
-                    this.student.setAddress(this.address)
+                    this.address.student.setAddress(this.address)
 
                     this.$toast.success(Message.ADD_ADDRESS_SUC);
                 }).catch((error) => {
@@ -56,7 +67,7 @@
                 
                 var result = getStudent(studentId);
                 result.then((res) => {
-                    this.student = res.data;
+                    this.address.student = res.data;
                 })
                 .catch((error) => {
                     this.$toast.error(Message.ADD_ADDRESS_ERR + ' - ' + error.message);
@@ -64,6 +75,27 @@
 
                 });
             },
+
+            update() {
+                var result = updateAddress(this.addressId, this.address);
+                result.then((res) => {
+                    console.log(res);
+                    this.$toast.success(Message.UPDATE_ADDRESS_SUC);
+                })
+                .catch((error) => {
+                    this.$toast.error(Message.UPDATE_ADDRESS_ERR + ' - ' + error.message);
+                }).finally(() => {
+
+                });
+            },
+
+            onSubmit() {
+                if (this.data.mode == "create") {
+                    this.create();
+                } else {
+                    this.update();
+                }
+            }
         },
     };
 </script>

@@ -4,14 +4,17 @@
     export default {
         components: {
             "form-add": () => import('./add.vue'),
-            "form-edit": () => import('./edit.vue'),
+            //"form-edit": () => import('./edit.vue'),
             "form-list": () => import('./list.vue'),
         },
 
         data() {
             return {
                 display: 1,
-                coursemoduleId: 0,
+                data: {
+                    mode: "create",
+                    coursemodule: null
+                }
             }
         },
 
@@ -21,10 +24,15 @@
 
         methods: {
             setData(data){
-                this.coursemoduleId = data.coursemoduleId;
-                this.display = 2;
-                console.log(this.coursemoduleId)
+                this.data.coursemodule = data.coursemodule;
+                this.display = 1;
+                this.data.mode = data.mode;
             },
+
+            mainForm() {
+                this.display = 2;
+                this.data.mode = "create";
+            }
         }
     };
 </script>

@@ -3,14 +3,17 @@
     export default {
         components: {
             "form-add": () => import('./add.vue'),
-            "form-edit": () => import('./edit.vue'),
+            // "form-edit": () => import('./edit.vue'),
             "form-list": () => import('./list.vue'),
         },
 
         data() {
             return {
                 display: 1,
-                addressId: 0,
+                data: {
+                    mode: "create",
+                    address: null
+                }
             }
         },
 
@@ -20,10 +23,15 @@
 
         methods: {
             setData(data){
-                this.addressId = data.addressId;
-                this.display = 2;
-                console.log(this.addressId)
+                this.data.address = data.address;
+                this.display = 1;
+                this.data.mode = data.mode;
             },
+
+            mainForm() {
+                this.display = 2;
+                this.data.mode = "create";
+            }
         }
     };
 </script>

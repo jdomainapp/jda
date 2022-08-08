@@ -21,7 +21,7 @@
             <td style="vertical-align: middle;">{{enrolment.examMark}}</td>
             <td style="vertical-align: middle;">{{enrolment.finalGrade}}</td>
             <td style="vertical-align: middle; width: 200px;">
-                <button class="btn btn-primary" v-on:click="emitData(enrolment.id)">
+                <button class="btn btn-primary" v-on:click="emitData(enrolment)">
                     Edit
                 </button>
                 <a class="btn btn-danger" id="btnShowModal" data-target="#myModal" v-on:click="getEnrolmentId(enrolment.id)" data-toggle="modal">

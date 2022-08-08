@@ -14,7 +14,8 @@
                 studentClasses: [],
                 studentClassId: 0,
                 data: {
-                    studentClassId: 0,
+                    studentClass: null,
+                    mode: "edit"
                 }
             }
         },
@@ -24,8 +25,8 @@
         },
 
         methods: {
-            emitData(id) {
-                this.data.studentClassId = id;
+            emitData(studentClass) {
+                this.data.studentClass = studentClass;
                 this.$emit("data", this.data);
             },
 

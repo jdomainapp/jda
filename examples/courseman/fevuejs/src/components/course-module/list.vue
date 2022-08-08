@@ -14,7 +14,8 @@
                 coursemodules: [],
                 coursemoduleId: 0,
                 data: {
-                    coursemoduleId: 0,
+                    coursemodule: null,
+                    mode: "edit"
                 }
             }
         },
@@ -24,8 +25,8 @@
         },
 
         methods: {
-            emitData(id) {
-                this.data.coursemoduleId = id;
+            emitData(coursemodule) {
+                this.data.coursemodule = coursemodule;
                 this.$emit("data", this.data);
             },
 

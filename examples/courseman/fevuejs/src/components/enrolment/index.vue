@@ -2,9 +2,13 @@
 <script>
 
     export default {
+        props: {
+            data:Object
+        },
+
         components: {
             "form-add": () => import('./add.vue'),
-            "form-edit": () => import('./edit.vue'),
+            //"form-edit": () => import('./edit.vue'),
             "form-list": () => import('./list.vue'),
         },
 
@@ -13,23 +17,30 @@
                 display: 1,
                 enrolmentId: 0,
                 address: '',
+                dataSubForm: {
+                    mode: "create",
+                    enrolment: null
+                }
             }
         },
 
-        mounted() {
-            
+        mounted() {           
+            if (this.data.parent !== null) {
+                this.dataSubForm = this.data;
+            }
         },
 
         methods: {
-            getAddress(data) {
-                this.address = data;
+            setData(data){
+                this.dataSubForm.enrolment = data.enrolment;
+                this.display = 1;
+                this.dataSubForm.mode = data.mode;
             },
 
-            setData(data){
-                this.enrolmentId = data.enrolmentId;
+            mainForm() {
                 this.display = 2;
-                console.log(this.enrolmentId)
-            },
+                this.dataSubForm.mode = "create";
+            }
         }
     };
 </script>

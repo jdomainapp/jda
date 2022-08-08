@@ -19,7 +19,7 @@
             <td style="vertical-align: middle;">{{coursemodule.semester}}</td>
             <td style="vertical-align: middle;">{{coursemodule.credits}}</td>
             <td style="vertical-align: middle; width: 200px;">
-                <button class="btn btn-primary" v-on:click="emitData(coursemodule.id)">
+                <button class="btn btn-primary" v-on:click="emitData(coursemodule)">
                     Edit
                 </button>
                 <a class="btn btn-danger" id="btnShowModal" data-target="#myModal" v-on:click="getCoursemoduleId(coursemodule.id)" data-toggle="modal">

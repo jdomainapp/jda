@@ -14,7 +14,8 @@
                 addresses: [],
                 addressId: 0,
                 data: {
-                    addressId: 0,
+                    address: null,
+                    mode: "edit"
                 }
             }
         },
@@ -24,8 +25,8 @@
         },
 
         methods: {
-            emitData(id) {
-                this.data.addressId = id;
+            emitData(address) {
+                this.data.address = address;
                 this.$emit("data", this.data);
             },
 
