@@ -1,23 +1,13 @@
 package org.jda.example.coursemanmsa.coursemgnt.modules.coursemodulemgmt;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.courseman.modules.coursemodule.model.CourseModule;
-import org.jda.example.coursemanmsa.common.controller.ControllerRegistry;
-import org.jda.example.coursemanmsa.common.controller.ControllerTk;
-import org.jda.example.coursemanmsa.common.controller.DefaultController;
 import org.jda.example.coursemanmsa.common.controller.RedirectController;
 import org.jda.example.coursemanmsa.common.model.MyResponseEntity;
+import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.model.CourseModule;
 import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.model.Teacher;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-
-import jda.modules.dodm.dsm.DSM;
 
 /**ducmle: renamed to match path update */
 @Controller
@@ -29,45 +19,49 @@ public class CModuleMgntController<ID> extends RedirectController<ID>{
 	public final static String PATH_COURSEMODULE="/coursemodule";
 	*/
   
-	private final static Map<String, Class<?>> PathMap = new HashMap<>() {{
-      put("/teacher", Teacher.class);
-	    put("/coursemodule", CourseModule.class);
-  	}};
 	
+//	private final static Map<String, Class<?>> PathMap = new HashMap<>() {{
+//      put("/teacher", Teacher.class);
+//	    put("/coursemodule", CourseModule.class);
+//  	}};
+//	
 	@Override
 	public MyResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String parentElement) {
-		String path = req.getServletPath();
-		/* ducmle: use generic code
-		if (path.matches("(.*)"+PATH_COURSEMODULE+"(.*)")) {
-			return handleCoursemodule(req, res);
-		} else if(path.matches("(.*)"+PATH_TEACHER+"(.*)")) {
-			return handleTeacher(req, res);
-		} else {
-			return new MyResponseEntity(ResponseEntity.ok("No method for request URL"), null);
-		}
-		*/
-		for (Entry<String, Class<?>> e : PathMap.entrySet()) {
-		  String p = e.getKey(); 
-		  Class<?> cls = e.getValue();
-      // ducmle: to generalise
-      // if(path.matches("(.*)"+p+"(.*)")) {
-		  if(matchDescendantModulePath(path,parentElement, p)) {
-        // handle invocation
-        DefaultController<?, ID> controller = ControllerRegistry.getInstance().get(cls);
-        ID id= null;
-        // ducmle: to generalise
-        //if(path.matches("(.*)"+p+"/(.+)")) {  // id available in path
-        if(matchDescendantModulePathWithId(path, parentElement, p)) {  // id available in path
-          String pathVariable = path.substring(path.lastIndexOf("/")+1);
-//          id = Integer.parseInt(pathVariable);
-          id=ControllerTk.parseDomainId(cls, pathVariable);
-        }        
-        return controller.handleRequest(req, res, id);
-      }
-    }
-		
-		// invalid path
-    return new MyResponseEntity(ResponseEntity.ok("Invalid path: " + path), null);
+		getPathmap().put("/teacher", Teacher.class);
+		getPathmap().put("/coursemodule", CourseModule.class);
+		return super.handleRequest(req, res, parentElement);
+//		String path = req.getServletPath();
+//		/* ducmle: use generic code
+//		if (path.matches("(.*)"+PATH_COURSEMODULE+"(.*)")) {
+//			return handleCoursemodule(req, res);
+//		} else if(path.matches("(.*)"+PATH_TEACHER+"(.*)")) {
+//			return handleTeacher(req, res);
+//		} else {
+//			return new MyResponseEntity(ResponseEntity.ok("No method for request URL"), null);
+//		}
+//		*/
+//		for (Entry<String, Class<?>> e : PathMap.entrySet()) {
+//		  String p = e.getKey(); 
+//		  Class<?> cls = e.getValue();
+//      // ducmle: to generalise
+//      // if(path.matches("(.*)"+p+"(.*)")) {
+//		  if(matchDescendantModulePath(path,parentElement, p)) {
+//        // handle invocation
+//        DefaultController<?, ID> controller = ControllerRegistry.getInstance().get(cls);
+//        ID id= null;
+//        // ducmle: to generalise
+//        //if(path.matches("(.*)"+p+"/(.+)")) {  // id available in path
+//        if(matchDescendantModulePathWithId(path, parentElement, p)) {  // id available in path
+//          String pathVariable = path.substring(path.lastIndexOf("/")+1);
+////          id = Integer.parseInt(pathVariable);
+//          id=ControllerTk.parseDomainId(cls,"id", pathVariable);
+//        }        
+//        return controller.handleRequest(req, res, id);
+//      }
+//    }
+//		
+//		// invalid path
+//    return new MyResponseEntity(ResponseEntity.ok("Invalid path: " + path), null);
 	}
 
 	
