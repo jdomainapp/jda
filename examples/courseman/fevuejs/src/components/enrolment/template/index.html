@@ -34,10 +34,10 @@
             <form-add v-if="display == 1" v-bind:data="dataSubForm"></form-add>
         </div>
         <div>
-            <form-add v-if="display == 4" v-bind:data="dataSubForm"></form-add>
+            <!-- <form-add v-if="display == 4" v-bind:data="dataSubForm"></form-add> -->
         </div>
         <div>
-            <!-- <form-add v-if="display == 2" v-bind:data="dataSubForm"></form-add> -->
+            <form-add v-if="display == 2" v-bind:data="dataSubForm"></form-add> 
         </div>
         <div>
             <form-list @data="setData" v-if="display == 3"></form-list>
