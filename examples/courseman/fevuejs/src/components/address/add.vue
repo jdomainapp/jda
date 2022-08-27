@@ -18,7 +18,7 @@
 
         data() {
             return {
-                address: new Address(null, null, new Student()),
+                address: new Address(undefined, null, new Student()),
                 formSubModuleStudentSeen: false,
                 form: new AddressForm(),
                 dataSubForm: {
