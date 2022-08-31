@@ -1,4 +1,4 @@
-package jda.modules.mosarfrontend.reactjs_new_gen.src.modules;
+package jda.modules.mosarfrontend.reactjs.src.modules;
 
 import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.dcsl.syntax.DAttr;

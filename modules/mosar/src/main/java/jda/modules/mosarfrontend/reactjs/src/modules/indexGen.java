@@ -1,4 +1,4 @@
-package jda.modules.mosarfrontend.reactjs_new_gen.src.modules;
+package jda.modules.mosarfrontend.reactjs.src.modules;
 
 import jda.modules.mosarfrontend.common.anotation.template_desc.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.gen_controlers.LoopReplacement;
