@@ -1,6 +1,7 @@
 package jda.modules.mosarfrontend.reactnative;
 
 import jda.modules.mosarfrontend.common.anotation.template_desc.*;
+import jda.modules.mosarfrontend.reactnative.src.AppConfigGen;
 import jda.modules.mosarfrontend.reactnative.src.MainGen;
 import jda.modules.mosarfrontend.reactnative.src.data_types.DataTypeGen;
 import jda.modules.mosarfrontend.reactnative.src.data_types.SubTypeGen;
@@ -19,7 +20,7 @@ import jda.modules.mosarfrontend.reactnative.src.modules.module.sub_modules.*;
                         genClasses = {MainGen.class}
                 ),
                 Ext = @ComponentGenDesc(
-                        genClasses = {FormInputsGen.class, ModulesGen.class}
+                        genClasses = {FormInputsGen.class, ModulesGen.class, AppConfigGen.class}
                 )
         ),
         moduleTemplates = @ModuleTemplatesDesc(

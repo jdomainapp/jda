@@ -16,6 +16,18 @@ public @interface RequiredParam {
     @interface AppName {
     }
 
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.PARAMETER, ElementType.METHOD})
+    @Documented
+    @interface SystemDesc {
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.PARAMETER, ElementType.METHOD})
+    @Documented
+    @interface RFSGenConfig {
+    }
+
     /**
     * @Ussage Require MCC of current module as a parameter of function
     * @DataType {@link jda.modules.mccl.conceptualmodel.MCC}
@@ -84,6 +96,7 @@ public @interface RequiredParam {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.PARAMETER, ElementType.METHOD})
+    @Deprecated
     @Documented
     @interface AngularProp {
     }

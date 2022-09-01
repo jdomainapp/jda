@@ -49,7 +49,7 @@ import jda.modules.mosarfrontend.vuejs.src.router.routerGen;
                 Ext = @ComponentGenDesc(
                         genClasses = {moduleAPIGen.class}
                 )
-        ),
+        )
 )
 public class VueAppTemplate {
 }

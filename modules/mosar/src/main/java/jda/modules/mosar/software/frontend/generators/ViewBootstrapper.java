@@ -6,9 +6,6 @@ import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosar.frontend.MCCUtils;
 import jda.modules.mosar.utils.FileUtils;
 import jda.modules.mosarfrontend.common.factory.AppFactory;
-import jda.modules.mosarfrontend.reactjs.FEReactApp;
-import jda.modules.mosarfrontend.reactjs.model.common.MCCRegistry;
-import jda.modules.mosarfrontend.reactnative.ReactNativeAppTemplate;
 
 import java.io.File;
 import java.util.HashMap;
@@ -37,9 +34,6 @@ public final class ViewBootstrapper {
                         mccClasses[i]))
                 .collect(Collectors.toList())
                 .toArray(new MCC[mccClasses.length]);
-        for (MCC mcc : modules) {
-            MCCRegistry.getInstance().add(mcc);
-        }
         this.beServerPort = cfg.getBeServerPort();
         this.cfg = cfg;
     }
@@ -68,19 +62,6 @@ public final class ViewBootstrapper {
      * @version 5.4.1
      */
     public ViewBootstrapper init() {
-        // change feServerPort in Constants.js to this.feServerPort
-        String feParentProjPath = ToolkitIO.getMavenProjectRootPath(FEReactApp.class, true);
-        if (feParentProjPath == null) {
-            feParentProjPath = ToolkitIO.getCurrentDir();
-        }
-        String feProjResource = ToolkitIO.getPath(feParentProjPath,
-                FileUtils.separatorsToSystem(cfg.getFeProjResource())).toString();
-        File constantsTempFile = ToolkitIO.getPath(feProjResource, "common", "templates", "Constants.js").toFile();
-        File constantsFile = ToolkitIO.getPath(feProjResource, "common", "Constants.js").toFile();
-        
-//        String constantsJs = ToolkitIO.readTextFileContent(constantsTempFile)
-//                .replace("{{ beServerPort }}", beServerPort + "");
-//        ToolkitIO.writeTextFile(constantsFile, constantsJs, true);
         return this;
     }
 

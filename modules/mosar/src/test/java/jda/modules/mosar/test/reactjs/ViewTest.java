@@ -19,8 +19,6 @@ import org.courseman.modules.studentclass.model.StudentClass;
 import jda.modules.mccl.conceptualmodel.MCC;
 import jda.modules.mosar.frontend.MCCUtils;
 import jda.modules.mosar.utils.DomainTypeRegistry;
-import jda.modules.mosarfrontend.reactjs.model.common.MCCRegistry;
-import jda.modules.mosarfrontend.reactjs.model.views.FormView;
 
 public class ViewTest {
     public static void main(String[] args) {
@@ -43,14 +41,7 @@ public class ViewTest {
         DomainTypeRegistry.getInstance().addDomainTypes(models);
 
         MCC viewDesc = MCCUtils.readMCC(Student.class, ModuleStudent.class);
-        MCCRegistry.getInstance().add(viewDesc);
-        MCCRegistry.getInstance().add(MCCUtils.readMCC(Enrolment.class, ModuleEnrolment.class));
-        MCCRegistry.getInstance().add(MCCUtils.readMCC(Address.class, ModuleAddress.class));
-        MCCRegistry.getInstance().add(MCCUtils.readMCC(StudentClass.class, ModuleStudentClass.class));
-        MCCRegistry.getInstance().add(MCCUtils.readMCC(CourseModule.class, ModuleCourseModule.class));
-        FormView formView = new FormView(viewDesc);
-        System.out.println(formView.getAsString());
-        System.out.println(formView.getSubViews().stream().map(view -> view.getAsString()).collect(Collectors.toList()));
+
 //        View formView = new FormViewWithTypeSelect(CourseModule.class);
 //        System.out.println(formView.getAsString());
 //        View listView = new ListView(viewDesc);

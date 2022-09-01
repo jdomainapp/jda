@@ -1,5 +1,6 @@
 package org.jda.example.coursemanrestful.software.config;
 
+import jda.modules.mosar.software.frontend.FEApp;
 import org.jda.example.coursemanrestful.modules.ModuleMain;
 import org.jda.example.coursemanrestful.modules.address.ModuleAddress;
 import org.jda.example.coursemanrestful.modules.coursemodule.ModuleCourseModule;
@@ -17,7 +18,6 @@ import jda.modules.mosar.config.LangPlatform;
 import jda.modules.mosar.config.RFSGenDesc;
 import jda.modules.mosar.config.StackSpec;
 import jda.modules.mosarbackend.springboot.BESpringApp;
-import jda.modules.mosarfrontend.reactjs.FEReactApp;
 import jda.modules.sccl.syntax.DSDesc;
 import jda.modules.sccl.syntax.OrgDesc;
 import jda.modules.sccl.syntax.SecurityDesc;
@@ -37,7 +37,7 @@ import jda.modules.setup.model.SetUpConfig;
     feProjResource = "src/main/resources/react",
     feOutputPath = "src/main/java/org/jda/example/coursemanrestful/frontend",
     feServerPort = 5000,  // default: 3000
-    feAppClass=FEReactApp.class,
+    feAppClass= FEApp.class,
     feThreaded = true,
     bePackage = "org.jda.example.coursemanrestful.modules",
     beOutputPath = "src/main/java", 

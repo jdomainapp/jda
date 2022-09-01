@@ -6,8 +6,8 @@ import jda.modules.dodm.osm.javadb.JavaDbOSM;
 import jda.modules.mccl.conceptmodel.Configuration.Language;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
 import jda.modules.mosar.config.*;
+import jda.modules.mosar.software.frontend.FEApp;
 import jda.modules.mosarbackend.springboot.BESpringApp;
-import jda.modules.mosarfrontend.reactjs.FEReactApp;
 import jda.modules.sccl.syntax.*;
 import jda.modules.setup.model.SetUpConfig;
 import org.jda.example.coursemanrestful.modules.ModuleMain;
@@ -28,7 +28,7 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         fePlatform = FEPlatform.REACT_NATIVE,
         feOutputPath = "D:\\JDA\\CourseManReactNative",
         feServerPort = 5000,  // default: 3000
-        feAppClass = FEReactApp.class,
+        feAppClass = FEApp.class,
         feThreaded = true,
         beLangPlatform = LangPlatform.SPRING,
         bePackage = "org.jda.example.coursemanrestful.modules",

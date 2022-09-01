@@ -1,7 +1,6 @@
 
 package jda.modules.mosarfrontend.common.factory;
 
-import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosarfrontend.common.anotation.gen_controlers.RequiredParam;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
@@ -20,6 +19,7 @@ import java.util.stream.Collectors;
 
 public class ParamsFactory {
     private String TEMPLATE_ROOT_FOLDER;
+    private jda.modules.mosar.config.RFSGenConfig rfsGenConfig;
     public String[] modulesName; // Save for later trigger getModulesName()
     private static ParamsFactory instance;
     private final HashMap<Annotation, Method> methods = new HashMap<>();
@@ -65,8 +65,9 @@ public class ParamsFactory {
         this.currentField = field;
     }
 
-    public String[] setRFSGenConfig(RFSGenConfig rfsGenConfig) {
+    public String[] setRFSGenConfig(jda.modules.mosar.config.RFSGenConfig rfsGenConfig) {
         Class<?>[] mccClasses = rfsGenConfig.getMCCFuncs();
+        this.rfsGenConfig = rfsGenConfig;
         this.domains = Arrays.stream(mccClasses).map(NewMCC::readMCC).collect((Collectors.toMap(k -> k.getModuleDescriptor().modelDesc().model().getSimpleName(), k -> k)));
         // link domain to field in each dField
         for (String domainName : this.domains.keySet()) {
@@ -164,6 +165,16 @@ public class ParamsFactory {
     @RequiredParam.AppName
     public String getAppName() {
         return this.systemDesc != null ? this.systemDesc.appName() : "Unknown App gen by JDA";
+    }
+
+    @RequiredParam.SystemDesc
+    public SystemDesc getSystemDesc() {
+        return this.systemDesc;
+    }
+
+    @RequiredParam.RFSGenConfig
+    public jda.modules.mosar.config.RFSGenConfig getRFSGenDesc() {
+        return this.rfsGenConfig;
     }
 
     @RequiredParam.LinkedDomains
