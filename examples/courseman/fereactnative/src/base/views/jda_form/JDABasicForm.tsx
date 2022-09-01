@@ -1,5 +1,5 @@
 import {useFocusEffect} from '@react-navigation/native';
-import {Button, Layout} from '@ui-kitten/components';
+import {Button, Layout, Spinner} from '@ui-kitten/components';
 import * as React from 'react';
 import {BackHandler, ScrollView, StyleSheet} from 'react-native';
 import {
@@ -13,8 +13,13 @@ const styles = StyleSheet.create({
   submit_button: {
     marginVertical: 20,
   },
+  loading: {
+    flexDirection: 'row',
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
   container: {
-    paddingHorizontal: 10,
+    padding: 10,
     backgroundColor: 'white',
   },
   footer: {
@@ -47,6 +52,9 @@ export default function JDABasicForm<T>(props: IJDABasicFormProps<T>) {
   );
   return (
     <ScrollView style={styles.container}>
+      <Layout style={styles.loading}>
+        {props.loading && <Spinner style={styles.loading} />}
+      </Layout>
       {props.formInputs.map((item, index) => (
         <React.Fragment key={index}>{item}</React.Fragment>
       ))}

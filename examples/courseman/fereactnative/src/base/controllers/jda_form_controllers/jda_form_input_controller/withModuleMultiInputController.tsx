@@ -31,32 +31,40 @@ export function withJDAModuleMultiInputController<
     const {control, setValue, getValues} = useFormContext<any>();
 
     const {router} = React.useContext(JDARouterContext);
-
-    const moduleValue = React.useMemo(() => {
+    const getCurrentModuleValue = React.useCallback(() => {
       const value = _.cloneDeep(_.omit(getValues() as any, [props.name]));
       const linkedCollectionValue = props.associateCollection
         ? {
-            [props.associateCollection as any]: value,
+            [props.associateCollection as any]: [value],
+          }
+        : props.associateField
+        ? {
+            [props.associateField as any]: value,
           }
         : {};
       return {
         ...linkedCollectionValue,
       };
-    }, [getValues, props.associateCollection, props.name]);
+    }, [
+      getValues,
+      props.associateCollection,
+      props.associateField,
+      props.name,
+    ]);
 
     const onCreate = React.useCallback(async () => {
       router.showCreateForm(props.module, {
-        value: moduleValue,
+        value: getCurrentModuleValue(),
       });
-    }, [moduleValue, props.module, router]);
+    }, [getCurrentModuleValue, props.module, router]);
 
     const onEdit = React.useCallback(
       async (value: T) => {
         router.showEditForm(value, props.module, {
-          value: moduleValue,
+          value: getCurrentModuleValue(),
         });
       },
-      [router, props.module, moduleValue],
+      [router, props.module, getCurrentModuleValue],
     );
 
     const onShowDetail = React.useCallback(
@@ -95,6 +103,8 @@ export function withJDAModuleMultiInputController<
         control={control}
         name={props.name as any}
         render={({field}) => {
+          console.log(`Field Value for ${props.name as any} `, field.value);
+
           return (
             <Component
               {...(props as Props)}

@@ -65,7 +65,6 @@ export function withModuleInputController<
 
     const onShowDetail = useCallback(async () => {
       console.log('Show detail for ', moduleValue);
-
       router.showDetail(moduleValue, props.module);
     }, [router, moduleValue, props.module]);
 
