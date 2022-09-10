@@ -29,7 +29,7 @@
         </div>
     </div>
     </br>
-    <div class="tab-content"> 
+    <div class="tab-content">
         <div>
             <form-add v-if="display == 1" v-bind:data="data"></form-add>
         </div>
@@ -37,6 +37,7 @@
             <form-add v-if="display == 2" v-bind:data="data"></form-add>
         </div>
         <div>
+            <!-- <form-list @data="setData" v-bind:subStudentClassId="subStudentClassId" v-if="display == 3"></form-list> -->
             <form-list @data="setData" v-bind:subStudentClassId="subStudentClassId" v-if="display == 3"></form-list>
         </div>
     </div>
