@@ -19,7 +19,8 @@
             return {
                 students: [],
                 studentId: 0,
-                studentClassId: this.subStudentClassId === undefined ? 0 : this.subStudentClassId,
+                studentClassName: 0,
+                studentClassId: this.subStudentClassId === undefined ? 0 : this.subStudentClassId.studentClassID,
                 data: {
                     studentId: 0,
                     mode: "edit"
