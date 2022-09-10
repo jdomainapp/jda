@@ -12,7 +12,27 @@
         </tr>
     </thead>
     <tbody>
-        <tr style="cursor: pointer;" :key="enrolment.id" v-for="(enrolment, index) in enrolments.content">
+
+        <tr style="cursor: pointer;" :key="enrolment.id" v-for="(enrolment, index) in enrolments.content" v-if="eDisplay === 1">
+            <td style="vertical-align: middle;">{{index + 1}}</td>
+            <td style="vertical-align: middle;">{{enrolment.id}}</td>
+            <td style="vertical-align: middle;">{{enrolment.student.name}}</td>
+            <td style="vertical-align: middle;">{{enrolment.courseModule.name}}</td>
+            <td style="vertical-align: middle;">{{enrolment.internalMark}}</td>
+            <td style="vertical-align: middle;">{{enrolment.examMark}}</td>
+            <td style="vertical-align: middle;">{{enrolment.finalGrade}}</td>
+            <td style="vertical-align: middle; width: 200px;">
+                <button class="btn btn-primary" v-on:click="emitData(enrolment)">
+                    Edit
+                </button>
+                <a class="btn btn-danger" id="btnShowModal" data-target="#myModal" v-on:click="getEnrolmentId(enrolment.id)" data-toggle="modal">
+                    Delete
+                </a>
+            </td>
+        </tr>
+
+
+        <tr style="cursor: pointer;" :key="enrolment.id" v-for="(enrolment, index) in enrolments.content" v-if="(enrolment.student.name === enrolmentIn) && (eDisplay === 2)">
             <td style="vertical-align: middle;">{{index + 1}}</td>
             <td style="vertical-align: middle;">{{enrolment.id}}</td>
             <td style="vertical-align: middle;">{{enrolment.student.name}}</td>
@@ -31,5 +51,5 @@
         </tr>
     </tbody>
     <Toasts></Toasts>
-    <modal-confirm  @confirm="deleteEnrolment(enrolmentId)"></modal-confirm>
+    <modal-confirm @confirm="deleteEnrolment(enrolmentId)"></modal-confirm>
 </table>
