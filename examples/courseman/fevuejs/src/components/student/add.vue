@@ -5,7 +5,8 @@ import StudentForm from "../../model/form/student";
 import Message from "../../constants/message";
 import { addStudent, updateStudent } from "../../api/student";
 import { getAddress, getAllAddresses } from "../../api/address";
-import { getAllStudentClasses } from "../../api/student_class";
+import { getAllStudentClasses, getStudentClass } from "../../api/student_class";
+
 import Address from "../../model/address";
 
 export default {
@@ -22,6 +23,7 @@ export default {
     return {
       addresses: [],
       studentClasses: [],
+      enrolmentIn: '',
       student: new Student(undefined, null, null, null, null, new Address()),
       form: new StudentForm(),
       formSubModuleAddressSeen: false,
@@ -31,6 +33,7 @@ export default {
         address: null,
         parent: "student",
         student: null,
+        enrolmentIn:'',
       }
 
     };
@@ -46,7 +49,10 @@ export default {
       this.dataSubForm.mode = "edit";
       this.dataSubForm.student = this.data.student;
       this.dataSubForm.address = this.data.student.address;
+      this.dataSubForm.enrolmentIn = this.data.student.name;
+      
     }
+   
   },
 
   methods: {
@@ -88,7 +94,7 @@ export default {
       result
         .then((response) => {
           this.studentClasses = response.data;
-          console.log(response.data);
+          // console.log(response.data);
         })
         .catch((e) => {
           this.$toast.error(
@@ -97,15 +103,33 @@ export default {
         });
     },
 
+    getStudentClassId(event) {
+
+                let studentClassId = event.target.value;
+
+                var result = getStudentClass(studentClassId);
+                result
+                  .then((res) => {
+                    console.log(res.data.name);
+                    this.student.studentClass.name = res.data.name;
+                  })
+                  .catch((error) => {
+
+                    console.log(error);
+                    
+                  })
+                  .finally(() => {});
+    },
+
     create() {
       this.studentClasses = null;
       //this.student.setAddress(this.data.address)
       this.student.address.student = null;
-
+      // console.log(this.student);
       var result = addStudent(this.student);
       result
         .then((res) => {
-          console.log(res);
+          console.log('Res' + res);
           this.$toast.success(Message.ADD_STUDENT_SUC);
         })
         .catch((e) => {
@@ -115,10 +139,13 @@ export default {
     },
 
     update() {
-      var result = updateStudent(this.studentId, this.student);
+
+      console.log(this.student);
+
+      var result = updateStudent(this.student.id, this.student);
       result
         .then((res) => {
-          console.log(res);
+          console.log('Res' + res);
           this.$toast.success(Message.UPDATE_STUDENT_SUC);
         })
         .catch((error) => {
