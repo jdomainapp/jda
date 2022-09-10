@@ -20,13 +20,16 @@
                 dataSubForm: {
                     mode: "create",
                     enrolment: null
-                }
+                },
             }
         },
 
-        mounted() {           
-            if (this.data.parent !== null) {
-                this.dataSubForm = this.data;
+        mounted() {   
+            
+            if(this.data != undefined){
+                if (this.data.parent !== null) {
+                    this.dataSubForm = this.data;
+                }
             }
         },
 
