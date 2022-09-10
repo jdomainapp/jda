@@ -26,7 +26,9 @@
 
         methods: {
             emitData(coursemodule) {
+               
                 this.data.coursemodule = coursemodule;
+        
                 this.$emit("data", this.data);
             },
 
@@ -38,6 +40,7 @@
                 var result = getAllCourseModules();
                 result.then(response => {
                     this.coursemodules = response.data;
+                    // console.log(this.coursemodules.content[5].deptName);
                 })
                 .catch(e => {
                     this.$toast.error(Message.GET_LIST_COURSE_ERR + ' - ' + e.message);
@@ -45,7 +48,8 @@
             },
 
             deleteCoursemodule(id) {
-                var result = deleteCourseModule(id);              
+                var result = deleteCourseModule(id);  
+
                 result.then(response => {
                     console.log(response);
 
