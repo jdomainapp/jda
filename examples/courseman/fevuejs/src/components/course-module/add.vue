@@ -21,6 +21,13 @@
             this.setDefaultType()
             if (this.data.mode === "edit") {
                 this.coursemodule = this.data.coursemodule;
+                console.log(this.data.coursemodule.deptName);
+                if(this.data.coursemodule.deptName == undefined){
+                    this.coursemodule.type = 'compulsory';
+                }else{
+                    this.coursemodule.type = 'elective';
+                }
+                
             }
         },
 
@@ -30,6 +37,7 @@
             },
 
             create() {
+                console.log('Add' + this.coursemodule.type);
                 var result = addCourseModule(this.coursemodule);
                 result.then((res) => {
                     console.log(res);
@@ -43,7 +51,10 @@
             },
 
             update() {
-                var result = updateCourseModule(this.courseModuleId, this.coursemodule);
+                
+                var result = updateCourseModule(this.coursemodule.id, this.coursemodule);
+                
+
                 result.then((res) => {
                     console.log(res);
                     this.$toast.success(Message.UPDATE_COURSE_SUC);
