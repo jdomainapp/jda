@@ -38,6 +38,8 @@
                 var result = getAllAddresses();
                 result.then(response => {
                     this.addresses = response.data;
+                    console.log('Get address');
+                    console.log(response.data.content[0].student);
                 })
                 .catch(e => {
                     this.$toast.error(Message.GET_LIST_ADDRESS_ERR + ' - ' + e.message);
