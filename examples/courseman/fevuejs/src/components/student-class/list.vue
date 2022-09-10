@@ -26,6 +26,7 @@
 
         methods: {
             emitData(studentClass) {
+
                 this.data.studentClass = studentClass;
                 this.$emit("data", this.data);
             },
