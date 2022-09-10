@@ -13,7 +13,7 @@
             <td style="vertical-align: middle;">{{index + 1}}</td>
             <td style="vertical-align: middle;">{{add.id}}</td>
             <td style="vertical-align: middle;">{{add.name}}</td>
-            <td style="vertical-align: middle;">{{add.student}}</td>
+            <td style="vertical-align: middle;">{{add.student.id}} | {{add.student.name}} | {{add.student.gender}} | {{add.student.dob}} | {{add.student.email}}</td>
             <td style="vertical-align: middle; width: 200px;">
                 <button class="btn btn-primary" v-on:click="emitData(add)">
                     Edit
@@ -25,5 +25,5 @@
         </tr>
     </tbody>
     <Toasts></Toasts>
-    <modal-confirm  @confirm="deleteAddress(addressId)"></modal-confirm>
+    <modal-confirm @confirm="deleteAddress(addressId)"></modal-confirm>
 </table>
