@@ -2,11 +2,12 @@
 <script>
     import Address from "../../model/address";
     import AddressForm from '../../model/form/address';
-    import Student from '../../model/student';
     import Message from '../../constants/message';
     import {updateAddress,addAddress} from '../../api/address';
     import {getStudent} from '../../api/student';
-
+    import Student from '../../model/student';
+    
+    
     export default {
         props: {
             data:Object
@@ -23,6 +24,7 @@
                 form: new AddressForm(),
                 dataSubForm: {
                     mode: "create",
+                    address: null,
                     student: null,
                     parent: "address"
                 }
@@ -34,10 +36,10 @@
             if (this.data.mode === "edit") {
                 this.address = this.data.address;
                 this.dataSubForm.mode = "edit";
-                this.dataSubForm.student = this.data.address.student
-                console.log("address=" + this.address)
+                this.dataSubForm.student = this.data.address.student;
+                console.log("From student Address:" + this.data.address.student.id);
             }
-            console.log(this.address.id)
+            
         },
 
         methods: {
@@ -48,17 +50,24 @@
             },
 
             create() {
-                var result = addAddress(this.address);
-                result.then((res) => {
-                    console.log(res.data);
-                    
-                    this.address.id = res.data.id
-                    this.address.name = res.data.name
-                    this.address.student.setAddress(this.address)
+                // this.address.student.address = null;
+                console.log(this.address.student);
 
+                if(this.address.student.id === undefined){
+                    this.address.student = null;
+                }
+        
+                var result = addAddress(this.address);    
+                
+                
+                
+                result.then((res) => {
+                    console.log(res);
+                    
                     this.$toast.success(Message.ADD_ADDRESS_SUC);
                 }).catch((error) => {
                     this.$toast.error(Message.ADD_ADDRESS_ERR + ' - ' + error.message);
+                    console.log('Hahaaa' + error);
                 }).finally(() => {});
             },
 
@@ -77,7 +86,7 @@
             },
 
             update() {
-                var result = updateAddress(this.addressId, this.address);
+                var result = updateAddress(this.address.id, this.address);
                 result.then((res) => {
                     console.log(res);
                     this.$toast.success(Message.UPDATE_ADDRESS_SUC);
