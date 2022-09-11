@@ -34,8 +34,10 @@ public class ControllerTk {
   public static String getServiceUri(HttpServletRequest req, String serviceName) {
     // e.g "http://gateway-server/assessmenthub-service/"+req.getServletPath().replace("/assessmenthub/", "")
     final String gwUri = "http://gateway-server";
-    String serviceUriPattern = "%s%s-service/%s";
-    String reqPath = req.getServletPath().replace(serviceName+"/", "");
+//    String serviceUriPattern = "%s%s-service/%s";
+//    String reqPath = req.getServletPath().replace(serviceName+"/", "");
+    String serviceUriPattern = "%s/%s%s";
+    String reqPath = req.getServletPath();
     String serviceUri = String.format(serviceUriPattern, gwUri,serviceName, reqPath);
     return serviceUri;
   }

@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.jda.example.coursemanmsa.coursemgnt.modules.enrolment.model.Enrolment;
 import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.model.Teacher;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -58,6 +57,7 @@ public class CourseModule {
     @JoinColumn(name="teacher_id", nullable=false)
 	private Teacher teacher;
 	
-	@OneToMany(mappedBy="coursemodule")
-	private List<Enrolment> enrolments;
+	//TODO: separate coursemoudle-enrolments relationships
+//	@OneToMany(mappedBy="coursemodule")
+//	private List<Enrolment> enrolments;
 }

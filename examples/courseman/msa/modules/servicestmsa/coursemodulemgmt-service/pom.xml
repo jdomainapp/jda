@@ -9,17 +9,9 @@
 	</parent>
 	
 	<groupId>org.jda.example.coursemanmsa</groupId>
-	<artifactId>coursemgnt-service</artifactId>
+	<artifactId>coursemodulemgnt-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>coursemgnt-service</name>
-	<description>Courseman Coursemgnt Service</description>
-	
-	<dependencies>
-		<dependency>
-			<groupId>org.jda.example.coursemanmsa</groupId>
-			<artifactId>coursemodulemgnt-service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
+	<name>coursemodulemgnt-service</name>
+	<description>Courseman CourseModulemgnt Service</description>
 
 </project>

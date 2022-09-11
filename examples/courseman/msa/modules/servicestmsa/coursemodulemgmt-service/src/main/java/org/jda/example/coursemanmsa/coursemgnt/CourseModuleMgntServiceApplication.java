@@ -28,14 +28,14 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @SpringBootApplication
 @RefreshScope
 @EnableEurekaClient
-public class CourseMgntServiceApplication {
-	private static final Logger logger = LoggerFactory.getLogger(CourseMgntServiceApplication.class);
+public class CourseModuleMgntServiceApplication {
+	private static final Logger logger = LoggerFactory.getLogger(CourseModuleMgntServiceApplication.class);
 	
 	public static void main(String[] args) {
 		final ServiceRegistry serviceRegistry = ServiceRegistry.getInstance();
 		final ControllerRegistry controllerRegistry = ControllerRegistry.getInstance();
 		final RedirectControllerRegistry redirectControllerRegistry = RedirectControllerRegistry.getInstance();
-		ApplicationContext ctx = SpringApplication.run(CourseMgntServiceApplication.class, args);
+		ApplicationContext ctx = SpringApplication.run(CourseModuleMgntServiceApplication.class, args);
 		ctx.getBeansOfType(PagingAndSortingRepository.class).forEach((k, v) -> {serviceRegistry.put(k, v);
 		System.out.println("CHECK SERVICES: "+ k +"_"+v);
 			});
@@ -47,33 +47,33 @@ public class CourseMgntServiceApplication {
 			});
 		
 	}
-	//TODO: Duplicate ???
-//	@SuppressWarnings("unchecked")
-//	@LoadBalanced
-//	@Bean
-//	public RestTemplate getRestTemplate0(){
-//		RestTemplate template = new RestTemplate();
-//        List interceptors = template.getInterceptors();
-//        if (interceptors==null){
-//            template.setInterceptors(Collections.singletonList(new UserContextInterceptor()));
-//        }
-//        else{
-//            interceptors.add(new UserContextInterceptor());
-//            template.setInterceptors(interceptors);
-//        }
-//
-//        return template;
-//	}
+	
+	@SuppressWarnings("unchecked")
+	@LoadBalanced
+	@Bean
+	public RestTemplate getRestTemplate(){
+		RestTemplate template = new RestTemplate();
+        List interceptors = template.getInterceptors();
+        if (interceptors==null){
+            template.setInterceptors(Collections.singletonList(new UserContextInterceptor()));
+        }
+        else{
+            interceptors.add(new UserContextInterceptor());
+            template.setInterceptors(interceptors);
+        }
+
+        return template;
+	}
 
 	
 	@Bean
-	public LocaleResolver localeResolver0() {
+	public LocaleResolver localeResolver() {
 		SessionLocaleResolver localeResolver = new SessionLocaleResolver();
 		localeResolver.setDefaultLocale(Locale.US);
 		return localeResolver;
 	}
 	@Bean
-	public ResourceBundleMessageSource messageSource0() {
+	public ResourceBundleMessageSource messageSource() {
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
 		messageSource.setUseCodeAsDefaultMessage(true);
 		messageSource.setBasenames("messages");
