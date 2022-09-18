@@ -18,7 +18,7 @@ public class headerGen {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String moduleName : modulesName) {
             ArrayList<Slot> slotValues = new ArrayList<>();
-            slotValues.add(new Slot("Module__name", NameFormatter.module__name(moduleName)));
+            slotValues.add(new Slot("Module__name", NameFormatter.Module__names(moduleName)));
             slotValues.add(new Slot("moduleJname", NameFormatter.moduleJname(moduleName)));
             result.add(slotValues);
         }

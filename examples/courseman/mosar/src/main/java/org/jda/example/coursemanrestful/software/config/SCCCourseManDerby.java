@@ -25,14 +25,14 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         feProjPath = "/home/ducmle/tmp/restfstool-fe",
         feProjName = "fe-courseman",
         feProjResource = "src/main/resources/angular",
-        fePlatform = FEPlatform.REACT_NATIVE,
-        feOutputPath = "D:\\JDA\\CourseManReactNative",
+        fePlatform = FEPlatform.VUE_JS,
+        feOutputPath = "E:\\Linh\\JDA\\FEVue",
         feServerPort = 5000,  // default: 3000
         feAppClass = FEApp.class,
         feThreaded = true,
         beLangPlatform = LangPlatform.SPRING,
         bePackage = "org.jda.example.coursemanrestful.modules",
-        beOutputPath = "D:\\JDA\\jda\\examples\\courseman\\mosar\\src\\main\\java",
+        beOutputPath = "E:\\Linh\\JDA\\jda\\examples\\courseman\\mosar\\src\\main\\java",
         beTargetPackage = "org.jda.example.coursemanrestful.backend"
         , beAppClass = BESpringApp.class,
         beServerPort = 8080  // default: 8080

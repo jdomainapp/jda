@@ -6,11 +6,9 @@ import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDe
 import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesDesc;
 import jda.modules.mosarfrontend.vuejs.src.api.moduleAPIGen;
 import jda.modules.mosarfrontend.vuejs.src.components.module.addGen;
-import jda.modules.mosarfrontend.vuejs.src.components.module.editGen;
 import jda.modules.mosarfrontend.vuejs.src.components.module.indexGen;
 import jda.modules.mosarfrontend.vuejs.src.components.module.listGen;
 import jda.modules.mosarfrontend.vuejs.src.components.module.template.addHtmlGen;
-import jda.modules.mosarfrontend.vuejs.src.components.module.template.editHtmlGen;
 import jda.modules.mosarfrontend.vuejs.src.components.module.template.indexHtmlGen;
 import jda.modules.mosarfrontend.vuejs.src.components.module.template.listHtmlGen;
 import jda.modules.mosarfrontend.vuejs.src.constants.messageGen;
@@ -38,7 +36,7 @@ import jda.modules.mosarfrontend.vuejs.src.router.routerGen;
                         genClasses = {listGen.class, listHtmlGen.class}
                 ),
                 Form = @ComponentGenDesc(
-                        genClasses = {addGen.class, addHtmlGen.class, editGen.class, editHtmlGen.class}
+                        genClasses = {addGen.class, addHtmlGen.class}
                 ),
                 Main = @ComponentGenDesc(
                         genClasses = {indexGen.class, indexHtmlGen.class}

@@ -1,16 +1,22 @@
 <template src="./template/index.html"></template>
 <script>
     export default {
+        props: {@loop{One2ManyIds}[[
+            sub@slot{{LinkedDomain}}Id:Object,]]loop{One2ManyIds}@
+        },
+
         components: {
             "form-add": () => import('./add.vue'),
-            "form-edit": () => import('./edit.vue'),
             "form-list": () => import('./list.vue'),
         },
 
         data() {
             return {
                 display: 1,
-                @slot{{moduleName}}Id: 0,
+                data: {
+                    mode: "create",
+                    @slot{{moduleName}}: null
+                }
             }
         },
 
@@ -20,10 +26,15 @@
 
         methods: {
             setData(data){
-                this.@slot{{moduleName}}Id = data.@slot{{moduleName}}Id;
-                this.display = 2;
-                console.log(this.@slot{{moduleName}}Id)
+                this.data.@slot{{moduleName}} = data.@slot{{moduleName}};
+                this.display = 1;
+                this.data.mode = data.mode;
             },
+
+            mainForm() {
+                this.display = 2;
+                this.data.mode = "create";
+            }
         }
     };
 </script>

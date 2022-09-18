@@ -2,8 +2,8 @@
 <script>
     import @slot{{ModuleName}} from "../../model/@slot{{module_name}}";
     import @slot{{ModuleName}}Form from '../../model/form/@slot{{module_name}}';
-    import {add@slot{{ModuleName}}} from '../../api/@slot{{module_name}}';
     import Message from '../../constants/message';
+    import {update@slot{{ModuleName}},add@slot{{ModuleName}}} from '../../api/@slot{{module_name}}';
     @loop{importLinkedDomains}[[
     import @slot{{LinkedDomain}} from '../../model/@slot{{linked_domain}}';
     import {get@slot{{LinkedDomain}}} from '../../api/@slot{{linked_domain}}';]]loop{importLinkedDomains}@
@@ -22,7 +22,7 @@
                 @slot{{module_name}}: new @slot{{ModuleName}}(),
                 form: new @slot{{ModuleName}}Form(),@loop{initLinkedModules}[[
                 formSubModule@slot{{LinkedDomain}}Seen: false,
-                @slot{{fieldName}}: new @slot{{LinkedDomain}}(),]]loop{initLinkedModules}@
+                dataSubForm: new @slot{{LinkedDomain}}(),]]loop{initLinkedModules}@
             };
         },
 
@@ -61,6 +61,26 @@
                 });
             },
             ]]loop{getLinkedModuleByID}@
+            update() {
+                  var result = update@slot{{ModuleName}}(this.@slot{{moduleName}}Id, this.@slot{{moduleName}});
+                  result
+                    .then((res) => {
+                      console.log(res);
+                      this.$toast.success(Message.UPDATE_@slot{{MODULE_NAME}}_SUC);
+                    })
+                    .catch((error) => {
+                      this.$toast.error(Message.UPDATE_@slot{{MODULE_NAME}}_ERR + " - " + error.message);
+                    })
+                    .finally(() => {});
+                },
+
+            onSubmit() {
+                if (this.data.mode == "create") {
+                    this.create();
+                } else {
+                    this.update();
+                }
+            },
         },
     };
 </script>
