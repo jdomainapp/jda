@@ -4,7 +4,7 @@
         <div class="px-0 col">
             <ul class="nav nav-pills">
                 <li class="nav-item">
-                    <p class="btn btn-primary nav-link" v-on:click="display=1">
+                    <p class="btn btn-primary nav-link" v-on:click="mainForm()">
                         Main
                     </p>
                 </li>
@@ -29,12 +29,12 @@
         </div>
     </div>
     </br>
-    <div class="tab-content"> 
+    <div class="tab-content">
         <div>
-            <form-add v-if="display == 1"></form-add>
+            <form-add v-if="display == 1" v-bind:data="data"></form-add>
         </div>
         <div>
-            <form-edit v-bind:subAddressId="@slot{{moduleName}}Id" v-if="display == 2"></form-edit>
+            <form-add v-if="display == 2" v-bind:data="data"></form-add>
         </div>
         <div>
             <form-list @data="setData" v-if="display == 3"></form-list>

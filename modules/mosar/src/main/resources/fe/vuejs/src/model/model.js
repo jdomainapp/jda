@@ -4,10 +4,11 @@ export default class @slot{{ModuleName}} {
     constructor(@loop{normalFieldParams}[[@slot{{fieldName}},]]loop{normalFieldParams}@) {
     @loop{initNormalFields}[[
         this.@slot{{fieldName}} = @slot{{fieldName}}]]loop{initNormalFields}@
-    @loop{initLinkedFields}[[
-        this.@slot{{fieldName}} = new @slot{{LinkedDomain}}()]]loop{initLinkedFields}@
+    @loop{initLinkedOne2ManyFields}[[
+        this.@slot{{fieldName}} = new @slot{{LinkedDomain}}()]]loop{initLinkedOne2ManyFields}@
+    @loop{initLinkedOne2OneFields}[[
+        this.@slot{{fieldName}} = @slot{{fieldName}}]]loop{initLinkedOne2OneFields}@
     }
-
 @loop{setLinkedDomain}[[
     set@slot{{LinkedDomain}}(@slot{{fieldName}}) {
         if (@slot{{fieldName}} === undefined) {
@@ -16,6 +17,5 @@ export default class @slot{{ModuleName}} {
         }
 
         this.@slot{{fieldName}} = @slot{{fieldName}};
-    }
-]]loop{setLinkedDomain}@
+    }]]loop{setLinkedDomain}@
 }
