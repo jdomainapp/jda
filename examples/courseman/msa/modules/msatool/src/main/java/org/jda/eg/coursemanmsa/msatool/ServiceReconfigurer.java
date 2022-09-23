@@ -13,6 +13,8 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jda.modules.common.io.ToolkitIO;
+
 public class ServiceReconfigurer {
 
 	private static final Logger logger = LoggerFactory.getLogger(ServiceReconfigurer.class);
@@ -105,4 +107,26 @@ public class ServiceReconfigurer {
 				}
 		}
 	}
+	
+	/**
+   * Given a service that has been packaged in a jar file, run the service 
+   * using the command line.
+   *  
+   * @requires
+   *   <tt>serviceJar</tt> is the proper <tt>jar</tt> file of a SpringBoot service, 
+   *   that has been packaged with the command <tt>mvn package spring-boot:repackage</tt> 
+   *   
+   * @effects 
+   *   if the specified service is executed successfully
+   *    return true
+   *   else
+   *    return false
+   */
+  public boolean runServiceFromJar(File serviceJar) {
+    String cmd = "java -jar " + serviceJar.getPath();
+    File workDir = null;
+    boolean result = ToolkitIO.executeSysCommand(workDir, cmd);
+    
+    return result;
+  }
 }
