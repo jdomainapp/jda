@@ -1,5 +1,12 @@
 package org.jda.example.coursemanmdsa.software.config;
 
+import org.jda.example.coursemanmdsa.modules.ModuleMain;
+import org.jda.example.coursemanmdsa.modules.address.ModuleAddress;
+import org.jda.example.coursemanmdsa.modules.coursemodule.ModuleCourseModule;
+import org.jda.example.coursemanmdsa.modules.enrolment.ModuleEnrolment;
+import org.jda.example.coursemanmdsa.modules.student.ModuleStudent;
+import org.jda.example.coursemanmdsa.modules.studentclass.ModuleStudentClass;
+
 import jda.modules.dodm.dom.DOM;
 import jda.modules.dodm.dsm.DSM;
 import jda.modules.dodm.osm.postgresql.PostgreSQLOSM;
@@ -10,15 +17,13 @@ import jda.modules.mosar.config.LangPlatform;
 import jda.modules.mosar.config.RFSGenDesc;
 import jda.modules.mosar.config.StackSpec;
 import jda.modules.mosarbackend.springboot.BESpringApp;
-import jda.modules.mosarfrontend.reactjs.FEReactApp;
-import jda.modules.sccl.syntax.*;
+import jda.modules.mosarfrontend.reactjsbhd.FEReactApp;
+import jda.modules.sccl.syntax.DSDesc;
+import jda.modules.sccl.syntax.OrgDesc;
+import jda.modules.sccl.syntax.SecurityDesc;
+import jda.modules.sccl.syntax.SysSetUpDesc;
+import jda.modules.sccl.syntax.SystemDesc;
 import jda.modules.setup.model.SetUpConfig;
-import org.jda.example.coursemanmdsa.modules.ModuleMain;
-import org.jda.example.coursemanmdsa.modules.address.ModuleAddress;
-import org.jda.example.coursemanmdsa.modules.coursemodule.ModuleCourseModule;
-import org.jda.example.coursemanmdsa.modules.enrolment.ModuleEnrolment;
-import org.jda.example.coursemanmdsa.modules.student.ModuleStudent;
-import org.jda.example.coursemanmdsa.modules.studentclass.ModuleStudentClass;
 
 @RFSGenDesc(
         stackSpec =

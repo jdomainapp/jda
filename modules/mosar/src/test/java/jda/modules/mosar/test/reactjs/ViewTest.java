@@ -1,15 +1,11 @@
 package jda.modules.mosar.test.reactjs;
 
-import java.util.stream.Collectors;
-
-import org.courseman.modules.address.ModuleAddress;
 import org.courseman.modules.address.model.Address;
 import org.courseman.modules.coursemodule.ModuleCourseModule;
 import org.courseman.modules.coursemodule.model.CompulsoryModule;
 import org.courseman.modules.coursemodule.model.CourseModule;
 import org.courseman.modules.coursemodule.model.ElectiveModule;
 import org.courseman.modules.enrolment.ModuleEnrolment;
-import org.courseman.modules.enrolment.model.Enrolment;
 import org.courseman.modules.student.ModuleStudent;
 import org.courseman.modules.student.model.Gender;
 import org.courseman.modules.student.model.Student;
