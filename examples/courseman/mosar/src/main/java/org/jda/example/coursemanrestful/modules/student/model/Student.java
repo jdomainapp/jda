@@ -94,7 +94,7 @@ public class Student implements Subscriber, Publisher {
             serialisable = false, filter = @Select(clazz = Enrolment.class))
     @DAssoc(ascName = "student-has-enrolments", role = "student",
             ascType = AssocType.One2Many, endType = AssocEndType.One,
-            associate = @Associate(type = Enrolment.class, cardMin = 0, cardMax = 30))
+            associate = @Associate(type = Enrolment.class, cardMin = 0, cardMax = 30, determinant = true))
     @JsonIgnoreProperties({"student"})
     @JsonDeserialize(using = Deserializers.EnrCollectionDeserializer.class)
     private Collection<Enrolment> enrolments;

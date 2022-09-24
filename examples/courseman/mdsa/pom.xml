@@ -14,7 +14,7 @@
 
 	<!-- PROPERTIES -->
 	<properties>
-		<java.version>13</java.version>
+		<java.version>11</java.version>
 		<jersey.version>3.0.1</jersey.version>
 		<!--    <jetty.version>11.0.1</jetty.version>-->
 		<jetty.version>9.4.38.v20210224</jetty.version>
@@ -30,6 +30,13 @@
         <version>3.8.1</version>
         <configuration>
           <release>${java.version}</release>
+			<annotationProcessorPaths>
+				<path>
+					<groupId>org.projectlombok</groupId>
+					<artifactId>lombok</artifactId>
+					<version>1.18.22</version>
+				</path>
+			</annotationProcessorPaths>
         </configuration>
       </plugin>
 	  <!-- for source code execution (exec:java) -->
@@ -263,5 +270,12 @@
 			<version>${jda.version}</version>
 		</dependency>
 		<!-- END: JDA -->
+		<!--Lombok-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.22</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 </project>

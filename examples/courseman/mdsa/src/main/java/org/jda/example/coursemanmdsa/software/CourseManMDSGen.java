@@ -1,7 +1,6 @@
 package org.jda.example.coursemanmdsa.software;
 
-import org.jda.example.coursemanmdsa.software.config.SCCCourseManDerby;
-
+import org.courseman.software.config.SCCCourseManDerby;
 import jda.modules.mosar.software.RFSoftware;
 
 /**

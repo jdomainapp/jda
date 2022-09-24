@@ -33,6 +33,7 @@ import jda.util.events.ChangeEventSource;
  */
 @DClass(schema = "courseman")
 public class Enrolment implements Comparable, Publisher {
+	
 
   private static final String AttributeName_InternalMark = "internalMark";
   private static final String AttributeName_ExamMark = "examMark";
@@ -168,6 +169,7 @@ public class Enrolment implements Comparable, Publisher {
       updateFinalMark();
   }
 
+  
   @DOpt(type=DOpt.Type.DerivedAttributeUpdater)
   @AttrRef(value=AttributeName_FinalMark)
   public void updateFinalMark() {
@@ -326,6 +328,7 @@ public class Enrolment implements Comparable, Publisher {
   // implements Comparable interface
   public int compareTo(Object o) {
     if (o == null || (!(o instanceof Enrolment)))
+    
       return -1;
 
     Enrolment e = (Enrolment) o;

@@ -1,0 +1,33 @@
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Id</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Semester</th>
+            <th>Credist</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="cursor: pointer;" :key="coursemodules.id" v-for="(coursemodule, index) in coursemodules.content">
+            <td style="vertical-align: middle;">{{index + 1}}</td>
+            <td style="vertical-align: middle;">{{coursemodule.id}}</td>
+            <td style="vertical-align: middle;">{{coursemodule.code}}</td>
+            <td style="vertical-align: middle;">{{coursemodule.name}}</td>
+            <td style="vertical-align: middle;">{{coursemodule.semester}}</td>
+            <td style="vertical-align: middle;">{{coursemodule.credits}}</td>
+            <td style="vertical-align: middle; width: 200px;">
+                <button class="btn btn-primary" v-on:click="emitData(coursemodule)">
+                    Edit
+                </button>
+                <a class="btn btn-danger" id="btnShowModal" data-target="#myModal" v-on:click="getCoursemoduleId(coursemodule.id)" data-toggle="modal">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    </tbody>
+    <Toasts></Toasts>
+    <modal-confirm @confirm="deleteCoursemodule(coursemoduleId)"></modal-confirm>
+</table>

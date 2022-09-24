@@ -1,5 +1,6 @@
 package org.courseman.software.config;
 
+import jda.modules.mosar.software.frontend.FEApp;
 import org.courseman.modules.ModuleMain;
 import org.courseman.modules.address.ModuleAddress;
 import org.courseman.modules.coursemodule.ModuleCourseModule;
@@ -18,7 +19,6 @@ import jda.modules.mosar.config.LangPlatform;
 import jda.modules.mosar.config.RFSGenDesc;
 import jda.modules.mosar.config.StackSpec;
 import jda.modules.mosarbackend.springboot.BESpringApp;
-import jda.modules.mosarfrontend.reactjs.FEReactApp;
 import jda.modules.sccl.syntax.DSDesc;
 import jda.modules.sccl.syntax.OrgDesc;
 import jda.modules.sccl.syntax.SecurityDesc;
@@ -39,7 +39,7 @@ import jda.modules.setup.model.SetUpConfig;
   feProjResource = "src/main/resources/react",
   feOutputPath = "src/example/java/org/courseman/frontend",
   feServerPort = 5000,  // default: 3000
-  feAppClass=FEReactApp.class,
+  feAppClass= FEApp.class,
   feThreaded = true,
   bePackage = "org.courseman.modules",
   beOutputPath = "src/example/java", 

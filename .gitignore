@@ -1,7 +1,4 @@
-# Compiled class file
-*.class
-
-# Log file
+*.dat
 *.log
 
 # BlueJ files
@@ -42,3 +39,7 @@ target/
 /.classpath
 /.project
 /lib/
+# feat#17
+*.idea
+*.class
+node_modules

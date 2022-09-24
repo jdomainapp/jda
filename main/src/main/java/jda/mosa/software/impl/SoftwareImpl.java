@@ -26,6 +26,7 @@ import jda.modules.dodm.osm.relational.RelationalOSMBasic;
 import jda.modules.setup.model.Cmd;
 import jda.modules.setup.model.SetUpBasic;
 import jda.modules.setup.model.SetUpGen;
+import jda.mosa.model.Oid;
 import jda.mosa.software.SoftwareFactory;
 import jda.mosa.software.aio.SoftwareAio;
 
@@ -635,7 +636,9 @@ public abstract class SoftwareImpl {
   }
   
   public <T> void deleteObject(T o, Class<T> c) throws DataSourceException {
-    getDODM().getDom().deleteObject(o, c);
+    //ducmle: 20220704: getDODM().getDom().deleteObject(o, c);
+    Oid oid = getDODM().getDom().lookUpObjectId(c, o);
+    getDODM().getDom().deleteObject(o, oid, c);
   }
 
   public <T> void updateObjectComplete(T o, Object[] vals) throws NotPossibleException, DataSourceException {

@@ -22,13 +22,14 @@ to demonstrate the increasing complexity of the domain requirements.
 
 The domain modelling requirements of this use case are given below: 
  
-| Submodels | Modules | |
-| :--: | :--: |  :--: |
-| Address Administration | Address | 
-| Student Registration | Student | uses Address 
-| Class Registration | StudentClass | uses Student
-| Enrolment Administration | Enrolment | uses Student, Course Module
-| Course Administration | CourseModule, CompulsoryModule, ElectiveModule  | 
+| Submodels | Modules | 
+| :--: | :--: |
+| Address Administration | Address 
+| Student Registration | Student 
+| Class Registration | StudentClass 
+| Academic Administration | Enrolment 
+| Course Administration | CourseModule, CompulsoryModule, ElectiveModule  
+ 
 
 #### Technical requirements
 

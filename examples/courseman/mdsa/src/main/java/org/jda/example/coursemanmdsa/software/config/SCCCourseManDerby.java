@@ -1,8 +1,8 @@
 package org.jda.example.coursemanmdsa.software.config;
 
-import org.jda.example.coursemanmdsa.modules.ModuleMain;
+import org.courseman.modules.ModuleMain;
+import org.courseman.modules.coursemodule.ModuleCourseModule;
 import org.jda.example.coursemanmdsa.modules.address.ModuleAddress;
-import org.jda.example.coursemanmdsa.modules.coursemodule.ModuleCourseModule;
 import org.jda.example.coursemanmdsa.modules.enrolment.ModuleEnrolment;
 import org.jda.example.coursemanmdsa.modules.student.ModuleStudent;
 import org.jda.example.coursemanmdsa.modules.studentclass.ModuleStudentClass;

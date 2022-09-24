@@ -42,6 +42,7 @@ public class AddressService {
     public Page<Address> getEntityListByPage(Pageable arg0) {
     	return repository.findAll(arg0);
     }
+    
 
     public Address getEntityById(int arg0) {
     	Optional<Address> opt = repository.findById(arg0);

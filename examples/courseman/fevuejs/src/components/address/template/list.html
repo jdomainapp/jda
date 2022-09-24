@@ -1,0 +1,29 @@
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>ID</th>
+            <th>City name</th>
+            <th>Student</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="cursor: pointer;" v-for="(add, index) in addresses.content" :key="add.id">
+            <td style="vertical-align: middle;">{{index + 1}}</td>
+            <td style="vertical-align: middle;">{{add.id}}</td>
+            <td style="vertical-align: middle;">{{add.name}}</td>
+            <td style="vertical-align: middle;">{{add.student.id}} | {{add.student.name}} | {{add.student.gender}} | {{add.student.dob}} | {{add.student.email}}</td>
+            <td style="vertical-align: middle; width: 200px;">
+                <button class="btn btn-primary" v-on:click="emitData(add)">
+                    Edit
+                </button>
+                <a class="btn btn-danger" id="btnShowModal" data-target="#myModal" v-on:click="getAddressId(add.id)" data-toggle="modal">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    </tbody>
+    <Toasts></Toasts>
+    <modal-confirm @confirm="deleteAddress(addressId)"></modal-confirm>
+</table>

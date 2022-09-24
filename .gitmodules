@@ -1,0 +1,3 @@
+[submodule "examples/courseman/fereactnative/CourseManReactNative"]
+	path = examples/courseman/fereactnative/CourseManReactNative
+	url = git@github.com:jindojojin/CourseManReactNative.git

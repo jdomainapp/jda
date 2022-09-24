@@ -244,7 +244,7 @@ public class DAttrDef extends MetaAttrDef implements DAttr {
    */
   @Override
   public String name() {
-    return (String) propValMap.get("name");
+    return (String) propValMap.get("name").toString();
   }
 
   /* (non-Javadoc)

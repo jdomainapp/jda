@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/modules/mosar/src/main/java/jda/modules/mosarfrontend/reactnative/resources" includeSubdirectories="true" />
+    </excludeFromCompile>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true" procOnly="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="jda-eg-coursemanmosar" />
+        <module name="jda-main" />
+        <module name="jda-eg-courseman-msaspringbasics-student" />
+        <module name="jda-dcsl" />
+        <module name="jda-eg-courseman-msaspringbasics-discoveryserver" />
+        <module name="jda-dompattern" />
+        <module name="jda-eg-courseman-msaspringbasics-course" />
+        <module name="jda-eg-coursemansw" />
+        <module name="jda-swtool" />
+        <module name="jda-eg-coursemanbasics" />
+        <module name="jda-sccltool" />
+        <module name="jda-mdsa" />
+        <module name="jda-dcsltool" />
+        <module name="jda-eg-courseman-msaspringbasics-enrolment" />
+        <module name="student-service" />
+        <module name="jda-mccl" />
+        <module name="jda-common" />
+        <module name="jda-mccltool" />
+        <module name="jda-sccl" />
+        <module name="jda-eg-courseman-msaspringbasics-sclass" />
+        <module name="jda-eg-courseman-msaspringbasics-configserver" />
+      </profile>
+      <profile name="Annotation profile for JDA Root" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.22/lombok-1.18.22.jar" />
+        </processorPath>
+        <module name="jda-eg-coursemanmdsa" />
+        <module name="jda-mosar" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="academic-service (1)" target="1.5" />
+      <module name="academic-service (2)" target="11" />
+      <module name="address-service" target="11" />
+      <module name="address-service (1)" target="11" />
+      <module name="address-service (2)" target="11" />
+      <module name="class-service (1)" target="1.5" />
+      <module name="class-service (2)" target="11" />
+      <module name="configserver" target="11" />
+      <module name="configserver (1)" target="11" />
+      <module name="configserver (2)" target="11" />
+      <module name="course-service (1)" target="11" />
+      <module name="course-service (2)" target="1.5" />
+      <module name="enrolment-service" target="11" />
+      <module name="eurekaserver" target="11" />
+      <module name="eurekaserver (1)" target="11" />
+      <module name="eurekaserver (2)" target="11" />
+      <module name="gatewayserver" target="11" />
+      <module name="gatewayserver (1)" target="1.5" />
+      <module name="gatewayserver (2)" target="11" />
+      <module name="jda-eg-courseman-coursemanmsa-modules" target="1.5" />
+      <module name="jda-eg-courseman-coursemanmsa-modules (1)" target="1.5" />
+      <module name="jda-eg-courseman-coursemanmsa-modules (2)" target="1.5" />
+      <module name="jda-eg-courseman-coursemanmsa-service1" target="1.5" />
+      <module name="jda-eg-courseman-coursemanmsa-service2" target="1.5" />
+      <module name="jda-eg-courseman-coursemanmsa-services" target="1.5" />
+      <module name="jda-eg-courseman-coursemanmsa-services (1)" target="1.5" />
+      <module name="jda-eg-courseman-coursemanmsa-services (2)" target="1.5" />
+      <module name="jda-eg-coursemanmsa (2)" target="1.5" />
+      <module name="student-service (1)" target="1.5" />
+      <module name="student-service (2)" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="address-service" options="-Xpkginfo:always" />
+      <module name="address-service (1)" options="-Xpkginfo:always" />
+      <module name="address-service (2)" options="-Xpkginfo:always" />
+      <module name="configserver" options="-Xpkginfo:always" />
+      <module name="configserver (1)" options="-Xpkginfo:always" />
+      <module name="configserver (2)" options="-Xpkginfo:always" />
+      <module name="eurekaserver" options="-Xpkginfo:always" />
+      <module name="eurekaserver (1)" options="-Xpkginfo:always" />
+      <module name="eurekaserver (2)" options="-Xpkginfo:always" />
+      <module name="gatewayserver" options="-Xpkginfo:always" />
+      <module name="gatewayserver (2)" options="-Xpkginfo:always" />
+      <module name="jda-common" options="-Xpkginfo:always" />
+      <module name="jda-dcsl" options="-Xpkginfo:always" />
+      <module name="jda-dcsltool" options="-Xpkginfo:always" />
+      <module name="jda-dompattern" options="-Xpkginfo:always" />
+      <module name="jda-eg-courseman-msaspringbasics-configserver" options="-Xpkginfo:always" />
+      <module name="jda-eg-courseman-msaspringbasics-course" options="-Xpkginfo:always" />
+      <module name="jda-eg-courseman-msaspringbasics-discoveryserver" options="-Xpkginfo:always" />
+      <module name="jda-eg-courseman-msaspringbasics-enrolment" options="-Xpkginfo:always" />
+      <module name="jda-eg-courseman-msaspringbasics-sclass" options="-Xpkginfo:always" />
+      <module name="jda-eg-courseman-msaspringbasics-student" options="-Xpkginfo:always" />
+      <module name="jda-eg-coursemanbasics" options="-Xpkginfo:always" />
+      <module name="jda-eg-coursemanmdsa" options="-Xpkginfo:always" />
+      <module name="jda-eg-coursemanmosar" options="-Xpkginfo:always" />
+      <module name="jda-eg-coursemanmsa" options="-Xpkginfo:always" />
+      <module name="jda-eg-coursemansw" options="-Xpkginfo:always" />
+      <module name="jda-main" options="-Xpkginfo:always" />
+      <module name="jda-mccl" options="-Xpkginfo:always" />
+      <module name="jda-mccltool" options="-Xpkginfo:always" />
+      <module name="jda-mdsa" options="-Xpkginfo:always" />
+      <module name="jda-mosar" options="-Xpkginfo:always" />
+      <module name="jda-sccl" options="-Xpkginfo:always" />
+      <module name="jda-sccltool" options="-Xpkginfo:always" />
+      <module name="jda-swtool" options="-Xpkginfo:always" />
+      <module name="student-service" options="-Xpkginfo:always" />
+    </option>
+  </component>
+</project>

@@ -1,12 +1,5 @@
 package org.jda.example.coursemanmdsa.software.config;
 
-import org.jda.example.coursemanmdsa.modules.ModuleMain;
-import org.jda.example.coursemanmdsa.modules.address.ModuleAddress;
-import org.jda.example.coursemanmdsa.modules.coursemodule.ModuleCourseModule;
-import org.jda.example.coursemanmdsa.modules.enrolment.ModuleEnrolment;
-import org.jda.example.coursemanmdsa.modules.student.ModuleStudent;
-import org.jda.example.coursemanmdsa.modules.studentclass.ModuleStudentClass;
-
 import jda.modules.dodm.dom.DOM;
 import jda.modules.dodm.dsm.DSM;
 import jda.modules.dodm.osm.postgresql.PostgreSQLOSM;
@@ -18,32 +11,34 @@ import jda.modules.mosar.config.RFSGenDesc;
 import jda.modules.mosar.config.StackSpec;
 import jda.modules.mosarbackend.springboot.BESpringApp;
 import jda.modules.mosarfrontend.reactjs.FEReactApp;
-import jda.modules.sccl.syntax.DSDesc;
-import jda.modules.sccl.syntax.OrgDesc;
-import jda.modules.sccl.syntax.SecurityDesc;
-import jda.modules.sccl.syntax.SysSetUpDesc;
-import jda.modules.sccl.syntax.SystemDesc;
+import jda.modules.sccl.syntax.*;
 import jda.modules.setup.model.SetUpConfig;
+import org.jda.example.coursemanmdsa.modules.ModuleMain;
+import org.jda.example.coursemanmdsa.modules.address.ModuleAddress;
+import org.jda.example.coursemanmdsa.modules.coursemodule.ModuleCourseModule;
+import org.jda.example.coursemanmdsa.modules.enrolment.ModuleEnrolment;
+import org.jda.example.coursemanmdsa.modules.student.ModuleStudent;
+import org.jda.example.coursemanmdsa.modules.studentclass.ModuleStudentClass;
 
 @RFSGenDesc(
-  stackSpec = 
+        stackSpec =
 //      StackSpec.FE, // for testing FE
-    StackSpec.FS, // for production
-//      StackSpec.BE, // for testing BE
-    genMode = GenerationMode.SOURCE_CODE, 
-    beLangPlatform = LangPlatform.SPRING,
-    feProjPath = "/home/ducmle/tmp/restfstool-fe",
-    feProjName = "fe-courseman",
-    feProjResource = "src/main/resources/react",
-    feOutputPath = "src/main/java/org/jda/example/coursemanmdsa/frontend",
-    feServerPort = 5000,  // default: 3000
-    feAppClass=FEReactApp.class,
-    feThreaded = true,
-    bePackage = "org.jda.example.coursemanmdsa.modules",
-    beOutputPath = "src/main/java", 
-    beTargetPackage = "org.jda.example.coursemanmdsa.backend"
-    ,beAppClass = BESpringApp.class,
-    beServerPort = 8080  // default: 8080
+//      StackSpec.FS, // for production
+                StackSpec.BE, // for testing BE
+        genMode = GenerationMode.SOURCE_CODE,
+        beLangPlatform = LangPlatform.SPRING,
+        feProjPath = "/home/ducmle/tmp/restfstool-fe",
+        feProjName = "fe-courseman",
+        feProjResource = "src/main/resources/react",
+        feOutputPath = "src/main/java/org/jda/example/coursemanmdsa/frontend",
+        feServerPort = 5000,  // default: 3000
+        feAppClass = FEReactApp.class,
+        feThreaded = true,
+        bePackage = "org.jda.example.coursemanmdsa.modules",
+        beOutputPath = "src/main/java",
+        beTargetPackage = "org.jda.example.coursemanmdsa.backend",
+        beAppClass = BESpringApp.class,
+        beServerPort = 8080  // default: 8080
 )
 @SystemDesc(
         appName = "Courseman",

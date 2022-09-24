@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
+    <parent>
+        <groupId>jda.example</groupId>
+        <artifactId>jda-examples-root</artifactId>
+        <version>5.4-SNAPSHOT</version>
+    </parent>
+
     <groupId>jda.example</groupId>
-    <artifactId>jda-examples-root</artifactId>
-    <version>5.4-SNAPSHOT</version>
-  </parent>
+    <artifactId>jda-eg-courseman</artifactId>
+    <packaging>pom</packaging>
 
-  <groupId>jda.example</groupId>
-  <artifactId>jda-eg-courseman</artifactId>
-  <packaging>pom</packaging>
+    <name>Example: Courseman</name>
+    <description></description>
 
-  <name>Example: Courseman</name>
-  <description></description>
-  
-  <modules>
-    <module>basics</module>
-    <module>swgen</module>
-    <!--module>standard</module>
-    <module>kse2016</module>
-    <module>kse2017</module>
-    <module>rivf2016</module>
-    <module>soict2019</module>
-	-->
-    <module>mosar</module>
-		<module>msa</module>
-    <module>mdsa</module>
-		
-  </modules>
+	  <modules>
+	    <module>basics</module>
+	    <module>swgen</module>
+	    <!--module>standard</module>
+	    <module>kse2016</module>
+	    <module>kse2017</module>
+	    <module>rivf2016</module>
+	    <module>soict2019</module>
+		-->
+	    <module>mosar</module>
+			<module>msa</module>
+	    <module>mdsa</module>
+			
+	  </modules>
 </project>

@@ -1,0 +1,6 @@
+    @loop{NormalFormInputs}[[
+    <div @slot{{ngIfForType}} class="form-group">
+        <label class="form-label">@slot{{fieldLabel}}</label>
+        <input type="@slot{{type}}" class="form-control" name = "@slot{{fieldName}}" [(ngModel)]="item.@slot{{fieldName}}" @slot{{fieldOptions}}>
+    </div>
+    <br>]]loop{NormalFormInputs}@

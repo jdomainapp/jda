@@ -1,0 +1,25 @@
+
+<div id="root">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container">
+            <div class="navbar-nav">
+                <a href="/" class="navbar-brand">@slot{{AppName}}</a>
+                <div class="btn-group dropup">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Go to
+                    </button>
+                    <div class="dropdown-menu" x-placement="top-start" style="position: absolute; transform: translate3d(0px, -2px, 0px); top: 0px; left: 0px; will-change: transform;">@loop{routerLink}[[
+                        <a routerLink="/@slot{{moduleJnames}}" class="dropdown-item">Manage @slot{{Module__Name}}</a>]]loop{routerLink}@
+                    </div>
+                </div>
+            </div>
+            <div class="navbar-nav">
+                <a href="#" class="nav-link" role="button">Help</a>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
+</div>

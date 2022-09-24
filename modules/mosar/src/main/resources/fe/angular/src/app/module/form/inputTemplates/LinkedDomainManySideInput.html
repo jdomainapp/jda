@@ -1,0 +1,12 @@
+@loop{linkedDomainFormInput}[[
+    <div @slot{{ngIfForType}} class="d-flex flex-wrap justify-content-between align-items-end form-group">
+        <div class="px-0 col-md-2.5">
+            <label class="form-label">@slot{{Linked__domain}} Id</label>
+            <input type="@slot{{LinkedDomainIdType}}" class="form-control" [ngModel]="(item.@slot{{fieldName}})?item.@slot{{fieldName}}.id:''" (ngModelChange)="get@slot{{LinkedDomain}}(@slot{{DOLAR}}event)">
+        </div>
+        <div class="px-0 col-md-9">
+            <label class="form-label">@slot{{fieldLabel}}</label>
+            <input disabled="" type="text" class="form-control" value="{{renderItem(item.@slot{{fieldName}})}}">
+        </div>
+    </div>
+    <br>]]loop{linkedDomainFormInput}@

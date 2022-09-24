@@ -44,7 +44,7 @@ public class Enrolment implements Comparable, Publisher {
   private static int idCounter = 0;
 
   @DAttr(name = "student", type = Type.Domain, length = 5, optional = false)
-  @DAssoc(ascName = "student-has-enrolments", role = "enrolment",
+  @DAssoc(ascName = "student-has-enrolments", role = "enrolments",
           ascType = AssocType.One2Many, endType = AssocEndType.Many,
           associate = @Associate(type = Student.class, cardMin = 1, cardMax = 1), dependsOn = true)
   @JsonIgnoreProperties("enrolments")
@@ -313,6 +313,7 @@ public class Enrolment implements Comparable, Publisher {
                                               Tuple derivingValue, Object minVal, Object maxVal)
           throws ConstraintViolationException {
     if (minVal != null && maxVal != null) {
+    	
       // check the right attribute
       if (attrib.name().equals("id")) {
         int maxIdVal = (Integer) maxVal;
@@ -320,6 +321,7 @@ public class Enrolment implements Comparable, Publisher {
           idCounter = maxIdVal;
       }
       // TODO add support for other attributes here
+      
     }
   }
 

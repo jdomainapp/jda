@@ -77,6 +77,7 @@ public class AccessBasedBoundedList<C> extends BoundedList<C> {
     if (size() != previousSize-n)
       throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_PERFORM_METHOD, 
           "Không thể thực thi phương thức: {0}.{1} {2}", "AccessBasedBoundedList","purge","Không đủ chỗ cho "+n+" phần tử mới");
+  
   }
 
   @Override
@@ -84,6 +85,7 @@ public class AccessBasedBoundedList<C> extends BoundedList<C> {
     for (int i = 0; i < num; i++) {
       readFlags.add(false);
     }
+  
   }
   
   @Override
