@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class ModuleGenBase extends NameFormatter {
     @WithFilePath
     public String withFilePath(@RequiredParam.ModuleName String moduleName) {
-        return "/src/components/" + NameFormatter.module_name(moduleName);
+        return "/src/components/" + NameFormatter.moduleJname(moduleName);
     }
 
     public static Slot[][] LinkedDomain_linked_domain(@RequiredParam.DomainFields DField[] dFields) {
