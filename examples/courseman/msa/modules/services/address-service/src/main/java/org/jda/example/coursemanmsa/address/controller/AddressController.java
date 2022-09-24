@@ -35,7 +35,6 @@ public class AddressController {
     public ResponseEntity<Address> getEntityById(@PathVariable("id") int arg0) {
     	return ResponseEntity.ok(service.getEntityById(arg0));
     }
-    
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Address> updateEntity(@PathVariable("id") int arg0, @RequestBody Address arg1) {
