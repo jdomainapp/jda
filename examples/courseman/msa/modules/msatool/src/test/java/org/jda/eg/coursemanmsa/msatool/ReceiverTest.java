@@ -7,6 +7,6 @@ public class ReceiverTest {
     	ServiceReconfigurer receiver = new ServiceReconfigurer();
     	String receiverLocation = System.getProperty("user.dir")+File.separator+"execute";
     	String fileName = "coursemodule-service.jar";
-    	receiver.receiveJar(4444, receiverLocation+File.separator+fileName);
+    	receiver.receiveJar(4444, receiverLocation,fileName);
     }
 }

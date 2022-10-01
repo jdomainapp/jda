@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.jda.example.coursemanmsa.common.model.MyResponseEntity;
 import org.springframework.http.ResponseEntity;
 
-public abstract class RedirectController<ID> {
+public abstract class RedirectController<ID> implements IController<ID>{
 
 	private final static Map<String, Class<?>> PathMap = new HashMap<>();
 

@@ -20,6 +20,7 @@
 		<module>coursemgmt-service</module>
 		<module>assessmenthub-service</module>
 		<module>financehub-service</module>
+		<module>cmodulemgnt-service</module>
 
 	</modules>
 

@@ -21,7 +21,7 @@ public class ChangeHandler {
 	@StreamListener("inboundCourseChanges")
 	public void processCoursemoduleChanges(ChangeModel<Integer> model) {
 		logger.debug("Received a message of type " + model.getType());
-//		String restPath="http://gateway-server/coursemgnt-service/coursemodulemgnt/coursemodule/{id}";
+//		String restPath="http://gateway-server/coursemgnt-service/cmodulemgnt/coursemodule/{id}";
 		DefaultController<CourseModule, Integer> controller = ControllerRegistry.getInstance().get(CourseModule.class);
 		controller.executeReceivedEvent(model.getAction(), model.getId(), model.getPath());
 	}
@@ -29,7 +29,7 @@ public class ChangeHandler {
 	@StreamListener("inboundEnrolmentChanges")
 	public void processEnrolmentChanges(ChangeModel<Integer> model) {
 		logger.debug("Received a message of type " + model.getType());
-//		String restPath="http://gateway-server/coursemgnt-service/studentenrolment/enrolment/{id}";
+//		String restPath="http://gateway-server/coursemgnt-service/stenrolment/enrolment/{id}";
 		DefaultController<Enrolment, Integer> controller = ControllerRegistry.getInstance().get(Enrolment.class);
 		controller.executeReceivedEvent(model.getAction(), model.getId(), model.getPath());
 	}
@@ -37,7 +37,7 @@ public class ChangeHandler {
 	@StreamListener("inboundStudentChanges")
 	public void processStudentChanges(ChangeModel<String> model) {
 		logger.debug("Received a message of type " + model.getType());
-//		String restPath="http://gateway-server/coursemgnt-service/studentenrolment/student/{id}";
+//		String restPath="http://gateway-server/coursemgnt-service/stenrolment/student/{id}";
 		DefaultController<Student, String> controller = ControllerRegistry.getInstance().get(Student.class);
 		controller.executeReceivedEvent(model.getAction(), model.getId(), model.getPath());
 	}
@@ -45,7 +45,7 @@ public class ChangeHandler {
 	@StreamListener("inboundTeacherChanges")
 	public void processTeacherChanges(ChangeModel<Integer> model) {
 		logger.debug("Received a message of type " + model.getType());
-//		String restPath="http://gateway-server/coursemgnt-service/coursemodulemgnt/teacher/{id}";
+//		String restPath="http://gateway-server/coursemgnt-service/cmodulemgnt/teacher/{id}";
 		DefaultController<Teacher, Integer> controller = ControllerRegistry.getInstance().get(Teacher.class);
 		controller.executeReceivedEvent(model.getAction(), model.getId(), model.getPath());
 	}

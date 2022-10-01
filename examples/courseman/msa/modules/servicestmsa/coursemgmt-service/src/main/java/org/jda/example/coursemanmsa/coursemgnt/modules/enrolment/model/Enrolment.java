@@ -38,8 +38,8 @@ public class Enrolment extends RepresentationModel<Enrolment> {
 	private int id;
 //	@Column(name = "student_id", nullable = false)
 //	private String studentId;
-	@Column(name = "coursemodule_id")
-	private int coursemoduleId;
+//	@Column(name = "coursemodule_id")
+//	private int coursemoduleId;
 	@Column(name = "internalmark")
 	private double internalmark;
 	@Column(name="exammark")
@@ -47,9 +47,9 @@ public class Enrolment extends RepresentationModel<Enrolment> {
 	@Column(name = "finalgrade")
 	private String finalgrade;
 	
-//	@ManyToOne
-//    @JoinColumn(name="coursemodule_id", nullable=false)
-//	private CourseModule coursemodule;
+	@ManyToOne
+    @JoinColumn(name="coursemodule_id", nullable=false)
+	private CourseModule coursemodule;
 	
 	@ManyToOne
     @JoinColumn(name="student_id", nullable=false)

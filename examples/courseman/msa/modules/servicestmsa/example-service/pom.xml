@@ -9,9 +9,13 @@
 	</parent>
 	
 	<groupId>org.jda.example.coursemanmsa</groupId>
-	<artifactId>coursemgnt-service</artifactId>
+	<artifactId>cmodulemgnt-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>coursemgnt-service</name>
-	<description>Courseman Coursemgnt Service</description>
+	<name>cmodulemgnt-service</name>
+	<description>Service Template</description>
+	
+	<properties>
+    	<start-class>org.jda.example.coursemanmsa.service.ServiceApplication</start-class>
+	</properties>
 
 </project>

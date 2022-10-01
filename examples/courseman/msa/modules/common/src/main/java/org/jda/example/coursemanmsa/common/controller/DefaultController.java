@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * Default implementation of {@link #RestfulController}
  */
 @SuppressWarnings("unchecked")
-public abstract class DefaultController<T, ID> implements IController<T, ID> {
+public abstract class DefaultController<T, ID> implements BasicRestController<T, ID> {
 
 	private static final Logger logger = LoggerFactory.getLogger(DefaultController.class);
 	
