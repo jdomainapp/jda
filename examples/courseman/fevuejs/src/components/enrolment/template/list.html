@@ -32,7 +32,8 @@
         </tr>
 
 
-        <tr style="cursor: pointer;" :key="enrolment.id" v-for="(enrolment, index) in enrolments.content" v-if="(enrolment.student.name === enrolmentIn) && (eDisplay === 2)">
+        <!-- <tr style="cursor: pointer;" :key="enrolment.id" v-for="(enrolment, index) in enrolments.content" v-if="(enrolment.student.name === enrolmentIn) && (eDisplay === 2)"> -->
+        <tr style="cursor: pointer;" :key="enrolment.id" v-for="(enrolment, index) in enrolments.content" v-if="(enrolment.student.id === parentID) && (eDisplay === 2)">
             <td style="vertical-align: middle;">{{index + 1}}</td>
             <td style="vertical-align: middle;">{{enrolment.id}}</td>
             <td style="vertical-align: middle;">{{enrolment.student.name}}</td>
