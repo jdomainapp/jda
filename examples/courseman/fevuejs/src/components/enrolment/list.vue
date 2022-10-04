@@ -19,10 +19,12 @@
                 eDisplay: 1,
                 enrolments: [],
                 enrolmentId: 0,
-                enrolmentIn: '',
+                // enrolmentIn: '',
+                parentID:'',
                 dataSubForm: {
                     mode: "create",
-                    enrolmentIn: ''
+                    // enrolmentIn: '',
+                    parentID: ''
                 }               
             }
         },
@@ -30,17 +32,18 @@
         mounted() {
             this.getEnrolments();
 
-            if(this.data.enrolmentIn != '' && this.data.enrolmentIn != undefined){
-
+            // if(this.data.enrolmentIn != '' && this.data.enrolmentIn != undefined){
+            if(this.data.parentID != '' && this.data.parentID != undefined){
                 this.eDisplay = 2;
-                this.enrolmentIn = this.data.enrolmentIn;
+                // this.enrolmentIn = this.data.enrolmentIn;
+                this.parentID = this.data.parentID;
             }
             if (this.data.mode === "edit") {
-                this.enrolmentIn = this.data.enrolmentIn;
-                
+                // this.enrolmentIn = this.data.enrolmentIn;
+                this.parentID = this.data.parentID;
                 // this.dataSubForm.mode = "edit";
                 // this.dataSubForm.student = this.data.address.student;
-                console.log("From student enrolment" + this.enrolmentIn);
+                console.log("From student enrolment" + this.parentID);
             }
         },
 
