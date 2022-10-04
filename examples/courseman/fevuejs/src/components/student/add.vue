@@ -31,9 +31,9 @@ export default {
       formSubModuleEnrolmentSeen: false,
       dataSubForm: {
         mode: "create",
-        address: null,
+        // address: null,
         parent: "student",
-        student: null,
+        // student: null,
         // enrolmentIn:'',
         parentID: ''
       }
