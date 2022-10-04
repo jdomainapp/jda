@@ -23,7 +23,8 @@ export default {
     return {
       addresses: [],
       studentClasses: [],
-      enrolmentIn: '',
+      // enrolmentIn: '',
+      parentID: '',
       student: new Student(undefined, null, null, null, null, new Address()),
       form: new StudentForm(),
       formSubModuleAddressSeen: false,
@@ -33,7 +34,8 @@ export default {
         address: null,
         parent: "student",
         student: null,
-        enrolmentIn:'',
+        // enrolmentIn:'',
+        parentID: ''
       }
 
     };
@@ -49,8 +51,8 @@ export default {
       this.dataSubForm.mode = "edit";
       this.dataSubForm.student = this.data.student;
       this.dataSubForm.address = this.data.student.address;
-      this.dataSubForm.enrolmentIn = this.data.student.name;
-      
+      // this.dataSubForm.enrolmentIn = this.data.student.name;
+      this.dataSubForm.parentID = this.data.student.id;
     }
    
   },
