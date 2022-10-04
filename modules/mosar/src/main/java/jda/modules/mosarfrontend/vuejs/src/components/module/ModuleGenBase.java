@@ -1,9 +1,11 @@
 package jda.modules.mosarfrontend.vuejs.src.components.module;
 
 import jda.modules.mosarfrontend.common.anotation.gen_controlers.RequiredParam;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.SlotReplacement;
 import jda.modules.mosarfrontend.common.anotation.gen_controlers.WithFilePath;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
+import jda.modules.mosarfrontend.common.utils.NewMCC;
 import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
 
 import java.util.ArrayList;
@@ -29,5 +31,10 @@ public class ModuleGenBase extends NameFormatter {
             result.add(slotValues);
         }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+    }
+
+    @SlotReplacement(id = "idField")
+    public String idField(@RequiredParam.MCC NewMCC mcc){
+        return mcc.getIdField().getDAttr().name();
     }
 }

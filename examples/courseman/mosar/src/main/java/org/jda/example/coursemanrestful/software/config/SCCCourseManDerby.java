@@ -26,7 +26,7 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         feProjName = "fe-courseman",
         feProjResource = "src/main/resources/angular",
         fePlatform = FEPlatform.VUE_JS,
-        feOutputPath = "E:\\Linh\\JDA\\FEVue",
+        feOutputPath = "D:\\JDA\\CourseManVueJs",
         feServerPort = 5000,  // default: 3000
         feAppClass = FEApp.class,
         feThreaded = true,

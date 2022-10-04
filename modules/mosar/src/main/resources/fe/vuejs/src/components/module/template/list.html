@@ -11,22 +11,21 @@
         </tr>
     </thead>
     <tbody>
-    <tr v-for="(@slot{{moduleName}}, index) in @slot{{moduleNames}}" v-if="@slot{{moduleName}}" :key="@slot{{moduleName}}.id">
+    <tr style="cursor: pointer;" v-for="(@slot{{moduleName}}, index) in @slot{{moduleNames}}" v-if="@slot{{moduleName}}.content" :key="@slot{{moduleName}}.@slot{{idField}}">
         <td style="vertical-align: middle;">{{index + 1}}</td>
-        <th scope="row">{{@slot{{moduleName}}.@slot{{idField}}}}</th>@loop{normalFieldColumns}[[
-        <td>{{@slot{{moduleName}}.@slot{{fieldName}}}}</td>]]loop{normalFieldColumns}@
-        @loop{linkedFieldColumns}[[
-        <td>{{@slot{{moduleName}}.@slot{{fieldName}}.name}}</td>]]loop{linkedFieldColumns}@
-        <td>
+        <td style="vertical-align: middle;">{{@slot{{moduleName}}.@slot{{idField}}}}</td>@loop{normalFieldColumns}[[
+        <td style="vertical-align: middle;">{{@slot{{moduleName}}.@slot{{fieldName}}}}</td>]]loop{normalFieldColumns}@ @loop{linkedFieldColumns}[[
+        <td>{{@slot{{moduleName}}.@slot{{fieldName}}}}</td>]]loop{linkedFieldColumns}@
+        <td style="vertical-align: middle; width: 200px;">
             <button class="btn btn-primary" v-on:click="emitData(@slot{{moduleName}})">
                 Edit
             </button>
-            <a class="btn btn-danger" id="btnShowModal" data-target="#myModal" v-on:click="getStudentId(@slot{{moduleName}}.id)" data-toggle="modal">
+            <a class="btn btn-danger" id="btnShowModal" data-target="#myModal" v-on:click="get@slot{{ModuleName}}Id(@slot{{moduleName}}.id)" data-toggle="modal">
                 Delete
             </a>
         </td>
     </tr>
     </tbody>
     <Toasts></Toasts>
-    <modal-confirm  @confirm="delete@slot{{ModuleName}}(@slot{{moduleName}}Id)"></modal-confirm>
+    <modal-confirm @confirm="delete@slot{{ModuleName}}(@slot{{moduleName}}Id)"></modal-confirm>
 </table>

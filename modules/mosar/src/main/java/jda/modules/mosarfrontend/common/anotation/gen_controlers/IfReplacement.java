@@ -6,4 +6,5 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 public @interface IfReplacement {
     String id() default "";
+    String[] ids() default {};
 }

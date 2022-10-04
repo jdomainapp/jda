@@ -29,8 +29,5 @@ public class listHtmlGen extends ModuleTemplateGenBase {
         return FieldsUtil.getBasicFieldSlots(Arrays.stream(dFields).filter(f-> f.getDAssoc().ascType()== DAssoc.AssocType.One2One || f.getDAssoc().endType() != DAssoc.AssocEndType.One).toArray(DField[]::new));
     }
 
-    @SlotReplacement(id = "idField")
-    public String idField(@RequiredParam.MCC NewMCC mcc){
-        return mcc.getIdField().getDAttr().name();
-    }
+
 }

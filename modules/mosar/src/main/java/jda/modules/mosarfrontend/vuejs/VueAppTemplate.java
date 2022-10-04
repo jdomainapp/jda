@@ -13,7 +13,6 @@ import jda.modules.mosarfrontend.vuejs.src.components.module.template.indexHtmlG
 import jda.modules.mosarfrontend.vuejs.src.components.module.template.listHtmlGen;
 import jda.modules.mosarfrontend.vuejs.src.constants.messageGen;
 import jda.modules.mosarfrontend.vuejs.src.layouts.headerGen;
-import jda.modules.mosarfrontend.vuejs.src.model.form.formGen;
 import jda.modules.mosarfrontend.vuejs.src.model.modelGen;
 import jda.modules.mosarfrontend.vuejs.src.router.componentGen;
 import jda.modules.mosarfrontend.vuejs.src.router.nameGen;
@@ -42,7 +41,7 @@ import jda.modules.mosarfrontend.vuejs.src.router.routerGen;
                         genClasses = {indexGen.class, indexHtmlGen.class}
                 ),
                 Entity = @ComponentGenDesc(
-                        genClasses = {modelGen.class, formGen.class}
+                        genClasses = {modelGen.class}
                 ),
                 Ext = @ComponentGenDesc(
                         genClasses = {moduleAPIGen.class}

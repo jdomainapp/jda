@@ -3,9 +3,8 @@
     import @slot{{ModuleName}} from "../../model/@slot{{module_name}}";
     import @slot{{ModuleName}}Form from '../../model/form/@slot{{module_name}}';
     import Message from '../../constants/message';
-    import {update@slot{{ModuleName}},add@slot{{ModuleName}}} from '../../api/@slot{{module_name}}';
+    import {add@slot{{ModuleName}}, update@slot{{ModuleName}}} from '../../api/@slot{{module_name}}';
     @loop{importLinkedDomains}[[
-    import @slot{{LinkedDomain}} from '../../model/@slot{{linked_domain}}';
     import {get@slot{{LinkedDomain}}} from '../../api/@slot{{linked_domain}}';]]loop{importLinkedDomains}@
 
     export default {
@@ -21,13 +20,28 @@
             return {
                 @slot{{module_name}}: new @slot{{ModuleName}}(),
                 form: new @slot{{ModuleName}}Form(),@loop{initLinkedModules}[[
-                formSubModule@slot{{LinkedDomain}}Seen: false,
-                dataSubForm: new @slot{{LinkedDomain}}(),]]loop{initLinkedModules}@
+                formSubModule@slot{{LinkedDomain}}Seen: false,]]loop{initLinkedModules}@
+                dataSubForm:
+                {
+                  mode: "create",
+                  parent: "@slot{{moduleName}}",
+                  parentID:'',
+
+                },
             };
         },
 
         mounted() {
             this.setFrom();
+
+            if (this.data.mode === "edit") {
+              this.student = this.data.student;
+              this.dataSubForm.mode = "edit";
+              this.dataSubForm.student = this.data.student;
+              this.dataSubForm.address = this.data.student.address;
+              // this.dataSubForm.enrolmentIn = this.data.student.name;
+              this.dataSubForm.parentID = this.data.student.id;
+            }
         },
 
         methods: {
@@ -52,7 +66,8 @@
 
                 var result = get@slot{{LinkedDomain}}(@slot{{linked_domain}}Id);
                 result.then((res) => {
-                    this.@slot{{linked_domain}} = res.data;
+                    this.@slot{{module_name}}.@slot{{linked_domain}} = res.data;
+                    this.dataSubForm.@slot{{linked_domain}} = res.data;
                 })
                 .catch((error) => {
                     this.\$toast.error(Message.ADD_@slot{{MODULE_NAME}}_ERR + ' - ' + error.message);
@@ -62,7 +77,7 @@
             },
             ]]loop{getLinkedModuleByID}@
             update() {
-                  var result = update@slot{{ModuleName}}(this.@slot{{moduleName}}Id, this.@slot{{moduleName}});
+                  var result = update@slot{{ModuleName}}(this.@slot{{moduleName}}.@slot{{idField}}, this.@slot{{moduleName}});
                   result
                     .then((res) => {
                       console.log(res);

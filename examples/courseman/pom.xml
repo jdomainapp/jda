@@ -28,7 +28,7 @@
 	    <module>soict2019</module>
 		-->
 	    <module>mosar</module>
-			<module>msa</module>
+<!--			<module>msa</module>-->
 	    <module>mdsa</module>
 			
 	  </modules>
