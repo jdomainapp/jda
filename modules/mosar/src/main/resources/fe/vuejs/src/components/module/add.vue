@@ -1,12 +1,11 @@
 <template src="./template/add.html"></template>
 <script>
     import @slot{{ModuleName}} from "../../model/@slot{{module_name}}";
-    import @slot{{ModuleName}}Form from '../../model/form/@slot{{module_name}}';
     import Message from '../../constants/message';
     import {add@slot{{ModuleName}}, update@slot{{ModuleName}}} from '../../api/@slot{{module_name}}';
     @loop{importLinkedDomains}[[
     import {get@slot{{LinkedDomain}}} from '../../api/@slot{{linked_domain}}';]]loop{importLinkedDomains}@
-
+    @if{typedModule}(( const DEFAULT_TYPE = "@slot{{defaultType}}" ))if{typedModule}@
     export default {
         props: {
             data:Object
@@ -50,6 +49,10 @@
                     this.form.setHid@slot{{LinkedDomain}}(false)]]loop{hideSubForm}@
                 }
             },
+
+            @if{setDefaultTypeGen}((setDefaultType() {
+                this.@slot{{moduleName}}.type = DEFAULT_TYPE;
+            },))if{setDefaultTypeGen}@
 
             create() {
                 var result = add@slot{{ModuleName}}(this.@slot{{module_name}});

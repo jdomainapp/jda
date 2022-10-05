@@ -14,7 +14,8 @@
                 @slot{{moduleNames}}: [],
                 @slot{{moduleName}}Id: 0,
                 data: {
-                    @slot{{moduleName}}Id: 0,
+                    @slot{{moduleName}}: null,
+                    mode: "edit"
                 }
             }
         },
@@ -24,8 +25,8 @@
         },
 
         methods: {
-            emitData(id) {
-                this.data.@slot{{moduleName}}Id = id;
+            emitData(@slot{{moduleName}}) {
+                this.data.@slot{{moduleName}} = @slot{{moduleName}};
                 this.$emit("data", this.data);
             },
 
@@ -39,7 +40,7 @@
                     this.@slot{{moduleNames}} = response.data;
                 })
                 .catch(e => {
-                    this.$toast.error(Message.GET_LIST_ADDRESS_ERR + ' - ' + e.message);
+                    this.$toast.error(Message.GET_LIST_@slot{{MODULE_NAME}}_ERR + ' - ' + e.message);
                 })
             },
 
@@ -50,10 +51,10 @@
 
                     this.get@slot{{ModuleNames}}();
 
-                    this.$toast.success(Message.DELETE_STUDENT_SUC);
+                    this.$toast.success(Message.DELETE_@slot{{MODULE_NAME}}_SUC);
                 })
                 .catch(e => {
-                    this.$toast.error(Message.DELETE_ADDRESS_ERR + ' - ' + e.message);
+                    this.$toast.error(Message.DELETE_@slot{{MODULE_NAME}}_ERR + ' - ' + e.message);
                 })
             },
         },

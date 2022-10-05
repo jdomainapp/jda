@@ -115,7 +115,7 @@ public class InputsGen {
             result.add(inputFieldSlots);
         }
         try {
-            return FileFactory.replaceLoopWithFileTemplate(InputsGen.templateFolder +  "LinkedDomainOneOneInput.html", "linkedDomainFormInput", result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new));
+            return FileFactory.replaceLoopWithFileTemplate(InputsGen.templateFolder +  "LinkedDomainInputAdd.html", "linkedDomainFormInput", result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new));
         } catch (Exception e) {
             System.out.println(e);
             return "";

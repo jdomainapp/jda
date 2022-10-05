@@ -76,6 +76,7 @@ public @interface RequiredParam {
 
     /**
     * @Ussage Require map of subDomainType to  subDomain (Map<\String,Domain>) of current module as a parameter of function
+     * Type: Map<String, Domain>
     * @DataType {@link jda.modules.common.collection.Map<String,jda.modules.mosarfrontend.common.utils.Domain>}
     */
     @Retention(RetentionPolicy.RUNTIME)
