@@ -5,7 +5,7 @@ import StudentForm from "../../model/form/student";
 import Message from "../../constants/message";
 import { addStudent, updateStudent } from "../../api/student";
 import { getAddress, getAllAddresses } from "../../api/address";
-import { getAllStudentClasses, getStudentClass } from "../../api/student_class";
+import {getStudentClass } from "../../api/student_class";
 
 import Address from "../../model/address";
 
@@ -21,8 +21,8 @@ export default {
 
   data() {
     return {
-      addresses: [],
-      studentClasses: [],
+      // addresses: [],
+      // studentClasses: [],
       // enrolmentIn: '',
       parentID: '',
       student: new Student(undefined, null, null, null, null, new Address()),
@@ -31,9 +31,9 @@ export default {
       formSubModuleEnrolmentSeen: false,
       dataSubForm: {
         mode: "create",
-        address: null,
+        // address: null,
         parent: "student",
-        student: null,
+        // student: null,
         // enrolmentIn:'',
         parentID: ''
       }
@@ -42,9 +42,9 @@ export default {
   },
 
   mounted() {
-    this.getAddresses();
-    this.getStudentClasses();
-    this.setFrom();
+    // this.getAddresses();
+    // this.getStudentClasses();
+    // this.setFrom();
 
     if (this.data.mode === "edit") {
       this.student = this.data.student;
@@ -82,28 +82,28 @@ export default {
       result
         .then((res) => {
           this.student.address = res.data;
-          this.dataSubForm.address = res.data;
+          // this.dataSubForm.address = res.data;
         })
         .catch((error) => {
-          this.address = "";
+          // this.address = "";
           this.$toast.error(Message.GET_ADDRESS_ERR + " - " + error.message);
         })
         .finally(() => {});
     },
 
-    getStudentClasses() {
-      var result = getAllStudentClasses();
-      result
-        .then((response) => {
-          this.studentClasses = response.data;
-          // console.log(response.data);
-        })
-        .catch((e) => {
-          this.$toast.error(
-            Message.GET_LIST_STUDENT_CLASS_ERR + " - " + e.message
-          );
-        });
-    },
+    // getStudentClasses() {
+    //   var result = getAllStudentClasses();
+    //   result
+    //     .then((response) => {
+    //       this.studentClasses = response.data;
+    //       // console.log(response.data);
+    //     })
+    //     .catch((e) => {
+    //       this.$toast.error(
+    //         Message.GET_LIST_STUDENT_CLASS_ERR + " - " + e.message
+    //       );
+    //     });
+    // },
 
     getStudentClassId(event) {
 
@@ -124,9 +124,9 @@ export default {
     },
 
     create() {
-      this.studentClasses = null;
+      // this.studentClasses = null;
       //this.student.setAddress(this.data.address)
-      this.student.address.student = null;
+      // this.student.address.student = null;
       // console.log(this.student);
       var result = addStudent(this.student);
       result
