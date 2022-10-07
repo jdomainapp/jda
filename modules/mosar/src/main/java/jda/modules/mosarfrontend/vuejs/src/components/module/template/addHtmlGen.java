@@ -1,9 +1,6 @@
 package jda.modules.mosarfrontend.vuejs.src.components.module.template;
 
-import jda.modules.mosarfrontend.common.anotation.gen_controlers.LoopReplacement;
-import jda.modules.mosarfrontend.common.anotation.gen_controlers.RequiredParam;
-import jda.modules.mosarfrontend.common.anotation.gen_controlers.SlotReplacement;
-import jda.modules.mosarfrontend.common.anotation.gen_controlers.WithFileName;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.*;
 import jda.modules.mosarfrontend.common.anotation.template_desc.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
@@ -29,7 +26,6 @@ public class addHtmlGen extends ModuleTemplateGenBase {
         return "add";
     }
 
-    ;
 
     @SlotReplacement(id = "normalInputs")
     public String normalInputs(@RequiredParam.ModuleFields DField[] dFields, @RequiredParam.ModuleName String ModuleName) {
@@ -55,6 +51,22 @@ public class addHtmlGen extends ModuleTemplateGenBase {
                     new Slot("enumTypedInputs", InputsGen.getEnumInputs(subDomains.get(type).getDFields(), ModuleName, type)),
                     new Slot("linkedTypedInputs", InputsGen.getLinkedInputs(subDomains.get(type).getDFields(), ModuleName, type, this.getAddMode()))
             )));
+        }
+        return MethodUtils.toLoopData(result);
+    }
+
+    @IfReplacement(id = "hasSubType")
+    public boolean hasSubType(@RequiredParam.SubDomains Map<String, Domain> subDomain) {
+        return !subDomain.isEmpty();
+    }
+
+    @LoopReplacement(id = "types")
+    public Slot[][] types(@RequiredParam.SubDomains Map<String,Domain> subDomains){
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        for (String type : subDomains.keySet()) {
+            result.add(new ArrayList<>(Arrays.asList(
+                    new Slot("type", type))
+            ));
         }
         return MethodUtils.toLoopData(result);
     }

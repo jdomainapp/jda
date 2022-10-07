@@ -1,4 +1,10 @@
 <form v-on:submit.prevent="onSubmit">
+    @if{hasSubType}((<div class="form-group"><label class="form-label">Type</label>
+        <select class="custom-select" v-model="@slot{{moduleName}}.type">
+            <option value="" disabled="">&lt;Please choose one&gt;</option>@loop{types}[[
+            <option value="@slot{{type}}">@slot{{type}}</option>]]loop{types}@
+        </select>
+    </div><br>))if{hasSubType}@
     @slot{{normalInputs}}
     @slot{{enumInputs}}
     @slot{{linkedInputs}}@loop{subTypeInputs}[[    @slot{{normalTypedInputs}}    @slot{{enumTypedInputs}}    @slot{{linkedTypedInputs}}

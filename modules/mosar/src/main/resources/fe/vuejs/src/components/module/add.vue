@@ -17,45 +17,36 @@
 
         data() {
             return {
-                @slot{{module_name}}: new @slot{{ModuleName}}(),
-                form: new @slot{{ModuleName}}Form(),@loop{initLinkedModules}[[
+                @slot{{moduleName}}: new @slot{{ModuleName}}(),
+                form: new @slot{{ModuleName}}(),@loop{initLinkedModules}[[
                 formSubModule@slot{{LinkedDomain}}Seen: false,]]loop{initLinkedModules}@
                 dataSubForm:
                 {
                   mode: "create",
                   parent: "@slot{{moduleName}}",
                   parentID:'',
-
                 },
             };
         },
 
         mounted() {
-            this.setFrom();
-
+            @if{setDefaultType}((this.setDefaultType()))if{setDefaultType}@
             if (this.data.mode === "edit") {
-              this.student = this.data.student;
+              this.@slot{{moduleName}} = this.data.@slot{{moduleName}};
               this.dataSubForm.mode = "edit";
-              this.dataSubForm.student = this.data.student;
+              this.dataSubForm.@slot{{moduleName}} = this.data.@slot{{moduleName}};
               this.dataSubForm.address = this.data.student.address;
-              // this.dataSubForm.enrolmentIn = this.data.student.name;
-              this.dataSubForm.parentID = this.data.student.id;
+              this.dataSubForm.parentID = this.data.@slot{{moduleName}}.@slot{{idField}};
             }
         },
 
         methods: {
-            setFrom() {
-                if (this.data !== undefined) {@loop{hideSubForm}[[
-                    this.form.setHid@slot{{LinkedDomain}}(false)]]loop{hideSubForm}@
-                }
-            },
-
             @if{setDefaultTypeGen}((setDefaultType() {
                 this.@slot{{moduleName}}.type = DEFAULT_TYPE;
             },))if{setDefaultTypeGen}@
 
             create() {
-                var result = add@slot{{ModuleName}}(this.@slot{{module_name}});
+                var result = add@slot{{ModuleName}}(this.@slot{{moduleName}});
                 result.then((res) => {
                     console.log(res);
                     this.$toast.success(Message.ADD_@slot{{MODULE_NAME}}_SUC);

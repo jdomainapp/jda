@@ -1,7 +1,6 @@
     @loop{NormalFormInputs}[[
     <div class="form-group" @slot{{vIfForTyped}}>
         <label class="form-label">@slot{{fieldLabel}}</label>
-        <input disabled="" type="@slot{{type}}" class="form-control" id="@slot{{fieldName}}"
-               v-model="@slot{{moduleName}}.@slot{{fieldName}}">
+        <input @slot{{inputParams}} type="@slot{{type}}" class="form-control" v-model="@slot{{moduleName}}.@slot{{fieldName}}">
     </div>
     <br>]]loop{NormalFormInputs}@

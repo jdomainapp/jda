@@ -31,7 +31,7 @@ public class addGen extends ModuleGenBase {
         return LinkedDomain_linked_domain(Arrays.stream(domains).filter(e -> e.getDAssoc().endType() == DAssoc.AssocEndType.One).toArray(DField[]::new));
     }
 
-    @IfReplacement(ids= {"setDefaultTypeGen","typedModule"})
+    @IfReplacement(ids= {"setDefaultTypeGen","typedModule","setDefaultType"})
     public boolean isTypedModule(@RequiredParam.SubDomains Map<String, Domain> subDomains) {
         return !subDomains.isEmpty();
     }

@@ -5,6 +5,12 @@
     import Message from '../../constants/message';
 
     export default {
+
+        @if{hasProps}((
+        props: {
+            parentData:Object
+        },))if{hasProps}@
+
         components: {
             "modal-confirm": ModalConfirm
         },
@@ -12,7 +18,8 @@
         data() {
             return {
                 @slot{{moduleNames}}: [],
-                @slot{{moduleName}}Id: 0,
+                @slot{{moduleName}}Id: 0,@if{hasParent}((@loop{initParentID}[[
+                @slot{{linkedDomain}}ID: this.parentData? this.parentData.@slot{{linkedDomain}}ID:0,]]loop{initParentID}@))if{hasParent}@
                 data: {
                     @slot{{moduleName}}: null,
                     mode: "edit"
@@ -37,7 +44,7 @@
             get@slot{{ModuleNames}}() {
                 var result = getAll@slot{{ModuleNames}}();
                 result.then(response => {
-                    this.@slot{{moduleNames}} = response.data;
+                    this.@slot{{moduleNames}} = response.data.content;
                 })
                 .catch(e => {
                     this.$toast.error(Message.GET_LIST_@slot{{MODULE_NAME}}_ERR + ' - ' + e.message);

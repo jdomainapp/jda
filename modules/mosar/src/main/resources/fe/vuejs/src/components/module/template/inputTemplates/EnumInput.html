@@ -1,5 +1,5 @@
     @loop{EnumInputs}[[
-    <div class="form-group" v-if="form.hid@slot{{FieldName}} @slot{{vIfForTyped}}">
+    <div class="form-group" @slot{{vIfForTyped}}>
         <label class="form-label">@slot{{fieldLabel}}</label>
         <select class="custom-select" v-model="student.@slot{{fieldName}}">
             <option value="" disabled="">&lt;Please choose one&gt;</option>@slot{{EnumOptions}}

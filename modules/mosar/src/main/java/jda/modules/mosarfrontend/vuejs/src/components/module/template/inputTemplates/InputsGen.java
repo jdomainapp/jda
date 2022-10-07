@@ -16,7 +16,7 @@ public class InputsGen {
     private static ArrayList getBasicSlots(DField dField, String moduleName, String type) {
         moduleName = NameFormatter.moduleName(moduleName);
         return new ArrayList(Arrays.asList(
-                new Slot("vIfForTyped", type != null ? " && " + moduleName + ".type == '" + type + "'" : ""),
+                new Slot("vIfForTyped", type != null ?"v-if=\"" + moduleName + ".type == '" + type + "'\"" : ""),
                 new Slot("fieldName", dField.getDAttr().name()),
                 new Slot("FieldName", NameFormatter.ModuleName(dField.getDAttr().name())),
                 new Slot("moduleName", moduleName),
@@ -58,11 +58,18 @@ public class InputsGen {
         return "text";
     }
 
+    public static String getInputParams(DField dField){
+        StringBuilder params = new StringBuilder("");
+        if(dField.getDAttr().id() || dField.getDAttr().auto()) params.append("disabled");
+        return params.toString();
+    }
+
     public static String getNormalInputs(DField[] dFields, String moduleName, String type) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField dField : Arrays.stream(dFields).filter(f -> f.getDAssoc() == null && f.getEnumValues() == null).toArray(DField[]::new)) {
             ArrayList<Slot> inputFieldSlots = getBasicSlots(dField, moduleName, type);
             inputFieldSlots.add(new Slot("type", getFieldType(dField.getDAttr().type())));
+            inputFieldSlots.add(new Slot("inputParams", getInputParams(dField)));
             result.add(inputFieldSlots);
         }
         try {
