@@ -8,7 +8,7 @@
 
     export default {
         props: {
-            subStudentClassId:Object
+            parentData:Object
         },
 
         components: {
@@ -19,10 +19,11 @@
             return {
                 students: [],
                 studentId: 0,
-                studentClassName: 0,
-                studentClassId: this.subStudentClassId === undefined ? 0 : this.subStudentClassId.studentClassID,
+                // studentClassName: 0,
+                studentClassId: this.parentData === undefined ? 0 : this.parentData.studentClassID,
                 data: {
-                    studentId: 0,
+                    // studentId: 0,
+                    student: null,
                     mode: "edit"
                 }
             }
@@ -42,10 +43,13 @@
             },
 
             getStudents() {
-                var result = getAllStudents();
+                
+                var result;
                 
                 if (this.studentClassId != 0) {
-                    result = getInnerListByOuterId(this.studentClassId)
+                    result = getInnerListByOuterId(this.studentClassId, "students")
+                }else{
+                    result = getAllStudents();
                 }
 
                 this.students = []

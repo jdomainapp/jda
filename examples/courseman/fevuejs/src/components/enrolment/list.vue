@@ -16,14 +16,12 @@
 
         data() {
             return {
-                eDisplay: 1,
+                // eDisplay: 1,
                 enrolments: [],
                 enrolmentId: 0,
-                // enrolmentIn: '',
-                parentID:'',
+                // parentID:'',
                 dataSubForm: {
                     mode: "create",
-                    // enrolmentIn: '',
                     parentID: ''
                 }               
             }
@@ -34,7 +32,7 @@
 
             // if(this.data.enrolmentIn != '' && this.data.enrolmentIn != undefined){
             if(this.data.parentID != '' && this.data.parentID != undefined){
-                this.eDisplay = 2;
+                // this.eDisplay = 2;
                 // this.enrolmentIn = this.data.enrolmentIn;
                 this.parentID = this.data.parentID;
             }
@@ -62,7 +60,6 @@
             getEnrolments() {
                 
                 var result = getAllEnrolments();
-                
 
                 result.then(response => {
                     this.enrolments = response.data;

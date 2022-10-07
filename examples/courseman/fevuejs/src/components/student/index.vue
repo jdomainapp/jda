@@ -2,12 +2,11 @@
 <script>
     export default {
         props: {
-            subStudentClassId:Object
+            parentData:Object
         },
 
         components: {
             "form-add": () => import('./add.vue'),
-            //"form-edit": () => import('./edit.vue'),
             "form-list": () => import('./list.vue'),
         },
 
