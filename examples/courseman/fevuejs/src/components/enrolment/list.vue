@@ -8,7 +8,7 @@
 
     export default ({
         props: {
-            data:Object
+            parentData:Object,
         },
         components: {
             "modal-confirm": ModalConfirm
@@ -19,7 +19,7 @@
                 // eDisplay: 1,
                 enrolments: [],
                 enrolmentId: 0,
-                // parentID:'',
+                parentID:'',
                 dataSubForm: {
                     mode: "create",
                     parentID: ''
@@ -30,27 +30,22 @@
         mounted() {
             this.getEnrolments();
 
-            // if(this.data.enrolmentIn != '' && this.data.enrolmentIn != undefined){
-            if(this.data.parentID != '' && this.data.parentID != undefined){
-                // this.eDisplay = 2;
-                // this.enrolmentIn = this.data.enrolmentIn;
-                this.parentID = this.data.parentID;
+            if(this.parentData.parentID != '' && this.parentData.parentID != undefined){
+                this.eDisplay = 2;
+                this.parentID = this.parentData.parentID;
             }
-            if (this.data.mode === "edit") {
-                // this.enrolmentIn = this.data.enrolmentIn;
-                this.parentID = this.data.parentID;
-                // this.dataSubForm.mode = "edit";
-                // this.dataSubForm.student = this.data.address.student;
+            if (this.parentData.mode === "edit") {
+                this.parentID = this.parentData.parentID;
                 console.log("From student enrolment" + this.parentID);
             }
         },
 
         methods: {
             emitData(enrolment) {
-                this.data.enrolment = enrolment;
-                this.data.mode = 'edit';
-                console.log('Edit' + this.data.mode);
-                this.$emit("data", this.data);
+                this.parentData.enrolment = enrolment;
+                this.parentData.mode = 'edit';
+                console.log('Edit' + this.parentData.mode);
+                this.$emit("data", this.parentData);
             },
 
             getEnrolmentId(id) {
@@ -63,7 +58,6 @@
 
                 result.then(response => {
                     this.enrolments = response.data;
-
                 })
                 .catch(e => {
                     this.$toast.error(Message.GET_LIST_ENROLMENT_ERR + ' : ' + e.message);
