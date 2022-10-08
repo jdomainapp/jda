@@ -10,7 +10,7 @@
         </tr>
     </thead>
     <tbody>
-    <tr style="cursor: pointer;" v-for="(@slot{{moduleName}}, index) in @slot{{moduleNames}}" v-if="@slot{{moduleName}}" :key="@slot{{moduleName}}.@slot{{idField}}">
+    <tr style="cursor: pointer;" v-for="(@slot{{moduleName}}, index) in @slot{{moduleNames}}" v-if="@slot{{moduleNames}}" :key="@slot{{moduleName}}.@slot{{idField}}">
         <td style="vertical-align: middle;">{{index + 1}}</td>
         <td style="vertical-align: middle;">{{@slot{{moduleName}}.@slot{{idField}}}}</td>@loop{normalFieldColumns}[[
         <td style="vertical-align: middle;">{{@slot{{moduleName}}.@slot{{fieldName}}}}</td>]]loop{normalFieldColumns}@ @loop{linkedFieldColumns}[[
@@ -19,7 +19,7 @@
             <button class="btn btn-primary" v-on:click="emitData(@slot{{moduleName}})">
                 Edit
             </button>
-            <a class="btn btn-danger" id="btnShowModal" data-target="#myModal" v-on:click="get@slot{{ModuleName}}Id(@slot{{moduleName}}.id)" data-toggle="modal">
+            <a class="btn btn-danger" data-target="#myModal" v-on:click="get@slot{{ModuleName}}Id(@slot{{moduleName}}.id)" data-toggle="modal">
                 Delete
             </a>
         </td>

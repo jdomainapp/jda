@@ -17,16 +17,26 @@
 
         data() {
             return {
-                @slot{{moduleName}}: new @slot{{ModuleName}}(),
-                form: new @slot{{ModuleName}}(),@loop{initLinkedModules}[[
+                @slot{{moduleName}}: new @slot{{ModuleName}}(),@loop{initLinkedModules}[[
                 formSubModule@slot{{LinkedDomain}}Seen: false,]]loop{initLinkedModules}@
                 dataSubForm:
                 {
                   mode: "create",
-                  parent: "@slot{{moduleName}}",
+                  parent: "@slot{{moduleJnames}}",
                   parentID:'',
+                  hidFields:[@slot{{hideFields}}]
                 },
             };
+        },
+
+        computed: {
+            @loop{genQuickView}[[
+            @slot{{linkedDomain}}Id(){
+                return this.@slot{{moduleName}}?.@slot{{linkedDomain}}?.@slot{{linkedIdField}} || ''
+            },
+            @slot{{linkedDomain}}QuickView() {
+              return Object.values(this.@slot{{moduleName}}?.@slot{{linkedDomain}}||{}).toString().replace(',','|')
+            },]]loop{genQuickView}@
         },
 
         mounted() {
@@ -35,8 +45,9 @@
               this.@slot{{moduleName}} = this.data.@slot{{moduleName}};
               this.dataSubForm.mode = "edit";
               this.dataSubForm.@slot{{moduleName}} = this.data.@slot{{moduleName}};
-              this.dataSubForm.address = this.data.student.address;
               this.dataSubForm.parentID = this.data.@slot{{moduleName}}.@slot{{idField}};
+              @loop{initDataForSubForm}[[
+              this.dataSubForm.@slot{{linkedDomain}} = this.data.@slot{{moduleName}}.@slot{{linkedDomain}};]]loop{initDataForSubForm}@
             }
         },
 
@@ -64,7 +75,7 @@
                     this.dataSubForm.@slot{{linked_domain}} = res.data;
                 })
                 .catch((error) => {
-                    this.\$toast.error(Message.ADD_@slot{{MODULE_NAME}}_ERR + ' - ' + error.message);
+                    this.\$toast.error(Message.GET_@slot{{LINKED_DOMAIN}}_ERR + ' - ' + error.message);
                 }).finally(() => {
 
                 });

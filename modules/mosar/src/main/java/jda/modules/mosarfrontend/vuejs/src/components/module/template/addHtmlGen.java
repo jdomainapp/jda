@@ -1,5 +1,6 @@
 package jda.modules.mosarfrontend.vuejs.src.components.module.template;
 
+import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.mosarfrontend.common.anotation.gen_controlers.*;
 import jda.modules.mosarfrontend.common.anotation.template_desc.FileTemplateDesc;
 import jda.modules.mosarfrontend.common.factory.Slot;
@@ -17,10 +18,6 @@ import java.util.Map;
         templateFile = "/src/components/module/template/form.html"
 )
 public class addHtmlGen extends ModuleTemplateGenBase {
-    public boolean getAddMode() {
-        return true;
-    }
-
     @WithFileName
     public String fileName() {
         return "add";
@@ -37,10 +34,23 @@ public class addHtmlGen extends ModuleTemplateGenBase {
         return InputsGen.getEnumInputs(dFields, NameFormatter.moduleName(ModuleName), null);
     }
 
-    @SlotReplacement(id = "linkedInputs")
-    public String linkedInputs(@RequiredParam.ModuleFields DField[] dFields, @RequiredParam.ModuleName String ModuleName) {
-        return InputsGen.getLinkedInputs(dFields, NameFormatter.moduleName(ModuleName), null, this.getAddMode());
+    private DField[] getFieldsByEndType(DField[] dFields, DAssoc.AssocEndType endType) {
+        if (endType == DAssoc.AssocEndType.One)
+            return Arrays.stream(dFields).filter(e -> e.getLinkedField() != null && e.getDAssoc().ascType() == DAssoc.AssocType.One2One).toArray(DField[]::new);
+        else
+            return Arrays.stream(dFields).filter(e -> e.getLinkedField() != null && e.getDAssoc().ascType() == DAssoc.AssocType.One2Many && e.getDAssoc().endType() == DAssoc.AssocEndType.One).toArray(DField[]::new);
     }
+
+    @SlotReplacement(id = "linkedOne2OneInputs")
+    public String linkedOne2OneInputs(@RequiredParam.LinkedFields DField[] dFields, @RequiredParam.ModuleName String ModuleName) {
+        return InputsGen.getLinkedInputOne2One(getFieldsByEndType(dFields, DAssoc.AssocEndType.One), NameFormatter.moduleName(ModuleName), null);
+    }
+
+    @SlotReplacement(id = "linkedOne2ManyInputs")
+    public String linkedOne2ManyInputs(@RequiredParam.LinkedFields DField[] dFields, @RequiredParam.ModuleName String ModuleName) {
+        return InputsGen.getLinkedInputOne2Many(getFieldsByEndType(dFields, DAssoc.AssocEndType.Many), NameFormatter.moduleName(ModuleName), null);
+    }
+
 
     @LoopReplacement(id = "subTypeInputs")
     public Slot[][] subTypeInputs(@RequiredParam.SubDomains Map<String, Domain> subDomains, @RequiredParam.ModuleName String ModuleName) {
@@ -49,8 +59,9 @@ public class addHtmlGen extends ModuleTemplateGenBase {
             result.add(new ArrayList<>(Arrays.asList(
                     new Slot("normalTypedInputs", InputsGen.getNormalInputs(subDomains.get(type).getDFields(), ModuleName, type)),
                     new Slot("enumTypedInputs", InputsGen.getEnumInputs(subDomains.get(type).getDFields(), ModuleName, type)),
-                    new Slot("linkedTypedInputs", InputsGen.getLinkedInputs(subDomains.get(type).getDFields(), ModuleName, type, this.getAddMode()))
-            )));
+                    new Slot("linkedTypedOne2OneInputs", InputsGen.getLinkedInputOne2One(getFieldsByEndType(subDomains.get(type).getDFields(), DAssoc.AssocEndType.One), ModuleName, type)),
+                    new Slot("linkedTypedOne2ManyInputs", InputsGen.getLinkedInputOne2Many(getFieldsByEndType(subDomains.get(type).getDFields(), DAssoc.AssocEndType.Many), ModuleName, type)
+                    ))));
         }
         return MethodUtils.toLoopData(result);
     }
@@ -61,7 +72,7 @@ public class addHtmlGen extends ModuleTemplateGenBase {
     }
 
     @LoopReplacement(id = "types")
-    public Slot[][] types(@RequiredParam.SubDomains Map<String,Domain> subDomains){
+    public Slot[][] types(@RequiredParam.SubDomains Map<String, Domain> subDomains) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (String type : subDomains.keySet()) {
             result.add(new ArrayList<>(Arrays.asList(

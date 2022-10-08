@@ -10,7 +10,6 @@ import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.NewMCC;
 import jda.modules.mosarfrontend.common.utils.common_gen.FieldsUtil;
 import jda.modules.mosarfrontend.vuejs.src.Common;
-import jda.modules.mosarfrontend.vuejs.src.components.module.ModuleGenBase;
 
 import java.util.Arrays;
 
@@ -29,7 +28,7 @@ public class modelGen extends BaseModelGen {
     }
 
     @LoopReplacement(id = "setLinkedDomain")
-    public Slot[][] setLinkedDomain(@RequiredParam.DomainFields DField[] dFields) {
+    public Slot[][] setLinkedDomain(@RequiredParam.LinkedFields DField[] dFields) {
         return FieldsUtil.getBasicFieldSlots(exceptOneSideInMany2OneRelation(dFields));
     }
 

@@ -1,6 +1,7 @@
 <template src="./template/list.html"></template>
 <script>
     import {getAll@slot{{ModuleNames}}, delete@slot{{ModuleName}}} from '../../api/@slot{{module_name}}';
+    @if{hasParent3}((import {getInnerListByOuterId} from '../../api/student_class';))if{hasParent3}@
     import ModalConfirm from '../modal/confirm.vue';
     import Message from '../../constants/message';
 
@@ -18,8 +19,8 @@
         data() {
             return {
                 @slot{{moduleNames}}: [],
-                @slot{{moduleName}}Id: 0,@if{hasParent}((@loop{initParentID}[[
-                @slot{{linkedDomain}}ID: this.parentData? this.parentData.@slot{{linkedDomain}}ID:0,]]loop{initParentID}@))if{hasParent}@
+                @slot{{moduleName}}Id: 0,@if{hasParent}((
+                parentID: this.parentData? this.parentData.parentID:0,))if{hasParent}@
                 data: {
                     @slot{{moduleName}}: null,
                     mode: "edit"
@@ -42,7 +43,14 @@
             },
 
             get@slot{{ModuleNames}}() {
-                var result = getAll@slot{{ModuleNames}}();
+                @if{hasParent2}((
+                let result;
+                if(this.parentID){
+                    result = getInnerListByOuterId(this.parentData.parentID, this.parentData.parent)
+                }else{
+                    result = getAll@slot{{ModuleNames}}();
+                }))if{hasParent2}@
+                @if{hasntParent}((var result = getAll@slot{{ModuleNames}}();))if{hasntParent}@
                 result.then(response => {
                     this.@slot{{moduleNames}} = response.data.content;
                 })

@@ -16,12 +16,13 @@ public class ModuleGenBase extends NameFormatter {
         return "/src/components/" + NameFormatter.moduleJname(moduleName);
     }
 
-    public static Slot[][] LinkedDomain_linked_domain(@RequiredParam.DomainFields DField[] dFields) {
+    public static Slot[][] LinkedDomain_linked_domain(@RequiredParam.LinkedFields DField[] dFields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField dField : dFields) {
             ArrayList<Slot> slotValues = new ArrayList<>();
             String name = dField.getLinkedDomain().getDomainClass().getSimpleName();
             slotValues.add(new Slot("LinkedDomain", NameFormatter.ModuleName(name)));
+            slotValues.add(new Slot("LINKED_DOMAIN", NameFormatter.MODULE_NAME(name)));
             slotValues.add(new Slot("linkedDomain", NameFormatter.moduleName(name)));
             slotValues.add(new Slot("Linked__domain", NameFormatter.Module__name(name)));
             slotValues.add(new Slot("linked_domain", NameFormatter.module_name(name)));

@@ -144,7 +144,7 @@ public class ParamsFactory {
         return this.currentField;
     }
 
-    @RequiredParam.DomainFields
+    @RequiredParam.LinkedFields
     public DField[] getDomainFields() {
         DField[] moduleFields = this.currentNewMCC.getDFields();
         ArrayList<DField> result = new ArrayList<>();

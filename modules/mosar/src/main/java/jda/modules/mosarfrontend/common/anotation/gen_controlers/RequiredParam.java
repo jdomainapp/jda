@@ -109,6 +109,6 @@ public @interface RequiredParam {
 	@Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.PARAMETER, ElementType.METHOD})
     @Documented
-    @interface DomainFields {
+    @interface LinkedFields {
     }
 }

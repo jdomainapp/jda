@@ -1,8 +1,10 @@
-    @loop{EnumInputs}[[
+@loop{EnumInputs}[[
+<div v-if="!data.hidFields || !data.hidFields.includes('@slot{{fieldName}}')">
     <div class="form-group" @slot{{vIfForTyped}}>
         <label class="form-label">@slot{{fieldLabel}}</label>
-        <select class="custom-select" v-model="student.@slot{{fieldName}}">
+        <select class="custom-select" v-model="@slot{{moduleName}}.@slot{{fieldName}}">
             <option value="" disabled="">&lt;Please choose one&gt;</option>@slot{{EnumOptions}}
         </select>
     </div>
-    <br>]]loop{EnumInputs}@
+    <br>
+</div>]]loop{EnumInputs}@

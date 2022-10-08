@@ -142,7 +142,7 @@ public class FormGen extends BaseModuleGen {
     }
 
     @LoopReplacement(id = "importLinkedSubmodules")
-    public Slot[][] importLinkedSubmodules(@RequiredParam.DomainFields DField[] dFields) {
+    public Slot[][] importLinkedSubmodules(@RequiredParam.LinkedFields DField[] dFields) {
         return FieldsUtil.getBasicFieldSlots(Arrays.stream(dFields).filter(f -> f.getLinkedDomain() != null && f.getDAssoc().endType() != DAssoc.AssocEndType.Many).toArray(DField[]::new));
     }
 

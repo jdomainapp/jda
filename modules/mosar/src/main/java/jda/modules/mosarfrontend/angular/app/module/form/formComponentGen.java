@@ -15,13 +15,13 @@ import java.util.Arrays;
 )
 public class formComponentGen extends BaseFormGen {
     @LoopReplacement(ids = {"getLinkedDomainMethods", "declareLinkedDomainId", "getLinkedDomainData"})
-    public Slot[][] getLinkedDomainData(@RequiredParam.DomainFields DField[] dFields) {
+    public Slot[][] getLinkedDomainData(@RequiredParam.LinkedFields DField[] dFields) {
         return FieldsUtil.getBasicFieldSlots(Arrays.stream(dFields).filter(f -> f.getLinkedDomain() != null).toArray(DField[]::new));
     }
 
 
     @LoopReplacement(ids = {"linkedDomainShowFlags", "changeShowLinkedDomainFlagMethods"})
-    public Slot[][] linkedDomainShowFlags(@RequiredParam.DomainFields DField[] dFields) {
+    public Slot[][] linkedDomainShowFlags(@RequiredParam.LinkedFields DField[] dFields) {
         return FieldsUtil.getBasicFieldSlots(Arrays.stream(dFields).filter(f -> f.getLinkedDomain() != null && f.getDAssoc().ascType() == DAssoc.AssocType.One2Many && f.getDAssoc().endType() == DAssoc.AssocEndType.One).toArray(DField[]::new));
     }
 

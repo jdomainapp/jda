@@ -16,12 +16,27 @@ public class InputsGen {
     private static ArrayList getBasicSlots(DField dField, String moduleName, String type) {
         moduleName = NameFormatter.moduleName(moduleName);
         return new ArrayList(Arrays.asList(
-                new Slot("vIfForTyped", type != null ?"v-if=\"" + moduleName + ".type == '" + type + "'\"" : ""),
+                new Slot("vIfForTyped", type != null ? "v-if=\"" + moduleName + ".type == '" + type + "'\"" : ""),
                 new Slot("fieldName", dField.getDAttr().name()),
                 new Slot("FieldName", NameFormatter.ModuleName(dField.getDAttr().name())),
                 new Slot("moduleName", moduleName),
                 new Slot("fieldLabel", dField.getAttributeDesc() != null ? dField.getAttributeDesc().label() : NameFormatter.Module__name(dField.getDAttr().name()))
         ));
+    }
+
+    public static Slot[][] linkedDomainSlots(DField[] dFields, String moduleName, String type) {
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        for (DField dField : Arrays.stream(dFields).filter(f -> f.getLinkedDomain() != null).toArray(DField[]::new)) {
+            ArrayList<Slot> inputFieldSlots = getBasicSlots(dField, moduleName, type);
+            String LinkedDomain = dField.getLinkedDomain().getDomainClass().getSimpleName();
+            inputFieldSlots.add(new Slot("Linked__domain", NameFormatter.Module__name(LinkedDomain)));
+            inputFieldSlots.add(new Slot("LinkedDomain", LinkedDomain));
+            inputFieldSlots.add(new Slot("linkedJdomain", NameFormatter.moduleJname(LinkedDomain)));
+            inputFieldSlots.add(new Slot("linkedDomain", NameFormatter.moduleName(LinkedDomain)));
+            inputFieldSlots.add(new Slot("linkedIdField", dField.getLinkedDomain().getIdField().getDAttr().name()));
+            result.add(inputFieldSlots);
+        }
+        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
     private static String getFieldType(DAttr.Type type) {
@@ -58,9 +73,9 @@ public class InputsGen {
         return "text";
     }
 
-    public static String getInputParams(DField dField){
+    public static String getInputParams(DField dField) {
         StringBuilder params = new StringBuilder("");
-        if(dField.getDAttr().id() || dField.getDAttr().auto()) params.append("disabled");
+        if (dField.getDAttr().id() || dField.getDAttr().auto()) params.append("disabled");
         return params.toString();
     }
 
@@ -109,23 +124,25 @@ public class InputsGen {
         }
     }
 
-    public static String getLinkedInputs(DField[] dFields, String moduleName, String type, Boolean addMode) {
-        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        for (DField dField : Arrays.stream(dFields).filter(f -> f.getLinkedDomain() != null).toArray(DField[]::new)) {
-            ArrayList<Slot> inputFieldSlots = getBasicSlots(dField, moduleName, type);
-            String LinkedDomain = dField.getLinkedDomain().getDomainClass().getSimpleName();
-            inputFieldSlots.add(new Slot("Linked__domain", NameFormatter.Module__name(LinkedDomain)));
-            inputFieldSlots.add(new Slot("LinkedDomain", LinkedDomain));
-            inputFieldSlots.add(new Slot("linkedJdomain", NameFormatter.moduleJname(LinkedDomain)));
-            inputFieldSlots.add(new Slot("linkedDomain", NameFormatter.moduleName(LinkedDomain)));
-            inputFieldSlots.add(new Slot("linkedIdField", dField.getLinkedDomain().getIdField().getDAttr().name()));
-            result.add(inputFieldSlots);
-        }
+    public static String getLinkedInputOne2One(DField[] dFields, String moduleName, String type) {
+        Slot[][] result = linkedDomainSlots(dFields, moduleName, type);
         try {
-            return FileFactory.replaceLoopWithFileTemplate(InputsGen.templateFolder +  "LinkedDomainInputAdd.html", "linkedDomainFormInput", result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new));
+            return FileFactory.replaceLoopWithFileTemplate(InputsGen.templateFolder + "LinkedDomainInputOne2One.html", "linkedDomainInputOne2One", result);
         } catch (Exception e) {
             System.out.println(e);
             return "";
         }
     }
+
+    public static String getLinkedInputOne2Many(DField[] dFields, String moduleName, String type) {
+        Slot[][] result = linkedDomainSlots(dFields, moduleName, type);
+        try {
+            return FileFactory.replaceLoopWithFileTemplate(InputsGen.templateFolder + "LinkedDomainInputOne2Many.html", "linkedDomainInputOne2Many", result);
+        } catch (Exception e) {
+            System.out.println(e);
+            return "";
+        }
+    }
+
+
 }
