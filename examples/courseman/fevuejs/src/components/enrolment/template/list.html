@@ -13,8 +13,7 @@
     </thead>
     <tbody>
 
-        <tr style="cursor: pointer;" :key="enrolment.id" v-for="(enrolment, index) in enrolments.content" v-if="parentID === undefined">
-            <!-- <tr style="cursor: pointer;" :key="enrolment.id" v-for="(enrolment, index) in enrolments.content" v-if="(parentID )"></tr> -->
+        <tr style="cursor: pointer;" :key="enrolment.id" v-for="(enrolment, index) in enrolments.content" v-if="parentID === ''">
             <td style="vertical-align: middle;">{{index + 1}}</td>
             <td style="vertical-align: middle;">{{enrolment.id}}</td>
             <td style="vertical-align: middle;">{{enrolment.student.name}}</td>
