@@ -3,6 +3,7 @@
     import Coursemodule from '../../model/course_module';
     import Message from '../../constants/message';
     import {addCourseModule, updateCourseModule} from '../../api/course_module';
+    import {getCourseModule} from '../../api/course_module';
 
     const DEFAULT_TYPE = "compulsory";
 
@@ -19,14 +20,18 @@
 
         mounted() {
             this.setDefaultType()
+
             if (this.data.mode === "edit") {
-                this.coursemodule = this.data.coursemodule;
-                console.log(this.data.coursemodule.deptName);
-                if(this.data.coursemodule.deptName == undefined){
-                    this.coursemodule.type = 'compulsory';
-                }else{
-                    this.coursemodule.type = 'elective';
-                }
+               
+                let result = getCourseModule(this.data.coursemodule.id);
+
+                result.then(response => {
+                    this.coursemodule = response.data;
+                  
+                })
+                .catch(e => {
+                    this.$toast.error(Message.GET_COURSE_ERR + ' - ' + e.message);
+                })
                 
             }
         },
