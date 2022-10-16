@@ -1,8 +1,8 @@
 <template src="./template/index.html"></template>
 <script>
     export default {
-        props: {@loop{One2ManyIds}[[
-            sub@slot{{LinkedDomain}}Id:Object,]]loop{One2ManyIds}@
+        props: {
+            parentData:Object
         },
 
         components: {
@@ -13,8 +13,10 @@
         data() {
             return {
                 display: 1,
-                data: {
+                dataSubForm: {
                     mode: "create",
+                    parent: this.parentData ? this.parentData.parent: "@slot{{moduleJnames}}",
+                    parentID: this.parentData ? this.parentData.parentID : 0,
                     @slot{{moduleName}}: null
                 }
             }
@@ -26,14 +28,15 @@
 
         methods: {
             setData(data){
-                this.data.@slot{{moduleName}} = data.@slot{{moduleName}};
+                console.log("set @slot{{moduleName}}",data)
+                this.dataSubForm.mode = data.mode;
+                this.dataSubForm.@slot{{moduleName}} = data.@slot{{moduleName}};
                 this.display = 1;
-                this.data.mode = data.mode;
             },
 
             mainForm() {
                 this.display = 2;
-                this.data.mode = "create";
+                this.dataSubForm.mode = "create";
             }
         }
     };

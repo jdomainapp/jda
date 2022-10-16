@@ -15,6 +15,11 @@ import java.util.Map;
 
 @FileTemplateDesc(templateFile = "/src/components/module/add.vue")
 public class addGen extends ModuleGenBase {
+
+    @IfReplacement(ids = {"hasSubType","setDefaultTypeGen", "setDefaultType"})
+    public boolean isTypedModule(@RequiredParam.SubDomains Map<String, Domain> subDomains) {
+        return !subDomains.isEmpty();
+    }
     @LoopReplacement(id = "importLinkedDomains")
     public Slot[][] importLinkedDomains(@RequiredParam.LinkedFields DField[] domains) {
         return LinkedDomain_linked_domain(domains);
@@ -25,15 +30,17 @@ public class addGen extends ModuleGenBase {
         return LinkedDomain_linked_domain(domains);
     }
 
-    @LoopReplacement(ids = {"initDataForSubForm", "initLinkedModules", "linkedComponents", "hideSubForm", "genQuickView"})
-    public Slot[][] initLinkedModules(@RequiredParam.LinkedFields DField[] domains) {
-        return LinkedDomain_linked_domain(Arrays.stream(domains).filter(e -> e.getDAssoc().endType() == DAssoc.AssocEndType.One).toArray(DField[]::new));
+    @LoopReplacement(ids={"linkedComponentsForOne2Many", "initLinkedModulesForOne2Many"})
+    public Slot[][] linkedComponentsForOne2Many(@RequiredParam.LinkedFields DField[] domains) {
+        return LinkedDomain_linked_domain(Arrays.stream(domains).filter(e -> e.getDAssoc().ascType() == DAssoc.AssocType.One2Many && e.getDAssoc().endType() == DAssoc.AssocEndType.One).toArray(DField[]::new));
     }
 
-    @IfReplacement(ids = {"setDefaultTypeGen", "typedModule", "setDefaultType"})
-    public boolean isTypedModule(@RequiredParam.SubDomains Map<String, Domain> subDomains) {
-        return !subDomains.isEmpty();
+    @LoopReplacement(ids = {"initDataForSubForm","initLinkedModules", "linkedComponents", "hideSubForm", "genQuickView"})
+    public Slot[][] initLinkedModules(@RequiredParam.LinkedFields DField[] domains) {
+        return LinkedDomain_linked_domain(Arrays.stream(domains).filter(e -> e.getDAssoc().ascType() == DAssoc.AssocType.One2One || e.getDAssoc().endType() == DAssoc.AssocEndType.Many).toArray(DField[]::new));
     }
+
+
 
     @SlotReplacement(id = "defaultType")
     public String defaultType(@RequiredParam.SubDomains Map<String, Domain> subDomains) {

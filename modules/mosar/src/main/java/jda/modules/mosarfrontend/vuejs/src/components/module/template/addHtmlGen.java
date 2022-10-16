@@ -36,7 +36,10 @@ public class addHtmlGen extends ModuleTemplateGenBase {
 
     private DField[] getFieldsByEndType(DField[] dFields, DAssoc.AssocEndType endType) {
         if (endType == DAssoc.AssocEndType.One)
-            return Arrays.stream(dFields).filter(e -> e.getLinkedField() != null && e.getDAssoc().ascType() == DAssoc.AssocType.One2One).toArray(DField[]::new);
+            return Arrays.stream(dFields).filter(e -> (e.getDAssoc() != null &&
+                    (e.getDAssoc().ascType() == DAssoc.AssocType.One2One ||
+                    (e.getDAssoc().ascType() == DAssoc.AssocType.One2Many
+                            && e.getDAssoc().endType() == DAssoc.AssocEndType.Many)))).toArray(DField[]::new);
         else
             return Arrays.stream(dFields).filter(e -> e.getLinkedField() != null && e.getDAssoc().ascType() == DAssoc.AssocType.One2Many && e.getDAssoc().endType() == DAssoc.AssocEndType.One).toArray(DField[]::new);
     }

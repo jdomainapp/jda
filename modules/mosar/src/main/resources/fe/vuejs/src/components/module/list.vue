@@ -1,7 +1,7 @@
 <template src="./template/list.html"></template>
 <script>
     import {getAll@slot{{ModuleNames}}, delete@slot{{ModuleName}}} from '../../api/@slot{{module_name}}';
-    @if{hasParent3}((import {getInnerListByOuterId} from '../../api/student_class';))if{hasParent3}@
+    @if{hasParent3}((import {getInnerListByOuterId} from '../../api/@slot{{module_name}}';))if{hasParent3}@
     import ModalConfirm from '../modal/confirm.vue';
     import Message from '../../constants/message';
 
@@ -21,8 +21,10 @@
                 @slot{{moduleNames}}: [],
                 @slot{{moduleName}}Id: 0,@if{hasParent}((
                 parentID: this.parentData? this.parentData.parentID:0,))if{hasParent}@
-                data: {
+                dataSubForm: {
                     @slot{{moduleName}}: null,
+                    parent: "@slot{{moduleJnames}}",
+                    parentID: this.parentData ? this.parentData.parentID : 0,
                     mode: "edit"
                 }
             }
@@ -34,8 +36,8 @@
 
         methods: {
             emitData(@slot{{moduleName}}) {
-                this.data.@slot{{moduleName}} = @slot{{moduleName}};
-                this.$emit("data", this.data);
+                console.log("emitData",@slot{{moduleName}});
+                this.$emit("data", {@slot{{moduleName}},mode:"edit"});
             },
 
             get@slot{{ModuleName}}Id(id) {
@@ -45,7 +47,8 @@
             get@slot{{ModuleNames}}() {
                 @if{hasParent2}((
                 let result;
-                if(this.parentID){
+                if(this.parentData.parentID){
+                    console.log("getByOuterID")
                     result = getInnerListByOuterId(this.parentData.parentID, this.parentData.parent)
                 }else{
                     result = getAll@slot{{ModuleNames}}();

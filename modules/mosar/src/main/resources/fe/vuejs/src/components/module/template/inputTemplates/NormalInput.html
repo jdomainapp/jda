@@ -1,5 +1,5 @@
 @loop{NormalFormInputs}[[
-<div v-if="!data.hidFields || !data.hidFields.includes('@slot{{fieldName}}')">
+<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('@slot{{fieldName}}')">
     <div class="form-group" @slot{{vIfForTyped}}>
         <label class="form-label">@slot{{fieldLabel}}</label>
         <input @slot{{inputParams}} type="@slot{{type}}" class="form-control" v-model="@slot{{moduleName}}.@slot{{fieldName}}">

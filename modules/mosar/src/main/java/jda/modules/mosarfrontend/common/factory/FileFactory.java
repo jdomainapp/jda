@@ -176,19 +176,19 @@ public class FileFactory {
     private boolean replaceIf(Method conditionMethod) {
         if (conditionMethod.getReturnType() != boolean.class) return true;
         IfReplacement ifReplacement = conditionMethod.getAnnotation(IfReplacement.class);
-        String[] ids = ifReplacement.id().length() >0 ? new String[]{ifReplacement.id()} : ifReplacement.ids();
+        String[] ids = ifReplacement.id().length() > 0 ? new String[]{ifReplacement.id()} : ifReplacement.ids();
         for (String id : ids) {
             Pattern pattern = regexUtils.createIfRegex(id);
             Matcher matcher = pattern.matcher(this.fileContent);
-            if (matcher.find()) {
-                if (Boolean.FALSE.equals(MethodUtils.execute(this.handler, conditionMethod, Boolean.class))) {
-                    this.fileContent = matcher.replaceAll("");
-                } else {
-                    this.fileContent = matcher.replaceAll(matcher.group(2));
+                if (matcher.find()) {
+                    if (Boolean.FALSE.equals(MethodUtils.execute(this.handler, conditionMethod, Boolean.class))) {
+                        this.fileContent = matcher.replaceAll("");
+                    } else {
+                        String content = matcher.group(2);
+                        this.fileContent = matcher.replaceAll(content);
+                    }
                 }
-            }
         }
-
         return false;
     }
 

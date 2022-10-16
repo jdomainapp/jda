@@ -31,13 +31,13 @@
     </br>
     <div class="tab-content">
         <div>
-            <form-add v-if="display == 1" v-bind:data="data"></form-add>
+            <form-add v-if="display == 1" v-bind:parentData="dataSubForm"></form-add>
         </div>
         <div>
-            <form-add v-if="display == 2" v-bind:data="data"></form-add>
+            <form-add v-if="display == 2" v-bind:parentData="dataSubForm"></form-add>
         </div>
         <div>
-            <form-list @data="setData" v-bind:parentData="parentData" v-if="display == 3"></form-list>
+            <form-list v-if="display == 3" v-bind:parentData="dataSubForm" @data="setData" ></form-list>
         </div>
     </div>
     <Toasts></Toasts>

@@ -1,5 +1,5 @@
 @loop{linkedDomainInputOne2One}[[
-<div v-if="!data.hidFields || !data.hidFields.includes('@slot{{fieldName}}')">
+<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('@slot{{fieldName}}')">
     <div class="d-flex flex-wrap justify-content-between align-items-end form-group" @slot{{vIfForTyped}}>
         <div class="px-0 col-md-2.5">
             <label class="form-label">@slot{{Linked__domain}} ID</label>
@@ -17,7 +17,7 @@
     </button>
     </div>
     <div class="form-group" v-if="formSubModule@slot{{LinkedDomain}}Seen">
-        <form-sub-module-@slot{{linkedJdomain}} v-bind:data="dataSubForm"></form-sub-module-@slot{{linkedJdomain}}>
+        <form-sub-module-@slot{{linkedJdomain}} v-bind:parentData="dataSubForm"></form-sub-module-@slot{{linkedJdomain}}>
     </div>
     <br>
 </div>]]loop{linkedDomainInputOne2One}@
