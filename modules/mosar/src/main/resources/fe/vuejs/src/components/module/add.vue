@@ -80,6 +80,10 @@
                 }).finally(() => {});
             },
             @loop{getLinkedModuleByID}[[
+            unlink@slot{{LinkedDomain}}(){
+                this.@slot{{moduleName}}.@slot{{linkedDomain}} = null;
+            },
+
             get@slot{{LinkedDomain}}ById(event) {
                 let @slot{{linkedDomain}}Id =  event.target.value;
 
