@@ -83,7 +83,7 @@ public class CourseMgntController {
 	 * Add a (module) serivce to path
 	 */
 	@RequestMapping(value = "removemodule/{serviceName}")
-	public ResponseEntity removeModule(@PathVariable("serviceName") String serviceName) {
+	public ResponseEntity<?> removeModule(@PathVariable("serviceName") String serviceName) {
 
 		String servicePath = "/" + serviceName + "/**";
 		RequestMappingInfo mappingInfo = RequestMappingInfo.paths(servicePath).build();
@@ -95,6 +95,6 @@ public class CourseMgntController {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.METHOD_FAILURE).body("Error when removing child serivce to parent");
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Sucess");
+		return ResponseEntity.ok("Success");
 	}
 }

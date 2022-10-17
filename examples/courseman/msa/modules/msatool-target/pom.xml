@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>jda.example</groupId>
+    <artifactId>jda-eg-coursemanmsa-modules</artifactId>
+    <version>1.0</version>
+  </parent>
+  <groupId>org.jda.example.coursemanmsa</groupId>
+	<artifactId>jda-eg-coursemanmsa-msatool-target</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>msatool-target</name>
+	<description>Example: CourseMan MSA tool for target</description>
+	<properties>
+		<jda.version>5.4-SNAPSHOT</jda.version>
+	</properties>
+	
+  <dependencies>
+  		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jda.example.coursemanmsa</groupId>
+			<artifactId>jda-eg-coursemanmsa-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+  </dependencies>
+</project>

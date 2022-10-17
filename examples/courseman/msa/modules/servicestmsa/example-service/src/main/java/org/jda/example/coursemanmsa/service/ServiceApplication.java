@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import javax.sql.DataSource;
+
 import org.jda.example.coursemanmsa.common.connections.UserContextInterceptor;
 import org.jda.example.coursemanmsa.common.controller.ControllerRegistry;
 import org.jda.example.coursemanmsa.common.controller.DefaultController;
@@ -12,9 +14,12 @@ import org.jda.example.coursemanmsa.common.controller.RedirectControllerRegistry
 import org.jda.example.coursemanmsa.common.controller.ServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceSchemaCreatedEvent;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -23,10 +28,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
@@ -84,6 +92,23 @@ public class ServiceApplication {
 				logger.error(e.getMessage());
 			}
 		}
+	}
+	
+	@EventListener(DataSourceSchemaCreatedEvent.class)
+	public void checkData() {
+		String r = "Ok";
+		System.out.println(r);
+	}
+	// run file create schema when spring start up
+	@Bean
+	public DataSourceInitializer dataSourceInitializer(DataSource ds) {
+	    ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
+	    resourceDatabasePopulator.addScript(new ClassPathResource("schema.sql"));
+
+	    DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
+	    dataSourceInitializer.setDataSource(ds);
+	    dataSourceInitializer.setDatabasePopulator(resourceDatabasePopulator);
+	    return dataSourceInitializer;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -1,5 +1,0 @@
-{
-	"serviceDir":"/home/vietdo/Ha/JDA/Git/jda/examples/courseman/msa/modules/servicestmsa/example-service/src/main/resources/application.properties", 
-	"deployedAtParent":"http://gateway-server/academicadmin-service/registerchild/cmodulemgnt"
-	"removeChildPath":"http://gateway-server/academicadmin-service/coursemgnt/removemodule/cmodulemgnt"
-}

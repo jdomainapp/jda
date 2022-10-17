@@ -1,0 +1,14 @@
+spring:
+    application:
+     name: msatool-source 
+    cloud:
+      config:
+        enabled: false
+server:
+  port: 8098
+  
+      
+logging:
+  level:
+    org.springframework.web: WARN
+    org.jda.example.coursemanmsa: DEBUG
