@@ -15,7 +15,7 @@ public class ServiceTransformTest {
 	public static void main(String[] args) {
 		String contextFilePath = "/home/vietdo/Ha/JDA/Git/jda/examples/courseman/msa/modules/msatool-source/src/main/resources/serviceInfo";
 		Path path = Paths.get("/home/vietdo/Ha/JDA/Git/jda/examples/courseman/msa/modules/msatool-source/src/main/resources/cmodulemgnt.sql");
-		String name = "data.sql";
+		String name = "schema.sql";
 		String originalFileName = "cmodulemgnt.sql";
 		String contentType = "text/plain";
 		byte[] content = null;

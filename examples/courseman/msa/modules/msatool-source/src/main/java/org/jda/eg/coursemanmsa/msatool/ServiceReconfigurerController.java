@@ -41,7 +41,7 @@ public class ServiceReconfigurerController {
 	
 	//1 input target, config file
 	@PostMapping(value = "/promote/{module}") 
-	public ResponseEntity<?> promote(@RequestPart MultipartFile databaseSchema ,@RequestBody String targetHost, @PathVariable String module) throws FileNotFoundException{
+	public ResponseEntity<?> promote(@RequestPart MultipartFile databaseSchema ,@RequestParam String targetHost, @PathVariable String module) throws FileNotFoundException{
 		File inputContextFile = ResourceUtils.getFile("classpath:serviceInfo");
 		//1.1
 		String serviceDir = ServiceReconfigurer.transformToService(inputContextFile.getPath(), databaseSchema);
