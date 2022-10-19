@@ -19,20 +19,22 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
 
 
 @RFSGenDesc(
-        stackSpec = StackSpec.FE,
+        stackSpec = StackSpec.FS,      // Gen Fullstack
+        // stackSpec = StackSpec.BE,   // Gen Backend only
+        // stackSpec = StackSpec.FE,   // Gen Frontend only
         execSpec = ExecSpec.Gen,
         genMode = GenerationMode.SOURCE_CODE,
-        feProjPath = "/home/ducmle/tmp/restfstool-fe",
-        feProjName = "fe-courseman",
-        feProjResource = "src/main/resources/angular",
         fePlatform = FEPlatform.VUE_JS,
-        feOutputPath = "D:\\JDA\\CourseManVueJs_Gen",
-        feServerPort = 5000,  // default: 3000
-        feAppClass = FEApp.class,
-        feThreaded = true,
+        feOutputPath = "D:\\UET_THS\\JDA\\work\\jda\\examples\\courseman\\mosar\\src\\main\\java\\org\\jda\\example\\coursemanrestful\\frontend",
+        feProjPath = "", // deprecated
+        feProjName = "", // deprecated
+        feProjResource = "", // deprecated
+        feServerPort = 5000,  // deprecated
+        feAppClass = FEApp.class, // deprecated
+        feThreaded = true, // deprecated
         beLangPlatform = LangPlatform.SPRING,
         bePackage = "org.jda.example.coursemanrestful.modules",
-        beOutputPath = "E:\\Linh\\JDA\\jda\\examples\\courseman\\mosar\\src\\main\\java",
+        beOutputPath = "D:\\UET_THS\\JDA\\work\\jda\\examples\\courseman\\mosar\\src\\main\\java",
         beTargetPackage = "org.jda.example.coursemanrestful.backend"
         , beAppClass = BESpringApp.class,
         beServerPort = 8080  // default: 8080

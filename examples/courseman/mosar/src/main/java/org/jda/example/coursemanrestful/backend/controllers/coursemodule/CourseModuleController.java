@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Generated(value = "jda.modules.mosar.software.backend.generators.SourceCodeWebControllerGenerator")
 public class CourseModuleController extends DefaultRestfulWithInheritanceController<org.jda.example.coursemanrestful.modules.coursemodule.model.CourseModule> {
 
-    public Page getEntityListByPage(PagingModel arg0) {
-        return super.getEntityListByPage(arg0);
-    }
-
     @org.springframework.web.bind.annotation.GetMapping()
     public Page getEntityListByTypeAndPage(@org.springframework.web.bind.annotation.RequestParam(value = "type", required = false) String arg0, PagingModel arg1) {
         return super.getEntityListByTypeAndPage(arg0, arg1);
     }
 
-    @org.springframework.web.bind.annotation.PostMapping()
-    public CourseModule createEntity(@org.springframework.web.bind.annotation.RequestBody() CourseModule arg0) {
-        return super.createEntity(arg0);
+    public Page getEntityListByPage(PagingModel arg0) {
+        return super.getEntityListByPage(arg0);
+    }
+
+    @org.springframework.web.bind.annotation.DeleteMapping(value = "/{id}")
+    public void deleteEntityById(Identifier arg0) {
+        super.deleteEntityById(arg0);
     }
 
     @org.springframework.web.bind.annotation.GetMapping(value = "/{id}")
@@ -39,9 +39,9 @@ public class CourseModuleController extends DefaultRestfulWithInheritanceControl
         return super.updateEntity(arg0, arg1);
     }
 
-    @org.springframework.web.bind.annotation.DeleteMapping(value = "/{id}")
-    public void deleteEntityById(Identifier arg0) {
-        super.deleteEntityById(arg0);
+    @org.springframework.web.bind.annotation.PostMapping()
+    public CourseModule createEntity(@org.springframework.web.bind.annotation.RequestBody() CourseModule arg0) {
+        return super.createEntity(arg0);
     }
 
     @Autowired()

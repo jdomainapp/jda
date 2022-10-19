@@ -8,11 +8,12 @@
 2. cd into `$EXAMPLE.FOLDER`
 3. compile source code: `mvn clean install`
 4. generate the CourseMan RFS source code:
-
    `mvn exec:java@genrfs`
-
    - frontend source: `src/main/java/org/jda/example/coursemanrestful/frontend`
    - backend source: `src/main/java/org/jda/example/coursemanrestful/backend`
+
+   * (Option) Chose Frontend technology : (VUEJS | ANGULAR | REACTJS | REACTNATIVE) by config value `@RFSGenDesc.fePlatform`
+      in `"EXAMPLE.FOLDER"\src\main\java\org\jda\example\coursemanrestful\software\config\SCCCourseManDerby.java`
 5. compile again (to compile the generated code): 
 
     `mvn compile`
@@ -21,33 +22,18 @@
 
     `mvn exec:java@runbe`
     
-7. run the frontend (Reactjs):
-   - create a project's folder from the provided template `react-proj-template.zip`:
+7. run the frontend 
+  - from the frontend source folder in step 4.:
+  - install dependencies (only needs to do this once; takes a few minutes!):
+    `npm install`
+  * (Reactjs):
+  - run the app: `PORT=<your client port> npm run start`
 
-     `unzip $EXAMPLE.FOLDER/src/main/resources/disthome/react-proj-template.zip`
+  * (VueJs)
+  - run the app: `npm run serve --port=<your client port>`  
 
-   - copy the generated frontend source to the project's `src` folder. Assume you have `cd`ed into the project's folder:
+  * (Angular):
+  - run the app: `ng serve --port <your client port> ` (You might be install angular cli first: `npm install -g @angular/cli`)
 
-     `cp -r $EXAMPLE.FOLDER/src/main/java/org/jda/example/coursemanrestful/frontend/* src/`
-    
-   - from the project's folder:
-     - install dependencies (only needs to do this once; takes a few minutes!):
-
-       `npm install`
-
-     - run the app:
-
-       `PORT=5000 npm run start`
-
-Figure below shows the CourseMan frontend:
-
-![RESTful CourseMan example](https://github.com/jdomainapp/jda/blob/main/modules/mosar/docs/images/FrontEnd-CourseMan.png)
-
-## Study the example
-1. Import the Maven project into your IDE
-2. Study the frontend
-   - package `org.jda.example.coursemanrestful.frontend`
-   - use the [Reactjs resources]((https://github.com/jdomainapp/training/issues/3)
-3. Study the backend
-   - package `org.jda.example.coursemanrestful.backend`
-   - use the [Spring Boot's resources](https://github.com/jdomainapp/training/issues/2)
+  * (REACTNATIVE):
+  - Refer Readme.md in `frontend source` folder in step 4.
