@@ -24,9 +24,9 @@ public class ServicePromoteTest {
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 		
 		HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<LinkedMultiValueMap<String, Object>>(map, headers);
-		String fullTargerURL = "http://localhost:8098/promote/cmodulemgnt";
-		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(fullTargerURL)
-                .queryParam("targetHost", "http://localhost:8098/");
+		String fullSourseURL = "http://localhost:8098/promote/cmodulemgnt";
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(fullSourseURL)
+                .queryParam("targetHost", "http://localhost:8099/");
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> restExchange = restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.POST, requestEntity,
 		                    String.class, "cmodulemgnt");
