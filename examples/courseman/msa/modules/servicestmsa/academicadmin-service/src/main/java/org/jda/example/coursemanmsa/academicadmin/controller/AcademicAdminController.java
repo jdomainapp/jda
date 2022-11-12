@@ -20,6 +20,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead.Type;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
+
 @RestController
 @RequestMapping(value="/")
 public class AcademicAdminController {
@@ -47,13 +52,21 @@ public class AcademicAdminController {
 	}
 	
 	@RequestMapping(value = PATH_COURSEMGNT+"/**")
-	public ResponseEntity handleCourseManagement(HttpServletRequest req, HttpServletResponse res) throws IOException {
+//	@CircuitBreaker(name = "courseManagement", fallbackMethod = "buildFallbackCourse")
+//	@Retry(name = "retryCallCourse", fallbackMethod = "buildFallbackCourse")
+	@Bulkhead(name = "bulkheadStudentService", type= Type.THREADPOOL, fallbackMethod = "buildFallbackCourse")
+	public ResponseEntity<?> handleCourseManagement(HttpServletRequest req, HttpServletResponse res) throws IOException {
     // ducmle: to generalise
 		String path = ControllerTk.getServiceUri(req); 
 //		     "http://gateway-server/coursemgnt-service/"+req.getServletPath().replace("/coursemgnt/", "");
 		String requestData = ControllerTk.getRequestData(req); 
 		    //req.getReader().lines().collect(Collectors.joining()).trim();
 		return ControllerTk.invokeService(restTemplate,path, req.getMethod(), requestData);
+	}
+	
+	private ResponseEntity<?> buildFallbackCourse(HttpServletRequest req, HttpServletResponse res, Throwable t){
+		String error = "Can't call CourseManagement";
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
 	}
   
   /**

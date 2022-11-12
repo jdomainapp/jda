@@ -44,8 +44,6 @@ public class Student extends RepresentationModel<Student> {
 	private String studentEmail;
 	@Column(name = "studentclass_id", nullable = false)
 	private int studentclassId;
-	@Column(name = "deptname", nullable = false)
-	private String deptName;
 	
 	@OneToMany(mappedBy="student")
 	private List<Enrolment> enrolments;
