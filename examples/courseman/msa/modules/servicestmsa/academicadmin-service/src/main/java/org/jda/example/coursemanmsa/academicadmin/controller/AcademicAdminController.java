@@ -52,9 +52,9 @@ public class AcademicAdminController {
 	}
 	
 	@RequestMapping(value = PATH_COURSEMGNT+"/**")
-//	@CircuitBreaker(name = "courseManagement", fallbackMethod = "buildFallbackCourse")
-//	@Retry(name = "retryCallCourse", fallbackMethod = "buildFallbackCourse")
-	@Bulkhead(name = "bulkheadStudentService", type= Type.THREADPOOL, fallbackMethod = "buildFallbackCourse")
+	@CircuitBreaker(name = "courseManagement", fallbackMethod = "buildFallbackCourse")
+	@Retry(name = "retryCallCourse", fallbackMethod = "buildFallbackCourse")
+	@Bulkhead(name = "bulkheadCourseService", type= Type.SEMAPHORE, fallbackMethod = "buildFallbackCourse")
 	public ResponseEntity<?> handleCourseManagement(HttpServletRequest req, HttpServletResponse res) throws IOException {
     // ducmle: to generalise
 		String path = ControllerTk.getServiceUri(req); 
@@ -65,8 +65,8 @@ public class AcademicAdminController {
 	}
 	
 	private ResponseEntity<?> buildFallbackCourse(HttpServletRequest req, HttpServletResponse res, Throwable t){
-		String error = "Can't call CourseManagement";
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+		String error = "Ko goi duoc  CourseManagement";
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
   
   /**
