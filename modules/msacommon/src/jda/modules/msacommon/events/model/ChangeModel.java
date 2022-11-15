@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.common.events.model;
+package jda.modules.msacommon.events.model;
 
 
 public class ChangeModel<ID> {

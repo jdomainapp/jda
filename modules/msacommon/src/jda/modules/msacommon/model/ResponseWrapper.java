@@ -1,12 +1,12 @@
-package org.jda.example.coursemanmsa.common.model;
+package jda.modules.msacommon.model;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 import java.util.List;
 
-import org.jda.example.coursemanmsa.common.exception.ErrorMessage;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import jda.modules.msacommon.exception.ErrorMessage;
 
 
 /**

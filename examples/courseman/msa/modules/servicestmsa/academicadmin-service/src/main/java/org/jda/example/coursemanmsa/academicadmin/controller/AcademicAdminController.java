@@ -7,9 +7,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jda.example.coursemanmsa.common.controller.ControllerTk;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.web.servlet.ControllerEndpointHandlerMapping;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +22,7 @@ import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead.Type;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
+import jda.modules.msacommon.controller.ControllerTk;
 
 @RestController
 @RequestMapping(value="/")
@@ -52,9 +51,9 @@ public class AcademicAdminController {
 	}
 	
 	@RequestMapping(value = PATH_COURSEMGNT+"/**")
-//	@CircuitBreaker(name = "courseManagement", fallbackMethod = "buildFallbackCourse")
-//	@Retry(name = "retryCallCourse", fallbackMethod = "buildFallbackCourse")
-	@Bulkhead(name = "bulkheadStudentService", type= Type.THREADPOOL, fallbackMethod = "buildFallbackCourse")
+	@CircuitBreaker(name = "courseManagement", fallbackMethod = "buildFallbackCourse")
+	@Retry(name = "retryCallCourse", fallbackMethod = "buildFallbackCourse")
+	@Bulkhead(name = "bulkheadCourseService", type= Type.SEMAPHORE, fallbackMethod = "buildFallbackCourse")
 	public ResponseEntity<?> handleCourseManagement(HttpServletRequest req, HttpServletResponse res) throws IOException {
     // ducmle: to generalise
 		String path = ControllerTk.getServiceUri(req); 
@@ -65,8 +64,8 @@ public class AcademicAdminController {
 	}
 	
 	private ResponseEntity<?> buildFallbackCourse(HttpServletRequest req, HttpServletResponse res, Throwable t){
-		String error = "Can't call CourseManagement";
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+		String error = "Ko goi duoc  CourseManagement";
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
   
   /**

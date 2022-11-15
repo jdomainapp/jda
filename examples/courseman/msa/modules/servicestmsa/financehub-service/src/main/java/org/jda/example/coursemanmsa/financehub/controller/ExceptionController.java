@@ -7,9 +7,6 @@ import static java.util.Collections.singletonMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.jda.example.coursemanmsa.common.exception.ErrorMessage;
-import org.jda.example.coursemanmsa.common.exception.RestErrorList;
-import org.jda.example.coursemanmsa.common.model.ResponseWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,6 +14,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import jda.modules.msacommon.exception.ErrorMessage;
+import jda.modules.msacommon.exception.RestErrorList;
+import jda.modules.msacommon.model.ResponseWrapper;
 
 /**
  *

@@ -7,11 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jda.example.coursemanmsa.common.controller.ControllerTk;
-import org.jda.example.coursemanmsa.common.controller.RedirectController;
-import org.jda.example.coursemanmsa.common.controller.RedirectControllerRegistry;
-import org.jda.example.coursemanmsa.common.events.model.ChangeModel;
-import org.jda.example.coursemanmsa.common.model.MyResponseEntity;
 import org.jda.example.coursemanmsa.coursemgnt.events.source.SimpleSourceBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.web.servlet.ControllerEndpointHandlerMapping;
@@ -26,6 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+
+import jda.modules.msacommon.controller.ControllerTk;
+import jda.modules.msacommon.controller.RedirectController;
+import jda.modules.msacommon.controller.RedirectControllerRegistry;
+import jda.modules.msacommon.events.model.ChangeModel;
+import jda.modules.msacommon.model.MyResponseEntity;
 
 @RestController
 @RequestMapping(value = "/")

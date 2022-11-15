@@ -1,10 +1,9 @@
-package org.jda.example.coursemanmsa.common.model;
-
-import org.jda.example.coursemanmsa.common.events.model.ChangeModel;
+package jda.modules.msacommon.model;
 
 import org.springframework.http.ResponseEntity;
 
 import jda.modules.dodm.dsm.DSM;
+import jda.modules.msacommon.events.model.ChangeModel;
 
 public class MyResponseEntity<T, ID> {
 	private ResponseEntity responseEntity;

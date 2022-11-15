@@ -1,6 +1,6 @@
 {
-	"serviceResourceDir":"/home/vietdo/Ha/JDA/Git/jda/examples/courseman/msa/modules/servicestmsa/example-service/src/main/resources", 
-	"serviceDir":"/home/vietdo/Ha/JDA/Git/jda/examples/courseman/msa/modules/servicestmsa/example-service",
+	"serviceResourceDir":"/home/ducmle/projects/jda/examples/courseman/msa/modules/servicestmsa/example-service/src/main/resources", 
+	"serviceDir":"/home/ducmle/projects/jda/examples/courseman/msa/modules/servicestmsa/example-service",
 	"deployedAtParent":"http://gateway-server/academicadmin-service/registerchild/cmodulemgnt"
 	
 }

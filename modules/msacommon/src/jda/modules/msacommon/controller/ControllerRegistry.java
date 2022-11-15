@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.common.controller;
+package jda.modules.msacommon.controller;
 
 import java.util.Locale;
 import java.util.Map;

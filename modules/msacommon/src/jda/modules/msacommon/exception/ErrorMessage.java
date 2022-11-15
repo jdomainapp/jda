@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.common.exception;
+package jda.modules.msacommon.exception;
 
 /**
  * Error message class

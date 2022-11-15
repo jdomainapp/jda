@@ -2,8 +2,9 @@ package org.jda.eg.coursemanmsa.msatool;
 
 import java.io.File;
 
-import org.jda.example.coursemanmsa.common.msatool.ServiceReconfigurer;
 import org.junit.Test;
+
+import jda.modules.msacommon.msatool.ServiceReconfigurer;
 
 /**
  * @overview 

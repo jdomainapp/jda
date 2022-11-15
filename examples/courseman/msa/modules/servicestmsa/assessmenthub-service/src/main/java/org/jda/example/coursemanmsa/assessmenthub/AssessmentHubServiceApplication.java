@@ -4,10 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import org.jda.example.coursemanmsa.common.connections.UserContextInterceptor;
-import org.jda.example.coursemanmsa.common.controller.ControllerRegistry;
-import org.jda.example.coursemanmsa.common.controller.DefaultController;
-import org.jda.example.coursemanmsa.common.controller.ServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -29,6 +25,11 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
+import jda.modules.msacommon.connections.UserContextInterceptor;
+import jda.modules.msacommon.controller.ControllerRegistry;
+import jda.modules.msacommon.controller.DefaultController;
+import jda.modules.msacommon.controller.ServiceRegistry;
 
 
 @SpringBootApplication

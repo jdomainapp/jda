@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.common.connections;
+package jda.modules.msacommon.connections;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;

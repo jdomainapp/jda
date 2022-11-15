@@ -5,13 +5,14 @@ import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.Cou
 import org.jda.example.coursemanmsa.assessmenthub.modules.enrolment.model.Enrolment;
 import org.jda.example.coursemanmsa.assessmenthub.modules.student.model.Student;
 import org.jda.example.coursemanmsa.assessmenthub.modules.teacher.model.Teacher;
-import org.jda.example.coursemanmsa.common.controller.ControllerRegistry;
-import org.jda.example.coursemanmsa.common.controller.DefaultController;
-import org.jda.example.coursemanmsa.common.events.model.ChangeModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
+
+import jda.modules.msacommon.controller.ControllerRegistry;
+import jda.modules.msacommon.controller.DefaultController;
+import jda.modules.msacommon.events.model.ChangeModel;
 
 @EnableBinding(CustomChannels.class)
 public class ChangeHandler {

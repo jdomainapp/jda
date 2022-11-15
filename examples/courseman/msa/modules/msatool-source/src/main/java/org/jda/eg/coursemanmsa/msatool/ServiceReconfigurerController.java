@@ -4,13 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.jda.example.coursemanmsa.common.controller.ControllerTk;
-import org.jda.example.coursemanmsa.common.msatool.ServiceReconfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,12 +18,13 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import jda.modules.msacommon.msatool.ServiceReconfigurer;
 
 @Controller
 public class ServiceReconfigurerController {
@@ -60,7 +56,7 @@ public class ServiceReconfigurerController {
 		    }
 		});
 		
-		if(jarFiles.length==0) {
+		if(jarFiles == null || jarFiles.length==0) {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
 		}
 

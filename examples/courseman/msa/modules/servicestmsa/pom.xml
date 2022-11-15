@@ -6,7 +6,7 @@
 		<version>1.0</version>
 	</parent>
 	<artifactId>jda-eg-coursemanmsa-servicestmsa</artifactId>
-	<name>Example: CourseMan TMSA</name>
+	<name>Example: CourseMan Modules/TMSA</name>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -20,18 +20,17 @@
 		<module>coursemgmt-service</module>
 		<module>assessmenthub-service</module>
 		<module>financehub-service</module>
-		<module>cmodulemgnt-service</module>
+		<!--module>cmodulemgnt-service</module-->
 
 	</modules>
 
 	<dependencies>
-
 		<dependency>
-			<groupId>org.jda.example.coursemanmsa</groupId>
-			<artifactId>jda-eg-coursemanmsa-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>jda.modules</groupId>
+    	<artifactId>jda-msacommon</artifactId>
+			<version>1.0</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

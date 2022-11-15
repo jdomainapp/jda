@@ -1,6 +1,6 @@
 package org.jda.eg.coursemanmsa.msatool;
 
-import org.jda.example.coursemanmsa.common.msatool.ServiceReconfigurer;
+import jda.modules.msacommon.msatool.ServiceReconfigurer;
 
 public class ServiceOnDeploymentCompletedTest {
 

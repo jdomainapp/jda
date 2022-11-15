@@ -2,7 +2,7 @@ package org.jda.eg.coursemanmsa.msatool;
 
 import java.io.File;
 
-import org.jda.example.coursemanmsa.common.msatool.ServiceReconfigurer;
+import jda.modules.msacommon.msatool.ServiceReconfigurer;
 
 public class ReceiverTest {
     public static void main(String[] args) {

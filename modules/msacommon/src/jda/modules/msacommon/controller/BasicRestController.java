@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.common.controller;
+package jda.modules.msacommon.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

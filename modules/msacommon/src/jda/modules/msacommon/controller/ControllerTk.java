@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.common.controller;
+package jda.modules.msacommon.controller;
 
 import java.io.IOException;
 import java.lang.reflect.Field;

@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.common.messaging.kafka;
+package jda.modules.msacommon.messaging.kafka;
 
 public class KafkaChangeAction {
 	public final static String GET="GET";

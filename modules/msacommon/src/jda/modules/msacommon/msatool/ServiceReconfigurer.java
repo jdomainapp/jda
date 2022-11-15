@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.common.msatool;
+package jda.modules.msacommon.msatool;
 
 import java.io.DataOutputStream;
 import java.io.File;

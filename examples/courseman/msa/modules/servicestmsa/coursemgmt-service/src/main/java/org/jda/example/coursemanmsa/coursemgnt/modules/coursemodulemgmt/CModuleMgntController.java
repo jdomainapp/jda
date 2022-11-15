@@ -3,11 +3,12 @@ package org.jda.example.coursemanmsa.coursemgnt.modules.coursemodulemgmt;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jda.example.coursemanmsa.common.controller.RedirectController;
-import org.jda.example.coursemanmsa.common.model.MyResponseEntity;
 import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.model.CourseModule;
 import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.model.Teacher;
 import org.springframework.stereotype.Controller;
+
+import jda.modules.msacommon.controller.RedirectController;
+import jda.modules.msacommon.model.MyResponseEntity;
 
 /**ducmle: renamed to match path update */
 @Controller

@@ -1,6 +1,7 @@
 package org.jda.example.coursemanmsa.assessmenthub.controller;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,12 +9,11 @@ import org.jda.example.coursemanmsa.assessmenthub.modules.coursemodule.model.Cou
 import org.jda.example.coursemanmsa.assessmenthub.modules.enrolment.model.Enrolment;
 import org.jda.example.coursemanmsa.assessmenthub.modules.student.model.Student;
 import org.jda.example.coursemanmsa.assessmenthub.modules.teacher.model.Teacher;
-import org.jda.example.coursemanmsa.common.controller.ControllerRegistry;
-import org.jda.example.coursemanmsa.common.controller.DefaultController;
-import org.jda.example.coursemanmsa.common.model.MyResponseEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import jda.modules.msacommon.controller.ControllerRegistry;
+import jda.modules.msacommon.controller.DefaultController;
 
 @RestController
 @RequestMapping(value = "/")

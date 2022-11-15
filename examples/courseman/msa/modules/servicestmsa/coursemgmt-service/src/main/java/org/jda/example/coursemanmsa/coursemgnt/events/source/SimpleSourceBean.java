@@ -1,6 +1,5 @@
 package org.jda.example.coursemanmsa.coursemgnt.events.source;
 
-import org.jda.example.coursemanmsa.common.events.model.ChangeModel;
 import org.jda.example.coursemanmsa.coursemgnt.events.CustomChannels;
 import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.model.CourseModule;
 import org.jda.example.coursemanmsa.coursemgnt.modules.enrolment.model.Enrolment;
@@ -12,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
+
+import jda.modules.msacommon.events.model.ChangeModel;
 
 @SuppressWarnings("unused")
 @Component

@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.common.controller;
+package jda.modules.msacommon.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,8 +7,9 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jda.example.coursemanmsa.common.model.MyResponseEntity;
 import org.springframework.http.ResponseEntity;
+
+import jda.modules.msacommon.model.MyResponseEntity;
 
 public abstract class RedirectController<ID> implements IController<ID>{
 

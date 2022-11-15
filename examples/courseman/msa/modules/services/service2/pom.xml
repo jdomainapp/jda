@@ -6,7 +6,7 @@
 		<version>1.0</version>
 	</parent>
 	<artifactId>jda-eg-coursemanmsa-service2</artifactId>
-	<name>Example: CourseMan MSA basics (Business Services)</name>
+	<name>Example: Service 2</name>
 	<packaging>pom</packaging>
 
 	<properties>

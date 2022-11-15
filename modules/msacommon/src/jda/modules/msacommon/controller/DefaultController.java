@@ -1,4 +1,4 @@
-package org.jda.example.coursemanmsa.common.controller;
+package jda.modules.msacommon.controller;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.Optional;
@@ -7,10 +7,6 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jda.example.coursemanmsa.common.connections.UserContext;
-import org.jda.example.coursemanmsa.common.events.model.ChangeModel;
-import org.jda.example.coursemanmsa.common.messaging.kafka.KafkaChangeAction;
-import org.jda.example.coursemanmsa.common.model.MyResponseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jda.modules.msacommon.connections.UserContext;
+import jda.modules.msacommon.events.model.ChangeModel;
+import jda.modules.msacommon.messaging.kafka.KafkaChangeAction;
+import jda.modules.msacommon.model.MyResponseEntity;
 
 /**
  * Default implementation of {@link #RestfulController}
