@@ -1,24 +1,17 @@
 package org.jda.example.coursemanmsa.coursemgnt.controller;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jda.example.coursemanmsa.coursemgnt.events.source.SimpleSourceBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.web.servlet.ControllerEndpointHandlerMapping;
-import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
@@ -58,7 +51,7 @@ public class CourseMgntController {
 		 * when the ResponseEntity is set ?
 		 */
 		if (changeModel != null) {
-			String kafkaPath = ControllerTk.getServiceUri(req, PATH_COURSEMGNT) + "/{id}";
+			String kafkaPath = ControllerTk.getServiceUri(req, PATH_COURSEMGNT+"-service") + "/{id}";
 //					"http://gateway-server/coursemgnt-service/"+req.getServletPath()+"/{id}";
 			changeModel.setPath(kafkaPath);
 			sourceBean.publishChange(changeModel);
@@ -72,7 +65,7 @@ public class CourseMgntController {
 		MyResponseEntity myResponseEntiy = controller.handleRequest(req, res, PATH_STUDENTENROLMENT);
 		ChangeModel changeModel = myResponseEntiy.getChangeModel();
 		if (changeModel != null) {
-			String kafkaPath = ControllerTk.getServiceUri(req, PATH_COURSEMGNT) + "/{id}";
+			String kafkaPath = ControllerTk.getServiceUri(req, PATH_COURSEMGNT+"-service") + "/{id}";
 //					"http://gateway-server/coursemgnt-service/"+req.getServletPath()+"/{id}";
 			changeModel.setPath(kafkaPath);
 			sourceBean.publishChange(changeModel);
