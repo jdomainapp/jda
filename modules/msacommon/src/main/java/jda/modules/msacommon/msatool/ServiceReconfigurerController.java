@@ -1,4 +1,4 @@
-package org.jda.eg.coursemanmsa.msatool;
+package jda.modules.msacommon.msatool;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,7 +29,7 @@ import jda.modules.msacommon.msatool.ServiceReconfigurer;
 @Controller
 public class ServiceReconfigurerController {
 
-	@Value("${removeModuleUri}")
+	@Value("${removeModuleUri:}")
 	 private String removeModuleUri;
 	
 	@Autowired
@@ -89,6 +89,25 @@ public class ServiceReconfigurerController {
 		return restExchange.getStatusCode().name();
 	}
 	
+	@PostMapping(value = "/receive/{module}")
+	public ResponseEntity<?> receiveFile(@RequestPart("file") MultipartFile file, @PathVariable String module) {
+
+		String fileName = file.getOriginalFilename();
+		String receiverLocation = System.getProperty("user.dir") + File.separator + "execute" + File.separator + module;
+		File fileFolder = new File(receiverLocation);
+		if (!fileFolder.exists()) {
+			fileFolder.mkdirs();
+		}
+		try {
+			File jarFile = new File(fileFolder.getPath() + File.separator + fileName);
+			file.transferTo(jarFile);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+		return ResponseEntity.ok("Success to receive jar file");
+
+	}
+	
 	//1.3
 	public String runService(String targetHost, String module, String jarFileName) {
 		String fullTargerURL = targetHost+"/runService/"+module;
@@ -98,9 +117,28 @@ public class ServiceReconfigurerController {
 		return restExchange.getStatusCode().name();
 	}
 	
+	@PostMapping(value = "/runService/{module}")
+	public ResponseEntity<?> runService(@RequestParam String jarFileName,@PathVariable String module) {
+		
+		String jarFilePath = System.getProperty("user.dir") + File.separator + "execute" + File.separator + module
+				+ File.separator + jarFileName;
+		File jarFile = new File(jarFilePath);
+
+//		boolean isServiceStared = ServiceReconfigurer.runServiceFromJar(jarFile);
+//		if (!isServiceStared) {
+//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fail to run child service!!")
+//					.getBody();
+//		}
+		
+		//1.4
+		return ResponseEntity.ok("Succees to run service");
+	}
+	
 	public String promoteCompleted(String module) {
 		String removeUri = removeModuleUri+module;
 		ResponseEntity<String> restExchange = restTemplate.exchange( removeUri, HttpMethod.POST, null, String.class,module);
 		return restExchange.getStatusCode().name();
 	}
+	
+	
 }

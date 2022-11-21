@@ -1,4 +1,4 @@
-package org.jda.eg.coursemanmsa.msatool;
+package jda.modules.msacommon.msatool;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,20 +32,5 @@ public class ServiceReconfigurerApp {
             template.setInterceptors(interceptors);
         }
         return template;
-	}
-
-	
-	@Bean
-	public LocaleResolver localeResolver() {
-		SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-		localeResolver.setDefaultLocale(Locale.US);
-		return localeResolver;
-	}
-	@Bean
-	public ResourceBundleMessageSource messageSource() {
-		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-		messageSource.setUseCodeAsDefaultMessage(true);
-		messageSource.setBasenames("messages");
-		return messageSource;
 	}
 }
