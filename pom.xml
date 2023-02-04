@@ -214,6 +214,15 @@
     </pluginManagement>
   </build>
 
+  <!-- to deploy this on GitHub for sharing to other projects -->
+  <distributionManagement>
+    <repository>
+      <id>github-jda</id>
+      <name>GitHub Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/jdomainapp/jda</url>
+    </repository>
+ </distributionManagement>
+
   <dependencies>
     <!-- JCommon -->
     <dependency>
