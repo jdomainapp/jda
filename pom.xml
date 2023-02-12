@@ -218,7 +218,7 @@
   <distributionManagement>
     <repository>
       <id>github-jda</id>
-      <name>GitHub Apache Maven Packages</name>
+      <name>JDA: GitHub Apache Maven Packages</name>
       <url>https://maven.pkg.github.com/jdomainapp/jda</url>
     </repository>
  </distributionManagement>
@@ -260,10 +260,15 @@
       <version>10.15.2.0</version>
     </dependency>
     <!-- POSTGRESQL -->
-    <dependency>
+    <!-- <dependency>
       <groupId>postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>9.1-901-1.jdbc4</version>
+    </dependency> -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.2.18</version>
     </dependency>
     <!-- JUNIT -->
     <dependency>
