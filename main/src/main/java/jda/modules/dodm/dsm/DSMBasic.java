@@ -3414,7 +3414,7 @@ public class DSMBasic {
     }
     
     throw new NotFoundException(NotFoundException.Code.CONSTRAINT_NOT_FOUND, 
-        new Object[] {attributeName});
+        new Object[] {c.getSimpleName()+"."+attributeName});
   }
 
   /**

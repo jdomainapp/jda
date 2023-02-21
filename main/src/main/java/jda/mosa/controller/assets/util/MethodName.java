@@ -37,9 +37,12 @@ public enum MethodName {
   doTask, 
   doTaskLoopBack, // v3.0 
   init, // v2.7.4
-  /* method names of DataController class */
+  
+  /* method names of DataController class that are used in ModuleAct */
   open, openAndWait, // v2.7.2
   newObject, createObject, getCurrentObject, setUserSpecifiedState, setMutableState, updateGUI, clearChildren, first, firstAndWait,
   setDataFieldValues, // v4.0
-  setDataFieldValue // v4.0
+  setDataFieldValue, // v4.0
+  activateView,  // 5.6.0
+  showObject, // 5.6.0
 }

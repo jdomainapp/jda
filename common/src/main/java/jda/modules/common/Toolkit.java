@@ -14,12 +14,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.StringTokenizer;
 
 import jda.modules.common.collection.CollectionToolkit;
 import jda.modules.common.datetime.ShortDayLabel;
 import jda.modules.common.exceptions.NotFoundException;
-
-import java.util.StringTokenizer;
+import jda.modules.common.exceptions.NotPossibleException;
 
 
 public class Toolkit {
@@ -420,16 +420,61 @@ public class Toolkit {
   
   /**
    * @effects 
+   *  return the method of <tt>c</tt> whose name is <tt>name</tt> and whose input parameter types
+   *  are <tt>paramTypes</tt> (if specified), throws NotFoundException if no such method can be found.
+   */
+  public static Method getMethodWithOptionalParams(Class c, String name, Class[] paramTypes)
+      throws NotFoundException {
+    Method m = null;
+
+    try {
+      if (paramTypes != null) {
+        m = c.getMethod(name, paramTypes);
+      } else {
+        // find method with same name and parameter types array's length = 0
+        Method[] methods = c.getMethods();
+        for (Method method : methods) {
+          if (method.getName().equals(name) && 
+              method.getParameterTypes().length == 0) {
+            m = method;
+            break; // stop at first found
+          }
+        }
+      }
+    } catch (Exception e) {
+      throw new NotFoundException(NotFoundException.Code.METHOD_NOT_FOUND, e,
+          new Object[] {c, name, Arrays.toString(paramTypes)});
+    }
+
+    if (m == null) {
+      // last resort: get method by name
+      return getMethod(c, name);
+    } else {
+      return m;
+    }
+  }
+  
+  
+  /**
+   * @effects 
    *  return the method of <tt>c</tt> whose name is <tt>name</tt>, throws NotFoundException if no such method can be found.
    *  
    * @version 4.0
    */
-  public static Method getMethod(Class c, String name) throws NotFoundException {
+  public static Method getMethod(Class c, String name) throws NotFoundException, NotPossibleException {
     try {
-      return c.getMethod(name);
-    } catch (Exception e) {
-      throw new NotFoundException(NotFoundException.Code.METHOD_NOT_FOUND, e,
+      Method[] methods = c.getMethods();
+      for (Method method : methods) {
+        if (method.getName().equals(name)) {
+          return method;
+        }
+      }
+
+      throw new NotFoundException(NotFoundException.Code.METHOD_NOT_FOUND,
           new Object[] {c, name, ""});
+    } catch (SecurityException e) {
+      throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_PERFORM, e,
+          new Object[] {"Method not found", c.getSimpleName()+"."+name, e.getMessage()});
     }
   }
   

@@ -1912,11 +1912,11 @@ public class SetUpConfigBasic {
         child = new Node(childCls.getName());
       }
       
-      boolean nodeAdded = tree.addNode(child, parent, scopeStr);
+      boolean nodeAdded = tree.addNodeFlex(child, parent, scopeStr);
       
       if (!nodeAdded) {
         // something wrong: could not add this child node
-        throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_CREATE_CONTAINMENT_TREE_FROM_SPEC, new Object[] {"Failed to add child node for parent: "+parentCls.getName()});
+        throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_CREATE_CONTAINMENT_TREE_FROM_SPEC, new Object[] {String.format("Failed to add child node (%s) to parent (%s) using scope: %s",childCls.getSimpleName(), parentCls.getSimpleName(), scopeStr)});
       }
       
       nodeMap.put(childCls, child);

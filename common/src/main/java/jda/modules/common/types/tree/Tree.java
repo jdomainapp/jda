@@ -151,6 +151,41 @@ public class Tree<V> {
   }
   
   /**
+   * A relaxed version of {@link #addNode(Node, Node, Object)} that does not require parent to pre-exist in this tree. It is added if not yet exist. This is useful for cases where we want to use the Tree to hold the partial program structure (e.g. a containment tree of a software module) 
+   * 
+   * @requires <tt>n != null /\ parent != null</tt> 
+   * @effects 
+   *    add <tt>n</tt> as a child of <tt>parent</tt> with tag <tt>tag</tt>, i.e. <tt>edge(parent,n,tag)</tt>
+   *    return true
+   * @version 5.6
+   */  
+  public boolean addNodeFlex(Node<V> n, Node<V> parent, Object tag) {
+    /* relaxed version: if parent does not yet exist, add it */
+    // check that parent is in nodes
+    boolean found = false;
+    for (Node<V> node : nodes) {
+      if (node == parent) {
+        found = true;
+        break;
+      }
+    }
+    
+    if (!found) {
+      nodes.add(parent);
+    }
+    
+    // add node
+    nodes.add(n);
+    
+    // create an edge <parent,n,tag>
+    Edge e = new Edge(parent,n, tag);
+    
+    edges.add(e);
+    
+    return true;
+  }
+  
+  /**
    * @effects 
    *  return a <tt>Node</tt> object in this, which is the parent of <tt>n</tt>, 
    *  or <tt>null</tt> if <tt>n</tt> is the root node.

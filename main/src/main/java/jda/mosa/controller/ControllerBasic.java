@@ -7897,9 +7897,11 @@ public class ControllerBasic<C> implements ModuleService, Module, Context {
      * @effects 
      *    <br>display <tt>o</tt> on <tt>this.dataContainer</tt>
      *    <br>display the associated objects of <tt>o</tt> in the child data containers if the open policy allows it
-     * @version 2.7.4
+     * @version 
+     * - 2.7.4: created <br>
+     * - 5.6: changed visibility to public
      */
-    protected void showObject(C o) {
+    public void showObject(C o) {
       OpenPolicy pol = getOpenPolicy();
       
       boolean openChildren = (pol != null && pol.isWithChildren());
@@ -16201,7 +16203,10 @@ public class ControllerBasic<C> implements ModuleService, Module, Context {
      */
     @Override
     public Method getServiceMethod(MethodName methodName, Class[] paramTypes) {
+      /* v5.6:
       return Toolkit.getMethod(this.getClass(), methodName.name(), paramTypes);
+      */
+      return Toolkit.getMethodWithOptionalParams(this.getClass(), methodName.name(), paramTypes);
     }
 
     /* (non-Javadoc)
@@ -16272,7 +16277,10 @@ public class ControllerBasic<C> implements ModuleService, Module, Context {
    */
   @Override
   public Method getServiceMethod(MethodName methodName, Class[] paramTypes) throws NotFoundException {
+    /* v5.6
     return Toolkit.getMethod(this.getClass(), methodName.name(), paramTypes);
+    */
+    return Toolkit.getMethodWithOptionalParams(this.getClass(), methodName.name(), paramTypes);
   }
 
   /* (non-Javadoc)
