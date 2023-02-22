@@ -90,5 +90,16 @@ public interface ModuleService {
    *    do nothing 
    */
   void activateView();
+  
+  /**
+   * @effects 
+   *  if exists a parent of this 
+   *    return it
+   *  else
+   *    return null
+   * @version 5.6 
+   *
+   */
+  ModuleService getParent();
 
 }

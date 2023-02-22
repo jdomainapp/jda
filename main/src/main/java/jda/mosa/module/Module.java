@@ -1,5 +1,6 @@
 package jda.mosa.module;
 
+import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.mccl.conceptmodel.module.ApplicationModule;
 import jda.mosa.controller.ControllerBasic;
 import jda.mosa.view.View;
@@ -25,6 +26,17 @@ public interface Module {
    *  <p>(Note: the containment hierarchy is configured in the {@link ApplicationModule} object of this module) 
    */
   ModuleService getDescendantDataService(Class refCls);
+
+  /**
+   * @effects 
+   *  return the {@link ModuleService} that acts as the data service of the <b>child</b> {@link Module} 
+   *  , of <tt>parent</tt> module service in the containment hierarchy of this module; 
+   *  or return <tt>null</tt> if such child module is not found
+   *  
+   *  <p>(Note: the containment hierarchy is configured in the {@link ApplicationModule} object of this module)
+   * @version 5.6 
+   */
+  ModuleService getChildDataService(ModuleService parent, Class refCls) throws NotPossibleException ;
 
   /**
    * @effects 

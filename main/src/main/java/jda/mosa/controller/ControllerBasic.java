@@ -56,8 +56,8 @@ import javax.swing.event.ChangeListener;
 import jda.modules.common.Toolkit;
 import jda.modules.common.collection.ProtectedMap;
 import jda.modules.common.concurrency.Task;
-import jda.modules.common.concurrency.TaskManager;
 import jda.modules.common.concurrency.Task.TaskName;
+import jda.modules.common.concurrency.TaskManager;
 import jda.modules.common.concurrency.TaskManager.RunnableQueue;
 import jda.modules.common.exceptions.ApplicationException;
 import jda.modules.common.exceptions.ApplicationRuntimeException;
@@ -66,6 +66,7 @@ import jda.modules.common.exceptions.DataSourceException;
 import jda.modules.common.exceptions.InfoCode;
 import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.common.exceptions.NotImplementedException;
+import jda.modules.common.exceptions.NotImplementedException.Code;
 import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.common.exceptions.QueryException;
 import jda.modules.common.exceptions.SecurityException;
@@ -78,9 +79,9 @@ import jda.modules.common.types.properties.PropertyName;
 import jda.modules.common.types.tree.Tree;
 import jda.modules.dcsl.syntax.Associate;
 import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dcsl.syntax.DAssoc.AssocEndType;
 import jda.modules.dcsl.syntax.DAssoc.AssocType;
+import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dodm.DODMBasic;
 import jda.modules.dodm.dom.DOMBasic;
 import jda.modules.dodm.dsm.DSMBasic;
@@ -146,11 +147,11 @@ import jda.mosa.view.assets.dialog.JMessageDialog;
 import jda.mosa.view.assets.panels.DefaultPanel;
 import jda.mosa.view.assets.swing.JHtmlLabel;
 import jda.mosa.view.assets.tables.JDataTable;
-import jda.util.SwTk;
 import jda.util.ObjectComparator;
-import jda.util.ObjectMapSorter;
-import jda.util.SysConstants;
 import jda.util.ObjectComparator.SortBy;
+import jda.util.ObjectMapSorter;
+import jda.util.SwTk;
+import jda.util.SysConstants;
 import jda.util.events.InputHandler;
 import jda.util.events.StateChangeListener;
 import jda.util.properties.Property;
@@ -8754,6 +8755,25 @@ public class ControllerBasic<C> implements ModuleService, Module, Context {
     }
     
     /**
+     * Recursive method used by {@link #getChildDataControllerOf(Class)}.
+     */
+    private DataController getChildDataControllerOf(final DataController parent, final Class domainCls) {
+      DataController desCtl = null;
+      Collection<DataController> children = parent.getChildControllers();
+      if (children != null) {
+        for (DataController child : children) {
+          if (child.getDomainClass().equals(domainCls)) {
+            // found it
+            desCtl = child;
+            break;
+          } 
+        }
+      }
+      
+      return desCtl;
+    }
+    
+    /**
      * @effects if this has child controllers return true else return false
      */
     public boolean isNested() {
@@ -16357,6 +16377,26 @@ public class ControllerBasic<C> implements ModuleService, Module, Context {
     return rootDctl.getDescendantDataControllerOf(refCls);
   }
 
+  /* (non-Javadoc)
+   * @see domainapp.basics.modules.Module#getDescendantDataService(java.lang.Class)
+   */
+  /**
+   * @effects 
+   * 
+   * @version 5.6
+   */
+  @Override
+  public ModuleService getChildDataService(ModuleService parent, Class refCls) throws NotPossibleException {
+    /** the descendant data service is the descendant DataController of the root data controller
+     * whose domain class is refCls */
+    if (parent instanceof DataController) {
+      return rootDctl.getChildDataControllerOf((DataController) parent, refCls);
+    } else {
+      throw new NotPossibleException(NotPossibleException.Code.INVALID_ARGUMENT, new Object[] {"Parent module service not supported: " + parent });
+    }
+    
+  }
+  
   /* (non-Javadoc)
    * @see domainapp.basics.modules.Module#getDefaultService()
    */
