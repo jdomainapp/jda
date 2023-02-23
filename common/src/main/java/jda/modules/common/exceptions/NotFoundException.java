@@ -221,7 +221,10 @@ public class NotFoundException extends ApplicationRuntimeException {
      * @version 5.2
      */
     COMPONENT_NOT_FOUND("Không tìm thấy thành phần nào có tên: {0}"),
-    STATESPACE_NOT_FOUND("Lớp {0} có không gian trạng thái (state space) rỗng"),
+    STATESPACE_NOT_FOUND("Lớp {0} có không gian trạng thái (state space) rỗng"), 
+    /** v5.6: graph node <br>
+     * 0: node label*/
+    NODE_NOT_FOUND("Node not found: {0}. Is this node label correct?"),
     ;   
     
     private String text;

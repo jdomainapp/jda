@@ -82,10 +82,12 @@ public abstract class CardPanel extends JPanel {
     // update the card buttons
     // update the correspond card button of cardComp to 'active'
     JButton cardBut = getCardButton(cardComp);
-    updateButtonOnStateChange(cardBut, true);
-    
-    // update other buttons to 'not-active'
-    toggleOtherButtons(cardBut, false);
+    if (cardBut != null) {  // v5.6
+      updateButtonOnStateChange(cardBut, true);
+      
+      // update other buttons to 'not-active'
+      toggleOtherButtons(cardBut, false);
+    }
   }
 
   /**

@@ -111,6 +111,8 @@ public @interface ControllerDesc {
 //    P_O(P,O),
     /**{@link #I} & {@link #C}: open only Oids and open children*/    
     I_C(I,C),
+    /**{@link #I} & {@link #A}: open Oids only and automatically*/    
+    I_A(I, A), 
     /**{@link #O} & {@link #C}: open objects on demand and open children*/    
     O_C(O,C),
     /**{@link #L} & {@link #C}: open with all objects and open children*/    
@@ -118,7 +120,7 @@ public @interface ControllerDesc {
     /**{@link #L} & {@link #A}: open with all objects and open automatically*/    
     L_A(L,A),
     /**{@link #O} & {@link #A}: open automatically and with objects*/    
-    O_A(O,A), 
+    O_A(O,A),
     ;
     
     private int code;
