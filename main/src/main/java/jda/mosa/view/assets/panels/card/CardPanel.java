@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,6 +17,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import jda.modules.mccl.conceptmodel.view.Region;
 import jda.mosa.view.assets.GUIToolkit;
 
 /**
@@ -41,14 +43,18 @@ public abstract class CardPanel extends JPanel {
   protected final static Color fgColorArrow = Color.GRAY;
   //private final static Insets butInsets = new Insets(7, 7, 7, 7);
 
-  private static final int BorderThickness = 2;
-  private static Border InActiveBorder = BorderFactory.createEmptyBorder(BorderThickness,BorderThickness,BorderThickness,BorderThickness);
-  private static Border ActiveLineBorder = BorderFactory.createLineBorder(Color.GRAY, BorderThickness, true);
-
+  protected static final int BorderThickness = 2;
+  protected static Border InActiveBorder = BorderFactory.createEmptyBorder(BorderThickness,BorderThickness,BorderThickness,BorderThickness);
+  protected static Border ActiveLineBorder = BorderFactory.createLineBorder(Color.GRAY, BorderThickness, true);
+  protected static Border ActiveDashedLineBorder = BorderFactory.createDashedBorder(Color.GRAY,BorderThickness, 10, 3,true);
+  
   private List<JButton> cardButts;
   private JPanel cardButtonsPanel;
   private CardMouseHandler cardMouseHandler;
   private Map<Component, String> compMap;
+  
+  // v5.6
+  private Map<Component, Region> configMap;
   
   /**
    * @effects 
@@ -59,6 +65,8 @@ public abstract class CardPanel extends JPanel {
     
     cardButts = new ArrayList<>();
     compMap = new HashMap<>();
+    
+    configMap = new HashMap<>();  // v5.6
     
     cardButtonsPanel = new JPanel();
     // make components appear next to each other (for arrowed labels between the buttons to appear nicely) 
@@ -114,13 +122,18 @@ public abstract class CardPanel extends JPanel {
    *  The button's text = the name associated to <tt>cardComp</tt>.
    *  Add this button to {@link #cardButts}, but not yet to {@link #cardButtonsPanel}.
    *  We will add the buttons to this panel later using {@link #createCardButtonsPanel()}. 
+   * @version 
+   *   - v5.6: added compConfig
    */
-  public JButton createCard(JComponent cardComp, String buttonTxt) {
+  public JButton createCard(JComponent cardComp, Region compConfig, String buttonTxt) {
     // add cardComp to this
     add(cardComp, buttonTxt);
     compMap.put(cardComp, buttonTxt);
 
-    // create a corresponding controll button for cardComp
+    // v5.6
+    configMap.put(cardComp, compConfig);
+    
+    // create a corresponding control button for cardComp
     JButton but = new JButton(buttonTxt); 
     but.addActionListener(cardMouseHandler);
     
@@ -140,6 +153,28 @@ public abstract class CardPanel extends JPanel {
     return but;
   }
 
+  /**
+   * @requires but was created by {@link #createCard(JComponent, Region, String)}
+   * 
+   * @effects 
+   *   return the {@link Region} config for JButton <tt>but</tt> or null if it is not found
+   * @version 5.6 
+   */
+  protected Region getConfigForComp(JButton but) {
+    if (but == null) return null;
+    
+    String butTxt = but.getText();
+    
+    for (Entry<Component, String> e : compMap.entrySet()) {
+      if (e.getValue().equals(butTxt)) {
+        JComponent myComp = (JComponent) e.getKey();
+        return configMap.get(myComp);
+      }
+    }
+    
+    return null;
+  }
+  
   /**
    * To be implemented by sub-types.
    * 
@@ -207,4 +242,34 @@ public abstract class CardPanel extends JPanel {
     
     return null;
   }
+
+  /**
+   * @effects return cardButts
+   */
+  protected List<JButton> getCardButts() {
+    return cardButts;
+  }
+
+  /**
+   * @effects return compMap
+   */
+  protected Map<Component, String> getCompMap() {
+    return compMap;
+  }
+
+  
+  /**
+   * @effects return configMap
+   */
+  protected Map<Component, Region> getConfigMap() {
+    return configMap;
+  }
+
+  /**
+   * @effects return cardMouseHandler
+   */
+  protected CardMouseHandler getCardMouseHandler() {
+    return cardMouseHandler;
+  }
+  
 }

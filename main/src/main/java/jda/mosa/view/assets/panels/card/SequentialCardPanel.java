@@ -47,10 +47,12 @@ public class SequentialCardPanel extends CardPanel {
       
       // add an arrow label between two buttons
       if (butIndx < numButtons - 1) {
-        JLabel arrowLabel = new JLabel("\u27F6");
+        JLabel arrowLabel = getStructLabel(); // v5.6: new JLabel("\u27F6");
+        /* v5.6
         arrowLabel.setFont(labFont);
         arrowLabel.setForeground(fgColorArrow);
         arrowLabel.setBorder(null);
+        */
         cardButtonsPanel.add(arrowLabel);
       }
       butIndx++;
@@ -61,5 +63,22 @@ public class SequentialCardPanel extends CardPanel {
     
     // change other buttons to 'inactive'
     toggleOtherButtons(firstBut, false);
+  }
+  
+  /**
+   * @effects 
+   * return the Component that has the visual symbol representing the underlying activity pattern
+   * 
+   * @version 5.6 
+   *
+   */
+  public static JLabel getStructLabel() {
+    JLabel arrowLabel = new JLabel("\u27F6");
+    arrowLabel.setFont(labFont);
+    arrowLabel.setForeground(fgColorArrow);
+    arrowLabel.setBorder(null);
+    
+    return arrowLabel;
+
   }
 }

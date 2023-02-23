@@ -13,14 +13,14 @@ import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.common.types.properties.PropertyName;
 import jda.modules.dcsl.syntax.AttrRef;
 import jda.modules.dcsl.syntax.DAssoc;
+import jda.modules.dcsl.syntax.DAssoc.AssocEndType;
+import jda.modules.dcsl.syntax.DAssoc.AssocType;
+import jda.modules.dcsl.syntax.DAssoc.Associate;
 import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dcsl.syntax.DCSLConstants;
 import jda.modules.dcsl.syntax.DClass;
 import jda.modules.dcsl.syntax.DOpt;
 import jda.modules.dcsl.syntax.Select;
-import jda.modules.dcsl.syntax.DAssoc.AssocEndType;
-import jda.modules.dcsl.syntax.DAssoc.AssocType;
-import jda.modules.dcsl.syntax.DAssoc.Associate;
 import jda.modules.mccl.conceptmodel.module.ApplicationModule;
 import jda.modules.mccl.conceptmodel.module.containment.ScopeDef;
 import jda.modules.mccl.syntax.MCCLConstants.AlignmentX;
@@ -971,6 +971,26 @@ public class Region {
     return val;
   }
   
+  /**
+   * @effects 
+   *  if this.{@link #properties} has a property named {@link PropertyName#tag}, whose value 
+   *  is <tt>value</tt>
+   *    return true
+   *  else 
+   *    return false
+   * @version 5.6
+   * 
+   */
+  public boolean hasPropertyTagValue(String value) {
+    String val = getProperty(PropertyName.tag, String.class, null);
+    
+    if (val != null && val.equals(value)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
   public void setProperties(PropertySet properties) {
     this.properties = properties;
   }
@@ -1208,5 +1228,6 @@ public class Region {
     
     userModuleScopeMap.put(module, scopeDef);
   }
+
 
 }

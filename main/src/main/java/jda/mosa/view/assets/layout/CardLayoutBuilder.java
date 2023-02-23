@@ -100,7 +100,9 @@ public abstract class CardLayoutBuilder extends LayoutBuilder {
         labelTxt = View.getDataContainerLabelAsString(compCfg);
         // create a card button but do not yet add it to cardButtonsPanel. We will add them 
         // later together with the arrowed labels
-        cardPanel.createCard(cont.getGUIComponent(), labelTxt);
+        // v5.6: added container's config
+        //cardPanel.createCard(cont.getGUIComponent(), labelTxt);
+        cardPanel.createCard(cont.getGUIComponent(), cont.getContainerConfig() , labelTxt);
       } else {
         // a data field
         // add to the list of data field components to be added together 

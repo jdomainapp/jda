@@ -328,7 +328,12 @@ import java.util.Collection;
      * 
      * @version 5.2
      */
-    module_type("domainapp.module.type")
+    module_type("domainapp.module.type"),
+    /**
+     * a generic tag
+     * @version 5.6
+     */
+    tag("domainapp.tag")
     ;
 
     // the formal property name that is used as the system property name
