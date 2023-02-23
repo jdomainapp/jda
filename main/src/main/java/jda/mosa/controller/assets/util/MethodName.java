@@ -45,4 +45,6 @@ public enum MethodName {
   setDataFieldValue, // v4.0
   activateView,  // 5.6.0
   showObject, // 5.6.0
+  filterInput, // v5.6.0
+  updateObject, // v5.6.0
 }
