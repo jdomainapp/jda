@@ -3,7 +3,6 @@
  */
 package jda.mosa.controller.assets.util;
 
-import jda.mosa.controller.ControllerBasic;
 import jda.mosa.controller.ControllerBasic.DataController;
 
 /**
