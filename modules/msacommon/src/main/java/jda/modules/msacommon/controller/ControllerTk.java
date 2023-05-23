@@ -2,6 +2,9 @@ package jda.modules.msacommon.controller;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,6 +63,14 @@ public class ControllerTk {
 	    return serviceUri;
 	  }
   
+  public static String getServiceUri(String serviceName, String module) {
+	    // e.g "http://gateway-server/assessmenthub-service/"+req.getServletPath().replace("/assessmenthub/", "")
+	    final String gwUri = "http://gateway-server";
+	    String serviceUriPattern = "%s/%s%s";
+	    String serviceUri = String.format(serviceUriPattern, gwUri,serviceName, module);
+	    return serviceUri;
+	  }
+  
   /**
    * 
    * @effects 
@@ -109,4 +120,24 @@ public class ControllerTk {
 	        return requestURL.append('?').append(queryString).toString();
 	    }
 	}
+
+public static List<Integer> findIntegers(String path) {
+    List<Integer> ids = new ArrayList<>();
+	String pathAfterRemovingChar = path.replaceAll("[^0-9]+", " ");
+	for(String i : pathAfterRemovingChar.trim().split(" ")){
+		if(i.isEmpty()) {
+			continue; 
+		}
+		ids.add(Integer.parseInt(i));
+	}
+	return ids;
+}
+
+public static boolean isPathContainId(String moduleName, String fullPath) {
+	if(fullPath.matches(".*"+moduleName+"(\\/\\d)*")) {
+		return true;
+	}
+	
+	return false;
+}
 }
