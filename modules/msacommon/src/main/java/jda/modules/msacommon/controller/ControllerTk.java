@@ -140,4 +140,12 @@ public static boolean isPathContainId(String moduleName, String fullPath) {
 	
 	return false;
 }
+
+public static boolean checkParentChildService(String moduleName, String childModule, String fullPath) {
+		if (fullPath.matches(".*"+moduleName+"(\\/\\d+"+childModule+"(\\/\\d)*)*")) {
+			return true;
+		}
+
+		return false;
+	}
 }
