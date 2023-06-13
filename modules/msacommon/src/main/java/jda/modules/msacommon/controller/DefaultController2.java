@@ -23,12 +23,9 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jda.modules.msacommon.connections.UserContext;
-import jda.modules.msacommon.events.model.ChangeModel;
 import jda.modules.msacommon.messaging.kafka.KafkaChangeAction;
-import jda.modules.msacommon.model.MyResponseEntity;
 
-/**
+/**restTemplate
  * Default implementation of {@link #RestfulController}
  */
 @SuppressWarnings("unchecked")
