@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseEntity;
 
-import jda.modules.msacommon.model.MyResponseEntity;
-
 public abstract class RedirectController<ID> implements IController<ID>{
 
 	private final static Map<String, Class<?>> PathMap = new HashMap<>();
@@ -19,7 +17,7 @@ public abstract class RedirectController<ID> implements IController<ID>{
 		return PathMap;
 	}
 
-	public MyResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String parentElement) {
+	public ResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String parentElement) {
 		String path = req.getServletPath();
 		for (Entry<String, Class<?>> e : PathMap.entrySet()) {
 			String p = e.getKey();
@@ -37,7 +35,7 @@ public abstract class RedirectController<ID> implements IController<ID>{
 		}
 
 		// invalid path
-		return new MyResponseEntity(ResponseEntity.ok("Invalid path: " + path), null);
+		return new ResponseEntity(ResponseEntity.ok("Invalid path: " + path), null);
 	}
 
 	/**

@@ -1,6 +1,9 @@
 package jda.modules.msacommon.controller;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -15,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,138 +26,170 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jda.modules.msacommon.connections.UserContext;
-import jda.modules.msacommon.events.model.ChangeModel;
 import jda.modules.msacommon.messaging.kafka.KafkaChangeAction;
-import jda.modules.msacommon.model.MyResponseEntity;
 
-/**
+/**restTemplate
  * Default implementation of {@link #RestfulController}
  */
 @SuppressWarnings("unchecked")
-public abstract class DefaultController<T, ID> implements BasicRestController<T, ID> {
+public abstract class DefaultController<T, ID>
+    implements BasicRestController<T, ID> {
 
-	private static final Logger logger = LoggerFactory.getLogger(DefaultController.class);
-	
-	@Autowired
-	RestTemplate restTemplate;
-	
-    private final Class<T> genericType =
-        (Class<T>) ((ParameterizedType) getClass()
-            .getGenericSuperclass()).getActualTypeArguments()[0];
+  private static final Logger logger = LoggerFactory
+      .getLogger(DefaultController.class);
 
-    protected Class<T> getGenericType() {
-        return genericType;
+  @Autowired
+  RestTemplate restTemplate;
+
+  private final Class<T> genericType = (Class<T>) ((ParameterizedType) getClass()
+      .getGenericSuperclass()).getActualTypeArguments()[0];
+
+  protected Class<T> getGenericType() {
+    return genericType;
+  }
+
+  protected <U> PagingAndSortingRepository<T, ID> getServiceOfGenericType(
+      Class<U> cls) {
+    return ServiceRegistry.getInstance().get(cls.getSimpleName());
+  }
+
+  protected PagingAndSortingRepository<T, ID> getServiceOfGenericType(
+      String clsName) {
+    return ServiceRegistry.getInstance().get(clsName);
+  }
+
+  public ResponseEntity handleRequest(HttpServletRequest req,
+      HttpServletResponse res, ID id) {
+    try {
+      String requestMethod = req.getMethod();
+      if (requestMethod.equals(RequestMethod.GET.toString())) {
+        if (id != null) {
+          String path = req.getServletPath();
+          String propertyName = ControllerTk.getPropertyNameInPath(path);
+          return getDataById(id, propertyName);
+        } else {
+          return getEntityListByPage(PageRequest.of(0, 10));
+        }
+      } else if (requestMethod.equals(RequestMethod.POST.toString())) {
+        String requestData = req.getReader().lines()
+            .collect(Collectors.joining()).trim();
+        if (!requestData.isEmpty()) {
+          ObjectMapper mapper = new ObjectMapper();
+          T entity = mapper.readValue(requestData, genericType);
+          return createEntity(entity);
+        } else {
+          return ResponseEntity.badRequest().body("No Request body");
+        }
+
+      } else if (requestMethod.equals(RequestMethod.PUT.toString())) {
+        String requestData = req.getReader().lines()
+            .collect(Collectors.joining()).trim();
+        if (!requestData.isEmpty()) {
+          ObjectMapper mapper = new ObjectMapper();
+          T entity = mapper.readValue(requestData, genericType);
+          return updateEntity(id, entity);
+        } else {
+          return ResponseEntity.badRequest().body("No Request body");
+        }
+
+      } else if (requestMethod.equals(RequestMethod.DELETE.toString())) {
+        return deleteEntityById(id);
+      } 
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+  }
 
-    protected <U> PagingAndSortingRepository<T, ID> getServiceOfGenericType(Class<U> cls) {
-        return ServiceRegistry.getInstance().get(cls.getSimpleName());
+  public void executeReceivedEvent(String action, ID id, String restPath) {
+    if (action.equals(KafkaChangeAction.CREATED)) {
+      T entity = getEntityByREST(id, restPath);
+      createEntity(entity);
+    } else if (action.equals(KafkaChangeAction.UPDATED)) {
+      T entity = getEntityByREST(id, restPath);
+      updateEntity(id, entity);
+    } else if (action.equals(KafkaChangeAction.DELETED)) {
+      deleteEntityById(id);
+
+    } else {
+      logger.error("Received an UNKNOWN event with action: {}, type: {}",
+          action, genericType);
     }
+  }
+
+  public T getEntityByREST(ID id, String restPath) {
+    ResponseEntity<T> restExchange = restTemplate.exchange(restPath,
+        HttpMethod.GET, null, genericType, id);
+
+    return restExchange.getBody();
+  }
+
+  @Override
+  public ResponseEntity<T> createEntity(@RequestBody T inputEntity) {
+    PagingAndSortingRepository<T, ID> service = getServiceOfGenericType(
+        genericType);
+    T createdEntity = service.save(inputEntity);
+
+    return ResponseEntity.ok(createdEntity);
+  }
+
+  @Override
+  public ResponseEntity<Page<T>> getEntityListByPage(Pageable pagingModel) {
+    PagingAndSortingRepository<T, ID> service = getServiceOfGenericType(
+        genericType);
+    return ResponseEntity.ok(service.findAll(pagingModel));
+  }
+
+  @Override
+  public ResponseEntity<T> getEntityById(ID id) {
+    PagingAndSortingRepository<T, ID> service = getServiceOfGenericType(
+        genericType);
     
-
-    protected PagingAndSortingRepository<T, ID> getServiceOfGenericType(String clsName) {
-        return ServiceRegistry.getInstance().get(clsName);
-    }
+    Optional<T> opt = service.findById(id);
     
-    public MyResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, ID id){
-    	try {
-		String requestMethod = req.getMethod();
-		if (requestMethod.equals(RequestMethod.GET.toString())) {
-			if (id != null) {
-				return new MyResponseEntity<T,ID>(getEntityById(id),null);
-			} else {
-				return new MyResponseEntity(getEntityListByPage(PageRequest.of(0, 10)), null);
+    return ResponseEntity.ok((opt.isPresent()) ? opt.get() : null);
+  }
+  @Override
+  public ResponseEntity<?> getDataById(ID id, String propertyName) {
+    PagingAndSortingRepository<T, ID> service = getServiceOfGenericType(
+        genericType);
+    Method[] methods = service.getClass().getMethods();
+   
+    String findMethod = "findBy" + propertyName;
+    for (Method method: methods) {
+    	
+    	if(method.getName().equalsIgnoreCase(findMethod)) {
+    		 try {
+    			 return ResponseEntity.ok(method.invoke(service, id));
+			} catch (Exception e) {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 			}
-		} else if (requestMethod.equals(RequestMethod.POST.toString())) {
-			String requestData = req.getReader().lines().collect(Collectors.joining()).trim();
-			if (!requestData.isEmpty()) {
-				ObjectMapper mapper = new ObjectMapper();
-				T entity = mapper.readValue(requestData,genericType);
-				ResponseEntity<T> result = createEntity(entity);
-				ChangeModel<ID> changeModel = new ChangeModel(genericType.getTypeName(), KafkaChangeAction.CREATED, null,null, UserContext.getCorrelationId());
-				return new MyResponseEntity(result, changeModel);
-			}else {
-				return new MyResponseEntity (ResponseEntity.ok("No Request body"), null);
-			}
-			
-		} else if (requestMethod.equals(RequestMethod.PUT.toString())) {
-			String requestData = req.getReader().lines().collect(Collectors.joining()).trim();
-			if (!requestData.isEmpty()) {
-				ObjectMapper mapper = new ObjectMapper();
-				T entity = mapper.readValue(requestData,genericType);
-				ResponseEntity<T> result=updateEntity(id, entity);
-				ChangeModel<ID> changeModel = new ChangeModel(genericType.getTypeName(), KafkaChangeAction.UPDATED, id,null, UserContext.getCorrelationId());
-				return new MyResponseEntity(result, changeModel);
-			}else {
-				return new MyResponseEntity (ResponseEntity.ok("No Request body"), null);
-			}
-			
-		} else if (requestMethod.equals(RequestMethod.DELETE.toString())) {
-			ResponseEntity<String> result= deleteEntityById(id);
-			ChangeModel<ID> changeModel = new ChangeModel(genericType.getTypeName(), KafkaChangeAction.DELETED, id,null, UserContext.getCorrelationId());
-			return new MyResponseEntity(result, changeModel);
-		}
-    	}catch (Exception e) {
-			logger.error(e.getMessage());
-			return new MyResponseEntity (ResponseEntity.ok("ERROR"), null);
-		}
-		return new MyResponseEntity (ResponseEntity.ok("No method for request URL"), null);
-	}
-    
-    public void executeReceivedEvent(String action, ID id, String restPath) {
-		if (action.equals(KafkaChangeAction.CREATED)) {
-			T entity = getEntityByREST(id, restPath);
-			createEntity(entity);
-		} else if (action.equals(KafkaChangeAction.UPDATED)) {
-			T entity = getEntityByREST(id, restPath);
-			updateEntity(id, entity);
-		} else if (action.equals(KafkaChangeAction.DELETED)) {
-			deleteEntityById(id);
-			
-		} else {
-			logger.error("Received an UNKNOWN event with action: {}, type: {}", action, genericType);
-		}
+    	}
     }
     
-    public T getEntityByREST(ID id, String restPath) {
-		ResponseEntity<T> restExchange = restTemplate.exchange( restPath, HttpMethod.GET, null, genericType,id);
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+  }
 
-		return restExchange.getBody();
-	}
+  @Override
+  public ResponseEntity<T> updateEntity(ID id, T updatedInstance) {
+    PagingAndSortingRepository<T, ID> service = getServiceOfGenericType(
+        genericType);
+    T updatedEntity = service.save(updatedInstance);
+    return ResponseEntity.ok(updatedEntity);
+  }
 
-    @Override
-    public ResponseEntity<T> createEntity(@RequestBody T inputEntity) {
-    	PagingAndSortingRepository<T, ID> service = getServiceOfGenericType(genericType);
-        T createdEntity = service.save(inputEntity);
-        
-        return ResponseEntity.ok(createdEntity);
-    }
+  @Override
+  public ResponseEntity<String> deleteEntityById(ID id) {
+    PagingAndSortingRepository<T, ID> service = getServiceOfGenericType(
+        genericType);
+    service.deleteById(id);
+    return ResponseEntity.ok("" + id);
+  }
 
-    @Override
-    public ResponseEntity<Page<T>> getEntityListByPage(Pageable pagingModel) {
-    	PagingAndSortingRepository<T, ID> service = getServiceOfGenericType(genericType);
-        return ResponseEntity.ok(service.findAll(pagingModel));
-    }
-
-    @Override
-    public ResponseEntity<T> getEntityById(ID id) {
-    	PagingAndSortingRepository<T, ID> service = getServiceOfGenericType(genericType);
-    	Optional<T> opt = service.findById(id);
-        return ResponseEntity.ok((opt.isPresent()) ? opt.get() : null);
-    }
-
-    @Override
-    public ResponseEntity<T> updateEntity(ID id, T updatedInstance) {
-    	PagingAndSortingRepository<T, ID> service = getServiceOfGenericType(genericType);
-        T updatedEntity = service.save(updatedInstance);
-        return ResponseEntity.ok(updatedEntity);
-    }
-
-    @Override
-    public ResponseEntity<String> deleteEntityById(ID id) {
-    	PagingAndSortingRepository<T, ID> service = getServiceOfGenericType(genericType);
-        service.deleteById(id);
-        return ResponseEntity.ok("Ok");
-    }
+  public ResponseEntity<?> handleRequest(HttpServletRequest req,
+      HttpServletResponse res) {
+    return null;
+  }
 
 }

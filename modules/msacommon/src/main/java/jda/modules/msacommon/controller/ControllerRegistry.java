@@ -39,4 +39,6 @@ public final class ControllerRegistry {
     public void put(String genericType, DefaultController controllerInstance) {
         this.controllerTypeMap.put(genericType, controllerInstance);
     }
+    
+    
 }

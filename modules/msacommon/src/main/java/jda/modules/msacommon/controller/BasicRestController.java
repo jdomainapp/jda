@@ -29,6 +29,12 @@ public interface BasicRestController<T, ID> extends IController<ID>{
      * @param id
      */
 	ResponseEntity<T> getEntityById(ID id);
+	
+    /**
+     * Retrieve an entity instance by its identifier.
+     * @param id
+     */
+	ResponseEntity<?> getDataById(ID id, String propertyName);
 
     /**
      * Update an entity instance
