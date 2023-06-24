@@ -5,10 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.model.CourseModule;
 import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.model.Teacher;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import jda.modules.msacommon.controller.RedirectController;
-import jda.modules.msacommon.model.MyResponseEntity;
 
 /**ducmle: renamed to match path update */
 @Controller
@@ -16,7 +16,7 @@ import jda.modules.msacommon.model.MyResponseEntity;
 public class CModuleMgntController<ID> extends RedirectController<ID>{
 	
 	@Override
-	public MyResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String parentElement) {
+	public ResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String parentElement) {
 		getPathmap().put("/teacher", Teacher.class);
 		getPathmap().put("/coursemodule", CourseModule.class);
 		return super.handleRequest(req, res, parentElement);

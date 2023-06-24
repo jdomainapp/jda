@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @AllArgsConstructor @Getter @Setter
-public class ChangeModel<ID> {
+public class ChangeModel<ID>{
 	private String type;
 	private String action;
 	ID id;

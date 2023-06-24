@@ -1,6 +1,9 @@
 package org.jda.example.coursemanmsa.coursemgnt.controller;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,15 +14,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import jda.modules.msacommon.connections.UserContext;
 import jda.modules.msacommon.controller.ControllerTk;
 import jda.modules.msacommon.controller.RedirectController;
 import jda.modules.msacommon.controller.RedirectControllerRegistry;
 import jda.modules.msacommon.events.model.ChangeModel;
-import jda.modules.msacommon.model.MyResponseEntity;
+import jda.modules.msacommon.messaging.kafka.KafkaChangeAction;
+
+import org.jda.example.coursemanmsa.coursemgnt.modules.studentenrolment.model.StudentEnrolment;
 
 @RestController
 @RequestMapping(value = "/")
@@ -41,36 +48,45 @@ public class CourseMgntController {
 	public final static String PATH_STUDENTENROLMENT = "/stenrolment";
 
 	@RequestMapping(value = PATH_COURSEMODULEMGNT + "/**")
-	public ResponseEntity handleCourseModuleMgnt(HttpServletRequest req, HttpServletResponse res) throws IOException {
+	public ResponseEntity handleCourseModuleMgnt(HttpServletRequest req, HttpServletResponse res) throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		RedirectController controller = RedirectControllerRegistry.getInstance().get("cmodulemgnt");
 
-		MyResponseEntity myResponseEntiy = controller.handleRequest(req, res, PATH_COURSEMODULEMGNT);
-		ChangeModel changeModel = myResponseEntiy.getChangeModel();
-		/**
-		 * TODO: can we move the following id update of ChangeModel to MyResponseEntity,
-		 * when the ResponseEntity is set ?
-		 */
-		if (changeModel != null) {
-			String kafkaPath = ControllerTk.getServiceUri(req, PATH_COURSEMGNT+"-service") + "/{id}";
-//					"http://gateway-server/coursemgnt-service/"+req.getServletPath()+"/{id}";
-			changeModel.setPath(kafkaPath);
-			sourceBean.publishChange(changeModel);
-		}
-		return myResponseEntiy.getResponseEntity();
+		ResponseEntity responseEntity = controller.handleRequest(req, res, PATH_COURSEMODULEMGNT);
+		String requestMethod = req.getMethod();
+		String kafkaPath = ControllerTk.getServiceUri(req, PATH_COURSEMGNT+"-service") + "/{id}";
+		sendKafka(requestMethod, responseEntity, kafkaPath);
+	
+		return responseEntity;
 	}
 
 	@RequestMapping(value = PATH_STUDENTENROLMENT + "/**")
-	public ResponseEntity handleStudentEnrolment(HttpServletRequest req, HttpServletResponse res) throws IOException {
+	public ResponseEntity handleStudentEnrolment(HttpServletRequest req, HttpServletResponse res) throws IOException, NoSuchMethodException, SecurityException, IllegalAccessException, InvocationTargetException {
 		RedirectController controller = RedirectControllerRegistry.getInstance().get("stenrolment");
-		MyResponseEntity myResponseEntiy = controller.handleRequest(req, res, PATH_STUDENTENROLMENT);
-		ChangeModel changeModel = myResponseEntiy.getChangeModel();
-		if (changeModel != null) {
-			String kafkaPath = ControllerTk.getServiceUri(req, PATH_COURSEMGNT+"-service") + "/{id}";
-//					"http://gateway-server/coursemgnt-service/"+req.getServletPath()+"/{id}";
-			changeModel.setPath(kafkaPath);
-			sourceBean.publishChange(changeModel);
+		ResponseEntity responseEntity = controller.handleRequest(req, res, PATH_STUDENTENROLMENT);
+		String requestMethod = req.getMethod();
+		String kafkaPath = ControllerTk.getServiceUri(req, PATH_COURSEMGNT+"-service") + "/{id}";
+		sendKafka(requestMethod, responseEntity, kafkaPath);
+		
+		return responseEntity;
+	}
+	
+	private void sendKafka(String requestMethod, ResponseEntity<?> responseEntity, String kafkaPath) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		String typeName = responseEntity.getBody().getClass().getTypeName();
+		if (requestMethod.equals(RequestMethod.POST.toString())) {
+			Method getIdMethod = responseEntity.getBody().getClass().getMethod("getId");
+			Object id = getIdMethod.invoke(responseEntity.getBody(), null);
+			sourceBean.publishChange(new ChangeModel(typeName, KafkaChangeAction.CREATED, 
+					id, kafkaPath, UserContext.getCorrelationId()));
+		} else if (requestMethod.equals(RequestMethod.PUT.toString())) {
+			Method getIdMethod = responseEntity.getBody().getClass().getMethod("getId");
+			Object id = getIdMethod.invoke(responseEntity.getBody(), null);
+			sourceBean.publishChange(new ChangeModel(typeName, KafkaChangeAction.UPDATED, 
+					id, kafkaPath, UserContext.getCorrelationId()));
+		} else if (requestMethod.equals(RequestMethod.DELETE.toString())) {
+			sourceBean.publishChange(new ChangeModel(typeName, KafkaChangeAction.DELETED, 
+					responseEntity.getBody(), 
+					kafkaPath, UserContext.getCorrelationId()));
 		}
-		return myResponseEntiy.getResponseEntity();
 	}
 
 	/**

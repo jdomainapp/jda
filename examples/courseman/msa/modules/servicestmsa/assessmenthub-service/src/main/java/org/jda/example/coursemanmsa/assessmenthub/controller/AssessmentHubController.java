@@ -33,7 +33,7 @@ public class AssessmentHubController {
 			String pathVariable = path.substring(path.lastIndexOf("/")+1);
 			id = pathVariable;
 		}
-		return controller.handleRequest(req, res, id).getResponseEntity();
+		return controller.handleRequest(req, res, id);
 	}
 	
 	@RequestMapping(value = PATH_TEACHER+"**")
@@ -45,7 +45,7 @@ public class AssessmentHubController {
 			String pathVariable = path.substring(path.lastIndexOf("/")+1);
 			id = Integer.parseInt(pathVariable);
 		}
-		return controller.handleRequest(req, res, id).getResponseEntity();
+		return controller.handleRequest(req, res, id);
 	}
 	
 	@RequestMapping(value = PATH_COURSEMODULE+"**")
@@ -57,7 +57,7 @@ public class AssessmentHubController {
 			String pathVariable = path.substring(path.lastIndexOf("/")+1);
 			id = Integer.parseInt(pathVariable);
 		}
-		return controller.handleRequest(req, res, id).getResponseEntity();
+		return controller.handleRequest(req, res, id);
 	}
 	
 	@RequestMapping(value = PATH_ENROLMENT+"**")
@@ -69,6 +69,6 @@ public class AssessmentHubController {
 			String pathVariable = path.substring(path.lastIndexOf("/")+1);
 			id = Integer.parseInt(pathVariable);
 		}
-		return controller.handleRequest(req, res, id).getResponseEntity();
+		return controller.handleRequest(req, res, id);
 	}
 }

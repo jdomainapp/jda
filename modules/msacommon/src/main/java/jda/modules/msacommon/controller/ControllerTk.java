@@ -3,7 +3,6 @@ package jda.modules.msacommon.controller;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 
 import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.dcsl.util.DClassTk;
-import jda.modules.dodm.dsm.DSMBasic;
 
 /**
  * @overview Implement shared features for controllers.
@@ -88,6 +86,12 @@ public class ControllerTk {
 
 	public static ResponseEntity invokeService(RestTemplate restTemplate, String path, HttpMethod method, String body) {
 		ResponseEntity restExchange = restTemplate.exchange(path, method,
+				body == null ? null : new HttpEntity<String>(body), String.class);
+		return restExchange;
+	}
+	
+	public static ResponseEntity invokeService(RestTemplate restTemplate, String path, String method, String body) {
+		ResponseEntity restExchange = restTemplate.exchange(path, HttpMethod.valueOf(method),
 				body == null ? null : new HttpEntity<String>(body), String.class);
 		return restExchange;
 	}
@@ -172,4 +176,6 @@ public class ControllerTk {
 		String pathRemoveId = path.substring(0, path.lastIndexOf("/"));
 		return pathRemoveId.substring(pathRemoveId.lastIndexOf("/")+1);
 	}
+
+	
 }
