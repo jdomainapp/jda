@@ -165,7 +165,8 @@ public class ControllerTk {
 	}
 
 	public static boolean checkParentChildService(String moduleName, String childModule, String fullPath) {
-		if (fullPath.matches(".*" + moduleName + "(\\/\\d+(" + childModule + "(\\/[a-zA-z]*\\/\\d)*)*)*")) {
+		String pattern = ".*"+moduleName+ "(\\/[a-zA-z]*\\/\\d)*("+childModule+"(\\/[a-zA-z]*\\/\\d)*)*";
+		if (fullPath.matches(pattern)) {
 			return true;
 		}
 
