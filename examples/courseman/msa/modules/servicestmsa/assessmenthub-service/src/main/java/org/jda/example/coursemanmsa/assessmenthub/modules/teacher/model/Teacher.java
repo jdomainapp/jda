@@ -35,7 +35,7 @@ public class Teacher {
 	private int id;
 	@Column(name = "name", nullable = false)
 	private String teacherName;
-	@Column(name = "gender_name")
+	@Column(name = "gender")
 	private String teacherGender;
 	@Column(name = "dob")
 	private Date teacherDob;
@@ -43,8 +43,7 @@ public class Teacher {
 	private int addressId;
 	@Column(name="email")
 	private String teacherEmail;
-	@Column(name = "deptname", nullable = false)
-	private String deptName;
+	private String deptname;
 
 	@OneToMany(mappedBy="teacher")
     private List<CourseModule> coursemodules;

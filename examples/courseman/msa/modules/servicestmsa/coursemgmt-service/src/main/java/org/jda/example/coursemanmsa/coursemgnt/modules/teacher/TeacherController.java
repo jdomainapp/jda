@@ -10,32 +10,5 @@ import jda.modules.msacommon.controller.DefaultController;
 
 @Controller
 public class TeacherController extends DefaultController<Teacher, Integer>{
-	
-	@Override
-	public ResponseEntity<Teacher> createEntity(Teacher inputEntity) {
-		return super.createEntity(inputEntity);
-	}
-
-	@Override
-	public ResponseEntity<Page<Teacher>> getEntityListByPage(Pageable pagingModel) {
-		// TODO Auto-generated method stub
-		return super.getEntityListByPage(pagingModel);
-	}
-
-	@Override
-	public ResponseEntity<Teacher> getEntityById(Integer id) {
-		// TODO Auto-generated method stub
-		return super.getEntityById(id);
-	}
-
-	@Override
-	public ResponseEntity<Teacher> updateEntity(Integer id, Teacher updatedInstance) {
-		return super.updateEntity(id, updatedInstance);
-	}
-
-	@Override
-	public ResponseEntity<String> deleteEntityById(Integer id) {
-		return super.deleteEntityById(id);
-	}
 
 }

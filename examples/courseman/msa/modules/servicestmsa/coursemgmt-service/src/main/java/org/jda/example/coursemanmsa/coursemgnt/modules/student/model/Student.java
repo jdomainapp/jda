@@ -34,7 +34,7 @@ public class Student extends RepresentationModel<Student> {
 	private String id;
 	@Column(name = "name", nullable = false)
 	private String studentName;
-	@Column(name = "gender_name")
+	@Column(name = "gender")
 	private String studentGender;
 	@Column(name = "dob")
 	private Date studentDob;
@@ -42,8 +42,10 @@ public class Student extends RepresentationModel<Student> {
 	private int addressId;
 	@Column(name="email")
 	private String studentEmail;
-	@Column(name = "studentclass_id", nullable = false)
+	@Column(name = "class_id", nullable = false)
 	private int studentclassId;
+
+	private String deptname;
 	
 	@OneToMany(mappedBy="student")
 	private List<Enrolment> enrolments;

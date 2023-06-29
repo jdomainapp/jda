@@ -42,7 +42,7 @@ public class CourseModule{
 	private int credits;
 	private String name;
 	private int semester;
-	private String coursemoduletype;
+	private String type;
 	private String deptname;
 	
 //	@Column(name = "teacher_id")

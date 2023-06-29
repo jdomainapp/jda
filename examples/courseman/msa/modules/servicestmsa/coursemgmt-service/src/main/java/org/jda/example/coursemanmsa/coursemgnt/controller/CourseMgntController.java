@@ -27,6 +27,7 @@ import jda.modules.msacommon.events.model.ChangeModel;
 import jda.modules.msacommon.messaging.kafka.KafkaChangeAction;
 
 import org.jda.example.coursemanmsa.coursemgnt.modules.studentenrolment.model.StudentEnrolment;
+import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.model.Teacher;
 
 @RestController
 @RequestMapping(value = "/")
@@ -53,8 +54,9 @@ public class CourseMgntController {
 
 		ResponseEntity responseEntity = controller.handleRequest(req, res, PATH_COURSEMODULEMGNT);
 		String requestMethod = req.getMethod();
-		String kafkaPath = ControllerTk.getServiceUri(req, PATH_COURSEMGNT+"-service") + "/{id}";
-		sendKafka(requestMethod, responseEntity, kafkaPath);
+		String kafkaPath = ControllerTk.getServiceUri(req, PATH_COURSEMGNT+"-service") + "/id/{id}";
+		String typeName = controller.getDomainClass().getTypeName();
+		sendKafka(requestMethod, responseEntity, kafkaPath, typeName);
 	
 		return responseEntity;
 	}
@@ -64,14 +66,14 @@ public class CourseMgntController {
 		RedirectController controller = RedirectControllerRegistry.getInstance().get("stenrolment");
 		ResponseEntity responseEntity = controller.handleRequest(req, res, PATH_STUDENTENROLMENT);
 		String requestMethod = req.getMethod();
-		String kafkaPath = ControllerTk.getServiceUri(req, PATH_COURSEMGNT+"-service") + "/{id}";
-		sendKafka(requestMethod, responseEntity, kafkaPath);
+		String kafkaPath = ControllerTk.getServiceUri(req, PATH_COURSEMGNT+"-service") + "/id/{id}";
+		String typeName = controller.getDomainClass().getTypeName();
+		sendKafka(requestMethod, responseEntity, kafkaPath, typeName);
 		
 		return responseEntity;
 	}
 	
-	private void sendKafka(String requestMethod, ResponseEntity<?> responseEntity, String kafkaPath) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		String typeName = responseEntity.getBody().getClass().getTypeName();
+	private void sendKafka(String requestMethod, ResponseEntity<?> responseEntity, String kafkaPath, String typeName) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		if (requestMethod.equals(RequestMethod.POST.toString())) {
 			Method getIdMethod = responseEntity.getBody().getClass().getMethod("getId");
 			Object id = getIdMethod.invoke(responseEntity.getBody(), null);

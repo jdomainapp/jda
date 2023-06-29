@@ -47,7 +47,7 @@ public class CourseModule {
 
 	private int semester;
 	
-	private String coursemoduletype;
+	private String type;
 	
 	private String deptname;
 	
