@@ -180,11 +180,11 @@ public abstract class DefaultController<T, ID>
   }
 
   @Override
-  public ResponseEntity<String> deleteEntityById(ID id) {
+  public ResponseEntity<ID> deleteEntityById(ID id) {
     PagingAndSortingRepository<T, ID> service = getServiceOfGenericType(
         genericType);
     service.deleteById(id);
-    return ResponseEntity.ok("" + id);
+    return ResponseEntity.ok(id);
   }
 
   public ResponseEntity<?> handleRequest(HttpServletRequest req,

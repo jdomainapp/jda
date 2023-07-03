@@ -48,5 +48,5 @@ public interface BasicRestController<T, ID> extends IController<ID>{
      * Delete an entity instance
      * @param id
      */
-	ResponseEntity<String> deleteEntityById(ID id);
+	ResponseEntity<ID> deleteEntityById(ID id);
 }

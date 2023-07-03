@@ -16,12 +16,15 @@ public abstract class RedirectController<ID> implements IController<ID>{
 	public static Map<String, Class<?>> getPathmap() {
 		return PathMap;
 	}
+	
+	private Class<?> domainClass;
 
 	public ResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String parentElement) {
 		String path = req.getServletPath();
 		for (Entry<String, Class<?>> e : PathMap.entrySet()) {
 			String p = e.getKey();
 			Class<?> cls = e.getValue();
+			domainClass = cls;
 			if (matchDescendantModulePath(path, parentElement, p)) {
 				// handle invocation
 				DefaultController<?, ID> controller = ControllerRegistry.getInstance().get(cls);
@@ -61,6 +64,10 @@ public abstract class RedirectController<ID> implements IController<ID>{
 		// FIXME: fix path matching to correctly implement the behaviour specification
 		// (above)
 		return urlPath != null && pathElement != null && urlPath.matches("(.*)" + parentElement + pathElement + "(.*)");
+	}
+	
+	public Class<?> getDomainClass (){
+		return domainClass;
 	}
 
 }
