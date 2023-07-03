@@ -13,11 +13,12 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import jda.modules.msacommon.events.model.ChangeModel;
+import jda.modules.msacommon.messaging.kafka.IPublishSource;
 
 @SuppressWarnings("unused")
 @Component
 @EnableBinding(CustomChannels.class)
-public class SimpleSourceBean {
+public class SimpleSourceBean implements IPublishSource{
 	
     private CustomChannels source;
 

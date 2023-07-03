@@ -20,8 +20,8 @@
 		<module>coursemgmt-service</module>
 		<module>assessmenthub-service</module>
 		<module>financehub-service</module>
-		<!--module>cmodulemgnt-service</module-->
-
+		<module>address-service</module>
+		<module>class-service</module>
 	</modules>
 
 	<dependencies>
