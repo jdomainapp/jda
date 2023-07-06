@@ -44,7 +44,7 @@ public abstract class DefaultController<T, ID>
   private final Class<T> genericType = (Class<T>) ((ParameterizedType) getClass()
       .getGenericSuperclass()).getActualTypeArguments()[0];
 
-  protected Class<T> getGenericType() {
+  public Class<T> getGenericType() {
     return genericType;
   }
 

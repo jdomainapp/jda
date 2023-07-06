@@ -2,6 +2,8 @@ package jda.modules.msacommon.controller;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,10 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.dcsl.util.DClassTk;
+import jda.modules.msacommon.events.model.ChangeModel;
+import jda.modules.msacommon.messaging.kafka.IPublishSource;
+import jda.modules.msacommon.messaging.kafka.KafkaChangeAction;
 
 /**
  * @overview Implement shared features for controllers.
@@ -178,5 +184,30 @@ public class ControllerTk {
 		return pathRemoveId.substring(pathRemoveId.lastIndexOf("/")+1);
 	}
 
+	public static void sendKafka(IPublishSource sourceBean, ResponseEntity<?> responseEntity, ChangeModel change, String requestMethod) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		Object id = null;
+		String action = null;
+		if(responseEntity.getStatusCodeValue() != 200) {
+			return;
+		}
+		if (requestMethod.equals(RequestMethod.POST.toString())) {
+			Method getIdMethod = responseEntity.getBody().getClass().getMethod("getId");
+			id = getIdMethod.invoke(responseEntity.getBody(), null);
+			action = KafkaChangeAction.CREATED;
+		} else if (requestMethod.equals(RequestMethod.PUT.toString())) {
+			Method getIdMethod = responseEntity.getBody().getClass().getMethod("getId");
+			id = getIdMethod.invoke(responseEntity.getBody(), null);
+			action = KafkaChangeAction.UPDATED;
+		} else if (requestMethod.equals(RequestMethod.DELETE.toString())) {
+			id=responseEntity.getBody();
+			action = KafkaChangeAction.DELETED;
+		}else {
+			return;
+		}
+		
+		change.setId(id);
+		change.setAction(action);
+		sourceBean.publishChange(change);
+	}
 	
 }

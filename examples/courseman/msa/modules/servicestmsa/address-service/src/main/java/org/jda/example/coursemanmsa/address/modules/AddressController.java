@@ -23,4 +23,5 @@ public class AddressController extends DefaultController<Address, Integer>{
 				? super.handleRequest(req, res, ids.isEmpty() ? null : ids.get(0))
 				: ResponseEntity.badRequest().build();
 	}
+
 }

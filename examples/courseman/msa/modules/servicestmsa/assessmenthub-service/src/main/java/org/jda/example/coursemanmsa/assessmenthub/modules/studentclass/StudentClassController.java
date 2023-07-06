@@ -1,5 +1,6 @@
 package org.jda.example.coursemanmsa.assessmenthub.modules.studentclass;
 
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import jda.modules.msacommon.controller.DefaultController;
 
 @Controller
 public class StudentClassController extends DefaultController<StudentClass, Integer>{
+
 	@Override
 	public ResponseEntity<?> handleRequest(HttpServletRequest req, HttpServletResponse res) {
 		String path = req.getServletPath();
@@ -23,4 +25,5 @@ public class StudentClassController extends DefaultController<StudentClass, Inte
 				? super.handleRequest(req, res, ids.isEmpty() ? null : ids.get(0))
 				: ResponseEntity.badRequest().build();
 	}
+
 }

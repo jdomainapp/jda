@@ -74,6 +74,7 @@ public class CourseMgntController {
 		return responseEntity;
 	}
 	
+
 	@RequestMapping(value = PATH_ADRESS + "/**")
 	public ResponseEntity<?> handleAddress(HttpServletRequest req, HttpServletResponse res) throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		DefaultController<Address, Integer> controller = ControllerRegistry.getInstance().get(Address.class);
@@ -87,7 +88,6 @@ public class CourseMgntController {
 		return controller != null ? controller.handleRequest(req, res)
 				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	}
-	
 
 	/**
 	 * Add a (module) serivce to path
