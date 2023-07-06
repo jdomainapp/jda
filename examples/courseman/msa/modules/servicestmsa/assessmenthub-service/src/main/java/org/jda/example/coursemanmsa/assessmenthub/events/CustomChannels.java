@@ -16,4 +16,10 @@ public interface CustomChannels {
     
     @Input("inboundTeacherChanges")
     SubscribableChannel teacherSubscribableChannel();
+    
+    @Input("inboundAddressChanges")
+    SubscribableChannel addressSubscribableChannel();
+    
+    @Input("inboundClassChanges")
+    SubscribableChannel classSubscribableChannel();
 }

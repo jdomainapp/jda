@@ -1,42 +1,32 @@
-//Serialisable = true
 package org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.model;
 
-import java.util.List;
-
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.jda.example.coursemanmsa.coursemgnt.modules.enrolment.model.Enrolment;
 import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.model.Teacher;
-import org.springframework.hateoas.RepresentationModel;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter @Setter @ToString
+@Getter
+@ToString
 @Entity
 @Table(name = "coursemodule")
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id", scope = CourseModule.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = CourseModule.class)
 public class CourseModule {
 
 	@Id
-	@Column(name = "id", nullable = false)
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String code;
@@ -46,18 +36,55 @@ public class CourseModule {
 	private String name;
 
 	private int semester;
-	
-	private String type;
-	
-	private String deptname;
-	
-//	@Column(name = "teacher_id")
-//	private int teacherId;
-	
+
+	@PrimaryKeyJoinColumn
+	@OneToOne(mappedBy = "coursemodule", cascade = CascadeType.ALL)
+	private CompulsoryModule compulsorymodule;
+
+	@OneToOne(mappedBy = "coursemodule", cascade = CascadeType.ALL)
+	private ElectiveModule electivemodule;
+
 	@ManyToOne
-    @JoinColumn(name="teacher_id", nullable=false)
+	@JoinColumn(name = "teacher_id", nullable = false)
 	private Teacher teacher;
-	
-	@OneToMany(mappedBy="coursemodule")
-	private List<Enrolment> enrolments;
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public void setCredits(int credits) {
+		this.credits = credits;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setSemester(int semester) {
+		this.semester = semester;
+	}
+
+	public void setCompulsorymodule(CompulsoryModule compulsorymodule) {
+		this.compulsorymodule = compulsorymodule;
+		if(compulsorymodule !=null) {
+			this.compulsorymodule.setCoursemodule(this);
+		}
+		
+	}
+
+	public void setElectivemodule(ElectiveModule electivemodule) {
+		this.electivemodule = electivemodule;
+		if (electivemodule != null) {
+			this.electivemodule.setCoursemodule(this);
+		}
+	}
+
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}
+
 }

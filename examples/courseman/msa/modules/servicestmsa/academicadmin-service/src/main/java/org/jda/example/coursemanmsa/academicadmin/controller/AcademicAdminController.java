@@ -37,16 +37,13 @@ public class AcademicAdminController {
 	
 	public final static String PATH_ASSESSMENTHUB="/assessmenthub";
 	public final static String PATH_COURSEMGNT="/coursemgnt";
+	public final static String PATH_ADRESS="/address";
+	public final static String PATH_CLASS="/class";
 	
 	@RequestMapping(value = PATH_ASSESSMENTHUB+"/**")
 	public ResponseEntity handleAssessment(HttpServletRequest req, HttpServletResponse res) throws IOException {
-	  // ducmle: to generalise
 		String path = ControllerTk.getServiceUri(req); 
-//		    "http://gateway-server/assessmenthub-service/"+req.getServletPath().replace("/assessmenthub/", "");
 		String requestData = ControllerTk.getRequestData(req);
-		    //req.getReader().lines().collect(Collectors.joining()).trim();
-		
-		//ducmle: renamed
 		return ControllerTk.invokeService(restTemplate,path, req.getMethod(), requestData);
 	}
 	
@@ -55,17 +52,28 @@ public class AcademicAdminController {
 	@Retry(name = "retryCallCourse", fallbackMethod = "buildFallbackCourse")
 	@Bulkhead(name = "bulkheadCourseService", type= Type.SEMAPHORE, fallbackMethod = "buildFallbackCourse")
 	public ResponseEntity<?> handleCourseManagement(HttpServletRequest req, HttpServletResponse res) throws IOException {
-    // ducmle: to generalise
 		String path = ControllerTk.getServiceUri(req); 
-//		     "http://gateway-server/coursemgnt-service/"+req.getServletPath().replace("/coursemgnt/", "");
 		String requestData = ControllerTk.getRequestData(req); 
-		    //req.getReader().lines().collect(Collectors.joining()).trim();
 		return ControllerTk.invokeService(restTemplate,path, req.getMethod(), requestData);
 	}
 	
 	private ResponseEntity<?> buildFallbackCourse(HttpServletRequest req, HttpServletResponse res, Throwable t){
 		String error = "Ko goi duoc  CourseManagement";
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	}
+	
+	@RequestMapping(value = PATH_ADRESS+"/**")
+	public ResponseEntity handleAddress(HttpServletRequest req, HttpServletResponse res) throws IOException {
+		String path = ControllerTk.getServiceUri(req); 
+		String requestData = ControllerTk.getRequestData(req);
+		return ControllerTk.invokeService(restTemplate,path, req.getMethod(), requestData);
+	}
+	
+	@RequestMapping(value = PATH_CLASS+"/**")
+	public ResponseEntity handleClass(HttpServletRequest req, HttpServletResponse res) throws IOException {
+		String path = ControllerTk.getServiceUri(req); 
+		String requestData = ControllerTk.getRequestData(req);
+		return ControllerTk.invokeService(restTemplate,path, req.getMethod(), requestData);
 	}
   
   /**
