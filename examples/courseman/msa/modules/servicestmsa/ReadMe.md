@@ -96,12 +96,33 @@ CREATE TABLE IF NOT EXISTS assessmenthub.coursemodule
     name character varying(30) COLLATE pg_catalog."default",
     semester integer,
     credits integer,
-    coursemoduletype character varying(30) COLLATE pg_catalog."default",
     deptname character varying(30) COLLATE pg_catalog."default",
     teacher_id integer,
     CONSTRAINT coursemodule_pkey PRIMARY KEY (id),
     CONSTRAINT teacher_fk FOREIGN KEY (teacher_id)
         REFERENCES assessmenthub.teacher (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID
+);
+
+CREATE TABLE IF NOT EXISTS assessmenthub.electivemodule
+(
+    id INTEGER NOT NULL,
+    CONSTRAINT electivemodule_pkey PRIMARY KEY (id),
+    CONSTRAINT ecoursemodule_fk FOREIGN KEY (id)
+        REFERENCES assessmenthub.coursemodule (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID
+);
+
+CREATE TABLE IF NOT EXISTS assessmenthub.compulsorymodule
+(
+    id INTEGER NOT NULL,
+    CONSTRAINT compulsorymodule_pkey PRIMARY KEY (id),
+    CONSTRAINT ccoursemodule_fk FOREIGN KEY (id)
+        REFERENCES assessmenthub.coursemodule (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
         NOT VALID
@@ -127,7 +148,8 @@ CREATE TABLE IF NOT EXISTS assessmenthub.enrolment
         ON DELETE CASCADE
         NOT VALID
 );
-
+```
+```
 CREATE TABLE IF NOT EXISTS coursemgnt.student
 (
     id character varying(6) COLLATE pg_catalog."default" NOT NULL,
@@ -175,12 +197,33 @@ CREATE TABLE IF NOT EXISTS coursemgnt.coursemodule
     name character varying(30) COLLATE pg_catalog."default",
     semester integer,
     credits integer,
-    coursemoduletype character varying(30) COLLATE pg_catalog."default",
     deptname character varying(30) COLLATE pg_catalog."default",
     teacher_id integer,
     CONSTRAINT coursemodule_pkey PRIMARY KEY (id),
     CONSTRAINT teacher_fk FOREIGN KEY (teacher_id)
         REFERENCES assessmenthub.teacher (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID
+);
+
+CREATE TABLE IF NOT EXISTS coursemgnt.electivemodule
+(
+    id INTEGER NOT NULL,
+    CONSTRAINT electivemodule_pkey PRIMARY KEY (id),
+    CONSTRAINT ecoursemodule_fk FOREIGN KEY (id)
+        REFERENCES coursemgnt.coursemodule (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID
+);
+
+CREATE TABLE IF NOT EXISTS coursemgnt.compulsorymodule
+(
+    id INTEGER NOT NULL,
+    CONSTRAINT compulsorymodule_pkey PRIMARY KEY (id),
+    CONSTRAINT ccoursemodule_fk FOREIGN KEY (id)
+        REFERENCES coursemgnt.coursemodule (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
         NOT VALID
@@ -220,14 +263,16 @@ CREATE TABLE IF NOT EXISTS coursemgnt.address
     name character varying(20) COLLATE pg_catalog."default",
     CONSTRAINT address_pkey PRIMARY KEY (id)
 );
-
+```
+```
 CREATE TABLE IF NOT EXISTS class.class
 (
     id SERIAL,
     name character varying(20) COLLATE pg_catalog."default",
     CONSTRAINT class_pkey PRIMARY KEY (id)
 );
-
+```
+```
 CREATE TABLE IF NOT EXISTS address.address
 (
     id SERIAL,
@@ -238,6 +283,8 @@ CREATE TABLE IF NOT EXISTS address.address
 ```
 
 # Run academicadmin-service
+# Run class-service
+# Run address-service
 # Run assessmenthub-service
 # Run coursemgnt-service
 
