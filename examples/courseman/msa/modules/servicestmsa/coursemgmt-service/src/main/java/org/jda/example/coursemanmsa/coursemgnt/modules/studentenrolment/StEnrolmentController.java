@@ -13,10 +13,14 @@ import jda.modules.msacommon.controller.RedirectController;
 @Controller
 public class StEnrolmentController<ID> extends RedirectController<ID> {
 
-	@Override
-	public ResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String parentElement) {
+	public StEnrolmentController() {
+		super();
 		getPathmap().put("/student", Student.class);
 		getPathmap().put("/enrolment", Enrolment.class);
+	}
+
+	@Override
+	public ResponseEntity handleRequest(HttpServletRequest req, HttpServletResponse res, String parentElement) {
 		return super.handleRequest(req, res, parentElement);
 	}
 }

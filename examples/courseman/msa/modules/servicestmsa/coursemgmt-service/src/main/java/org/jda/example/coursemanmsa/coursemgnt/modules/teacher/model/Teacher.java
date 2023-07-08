@@ -43,7 +43,5 @@ public class Teacher extends RepresentationModel<Teacher> {
 	@Column(name="email")
 	private String teacherEmail;
 	private String deptname;
-
-	@OneToMany(mappedBy="teacher")
-    private List<CourseModule> coursemodules;
+	
 }

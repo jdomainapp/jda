@@ -1,28 +1,32 @@
 package org.jda.example.coursemanmsa.coursemgnt.modules.coursemodule.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.jda.example.coursemanmsa.coursemgnt.modules.teacher.model.Teacher;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@ToString
+@Getter @Setter @ToString
 @Entity
 @Table(name = "coursemodule")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = CourseModule.class)
+@Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.EXISTING_PROPERTY, property = "type", visible = true)
+@JsonSubTypes({
+	@JsonSubTypes.Type(value = CompulsoryModule.class, name = "compulsory"),
+	@JsonSubTypes.Type(value = ElectiveModule.class, name = "elective")})
 public class CourseModule {
 
 	@Id
@@ -36,55 +40,11 @@ public class CourseModule {
 	private String name;
 
 	private int semester;
-
-	@PrimaryKeyJoinColumn
-	@OneToOne(mappedBy = "coursemodule", cascade = CascadeType.ALL)
-	private CompulsoryModule compulsorymodule;
-
-	@OneToOne(mappedBy = "coursemodule", cascade = CascadeType.ALL)
-	private ElectiveModule electivemodule;
+	
+	private String type;
 
 	@ManyToOne
 	@JoinColumn(name = "teacher_id", nullable = false)
 	private Teacher teacher;
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public void setCredits(int credits) {
-		this.credits = credits;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setSemester(int semester) {
-		this.semester = semester;
-	}
-
-	public void setCompulsorymodule(CompulsoryModule compulsorymodule) {
-		this.compulsorymodule = compulsorymodule;
-		if(compulsorymodule !=null) {
-			this.compulsorymodule.setCoursemodule(this);
-		}
-		
-	}
-
-	public void setElectivemodule(ElectiveModule electivemodule) {
-		this.electivemodule = electivemodule;
-		if (electivemodule != null) {
-			this.electivemodule.setCoursemodule(this);
-		}
-	}
-
-	public void setTeacher(Teacher teacher) {
-		this.teacher = teacher;
-	}
 
 }

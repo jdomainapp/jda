@@ -9,6 +9,6 @@ import org.springframework.stereotype.Controller;
 import jda.modules.msacommon.controller.DefaultController;
 
 @Controller
-public class CoursemoduleController extends DefaultController<CourseModule, Integer>{
+public class CourseModuleController extends DefaultController<CourseModule, Integer>{
 
 }
