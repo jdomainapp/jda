@@ -159,7 +159,8 @@ CREATE TABLE assessmenthub.coursemodule (
     name character varying(30),
     semester integer,
     credits integer,
-    teacher_id integer
+    teacher_id integer,
+    type character varying(12)
 );
 
 
@@ -307,7 +308,8 @@ CREATE TABLE coursemgnt.coursemodule (
     name character varying(30),
     semester integer,
     credits integer,
-    teacher_id integer
+    teacher_id integer,
+    type character varying(12)
 );
 
 
