@@ -16,8 +16,8 @@
 		<module>configserver</module>
 		<module>eurekaserver</module>
 		<module>gatewayserver</module>
-		<module>services</module>
-        <module>servicestmsa</module>
+		<!-- <module>services</module> -->
+    <module>servicestmsa</module>
 	</modules>
 
 	<dependencyManagement>
