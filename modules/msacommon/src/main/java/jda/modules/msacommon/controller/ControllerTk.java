@@ -122,7 +122,12 @@ public class ControllerTk {
 		Object val = DClassTk.convertToTypeValue(idVal, idField.getType());
 
 		// cast to OD
-		return (ID) val;
+		try {
+			return (ID) val;
+		}catch (Exception e) {
+			return null;
+		}
+		
 		// return (ID) Integer.getInteger(idVal);
 	}
 
@@ -163,7 +168,7 @@ public class ControllerTk {
 	}
 
 	public static boolean isPathContainModule(String moduleName, String fullPath) {
-		if (fullPath.matches(".*" + moduleName + "(\\/[a-zA-z]*\\/\\d)*")) {
+		if (fullPath.matches(".*" + moduleName + "(\\/[a-zA-z]*\\/\\d+)*")) {
 			return true;
 		}
 
@@ -171,7 +176,7 @@ public class ControllerTk {
 	}
 
 	public static boolean checkParentChildService(String moduleName, String childModule, String fullPath) {
-		String pattern = ".*"+moduleName+ "(\\/[a-zA-z]*\\/\\d)*("+childModule+"(\\/[a-zA-z]*\\/\\d)*)*";
+		String pattern = ".*"+moduleName+ "(\\/[a-zA-z]*\\/\\d+)*("+childModule+"(\\/[a-zA-z]*\\/\\d+)*)*";
 		if (fullPath.matches(pattern)) {
 			return true;
 		}
