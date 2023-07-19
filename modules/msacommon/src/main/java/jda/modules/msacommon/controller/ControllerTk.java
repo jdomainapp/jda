@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
@@ -166,6 +167,13 @@ public class ControllerTk {
 
 		return false;
 	}
+	
+	public static boolean isPathFindAll(String path) {
+		if(path.lastIndexOf("/")==0) {
+			return true;
+		}
+		return false;
+	}
 
 	public static boolean isPathContainModule(String moduleName, String fullPath) {
 		if (fullPath.matches(".*" + moduleName + "(\\/[a-zA-z]*\\/\\d+)*")) {
@@ -187,6 +195,10 @@ public class ControllerTk {
 	public static String getPropertyNameInPath(String path) {
 		String pathRemoveId = path.substring(0, path.lastIndexOf("/"));
 		return pathRemoveId.substring(pathRemoveId.lastIndexOf("/")+1);
+	}
+	
+	public static String getPropertyValueInPath(String path) {
+		return path.substring(path.lastIndexOf("/")+1);
 	}
 
 	public static void sendKafka(IPublishSource sourceBean, ResponseEntity<?> responseEntity, ChangeModel change, String requestMethod) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException {
@@ -215,4 +227,32 @@ public class ControllerTk {
 		sourceBean.publishChange(change);
 	}
 	
+	public static Method findMethodInClass(Class<?> clazz, String findMethod) {
+		Method[] methods = clazz.getMethods();
+		 
+	    for (Method method: methods) {
+	    	
+	    	if(method.getName().equalsIgnoreCase(findMethod)) {
+	    		 try {
+	    			 return method;
+				} catch (Exception e) {
+					return null;
+				}
+	    	}
+	    }
+	    return null;
+	}
+	
+	
+	public static boolean isIntegerNumeric(String strNum) {
+	    if (strNum == null) {
+	        return false;
+	    }
+	    try {
+	        int d = Integer.parseInt(strNum);
+	    } catch (NumberFormatException nfe) {
+	        return false;
+	    }
+	    return true;
+	}
 }
