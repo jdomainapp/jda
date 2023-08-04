@@ -1,7 +1,12 @@
 #
 # run KAFKA service with Courseman's topics
 #
-kafka_dir="/data/programs/kafka"
+if [ -z $1 ]
+then
+  kafka_dir="/data/programs/kafka"
+else
+  kafka_dir=$1
+fi
 
 # Create topic: "streams-courseman-coursemodules"
 $kafka_dir/bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic courseChangeTopic --bootstrap-server localhost:9092
