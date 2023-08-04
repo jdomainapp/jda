@@ -17,6 +17,7 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<springboot-maven-plugin-version>2.7.0</springboot-maven-plugin-version>
 		<spring-cloud.version>Hoxton.SR3</spring-cloud.version>
 		<springboot-version>2.2.6.RELEASE</springboot-version>
 	</properties>
@@ -79,6 +80,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${springboot-maven-plugin-version}</version>
 			</plugin>
 		</plugins>
 	</build>
