@@ -92,7 +92,11 @@ bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic enrol
 - Install lombk project on Eclipse: https://projectlombok.org/setup/eclipse
 (alt: https://www.baeldung.com/lombok-ide)
 	- Note: after installation: (1) restart the IDE, (2) Rebuild all projects
-- Copy library folder `.../json-path/2.4.0` in `local-maven-repo` to your Maven repository
+- Manually install library folder `com.jayway.json-path` (located in the folder `$JDA/local-maven-repo`) using the following command:
+Assume that the `$JDA` folder is `/jda` then:
+```
+mvn install:install-file -Dfile=/jda/local-maven-repo/jayway/jsonpath/json-path/2.4.0/json-path-2.4.0.jar -DpomFile=/jda/local-maven-repo/jayway/jsonpath/json-path/2.4.0/json-path-2.4.0.pom
+```
 - Run command:
 ```
 cd ../courseman/msa/
