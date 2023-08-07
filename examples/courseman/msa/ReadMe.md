@@ -1,6 +1,5 @@
 Example: `jda-eg-coursemanmsa`
 ===============================
-(Testing)
 
 A version of the `CourseMan` software that demonstrates the state-of-the-art MSA technologies.
 
