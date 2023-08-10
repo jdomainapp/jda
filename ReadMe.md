@@ -182,21 +182,7 @@ mvn install:install-file -Dfile=local-maven-repo/jscaledhtmltextpane/jscaledhtml
 mvn install:install-file -Dfile=local-maven-repo/scrollabledesktop/scrollabledesktop/unknown/scrollabledesktop-unknown.jar -DpomFile=local-maven-repo/scrollabledesktop/scrollabledesktop/unknown/scrollabledesktop-unknown.pom
 ```
 
-## Create a Maven project to run JDA's modules as dependencies
-
-### Prerequisites
-If the JDA module was created as a Spring-Boot project, make sure to package and deploy that module as such, using this command:
-
-```
-mvn clean package spring-boot:repackage
-```
-
-then deploy it to the GitHub repository:
-```
-mvn deploy
-```
-
-### Project creation steps
+## Create a Maven project that uses JDA's modules as dependencies
 
 1. Create a Maven project
 - Example APP: `courseman-address`
@@ -292,19 +278,25 @@ mvn install
 
 The app is then installed in the local `.m2` repository. For our $APP example, it should be something like this `~.m2/repository/org/jda/example/coursemanmsa/address-service/0.0.1-SNAPSHOT/address-service-0.0.1-SNAPSHOT.jar`
 
-5. Run the app
-Run the app from the JAR file in the installed directory. For the $APP example, the command is: 
+## Run a JDA module app
+
+For modules that implement app examples (e.g. microservice apps), use the following steps to package the app with all the dependencies (incl. JDA ones) and then run the app:
+
+1. Package the app
+Use `mvn package` to package the app.
+
+If the JDA module was created as a Spring-Boot project, make sure to package and deploy that module as such, using this command:
 
 ```
-java -jar ~/.m2/repository/org/jda/example/coursemanmsa/address-service/0.0.1-SNAPSHOT/address-service-0.0.1-SNAPSHOT.jar
+mvn clean package spring-boot:repackage
 ```
 
-To ease execution, create a symbolic link to the jar file in the `target` folder and run it from there: 
+the application is then packaged as a `.jar` file in the `target` directory
 
+2. Run the app from the JAR file with the `java -jar` command:
+Example:
 ```
-# ln -s ~/.m2/repository/org/jda/example/coursemanmsa/address-service/0.0.1-SNAPSHOT/address-service-0.0.1-SNAPSHOT.jar target/address-service.jar
-
-# java -jar target/address-service.jar
+java -jar target/address-service-0.0.1-SNAPSHOT.jar
 ```
 
 ## Use Docker images to run JDA's applications
@@ -319,4 +311,12 @@ docker run --name jdare -it --network host ducmle/jdare:v2 bash
 
 Option `--network host` is only needed if you are running microservices applications. It allows your application (running from within a container) to expose ports for public access through the host machine and also to allow your application to access the host machine's infrastructure services  
 
-4. From the shell of the Docker container, create a Maven project to run the JDA application as dependency (see a previous section)
+4. Copy the application jar file to the container
+Use the `docker cp` command on the host machine. For example:
+```
+docker cp target/courseman-address.jar jdare:/jda/courseman-address/
+```
+will copy the jar file `target/courseman-address.jar` to the application directory `/jda/courseman-address` in the container named `jdare`.
+If the application directory does not yet exist, create it first.
+
+5. From the shell of the Docker container, run the application `.jar` file, using the `java -jar` command.
