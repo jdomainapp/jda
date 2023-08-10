@@ -159,3 +159,164 @@ mvn test -pl :jda-X -Dtest=TestClass#testMethod
 
   `bin/mvn-test-daemon.bash <artifact> <FQN-program-class>`
 
+
+## Install dependencies from `local-maven-repo`
+
+These dependencies are located in the `jda/local-maven-repo` directory:
+
+1. `jayway-jsonpath`
+
+```
+mvn install:install-file -Dfile=local-maven-repo/jayway/jsonpath/json-path/2.4.0/json-path-2.4.0.jar -DpomFile=local-maven-repo/jayway/jsonpath/json-path/2.4.0/json-path-2.4.0.pom
+```
+
+2. `jscaledhtmltextpane`
+
+```
+mvn install:install-file -Dfile=local-maven-repo/jscaledhtmltextpane/jscaledhtmltextpane/unknown/jscaledhtmltextpane-unknown.jar -DpomFile=local-maven-repo/jscaledhtmltextpane/jscaledhtmltextpane/unknown/jscaledhtmltextpane-unknown.pom
+```
+
+3. `scrollabledesktop`
+
+```
+mvn install:install-file -Dfile=local-maven-repo/scrollabledesktop/scrollabledesktop/unknown/scrollabledesktop-unknown.jar -DpomFile=local-maven-repo/scrollabledesktop/scrollabledesktop/unknown/scrollabledesktop-unknown.pom
+```
+
+## Create a Maven project to run JDA's modules as dependencies
+
+### Prerequisites
+If the JDA module was created as a Spring-Boot project, make sure to package and deploy that module as such, using this command:
+
+```
+mvn clean package spring-boot:repackage
+```
+
+then deploy it to the GitHub repository:
+```
+mvn deploy
+```
+
+### Project creation steps
+
+1. Create a Maven project
+- Example APP: `courseman-address`
+- qualified artifact name (QAN): `org.jda.example.coursemanmsa.address-service`
+
+```
+mvn archetype:generate -DgroupId=org.jda.app -DartifactId=courseman-address -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
+```
+2. Edit `$APP/pom.xml` to add the JDA's Github repository and a dependency for the JDA module. This module is stored on the repository
+
+```
+...
+   <repositories>
+     <!-- JDA's deployment repository on GitHub -->     
+     <repository>
+       <id>github-jda</id>
+       <name>JDA: GitHub Apache Maven Packages</name>
+       <url>https://maven.pkg.github.com/jdomainapp/jda</url>
+     </repository>
+   </repositories>
+
+  <dependencies>
+   ...
+   <!-- JDA module artifact (stored on the repository (above)) -->
+    <dependency>
+     <groupId>org.jda.example.coursemanmsa</groupId>
+     <artifactId>address-service</artifactId>
+     <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+```
+
+3. Configure your authentication to the JDA's Github repository in `~.m2` repository
+- Create file `~.m2/settings.xml` with the following content. Replace the user name and password fields with your own:
+
+```
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <activeProfiles>
+    <activeProfile>github</activeProfile>
+  </activeProfiles>
+
+  <profiles>
+    <profile>
+      <id>github</id>
+      <repositories>
+        <!-- JDA -->
+        <repository>
+          <id>github-jda</id>
+          <url>https://maven.pkg.github.com/jdomainapp/jda</url>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <!-- for testing -->
+          <id>github-test</id>
+          <url>https://maven.pkg.github.com/jdomainapp/test</url>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+
+  <servers>
+    <server>
+      <id>github-jda</id>
+      <username>YOUR-GIT-USER-NAME</username>
+      <password>YOUR-PASSWORD-OR-ACCESS-TOKEN</password>
+    </server>
+    <server>
+      <id>github-test</id>
+      <username>YOUR-GIT-USER-NAME</username>
+      <password>YOUR-PASSWORD-OR-ACCESS-TOKEN</password>
+    </server>
+  </servers>
+</settings>
+```
+
+4. Install the app
+First ensure that the dependencies in the `local-maven-rep` are installed. See a previous section.
+
+Then, issue this command:
+```
+mvn install
+```
+
+The app is then installed in the local `.m2` repository. For our $APP example, it should be something like this `~.m2/repository/org/jda/example/coursemanmsa/address-service/0.0.1-SNAPSHOT/address-service-0.0.1-SNAPSHOT.jar`
+
+5. Run the app
+Run the app from the JAR file in the installed directory. For the $APP example, the command is: 
+
+```
+java -jar ~/.m2/repository/org/jda/example/coursemanmsa/address-service/0.0.1-SNAPSHOT/address-service-0.0.1-SNAPSHOT.jar
+```
+
+To ease execution, create a symbolic link to the jar file in the `target` folder and run it from there: 
+
+```
+# ln -s ~/.m2/repository/org/jda/example/coursemanmsa/address-service/0.0.1-SNAPSHOT/address-service-0.0.1-SNAPSHOT.jar target/address-service.jar
+
+# java -jar target/address-service.jar
+```
+
+## Use Docker images to run JDA's applications
+1. Pull the JDA run-time docker image, named `jdare`,  from Docker's Hub: https://hub.docker.com/repository/docker/ducmle/jdare/general
+
+2. Run the necessary infrastructure services of the app on the **host machine**. These may include a combination of the followings (depending on the type of application): database, configuration server, discovery server, gateway server, Kafka server, etc.
+3. Create a Docker container from the `jdare` image with a shell prompt. This container will be used to run the app in the next step:
+
+```
+docker run --name jdare -it --network host ducmle/jdare:v2 bash
+```
+
+Option `--network host` is only needed if you are running microservices applications. It allows your application (running from within a container) to expose ports for public access through the host machine and also to allow your application to access the host machine's infrastructure services  
+
+4. From the shell of the Docker container, create a Maven project to run the JDA application as dependency (see a previous section)
