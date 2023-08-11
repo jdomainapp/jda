@@ -5,7 +5,7 @@ spring:
       active: dev
     cloud:
         config: 
-            uri: http://localhost:8071
+            uri: http://inf-server:8071
 
 logging:
   level:

@@ -299,7 +299,7 @@ Example:
 java -jar target/address-service-0.0.1-SNAPSHOT.jar
 ```
 
-## Use Docker images to run JDA's applications
+## Run a JDA's module application in a Docker container
 1. Pull the JDA run-time docker image, named `jdare`,  from Docker's Hub: https://hub.docker.com/repository/docker/ducmle/jdare/general
 
 2. Run the necessary infrastructure services of the app on the **host machine**. These may include a combination of the followings (depending on the type of application): database, configuration server, discovery server, gateway server, Kafka server, etc.
@@ -320,3 +320,34 @@ will copy the jar file `target/courseman-address.jar` to the application directo
 If the application directory does not yet exist, create it first.
 
 5. From the shell of the Docker container, run the application `.jar` file, using the `java -jar` command.
+
+## Run multiple instances of a JDA's module application in different Docker containers
+If your JDA's module app exposes an application port (e.g. 8080) and multiple instances of the app needs to be executed then you can run each instance in a separate Docker container, mapping the application port in each container to a different host port.
+
+1. Same as running a single instance app (see above)
+
+2. Same as running a single instance app (see above).
+
+Note, however, that, instead of using `localhost` you must specify a host name in all the configurations of the JDA module app.
+
+Suppose the infrastructure servers are `inf-server1`, `inf-server2`, etc.
+
+3. For each application instance, run a Docker container from the same `jdare` image with a shell prompt. The options are different from the case of running a single instance. Change the host port for each container!
+
+```
+docker run --add-host=inf-server1:host-gateway --add-host=inf-server2:host-gateway -p 7070:8080 --rm --name jdare -it ducmle/jdare:v2 bash
+```
+
+- Instead of using `--network host`, we use `-p` to expose the application port (8080) to a specific host port (7070). Change this host port for each container!
+- the `--add-host` options use the `host-gateway` value to map each infrastructure server (started in the previous step) to the host machine
+
+4. Copy the application jar file to the container
+   Use the `docker cp` command on the host machine. For example:
+```
+docker cp target/courseman-address.jar jdare:/jda/courseman-address/
+```
+will copy the jar file `target/courseman-address.jar` to the application directory `/jda/courseman-address` in the container named `jdare`.
+If the application directory does not yet exist, create it first.
+
+5. From the shell of the Docker container, run the application `.jar` file, using the `java -jar` command.
+
