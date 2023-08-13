@@ -326,7 +326,7 @@ If your JDA's module app exposes an application port (e.g. 8080) and multiple in
 
 1. Same as running a single instance app (see above)
 
-2. Same as running a single instance app (see above).
+2. Almost the same as running a single instance app (see above).
 
 Note, however, that, instead of using `localhost` you must specify a host name in all the configurations of the JDA module app.
 
