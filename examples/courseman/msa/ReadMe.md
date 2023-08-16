@@ -22,14 +22,13 @@ to demonstrate the increasing complexity of the domain requirements.
 
 The domain modelling requirements of this use case are given below: 
  
-| Submodels | Modules | 
-| :--: | :--: |
-| Address Administration | Address 
-| Student Registration | Student 
-| Class Registration | StudentClass 
-| Academic Administration | Enrolment 
-| Course Administration | CourseModule, CompulsoryModule, ElectiveModule  
- 
+|        Submodels        |                    Modules                     | 
+|:-----------------------:|:----------------------------------------------:|
+| Address Administration  |                    Address                     |
+|  Student Registration   |                    Student                     |
+|   Class Registration    |                  StudentClass                  |
+| Academic Administration |                   Enrolment                    |
+|  Course Administration  | CourseModule, CompulsoryModule, ElectiveModule |
 
 #### Technical requirements
 
@@ -41,15 +40,15 @@ The domain modelling requirements of this use case are given below:
 
 The domain modelling requirements of this use case are given below:  
 
-| Submodels | Modules | Extensions 
-| :--: | :--: | :--: | 
-|Address Administration | Address | 
-| Student Registration | Student | 
-| Class Registration | StudentClass |
-| Enrolment Administration | Enrolment | only with student and course module details
-| Academic Administration | Enrolment | with mark and grade details
-| Course Administration | CourseModule, CompulsoryModule, ElectiveModule |  CourseModule has a unit fee
-| Finance Administration | CoursePayment | Payment for course module enrolment, computed from the unit fees of the enrolled CourseModules
+|        Submodels         |                    Modules                     |                                           Extensions                                           |
+|:------------------------:|:----------------------------------------------:|:----------------------------------------------------------------------------------------------:| 
+|  Address Administration  |                    Address                     |                                                                                                |
+|   Student Registration   |                    Student                     |                                                                                                |
+|    Class Registration    |                  StudentClass                  |                                                                                                |
+| Enrolment Administration |                   Enrolment                    |                          only with student and course module details                           |
+| Academic Administration  |                   Enrolment                    |                                  with mark and grade details                                   |
+|  Course Administration   | CourseModule, CompulsoryModule, ElectiveModule |                                  CourseModule has a unit fee                                   |
+|  Finance Administration  |                 CoursePayment                  | Payment for course module enrolment, computed from the unit fees of the enrolled CourseModules |
 
 #### Technical requirements
 - Github branch: `usecase2`
@@ -67,6 +66,12 @@ Each service autonomously operates on a submodel of the domain model.
 6. Additional layers/APIs can and should be added on top of Kafka to help more effectively manage the data exchange between services
 
 # Run the example
+
+## Prerequisites
+- If you compile the code using the command line explained in this guide AND
+  - If you then use **InteliJ** to run the services THEN
+    - ensure that the **IDE's JDK is the same as** the one used to compile the services! 
+    - otherwise, you may get an exception about @EnableEurekaClient" not being able to execute
 
 ## 1. Start Apache Kafka and register topics
 
@@ -3148,125 +3153,14 @@ WARNING: All illegal access operations will be denied in a future release
 12:22:34.814 [main] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-classpath:/config/academic-service-dev.properties'}, BootstrapPropertySource {name='bootstrapProperties-classpath:/config/academic-service.properties'}]
 12:22:35.093 [main] INFO  o.a.k.c.admin.AdminClientConfig - AdminClientConfig values: 
 	bootstrap.servers = [localhost:9092]
-	client.dns.lookup = default
-	client.id = 
-	connections.max.idle.ms = 300000
-	metadata.max.age.ms = 300000
-	metric.reporters = []
-	metrics.num.samples = 2
-	metrics.recording.level = INFO
-	metrics.sample.window.ms = 30000
-	receive.buffer.bytes = 65536
-	reconnect.backoff.max.ms = 1000
-	reconnect.backoff.ms = 50
-	request.timeout.ms = 120000
-	retries = 5
-	retry.backoff.ms = 100
-	sasl.client.callback.handler.class = null
-	sasl.jaas.config = null
-	sasl.kerberos.kinit.cmd = /usr/bin/kinit
-	sasl.kerberos.min.time.before.relogin = 60000
-	sasl.kerberos.service.name = null
-	sasl.kerberos.ticket.renew.jitter = 0.05
-	sasl.kerberos.ticket.renew.window.factor = 0.8
-	sasl.login.callback.handler.class = null
-	sasl.login.class = null
-	sasl.login.refresh.buffer.seconds = 300
-	sasl.login.refresh.min.period.seconds = 60
-	sasl.login.refresh.window.factor = 0.8
-	sasl.login.refresh.window.jitter = 0.05
-	sasl.mechanism = GSSAPI
-	security.protocol = PLAINTEXT
-	send.buffer.bytes = 131072
-	ssl.cipher.suites = null
-	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
-	ssl.endpoint.identification.algorithm = https
-	ssl.key.password = null
-	ssl.keymanager.algorithm = SunX509
-	ssl.keystore.location = null
-	ssl.keystore.password = null
-	ssl.keystore.type = JKS
-	ssl.protocol = TLS
-	ssl.provider = null
-	ssl.secure.random.implementation = null
-	ssl.trustmanager.algorithm = PKIX
-	ssl.truststore.location = null
-	ssl.truststore.password = null
-	ssl.truststore.type = JKS
+	...
 
 12:22:35.157 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
 12:22:35.157 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
 12:22:35.157 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1655320955154
 12:22:35.336 [main] INFO  o.a.k.c.consumer.ConsumerConfig - ConsumerConfig values: 
 	allow.auto.create.topics = true
-	auto.commit.interval.ms = 100
-	auto.offset.reset = latest
-	bootstrap.servers = [localhost:9092]
-	check.crcs = true
-	client.dns.lookup = default
-	client.id = 
-	client.rack = 
-	connections.max.idle.ms = 540000
-	default.api.timeout.ms = 60000
-	enable.auto.commit = false
-	exclude.internal.topics = true
-	fetch.max.bytes = 52428800
-	fetch.max.wait.ms = 500
-	fetch.min.bytes = 1
-	group.id = anonymous.000918ed-419c-4783-8fc5-86d2e12c0eb8
-	group.instance.id = null
-	heartbeat.interval.ms = 3000
-	interceptor.classes = []
-	internal.leave.group.on.close = true
-	isolation.level = read_uncommitted
-	key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
-	max.partition.fetch.bytes = 1048576
-	max.poll.interval.ms = 300000
-	max.poll.records = 500
-	metadata.max.age.ms = 300000
-	metric.reporters = []
-	metrics.num.samples = 2
-	metrics.recording.level = INFO
-	metrics.sample.window.ms = 30000
-	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor]
-	receive.buffer.bytes = 65536
-	reconnect.backoff.max.ms = 1000
-	reconnect.backoff.ms = 50
-	request.timeout.ms = 30000
-	retry.backoff.ms = 100
-	sasl.client.callback.handler.class = null
-	sasl.jaas.config = null
-	sasl.kerberos.kinit.cmd = /usr/bin/kinit
-	sasl.kerberos.min.time.before.relogin = 60000
-	sasl.kerberos.service.name = null
-	sasl.kerberos.ticket.renew.jitter = 0.05
-	sasl.kerberos.ticket.renew.window.factor = 0.8
-	sasl.login.callback.handler.class = null
-	sasl.login.class = null
-	sasl.login.refresh.buffer.seconds = 300
-	sasl.login.refresh.min.period.seconds = 60
-	sasl.login.refresh.window.factor = 0.8
-	sasl.login.refresh.window.jitter = 0.05
-	sasl.mechanism = GSSAPI
-	security.protocol = PLAINTEXT
-	send.buffer.bytes = 131072
-	session.timeout.ms = 10000
-	ssl.cipher.suites = null
-	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
-	ssl.endpoint.identification.algorithm = https
-	ssl.key.password = null
-	ssl.keymanager.algorithm = SunX509
-	ssl.keystore.location = null
-	ssl.keystore.password = null
-	ssl.keystore.type = JKS
-	ssl.protocol = TLS
-	ssl.provider = null
-	ssl.secure.random.implementation = null
-	ssl.trustmanager.algorithm = PKIX
-	ssl.truststore.location = null
-	ssl.truststore.password = null
-	ssl.truststore.type = JKS
-	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+	...
 
 12:22:35.366 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
 12:22:35.366 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
@@ -3276,75 +3170,7 @@ WARNING: All illegal access operations will be denied in a future release
 12:22:35.401 [main] INFO  o.s.c.s.binder.BinderErrorChannel - Channel 'inboundEnrolmentChanges.anonymous.000918ed-419c-4783-8fc5-86d2e12c0eb8.errors' has 1 subscriber(s).
 12:22:35.401 [main] INFO  o.s.c.s.binder.BinderErrorChannel - Channel 'inboundEnrolmentChanges.anonymous.000918ed-419c-4783-8fc5-86d2e12c0eb8.errors' has 2 subscriber(s).
 12:22:35.415 [main] INFO  o.a.k.c.consumer.ConsumerConfig - ConsumerConfig values: 
-	allow.auto.create.topics = true
-	auto.commit.interval.ms = 100
-	auto.offset.reset = latest
-	bootstrap.servers = [localhost:9092]
-	check.crcs = true
-	client.dns.lookup = default
-	client.id = 
-	client.rack = 
-	connections.max.idle.ms = 540000
-	default.api.timeout.ms = 60000
-	enable.auto.commit = false
-	exclude.internal.topics = true
-	fetch.max.bytes = 52428800
-	fetch.max.wait.ms = 500
-	fetch.min.bytes = 1
-	group.id = anonymous.000918ed-419c-4783-8fc5-86d2e12c0eb8
-	group.instance.id = null
-	heartbeat.interval.ms = 3000
-	interceptor.classes = []
-	internal.leave.group.on.close = true
-	isolation.level = read_uncommitted
-	key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
-	max.partition.fetch.bytes = 1048576
-	max.poll.interval.ms = 300000
-	max.poll.records = 500
-	metadata.max.age.ms = 300000
-	metric.reporters = []
-	metrics.num.samples = 2
-	metrics.recording.level = INFO
-	metrics.sample.window.ms = 30000
-	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor]
-	receive.buffer.bytes = 65536
-	reconnect.backoff.max.ms = 1000
-	reconnect.backoff.ms = 50
-	request.timeout.ms = 30000
-	retry.backoff.ms = 100
-	sasl.client.callback.handler.class = null
-	sasl.jaas.config = null
-	sasl.kerberos.kinit.cmd = /usr/bin/kinit
-	sasl.kerberos.min.time.before.relogin = 60000
-	sasl.kerberos.service.name = null
-	sasl.kerberos.ticket.renew.jitter = 0.05
-	sasl.kerberos.ticket.renew.window.factor = 0.8
-	sasl.login.callback.handler.class = null
-	sasl.login.class = null
-	sasl.login.refresh.buffer.seconds = 300
-	sasl.login.refresh.min.period.seconds = 60
-	sasl.login.refresh.window.factor = 0.8
-	sasl.login.refresh.window.jitter = 0.05
-	sasl.mechanism = GSSAPI
-	security.protocol = PLAINTEXT
-	send.buffer.bytes = 131072
-	session.timeout.ms = 10000
-	ssl.cipher.suites = null
-	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
-	ssl.endpoint.identification.algorithm = https
-	ssl.key.password = null
-	ssl.keymanager.algorithm = SunX509
-	ssl.keystore.location = null
-	ssl.keystore.password = null
-	ssl.keystore.type = JKS
-	ssl.protocol = TLS
-	ssl.provider = null
-	ssl.secure.random.implementation = null
-	ssl.trustmanager.algorithm = PKIX
-	ssl.truststore.location = null
-	ssl.truststore.password = null
-	ssl.truststore.type = JKS
-	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+	...
 
 12:22:35.418 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
 12:22:35.418 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
@@ -3354,51 +3180,7 @@ WARNING: All illegal access operations will be denied in a future release
 12:22:35.426 [main] INFO  o.s.i.k.i.KafkaMessageDrivenChannelAdapter - started org.springframework.integration.kafka.inbound.KafkaMessageDrivenChannelAdapter@4b8816f7
 12:22:35.440 [main] INFO  o.a.k.c.admin.AdminClientConfig - AdminClientConfig values: 
 	bootstrap.servers = [localhost:9092]
-	client.dns.lookup = default
-	client.id = 
-	connections.max.idle.ms = 300000
-	metadata.max.age.ms = 300000
-	metric.reporters = []
-	metrics.num.samples = 2
-	metrics.recording.level = INFO
-	metrics.sample.window.ms = 30000
-	receive.buffer.bytes = 65536
-	reconnect.backoff.max.ms = 1000
-	reconnect.backoff.ms = 50
-	request.timeout.ms = 120000
-	retries = 5
-	retry.backoff.ms = 100
-	sasl.client.callback.handler.class = null
-	sasl.jaas.config = null
-	sasl.kerberos.kinit.cmd = /usr/bin/kinit
-	sasl.kerberos.min.time.before.relogin = 60000
-	sasl.kerberos.service.name = null
-	sasl.kerberos.ticket.renew.jitter = 0.05
-	sasl.kerberos.ticket.renew.window.factor = 0.8
-	sasl.login.callback.handler.class = null
-	sasl.login.class = null
-	sasl.login.refresh.buffer.seconds = 300
-	sasl.login.refresh.min.period.seconds = 60
-	sasl.login.refresh.window.factor = 0.8
-	sasl.login.refresh.window.jitter = 0.05
-	sasl.mechanism = GSSAPI
-	security.protocol = PLAINTEXT
-	send.buffer.bytes = 131072
-	ssl.cipher.suites = null
-	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
-	ssl.endpoint.identification.algorithm = https
-	ssl.key.password = null
-	ssl.keymanager.algorithm = SunX509
-	ssl.keystore.location = null
-	ssl.keystore.password = null
-	ssl.keystore.type = JKS
-	ssl.protocol = TLS
-	ssl.provider = null
-	ssl.secure.random.implementation = null
-	ssl.trustmanager.algorithm = PKIX
-	ssl.truststore.location = null
-	ssl.truststore.password = null
-	ssl.truststore.type = JKS
+	...
 
 12:22:35.441 [KafkaConsumerDestination{consumerDestinationName='inboundEnrolmentChanges', partitions=1, dlqName='null'}.container-0-C-1] INFO  org.apache.kafka.clients.Metadata - [Consumer clientId=consumer-2, groupId=anonymous.000918ed-419c-4783-8fc5-86d2e12c0eb8] Cluster ID: Omh352R-RvyLofaQGRUnnQ
 12:22:35.444 [KafkaConsumerDestination{consumerDestinationName='inboundEnrolmentChanges', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.AbstractCoordinator - [Consumer clientId=consumer-2, groupId=anonymous.000918ed-419c-4783-8fc5-86d2e12c0eb8] Discovered group coordinator ubuntu:9092 (id: 2147483647 rack: null)
@@ -3410,75 +3192,7 @@ WARNING: All illegal access operations will be denied in a future release
 12:22:35.448 [KafkaConsumerDestination{consumerDestinationName='inboundEnrolmentChanges', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.AbstractCoordinator - [Consumer clientId=consumer-2, groupId=anonymous.000918ed-419c-4783-8fc5-86d2e12c0eb8] (Re-)joining group
 12:22:35.454 [KafkaConsumerDestination{consumerDestinationName='inboundEnrolmentChanges', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.AbstractCoordinator - [Consumer clientId=consumer-2, groupId=anonymous.000918ed-419c-4783-8fc5-86d2e12c0eb8] (Re-)joining group
 12:22:35.461 [main] INFO  o.a.k.c.consumer.ConsumerConfig - ConsumerConfig values: 
-	allow.auto.create.topics = true
-	auto.commit.interval.ms = 100
-	auto.offset.reset = earliest
-	bootstrap.servers = [localhost:9092]
-	check.crcs = true
-	client.dns.lookup = default
-	client.id = 
-	client.rack = 
-	connections.max.idle.ms = 540000
-	default.api.timeout.ms = 60000
-	enable.auto.commit = false
-	exclude.internal.topics = true
-	fetch.max.bytes = 52428800
-	fetch.max.wait.ms = 500
-	fetch.min.bytes = 1
-	group.id = academicCourseGroup
-	group.instance.id = null
-	heartbeat.interval.ms = 3000
-	interceptor.classes = []
-	internal.leave.group.on.close = true
-	isolation.level = read_uncommitted
-	key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
-	max.partition.fetch.bytes = 1048576
-	max.poll.interval.ms = 300000
-	max.poll.records = 500
-	metadata.max.age.ms = 300000
-	metric.reporters = []
-	metrics.num.samples = 2
-	metrics.recording.level = INFO
-	metrics.sample.window.ms = 30000
-	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor]
-	receive.buffer.bytes = 65536
-	reconnect.backoff.max.ms = 1000
-	reconnect.backoff.ms = 50
-	request.timeout.ms = 30000
-	retry.backoff.ms = 100
-	sasl.client.callback.handler.class = null
-	sasl.jaas.config = null
-	sasl.kerberos.kinit.cmd = /usr/bin/kinit
-	sasl.kerberos.min.time.before.relogin = 60000
-	sasl.kerberos.service.name = null
-	sasl.kerberos.ticket.renew.jitter = 0.05
-	sasl.kerberos.ticket.renew.window.factor = 0.8
-	sasl.login.callback.handler.class = null
-	sasl.login.class = null
-	sasl.login.refresh.buffer.seconds = 300
-	sasl.login.refresh.min.period.seconds = 60
-	sasl.login.refresh.window.factor = 0.8
-	sasl.login.refresh.window.jitter = 0.05
-	sasl.mechanism = GSSAPI
-	security.protocol = PLAINTEXT
-	send.buffer.bytes = 131072
-	session.timeout.ms = 10000
-	ssl.cipher.suites = null
-	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
-	ssl.endpoint.identification.algorithm = https
-	ssl.key.password = null
-	ssl.keymanager.algorithm = SunX509
-	ssl.keystore.location = null
-	ssl.keystore.password = null
-	ssl.keystore.type = JKS
-	ssl.protocol = TLS
-	ssl.provider = null
-	ssl.secure.random.implementation = null
-	ssl.trustmanager.algorithm = PKIX
-	ssl.truststore.location = null
-	ssl.truststore.password = null
-	ssl.truststore.type = JKS
-	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+	...
 
 12:22:35.464 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
 12:22:35.464 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
@@ -3490,75 +3204,7 @@ WARNING: All illegal access operations will be denied in a future release
 12:22:35.565 [main] INFO  o.s.c.s.binder.BinderErrorChannel - Channel 'courseChangeTopic.academicCourseGroup.errors' has 1 subscriber(s).
 12:22:35.565 [main] INFO  o.s.c.s.binder.BinderErrorChannel - Channel 'courseChangeTopic.academicCourseGroup.errors' has 2 subscriber(s).
 12:22:35.565 [main] INFO  o.a.k.c.consumer.ConsumerConfig - ConsumerConfig values: 
-	allow.auto.create.topics = true
-	auto.commit.interval.ms = 100
-	auto.offset.reset = earliest
-	bootstrap.servers = [localhost:9092]
-	check.crcs = true
-	client.dns.lookup = default
-	client.id = 
-	client.rack = 
-	connections.max.idle.ms = 540000
-	default.api.timeout.ms = 60000
-	enable.auto.commit = false
-	exclude.internal.topics = true
-	fetch.max.bytes = 52428800
-	fetch.max.wait.ms = 500
-	fetch.min.bytes = 1
-	group.id = academicCourseGroup
-	group.instance.id = null
-	heartbeat.interval.ms = 3000
-	interceptor.classes = []
-	internal.leave.group.on.close = true
-	isolation.level = read_uncommitted
-	key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
-	max.partition.fetch.bytes = 1048576
-	max.poll.interval.ms = 300000
-	max.poll.records = 500
-	metadata.max.age.ms = 300000
-	metric.reporters = []
-	metrics.num.samples = 2
-	metrics.recording.level = INFO
-	metrics.sample.window.ms = 30000
-	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor]
-	receive.buffer.bytes = 65536
-	reconnect.backoff.max.ms = 1000
-	reconnect.backoff.ms = 50
-	request.timeout.ms = 30000
-	retry.backoff.ms = 100
-	sasl.client.callback.handler.class = null
-	sasl.jaas.config = null
-	sasl.kerberos.kinit.cmd = /usr/bin/kinit
-	sasl.kerberos.min.time.before.relogin = 60000
-	sasl.kerberos.service.name = null
-	sasl.kerberos.ticket.renew.jitter = 0.05
-	sasl.kerberos.ticket.renew.window.factor = 0.8
-	sasl.login.callback.handler.class = null
-	sasl.login.class = null
-	sasl.login.refresh.buffer.seconds = 300
-	sasl.login.refresh.min.period.seconds = 60
-	sasl.login.refresh.window.factor = 0.8
-	sasl.login.refresh.window.jitter = 0.05
-	sasl.mechanism = GSSAPI
-	security.protocol = PLAINTEXT
-	send.buffer.bytes = 131072
-	session.timeout.ms = 10000
-	ssl.cipher.suites = null
-	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
-	ssl.endpoint.identification.algorithm = https
-	ssl.key.password = null
-	ssl.keymanager.algorithm = SunX509
-	ssl.keystore.location = null
-	ssl.keystore.password = null
-	ssl.keystore.type = JKS
-	ssl.protocol = TLS
-	ssl.provider = null
-	ssl.secure.random.implementation = null
-	ssl.trustmanager.algorithm = PKIX
-	ssl.truststore.location = null
-	ssl.truststore.password = null
-	ssl.truststore.type = JKS
-	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+	...
 
 12:22:35.567 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
 12:22:35.568 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
@@ -3577,51 +3223,7 @@ WARNING: All illegal access operations will be denied in a future release
 12:22:35.582 [KafkaConsumerDestination{consumerDestinationName='courseChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-4, groupId=academicCourseGroup] Setting newly assigned partitions: courseChangeTopic-0
 12:22:35.582 [main] INFO  o.a.k.c.admin.AdminClientConfig - AdminClientConfig values: 
 	bootstrap.servers = [localhost:9092]
-	client.dns.lookup = default
-	client.id = 
-	connections.max.idle.ms = 300000
-	metadata.max.age.ms = 300000
-	metric.reporters = []
-	metrics.num.samples = 2
-	metrics.recording.level = INFO
-	metrics.sample.window.ms = 30000
-	receive.buffer.bytes = 65536
-	reconnect.backoff.max.ms = 1000
-	reconnect.backoff.ms = 50
-	request.timeout.ms = 120000
-	retries = 5
-	retry.backoff.ms = 100
-	sasl.client.callback.handler.class = null
-	sasl.jaas.config = null
-	sasl.kerberos.kinit.cmd = /usr/bin/kinit
-	sasl.kerberos.min.time.before.relogin = 60000
-	sasl.kerberos.service.name = null
-	sasl.kerberos.ticket.renew.jitter = 0.05
-	sasl.kerberos.ticket.renew.window.factor = 0.8
-	sasl.login.callback.handler.class = null
-	sasl.login.class = null
-	sasl.login.refresh.buffer.seconds = 300
-	sasl.login.refresh.min.period.seconds = 60
-	sasl.login.refresh.window.factor = 0.8
-	sasl.login.refresh.window.jitter = 0.05
-	sasl.mechanism = GSSAPI
-	security.protocol = PLAINTEXT
-	send.buffer.bytes = 131072
-	ssl.cipher.suites = null
-	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
-	ssl.endpoint.identification.algorithm = https
-	ssl.key.password = null
-	ssl.keymanager.algorithm = SunX509
-	ssl.keystore.location = null
-	ssl.keystore.password = null
-	ssl.keystore.type = JKS
-	ssl.protocol = TLS
-	ssl.provider = null
-	ssl.secure.random.implementation = null
-	ssl.trustmanager.algorithm = PKIX
-	ssl.truststore.location = null
-	ssl.truststore.password = null
-	ssl.truststore.type = JKS
+	...
 
 12:22:35.583 [KafkaConsumerDestination{consumerDestinationName='inboundEnrolmentChanges', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.SubscriptionState - [Consumer clientId=consumer-2, groupId=anonymous.000918ed-419c-4783-8fc5-86d2e12c0eb8] Resetting offset for partition inboundEnrolmentChanges-0 to offset 0.
 12:22:35.586 [KafkaConsumerDestination{consumerDestinationName='courseChangeTopic', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-4, groupId=academicCourseGroup] Setting offset for partition courseChangeTopic-0 to the committed offset FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=ubuntu:9092 (id: 0 rack: null), epoch=0}}
@@ -3630,75 +3232,7 @@ WARNING: All illegal access operations will be denied in a future release
 12:22:35.588 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1655320955587
 12:22:35.597 [KafkaConsumerDestination{consumerDestinationName='inboundEnrolmentChanges', partitions=1, dlqName='null'}.container-0-C-1] INFO  o.s.c.s.b.k.KafkaMessageChannelBinder$1 - anonymous.000918ed-419c-4783-8fc5-86d2e12c0eb8: partitions assigned: [inboundEnrolmentChanges-0]
 12:22:35.603 [main] INFO  o.a.k.c.consumer.ConsumerConfig - ConsumerConfig values: 
-	allow.auto.create.topics = true
-	auto.commit.interval.ms = 100
-	auto.offset.reset = earliest
-	bootstrap.servers = [localhost:9092]
-	check.crcs = true
-	client.dns.lookup = default
-	client.id = 
-	client.rack = 
-	connections.max.idle.ms = 540000
-	default.api.timeout.ms = 60000
-	enable.auto.commit = false
-	exclude.internal.topics = true
-	fetch.max.bytes = 52428800
-	fetch.max.wait.ms = 500
-	fetch.min.bytes = 1
-	group.id = academicStudentGroup
-	group.instance.id = null
-	heartbeat.interval.ms = 3000
-	interceptor.classes = []
-	internal.leave.group.on.close = true
-	isolation.level = read_uncommitted
-	key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
-	max.partition.fetch.bytes = 1048576
-	max.poll.interval.ms = 300000
-	max.poll.records = 500
-	metadata.max.age.ms = 300000
-	metric.reporters = []
-	metrics.num.samples = 2
-	metrics.recording.level = INFO
-	metrics.sample.window.ms = 30000
-	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor]
-	receive.buffer.bytes = 65536
-	reconnect.backoff.max.ms = 1000
-	reconnect.backoff.ms = 50
-	request.timeout.ms = 30000
-	retry.backoff.ms = 100
-	sasl.client.callback.handler.class = null
-	sasl.jaas.config = null
-	sasl.kerberos.kinit.cmd = /usr/bin/kinit
-	sasl.kerberos.min.time.before.relogin = 60000
-	sasl.kerberos.service.name = null
-	sasl.kerberos.ticket.renew.jitter = 0.05
-	sasl.kerberos.ticket.renew.window.factor = 0.8
-	sasl.login.callback.handler.class = null
-	sasl.login.class = null
-	sasl.login.refresh.buffer.seconds = 300
-	sasl.login.refresh.min.period.seconds = 60
-	sasl.login.refresh.window.factor = 0.8
-	sasl.login.refresh.window.jitter = 0.05
-	sasl.mechanism = GSSAPI
-	security.protocol = PLAINTEXT
-	send.buffer.bytes = 131072
-	session.timeout.ms = 10000
-	ssl.cipher.suites = null
-	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
-	ssl.endpoint.identification.algorithm = https
-	ssl.key.password = null
-	ssl.keymanager.algorithm = SunX509
-	ssl.keystore.location = null
-	ssl.keystore.password = null
-	ssl.keystore.type = JKS
-	ssl.protocol = TLS
-	ssl.provider = null
-	ssl.secure.random.implementation = null
-	ssl.trustmanager.algorithm = PKIX
-	ssl.truststore.location = null
-	ssl.truststore.password = null
-	ssl.truststore.type = JKS
-	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+	...
 
 12:22:35.605 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
 12:22:35.605 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
@@ -3708,75 +3242,7 @@ WARNING: All illegal access operations will be denied in a future release
 12:22:35.613 [main] INFO  o.s.c.s.binder.BinderErrorChannel - Channel 'studentChangeTopic.academicStudentGroup.errors' has 1 subscriber(s).
 12:22:35.613 [main] INFO  o.s.c.s.binder.BinderErrorChannel - Channel 'studentChangeTopic.academicStudentGroup.errors' has 2 subscriber(s).
 12:22:35.613 [main] INFO  o.a.k.c.consumer.ConsumerConfig - ConsumerConfig values: 
-	allow.auto.create.topics = true
-	auto.commit.interval.ms = 100
-	auto.offset.reset = earliest
-	bootstrap.servers = [localhost:9092]
-	check.crcs = true
-	client.dns.lookup = default
-	client.id = 
-	client.rack = 
-	connections.max.idle.ms = 540000
-	default.api.timeout.ms = 60000
-	enable.auto.commit = false
-	exclude.internal.topics = true
-	fetch.max.bytes = 52428800
-	fetch.max.wait.ms = 500
-	fetch.min.bytes = 1
-	group.id = academicStudentGroup
-	group.instance.id = null
-	heartbeat.interval.ms = 3000
-	interceptor.classes = []
-	internal.leave.group.on.close = true
-	isolation.level = read_uncommitted
-	key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
-	max.partition.fetch.bytes = 1048576
-	max.poll.interval.ms = 300000
-	max.poll.records = 500
-	metadata.max.age.ms = 300000
-	metric.reporters = []
-	metrics.num.samples = 2
-	metrics.recording.level = INFO
-	metrics.sample.window.ms = 30000
-	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor]
-	receive.buffer.bytes = 65536
-	reconnect.backoff.max.ms = 1000
-	reconnect.backoff.ms = 50
-	request.timeout.ms = 30000
-	retry.backoff.ms = 100
-	sasl.client.callback.handler.class = null
-	sasl.jaas.config = null
-	sasl.kerberos.kinit.cmd = /usr/bin/kinit
-	sasl.kerberos.min.time.before.relogin = 60000
-	sasl.kerberos.service.name = null
-	sasl.kerberos.ticket.renew.jitter = 0.05
-	sasl.kerberos.ticket.renew.window.factor = 0.8
-	sasl.login.callback.handler.class = null
-	sasl.login.class = null
-	sasl.login.refresh.buffer.seconds = 300
-	sasl.login.refresh.min.period.seconds = 60
-	sasl.login.refresh.window.factor = 0.8
-	sasl.login.refresh.window.jitter = 0.05
-	sasl.mechanism = GSSAPI
-	security.protocol = PLAINTEXT
-	send.buffer.bytes = 131072
-	session.timeout.ms = 10000
-	ssl.cipher.suites = null
-	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
-	ssl.endpoint.identification.algorithm = https
-	ssl.key.password = null
-	ssl.keymanager.algorithm = SunX509
-	ssl.keystore.location = null
-	ssl.keystore.password = null
-	ssl.keystore.type = JKS
-	ssl.protocol = TLS
-	ssl.provider = null
-	ssl.secure.random.implementation = null
-	ssl.trustmanager.algorithm = PKIX
-	ssl.truststore.location = null
-	ssl.truststore.password = null
-	ssl.truststore.type = JKS
-	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+	...
 
 12:22:35.615 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
 12:22:35.616 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
@@ -3816,3 +3282,134 @@ WARNING: All illegal access operations will be denied in a future release
 	+ Edit a academic: `http://localhost:8072/academic-service/v1/academic/4` (Only for editing mark)
 ![image](https://user-images.githubusercontent.com/89120031/174214664-e901cca7-fa2b-4435-a017-f32ea3882620.png)
 
+# App Reconfiguration
+
+## Service(Reconfigurer)
+Version 2.0 logic flow (as described in the paper). This involves the coordination of two instances SR1 and SR2. 
+
+- `gateway-server: localhost:8072`
+
+### Promote
+
+#### SR1: Service(Reconfigurer)
+- SR1 is run on the same host as `sourceServ`
+
+	+ in-request:
+		- url: http://$gateway-server/reconfigurer-service/promote
+		+ body (parameters):
+			- sourceServ (s1): academicadmin-service
+			- module (m):	coursemodulemgmt
+			- targetServ (s2): academicadmin-service
+			--> promote($sourceServ, $module, $targetServ)
+		
+    + promoteModule(s1, m, s2)
+      --> D : ModuleDesc = transform(s1, m) 
+      --> SR2.runService(s2, D) 
+      --> promoteCompleted(s1, D.pid)
+          --> s1.remove(m)
+
+  + transform(service, module): ModuleDesc
+  	--> create and return D: ModuleDesc containing all information about `module` in `service`. This includes module id, name and the service's executable jar file 
+  	
+		- service: academicadmin-service
+		- module: cmodulemgnt
+    - `serviceDeployPath`: /data/projects/jda/examples/courseman/msa/tmp
+		- `jarFile`: $serviceDeployPath/coursemodulemgmt-service/coursemodulemgmt-service.jar
+  
+#### SR2: Service(Reconfigurer)
+- SR2 is run on the same host as `targetServ`
+  
+  + runService(service, modDesc: ModuleDesc)		
+		--> store file modDesc.file to storage
+  	--> use `java -jar` command to execute this file
+  	--> registerChildService()
+  + registerChildService()
+  	- targetServ: academicadmin-service
+    - registerChildPath: http://localhost:8072/academicadmin-service/registerChildService
+    + request: multipart-form-data
+      - childName: hello-service
+  
+
+#### s1: Service(AcademicAdmin)
+	
+	+ in-request
+		- url: 
+
+	+ remove(m)
+		--> remove m from service tree of this 
+
+### Demote
+
+#### SR1: Service(Reconfigurer)
+- SR1 is run on the same host as `sourceServ`
+
+	+ in-request:
+		- url:  http://$gateway-server/reconfigurer-service/demote
+		+ body (parameters):
+			- sourceServ (s1): http://localhost:8098
+			- demServ (sc):	cmodulemgnt
+			- targetServ (s2): http://localhost:8099
+			- targetMod (p): coursemgnt
+
+			--> demote($sourceServ, $demServ, $targetServ, $targetMod)
+		
+		+ demote(sourceServ, sc, targetServ, targetMod)
+
+## Version 1.0 logic flow
+### Service(Source)
+	+ in-request:
+		- url: localhost:8098/promote/cmodulemgnt
+		+ body (parameters):
+			- databaseSchema: ll3tlOTvp/cmodulemgnt.sql
+			- targetHost: http://localhost:8099
+	
+	+ promote()
+		- serviceDir: /home/ducmle/projects/jda/examples/courseman/msa/modules/servicestmsa/example-service
+		
+		--> sendFile() --> runService() --> promoteCompleted()
+
+	+ sendFile()
+		- module: cmodulemgnt
+		- jarfile:  $serviceDir/target/cmodulemgnt-service-0.0.1-SNAPSHOT.jar
+		--> $Target.receiveFile()
+
+	+ runService()
+		- fullTargerURL: $targetHost/runService/cmodulemgnt
+		--> $Service(Target)
+
+	+ promoteCompleted()
+		- removeUri: http://localhost:8072/academicadmin-service/coursemgnt/removemodule/cmodulemgnt
+		--> $Service(AcademicAdmin)
+
+### Service(Target)
+	+ in-request: 
+		- url: http://localhost:8099 
+
+	+ receiveFile()
+		- fileName: cmodulemgnt-service-0.0.1-SNAPSHOT.jar
+		- fileFolder: /data/projects/jda/execute/cmodulemgnt
+		- module: cmodulemgnt
+
+	+ runService()
+		- module: cmodulemgnt
+		- jarFileName: cmodulemgnt-service-0.0.1-SNAPSHOT.jar
+		- jarFilePath: /data/projects/jda/execute/cmodulemgnt/cmodulemgnt-service-0.0.1-SNAPSHOT.jar
+
+### Service(AcademicAdmin)
+	+ in-request:
+		- url: http://localhost:8072/academicadmin-service/coursemgnt/removemodule/cmodulemgnt
+	+ handleCourseManagement():
+		- path: http://$gateway-server/coursemgnt-service/removemodule/cmodulemgnt
+		- requestData: ""
+		--> $Service(CourseMgnt)
+
+### Service(CourseMgnt)
+	+ in-request
+		- url: http://$gateway-server/coursemgnt-service/removemodule/cmodulemgnt
+
+	+ removeModule()
+		- serviceName: cmodulemgnt
+		- servicePath: /cmodulemgnt/**
+		- mappingInfo: RequestMappingInfo($servicePath)
+		- requestMappingHandlerMapping: applicationContext.beans[RequestMappingHandlerMapping]
+		--> RequestMappingHandlerMapping.unregisterMapping($mappingInfo)

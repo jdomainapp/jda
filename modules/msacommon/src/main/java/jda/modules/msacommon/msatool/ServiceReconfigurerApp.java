@@ -18,7 +18,8 @@ import jda.modules.msacommon.connections.UserContextInterceptor;
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class ServiceReconfigurerApp {
 	public static void main(String[] args) {
-		SpringApplication.run(ServiceReconfigurerApp.class, args);
+
+    SpringApplication.run(ServiceReconfigurerApp.class, args);
 	}
 	@Bean
 	public RestTemplate getRestTemplate(){

@@ -1,61 +1,23 @@
 package jda.modules.common.io;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.Reader;
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
+import jda.modules.common.Toolkit;
+import jda.modules.common.exceptions.NotFoundException;
+import jda.modules.common.exceptions.NotPossibleException;
+import jda.modules.common.types.Tuple2;
+
+import javax.json.*;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.nio.file.CopyOption;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.*;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.function.Function;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonValue;
-
-import jda.modules.common.Toolkit;
-import jda.modules.common.exceptions.NotFoundException;
-import jda.modules.common.exceptions.NotPossibleException;
-import jda.modules.common.types.Tuple2;
 
 /**
  * @overview 
@@ -68,7 +30,7 @@ public class ToolkitIO {
   public static final String jarFileSep = "/";
 
   /** pseudo file separator that abstracts from platform-dependent {@link #fileSep} for 
-   * the purpose of generating {@link FilePath} */
+   * the purpose of generating {@link Path} */
   public static final String filePseudoSep = "|";
 
   public static final boolean debug = Toolkit.getDebug(ToolkitIO.class);
@@ -97,11 +59,7 @@ public class ToolkitIO {
           return true;
         } else {
           File entry = new File(dir, name);
-          if (entry.isDirectory()) {
-            return true;
-          } else {
-            return false;
-          } 
+          return entry.isDirectory();
         }
       }
   };
@@ -113,11 +71,7 @@ public class ToolkitIO {
       @Override
       public boolean accept(File dir, String name) {
         File entry = new File(dir, name);
-        if (entry.isDirectory()) {
-          return true;
-        } else {
-          return false;
-        } 
+        return entry.isDirectory();
       }
   };
   
@@ -181,7 +135,7 @@ public class ToolkitIO {
     try {
       oout.writeObject(o);
     } catch (IOException e) {
-      throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_WRITE_OBJECT, e, new Object[] {o});
+      throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_WRITE_OBJECT, e, o);
     } finally {
       try {
         oout.close();
@@ -539,7 +493,7 @@ public class ToolkitIO {
       
       return target;
     } catch (IOException e) {
-      throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_COPY_FILE, e, new Object[] { file, target});
+      throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_COPY_FILE, e, file, target);
     }
   }
   
@@ -668,7 +622,7 @@ public class ToolkitIO {
       // get all files and copy
       File srcDir = new File(srcDirUrl.getPath());
       File[] files = srcDir.listFiles();
-      if (files != null && files.length > 0) {
+      if (files != null) {
         for (File file : files) {
           if (file.isDirectory()) // skip directories
             continue;
@@ -679,8 +633,7 @@ public class ToolkitIO {
             copyFile(fins, destFile);
           } catch (IOException e) {
             throw new NotPossibleException(
-                NotPossibleException.Code.FAIL_TO_COPY_FILE, e, new Object[] {
-                    file, destFile });
+                NotPossibleException.Code.FAIL_TO_COPY_FILE, e, file, destFile);
           }
         }
       }
@@ -1156,11 +1109,8 @@ public class ToolkitIO {
         }
       } catch (IOException e) {
         throw e;
-      } finally {
-        // do not close JAR
-        // to use the InputStream
       }
-      
+
       // not exist
       throw new IOException("Entry "+entryPath+" not exist in jar file: " + jarFilePath);        
     } else {
@@ -1335,7 +1285,7 @@ public class ToolkitIO {
       return lines.toString();
     } catch (IOException e) {
       throw new 
-      NotPossibleException(NotPossibleException.Code.FAIL_TO_READ_FILE, e, new Object[] {file});
+      NotPossibleException(NotPossibleException.Code.FAIL_TO_READ_FILE, e, file);
     } finally {
       try { if (reader != null) reader.close(); } catch (Exception e) {}
     }
@@ -1552,13 +1502,13 @@ public class ToolkitIO {
             File destFile = new File(destFilePath + resFile.getName());
             try {
               // debug: 
-              System.out.println(String.format("Copying resource (%s) relative to source file: %s", resFile.getName(), file.getPath()));
+              System.out.printf("Copying resource (%s) relative to source file: %s%n", resFile.getName(), file.getPath());
               
               copyFile(resFile, destFile);
             } catch (IOException e) {
               String error = getStackTrace(e, ENCODE_UTF8);
               throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_COPY_FILE, 
-                  e, new Object[] {resFile, destFile});
+                  e, resFile, destFile);
             }
           }
         }
@@ -1592,7 +1542,7 @@ public class ToolkitIO {
     }
 
     // now the complete file path
-    String filePath = filePathWoutExt.toString()+FILE_JAVA_EXT;
+    String filePath = filePathWoutExt +FILE_JAVA_EXT;
     File clsFile = new File(filePath);
 
     boolean fileExist = clsFile.exists(); 
@@ -1610,7 +1560,7 @@ public class ToolkitIO {
             
             if (!ok) {
               // failed to create path
-              throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_CREATE_DIRECTORY, new Object[] {dirPath});
+              throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_CREATE_DIRECTORY, dirPath);
             }
           }
         }
@@ -1621,7 +1571,7 @@ public class ToolkitIO {
           Files.write(clsFile.toPath(), srcCode.getBytes(), StandardOpenOption.APPEND);
       }
     } catch (IOException e) {
-      throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_WRITE_TO_FILE, new Object[] {clsFile});
+      throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_WRITE_TO_FILE, clsFile);
     }
     
 //    // create directory path if not already exists
@@ -1765,14 +1715,14 @@ public class ToolkitIO {
    *  
    * @version 3.2
    */
-  public static void copyFile(Path srcFilePath, Path destFileDir, String destFileName, 
+  public static Path copyFile(Path srcFilePath, Path destFileDir, String destFileName,
       CopyOption...copyOptions) throws NotPossibleException {
     String targetFilePath = destFileDir.toString()+File.separator+destFileName;
     File targetFile = new File(targetFilePath);
     try {
-      Files.copy(srcFilePath, targetFile.toPath(), copyOptions);
+      return Files.copy(srcFilePath, targetFile.toPath(), copyOptions);
     } catch (IOException e) {
-      throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_COPY_FILE, e, new Object[] {srcFilePath, targetFilePath});
+      throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_COPY_FILE, e, srcFilePath, targetFilePath);
     }    
   }
 
@@ -2220,7 +2170,7 @@ public class ToolkitIO {
     } else {
       // wrong class
       throw new NotPossibleException(NotPossibleException.Code.INVALID_INPUT_CLASSES_ARGUMENT,
-          new Object[] {jsonClass});
+          jsonClass);
     }
     return json;
   }
@@ -2423,6 +2373,100 @@ public class ToolkitIO {
   }
 
   /**
+   * @effects
+   *  Uses a Thread to execute <code>command</code> in the system shell using <code>workDir</code> as the working directory (if specified).
+   *  Returns <code>true</code> if succeeds, <code>false</code> if otherwise
+   *
+   *  <p>System shell (Windows or Linux) is determined based on the OS's feature.
+   */
+  public static boolean executeSysCommand(String command, File workDir, File logFile, boolean waitFor, Function<Object, Integer> callBack) {
+    try {
+      ProcessBuilder processBuilder = new ProcessBuilder();
+      // -c: command
+      // -i: interactive shell (strictly not necessary  but needed to read ALL PATH info of the system)
+      //    helps avoid command not found error for 'npx'
+      if (File.separatorChar=='\\') {  // windows
+        processBuilder.command("cmd", "/c", command);
+      } else { // linux
+        processBuilder.command("bash", "-ci", command);
+      }
+
+      if (workDir != null) {
+        processBuilder.directory(workDir);
+      }
+
+      processBuilder.inheritIO();
+
+      // redirect error and output to file
+      processBuilder.redirectOutput(logFile);
+      processBuilder.redirectError(logFile);
+
+      // start process in a thread
+      ProcessThread pthread = new ProcessThread(processBuilder, waitFor, callBack);
+      pthread.start();
+
+      // wait for pthread to complete
+      while (!pthread.isCompleted()) {
+        Thread.sleep(100);
+      }
+
+      int exitCode = pthread.getExitCode();
+
+      return (exitCode == 0);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
+  /**
+   * @overview executes a {@link Process} on a thread, waiting for it to finish and record the exit code
+   */
+  private static class ProcessThread extends Thread {
+    private final Function<Object, Integer> callBack;
+    private final boolean waitFor;
+    private final ProcessBuilder procBuilder;
+    private Process process;
+
+    private int exitCode = -1;
+
+    public ProcessThread(ProcessBuilder procBuilder, boolean waitFor,
+                         Function<Object, Integer> callBack) {
+      super();
+      this.procBuilder = procBuilder;
+      this.waitFor = waitFor;
+      this.callBack = callBack;
+    }
+
+    public boolean isCompleted() {
+      return exitCode != -1;
+    }
+
+    public int getExitCode() {
+      return exitCode;
+    }
+
+    @Override
+    public void run() {
+      try {
+        process = procBuilder.start();
+
+        if (waitFor)
+          exitCode = process.waitFor();
+
+        if (callBack != null) {
+          exitCode = callBack.apply(null);
+        } else {
+          exitCode = 0;
+        }
+      } catch (InterruptedException | IOException e) {
+        e.printStackTrace();
+        exitCode = 1;
+      }
+    }
+  } /** end {@link ProcessThread} */
+
+  /**
    * @effects 
    *  executes <code>command</code> in the system shell using <code>workDir</code> as the working directory
    *  (if specified).
@@ -2436,9 +2480,9 @@ public class ToolkitIO {
       // -c: command
       // -i: interactive shell (strictly not necessary  but needed to read ALL PATH info of the system)
       //    helps avoid command not found error for 'npx'
-      if(File.separatorChar=='\\') {  // windows
+      if (File.separatorChar=='\\') {  // windows
     	  processBuilder.command("cmd", "/c", command);
-      }else { // linux
+      } else { // linux
     	  processBuilder.command("bash", "-ci", command);
       }
       if (workDir != null)
@@ -2481,6 +2525,15 @@ public class ToolkitIO {
     } catch (IOException e) {
       out.println(getStackTrace(e, ENCODE_UTF8));
     }
+  }
+
+  /**
+   * @effects
+   *  print the stack trace of <tt>e</tt> to <tt>out</tt>
+   * @version 1.0
+   */
+  public static void printStream(Throwable e, PrintStream out) {
+    out.println(getStackTrace(e, ENCODE_UTF8));
   }
 
   /**
@@ -2575,7 +2628,7 @@ public class ToolkitIO {
    */
   public static void getFoldersMatching(File parent, String folderName, List<File> folders) {
     File[] myFolders = parent.listFiles(FolderFilter);
-    if (myFolders != null && myFolders.length > 0) {
+    if (myFolders != null) {
       for (File folder : myFolders) {
         if (folder.getName().equals(folderName)) {
           // matches

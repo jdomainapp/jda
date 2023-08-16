@@ -1,28 +1,26 @@
 package org.jda.example.coursemanmsa.academicadmin.controller;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead.Type;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import jda.modules.msacommon.controller.ControllerTk;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.lang.reflect.Method;
 
 @RestController
 @RequestMapping(value="/")
@@ -79,24 +77,25 @@ public class AcademicAdminController {
   /**
    * Add a (module) serivce to path
    */
-  @RequestMapping(value="registerchild/{serviceName}")
-  public ResponseEntity registerChild(@PathVariable("serviceName") String serviceName){
+  @RequestMapping(value="registerChildService")
+  public ResponseEntity registerChildService(@RequestPart("childName") String serviceName){
 	  String servicePath = "/"+serviceName+"/**";
 	  RequestMappingInfo mappingInfo = RequestMappingInfo.paths(servicePath).build();
 	  Method handleMethod;
-	try {
-		Class[] methodArgs = new Class[2];
-		methodArgs[0]= HttpServletRequest.class;
-		methodArgs[1]= HttpServletResponse.class;
-		handleMethod = AcademicAdminController.class.getDeclaredMethod("handleModuleService", methodArgs);
-		RequestMappingHandlerMapping requestMappingHandlerMapping = applicationContext
-				.getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class);
-		requestMappingHandlerMapping.registerMapping(mappingInfo, this, handleMethod);
-	} catch (SecurityException | NoSuchMethodException e) {
-		e.printStackTrace();
-		return ResponseEntity.status(HttpStatus.METHOD_FAILURE).body("Error when adding child serivce to parent");
-	}
-	return  ResponseEntity.status(HttpStatus.OK).body("Sucess");
+		try {
+			Class[] methodArgs = new Class[2];
+			methodArgs[0]= HttpServletRequest.class;
+			methodArgs[1]= HttpServletResponse.class;
+			handleMethod = AcademicAdminController.class.getDeclaredMethod("handleModuleService", methodArgs);
+
+			RequestMappingHandlerMapping requestMappingHandlerMapping = applicationContext
+					.getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class);
+			requestMappingHandlerMapping.registerMapping(mappingInfo, this, handleMethod);
+		} catch (SecurityException | NoSuchMethodException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.METHOD_FAILURE).body("Error when adding child service to parent");
+		}
+		return  ResponseEntity.status(HttpStatus.OK).body("Success");
   }
   
   public ResponseEntity handleModuleService(HttpServletRequest req, HttpServletResponse res) throws IOException {

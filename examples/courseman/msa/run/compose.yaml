@@ -1,0 +1,6 @@
+services: 
+  address4:
+    image: ducmle/jdare:latest
+    container_name: "address4"
+    ports: 
+      - "7085:8082"

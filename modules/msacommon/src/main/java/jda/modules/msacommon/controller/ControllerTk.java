@@ -1,5 +1,17 @@
 package jda.modules.msacommon.controller;
 
+import jda.modules.common.exceptions.NotFoundException;
+import jda.modules.dcsl.util.DClassTk;
+import jda.modules.msacommon.events.model.ChangeModel;
+import jda.modules.msacommon.messaging.kafka.IPublishSource;
+import jda.modules.msacommon.messaging.kafka.KafkaChangeAction;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestTemplate;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -7,21 +19,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.client.RestTemplate;
-
-import jda.modules.common.exceptions.NotFoundException;
-import jda.modules.dcsl.util.DClassTk;
-import jda.modules.msacommon.events.model.ChangeModel;
-import jda.modules.msacommon.messaging.kafka.IPublishSource;
-import jda.modules.msacommon.messaging.kafka.KafkaChangeAction;
 
 /**
  * @overview Implement shared features for controllers.
@@ -80,6 +77,17 @@ public class ControllerTk {
 		String serviceUriPattern = "%s/%s%s";
 		String serviceUri = String.format(serviceUriPattern, gwUri, serviceName, module);
 		return serviceUri;
+	}
+
+	public static String getServicePath(String gatewayUri, String...pathElements) {
+		// e.g
+		// "http://gateway-server/assessmenthub-service/"+req.getServletPath().replace("/assessmenthub/",
+		// "")
+		final StringBuilder serviceUri = new StringBuilder(gatewayUri);
+		for (String e : pathElements) {
+			serviceUri.append("/").append(e);
+		}
+		return serviceUri.toString();
 	}
 
 	/**
@@ -161,35 +169,20 @@ public class ControllerTk {
 	}
 
 	public static boolean isPathContainModuleAndId(String moduleName, String fullPath) {
-		if (fullPath.matches(".*" + moduleName + "\\/\\d+")) {
-			return true;
-		}
-
-		return false;
+		return fullPath.matches(".*" + moduleName + "\\/\\d+");
 	}
 	
 	public static boolean isPathFindAll(String path) {
-		if(path.lastIndexOf("/")==0) {
-			return true;
-		}
-		return false;
+		return path.lastIndexOf("/") == 0;
 	}
 
 	public static boolean isPathContainModule(String moduleName, String fullPath) {
-		if (fullPath.matches(".*" + moduleName + "(\\/[a-zA-z]*\\/\\d+)*")) {
-			return true;
-		}
-
-		return false;
+		return fullPath.matches(".*" + moduleName + "(\\/[a-zA-z]*\\/\\d+)*");
 	}
 
 	public static boolean checkParentChildService(String moduleName, String childModule, String fullPath) {
 		String pattern = ".*"+moduleName+ "(\\/[a-zA-z]*\\/\\d+)*("+childModule+"(\\/[a-zA-z]*\\/\\d+)*)*";
-		if (fullPath.matches(pattern)) {
-			return true;
-		}
-
-		return false;
+		return fullPath.matches(pattern);
 	}
 
 	public static String getPropertyNameInPath(String path) {

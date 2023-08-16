@@ -11,8 +11,8 @@
 
 	<modules>
 <!--		<module>common</module>-->
-<!--		<module>msatool-source</module>-->
-<!--		<module>msatool-target</module>-->
+		<module>msatool-source</module>
+		<module>msatool-target</module>
 		<module>configserver</module>
 		<module>eurekaserver</module>
 		<module>gatewayserver</module>

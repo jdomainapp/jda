@@ -1,33 +1,25 @@
 package jda.modules.msacommon.msatool;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import jda.modules.common.io.ToolkitIO;
+import org.eclipse.jetty.http.HttpMethod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.json.JsonObject;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.Properties;
 
-import javax.json.JsonObject;
-
-import org.eclipse.jetty.http.HttpMethod;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.multipart.MultipartFile;
-
-import jda.modules.common.io.ToolkitIO;
-
 public class ServiceReconfigurer {
 
 	private static final Logger logger = LoggerFactory.getLogger(ServiceReconfigurer.class);
 	/**
 	 * Sending jar file over network
+	 * @deprecated use sendFile instead
 	 */
 	public void sendJar(String serverHost, int serverPort, String filePath) {
 		Socket socket = null;
@@ -68,6 +60,7 @@ public class ServiceReconfigurer {
 
 	/**
 	 * Receive jar file
+	 * @deprecated use sendFile instead
 	 */
 	public void receiveJar(int listenPort, String receiverLocation, String fileName) {
 

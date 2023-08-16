@@ -22,6 +22,9 @@
 		<module>financehub-service</module>
 		<module>address-service</module>
 		<module>class-service</module>
+		<!--	reconfigurer	-->
+		<module>reconfigurer-service</module>
+		<module>hello-service</module>
 	</modules>
 
 	<dependencies>

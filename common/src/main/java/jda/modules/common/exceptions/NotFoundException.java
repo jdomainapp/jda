@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 
 public class NotFoundException extends ApplicationRuntimeException {
   
-  public static enum Code implements InfoCode {
+  public enum Code implements InfoCode {
     /**
      * 0: class 
      * <br>1: input args
@@ -111,8 +111,8 @@ public class NotFoundException extends ApplicationRuntimeException {
      * 2: attribute spec (e.g. type)
      */
     ID_CONSTRAINT_NOT_FOUND("Không tìm thấy ràng buộc dạng mã: {0}.{1}: {2}"),  
-    /**Không tìm thấy mô-đun {0}*/
-    MODULE_NOT_FOUND("Không tìm thấy mô-đun: {0}"), 
+    /**0: module name*/
+    MODULE_NOT_FOUND("Module not found: {0}"),
     /** could not find mnemonic for a menu */
     MNEMONIC_NOT_FOUND(""),  
     /** could not find a specified public static constant defined in a class */
@@ -227,9 +227,9 @@ public class NotFoundException extends ApplicationRuntimeException {
     NODE_NOT_FOUND("Node not found: {0}. Is this node label correct?"),
     ;   
     
-    private String text;
+    private final String text;
     
-    private Code(String text) {
+    Code(String text) {
       this.text = text;
     }
     
@@ -249,8 +249,8 @@ public class NotFoundException extends ApplicationRuntimeException {
       
       return messageFormat;
     }
-  };
-  
+  }
+
   /**
    * @version
    * - 3.4.c: changed Code to InfoCode
