@@ -5,13 +5,20 @@ import jda.modules.dcsl.util.DClassTk;
 import jda.modules.msacommon.events.model.ChangeModel;
 import jda.modules.msacommon.messaging.kafka.IPublishSource;
 import jda.modules.msacommon.messaging.kafka.KafkaChangeAction;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -102,6 +109,11 @@ public class ControllerTk {
 	public static ResponseEntity invokeService(RestTemplate restTemplate, String path, HttpMethod method, String body) {
 		ResponseEntity restExchange = restTemplate.exchange(path, method,
 				body == null ? null : new HttpEntity<String>(body), String.class);
+		return restExchange;
+	}
+	
+	public static ResponseEntity invokeService(RestTemplate restTemplate, String path, Object requestEntity) {
+		ResponseEntity restExchange = restTemplate.postForEntity(path, requestEntity, String.class);
 		return restExchange;
 	}
 	
@@ -247,5 +259,19 @@ public class ControllerTk {
 	        return false;
 	    }
 	    return true;
+	}
+	
+	public static void saveFile(MultipartFile fileUpload, String filePath) {
+		try {
+			FileUtils.copyInputStreamToFile(fileUpload.getInputStream(), new File(filePath));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static String convertObjectToJSON(Object object) {
+		Gson gson = new Gson();
+
+		return gson.toJson(object);
 	}
 }

@@ -1,7 +1,5 @@
 package jda.modules.msacommon.controller;
 
-import java.util.stream.Collectors;
-
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
@@ -16,6 +14,11 @@ public abstract class InterfaceController<T, ID> extends DefaultController<T, ID
 	public ResponseEntity<T> forwardRequest(String targetPath, HttpMethod method, String requestData) {
 		
 		return ControllerTk.invokeService(restTemplate, targetPath, method, requestData);
+	}
+	
+	public ResponseEntity<T> forwardRequest(String targetPath, Object requestEntity) {
+		
+		return ControllerTk.invokeService(restTemplate, targetPath, requestEntity);
 	}
 	
 }
