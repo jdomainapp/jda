@@ -40,8 +40,14 @@ public class ControllerTk {
 		// e.g
 		// "http://gateway-server/assessmenthub-service/"+req.getServletPath().replace("/assessmenthub/",
 		// "")
+		// ducmle: invoke a more generic method
+		return getServiceUri("http://gateway-server", req);
+		/**
 		final String gwUri = "http://gateway-server";
-		String serviceUriPattern = "%s/%s-service%s";
+		// ducmle:
+		// String serviceUriPattern = "%s/%s-service%s";
+		String serviceUriPattern = "%s/%s%s";
+
 //    String reqPath = req.getServletPath().replace(serviceName+"/", "");
 		String fullRequestPath = req.getServletPath().substring(1);
 		String serviceName = "";
@@ -52,6 +58,41 @@ public class ControllerTk {
 		} else {
 			serviceName = fullRequestPath;
 		}
+
+		// ducmle:
+		if (!serviceName.endsWith("-service")) {
+			serviceName = serviceName + "-service";
+		}
+
+		String serviceUri = String.format(serviceUriPattern, gwUri, serviceName, reqPath);
+		return serviceUri;
+		 */
+	}
+
+	public static String getServiceUri(String gwUri, HttpServletRequest req) {
+		// e.g
+		// "http://gateway-server/assessmenthub-service/"+req.getServletPath().replace("/assessmenthub/",
+		// "")
+		// ducmle:
+		// String serviceUriPattern = "%s/%s-service%s";
+		String serviceUriPattern = "%s/%s%s";
+
+//    String reqPath = req.getServletPath().replace(serviceName+"/", "");
+		String fullRequestPath = req.getServletPath().substring(1);
+		String serviceName = "";
+		String reqPath = "";
+		if (fullRequestPath.contains("/")) {
+			serviceName = fullRequestPath.substring(0, fullRequestPath.indexOf("/"));
+			reqPath = fullRequestPath.substring(fullRequestPath.indexOf("/"));
+		} else {
+			serviceName = fullRequestPath;
+		}
+
+		// ducmle:
+		if (!serviceName.endsWith("-service")) {
+			serviceName = serviceName + "-service";
+		}
+
 		String serviceUri = String.format(serviceUriPattern, gwUri, serviceName, reqPath);
 		return serviceUri;
 	}
