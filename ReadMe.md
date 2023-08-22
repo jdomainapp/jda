@@ -300,13 +300,14 @@ java -jar target/address-service-0.0.1-SNAPSHOT.jar
 ```
 
 ## Run a JDA's module application in a Docker container
-1. Pull the JDA run-time docker image, named `jdare`,  from Docker's Hub: https://hub.docker.com/repository/docker/ducmle/jdare/general
+1. Pull the JDA run-time docker image, named `jdare`,  from Docker's Hub: https://hub.docker.com/repository/docker/ducmle/jdare/general. 
+   - Use the image with the `latest` tag
 
 2. Run the necessary infrastructure services of the app on the **host machine**. These may include a combination of the followings (depending on the type of application): database, configuration server, discovery server, gateway server, Kafka server, etc.
 3. Create a Docker container from the `jdare` image with a shell prompt. This container will be used to run the app in the next step:
 
 ```
-docker run --name jdare -it --network host ducmle/jdare:v2 bash
+docker run --name jdare -it --network host ducmle/jdare:latest bash
 ```
 
 Option `--network host` is only needed if you are running microservices applications. It allows your application (running from within a container) to expose ports for public access through the host machine and also to allow your application to access the host machine's infrastructure services  
@@ -335,7 +336,7 @@ Suppose the infrastructure servers are `inf-server1`, `inf-server2`, etc.
 3. For each application instance, run a Docker container from the same `jdare` image with a shell prompt. The options are different from the case of running a single instance. Change the host port for each container!
 
 ```
-docker run --add-host=inf-server1:host-gateway --add-host=inf-server2:host-gateway -p 7070:8080 --rm --name jdare -it ducmle/jdare:v2 bash
+docker run --add-host=inf-server1:host-gateway --add-host=inf-server2:host-gateway -p 7070:8082 --name jdare -it ducmle/jdare:latest bash
 ```
 
 - Instead of using `--network host`, we use `-p` to expose the application port (8080) to a specific host port (7070). Change this host port for each container!
@@ -351,3 +352,20 @@ If the application directory does not yet exist, create it first.
 
 5. From the shell of the Docker container, run the application `.jar` file, using the `java -jar` command.
 
+## Configuring the host machine's PostgreSQL server to allow connections from multiple app instances
+
+When developing multiple-instance app (e.g. microservices), you may want to reuse a Postgresql database running on the host machine for all the instances. 
+
+1. Configure `pg_hba.conf`
+In order for PostgreSQL server to accept connections from any IP address on the network, add the following entry to file `pg_hba.conf`.
+```
+host    all             all             0.0.0.0/0            md5
+```
+2. Configure `pg_ident.conf`
+In addition, in order for PostgreSQL to permit your app's database user to login in, add the following entry to your `pg_indent.conf` file. Suppose the database user is `admin`:
+```
+# MAPNAME       SYSTEM-USERNAME         PG-USERNAME
+admin	          my-system-user-name     postgres
+```
+
+Replace `my-system-user-name` by your actual logged-in user of the host machine.

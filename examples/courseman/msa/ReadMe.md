@@ -3354,6 +3354,10 @@ Version 2.0 logic flow (as described in the paper). This involves the coordinati
 			--> demote($sourceServ, $demServ, $targetServ, $targetMod)
 		
 		+ demote(sourceServ, sc, targetServ, targetMod)
+			--> D : ModuleDesc = reform(s1, sc)
+			--> SR2.runModule(s2, p, D)
+			--> demoteCompleted(s1, D.pid)
+			--> s1.remove(sc) 
 
 ## Version 1.0 logic flow
 ### Service(Source)
