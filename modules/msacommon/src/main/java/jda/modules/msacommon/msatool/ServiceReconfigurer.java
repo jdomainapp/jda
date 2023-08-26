@@ -149,7 +149,6 @@ public class ServiceReconfigurer {
 	/**
 	 * Package a service to jar file
 	 */
-
 	public static boolean packageServiceToJar(File workDir) {
 		// TODO: can't run???
 		String cmd = "mvn clean package spring-boot:repackage";

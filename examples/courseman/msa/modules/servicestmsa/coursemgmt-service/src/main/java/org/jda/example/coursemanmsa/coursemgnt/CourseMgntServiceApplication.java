@@ -1,36 +1,24 @@
 package org.jda.example.coursemanmsa.coursemgnt;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
+import jda.modules.msacommon.connections.UserContextInterceptor;
+import jda.modules.msacommon.controller.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.context.WebServerInitializedEvent;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.event.EventListener;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import jda.modules.msacommon.connections.UserContextInterceptor;
-import jda.modules.msacommon.controller.ControllerRegistry;
-import jda.modules.msacommon.controller.DefaultController;
-import jda.modules.msacommon.controller.RedirectController;
-import jda.modules.msacommon.controller.RedirectControllerRegistry;
-import jda.modules.msacommon.controller.ServiceRegistry;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 @SpringBootApplication
 @RefreshScope
@@ -56,7 +44,8 @@ public class CourseMgntServiceApplication {
 	}
 
 	@SuppressWarnings("unchecked")
-	@LoadBalanced
+	/* ducmle: BUG: this @LoadBalanced annotation creates IllegalArgumentException: Service instance cannot be null; when forwarding request using ControllerTk.invokeService() */
+	//	@LoadBalanced
 	@Bean
 	public RestTemplate getRestTemplate(){
 		RestTemplate template = new RestTemplate();

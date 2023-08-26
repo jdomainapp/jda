@@ -1,23 +1,22 @@
 package jda.modules.msacommon.controller;
 
+import com.google.gson.Gson;
 import jda.modules.common.exceptions.NotFoundException;
+import jda.modules.common.io.ToolkitIO;
 import jda.modules.dcsl.util.DClassTk;
 import jda.modules.msacommon.events.model.ChangeModel;
 import jda.modules.msacommon.messaging.kafka.IPublishSource;
 import jda.modules.msacommon.messaging.kafka.KafkaChangeAction;
-
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.gson.Gson;
-
 import javax.servlet.http.HttpServletRequest;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -157,11 +156,26 @@ public class ControllerTk {
 		ResponseEntity restExchange = restTemplate.postForEntity(path, requestEntity, String.class);
 		return restExchange;
 	}
-	
+
 	public static ResponseEntity invokeService(RestTemplate restTemplate, String path, String method, String body) {
+/* ducmle:
 		ResponseEntity restExchange = restTemplate.exchange(path, HttpMethod.valueOf(method),
 				body == null ? null : new HttpEntity<String>(body), String.class);
-		return restExchange;
+*/
+		try {
+			ResponseEntity restExchange = restTemplate.exchange(path, HttpMethod.valueOf(method),
+					(body == null) ? null : new HttpEntity<String>(body), String.class);
+
+			return restExchange;
+		} catch (Exception e) {
+			// should not happen: error
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(String.format("%s: %s%nUrl: %s; Method: %s%n%s",
+							e.getClass().getSimpleName(), e.getMessage(),
+							path, method,
+							ToolkitIO.getStackTrace(e, null)
+					));
+		}
 	}
 
 	/**

@@ -58,6 +58,20 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 	}
 
 	/**
+	 * @effects
+	 *	handle HTTP-POST request for promoting the specified <tt>module</tt>, which is a descendant of the service <tt>sourceServ</tt>, to become a child of <tt>targetServ</tt>
+	 *
+	 * @version 1.0
+	 */
+	@PostMapping(value = "/demote")
+	public ResponseEntity<?> demote(@RequestParam String sourceServ,
+																	 @RequestParam String module, @RequestParam String targetServ) {
+
+		// todo
+		return null;
+	}
+
+	/**
 	 * @effects	creates a microservice-project whose code structure is defined based on ModuleDesc object, that represents the serialised details of <tt>module</tt> of the <tt>sourceServ</tt> service.
 	 * <br> The structural details include module's id, name and the deployed .jar
 	 *

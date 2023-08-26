@@ -1,23 +1,17 @@
 package org.jda.example.coursemanmsa.assessmenthub;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-
+import jda.modules.msacommon.connections.UserContextInterceptor;
+import jda.modules.msacommon.controller.ControllerRegistry;
+import jda.modules.msacommon.controller.DefaultController;
+import jda.modules.msacommon.controller.ServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
-//import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-//import org.springframework.cloud.context.config.annotation.RefreshScope;
-//import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-//import org.springframework.cloud.stream.annotation.EnableBinding;
-//import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -26,10 +20,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import jda.modules.msacommon.connections.UserContextInterceptor;
-import jda.modules.msacommon.controller.ControllerRegistry;
-import jda.modules.msacommon.controller.DefaultController;
-import jda.modules.msacommon.controller.ServiceRegistry;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 
 @SpringBootApplication
@@ -53,7 +46,8 @@ public class AssessmentHubServiceApplication {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@LoadBalanced
+	/* ducmle: BUG: this @LoadBalanced annotation creates IllegalArgumentException: Service instance cannot be null; when forwarding request using ControllerTk.invokeService() */
+	//	@LoadBalanced
 	@Bean
 	public RestTemplate getRestTemplate(){
 		RestTemplate template = new RestTemplate();

@@ -6,6 +6,7 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import jda.modules.msacommon.controller.ControllerTk;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +32,11 @@ public class AcademicAdminController {
 	@Autowired
 	private ApplicationContext applicationContext;
 	@Autowired
-	ServletContext context; 
-	
+	ServletContext context;
+
+	@Value("${spring.gateway.server}")
+	private String gatewayServer;
+
 	public final static String PATH_ASSESSMENTHUB="/assessmenthub";
 	public final static String PATH_COURSEMGNT="/coursemgnt";
 	public final static String PATH_ADRESS="/address";
@@ -62,7 +66,7 @@ public class AcademicAdminController {
 	
 	@RequestMapping(value = PATH_ADRESS+"/**")
 	public ResponseEntity handleAddress(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		String path = ControllerTk.getServiceUri(req); 
+		String path = ControllerTk.getServiceUri(gatewayServer, req);
 		String requestData = ControllerTk.getRequestData(req);
 		return ControllerTk.invokeService(restTemplate,path, req.getMethod(), requestData);
 	}
@@ -80,7 +84,7 @@ public class AcademicAdminController {
   @RequestMapping(value="registerChildService")
   public ResponseEntity registerChildService(@RequestPart("childName") String serviceName){
 	  String servicePath = "/"+serviceName+"/**";
-	  RequestMappingInfo mappingInfo = RequestMappingInfo.paths(servicePath).build();
+ 	  RequestMappingInfo mappingInfo = RequestMappingInfo.paths(servicePath).build();
 	  Method handleMethod;
 		try {
 			Class[] methodArgs = new Class[2];
@@ -90,7 +94,9 @@ public class AcademicAdminController {
 
 			RequestMappingHandlerMapping requestMappingHandlerMapping = applicationContext
 					.getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class);
+
 			requestMappingHandlerMapping.registerMapping(mappingInfo, this, handleMethod);
+
 		} catch (SecurityException | NoSuchMethodException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.METHOD_FAILURE).body("Error when adding child service to parent");
@@ -99,9 +105,11 @@ public class AcademicAdminController {
   }
   
   public ResponseEntity handleModuleService(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		String path = ControllerTk.getServiceUri(req); 
-		String requestData = ControllerTk.getRequestData(req); 
-		return ControllerTk.invokeService(restTemplate,path, req.getMethod(), requestData);
+		String path = ControllerTk.getServiceUri(gatewayServer, req);
+		String requestData = ControllerTk.getRequestData(req);
+		ResponseEntity response = ControllerTk.invokeService(restTemplate, path, req.getMethod(), requestData);
+		return response;
+
   }
 
 }
