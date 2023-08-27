@@ -4,7 +4,8 @@ The Service reconfigurer use case involves two ends: source and target.
 
 Implements `ServReconfigurer` in the TMSA paper.
 
-Running instructions:
+## Promote a module into a service 
+Instructions:
 
 1. Prerequisites
 Update the following paths in `$CONFIG-SERVER/config/reconfigurer-service.properties` to suit your system
@@ -25,3 +26,6 @@ service.shell.logFile= /data/projects/jda/log/service-shell.log
 7. Run the test case in PostMan
   - `reconfigure-service/Promote`
   - `reconfigure-service/Demote`
+
+## Demote a service back to a module
+Instructions:

@@ -4,12 +4,15 @@ import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead.Type;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
+import jda.modules.msacommon.controller.ControllerRegistry;
 import jda.modules.msacommon.controller.ControllerTk;
+import jda.modules.msacommon.model.ModuleDesc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +36,9 @@ public class AcademicAdminController {
 	private ApplicationContext applicationContext;
 	@Autowired
 	ServletContext context;
+
+	private final ControllerRegistry ctrlRegistry =
+			ControllerRegistry.getInstance();
 
 	@Value("${spring.gateway.server}")
 	private String gatewayServer;
@@ -103,7 +109,13 @@ public class AcademicAdminController {
 		}
 		return  ResponseEntity.status(HttpStatus.OK).body("Success");
   }
-  
+
+	/**
+	 * @effects
+	 *	invoked when the <tt>handleModuleService</tt> path mapping is requested. This path mapping was registered programmatically by {@link #registerChildService(String)}
+	 *
+	 * @version 1.0
+	 */
   public ResponseEntity handleModuleService(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		String path = ControllerTk.getServiceUri(gatewayServer, req);
 		String requestData = ControllerTk.getRequestData(req);
@@ -112,4 +124,26 @@ public class AcademicAdminController {
 
   }
 
+	/**
+	 * Add a (module) serivce to path
+	 */
+	@RequestMapping("removeModule")
+	public ResponseEntity removeModule(@RequestBody ModuleDesc moduleDesc){
+		String domainClsName = moduleDesc.getDomainClsName();
+
+		String foundModuleDomainCls = null;
+
+		// remove
+		ResponseEntity response = null;
+		if (ctrlRegistry.containsKey(domainClsName, true)) {
+			ctrlRegistry.remove(domainClsName);
+			response = ResponseEntity.ok().build();
+		} else {
+			response = ResponseEntity.status(HttpStatus.NOT_FOUND)
+					.body(String.format("Module %s not found in the module registry of the service %s", domainClsName, this.getClass().getSimpleName()));
+		}
+
+		return response;
+
+	}
 }

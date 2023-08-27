@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Objects;
@@ -47,11 +48,14 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 		try {
 			String sr2 = lookUpReconfigurer(sourceServ);
 
-			String servName = initRunService(sr2, targetServ, md);
+			String servName = ""; // initRunService(sr2, targetServ, md);
 
-			promoteCompleted(sourceServ, md.getPid());
+			boolean result = promoteCompleted(sourceServ, md);
 
-			return ResponseEntity.ok(String.format("Module '%s' promoted to service '%s': success", module, servName));
+			if (result)
+				return ResponseEntity.ok(String.format("Module '%s' promoted to service '%s': success", module, servName));
+			else
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(String.format("Failed to promote module '%s' to service '%s'", module, servName));
 		} catch (NotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 		}
@@ -125,7 +129,7 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 	 */
 	public String initRunService(String targetSR, String targetServ, ModuleDesc md) {
 		// send md to targetSR to run service
-		HttpEntity<LinkedMultiValueMap<String, Object>> reqEntity = getRunRequest(targetServ, md);
+		HttpEntity<LinkedMultiValueMap<String, Object>> reqEntity = getMultiPartRequestFromModuleDesc(targetServ, md);
 		String pathAction = "runService";
 //		String gw = getApplicationContextEnv().getProperty("spring.gateway.server");
 		String fullTargetURL = ControllerTk.getServicePath(gatewayServer, targetSR, pathAction);
@@ -233,7 +237,7 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 
 		// send a request to targetServ
 		HttpEntity<LinkedMultiValueMap<String, Object>> reqEntity =
-				getRequestEntityWithParams("childName", deployServName);
+				getMultipartRequestEntityWithParams("childName", deployServName);
 
 		ResponseEntity<String> restExchange = restTemplate.exchange(registerChildPath, HttpMethod.POST, reqEntity, String.class);
 
@@ -246,11 +250,26 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 	 *
 	 * @version 1.0
 	 */
-	public void promoteCompleted(String sourceServ, String module) {
-		// TODO: 14/08/2023
+	public boolean promoteCompleted(String sourceServ, ModuleDesc module) {
+		// send a removeModule(module) request to sourceServ
+		String pathAction = "removeModule";
+		String fullTargetURL = ControllerTk.getServicePath(gatewayServer, sourceServ, pathAction);
+
+		URI uri = null;
+		try {
+			uri = new URI(fullTargetURL);
+		} catch (URISyntaxException e) {
+			// should not happen
+		}
+
+		RequestEntity reqEntity = RequestEntity.post(uri).body(module);
+
+		ResponseEntity<String> restExchange = restTemplate.exchange(reqEntity, String.class);
+
+		return restExchange.getStatusCode().equals(HttpStatus.OK);
 	}
 
-	protected HttpEntity<LinkedMultiValueMap<String, Object>> getRunRequest (String targetServ, ModuleDesc module) {
+	protected HttpEntity<LinkedMultiValueMap<String, Object>> getMultiPartRequestFromModuleDesc(String targetServ, ModuleDesc module) {
 		LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 
 		map.add("targetServ", targetServ);
@@ -266,14 +285,14 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 	}
 
 	/**
-	 * A more general version of {@link #getRunRequest(String, ModuleDesc)} that supports arbitrary array of name-value pairs
+	 * A more general version of {@link #getMultiPartRequestFromModuleDesc(String, ModuleDesc)} that supports arbitrary array of name-value pairs
 	 *
 	 * @effects
 	 *	create and return a {@link HttpEntity} representing the HTTP request, containing parameters
 	 * specified by <tt>nameValuePairs</tt>.
 	 * @version 1.0
 	 */
-	protected HttpEntity<LinkedMultiValueMap<String, Object>> getRequestEntityWithParams (String...nameValuePairs) {
+	protected HttpEntity<LinkedMultiValueMap<String, Object>> getMultipartRequestEntityWithParams(String...nameValuePairs) {
 		if (nameValuePairs == null || nameValuePairs.length == 0 || (nameValuePairs.length % 2 != 0)) {
 			throw new IllegalArgumentException(Arrays.toString(nameValuePairs));
 		}

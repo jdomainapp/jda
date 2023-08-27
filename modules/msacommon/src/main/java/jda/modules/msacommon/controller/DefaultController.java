@@ -1,14 +1,8 @@
 package jda.modules.msacommon.controller;
 
-import java.io.File;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import jda.modules.msacommon.messaging.kafka.KafkaChangeAction;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +19,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-
-import jda.modules.msacommon.messaging.kafka.KafkaChangeAction;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * restTemplate Default implementation of {@link #RestfulController}
