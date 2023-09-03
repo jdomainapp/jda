@@ -2,12 +2,15 @@ package jda.modules.msacommon.controller;
 
 import com.google.gson.Gson;
 import jda.modules.common.exceptions.NotFoundException;
+import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.common.io.ToolkitIO;
+import jda.modules.common.javac.JavaC;
 import jda.modules.dcsl.util.DClassTk;
 import jda.modules.msacommon.events.model.ChangeModel;
 import jda.modules.msacommon.messaging.kafka.IPublishSource;
 import jda.modules.msacommon.messaging.kafka.KafkaChangeAction;
 import org.apache.commons.io.FileUtils;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -135,6 +139,21 @@ public class ControllerTk {
 			serviceUri.append("/").append(e);
 		}
 		return serviceUri.toString();
+	}
+
+	/**
+	 *
+	 * @effects
+	 *	create and return {@link File} object representing the source or target deployment directory path for <tt>deployedArtifactName</tt>. Whether or not it is source or target is specified in <tt>sourceOrTarget</tt>.
+	 *
+	 * @version 1.0
+	 */
+	public static File getDeployPath(Environment env, String deployedArtifactName, boolean sourceOrTarget) {
+		String propName = sourceOrTarget ? "path.service.deploySource" : "path.service.deployTarget";
+		String serviceDeployPath = env.getProperty(propName);
+		File dservDeployPath = new File(serviceDeployPath, deployedArtifactName);
+
+		return dservDeployPath;
 	}
 
 	/**
@@ -328,5 +347,92 @@ public class ControllerTk {
 		Gson gson = new Gson();
 
 		return gson.toJson(object);
+	}
+
+	/**
+	 *
+	 * @effects
+	 *	create and return a new DefaultController instance, using the default constructor.
+	 */
+  public static DefaultController<?,?> newControllerInstance(Class<DefaultController<?,?>> controllerCls)  throws NotPossibleException {
+		return DClassTk.createObjectDefault(controllerCls);
+  }
+
+	/**
+	 * @requires
+	 * 	<tt>moduleJarFile</tt> contains the standard JDA module and was created using the command
+	 * 	<tt>mvn clean package</tt>.
+	 *
+	 * @effects
+	 *	extracts from the specified <tt>moduleJarFile</tt>, representing a JDA module,
+	 *	the Java classes that make up the module, loads these classes into the JRE and returns
+	 *  the controller class (typed {@link DefaultController}) of the module.
+	 *
+	 *  <p>Throws {@link NotPossibleException} if failed.
+	 *
+	 * @example A JDA module for the domain class <tt>Address</tt> has the following structure:
+	 * <pre>
+	 *   + model:
+	 *   	- Address.java
+	 *   + repository:
+	 *   	- AddressRepository.java
+	 *   - AddressController.java
+	 * </pre>
+	 * @version 1.0
+	 */
+	public static Class<DefaultController<?,?>> loadModuleFromJarFile(ClassLoader loader, File moduleJarFile) throws NotPossibleException, NotFoundException {
+		// extract jar file
+		File tempDir = new File(System.getProperty("java.io.tmpdir"));
+		File extractedFolder = ToolkitIO.extractJarFile(moduleJarFile, tempDir);
+
+		// load all classes
+		Map<String, Class<?>> loadedClasses = JavaC.loadClasses(extractedFolder);
+
+		Class<DefaultController<?,?>> controllerCls = null;
+		for (Map.Entry<String,Class<?>> e: loadedClasses.entrySet()) {
+//				System.out.printf("... loaded: %s -> %s)%n", e.getKey(), e.getValue());
+			//String clsName = e.getKey();
+			Class cls = e.getValue();
+			String clsName = cls.getSimpleName();
+			if (DefaultController.class.isAssignableFrom(cls)){
+				// controller class
+				controllerCls = cls;
+				break;
+			}
+		}
+
+		// return DefaultController class of the module
+		return controllerCls;
+	}
+
+	/**
+	 * Requires: org.apache.commons.commons-text
+	 * @effects
+	 *	return the standard Camel case text for <tt>text</tt> that has <tt>delimiters[]</tt> as
+	 *  its word delimiter(s).
+	 *
+	 * @version 1.0
+	 */
+	public static String toCamelCase(String text, char... delimiters) {
+		boolean upperCamel = false;
+		// FIXME: cannot use CaseUtils.toCamelCase here because text has no delimiters!
+		// return CaseUtils.toCamelCase(text, upperCamel, delimiters);
+		// assume text is already in CamelCase
+		return text;
+	}
+
+	/**
+	 * Requires: org.apache.commons.commons-text
+	 * @effects
+	 *	return the standard Camel case text for <tt>text</tt>
+	 * @version 1.0
+	 */
+	public static String toCamelCase(String text) {
+		if (text.contains("-service")) {
+			text = text.replace("-service", "Service");
+		}
+
+		char defDelim = '\u0000';
+		return toCamelCase(text, defDelim);
 	}
 }

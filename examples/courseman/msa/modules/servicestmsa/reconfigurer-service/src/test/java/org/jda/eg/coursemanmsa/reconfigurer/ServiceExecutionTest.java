@@ -1,6 +1,7 @@
 package org.jda.eg.coursemanmsa.reconfigurer;
 
 import jda.modules.common.io.ToolkitIO;
+import jda.modules.msacommon.msatool.MonitorAction;
 import jda.modules.msacommon.msatool.ServiceMonitor;
 
 import java.io.File;
@@ -27,9 +28,9 @@ public class ServiceExecutionTest {
     // starting it
     Function<Object, Integer> servMonitorFunc = null;
     try {
-      String healthCheckUrl = "http://localhost:8999/actuator/health";
+      String serviceUrl = "http://localhost:8999";
       int timeOut = 60; //secs
-      servMonitorFunc = new ServiceMonitor(healthCheckUrl, timeOut,
+      servMonitorFunc = new ServiceMonitor(serviceUrl, MonitorAction.health,
           ServiceMonitor.healthContentHandler)
           .getMonitorFunc();
     } catch (URISyntaxException e) {

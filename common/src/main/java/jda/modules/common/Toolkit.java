@@ -1,25 +1,16 @@
 package jda.modules.common;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.StringTokenizer;
-
 import jda.modules.common.collection.CollectionToolkit;
 import jda.modules.common.datetime.ShortDayLabel;
 import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.common.exceptions.NotPossibleException;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.util.*;
+import java.util.Map.Entry;
 
 
 public class Toolkit {
@@ -30,7 +21,7 @@ public class Toolkit {
    *  
    * @author dmle
    */
-  public static enum Season {
+  public enum Season {
     Spring,
     Summer,
     Fall, 
@@ -407,12 +398,12 @@ public class Toolkit {
       }
     } catch (Exception e) {
       throw new NotFoundException(NotFoundException.Code.METHOD_NOT_FOUND, e,
-          new Object[] {c, name, Arrays.toString(paramTypes)});
+          c, name, Arrays.toString(paramTypes));
     }
 
     if (m == null) {
       throw new NotFoundException(NotFoundException.Code.METHOD_NOT_FOUND,
-          new Object[] {c, name, Arrays.toString(paramTypes)});
+          c, name, Arrays.toString(paramTypes));
     } else {
       return m;
     }
@@ -443,7 +434,7 @@ public class Toolkit {
       }
     } catch (Exception e) {
       throw new NotFoundException(NotFoundException.Code.METHOD_NOT_FOUND, e,
-          new Object[] {c, name, Arrays.toString(paramTypes)});
+          c, name, Arrays.toString(paramTypes));
     }
 
     if (m == null) {
@@ -471,7 +462,7 @@ public class Toolkit {
       }
 
       throw new NotFoundException(NotFoundException.Code.METHOD_NOT_FOUND,
-          new Object[] {c, name, ""});
+          c, name, "");
     } catch (SecurityException e) {
       throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_PERFORM, e,
           new Object[] {"Method not found", c.getSimpleName()+"."+name, e.getMessage()});
@@ -1052,7 +1043,7 @@ public class Toolkit {
    * @modifies 
    *  {@link #sharedCalendarInstance}
    * @effects
-   *  return the value of the field {@link field} of <tt>date</tt> 
+   *  return the value of the field <tt>field</tt>> of <tt>date</tt>
    * @requires 
    *  {@link #sharedCalendarInstance} is not being modified
    *   
@@ -1089,7 +1080,7 @@ public class Toolkit {
     cal.setTime(date);
     long millis = cal.getTimeInMillis();
     
-    long addMillis = numDays * MILLIS_IN_A_DAY + secs * 1000;
+    long addMillis = numDays * MILLIS_IN_A_DAY + secs * 1000L;
     
     millis += addMillis;
     

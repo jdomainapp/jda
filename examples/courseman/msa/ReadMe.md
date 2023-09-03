@@ -3346,18 +3346,19 @@ Version 2.0 logic flow (as described in the paper). This involves the coordinati
 	+ in-request:
 		- url:  http://$gateway-server/reconfigurer-service/demote
 		+ body (parameters):
-			- sourceServ (s1): http://localhost:8098
+			- sourceServ (s1): academicadmin-service
 			- demServ (sc):	cmodulemgnt
-			- targetServ (s2): http://localhost:8099
-			- targetMod (p): coursemgnt
+			- targetServ (s2): academicadmin-service
+			- targetParentMod (p): coursemgnt
 
-			--> demote($sourceServ, $demServ, $targetServ, $targetMod)
+			--> demote($sourceServ, $demServ, $targetServ, targetParentMod)
 		
-		+ demote(sourceServ, sc, targetServ, targetMod)
-			--> D : ModuleDesc = reform(s1, sc)
-			--> SR2.runModule(s2, p, D)
-			--> demoteCompleted(s1, D.pid)
-			--> s1.remove(sc) 
+		+ demote(sourceServ, sc, targetServ, targetParentMod)
+			--> D : ModuleDesc = deform(s1, sc)
+			--> initRunModule(SR2, s2, p, D)
+        --> SR2.runModule(s2, p, D)
+      --> demoteCompleted(s1, D.pid)
+      --> s1.remove(sc) 
 
 ## Version 1.0 logic flow
 ### Service(Source)

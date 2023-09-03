@@ -11,7 +11,7 @@ import java.text.MessageFormat;
  *
  */
 public class NotPossibleException extends ApplicationRuntimeException {
-  public static enum Code implements InfoCode {
+  public enum Code implements InfoCode {
     /**
      * 0: class
      */
@@ -29,7 +29,7 @@ public class NotPossibleException extends ApplicationRuntimeException {
      * 1: method name
      * 2: arg(s) (comma-separated)
      */
-    FAIL_TO_PERFORM_METHOD("Không thể thực hiện phương thức {0}.{1}({2})"), //
+    FAIL_TO_PERFORM_METHOD("Fail to perform method {0}.{1}({2})"), //
     /**
      * 0: cause/subject of the method
      */
@@ -189,6 +189,8 @@ public class NotPossibleException extends ApplicationRuntimeException {
      * 0: folder
      */
     FAIL_TO_CREATE_FOLDER("Không thể tạo thư mục (folder): {0}"),
+    FOLDER_EMPTY("Empty folder: {0}"),
+
     /**
      * 0: file
      */
@@ -522,9 +524,9 @@ public class NotPossibleException extends ApplicationRuntimeException {
     FAIL_TO_SAVE_FILE("Không thể lưu file: {0}"),
     ;   
     
-    private String text;
+    private final String text;
     
-    private Code(String text) {
+    Code(String text) {
       this.text = text;
     }
     
@@ -544,7 +546,7 @@ public class NotPossibleException extends ApplicationRuntimeException {
       
       return messageFormat;
     }
-  };
+  }
 
   // v2.7.3
   /**

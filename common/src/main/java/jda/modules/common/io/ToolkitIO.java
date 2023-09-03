@@ -4,6 +4,7 @@ import jda.modules.common.Toolkit;
 import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.common.types.Tuple2;
+import jda.modules.common.zipextractor.ZipExtractor;
 
 import javax.json.*;
 import java.io.*;
@@ -52,7 +53,7 @@ public class ToolkitIO {
   /**
    * Java file or sub-dir filter (accept only ".java" files or sub-directories)
    */
-  private static final FilenameFilter JavaFileOrSubdirFilter = new FilenameFilter() {
+  public static final FilenameFilter JavaFileOrSubdirFilter = new FilenameFilter() {
       @Override
       public boolean accept(File dir, String name) {
         if (name.endsWith(".java")) {
@@ -63,19 +64,35 @@ public class ToolkitIO {
         }
       }
   };
-  
+
+  /**
+   * Java file or sub-dir filter (accept only ".java" files or sub-directories)
+   * @version 5.8
+   */
+  public static final FilenameFilter JavaClassFileOrSubdirFilter = new FilenameFilter() {
+    @Override
+    public boolean accept(File dir, String name) {
+      if (name.endsWith(".class")) {
+        return true;
+      } else {
+        File entry = new File(dir, name);
+        return entry.isDirectory();
+      }
+    }
+  };
+
   /**
    * matches all folders
    */
-  private static final FilenameFilter FolderFilter = new FilenameFilter() {
+  public static final FilenameFilter FolderFilter = new FilenameFilter() {
       @Override
       public boolean accept(File dir, String name) {
         File entry = new File(dir, name);
         return entry.isDirectory();
       }
   };
-  
-  private static final FilenameFilter JavaResourceFileFilter = new FilenameFilter() {
+
+  public static final FilenameFilter JavaResourceFileFilter = new FilenameFilter() {
     private final String[] ResExts = {
         ".dat", ".properties"
         // add other supported file extensions here
@@ -455,7 +472,7 @@ public class ToolkitIO {
     return String.join(File.separator, pkg) + 
         (fileExt.startsWith(".") ? fileExt : "." + fileExt);
   }
-  
+
   /**
    * @requires pkgName is the Java package name that corresponds to a valid folder
    * @effects 
@@ -476,6 +493,27 @@ public class ToolkitIO {
   public static String getPackageNameFromPath(String pathName) {
     String[] pathElements = pathName.split(Pattern.quote(File.separator));
     return String.join(".", pathElements);
+  }
+
+  /**
+   * A more general version of {@link #getPackageNameFromPath(String)}
+   * @requires
+   *  <tt>prefixPath</tt> and <tt>path</tt> are directory paths and
+   *  <tt>path</tt> has <tt>prefixPath</tt> as its path prefix
+   * @effects
+   *  return the Java package name equivalence of the <code>path \ prefixPath</code>
+   * @version 5.8
+   */
+  public static String getPackageNameFromPath(String prefixPath, String path) {
+    if (prefixPath == null) {
+      return getPackageNameFromPath(path);
+    } else {
+      String packagePath = path.substring(prefixPath.length());
+      if (packagePath.startsWith(File.separator))
+        packagePath = packagePath.substring(1);
+      String[] pathElements = packagePath.split(Pattern.quote(File.separator));
+      return String.join(".", pathElements);
+    }
   }
   
   /**
@@ -742,7 +780,23 @@ public class ToolkitIO {
       throw new IOException("Jar file '"+jarFile+"' is not recognised as a valid file for class: " + c);
     }        
   }
-  
+
+  /**
+   *
+   * @effects
+   *   extract the specified <tt>jarFile</tt> into the specified <tt>toFolder</tt> and, if successful
+   *   then return File representing the full-path to the extracted folder.
+   *
+   *   <p>The <tt>jarFile</tt> is treated as a zip-compressed file.</p>
+   *
+   *   Throws NotPossibleException if fails.
+   *
+   * @version 5.8
+   */
+  public static File extractJarFile(File jarFile, File toFolder) throws NotPossibleException {
+    return ZipExtractor.extractFile(jarFile, toFolder);
+  }
+
   /**
    * @effects 
    *  if <tt>path</tt> represents a single-level directory path
@@ -1455,6 +1509,121 @@ public class ToolkitIO {
           javFiles.add(fileOrDir);
         }
       }
+    }
+  }
+
+
+  /**
+   * A wrapper method for {@link #searchForFiles(File, FilenameFilter)} that returns Java class files.
+   *
+   * @effects
+   *   read all Java class files that are stored under directory <tt>folder</tt> and all
+   *    the descendant directories and return them as {@link Map}.
+   *    This conveniently maps FQN of each class to the File object of the class file.
+   *
+   *    If no such files are found then return <tt>null</tt>
+   * @version 1.0
+   */
+  public static Map<String, File> searchForClassFiles(File folder) {
+    Collection<File> files = searchForFiles(folder, JavaClassFileOrSubdirFilter);
+    if (files == null) return null;
+
+    Map<String,File> classFQNs= new LinkedHashMap<>();
+    String folderPath = folder.getPath();
+
+    for (File clsFile : files) {
+      String pkgName = getPackageNameFromPath(folderPath, clsFile.getParentFile().getPath());
+      String clsFileName = clsFile.getName();
+      String clsName = clsFileName.substring(0,clsFileName.lastIndexOf("."));
+      String clsFqn = pkgName+"." + clsName;
+      classFQNs.put(clsFqn, clsFile);
+    }
+
+    return classFQNs;
+  }
+
+  /**
+   * An overloading method for {@link #searchForClassFiles(File)}.
+   */
+  public static Map<String, File> searchForClassFiles(String folderPath) {
+    File folder = new File(folderPath);
+    return searchForClassFiles(folder);
+  }
+
+  /**
+   * @effects
+   *  read all files whose names match <tt>searchFilter</tt> that are stored under directory <tt>pDir</tt> and all
+   *  the descendant directories and return them as {@link Collection}.
+   *  If no such files are found then return <tt>null</tt>
+   */
+  public static Collection<File> searchForFiles(File pDir, FilenameFilter searchFilter) {
+    if (pDir == null) return null;
+
+    Collection<File> fileCol = new ArrayList<>();
+    searchForFiles(pDir, fileCol, searchFilter);
+
+    if (fileCol.isEmpty())
+      return null;
+    else
+      return fileCol;
+  }
+
+  /**
+   * @requires pDir != null /\ fileCol != null
+   * @effects
+   *  read all files whose names match <tt>searchFilter</tt> that are stored under directory <tt>pDir</tt> and all
+   *  the descendant directories and add them to {@link Collection}.
+   */
+  public static void searchForFiles(File pDir, Collection<File> fileCol, FilenameFilter searchFilter) {
+    File[] dirEntries = pDir.listFiles(searchFilter);
+    if (dirEntries != null) {
+      for (File fileOrDir : dirEntries) {
+        if (fileOrDir.isDirectory()) {
+          // recursive
+          searchForFiles(fileOrDir, fileCol, searchFilter);
+        } else { // matching file
+          fileCol.add(fileOrDir);
+        }
+      }
+    }
+  }
+
+  /**
+   * @requires parentFolder is a valid folder
+   * @effects
+   *    if parentFolder contains sub folders then
+   *      list the full paths of these sub-folders into a text file named <tt>outputFileName</tt>
+   *      which is in the directory <tt>parentFolder</tt>,
+   *      return this file
+   *    else
+   *      return null
+   */
+  public static File getSubDirsToFile(File parentFolder, String outputFileName) {
+    if (parentFolder == null || !parentFolder.exists())
+      return null;
+
+    try {
+      StringBuilder dirList = new StringBuilder();
+      Files.list(parentFolder.toPath()).forEach(subPath -> {
+        File fd = subPath.toFile();
+        if (fd.isDirectory()) {
+          // sub-dir
+          dirList.append(fd.getAbsolutePath()).append(NL );
+        }
+      });
+
+      if (dirList.length() > 0) {
+        // write dir list to file and return
+        String subDirListFilePath = parentFolder.getAbsolutePath() + File.separator + outputFileName;
+        File dirListFile = new File(subDirListFilePath);
+        writeTextFile(new File(subDirListFilePath), dirList.toString(), true);
+        return dirListFile;
+      } else {  // no sub dirs
+        return null;
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+      return null;
     }
   }
 
@@ -2177,7 +2346,10 @@ public class ToolkitIO {
   
   /**
    * This method is needed because {@link JsonObject} is immutable.
-   *  
+   *
+   * @requires
+   *  <tt>obj</tt> contains a property named <tt>key</tt>.
+   *
    * @effects 
    *  create and return a new {@link JsonObject} by copying an existing <code>obj</code>
    *  and replacing the key <code>key</code> by the new <code>val</code>
@@ -2186,12 +2358,85 @@ public class ToolkitIO {
    */
   public static JsonObject createNewJsonObject(JsonObject obj, 
       String key, JsonValue val) {
-    return Json.createObjectBuilder(obj)
-    .remove(key)
+    JsonObjectBuilder builder =
+        (obj != null) ? Json.createObjectBuilder(obj) :
+            Json.createObjectBuilder();
+
+    return builder.remove(key)
     .add(key, val)
     .build();
   }
-  
+
+  /**
+   * This method is needed because {@link JsonObject} is immutable.
+   *
+   * @effects
+   *  create and return a new {@link JsonObject} that is initialised with the <code>(key, val)</code> pair.
+   *
+   * @version 5.8
+   */
+  public static JsonObject createNewJsonObject(String key, JsonValue val) {
+    JsonObjectBuilder builder = Json.createObjectBuilder();
+
+    return builder.add(key, val)
+        .build();
+  }
+
+  /**
+   * This method is needed because {@link JsonObject} is immutable.
+   *
+   * @effects
+   *  create and return a new {@link JsonObject} by copying an existing <code>obj</code> (if specified)
+   *  and having a property <tt>(key, value)</tt>, where <tt>value</tt> is a {@link JsonArray} consisting of objects created from <tt>map</tt>.
+   *
+   * @version 5.8
+   */
+  public static <K,V> JsonObject createNewJsonObject(JsonObject obj,
+                                               String key,
+                                               Map<K,V> map) {
+    JsonObjectBuilder builder =
+        (obj != null) ? Json.createObjectBuilder(obj) :
+        Json.createObjectBuilder();
+
+    JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
+    for (Entry<K,V> e : map.entrySet()) {
+      JsonObject entryJson = createNewJsonObject("key", "controller", e);
+      arrBuilder.add(entryJson);
+    }
+
+    builder.add(key, arrBuilder.build());
+
+    return builder.build();
+  }
+
+  /**
+   *
+   * @effects
+   *  create and return a {@link JsonObject} from the specified properties <tt>key, value</tt> whose values are taken from the {@link Entry} <tt>e</tt>,
+   *  i.e. <tt>JsonObject o = {key: e.getKey(), value: e.getValue()}</tt>
+   * @version 5.8
+   */
+  public static <K, V> JsonObject createNewJsonObject(String key, String value, Entry<K,V> e) {
+    JsonObjectBuilder builder = Json.createObjectBuilder();
+    builder.add(key, String.valueOf(e.getKey()));
+    builder.add(value, String.valueOf(e.getValue()));
+
+    return builder.build();
+  }
+
+  /**
+   * This method is needed because {@link JsonObject} is immutable.
+   *
+   * @effects
+   *  create and return a new {@link JsonObject} from the (key, value) pairs in the specified <tt>map</tt>
+   *
+   * @version 5.8
+   */
+  public static <K,V> JsonObject createNewJsonObject(
+      String key, Map<K,V> map) {
+    return createNewJsonObject(null, key, map);
+  }
+
   /**
    * @effects 
    *  if fileName represents a valid Json file relative to <code>c</code>

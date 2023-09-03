@@ -1,28 +1,20 @@
 package jda.modules.common.javac;
 
-import java.io.File;
-import java.io.Writer;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import jda.modules.common.exceptions.NotFoundException;
+import jda.modules.common.exceptions.NotPossibleException;
+import jda.modules.common.io.ToolkitIO;
 
 import javax.tools.JavaCompiler;
 import javax.tools.JavaCompiler.CompilationTask;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
-
-import jda.modules.common.collection.CollectionToolkit;
-import jda.modules.common.exceptions.NotFoundException;
-import jda.modules.common.exceptions.NotPossibleException;
-import jda.modules.common.io.ToolkitIO;
+import java.io.File;
+import java.io.Writer;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.*;
 
 /**
  * @overview 
@@ -215,6 +207,32 @@ public class JavaC {
     }
   }
 
+  /**
+   * A generic method to load classes stored under a folder location.
+   *
+   * @effects
+   *  load from <tt>folder</tt> and all of its descendant folders all the classes> and return
+   *  them as {@link Map}: <tt>FQN -&gt; Class</tt>.
+   *
+   *  Throws NotFoundException if some classes are not found.
+   */
+  public static Map<String,Class<?>> loadClasses(final File folder) throws NotFoundException {
+    // find all classes under folder
+    Map<String,File> classFiles = ToolkitIO.searchForClassFiles(folder);
+
+    if (classFiles == null) {
+      throw new NotFoundException(NotFoundException.Code.FILE_NOT_FOUND, new String[] { folder.getPath()});
+    } else {
+      // load classes
+      String[] classFQNs = classFiles.keySet().toArray(new String[0]);
+      Map<String, Class<?>> loadedClasses = loadClasses(folder, classFQNs);
+
+      return loadedClasses;
+//      loadedClasses.entrySet().forEach(e -> {
+//        System.out.printf("... loaded: %s -> %s)%n", e.getKey(), e.getValue());
+//      });
+    }
+  }
 
   /**
    * @effects 
@@ -289,8 +307,8 @@ public class JavaC {
       try {
         urls[i++] = file.toURI().toURL();
       } catch (MalformedURLException e) {
-        throw new NotPossibleException(NotPossibleException.Code.INVALID_ARGUMENT, e, 
-            new Object[] {file});
+        throw new NotPossibleException(NotPossibleException.Code.INVALID_ARGUMENT, e,
+            file);
       }
     }
     

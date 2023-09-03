@@ -25,13 +25,15 @@
 		<!--	reconfigurer	-->
 		<module>reconfigurer-service</module>
 		<module>hello-service</module>
+		<module>temp</module>
 	</modules>
 
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
 		<dependency>
-			<groupId>jda.modules</groupId>
-			<artifactId>jda-msacommon</artifactId>
-			<version>1.0</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>1.10.0</version>
 		</dependency>
 
 		<dependency>
@@ -117,6 +119,12 @@
 		</dependency>
 
 		<!-- JDA -->
+		<dependency>
+			<groupId>jda.modules</groupId>
+			<artifactId>jda-msacommon</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>jda.modules</groupId>
 			<artifactId>jda-mccl</artifactId>

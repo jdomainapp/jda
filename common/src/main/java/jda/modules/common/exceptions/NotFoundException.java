@@ -43,9 +43,9 @@ public class NotFoundException extends ApplicationRuntimeException {
      * */
     METHOD_ANNOTATED_NOT_FOUND("Không tìm thấy phương thức {0}.{1}@{2}({3})"), //
     /**0 : file name*/
-    FILE_NOT_FOUND("Không tìm thấy tệp: {0}"), //
+    FILE_NOT_FOUND("No such file(s) exist: {0}"), //
     /**0: folder name*/
-    FOLDER_NOT_FOUND("Không tìm thấy thư mục: {0}"), //
+    FOLDER_NOT_FOUND("No such folder(s) exist: {0}"), //
     /**
      * 0: class
      * 1: parameter list (type-value list OR type list)

@@ -1,13 +1,12 @@
 package jda.modules.mosar.test.reflections;
 
-import java.util.Set;
-
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import org.courseman.modules.coursemodule.model.CourseModule;
 import org.reflections.Reflections;
 import org.slf4j.LoggerFactory;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
+import java.util.Set;
 
 /**
  * @overview 
@@ -23,7 +22,7 @@ public class ReadSubtypes {
     Logger root = (Logger) LoggerFactory.getLogger("org.reflections");
     root.setLevel(Level.OFF);
     
-//    readSimple();
+    readSimple();
     
     readProject();
   }
@@ -36,12 +35,12 @@ public class ReadSubtypes {
    */
   private static void readProject() {
     Class c = CourseModule.class;
-    String pkgPath = "com.hanu.courseman";
+    String pkgPath = "org.courseman.modules.coursemodule.model";
     Reflections refls = new Reflections(pkgPath);
 
     Set<Class> descendants = refls.getSubTypesOf(c);
-    
-    System.out.println(descendants); 
+    System.out.println(descendants);
+
   }
 
   /**

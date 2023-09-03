@@ -1,34 +1,15 @@
 package jda.modules.dcsl.util;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Executable;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Parameter;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
-import java.util.Stack;
-import java.util.Vector;
-
 import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.dcsl.syntax.AttrRef;
 import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dcsl.syntax.DOpt;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.*;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * @overview 
@@ -96,7 +77,7 @@ public class DClassTk {
       return mdc.getAnnotation(dcClass);
     } else {
       // use the field domain constraint (if any)
-      return (DAttr) cls.getDeclaredField(attributeName)
+      return cls.getDeclaredField(attributeName)
           .getAnnotation(dcClass);
     }
   }
@@ -336,7 +317,7 @@ public class DClassTk {
       */
       if (myFields.length > 0) {
         // to filter
-        SUP: for (Field supField : supFields) {
+        for (Field supField : supFields) {
           sn = supField.getName();
           Field match = null;
           for (Field f : myFields) {
@@ -348,7 +329,7 @@ public class DClassTk {
               break;
             }
           }
-          
+
           if (match != null) {
             fields.add(match);
             matchingFields.push(match);
@@ -435,7 +416,7 @@ public class DClassTk {
       */
       if (myFields.length > 0) {
         // to filter
-        SUP: for (Field supField : supFields) {
+        for (Field supField : supFields) {
           sn = supField.getName();
           Field match = null;
           for (Field f : myFields) {
@@ -447,7 +428,7 @@ public class DClassTk {
               break;
             }
           }
-          
+
           if (match != null) {
             fields.add(match);
             matchingFields.push(match);
@@ -661,7 +642,7 @@ public class DClassTk {
    * @version 5.4 
    */
   public static String getGetterNameFor(String fieldName) {
-    fieldName = (fieldName.charAt(0)+"").toUpperCase() + fieldName.substring(1);
+    fieldName = (String.valueOf(fieldName.charAt(0))).toUpperCase() + fieldName.substring(1);
     return "get" + fieldName;
   }
   
@@ -672,7 +653,7 @@ public class DClassTk {
    * @version 5.4 
    */
   public static String getSetterNameFor(String fieldName) {
-    fieldName = (fieldName.charAt(0)+"").toUpperCase() + fieldName.substring(1);
+    fieldName = (String.valueOf(fieldName.charAt(0))).toUpperCase() + fieldName.substring(1);
     return "set" + fieldName;
   }
   
@@ -684,9 +665,6 @@ public class DClassTk {
   public static Method getMethod(Class cls, String name) {
     Method[] methods = cls.getDeclaredMethods();
 
-    if (methods.length == 0) 
-      return null;
-    
     for (Method m : methods) {
       if (m.getName().equals(name))
         return m;
@@ -740,7 +718,7 @@ public class DClassTk {
   public static Method getMutatorFor(Class cls, String attribName) {
     //return findSetterMethod(cls, attribName);
     
-    String mname = (attribName.charAt(0) + "").toUpperCase()
+    String mname = (String.valueOf(attribName.charAt(0))).toUpperCase()
         + attribName.substring(1);
     mname = "set" + mname;
     
@@ -774,7 +752,7 @@ public class DClassTk {
    */
   public static Method findSetterMethod(Class cls, String fieldName) {
     
-    fieldName = (fieldName.charAt(0) + "").toUpperCase()
+    fieldName = (String.valueOf(fieldName.charAt(0))).toUpperCase()
         + fieldName.substring(1);
     String mname = "set" + fieldName;
 
@@ -808,7 +786,7 @@ public class DClassTk {
    */
   public static Method findGetterMethod(Class c, String fieldName) {
     
-    fieldName = (fieldName.charAt(0) + "").toUpperCase()
+    fieldName = (String.valueOf(fieldName.charAt(0))).toUpperCase()
         + fieldName.substring(1);
     String mname = "get" + fieldName;
     return findMethodByName(c, mname);
@@ -826,7 +804,7 @@ public class DClassTk {
    */
   public static Method findGetterMethodFor(Class cls,
       String fieldName) {
-    fieldName = (fieldName.charAt(0) + "").toUpperCase()
+    fieldName = (String.valueOf(fieldName.charAt(0))).toUpperCase()
         + fieldName.substring(1);
     final String mname = "get" + fieldName;
     
@@ -889,7 +867,7 @@ public class DClassTk {
       NoSuchMethodException {
     String fname = f.getName();
     Class type = f.getType();
-    fname = (fname.charAt(0) + "").toUpperCase() + fname.substring(1);
+    fname = (String.valueOf(fname.charAt(0))).toUpperCase() + fname.substring(1);
     String mname = prefix + fname;
 
     // first try the method with the same type
@@ -1279,20 +1257,18 @@ public class DClassTk {
     Method[] methods = c.getDeclaredMethods();
     
     int count = 0;
-    
-    if (methods.length > 0) {
-      for (Method m : methods) {
-        int mod = m.getModifiers();
-        if ((Modifier.isPublic(modifier) && Modifier.isPublic(mod)) ||
-            (Modifier.isPrivate(modifier) && Modifier.isPrivate(mod)) || 
-            (Modifier.isProtected(modifier) && Modifier.isProtected(mod))
-            ){
-          // match
-          count++;
-        }
+
+    for (Method m : methods) {
+      int mod = m.getModifiers();
+      if ((Modifier.isPublic(modifier) && Modifier.isPublic(mod)) ||
+          (Modifier.isPrivate(modifier) && Modifier.isPrivate(mod)) ||
+          (Modifier.isProtected(modifier) && Modifier.isProtected(mod))
+      ) {
+        // match
+        count++;
       }
-    }      
-    
+    }
+
     return count;
   }
   
@@ -1690,7 +1666,7 @@ public class DClassTk {
    */
   public static Method getObserverFor(Class cls, String attribName) {
     
-    String mname = (attribName.charAt(0) + "").toUpperCase()
+    String mname = (String.valueOf(attribName.charAt(0))).toUpperCase()
         + attribName.substring(1);
     mname = "get" + mname;
     
@@ -1940,11 +1916,7 @@ public class DClassTk {
    */
   public static boolean isGenericType(Field attrib) {
     java.lang.reflect.Type type = attrib.getGenericType();
-    if (type instanceof ParameterizedType) {
-      return true;
-    } else {
-      return false;
-    }
+    return type instanceof ParameterizedType;
   }
   
 //  /**
@@ -1979,15 +1951,13 @@ public class DClassTk {
    */
   public static boolean hasInnerClassTyped(Class cls, Class supType) {
     Class[] inners = cls.getDeclaredClasses();
-    if (inners.length > 0) {
-      for (Class inner : inners) {
-        if (supType.isAssignableFrom(inner)) {
-          // found one
-          return true;
-        }
+    for (Class inner : inners) {
+      if (supType.isAssignableFrom(inner)) {
+        // found one
+        return true;
       }
     }
-    
+
     // not found
     return false;
   }
@@ -2004,15 +1974,13 @@ public class DClassTk {
    */
   public static Class getInnerClassTyped(Class cls, Class supType) {
     Class[] inners = cls.getDeclaredClasses();
-    if (inners.length > 0) {
-      for (Class inner : inners) {
-        if (supType.isAssignableFrom(inner)) {
-          // found one
-          return inner;
-        }
+    for (Class inner : inners) {
+      if (supType.isAssignableFrom(inner)) {
+        // found one
+        return inner;
       }
     }
-    
+
     // not found
     return null;
   }
@@ -2132,7 +2100,19 @@ public class DClassTk {
           new String[] {cls.getName(), ""});
     }
   }
-  
+
+  /**
+   * @effects
+   *
+   *  create an object of <tt>cls</tt> by invoking the default constructor.
+   *
+   *  <p>Throws NotPossibleException if fails.
+   * @version 5.8
+   */
+  public static <T> T createObjectDefault(Class<T> cls) throws NotPossibleException {
+    return createObject(cls, null);
+  }
+
   /**
    * @requires 
    *  <tt>attribValMap != null => 
@@ -2152,7 +2132,7 @@ public class DClassTk {
    *  
    *  <p>Throws NotPossibleException if fails.
    */
-  public static <T> T createObject(Class<T> cls, Map<String, Object> attribValMap) {
+  public static <T> T createObject(Class<T> cls, Map<String, Object> attribValMap) throws NotPossibleException {
     
     Object[] args;
     Constructor<T> cons = null;
@@ -2180,8 +2160,8 @@ public class DClassTk {
     }
     
     if (cons == null) { // constructor not found
-      throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_CREATE_OBJECT, 
-          new Object[] {cls, "required-constructor"} );
+      throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_CREATE_OBJECT,
+          cls, "required-constructor");
     }
     
     T instance;
@@ -2760,12 +2740,12 @@ public class DClassTk {
     if (name == null || name.isEmpty()) return name;
     
     StringBuilder sb = new StringBuilder(name);
-    String firstChar = sb.charAt(0)+"";
+    String firstChar = String.valueOf(sb.charAt(0));
     
     String newName;
     String lowerFirst = firstChar.toLowerCase();
     if (lowerFirst.equals(firstChar)) {
-      newName = firstChar.toUpperCase() + sb.delete(0, 1).toString();
+      newName = firstChar.toUpperCase() + sb.delete(0, 1);
     } else {
       if (name.length() < 2) return name;
       
@@ -2906,11 +2886,11 @@ public class DClassTk {
     } catch (NoSuchMethodException e) {
       throw new NotFoundException(NotFoundException.Code.CONSTRUCTOR_METHOD_NOT_FOUND, 
           e,
-          new Object[] {cls, paramType});
+          cls, paramType);
     } catch (Exception e) {
       throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_CREATE_OBJECT, 
           e,
-          new Object[] {cls, param});
+          cls, param);
     }
     
   }
@@ -2936,11 +2916,11 @@ public class DClassTk {
     } catch (NoSuchMethodException e) {
       throw new NotFoundException(NotFoundException.Code.CONSTRUCTOR_METHOD_NOT_FOUND, 
           e,
-          new Object[] {cls, Arrays.toString(paramTypes)});
+          cls, Arrays.toString(paramTypes));
     } catch (Exception e) {
       throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_CREATE_OBJECT, 
           e,
-          new Object[] {cls, Arrays.toString(params)});
+          cls, Arrays.toString(params));
     }
     
   }
@@ -2973,7 +2953,7 @@ public class DClassTk {
     
     return (superType != null && superType != Object.class);
   }
-  
+
 //  /**
 //   * @effects 
 //   *  create and return a dot-representation of an enum value.

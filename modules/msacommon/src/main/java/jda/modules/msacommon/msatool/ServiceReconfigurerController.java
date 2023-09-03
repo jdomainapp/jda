@@ -1,6 +1,7 @@
 package jda.modules.msacommon.msatool;
 
 import jda.modules.common.exceptions.NotFoundException;
+import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.common.io.ToolkitIO;
 import jda.modules.msacommon.controller.ControllerTk;
 import jda.modules.msacommon.model.ModuleDesc;
@@ -44,16 +45,17 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 		@RequestParam String module, @RequestParam String targetServ) {
 		
 		ModuleDesc md = transform(sourceServ, module);
+		String servName = md.getService();
 
 		try {
-			String sr2 = lookUpReconfigurer(sourceServ);
+			String targetSR = lookUpReconfigurer(sourceServ);
 
-			String servName = ""; // initRunService(sr2, targetServ, md);
+			HttpStatus initResult = initRunService(targetSR, targetServ, md);
 
 			boolean result = promoteCompleted(sourceServ, md);
 
 			if (result)
-				return ResponseEntity.ok(String.format("Module '%s' promoted to service '%s': success", module, servName));
+				return ResponseEntity.ok(String.format("Promoting module '%s' to service '%s': OK", module, servName));
 			else
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(String.format("Failed to promote module '%s' to service '%s'", module, servName));
 		} catch (NotFoundException ex) {
@@ -63,16 +65,45 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 
 	/**
 	 * @effects
-	 *	handle HTTP-POST request for promoting the specified <tt>module</tt>, which is a descendant of the service <tt>sourceServ</tt>, to become a child of <tt>targetServ</tt>
+	 *	handle HTTP-POST request for demoting the specified <tt>demoteServ</tt>, which is a descendant of the service <tt>sourceServ</tt>, to become a child module of <tt>targetParentModule</tt> of the target service <tt>targetServ</tt>.
 	 *
 	 * @version 1.0
 	 */
 	@PostMapping(value = "/demote")
 	public ResponseEntity<?> demote(@RequestParam String sourceServ,
-																	 @RequestParam String module, @RequestParam String targetServ) {
+																	@RequestParam String demoteServ,
+																	@RequestParam String targetServ,
+																	@RequestParam String targetParentModule) {
+		// deform service
+		ModuleDesc md = deform(sourceServ, demoteServ);
+		String module = md.getModule();
+		String deployServName = getServiceUrl(demoteServ);
 
-		// todo
-		return null;
+		// stop service (if not already)
+		boolean shutOk = ServiceMonitor.executeRequest(deployServName, MonitorAction.shutdown, null);
+
+		if (!shutOk) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(String.format("Failed to shut down service '%s'", demoteServ));
+		}
+
+		try {
+			String targetSR = lookUpReconfigurer(sourceServ);
+			md.setParentModule(targetParentModule);
+
+			// run module and register it on the target
+			initRunModule(targetSR, targetServ, md);
+
+			boolean result = demoteCompleted(sourceServ, md);
+
+			if (result)
+				return ResponseEntity.ok(String.format("Succeeded demoting service '%s' to module '%s'", demoteServ, module));
+			else
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(String.format("Failed to demote service '%s' to module '%s'", sourceServ, module));
+		} catch (NotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		} catch (NotPossibleException ex) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+		}
 	}
 
 	/**
@@ -83,8 +114,11 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 	 */
 	private ModuleDesc transform(String sourceServ, String module) {
 		String pid = module;
-		String jarFile = transformModuleToDeployableService(sourceServ, module);
-		return new ModuleDesc(pid, module, jarFile);
+		String deployServName = getServiceNameFromModule(module);
+		String jarFile = transformModuleToDeployableService(sourceServ, module, deployServName);
+		ModuleDesc md = new ModuleDesc(pid, module, jarFile);
+		md.setService(deployServName);
+		return md;
 	}
 
 	/**
@@ -92,10 +126,10 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 	 *
 	 * @version 1.0
 	 */
-	private String transformModuleToDeployableService(String sourceServ, String module) {
+	private String transformModuleToDeployableService(String sourceServ, String module, String deployServName) {
 		// let deployServName = lowerCase(module) + "-service"
-		String deployServName = getServiceNameFromModule(module);
-		File dservDeployPath = getDeployServicePath(deployServName, true);
+//		String deployServName = getServiceNameFromModule(module);
+		File dservDeployPath = getDeployPath(deployServName, true);
 
 		// todo: for now assume file deploy.jar exists in the dservDeployPath folder
 		// let dm = Folder(module), ds = Folder(sourceServ)
@@ -121,13 +155,69 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 	}
 
 	/**
-	 * @effects requests the specified service-reconfigurer <tt>targetSR</tt> to create and deploy a service, whose structure is created from the module represented by <tt>md</tt> and that the new service is a child of <tt>targetServ</tt>.
+	 * This is the reverse operation of {@link #transform(String, String)}.
 	 *
-	 * If succeeded then return the new service name, otherwise return null
+	 * @requires
+	 * 	<tt>childService</tt> is a child service of <tt>parentServ</tt>
+	 *
+	 * @effects
+	 *	deform service <tt>childService</tt> that is a child of <tt>parentServ</tt> back to become a module.
 	 *
 	 * @version 1.0
 	 */
-	public String initRunService(String targetSR, String targetServ, ModuleDesc md) {
+	private ModuleDesc deform(String parentServ, String childService) {
+		String module = getModuleNameFromService(childService);
+		String pid = module;
+		String jarFile = deformServiceToDeployableModule(parentServ, childService);
+		ModuleDesc md = new ModuleDesc(pid, module, jarFile);
+		md.setService(childService);
+		return md;
+	}
+	
+	/**
+	 * @requires
+	 * 	 <tt>childService</tt> is a child service of <tt>parentServ</tt>
+	 *
+	 * @effects
+	 *   creates a Maven-project whose code structure is transformed from the code of the specified <tt>childService</tt>. Return the built JAR file of the project, which is the result of executing this Maven command <tt>mvn clean package spring-boot:repackage</tt>
+	 * @version 1.0
+	 */
+	private String deformServiceToDeployableModule(String parentServ, String childService) {
+		// let deployServName = lowerCase(module) + "-service"
+		String deployModuleName = getModuleNameFromService(childService);
+		File dmoduleDeployPath = getDeployPath(deployModuleName, true);
+
+		// todo: for now assume file deploy.jar exists in the dmoduleDeployPath folder
+		// let dm = Folder(module), ds = Folder(sourceServ)
+//		File dm = null;
+//		File ds = null;
+		// let dservices = ds.parent
+		// create service dir for deployServ: dserv = dservices.mkdir("deployServName")
+//		File dservices = ds.getParentFile();
+//		File dserv = new File(dservices.getPath(), deployServName);
+//		File dservTarget = new File(dserv.getPath(), "target");
+//		dservTarget.mkdirs();
+
+		// copy: dm -> dserv
+		// transform dserv.src to become a service
+		// create deployable jar in dserv.target using cmd `mvn clean package spring-boot:repackage`
+
+		// let fdeploy = File(dserv.target, deployServName + ".jar")
+		// return fdeploy
+		String deployJarName = deployModuleName + ".jar";
+		File fdeploy = new File(dmoduleDeployPath.getPath(), deployJarName);
+
+		return fdeploy.toString();
+	}
+
+	/**
+	 * @effects requests the specified service-reconfigurer <tt>targetSR</tt> to create and deploy a service, whose structure is created from the module represented by <tt>md</tt> and that the new service is a child of <tt>targetServ</tt>.
+	 *
+	 * Return {@link HttpStatus} of the operation.
+	 *
+	 * @version 1.0
+	 */
+	public HttpStatus initRunService(String targetSR, String targetServ, ModuleDesc md) {
 		// send md to targetSR to run service
 		HttpEntity<LinkedMultiValueMap<String, Object>> reqEntity = getMultiPartRequestFromModuleDesc(targetServ, md);
 		String pathAction = "runService";
@@ -137,7 +227,7 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 		ResponseEntity<String> restExchange = restTemplate.exchange(fullTargetURL, HttpMethod.POST, reqEntity, String.class);
 
 		//restExchange.getStatusCode()
-		return restExchange.getStatusCode().name();
+		return restExchange.getStatusCode();
 	}
 
 	@PostMapping(value = "/runService")
@@ -145,47 +235,67 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 			@RequestPart("targetServ") String targetServ,
 			@RequestPart("pid") String pid,
 			@RequestPart("module") String module,
+			@RequestPart("service") String service,
 			@RequestPart("file") MultipartFile file) {
 
 		// save file to deploy-path
-		String deployServName = getServiceNameFromModule(module);
-		File deployServicePath = getDeployServicePath(deployServName, false);
-		File dservFile = new File(deployServicePath.getPath(), deployServName + ".jar");
+		File deployServicePath = getDeployPath(service, false);
+		File dartFile = new File(deployServicePath.getPath(), service + ".jar");
 		if (!deployServicePath.exists()) {
 			deployServicePath.mkdirs();
-		} else if (dservFile.exists()) {	// delete existing files
-			dservFile.delete();
+		} else if (dartFile.exists()) {	// delete existing files
+			dartFile.delete();
 		}
 
 		try {
-			file.transferTo(dservFile);
+			file.transferTo(dartFile);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(e.getMessage());
 		}
 
 		// execute service
-		String serviceUrl = getServiceUrl(deployServName);
-		boolean result = executeService(serviceUrl, dservFile);
+		String serviceUrl = getServiceUrl(service);
+		boolean result = executeService(serviceUrl, dartFile);
 
 		if (result) {
 			// register service as child of targetServ
-			HttpStatus status = registerAsChild(deployServName, targetServ);
+			HttpStatus status = registerAsChild(service, targetServ);
 
 			if (status.equals(HttpStatus.OK)) {
 				return ResponseEntity.ok("Run service: success");
 			} else {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-						String.format("Failed to execute service: %s (%s)", dservFile, status ));
+						String.format("Failed to execute service: %s (%s)", dartFile, status ));
 			}
 		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to execute service: " + dservFile);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to execute service: " + dartFile);
 		}
 	}
 
-	private String getServiceUrl(String serviceName) {
-		String serviceUrl = gatewayServer + "/" + serviceName;
-		return serviceUrl;
+	/**
+	 * Unlike {@link #initRunService(String, String, ModuleDesc)}, which invokes the path action {@link #runService(String, String, String, String, MultipartFile)} of the service-reconfigurer, this method invokes the path action <tt>runModule</tt> of the target domain service.
+	 *
+	 * @effects requests the specified target service <tt>targetServ</tt> to execute the module specified in <tt>md</tt>
+	 * and that the new module is a child of <tt>targetParentModule</tt>.
+	 *
+	 * Throws NotPossibleException if fails.
+	 *
+	 * @version 1.0
+	 */
+	private void initRunModule(String targetSR, String targetServ, ModuleDesc md) throws NotPossibleException {
+		// send md to targetSR to run service
+		HttpEntity<LinkedMultiValueMap<String, Object>> reqEntity = getMultiPartRequestFromModuleDesc(targetServ, md);
+		String pathAction = "runModule";
+		String fullTargetURL = ControllerTk.getServicePath(gatewayServer, targetServ, pathAction);
+
+		ResponseEntity<String> restExchange = restTemplate.exchange(fullTargetURL, HttpMethod.POST, reqEntity, String.class);
+
+		HttpStatus status = restExchange.getStatusCode();
+		if (!status.is2xxSuccessful()) {
+			throw new NotPossibleException(NotPossibleException.Code.FAIL_TO_PERFORM_METHOD, new String[] {
+				"", "initRunModule", restExchange.getBody() });
+		}
 	}
 
 	/**
@@ -198,16 +308,15 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 		String cmd = "java -jar " + deployJarFile.getPath();
 		File workDir = null;
 		Environment env = getApplicationContextEnv();
-		String logFileName = env.getProperty("service.shell.logFile");
-		File logFile = new File(Objects.requireNonNull(logFileName));
+		String logFilePath = env.getProperty("service.shell.logFile");
+		File logFile = new File(Objects.requireNonNull(logFilePath));
+		ToolkitIO.touchPath(logFile.getParent());
 
 		// create a service monitor function to check service for "Up" after
 		// starting it
 		Function<Object, Integer> servMonitorFunc = null;
 		try {
-			String healthCheckUrl = serviceUrl + "/actuator/health";
-			int timeOut = 60; //secs
-			servMonitorFunc = new ServiceMonitor(healthCheckUrl, timeOut,
+			servMonitorFunc = new ServiceMonitor(serviceUrl, MonitorAction.health,
 					ServiceMonitor.healthContentHandler)
 					.getMonitorFunc();
 		} catch (URISyntaxException e) {
@@ -269,12 +378,42 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 		return restExchange.getStatusCode().equals(HttpStatus.OK);
 	}
 
+	private boolean demoteCompleted(String sourceServ, ModuleDesc module) {
+		// send a removeModule(module) request to sourceServ
+		String pathAction = "unregisterService";
+		String fullTargetURL = ControllerTk.getServicePath(gatewayServer, sourceServ, pathAction);
+
+		URI uri = null;
+		try {
+			uri = new URI(fullTargetURL);
+		} catch (URISyntaxException e) {
+			// should not happen
+		}
+
+		RequestEntity reqEntity = RequestEntity.post(uri).body(module);
+
+		ResponseEntity<String> restExchange = restTemplate.exchange(reqEntity, String.class);
+
+		return restExchange.getStatusCode().equals(HttpStatus.OK);
+	}
+
+	private String getServiceUrl(String serviceName) {
+		String serviceUrl = gatewayServer + "/" + serviceName;
+		return serviceUrl;
+	}
+
 	protected HttpEntity<LinkedMultiValueMap<String, Object>> getMultiPartRequestFromModuleDesc(String targetServ, ModuleDesc module) {
 		LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 
 		map.add("targetServ", targetServ);
 		map.add("pid", module.getPid());
 		map.add("module", module.getModule());
+		map.add("service", module.getService());
+
+		if (module.getParentModule()  != null) {
+			map.add("parentModule", module.getParentModule());
+		}
+
 		map.add("file", new FileSystemResource(new File(module.getJarFile())));
 
 		HttpHeaders headers = new HttpHeaders();
@@ -310,17 +449,42 @@ public abstract class ServiceReconfigurerController extends ServiceReconfigurerC
 		return requestEntity;
 	}
 
+	/**
+	 * This is the reverse of {@link #getModuleNameFromService(String)}
+	 * @effects
+	 *	return the standard service name from the specified <tt>module</tt> name.
+	 *
+	 * @version 1.0
+	 */
 	private String getServiceNameFromModule(String module) {
 		return module.toLowerCase() + "-service";
 	}
 
-	private File getDeployServicePath(String deployServName, boolean sourceOrTarget) {
+	/**
+	 * @requires
+	 *	<tt>servName</tt> follows the standard service naming convention: <tt>xyz-service</tt>
+	 *
+	 * @effects
+	 *	extract the service name from <tt>servName</tt> and return it as the module name
+	 *
+	 * @version 1.0
+	 */
+	private String getModuleNameFromService(String servName) {
+		if (servName.endsWith("-service")) {
+			return servName.substring(0,servName.indexOf("-service"));
+		} else {
+			return servName;
+		}
+	}
+	
+	private File getDeployPath(String deployedArtifactName, boolean sourceOrTarget) {
 		Environment env = getApplicationContextEnv();
-		String propName = sourceOrTarget ? "path.service.deploySource" : "path.service.deployTarget";
+		return ControllerTk.getDeployPath(env, deployedArtifactName, sourceOrTarget);
+		/*String propName = sourceOrTarget ? "path.service.deploySource" : "path.service.deployTarget";
 		String serviceDeployPath = env.getProperty(propName);
-		File dservDeployPath = new File(serviceDeployPath, deployServName);
+		File dservDeployPath = new File(serviceDeployPath, deployedArtifactName);
 
-		return dservDeployPath;
+		return dservDeployPath;*/
 	}
 
 	/**

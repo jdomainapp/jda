@@ -10,8 +10,12 @@ public class ModuleDesc {
   private String pid;
   private String module;
 
+  private String parentModule;
+
   private String domainClsName;
   private String jarFile;
+  /** equivalent service of {@link #module}*/
+  private String service;
 
   public ModuleDesc() {
     //
@@ -42,5 +46,21 @@ public class ModuleDesc {
 
   public String getJarFile() {
     return jarFile;
+  }
+
+  public void setService(String servName) {
+    this.service = servName;
+  }
+
+  public String getService() {
+    return this.service;
+  }
+
+  public void setParentModule(String parentModule) {
+    this.parentModule = parentModule;
+  }
+
+  public String getParentModule() {
+    return this.parentModule;
   }
 }
