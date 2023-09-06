@@ -32,17 +32,18 @@ At this point, we feel that JDA is stable enough to be released  and thus decide
 ## Level 1
 1. [MSA-based software constructor](https://github.com/jdomainapp/jda/issues/90)
 2. [BackEnd generator](https://github.com/jdomainapp/jda/issues/16)
-2. [JDA testing](https://github.com/jdomainapp/jda/issues/63) (`jda-test`)
-3. [Domain validator](https://github.com/jdomainapp/jda/issues/66) (`jda-dom-validator`)
-4. [JDA security](https://github.com/jdomainapp/jda/issues/62) (`jda-security`)
-5. [JDA domain model](https://github.com/jdomainapp/jda/issues/61) (`jda-dom`)
+3. [FrontEnd generator (version 1.1)](https://github.com/jdomainapp/jda/issues/93)
+4. [JDA fullstack tool](https://github.com/jdomainapp/jda/issues/59)
+5. [JDA mobile](https://github.com/jdomainapp/jda/issues/60) (`jda-mobile`)
+6. [JDA testing](https://github.com/jdomainapp/jda/issues/63) (`jda-test`)
+7. [JDA domain model](https://github.com/jdomainapp/jda/issues/61) (`jda-dom`)
+8. [Domain validator](https://github.com/jdomainapp/jda/issues/66) (`jda-dom-validator`)
 
 ## Level 2
-1. [JDA fullstack tool](https://github.com/jdomainapp/jda/issues/59)
-2. [JDA mobile](https://github.com/jdomainapp/jda/issues/60) (`jda-mobile`)
-3. [JDA transaction support](https://github.com/jdomainapp/jda/issues/64) (`jda-transaction`)
-4. [JDA database support for MySQL](https://github.com/jdomainapp/jda/issues/51) (`jda-mysql`)
-5. [Software configuration consolidation (frontend, backend, generator, etc.)](https://github.com/jdomainapp/jda/issues/32)
+1. [JDA transaction support](https://github.com/jdomainapp/jda/issues/64) (`jda-transaction`)
+2. [JDA database support for MySQL](https://github.com/jdomainapp/jda/issues/51) (`jda-mysql`)
+3. [Software configuration consolidation (frontend, backend, generator, etc.)](https://github.com/jdomainapp/jda/issues/32)
+4. [JDA security](https://github.com/jdomainapp/jda/issues/62) (`jda-security`)
 
 ## Level 3
 1. [App: DDDNet](https://github.com/jdomainapp/jda/issues/67) `jda-app-dddnet`
