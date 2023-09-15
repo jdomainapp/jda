@@ -52,12 +52,19 @@ At this point, we feel that JDA is stable enough to be released  and thus decide
 |        Staff        | Student? | Projects | Note                           | 
 |:-------------------:|:--------:|:--------:|:-------------------------------|
 |   Nguyen Van Cong   |          |   1.1    |                                |
-|  Nguyen Thuy Linh   |          |   1.1    | green energy app              |
+|  Nguyen Thuy Linh   |          |   1.1    | green energy app               |
 |  Luu Dao Dung Tri   |    x     |   1.5    | linked to internship & IoT lab |
 |    Tran Duc Anh     |    x     | 1.2, 1.3 | TBC                            |
 | Nguyen Dang Duc Anh |    x     |   1.3    |                                |
 |     Hoang Khue      |    x     | 1.3, 1.4 |                                |
+|     Vu Thanh Ha     |          |   MDSA   | Software Engineer              |
 ### Past
+|        Staff        | Student? |                    Projects                    | Note                     | 
+|:-------------------:|:--------:|:----------------------------------------------:|:-------------------------|
+|   Tran Quang Linh   |    x     | FrontEnd generator, React/Native (version 1.0) | Masters, 2023            |
+|    Tong Van Hai     |    x     |    FrontEnd generator, Vuejs (version 1.0)     | Masters, 2023            |
+|      Hai Binh       |    x     |               MOSAR version 1.0                | Graduation project, 2020 |
+
 
 # JDA project structure and documentation
 Most of the feature documentations are written as ReadMe.md file in the framework modules that implement them. Thus, it is important to understand the JDA project structure and to browse it for detailed explanation of the features.
