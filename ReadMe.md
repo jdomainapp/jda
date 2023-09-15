@@ -40,13 +40,24 @@ At this point, we feel that JDA is stable enough to be released  and thus decide
 8. [Domain validator](https://github.com/jdomainapp/jda/issues/66) (`jda-dom-validator`)
 
 ## Level 2
-1. [JDA transaction support](https://github.com/jdomainapp/jda/issues/64) (`jda-transaction`)
-2. [JDA database support for MySQL](https://github.com/jdomainapp/jda/issues/51) (`jda-mysql`)
-3. [Software configuration consolidation (frontend, backend, generator, etc.)](https://github.com/jdomainapp/jda/issues/32)
-4. [JDA security](https://github.com/jdomainapp/jda/issues/62) (`jda-security`)
+1. [JDA DODM: enhanced support for data management](https://github.com/jdomainapp/jda/issues/65)
+2. [Software specification: consolidation and extension (frontend, backend, generator, etc.)](https://github.com/jdomainapp/jda/issues/32)
+3. [JDA security](https://github.com/jdomainapp/jda/issues/62) (`jda-security`)
 
 ## Level 3
 1. [App: DDDNet](https://github.com/jdomainapp/jda/issues/67) `jda-app-dddnet`
+
+## Staff and Students
+### Current
+1. Nguyen Thuy Linh: Projects 1.1, 1.8
+   1. Project 1.1: apply Sw Constructor to green energy domain
+2. Nguyen Van Cong: Project 1.1
+3. Luu Dao Dung Tri: possible linked projects with internship (project 1.5)
+4. Tran Duc Anh: considering Project 1.2 or 1.3
+5. Nguyen Dang Duc Anh: Project 1.3
+6. Hoang Khue: Project 1.3, 1.4
+
+### Past
 
 # JDA project structure and documentation
 Most of the feature documentations are written as ReadMe.md file in the framework modules that implement them. Thus, it is important to understand the JDA project structure and to browse it for detailed explanation of the features.
