@@ -49,14 +49,14 @@ At this point, we feel that JDA is stable enough to be released  and thus decide
 
 ## Staff and Students
 ### Current
-1. Nguyen Thuy Linh: Projects 1.1, 1.8
-   1. Project 1.1: apply Sw Constructor to green energy domain
-2. Nguyen Van Cong: Project 1.1
-3. Luu Dao Dung Tri: possible linked projects with internship (project 1.5)
-4. Tran Duc Anh: considering Project 1.2 or 1.3
-5. Nguyen Dang Duc Anh: Project 1.3
-6. Hoang Khue: Project 1.3, 1.4
-
+|        Staff        | Student? | Projects | Note                           | 
+|:-------------------:|:--------:|:--------:|:-------------------------------|
+|   Nguyen Van Cong   |          |   1.1    |                                |
+|  Nguyen Thuy Linh   |          |   1.1    | green energy app              |
+|  Luu Dao Dung Tri   |    x     |   1.5    | linked to internship & IoT lab |
+|    Tran Duc Anh     |    x     | 1.2, 1.3 | TBC                            |
+| Nguyen Dang Duc Anh |    x     |   1.3    |                                |
+|     Hoang Khue      |    x     | 1.3, 1.4 |                                |
 ### Past
 
 # JDA project structure and documentation
