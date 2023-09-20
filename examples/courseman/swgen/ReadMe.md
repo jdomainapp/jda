@@ -1,5 +1,7 @@
 # Generated CourseMan Software example 
 
+Demonstrates the software generation feature of JDA.
+
 ## Set up the example
 1. clone/pull latest version of the the training repository.
    - Suppose the cloned folder is: `repo.folder` = `/home/test/jda-training/training`
