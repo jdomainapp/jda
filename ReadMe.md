@@ -97,6 +97,36 @@ jda:root	-> the root project
     - ...
 ```
 
+# Documentation
+
+1. [JDA software tool basics](https://drive.google.com/file/d/1fYWag7t3r7z2oOCXQRVOSZx_BEkAHsqs)
+
+# Dependencies
+Generally, the dependencies are configured for each project. However, due to historical reasons, JDA currently has some special dependencies that need to be installed manually. 
+Follow the instructions below to install these dependencies.
+
+## Install dependencies from `local-maven-repo`
+
+These dependencies are located in the `jda/local-maven-repo` directory:
+
+1. `jayway-jsonpath`
+
+```
+mvn install:install-file -Dfile=local-maven-repo/jayway/jsonpath/json-path/2.4.0/json-path-2.4.0.jar -DpomFile=local-maven-repo/jayway/jsonpath/json-path/2.4.0/json-path-2.4.0.pom
+```
+
+2. `jscaledhtmltextpane`
+
+```
+mvn install:install-file -Dfile=local-maven-repo/jscaledhtmltextpane/jscaledhtmltextpane/unknown/jscaledhtmltextpane-unknown.jar -DpomFile=local-maven-repo/jscaledhtmltextpane/jscaledhtmltextpane/unknown/jscaledhtmltextpane-unknown.pom
+```
+
+3. `scrollabledesktop`
+
+```
+mvn install:install-file -Dfile=local-maven-repo/scrollabledesktop/scrollabledesktop/unknown/scrollabledesktop-unknown.jar -DpomFile=local-maven-repo/scrollabledesktop/scrollabledesktop/unknown/scrollabledesktop-unknown.pom
+```
+
 # JDA Examples
 JDA comes with a set of example applications that demonstrate different subsets of features. Refer to the ReadMe file in the `examples` project for details. 
 
@@ -199,29 +229,6 @@ mvn test -pl :jda-X -Dtest=TestClass#testMethod
 (this does not work correctly yet!)
 
   `bin/mvn-test-daemon.bash <artifact> <FQN-program-class>`
-
-
-## Install dependencies from `local-maven-repo`
-
-These dependencies are located in the `jda/local-maven-repo` directory:
-
-1. `jayway-jsonpath`
-
-```
-mvn install:install-file -Dfile=local-maven-repo/jayway/jsonpath/json-path/2.4.0/json-path-2.4.0.jar -DpomFile=local-maven-repo/jayway/jsonpath/json-path/2.4.0/json-path-2.4.0.pom
-```
-
-2. `jscaledhtmltextpane`
-
-```
-mvn install:install-file -Dfile=local-maven-repo/jscaledhtmltextpane/jscaledhtmltextpane/unknown/jscaledhtmltextpane-unknown.jar -DpomFile=local-maven-repo/jscaledhtmltextpane/jscaledhtmltextpane/unknown/jscaledhtmltextpane-unknown.pom
-```
-
-3. `scrollabledesktop`
-
-```
-mvn install:install-file -Dfile=local-maven-repo/scrollabledesktop/scrollabledesktop/unknown/scrollabledesktop-unknown.jar -DpomFile=local-maven-repo/scrollabledesktop/scrollabledesktop/unknown/scrollabledesktop-unknown.pom
-```
 
 ## Create a Maven project that uses JDA's modules as dependencies
 
