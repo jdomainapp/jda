@@ -24,7 +24,7 @@ Note also that you need to comment the corresponding modules in the `jda/modules
 For example, if you commented out the example module `mosar` from the above list then you need to comment out the corresponding module `mosar` in `jda/modules/pom.xml`.
 
 ## Example: basics (`jda-eg-coursemanbasics`)
-This example project demonstrates the core functionality of JDA.
+This example project demonstrates the core functionality of JDA. In particular, it demonstrates the solution for the basic problem of software generation. The enhanced software generation features of JDA are developed based on this basic idea.
 
 ```
 <modules>
