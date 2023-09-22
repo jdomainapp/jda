@@ -20,6 +20,9 @@ The `modules` element of the `pom.xml` file (shown below) lists all the examples
 
 The module ordering listed above is also our **recommended sequence of modules** that you should use when learning JDA. You should **comment out the examples that are not (yet) relevant**, as this will help significantly save build time. This is because some examples (especially the microservices ones) use quite a lot of dependencies.
 
+Note also that you need to comment the corresponding modules in the `jda/modules/pom.xml` file. 
+For example, if you commented out the example module `mosar` from the above list then you need to comment out the corresponding module `mosar` in `jda/modules/pom.xml`.
+
 ## Example: basics (`jda-eg-coursemanbasics`)
 This example project demonstrates the core functionality of JDA.
 
