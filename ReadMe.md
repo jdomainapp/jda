@@ -105,7 +105,7 @@ URL: [JDA software tool basics](https://drive.google.com/file/d/1fYWag7t3r7z2oOC
 Chapters 1-4 cover DCSL, how to develop the domain model using DCSL and the user interface of the JDA Tool.
 Overall, these chapters help demonstrate the basic solution for the software generation problem that JDA is designed to address. The enhanced software generation capabilities of JDA, that are being developed, are based on this basic design.
 
-Listed at the back of each chapter are a number of exercises that can be used to practise. 
+Listed at the back of each chapter are a number of exercises that can be used for practicse. 
 
 # Dependencies
 Generally, the dependencies are configured for each project. However, due to historical reasons, JDA currently has some special dependencies that need to be installed manually. 
