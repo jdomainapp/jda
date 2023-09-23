@@ -23,6 +23,33 @@ The module ordering listed above is also our **recommended sequence of modules**
 Note also that you need to comment the corresponding modules in the `jda/modules/pom.xml` file. 
 For example, if you commented out the example module `mosar` from the above list then you need to comment out the corresponding module `mosar` in `jda/modules/pom.xml`.
 
+## Running an example project
+
+## Using the command line
+
+1. Package the example as a complete jar file (including all the dependencies).
+
+To do this, issue an `mvn ... assembly:single ...` command from the `jda` root folder. This command has an argument to specify the example project id.
+
+For instance, the following command package the example project whose artifact-id is `jda-eg-coursemanbasics`. You can find this id in the `pom.xml` file: 
+```
+# mvn clean compile test-compile assembly:single -pl :jda-eg-coursemanbasics -am
+```
+
+This command will create a distribution jar in the `target` directory of the example project. For the above example, it creates the following jar file: `target/jda-eg-coursemanbasics-5.4-SNAPSHOT-jar-with-dependencies.jar`.
+
+2. Run the main class from the jar file
+
+With the distribution jar file created, you can use the `java -cp...` command to run the main class. For example, the following command executes the main class `org.jda.example.courseman.software.MainUI` of the `jda-eg-coursemanbasics` project:
+
+```
+java -cp examples/courseman/basics/target/jda-eg-coursemanbasics-5.4-SNAPSHOT-jar-with-dependencies.jar org.jda.example.courseman.software.MainUI
+
+```
+## Using an IDE
+- The preferred IDE is Intellij, which has very good support for such multi-projects as JDA
+- Locate the main class and run it in your preferred IDE
+
 ## Example: basics (`jda-eg-coursemanbasics`)
 This example project demonstrates the core functionality of JDA. In particular, it demonstrates the solution for the basic problem of software generation. The enhanced software generation features of JDA are developed based on this basic idea.
 
