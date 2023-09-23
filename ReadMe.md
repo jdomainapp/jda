@@ -99,7 +99,11 @@ jda:root	-> the root project
 
 # Documentation
 
-1. [JDA software tool basics](https://drive.google.com/file/d/1fYWag7t3r7z2oOCXQRVOSZx_BEkAHsqs)
+## Course book on JDA tool
+URL: [JDA software tool basics](https://drive.google.com/file/d/1fYWag7t3r7z2oOCXQRVOSZx_BEkAHsqs)
+
+Chapters 1-4 cover DCSL, how to develop the domain model using DCSL and the user interface of the JDA Tool.
+Overall, these chapters help demonstrate the basic solution for the software generation problem that JDA is designed to address. The enhanced software generation capabilities of JDA, that are being developed, are based on this basic design.
 
 # Dependencies
 Generally, the dependencies are configured for each project. However, due to historical reasons, JDA currently has some special dependencies that need to be installed manually. 
