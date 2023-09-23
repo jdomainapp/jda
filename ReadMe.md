@@ -128,7 +128,7 @@ mvn install:install-file -Dfile=local-maven-repo/scrollabledesktop/scrollabledes
 ```
 
 # JDA Examples
-JDA comes with a set of example applications that demonstrate different subsets of features. Refer to the ReadMe file in the `examples` project for details. 
+JDA comes with a set of example applications that demonstrate different subsets of features. Refer to the ReadMe files in the `examples` project for details. 
 
 # How-tos
 
