@@ -16,20 +16,19 @@
     <packaging>pom</packaging>
 
     <name>Example: Courseman</name>
-    <description></description>
+    <description>CourseMan examples</description>
 
 	  <modules>
 	    <module>basics</module>
 	    <module>swgen</module>
-	    <!--module>standard</module>
-	    <module>kse2016</module>
-	    <module>kse2017</module>
-	    <module>rivf2016</module>
-	    <module>soict2019</module>
-		-->
-	    <module>mosar</module>
-			<module>msa</module>
-	    <module>mdsa</module>
-			
+<!--      <module>mosar</module>-->
+<!--      <module>msa</module>-->
+<!--      <module>mdsa</module>-->
+      <!--
+        <module>kse2016</module>
+        <module>kse2017</module>
+        <module>rivf2016</module>
+        <module>soict2019</module>
+		  -->
 	  </modules>
 </project>

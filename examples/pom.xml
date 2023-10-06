@@ -28,7 +28,6 @@
     <module>pinevalleyfurniture</module>
  -->
     <module>courseman</module>
-    <module>temp</module>
   </modules>
 
   <dependencies>

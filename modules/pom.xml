@@ -29,9 +29,11 @@
     <module>apml</module>
  -->
   <module>dompattern</module>
- <module>mosar</module>
- <module>mdsa</module>
- <module>msacommon</module>
+
+<!-- <module>mosar</module>-->
+<!-- <module>mdsa</module>-->
+<!-- <module>msacommon</module>-->
+
 <!--     <module>plugineclipse</module> -->
   </modules>
   

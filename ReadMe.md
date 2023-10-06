@@ -60,11 +60,11 @@ At this point, we feel that JDA is stable enough to be released  and thus decide
 |     Hoang Khue      |    x     | 1.3, 1.4 |                                |
 |     Vu Thanh Ha     |          |   MDSA   | Software Engineer              |
 ### Past
-|        Staff        | Student? |                    Projects                    | Note                     | 
-|:-------------------:|:--------:|:----------------------------------------------:|:-------------------------|
-|   Tran Quang Linh   |    x     | FrontEnd generator, React/Native (version 1.0) | Masters, 2023            |
-|    Tong Van Hai     |    x     |    FrontEnd generator, Vuejs (version 1.0)     | Masters, 2023            |
-|      Hai Binh       |    x     |               MOSAR version 1.0                | Graduation project, 2020 |
+|        Staff        | Student? |                    Projects                    | Note                           | 
+|:-------------------:|:--------:|:----------------------------------------------:|:-------------------------------|
+|   Tran Quang Linh   |    x     | FrontEnd generator, React/Native (version 1.0) | Masters, VNU-UET, 2023         |
+|    Tong Van Hai     |    x     |    FrontEnd generator, Vuejs (version 1.0)     | Masters, VNU-UET, 2023         |
+|      Hai Binh       |    x     |               MOSAR version 1.0                | Graduation project, HANU, 2020 |
 
 
 # JDA project structure and documentation

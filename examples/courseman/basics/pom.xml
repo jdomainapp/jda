@@ -19,4 +19,5 @@
   <properties>
     <mainClass>org.jda.example.courseman.software.Main</mainClass>
   </properties>
+
 </project>
