@@ -1,3 +1,9 @@
+
+# Benchmark CourseMan software example
+A full-featured version of the CourseMan application that is used to demonstrate extended set of functionalities of JDA. This covers all three aDSLs: DCSL, MCCL and SCCL.
+
+1. Run this class in the IDE: `org.jda.example.coursemanswref.software.CourseManSoftwareRef`
+
 # Generated CourseMan Software example 
 
 Demonstrates the software generation feature of JDA.
