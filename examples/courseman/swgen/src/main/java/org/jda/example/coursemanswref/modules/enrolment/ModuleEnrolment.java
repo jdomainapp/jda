@@ -60,7 +60,9 @@ public class ModuleEnrolment  {
       //width=150,height=25,
       ref=@Select(clazz= Student.class,attributes={"name"}),
       loadOidWithBoundValue=true,  // this must be set to true if displayOidWithBoundValue = true
-      displayOidWithBoundValue=true)
+      displayOidWithBoundValue=true
+      ,isStateEventSource=true
+  )
   private Student student;
   
   @AttributeDesc(label="Course Module", 
