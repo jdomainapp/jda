@@ -19,11 +19,15 @@
     <description>CourseMan examples</description>
 
 	  <modules>
+      <!-- Courseman Basics      -->
 	    <module>basics</module>
 	    <module>swgen</module>
+      <module>standard</module>
+      <!-- Extended examples (RESTful, MSA, etc.)     -->
 <!--      <module>mosar</module>-->
 <!--      <module>msa</module>-->
 <!--      <module>mdsa</module>-->
+
       <!--
         <module>kse2016</module>
         <module>kse2017</module>
