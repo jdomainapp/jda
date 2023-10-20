@@ -1,9 +1,12 @@
 package org.jda.example.coursemanswref.modules.address.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+//import com.fasterxml.jackson.annotation.JsonCreator;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
+//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+//import com.fasterxml.jackson.annotation.JsonCreator;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 import jda.modules.common.exceptions.ConstraintViolationException;
 import jda.modules.common.types.Tuple;
 import jda.modules.dcsl.syntax.*;
@@ -17,7 +20,6 @@ import jda.modules.patterndom.assets.domevents.Publisher;
 import jda.modules.patterndom.assets.domevents.Subscriber;
 import jda.util.events.ChangeEventSource;
 import org.jda.example.coursemanswref.modules.student.model.Student;
-import org.jda.example.coursemanswref.utils.Deserializers;
 
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +41,7 @@ public class Address implements Subscriber, Publisher {
     public static final String A_name = "name";
 
     @DAttr(name = "id", id = true, auto = true, length = 3, mutable = false, optional = false, type = Type.Integer)
-    private int id;
+    private final int id;
     private static int idCounter;
 
     @DAttr(name = A_name, type = Type.String, length = 20, optional = false)
@@ -49,8 +51,8 @@ public class Address implements Subscriber, Publisher {
     @DAssoc(ascName = "student-has-city", role = "city",
             ascType = AssocType.One2One, endType = AssocEndType.One,
             associate = @Associate(type = Student.class, cardMin = 1, cardMax = 1, determinant = true))
-    @JsonIgnoreProperties({"address"})
-    @JsonDeserialize(using = Deserializers.StudDeserializer.class)
+//    @JsonIgnoreProperties({"address"})
+//    @JsonDeserialize(using = Deserializers.StudDeserializer.class)
     private Student student;
 
     // from object form: Student is not included
@@ -72,10 +74,10 @@ public class Address implements Subscriber, Publisher {
         this(id, name, null);
     }
 
-    @JsonIgnore
+//    @JsonIgnore
     private ChangeEventSource eventSource;
 
-    @JsonCreator
+//    @JsonCreator
     private Address() {
         this((Integer) null);
     }
@@ -164,7 +166,7 @@ public class Address implements Subscriber, Publisher {
     }
 
     @Override
-    @JsonIgnore
+//    @JsonIgnore
     public ChangeEventSource getEventSource() {
         if (eventSource == null) {
             eventSource = createEventSource(getClass());
@@ -179,7 +181,7 @@ public class Address implements Subscriber, Publisher {
      * @effects notify register all registered listeners
      */
     @Override
-    public void finalize() throws Throwable {
+    protected void finalize() throws Throwable {
         notify(CMEventType.OnRemoved, getEventSource());
     }
 

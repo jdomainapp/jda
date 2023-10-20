@@ -1,8 +1,8 @@
 package org.jda.example.coursemanswref.modules.coursemodule.model;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+//import com.fasterxml.jackson.annotation.JsonSubTypes;
+//import com.fasterxml.jackson.annotation.JsonTypeInfo;
+//import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import jda.modules.common.exceptions.ConstraintViolationException;
 import jda.modules.common.types.Tuple;
 import jda.modules.dcsl.syntax.AttrRef;
@@ -22,18 +22,18 @@ import java.util.Map;
  * @version 2.0
  */
 // ducmle: feature#55
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
-        include = As.PROPERTY, property = "type")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = CompulsoryModule.class, name = "compulsory"),
-        @JsonSubTypes.Type(value = ElectiveModule.class, name = "elective")
-})
+//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
+//        include = As.PROPERTY, property = "type")
+//@JsonSubTypes({
+//        @JsonSubTypes.Type(value = CompulsoryModule.class, name = "compulsory"),
+//        @JsonSubTypes.Type(value = ElectiveModule.class, name = "elective")
+//})
 @DClass(schema = "courseman")
 public abstract class CourseModule {
 
     // attributes
     @DAttr(name = "id", id = true, auto = true, type = Type.Integer, length = 3, mutable = false, optional = false)
-    private int id;
+    private final int id;
     private static int idCounter;
 
     @DAttr(name = "code", auto = true, type = Type.String, length = 12,
@@ -49,7 +49,7 @@ public abstract class CourseModule {
 
 
     // static variable to keep track of module code
-    private static Map<Tuple, Integer> currNums = new LinkedHashMap<Tuple, Integer>();
+    private static final Map<Tuple, Integer> currNums = new LinkedHashMap<Tuple, Integer>();
 
     protected CourseModule() {
         id = nextID(null);
@@ -156,11 +156,8 @@ public abstract class CourseModule {
             return false;
         CourseModule other = (CourseModule) obj;
         if (code == null) {
-            if (other.code != null)
-                return false;
-        } else if (!code.equals(other.code))
-            return false;
-        return true;
+          return other.code == null;
+        } else return code.equals(other.code);
     }
 
     // automatically generate a next module code

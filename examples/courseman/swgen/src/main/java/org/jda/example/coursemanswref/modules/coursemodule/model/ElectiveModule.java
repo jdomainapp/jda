@@ -1,8 +1,8 @@
 package org.jda.example.coursemanswref.modules.coursemodule.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+//import com.fasterxml.jackson.annotation.JsonCreator;
+//import com.fasterxml.jackson.annotation.JsonProperty;
+//import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import jda.modules.dcsl.syntax.AttrRef;
 import jda.modules.dcsl.syntax.DAttr;
@@ -15,7 +15,7 @@ import jda.modules.dcsl.syntax.DOpt;
  * @author dmle
  *
  */
-@JsonTypeName("elective")   // ducmle: feature#55
+//@JsonTypeName("elective")   // ducmle: feature#55
 @DClass(schema="courseman")
 public class ElectiveModule extends CourseModule {
   // extra attribute of elective module
@@ -27,23 +27,20 @@ public class ElectiveModule extends CourseModule {
   // - super-class arguments first, then sub-class
   @DOpt(type=DOpt.Type.ObjectFormConstructor)
   public ElectiveModule(
-      @AttrRef("deptName")@JsonProperty("deptName") String deptName,
-      @AttrRef("name")@JsonProperty("name") String name,
-      @AttrRef("semester")@JsonProperty("semester")  Integer semester, 
-      @AttrRef("credits")@JsonProperty("credits")  Integer credits
+      @AttrRef("deptName") String deptName,
+      @AttrRef("name") String name,
+      @AttrRef("semester")  Integer semester,
+      @AttrRef("credits")  Integer credits
       ) {
     this(null, null, name, semester, credits, deptName);
   }
 
   @DOpt(type=DOpt.Type.DataSourceConstructor)
-  @JsonCreator
-  public ElectiveModule(
-      @JsonProperty("id") Integer id, 
-      @JsonProperty("code") String code, 
-      @JsonProperty("name") String name, 
-      @JsonProperty("semester") Integer semester, 
-      @JsonProperty("credits") Integer credits, 
-      @JsonProperty("deptName") String deptName) {
+//  @JsonCreator
+  public ElectiveModule( Integer id, String code, String name,
+       Integer semester,
+       Integer credits,
+       String deptName) {
     super(id, code,name,semester,credits);
     this.deptName = deptName;
   }

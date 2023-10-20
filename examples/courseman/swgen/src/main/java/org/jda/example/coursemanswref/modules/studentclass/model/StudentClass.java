@@ -1,9 +1,10 @@
 package org.jda.example.coursemanswref.modules.studentclass.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+//import com.fasterxml.jackson.annotation.JsonCreator;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
+//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import jda.modules.common.exceptions.ConstraintViolationException;
 import jda.modules.common.types.Tuple;
 import jda.modules.dcsl.syntax.*;
@@ -16,7 +17,6 @@ import jda.modules.patterndom.assets.domevents.EventType;
 import jda.modules.patterndom.assets.domevents.Subscriber;
 import jda.util.events.ChangeEventSource;
 import org.jda.example.coursemanswref.modules.student.model.Student;
-import org.jda.example.coursemanswref.utils.Deserializers;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -31,7 +31,7 @@ import java.util.List;
 @DClass(schema="courseman")
 public class StudentClass implements Subscriber {
     @DAttr(name="id",id=true,auto=true,length=6,mutable=false,type=Type.Integer)
-    private int id;
+    private final int id;
     private static int idCounter;
 
     // candidate identifier
@@ -45,8 +45,8 @@ public class StudentClass implements Subscriber {
             ascType=AssocType.One2Many,endType=AssocEndType.One,
             associate=@Associate(type= Student.class,
                     cardMin=1,cardMax=25))
-    @JsonIgnoreProperties({"studentClass"})
-    @JsonDeserialize(using = Deserializers.StudCollectionDeserializer.class)
+//    @JsonIgnoreProperties({"studentClass"})
+//    @JsonDeserialize(using = Deserializers.StudCollectionDeserializer.class)
     private Collection<Student> students;
 
     // derived attributes
@@ -68,7 +68,7 @@ public class StudentClass implements Subscriber {
         studentsCount = 0;
     }
 
-    @JsonCreator
+//    @JsonCreator
     private StudentClass() {
         this((Integer) null);
     }
@@ -152,7 +152,7 @@ public class StudentClass implements Subscriber {
      * @effects
      *  return <tt>studentsCount</tt>
      */
-    @JsonIgnore
+//    @JsonIgnore
     @DOpt(type=DOpt.Type.LinkCountGetter)
     public Integer getStudentsCount() {
         return studentsCount;
@@ -200,9 +200,7 @@ public class StudentClass implements Subscriber {
         if (getClass() != obj.getClass())
             return false;
         StudentClass other = (StudentClass) obj;
-        if (id != other.id)
-            return false;
-        return true;
+      return id == other.id;
     }
 
     private static int nextID(Integer currID) {

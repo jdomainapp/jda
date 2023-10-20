@@ -1,9 +1,9 @@
 package org.jda.example.coursemanswref.modules.student.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+//import com.fasterxml.jackson.annotation.JsonCreator;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
+//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jda.modules.common.exceptions.ConstraintViolationException;
 import jda.modules.common.types.Tuple;
 import jda.modules.dcsl.syntax.*;
@@ -21,7 +21,7 @@ import org.jda.example.coursemanswref.modules.address.model.Address;
 import org.jda.example.coursemanswref.modules.enrolment.model.Enrolment;
 import org.jda.example.coursemanswref.modules.studentclass.model.StudentClass;
 import org.jda.example.coursemanswref.utils.DToolkit;
-import org.jda.example.coursemanswref.utils.Deserializers;
+//import org.jda.example.coursemanswref.utils.Deserializers;
 
 import java.util.*;
 
@@ -63,8 +63,8 @@ public class Student implements Subscriber, Publisher {
     @DAssoc(ascName = "student-has-city", role = "student",
             ascType = AssocType.One2One, endType = AssocEndType.One,
             associate = @Associate(type = Address.class, cardMin = 1, cardMax = 1))
-    @JsonIgnoreProperties({"student"})
-    @JsonDeserialize(using = Deserializers.AddrDeserializer.class)
+//    @JsonIgnoreProperties({"student"})
+//    @JsonDeserialize(using = Deserializers.AddrDeserializer.class)
     private Address address;
 
     @DAttr(name = A_email, type = Type.String, length = 30, optional = false)
@@ -74,8 +74,8 @@ public class Student implements Subscriber, Publisher {
     @DAssoc(ascName = "class-has-student", role = "student",
             ascType = AssocType.One2Many, endType = AssocEndType.Many,
             associate = @Associate(type = StudentClass.class, cardMin = 1, cardMax = 1))
-    @JsonIgnoreProperties({"students"})
-    @JsonDeserialize(using = Deserializers.StudClsDeserializer.class)
+//    @JsonIgnoreProperties({"students"})
+//    @JsonDeserialize(using = Deserializers.StudClsDeserializer.class)
     private StudentClass studentClass;
 
     @DAttr(name = "enrolments", type = Type.Collection, optional = false,
@@ -83,8 +83,8 @@ public class Student implements Subscriber, Publisher {
     @DAssoc(ascName = "student-has-enrolments", role = "student",
             ascType = AssocType.One2Many, endType = AssocEndType.One,
             associate = @Associate(type = Enrolment.class, cardMin = 0, cardMax = 30))
-    @JsonIgnoreProperties({"student"})
-    @JsonDeserialize(using = Deserializers.EnrCollectionDeserializer.class)
+//    @JsonIgnoreProperties({"student"})
+//    @JsonDeserialize(using = Deserializers.EnrCollectionDeserializer.class)
     private Collection<Enrolment> enrolments;
 
     // derived
@@ -93,10 +93,10 @@ public class Student implements Subscriber, Publisher {
     // v2.6.4b: derived: average of the final mark of all enrolments
     private double averageMark;
 
-    @JsonIgnore
+//    @JsonIgnore
     private ChangeEventSource eventSource;
 
-    @JsonCreator
+//    @JsonCreator
     private Student() {
         this(null);
     }
@@ -376,7 +376,7 @@ public class Student implements Subscriber, Publisher {
         return enrolments;
     }
 
-    @JsonIgnore
+//    @JsonIgnore
     @DOpt(type = DOpt.Type.LinkCountGetter)
     public Integer getEnrolmentsCount() {
         return enrolmentCount;
@@ -488,7 +488,7 @@ public class Student implements Subscriber, Publisher {
     }
 
     /**
-     * @effects Handle events fired by {@link vn.com.courseman.model.events.Enrolment}.
+     * @effects Handle events fired by Enrolment.
      */
     @Override
     public void handleEvent(EventType type, ChangeEventSource source) {
@@ -528,7 +528,7 @@ public class Student implements Subscriber, Publisher {
     }
 
     @Override
-    @JsonIgnore
+//    @JsonIgnore
     public ChangeEventSource getEventSource() {
         if (eventSource == null) {
             eventSource = createEventSource(getClass());

@@ -1,29 +1,18 @@
 package org.jda.example.coursemanswref.modules.enrolment.model;
 
-import org.jda.example.coursemanswref.modules.coursemodule.model.CourseModule;
-import org.jda.example.coursemanswref.modules.student.model.Student;
-import org.jda.example.coursemanswref.utils.Deserializers;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import jda.modules.common.cache.StateHistory;
 import jda.modules.common.exceptions.ConstraintViolationException;
 import jda.modules.common.types.Tuple;
-import jda.modules.dcsl.syntax.AttrRef;
-import jda.modules.dcsl.syntax.DAssoc;
+import jda.modules.dcsl.syntax.*;
 import jda.modules.dcsl.syntax.DAssoc.AssocEndType;
 import jda.modules.dcsl.syntax.DAssoc.AssocType;
 import jda.modules.dcsl.syntax.DAssoc.Associate;
-import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dcsl.syntax.DAttr.Type;
-import jda.modules.dcsl.syntax.DClass;
-import jda.modules.dcsl.syntax.DOpt;
 import jda.modules.patterndom.assets.domevents.CMEventType;
 import jda.modules.patterndom.assets.domevents.Publisher;
 import jda.util.events.ChangeEventSource;
+import org.jda.example.coursemanswref.modules.coursemodule.model.CourseModule;
+import org.jda.example.coursemanswref.modules.student.model.Student;
 
 /**
  * Represents an enrolment
@@ -40,23 +29,23 @@ public class Enrolment implements Comparable, Publisher {
 
   // attributes
   @DAttr(name = "id", id = true, auto = true, type = Type.Integer, length = 5, optional = false, mutable = false)
-  private int id;
+  private final int id;
   private static int idCounter = 0;
 
   @DAttr(name = "student", type = Type.Domain, length = 5, optional = false)
   @DAssoc(ascName = "student-has-enrolments", role = "enrolments",
           ascType = AssocType.One2Many, endType = AssocEndType.Many,
           associate = @Associate(type = Student.class, cardMin = 1, cardMax = 1), dependsOn = true)
-  @JsonIgnoreProperties("enrolments")
-  @JsonDeserialize(using = Deserializers.StudDeserializer.class)
+//  @JsonIgnoreProperties("enrolments")
+//  @JsonDeserialize(using = Deserializers.StudDeserializer.class)
   private Student student;
 
   @DAttr(name = "courseModule", type = Type.Domain, length = 5, optional = false)
   @DAssoc(ascName = "module-has-enrolments", role = "enrolment",
           ascType = AssocType.One2Many, endType = AssocEndType.Many,
           associate = @Associate(type = CourseModule.class, cardMin = 1, cardMax = 1), dependsOn = true)
-  @JsonIgnoreProperties("enrolments")
-  @JsonDeserialize(using = Deserializers.CModDeserializer.class)
+//  @JsonIgnoreProperties("enrolments")
+//  @JsonDeserialize(using = Deserializers.CModDeserializer.class)
   private CourseModule courseModule;
 
   @DAttr(name = AttributeName_InternalMark, type = Type.Double, length = 4, optional = true, min = 0.0)
@@ -80,12 +69,12 @@ public class Enrolment implements Comparable, Publisher {
   private Integer finalMark;
 
   // v2.6.4.b
-  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private final StateHistory<String, Object> stateHist;
 
   //
   /**publish/subscribe pattern: event source object that encapsulates this */
-  @JsonIgnore
+//  @JsonIgnore
   private ChangeEventSource evtSrc;
 
   private Enrolment() {
@@ -276,9 +265,7 @@ public class Enrolment implements Comparable, Publisher {
     if (getClass() != obj.getClass())
       return false;
     Enrolment other = (Enrolment) obj;
-    if (id != other.id)
-      return false;
-    return true;
+    return id == other.id;
   }
 
   private static int nextID(Integer currID) {
@@ -336,7 +323,7 @@ public class Enrolment implements Comparable, Publisher {
   }
 
   @Override
-  @JsonIgnore
+//  @JsonIgnore
   public ChangeEventSource getEventSource() {
     if (evtSrc == null) {
       evtSrc = createEventSource(getClass());
@@ -352,7 +339,7 @@ public class Enrolment implements Comparable, Publisher {
    *  notify register all registered listeners
    */
   @Override
-  public void finalize() throws Throwable {
+  protected void finalize() throws Throwable {
     notify(CMEventType.OnRemoved, getEventSource());
   }
 }
