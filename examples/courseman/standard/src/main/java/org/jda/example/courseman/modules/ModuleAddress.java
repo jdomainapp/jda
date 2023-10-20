@@ -1,7 +1,5 @@
 package org.jda.example.courseman.modules;
 
-import org.jda.example.courseman.model.Student;
-
 import jda.modules.mccl.conceptmodel.view.RegionName;
 import jda.modules.mccl.conceptmodel.view.RegionType;
 import jda.modules.mccl.syntax.ModuleDescriptor;
@@ -9,10 +7,12 @@ import jda.modules.mccl.syntax.controller.ControllerDesc;
 import jda.modules.mccl.syntax.model.ModelDesc;
 import jda.modules.mccl.syntax.view.AttributeDesc;
 import jda.modules.mccl.syntax.view.ViewDesc;
+import org.jda.example.courseman.model.Address;
+import org.jda.example.courseman.model.Student;
 
 @ModuleDescriptor(name = "ModuleAddress", 
 modelDesc = @ModelDesc(
-    model = org.jda.example.courseman.model.Address.class), 
+    model = Address.class),
 viewDesc = @ViewDesc(
     formTitle = "Form: Address", imageIcon = "Address.png", 
     domainClassLabel = "Address"  
@@ -25,10 +25,10 @@ public class ModuleAddress {
   @AttributeDesc(label = "Address")
   private String title;
 
-  @AttributeDesc(label = "Mã")
+  @AttributeDesc(label = "Id")
   private int id;
 
-  @AttributeDesc(label = "Thành phố")
+  @AttributeDesc(label = "City")
   private String cityName;
 
   @AttributeDesc(label = "Student")

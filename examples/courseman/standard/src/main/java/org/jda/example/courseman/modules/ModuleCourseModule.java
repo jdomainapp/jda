@@ -1,9 +1,5 @@
 package org.jda.example.courseman.modules;
 
-import java.util.Collection;
-
-import org.jda.example.courseman.model.Enrolment;
-
 import jda.modules.mccl.conceptmodel.view.RegionName;
 import jda.modules.mccl.conceptmodel.view.RegionType;
 import jda.modules.mccl.syntax.ModuleDescriptor;
@@ -11,10 +7,15 @@ import jda.modules.mccl.syntax.controller.ControllerDesc;
 import jda.modules.mccl.syntax.model.ModelDesc;
 import jda.modules.mccl.syntax.view.AttributeDesc;
 import jda.modules.mccl.syntax.view.ViewDesc;
+import jda.mosa.view.assets.panels.DefaultPanel;
+import org.jda.example.courseman.model.CourseModule;
+import org.jda.example.courseman.model.Enrolment;
+
+import java.util.Collection;
 
 @ModuleDescriptor(name = "ModuleCourseModule", 
   modelDesc = @ModelDesc(
-      model = org.jda.example.courseman.model.CourseModule.class), 
+      model = CourseModule.class),
   viewDesc = @ViewDesc(formTitle = "Form: CourseModule", 
   imageIcon = "CourseModule.png", 
   domainClassLabel = "CourseModule"
@@ -24,24 +25,26 @@ import jda.modules.mccl.syntax.view.ViewDesc;
   controllerDesc = @ControllerDesc())
 public class ModuleCourseModule {
 
-    @AttributeDesc(label = "CourseModule")
+    @AttributeDesc(label = "Course Module")
     private String title;
 
-    @AttributeDesc(label = "id")
+    @AttributeDesc(label = "Module ID")
     private int id;
 
-    @AttributeDesc(label = "code")
+    @AttributeDesc(label = "Code")
     private String code;
 
-    @AttributeDesc(label = "name")
+    @AttributeDesc(label = "Name")
     private String name;
 
-    @AttributeDesc(label = "semester")
+    @AttributeDesc(label = "Semester")
     private int semester;
 
-    @AttributeDesc(label = "credits")
+    @AttributeDesc(label = "Credits")
     private int credits;
 
-    @AttributeDesc(label = "enrolments")
+    @AttributeDesc(label = "Enrolments",
+        type = DefaultPanel.class
+    )
     private Collection<Enrolment> enrolments;
 }

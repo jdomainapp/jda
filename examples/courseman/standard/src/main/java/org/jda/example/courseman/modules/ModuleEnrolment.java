@@ -1,8 +1,5 @@
 package org.jda.example.courseman.modules;
 
-import org.jda.example.courseman.model.CourseModule;
-import org.jda.example.courseman.model.Student;
-
 import jda.modules.mccl.conceptmodel.view.RegionName;
 import jda.modules.mccl.conceptmodel.view.RegionType;
 import jda.modules.mccl.syntax.ModuleDescriptor;
@@ -10,9 +7,12 @@ import jda.modules.mccl.syntax.controller.ControllerDesc;
 import jda.modules.mccl.syntax.model.ModelDesc;
 import jda.modules.mccl.syntax.view.AttributeDesc;
 import jda.modules.mccl.syntax.view.ViewDesc;
+import org.jda.example.courseman.model.CourseModule;
+import org.jda.example.courseman.model.Enrolment;
+import org.jda.example.courseman.model.Student;
 
 @ModuleDescriptor(name = "ModuleEnrolment", 
-modelDesc = @ModelDesc(model = org.jda.example.courseman.model.Enrolment.class), 
+modelDesc = @ModelDesc(model = Enrolment.class),
 viewDesc = @ViewDesc(formTitle = "Form: Enrolment", 
   imageIcon = "Enrolment.png", domainClassLabel = "Enrolment"
   ,parent=RegionName.Tools // TODO
@@ -23,10 +23,10 @@ controllerDesc = @ControllerDesc()
 )
 public class ModuleEnrolment {
 
-    @AttributeDesc(label = "title")
+    @AttributeDesc(label = "Enrolment")
     private String title;
 
-    @AttributeDesc(label = "Enrole id")
+    @AttributeDesc(label = "Enrol-id")
     private int id;
 
     @AttributeDesc(label = "Student")

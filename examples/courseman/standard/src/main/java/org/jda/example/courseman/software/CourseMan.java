@@ -30,12 +30,16 @@ public class CourseMan {
    *  args.length > 0 /\ args[0] = name of a {@link Cmd}
    */
   public static void main(String[] args) {
+    if (args.length == 0) {
+      args = new String[] {"run"};
+    }
+
     mainEmbedded(args);
     
 //    mainClientServer(args);
   }
   
-  private static void mainClientServer(String args[]) {
+  private static void mainClientServer(String[] args) {
  // software config class
     final Class SwCfgCls = SWC1.class // PostgreSQL
         ;
