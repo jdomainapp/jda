@@ -24,7 +24,7 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
          stackSpec = StackSpec.FE,   // Gen Frontend only
         execSpec = ExecSpec.Gen,
         genMode = GenerationMode.SOURCE_CODE,
-        fePlatform = FEPlatform.VUE_JS,
+        fePlatform = FEPlatform.ANGULAR,
         feOutputPath = "/data/projects/jda/examples/courseman/mosar/src/main/java/org/jda/example/coursemanrestful/frontend",
         feProjPath = "", // deprecated
         feProjName = "", // deprecated
