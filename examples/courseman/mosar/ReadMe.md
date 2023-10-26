@@ -2,7 +2,8 @@ RESTful FullStack CourseMan software
 --------------------------------------
 
 # Prerequisites
-## Dependencies
+
+## Backend Dependencies
 The following JDA modules are required to run this example:
 ```
 modules/mosar
@@ -27,6 +28,9 @@ mvn exec:java@runbe
 ```
 
 # Benchmark software examples
+
+## Dependencies
+None
 
 The benchmark frontend software are located in the following subdirectories of the `jda/examples/courseman` folder:
 - `fe-reactjs`: Reactjs version of the software
