@@ -15,15 +15,6 @@ The benchmark frontend software are stored in the subdirectories:
 - `feangular`: (**In progress**) Angular version of the software 
 - `fereactnative`: ReactNative version of the software
 
-## Vuejs 
-**Module Student: Object table**
-
-![Module Student: Object table](docs/images/fevuejs-module-student-browse.png)
-
-**Module Student: CRUD form**
-
-![Module Student: CRUD form](docs/images/fevuejs-module-student.png)
-
 ## Reactjs
 
 **Module Student: Object table**
@@ -33,6 +24,15 @@ The benchmark frontend software are stored in the subdirectories:
 **Module Student: Read/Create/Edit object form**
 
 ![Module Student: CRUD](docs/images/fereactjs-module-student.png)
+
+## Vuejs 
+**Module Student: Object table**
+
+![Module Student: Object table](docs/images/fevuejs-module-student-browse.png)
+
+**Module Student: CRUD form**
+
+![Module Student: CRUD form](docs/images/fevuejs-module-student.png)
 
 # Benchmark software examples
 1. run the backend (SpringBoot application):
