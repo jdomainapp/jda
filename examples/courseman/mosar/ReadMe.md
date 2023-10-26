@@ -2,6 +2,12 @@ RESTful FullStack CourseMan software
 --------------------------------------
 
 # Prerequisites
+## Dependencies
+The following JDA modules are required to run this example:
+```
+modules/mosar
+```
+## Set up
 1. clone/pull latest version of the the training repository.
    - The **Maven project** of the example:
      `MOSAR_EG_DIR` = `~/jda/examples/courseman/mosar`
