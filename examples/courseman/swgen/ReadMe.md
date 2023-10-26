@@ -1,8 +1,93 @@
+JDA Software: Auto-generation and beyond
+--------------------------------------------
 
 # Benchmark CourseMan software example
 A full-featured version of the CourseMan application that is used to demonstrate extended set of functionalities of JDA. This covers all three aDSLs: DCSL, MCCL and SCCL.
 
-1. Run this class in the IDE: `org.jda.example.coursemanswref.software.CourseManSoftwareRef`
+To run the software, execute this main class in the IDE: `org.jda.example.coursemanswref.software.CourseManSoftwareRef`
+
+**MCCL** is the main language that powers this CourseMan software. It allows developers to create a configuration for each module (called **MCC**) that customises the model, view and controller components.
+
+The following figure shows the code project structure. The software modules are defined in the subpackage named `modules`. Each module basically consists of a model (subpackage `model`) and an MCC. This MCC is defined by the MCCL language. To ease discussion, we name each MCC after the module class; e.g. MCC(Student) is the MCC for Module(Student). Further, we name the view and controller of each module after the module class. For instance, View(Student) and Controller(Student) are the view and controller of the Module(Student). 
+
+![Code project](docs/images/coursemanswref-code-project.png)
+
+## The MCC of Module(Student)
+The following code listing shows the content of MCC(Student). The class header is annotated with `@ModuleDescriptor`, which is annotation that captures design specification for the model, view and controller of a module. Each component specification is defined by  a separate annotation: `@ModelDesc` (for model), `@ViewDesc` (for view) and `@ControllerDesc` (for controller).
+
+The MCC's body consists of detailed specifications for the view. It includes the title view field (named `title`) and a view field for each domain field of the model. In this example, there is one view field for each domain field of the `Student` class.
+
+View field design specification is defined by the annotation `@AttributeDesc`. It constains elements that help to specify the presentation and behavioural elements of each view field. The presentational elements include label, view field class (type), color, font, alignment, layout and so on. 
+The behavioural elements are specifically used for subview field and are typically specified as commands that customise certain operations of the subview's controller. 
+
+```
+@ModuleDescriptor(name = "ModuleStudent",
+        modelDesc = @ModelDesc(
+                model = Student.class),
+        viewDesc = @ViewDesc(
+            formTitle = "Form: Student",
+            imageIcon = "Student.png",
+            domainClassLabel = "Student",
+            viewType= RegionType.Data,
+            parent= RegionName.Tools,
+            view = View.class),
+        controllerDesc = @ControllerDesc(
+            controller= Controller.class,
+            isDataFieldStateListener = true
+        )
+    ,isPrimary=true
+    ,setUpDesc = @SetUpDesc(postSetUp = CopyResourceFilesCommand.class)
+)
+public class ModuleStudent {
+  @AttributeDesc(label = "Manage Students")
+  private String title;
+
+  @AttributeDesc(label = "Student ID")
+  private int id;
+
+  @AttributeDesc(label = "Full Name")
+  private String name;
+
+  @AttributeDesc(label = "Gender")
+  private Gender gender;
+
+  @AttributeDesc(label = "Date of birth")
+  private Date dob;
+
+  @AttributeDesc(label = "Email")
+  private String email;
+
+  @AttributeDesc(label = "Current Address",
+      type = JComboField.class,
+      ref=@Select(clazz= Address.class,attributes={"name"}),
+      loadOidWithBoundValue=true,  // this must be set to true if
+      displayOidWithBoundValue=true
+      ,isStateEventSource=true)
+  private Address address;
+  
+  @AttributeDesc(label = "Student class",
+      type = JComboField.class,
+      ref=@Select(clazz= StudentClass.class,attributes={"name"}),
+      loadOidWithBoundValue=true,  // this must be set to true if
+      displayOidWithBoundValue=true
+      ,isStateEventSource=true)
+  private StudentClass studentClass;
+  
+  @AttributeDesc(label = "Course Enrolments")
+  private Collection<Enrolment> enrolments;
+}
+```
+
+## Generated Software
+The following figure shows the dashboard of the generated CourseMan software. 
+![CourseMan Dashboard](docs/images/coursemanswref-dashboard.png)
+
+The following figure shows the close-up view of the Module(Student).
+![The view of Module(Student)](docs/images/coursemanswref-view.png)
+
+As can be seen from the above figures, the labels and texts on the module views are customised to show use-friendly contents; e.g. "Manage Students" and "Customer ID". Further, the view fields and some of the sub-views are also customised to show more user-friendly layouts.   
+
+For example, View(StudentClass) in the first figure shows that the Subview(Student) is a Panel, which is a form layout that shows the details of each student in a student-class. This is different from the default tabular subview, as shown in the Subview(Enrolment) of the View(Student).  
 
 # Generated CourseMan Software example 
 

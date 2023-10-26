@@ -62,7 +62,7 @@ This example project demonstrates the core functionality of JDA. In particular, 
 Refer to the ReadMe file in the example project for details.
 
 ## Example: swgen (`jda-eg-coursemansw`)
-This example project demonstrates the software generation (`SwGen`) capabilities of JDA.
+This example project demonstrates the software generation (`SwGen`) capabilities of JDA. It includes the two other core aDSLs, namely, MCCL and SCCL 
 
 ```
 <modules>

@@ -3,7 +3,13 @@ Example: `jda-eg-coursemanmsa`
 
 A version of the `CourseMan` software that demonstrates the state-of-the-art MSA technologies.
 
-It extends a previous version (`jda-eg-coursemanmosar`) to use MSA instead of the the RESTFUL API.
+# Prerequisites
+In addition to the standard dependencies, this example requires the following JDA libraries:
+
+```
+	modules/mosar
+	modules/msacommon
+```
 
 # Requirements
 
