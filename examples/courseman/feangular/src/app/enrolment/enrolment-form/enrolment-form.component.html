@@ -1,0 +1,59 @@
+<form class = 'border py-4 container needs-validation'>
+
+        
+    <div  class="form-group">
+        <label class="form-label">Id</label>
+        <input type="number" class="form-control" name = "id" [(ngModel)]="item.id" disabled maxLength="5" >
+    </div>
+    <br>
+    <div  class="form-group">
+        <label class="form-label">Internal Mark</label>
+        <input type="number" class="form-control" name = "internalMark" [(ngModel)]="item.internalMark" min="0.0" maxLength="4" >
+    </div>
+    <br>
+    <div  class="form-group">
+        <label class="form-label">Exam Mark</label>
+        <input type="number" class="form-control" name = "examMark" [(ngModel)]="item.examMark" min="0.0" maxLength="4" >
+    </div>
+    <br>
+    <div  class="form-group">
+        <label class="form-label">Final Grade</label>
+        <input type="text" class="form-control" name = "finalGrade" [(ngModel)]="item.finalGrade" disabled maxLength="1" >
+    </div>
+    <br>
+    <div  class="form-group">
+        <label class="form-label">Finalmark</label>
+        <input type="number" class="form-control" name = "finalMark" [(ngModel)]="item.finalMark" disabled >
+    </div>
+    <br>
+        
+    
+    <div  class="d-flex flex-wrap justify-content-between align-items-end form-group">
+        <div class="px-0 col-md-2.5">
+            <label class="form-label">Student Id</label>
+            <input type="text" class="form-control" [ngModel]="(item.student)?item.student.id:''" (ngModelChange)="getStudent($event)">
+        </div>
+        <div class="px-0 col-md-9">
+            <label class="form-label">Student</label>
+            <input disabled="" type="text" class="form-control" value="{{renderItem(item.student)}}">
+        </div>
+    </div>
+    <br>
+    <div  class="d-flex flex-wrap justify-content-between align-items-end form-group">
+        <div class="px-0 col-md-2.5">
+            <label class="form-label">Course module Id</label>
+            <input type="number" class="form-control" [ngModel]="(item.courseModule)?item.courseModule.id:''" (ngModelChange)="getCourseModule($event)">
+        </div>
+        <div class="px-0 col-md-9">
+            <label class="form-label">Course Module</label>
+            <input disabled="" type="text" class="form-control" value="{{renderItem(item.courseModule)}}">
+        </div>
+    </div>
+    <br>
+    <div class="d-flex justify-content-end mx-0 row">
+        <div class="col-md-9"></div>
+        <button type="button" class="btn btn-secondary" (click) = "reset()">Reset</button>
+        <button type="button" class="ml-2 btn btn-primary" (click)="save()">Save</button>
+    </div>
+</form>
+

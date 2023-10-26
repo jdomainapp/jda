@@ -1,0 +1,51 @@
+<form class = 'border py-4 container needs-validation'>
+    <div class="form-group">
+        <label class="form-label">Type</label>
+        <select class="custom-select" [(ngModel)]="item.type">
+            <option value="" disabled="">&lt;Please choose one&gt;</option>
+            <option value="compulsory">compulsory</option>
+            <option value="elective">elective</option>
+        </select>
+    </div><br>
+        
+    <div  class="form-group">
+        <label class="form-label">Id</label>
+        <input type="number" class="form-control" name = "id" [(ngModel)]="item.id" disabled maxLength="3" >
+    </div>
+    <br>
+    <div  class="form-group">
+        <label class="form-label">Code</label>
+        <input type="text" class="form-control" name = "code" [(ngModel)]="item.code" disabled maxLength="12" >
+    </div>
+    <br>
+    <div  class="form-group">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" name = "name" [(ngModel)]="item.name" required maxLength="30" >
+    </div>
+    <br>
+    <div  class="form-group">
+        <label class="form-label">Semester</label>
+        <input type="number" class="form-control" name = "semester" [(ngModel)]="item.semester" required min="1.0" maxLength="2" >
+    </div>
+    <br>
+    <div  class="form-group">
+        <label class="form-label">Credits</label>
+        <input type="number" class="form-control" name = "credits" [(ngModel)]="item.credits" required min="1.0" maxLength="2" >
+    </div>
+    <br>
+        
+                        
+            
+    <div *ngIf="item.type == 'elective'" class="form-group">
+        <label class="form-label">Dept. Name</label>
+        <input type="text" class="form-control" name = "deptName" [(ngModel)]="item.deptName" required maxLength="50" >
+    </div>
+    <br>            
+    
+    <div class="d-flex justify-content-end mx-0 row">
+        <div class="col-md-9"></div>
+        <button type="button" class="btn btn-secondary" (click) = "reset()">Reset</button>
+        <button type="button" class="ml-2 btn btn-primary" (click)="save()">Save</button>
+    </div>
+</form>
+
