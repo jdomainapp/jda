@@ -19,13 +19,13 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
 
 
 @RFSGenDesc(
-        stackSpec = StackSpec.FS,      // Gen Fullstack
+//        stackSpec = StackSpec.FS,      // Gen Fullstack
         // stackSpec = StackSpec.BE,   // Gen Backend only
-        // stackSpec = StackSpec.FE,   // Gen Frontend only
+         stackSpec = StackSpec.FE,   // Gen Frontend only
         execSpec = ExecSpec.Gen,
         genMode = GenerationMode.SOURCE_CODE,
         fePlatform = FEPlatform.VUE_JS,
-        feOutputPath = "D:\\UET_THS\\JDA\\work\\jda\\examples\\courseman\\mosar\\src\\main\\java\\org\\jda\\example\\coursemanrestful\\frontend",
+        feOutputPath = "/data/projects/jda/examples/courseman/mosar/src/main/java/org/jda/example/coursemanrestful/frontend",
         feProjPath = "", // deprecated
         feProjName = "", // deprecated
         feProjResource = "", // deprecated
@@ -34,7 +34,7 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
         feThreaded = true, // deprecated
         beLangPlatform = LangPlatform.SPRING,
         bePackage = "org.jda.example.coursemanrestful.modules",
-        beOutputPath = "D:\\UET_THS\\JDA\\work\\jda\\examples\\courseman\\mosar\\src\\main\\java",
+        beOutputPath = "/data/projects/jda/examples/courseman/mosar/src/main/java",
         beTargetPackage = "org.jda.example.coursemanrestful.backend"
         , beAppClass = BESpringApp.class,
         beServerPort = 8080  // default: 8080

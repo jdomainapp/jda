@@ -28,11 +28,10 @@
 <!--     <module>mbsl</module>
     <module>apml</module>
  -->
-  <module>dompattern</module>
-
-<!-- <module>mosar</module>-->
+   <module>dompattern</module>
+   <module>mosar</module>
+   <module>msacommon</module>
 <!-- <module>mdsa</module>-->
-<!-- <module>msacommon</module>-->
 
 <!--     <module>plugineclipse</module> -->
   </modules>
