@@ -67,7 +67,7 @@ public class ModuleStudent {
   @AttributeDesc(label = "Current Address",
       type = JComboField.class,
       ref=@Select(clazz= Address.class,attributes={"name"}),
-      loadOidWithBoundValue=true,  // this must be set to true if displayOidWithBoundValue = true
+      loadOidWithBoundValue=true,  // this must be set to true if
       displayOidWithBoundValue=true
       ,isStateEventSource=true)
   private Address address;
@@ -75,7 +75,7 @@ public class ModuleStudent {
   @AttributeDesc(label = "Student class",
       type = JComboField.class,
       ref=@Select(clazz= StudentClass.class,attributes={"name"}),
-      loadOidWithBoundValue=true,  // this must be set to true if displayOidWithBoundValue = true
+      loadOidWithBoundValue=true,  // this must be set to true if
       displayOidWithBoundValue=true
       ,isStateEventSource=true)
   private StudentClass studentClass;
