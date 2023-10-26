@@ -1,0 +1,63 @@
+<form v-on:submit.prevent="onSubmit">
+    <div class="form-group"><label class="form-label">Type</label>
+        <select class="custom-select" v-model="courseModule.type">
+            <option value="" disabled="">Please choose one</option>
+            <option value="compulsory">compulsory</option>
+            <option value="elective">elective</option>
+        </select>
+    </div><br>
+    
+<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('id')">
+    <div class="form-group" >
+        <label class="form-label">Id</label>
+        <input disabled type="number" class="form-control" v-model="courseModule.id">
+    </div>
+    <br>
+</div>
+<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('code')">
+    <div class="form-group" >
+        <label class="form-label">Code</label>
+        <input disabled type="text" class="form-control" v-model="courseModule.code">
+    </div>
+    <br>
+</div>
+<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('name')">
+    <div class="form-group" >
+        <label class="form-label">Name</label>
+        <input  type="text" class="form-control" v-model="courseModule.name">
+    </div>
+    <br>
+</div>
+<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('semester')">
+    <div class="form-group" >
+        <label class="form-label">Semester</label>
+        <input  type="number" class="form-control" v-model="courseModule.semester">
+    </div>
+    <br>
+</div>
+<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('credits')">
+    <div class="form-group" >
+        <label class="form-label">Credits</label>
+        <input  type="number" class="form-control" v-model="courseModule.credits">
+    </div>
+    <br>
+</div>
+    
+    
+                     
+        
+<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('deptName')">
+    <div class="form-group" v-if="courseModule.type == 'elective'">
+        <label class="form-label">Dept. Name</label>
+        <input  type="text" class="form-control" v-model="courseModule.deptName">
+    </div>
+    <br>
+</div>             
+    
+    <div class="d-flex justify-content-end mx-0 row">
+        <div class="col-md-9"></div>
+        <button type="button" class="btn btn-secondary">Reset</button>
+        <button class="ml-2 btn btn-primary">Save</button>
+    </div>
+    <Toasts></Toasts>
+</form>

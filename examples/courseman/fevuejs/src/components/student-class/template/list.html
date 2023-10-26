@@ -1,0 +1,28 @@
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>ID</th>
+            <th>Name</th>
+            
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr style="cursor: pointer;" v-for="(studentClass, index) in studentClasses" v-if="studentClasses" :key="studentClass.id">
+        <td style="vertical-align: middle;">{{index + 1}}</td>
+        <td style="vertical-align: middle;">{{studentClass.id}}</td>
+        <td style="vertical-align: middle;">{{studentClass.name}}</td> 
+        <td style="vertical-align: middle; width: 200px;">
+            <button class="btn btn-primary" v-on:click="emitData(studentClass)">
+                Edit
+            </button>
+            <a class="btn btn-danger" data-target="#myModal" v-on:click="getStudentClassId(studentClass.id)" data-toggle="modal">
+                Delete
+            </a>
+        </td>
+    </tr>
+    </tbody>
+    <Toasts></Toasts>
+    <modal-confirm @confirm="deleteStudentClass(studentClassId)"></modal-confirm>
+</table>
