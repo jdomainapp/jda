@@ -59,7 +59,7 @@ This example project demonstrates the core functionality of JDA. In particular, 
 </modules>
 ```
 
-Refer to the ReadMe file in the example project for details.
+Refer to the [basics/ReadMe.md](basics/ReadMe.md) file in the example project for details.
 
 ## Example: swgen (`jda-eg-coursemansw`)
 This example project demonstrates the software generation (`SwGen`) capabilities of JDA. It includes the two other core aDSLs, namely, MCCL and SCCL 
@@ -71,7 +71,7 @@ This example project demonstrates the software generation (`SwGen`) capabilities
 </modules>
 ```
 
-Refer to the ReadMe file in the example project for details.
+Refer to the [swgen/ReadMe.md](swgen/ReadMe.md) file in the example project for details.
 
 ## Example: mosar (`jda-eg-coursemanmosar`)
 This example project extends `jda-eg-coursemansw` to demonstrate support for RESTful software.
@@ -84,7 +84,7 @@ This example project extends `jda-eg-coursemansw` to demonstrate support for RES
 </modules>
 ```
 
-Refer to the ReadMe file in the example project for details.
+Refer to the [mosar/ReadMe.md](mosar/ReadMe.md) file in the example project for details.
 
 ## Example: msa (`jda-eg-coursemanmsa`)
 This example project extends `jda-eg-coursemanmosar` to demonstrate support for microservices.
@@ -98,7 +98,7 @@ This example project extends `jda-eg-coursemanmosar` to demonstrate support for 
 </modules>
 ```
 
-Refer to the ReadMe file in the example project for details.
+Refer to the [msa/ReadMe.md](msa/ReadMe.md) file in the example project for details.
 
 ## Example: mdsa (`jda-eg-coursemanmdsa`)
 This example project extends `jda-eg-coursemanmsa` to formally support micro-domain service architecture and its software development method.
@@ -113,4 +113,4 @@ This example project extends `jda-eg-coursemanmsa` to formally support micro-dom
 </modules>
 ```
 
-Refer to the ReadMe file in the example project for details.
+Refer to the [mdsa/ReadMe.md](mdsa/ReadMe.md) file in the example project for details.
