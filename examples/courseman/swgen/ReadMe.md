@@ -4,7 +4,9 @@ JDA Software: Auto-generation and beyond
 # Benchmark CourseMan software example
 A full-featured version of the CourseMan application that is used to demonstrate extended set of functionalities of JDA. This covers all three aDSLs: DCSL, MCCL and SCCL.
 
-To run the software, execute this main class in the IDE: `org.jda.example.coursemanswref.software.CourseManSoftwareRef`
+To run the software:  
+1. Use Maven command: `mvn exec:java` OR
+2. Execute this main class in the IDE: `org.jda.example.coursemanswref.software.CourseManSoftwareRef`
 
 **MCCL** is the main language that powers this CourseMan software. It allows developers to create a configuration for each module (called **MCC**) that customises the model, view and controller components.
 
@@ -78,6 +80,56 @@ public class ModuleStudent {
 }
 ```
 
+## The MCC of Module(StudentClass)
+
+The following listing shows another MCC that demonstrates customisation of the MVC components of not only a module but also those of the descendant (nested) modules. `MCC(StudentClass)` has 2 descendant modules: `MCC(Student)` and `MCC(Enrolment)`.
+
+The controller of `MCC(StudentClass)` is configured with open policy `OpenPolicy.O_C`, which means to load all objects from the storage and to expand the views of all the descendant modules. The figure below the lists illustrates this.
+Further, the controller of the descendant `Module(Student)` is configured with the open policy `OpenPolicy.L_C`, which means to load (and show) all the objects and those of all the descendant modules. 
+
+Together, the above open policies create the behaviour that when the user clicks the `Open` button on the view, all the `StudentClass` objects are loaded from storage. In addition, all the associated `Student` objects as well as all the `Enrolment` objects associated to each of those `Student` objects are also loaded. The `StudentClass` view and the 2 descendant subviews for `Student` and `Enrolment` are automatically opened with the first object on each load collection is presented on the view.  
+
+```
+@ModuleDescriptor(name = "ModuleSClass",
+  modelDesc = @ModelDesc(
+    model = StudentClass.class
+  ),
+  viewDesc = @ViewDesc(
+    formTitle = "Form: Student Classes",
+    domainClassLabel = "Student Class",
+    imageIcon = "sclass.jpg",
+    view = View.class,
+    viewType = RegionType.Data,
+    parent = RegionName.Tools
+  ),
+  controllerDesc = @ControllerDesc(
+    controller = Controller.class,
+    // open with all objects and open children
+    openPolicy = OpenPolicy.O_C
+  ),
+  isPrimary = true,
+  setUpDesc = @SetUpDesc(postSetUp = CopyResourceFilesCommand.class)
+)
+public class ModuleStudentClass {
+    @AttributeDesc(label = "Student Class")
+    private String title;
+
+    @AttributeDesc(label = "Id")
+    private int id;
+
+    @AttributeDesc(label = "Name")
+    private String name;
+
+    @AttributeDesc(label = "Students", type = DefaultPanel.class,
+      controllerDesc = @ControllerDesc(
+        // default: openPolicy=OpenPolicy.I
+        // load all student objects and those of the descendant modules
+        openPolicy = OpenPolicy.L_C
+      )
+    )
+    private List<Student> students;
+}
+```
 ## Generated Software
 The following figure shows the dashboard of the generated CourseMan software. 
 ![CourseMan Dashboard](docs/images/coursemanswref-dashboard.png)

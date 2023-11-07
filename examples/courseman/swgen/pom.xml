@@ -11,7 +11,7 @@
   
     <!-- PROPERTIES -->
   <properties>
-    <mainClass>org.jda.example.coursemansw.swgen.CourseManSwGen</mainClass>
+    <mainClass>org.jda.example.coursemanswref.software.CourseManSoftwareRef</mainClass>
   </properties>
   <!-- END: PROPERTIES -->
   
