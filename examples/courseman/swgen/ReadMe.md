@@ -131,15 +131,23 @@ public class ModuleStudentClass {
 }
 ```
 ## Generated Software
+
+### Dashboard
 The following figure shows the dashboard of the generated CourseMan software. 
 ![CourseMan Dashboard](docs/images/coursemanswref-dashboard.png)
 
+
+## `View(Student)`
 The following figure shows the close-up view of the Module(Student).
 ![The view of Module(Student)](docs/images/coursemanswref-view.png)
 
 As can be seen from the above figures, the labels and texts on the module views are customised to show use-friendly contents; e.g. "Manage Students" and "Customer ID". Further, the view fields and some of the sub-views are also customised to show more user-friendly layouts.   
 
-For example, View(StudentClass) in the first figure shows that the Subview(Student) is a Panel, which is a form layout that shows the details of each student in a student-class. This is different from the default tabular subview, as shown in the Subview(Enrolment) of the View(Student).  
+For example, `View(StudentClass)` in the first figure shows that the `Subview(Student)` is a Panel, which is a form layout that shows the details of each student in a student-class. This is different from the default tabular subview, as shown in the `Subview(Enrolment)` of the `View(Student)`.  
+
+The following figure shows the close-up view of `View(StudentClass)`.
+
+![The view of Module(StudentClass)](docs/images/coursemanswref-module-studentclass.png)
 
 # Generated CourseMan Software example 
 
