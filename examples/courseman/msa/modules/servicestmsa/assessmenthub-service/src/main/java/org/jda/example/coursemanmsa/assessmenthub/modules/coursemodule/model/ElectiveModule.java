@@ -12,7 +12,7 @@ import lombok.ToString;
 
 @Getter @Setter @ToString
 @Entity
-@Table(name = "electivemodule") 
+@Table(name = "electivemodule", schema="coursemodule")
 @PrimaryKeyJoinColumn(name = "id")
 @JsonTypeName("elective") 
 public class ElectiveModule extends CourseModule{

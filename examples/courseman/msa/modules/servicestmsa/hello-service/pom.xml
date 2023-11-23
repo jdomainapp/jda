@@ -9,9 +9,9 @@
 	</parent>
 
   <groupId>org.jda.example.coursemanmsa</groupId>
-	<artifactId>jda-eg-coursemanmsa-hello</artifactId>
+	<artifactId>hello-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>hello</name>
+	<name>hello-service</name>
 	<description>CourseMan-MSA: Hello Service</description>
 
 </project>

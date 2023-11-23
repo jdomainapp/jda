@@ -21,7 +21,7 @@ import lombok.ToString;
 
 @Getter @Setter @ToString
 @Entity
-@Table(name = "coursemodule")
+@Table(name = "coursemodule", schema="coursemodule")
 @Inheritance(strategy = InheritanceType.JOINED)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.EXISTING_PROPERTY, property = "type", visible = true)
 @JsonSubTypes({

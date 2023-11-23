@@ -37,8 +37,9 @@ import java.util.List;
         ),
         controllerDesc = @ControllerDesc(
                 controller = Controller.class,
+                // open with all objects and open children
                 openPolicy = OpenPolicy.O_C
-        ),  // v2.6.4b
+        ),
         isPrimary = true,
         setUpDesc = @SetUpDesc(postSetUp = CopyResourceFilesCommand.class)
 )
@@ -54,8 +55,8 @@ public class ModuleStudentClass {
 
     @AttributeDesc(label = "Students", type = DefaultPanel.class,
             controllerDesc = @ControllerDesc(
-                    //openPolicy=OpenPolicy.O
-                    /*testing: load all student objects with children*/
+                    // default: openPolicy=OpenPolicy.I
+                    // load all student objects and those of the descendant modules
                     openPolicy = OpenPolicy.L_C
             )
     )

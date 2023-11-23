@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Getter @Setter @ToString
 @Entity
-@Table(name = "compulsorymodule") 
+@Table(name = "compulsorymodule", schema="coursemodule")
 @PrimaryKeyJoinColumn(name = "id")
 @JsonTypeName("compulsory") 
 public class CompulsoryModule extends CourseModule{

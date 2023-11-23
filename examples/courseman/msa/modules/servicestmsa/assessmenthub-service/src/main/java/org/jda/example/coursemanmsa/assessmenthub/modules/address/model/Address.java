@@ -17,7 +17,7 @@ import lombok.ToString;
 
 @Getter @Setter @ToString
 @Entity
-@Table(name="address")
+@Table(name="address", schema="address")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 

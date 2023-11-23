@@ -9,7 +9,7 @@
 	
 	<groupId>org.jda.example.coursemanmsa</groupId>
 	<artifactId>enrolment-service2</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>enrolment-service2</name>
 	<description>Courseman Enrolment Service2</description>
 

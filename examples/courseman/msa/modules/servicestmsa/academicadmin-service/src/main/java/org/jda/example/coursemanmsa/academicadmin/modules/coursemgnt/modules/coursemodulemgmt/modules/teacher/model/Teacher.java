@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Getter @Setter @ToString
 @Entity
-@Table(name="teacher")
+@Table(name="teacher", schema="teacher")
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
 		  property = "id", scope = Teacher.class)

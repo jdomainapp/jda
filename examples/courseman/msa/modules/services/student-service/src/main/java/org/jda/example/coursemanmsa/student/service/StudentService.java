@@ -34,8 +34,8 @@ public class StudentService {
 	@Autowired
 	private StudentRepository repository;
 
-	@Autowired
-	ServiceConfig config;
+//	@Autowired
+//	ServiceConfig config;
 
 
 	@Autowired

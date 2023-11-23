@@ -10,7 +10,7 @@
 	
 	<groupId>org.jda.example.coursemanmsa</groupId>
 	<artifactId>course-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>course-service</name>
 	<description>Courseman Course Service</description>
 </project>

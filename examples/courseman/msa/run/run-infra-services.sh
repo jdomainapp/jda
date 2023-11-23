@@ -12,7 +12,7 @@ echo "==> Starting discovery server..."
 gnome-terminal\
   --tab --title="discovery-server" --command="bash -c 'cd $run_dir; ./run2*; $SHELL'"
 
-sleep 15
+sleep 30
 
 echo "==> Starting gateway server..."
 gnome-terminal\

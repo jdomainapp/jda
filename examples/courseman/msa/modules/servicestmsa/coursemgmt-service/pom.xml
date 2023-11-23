@@ -9,9 +9,9 @@
 	</parent>
 	
 	<groupId>org.jda.example.coursemanmsa</groupId>
-	<artifactId>coursemgnt-service</artifactId>
+	<artifactId>coursemgmt-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>coursemgnt-service</name>
+	<name>coursemgmt-service</name>
 	<description>Courseman Coursemgnt Service</description>
 
 </project>
