@@ -1,5 +1,5 @@
 # RESTful Fullstack App Generator
-Link: [jdafs-tool](https://github.com/jdomainapp/jda/blob/main/examples/courseman/mosar)
+**Project**: [jdafs-tool](https://github.com/jdomainapp/jda/blob/main/examples/courseman/mosar)
 
 ## Supported FE frameworks
 - Vuejs
@@ -8,7 +8,7 @@ Link: [jdafs-tool](https://github.com/jdomainapp/jda/blob/main/examples/coursema
 - Angular (work in progress)
 
 # Software generator
-**Link**: [Software Generator](https://github.com/jdomainapp/jda/tree/main/examples/courseman/swgen)
+**Project**: [Software Generator](https://github.com/jdomainapp/jda/tree/main/examples/courseman/swgen)
 
 - to understand the software configuration in MCCL
 
