@@ -435,13 +435,13 @@ URL: http://www.squirrelsql.org/index.php?page=home#installation
 
   - needs both files `derby.jar` and `derbyshared.jar`
   - use the "List Drivers" button to automatically find the driver class
-![Configure Apache Derby JDBC driver](/data/projects/jda/docs/derby/images/squirrelsql-apachederby-1-configure-drivers.png)
+![Configure Apache Derby JDBC driver](docs/derby/images/squirrelsql-apachederby-1-configure-drivers.png)
 
 
 3. Create a connection alias to the db
    - For CourseMan examples, path to the db directory is in the `data` subfolder of your `jda` directory (e.g. `.../data/domainds`), as shown in the image
-![Create a connection alias to the db](/data/projects/jda/docs/derby/images/squirrelsql-apachederby-2-add-connection-alias.png)
+![Create a connection alias to the db](docs/derby/images/squirrelsql-apachederby-2-add-connection-alias.png)
 
 4. Use the SQL editor to work with the data
 
-![Use the SQL editor to work with the data](/data/projects/jda/docs/derby/images/squirrelsql-apachederby-3-use-SQL-editor.png)
+![Use the SQL editor to work with the data](docs/derby/images/squirrelsql-apachederby-3-use-SQL-editor.png)
