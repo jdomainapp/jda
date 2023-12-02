@@ -434,7 +434,13 @@ URL: http://www.squirrelsql.org/index.php?page=home#installation
 2. Configure Apache Derby JDBC driver
 
   - needs both files `derby.jar` and `derbyshared.jar`
+  - folder paths point to the local Maven repository folders of Apache Derby, which are as follow (`x.y.z` is the version string):
+    - `derby.jar` => `$USER_HOME/.m2/repository/org/apache/derby/derby/x.y.z/derby-x.y.z.jar`
+    - `derbyshared.jar` => `$USER_HOME/.m2/repository/org/apache/derby/shared/x.y.z/derby-x.y.z.jar`
   - use the "List Drivers" button to automatically find the driver class
+
+The following screenshot shows an example configuration: 
+
 ![Configure Apache Derby JDBC driver](docs/derby/images/squirrelsql-apachederby-1-configure-drivers.png)
 
 
