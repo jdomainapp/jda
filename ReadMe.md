@@ -439,7 +439,7 @@ URL: http://www.squirrelsql.org/index.php?page=home#installation
     - `derbyshared.jar` => `$USER_HOME/.m2/repository/org/apache/derby/shared/x.y.z/derby-x.y.z.jar`
   - use the "List Drivers" button to automatically find the driver class
 
-The following screenshot shows an example configuration: 
+The following screenshot shows an example configuration for the Apache Derby Embedded driver. This is the driver mode for the standard use of the database in the CourseMan examples.  
 
 ![Configure Apache Derby JDBC driver](docs/derby/images/squirrelsql-apachederby-1-configure-drivers.png)
 
