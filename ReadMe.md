@@ -445,7 +445,7 @@ The following screenshot shows an example configuration for the Apache Derby Emb
 
 
 3. Create a connection alias to the db
-   - For CourseMan examples, path to the db directory is in the `data` subfolder of your `jda` directory (e.g. `.../data/domainds`), as shown in the image
+   - For CourseMan examples, path to the db directory is in the `data` subfolder of your project directory (e.g. `.../data/domainds`), as shown in the image below
 ![Create a connection alias to the db](docs/derby/images/squirrelsql-apachederby-2-add-connection-alias.png)
 
 4. Use the SQL editor to work with the data
