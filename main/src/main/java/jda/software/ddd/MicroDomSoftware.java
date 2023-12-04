@@ -21,11 +21,11 @@ import jda.mosa.software.impl.DomSoftware;
  * @version 5.4.1 
  */
 public abstract class MicroDomSoftware<T> {
-  private static Logger logger = (Logger) LoggerFactory.getLogger(MicroDomSoftware.class.getSimpleName());
+  private static final Logger logger = (Logger) LoggerFactory.getLogger(MicroDomSoftware.class.getSimpleName());
 
-  private Class<T> dcls;
+  private final Class<T> dcls;
   
-  private DomSoftware sw;
+  private final DomSoftware sw;
   
   /**
    * @effects 
@@ -46,13 +46,16 @@ public abstract class MicroDomSoftware<T> {
 
   public abstract MicroDomSoftware run() throws DataSourceException;
 
-  public MicroDomSoftware initDom() throws DataSourceException {
+  public MicroDomSoftware initDom() throws DataSourceException, NotPossibleException {
     // register a domain model fragment concerning Student
     Class[] domFrag = {
         dcls
     };
     sw.addClasses(domFrag);
-    
+
+    // read object metadata
+    sw.openMetadata(dcls);
+
     return this;
   }
   
@@ -184,5 +187,9 @@ public abstract class MicroDomSoftware<T> {
    */
   public void reset() throws DataSourceException {
     deleteDomainModel(dcls);
-  }  
+  }
+
+  public void deleteDomainData() throws DataSourceException {
+    sw.deleteDomainData(dcls);
+  }
 }

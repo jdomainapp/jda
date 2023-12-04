@@ -57,8 +57,8 @@ public class DomCity extends MicroDomSoftware<City> {
 //          City(5, "Thai Nguyen");
 //        City(4, "Hue");
 //          City(3, "Danang");
-//          City(2, "HCM");
-        City(1, "Hanoi");
+          City(2, "HCM");
+//        City(1, "Hanoi");
     getSw().addObject(City.class, obj);
 
     return this;

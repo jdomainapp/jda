@@ -1,21 +1,11 @@
 package jda.mosa.software.impl;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
-
 import jda.modules.common.Toolkit;
 import jda.modules.common.exceptions.DataSourceException;
 import jda.modules.common.exceptions.NotFoundException;
 import jda.modules.common.exceptions.NotPossibleException;
 import jda.modules.common.expression.Op;
+import jda.modules.common.types.Tuple2;
 import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dodm.DODMBasic;
 import jda.modules.dodm.dom.DOMBasic;
@@ -26,9 +16,14 @@ import jda.modules.dodm.osm.relational.RelationalOSMBasic;
 import jda.modules.setup.model.Cmd;
 import jda.modules.setup.model.SetUpBasic;
 import jda.modules.setup.model.SetUpGen;
+import jda.mosa.controller.assets.helper.objectbrowser.ObjectBrowser;
 import jda.mosa.model.Oid;
 import jda.mosa.software.SoftwareFactory;
 import jda.mosa.software.aio.SoftwareAio;
+import org.postgresql.core.Tuple;
+
+import java.net.URL;
+import java.util.*;
 
 /**
  * @overview 
@@ -42,7 +37,7 @@ import jda.mosa.software.aio.SoftwareAio;
  * @version 4.0
  */
 public abstract class SoftwareImpl {
-  private SoftwareAio sw;
+  private final SoftwareAio sw;
   
   /**
    * @effects 
@@ -173,9 +168,17 @@ public abstract class SoftwareImpl {
    * @version 
    */
   public void deleteDomainData(Class[] domainClasses) throws DataSourceException {
-    getSwObject().getSu().deleteDomainData(Arrays.asList(domainClasses));
+
+    List<Class> col = new ArrayList<>();
+    Collections.addAll(col, domainClasses);
+
+    getSwObject().getSu().deleteDomainData(col);
   }
-  
+
+  public <T> void deleteDomainData(Class<T> dcls) throws DataSourceException {
+    deleteDomainData(new Class[] {dcls});
+  }
+
   /**
    * @effects 
    *  Delete domain schema of the domain classes specified in <tt>domainClasses</tt>.
@@ -682,7 +685,21 @@ public abstract class SoftwareImpl {
   public <T> T retrieveObjectById(Class<T> cls, Object id) throws NotFoundException, DataSourceException {
     return retrieveObject(cls, "id", Op.EQ, id +"");
   }
-  
+
+  /**
+   *
+   * @effects
+   *
+   * @version 1.0
+   */
+  public <T> T retrieveObjectByOid(Class<T> cls, Oid id) throws NotFoundException, DataSourceException {
+    method(String.format("retrieveObjectByOId(%s: %s)", cls.getSimpleName(), id));
+
+    DOMBasic dom = getDom();
+
+    return dom.retrieveObject(cls,id);
+  }
+
   public <T> Collection<T> retrieveObjects(Class<T> c, String attrib, Op op,
       String val) throws NotFoundException, DataSourceException {
     method(String.format("retrieveObjects(%s: %s %s %s)", c.getSimpleName(), attrib, op, val));
@@ -691,7 +708,21 @@ public abstract class SoftwareImpl {
     
     return dom.retrieveObjects(c, attrib, op, val);
   }
-  
+
+  public <T> Collection<T> retrieveObjects(Class<T> c) throws DataSourceException {
+    method(String.format("retrieveObjects(%s)", c.getSimpleName()));
+
+    DOMBasic dom = getDom();
+
+    Map<Oid, T> objects = dom.retrieveObjects(c);
+
+    if (objects != null && !objects.isEmpty()) {
+      return objects.values();
+    } else {
+      return null;
+    }
+  }
+
   /**
    * @requires {@link #addClasses()} has been run
    */
@@ -745,7 +776,36 @@ public abstract class SoftwareImpl {
   public <T> void loadAssociatedObjects(T o) throws NotFoundException, NotPossibleException {
     getDom().retrieveAssociatedObjects(o);
   }
-  
+
+  /**
+   * @effects
+   *  if object metadata of the domain class <tt>cls</tt> has not been loaded
+   *    load the object metadata
+   *  else
+   *    do nothing
+   *
+   *  <p>throws NotPossibleException if data source is not connected,
+   *     DataSourceException if failed to operate on data source
+   */
+  public void openMetadata(Class cls) throws NotPossibleException, DataSourceException {
+    DOMBasic dom = getDom();// getDomainSchema();
+    boolean objectSerialised = getDODM().isObjectSerialised(); // v2.8
+
+    if (!objectSerialised ||  // v2.8
+        dom.isConnectedToDataSource()) {
+      // valid connection to data source
+
+      // load metadata if not done so
+      if (!dom.isIdRangeInitialised(cls)) {
+        // v2.8: schema.loadMetadata(cls);
+        dom.retrieveMetadata(cls);
+      }
+    } else {
+      throw new NotPossibleException(
+          NotPossibleException.Code.DATA_SOURCE_NOT_CONNECTED);
+    }
+  }
+
   /**
    * @effects 
    * 
@@ -832,7 +892,7 @@ public abstract class SoftwareImpl {
 
   public <T> T getMiddleObject(Collection<T> objs) {
     int sz = objs.size();
-    int mid = (int) (sz/2);
+    int mid = sz/2;
     
     return getObject(objs, mid);
   }
@@ -864,7 +924,7 @@ public abstract class SoftwareImpl {
     DSMBasic dsm = dodm.getDsm();
     Throwable cause;
     for (Class cls : domainClasses) {
-      if (!dsm.isTransient(cls)) {
+      if (!DSMBasic.isTransient(cls)) {
         try {
           dom.listData(cls, true);
         } catch (Exception e) {
@@ -885,7 +945,7 @@ public abstract class SoftwareImpl {
     DSMBasic dsm = dodm.getDsm();
     Throwable cause;
     for (Class cls : classes) {
-      if (!dsm.isTransient(cls)) {
+      if (!DSMBasic.isTransient(cls)) {
         //dom.listData(cls, true);
         try {
           dom.listData(cls, true);
@@ -943,5 +1003,27 @@ public abstract class SoftwareImpl {
 //    else {
 //      System.out.println("No objects found");
 //    }
+  }
+
+  public <T> Tuple2<Oid, Oid> getIdRange(Class<T> cls) throws DataSourceException {
+    Oid min = getDODM().getDom().getLowestOid(cls);
+    Oid max = getDODM().getDom().getHighestOid(cls);
+
+    return new Tuple2(min, max);
+  }
+
+  /**
+   *
+   * @effects
+   *  Create and return a new {@link ObjectBrowser} for the specified domain class <tt>cls</tt>.
+   *
+   * @version 1.0
+   */
+  public <T> ObjectBrowser<T> createObjectBrowser(Class<T> cls) throws DataSourceException {
+    ObjectBrowser<T> browser = new ObjectBrowser<>(getDODM(), cls);
+    Tuple2<Oid, Oid> idRange = getIdRange(cls);
+    browser.open(idRange.getFirst(), idRange.getSecond());
+
+    return browser;
   }
 }
