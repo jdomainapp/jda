@@ -427,27 +427,44 @@ Replace `my-system-user-name` by your actual logged-in user of the host machine.
 
 ## Using Squirrel SQL Client (GUI) to work with Apache Derby
 
-1. Download and install latest version of Squirrel SQL client (use the provided jar file)
+### 1. Download and install latest version of Squirrel SQL client (use the provided jar file)
 
 URL: http://www.squirrelsql.org/index.php?page=home#installation
 
-2. Configure Apache Derby JDBC driver
-
-  - needs both files `derby.jar` and `derbyshared.jar`
+### 2. Configure the Apache Derby JDBC driver
+  - needs two files:
+    - `derbynet.jar` (for **client/server** mode) OR `derby.jar` (for **embedded** mode)
+    - `derbyshared.jar`
   - folder paths point to the local Maven repository folders of Apache Derby, which are as follow (`x.y.z` is the version string):
     - `derby.jar` => `$USER_HOME/.m2/repository/org/apache/derby/derby/x.y.z/derby-x.y.z.jar`
+    - `derbynet.jar` => `$USER_HOME/.m2/repository/org/apache/derby/derbyclient/x.y.z/derbyclient-x.y.z.jar`
     - `derbyshared.jar` => `$USER_HOME/.m2/repository/org/apache/derby/shared/x.y.z/derby-x.y.z.jar`
   - use the "List Drivers" button to automatically find the driver class
 
-The following screenshot shows an example configuration for the Apache Derby Embedded driver. This is the driver mode for the standard use of the database in the CourseMan examples.  
+The following screenshot shows an example configurations for embedded and client/server modes. The embedded mode is the default use of the database in the CourseMan examples.  
 
-![Configure Apache Derby JDBC driver](docs/derby/images/squirrelsql-apachederby-1-configure-drivers.png)
+**Configure Apache Derby JDBC EMBEDDED driver:**
+![Configure EMBEDDED Apache Derby JDBC driver](docs/derby/images/squirrelsql-apachederby-1-configure-drivers.png)
 
+**Configure Apache Derby JDBC CLIENT driver:**
+![Configure Client Apache Derby JDBC driver](docs/derby/images/squirrelsql-apachederby-1-configure-client-drivers.png)
 
-3. Create a connection alias to the db
+### 3. (Only for Client mode) Start the Apache Derby DB Server
+
+Start the DB server process so that client can connect. Run the following command from the **project's working directory** (e.g. `/jda/examples/courseman/mosar`):
+```
+:mosar$ mvn exec:java -DmainClass=jda.software.javadbserver.JavaDbServerProgram
+```
+### 4. Create a connection alias to the db
    - For CourseMan examples, path to the db directory is in the `data` subfolder of your project directory (e.g. `.../data/domainds`), as shown in the image below
+
+**Create an EMBEDDED connection alias to the db:**
 ![Create a connection alias to the db](docs/derby/images/squirrelsql-apachederby-2-add-connection-alias.png)
 
-4. Use the SQL editor to work with the data
+**Create a CLIENT connection alias to the db:**
+  - Note that the URL has the format `jdbc:derby://localhost:1527/<path-to-db-folder`
+![Create a connection alias to the db](docs/derby/images/squirrelsql-apachederby-2-add-client-connection-alias.png)
+
+### 5. Use the SQL editor to work with the data
 
 ![Use the SQL editor to work with the data](docs/derby/images/squirrelsql-apachederby-3-use-SQL-editor.png)
