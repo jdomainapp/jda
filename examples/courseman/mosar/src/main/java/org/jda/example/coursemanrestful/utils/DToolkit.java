@@ -4,6 +4,7 @@ import org.jda.example.coursemanrestful.modules.student.model.Gender;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -18,6 +19,21 @@ public class DToolkit {
   public static final Date MIN_DOB = getTime(1,0,1900);
 
   private DToolkit() {}
+
+  /**
+   * @effects
+   *  return the value of <tt>key</tt> (if any) from the environment variables.
+   *
+   * @version 1.0
+   */
+  public static Optional<String> getEnvProp(String key) {
+    String v = System.getProperty(key);
+    if (v != null) {
+      return Optional.of(v);
+    } else {
+      return Optional.empty();
+    }
+  }
 
   /**
    * @requires 
