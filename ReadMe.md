@@ -425,6 +425,15 @@ admin	          my-system-user-name     postgres
 
 Replace `my-system-user-name` by your actual logged-in user of the host machine.
 
+## Using Relational DBMSs
+
+1. Install the RDBMS (e.g. PostgreSQL,...)
+2. Create a database as per the configuration specified in the element `@SystemDesc.@DSDesc` of the software's SCC:
+   1. `dsUrl`: server name, port and database name match the database configuration in the RDBMS
+   2. `user`: the database user name
+   3. `password`: the database user password
+3. Run the software
+
 ## Using Squirrel SQL Client (GUI) to work with Apache Derby
 
 ### 1. Download and install latest version of Squirrel SQL client (use the provided jar file)
