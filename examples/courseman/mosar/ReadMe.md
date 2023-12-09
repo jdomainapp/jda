@@ -171,11 +171,12 @@ Use these test units to test the frontend and backend functionalities.
 The domain model test units are designed to allow testing the domain model classes. 
 1. `CRUDTestMaster`: the super-root of all test units 
 2. Package `...test.modules` contain CRUD test units for each of the domain modules
+3. Default RDBMS is **PostgreSQL**. To use Apache Derby database, specify the environment variable `app.type=default` (using `-Dapp.type=default`)
 
 Each CRUD test units test CRUD on the objects of one domain class using the default Derby embedded database. 
 
 ### Procedure
-The **execution order** of the test units are as follows. Execute the test method `run()` of each unit on the IDE:
+The **exection order** of the test units are as follows. Execute the test method `run()` of each unit on the IDE:
 
 1. `address.CRUDAddress`: to create test address objects
 2. `student.CRUDStudent`: to create test student objects
