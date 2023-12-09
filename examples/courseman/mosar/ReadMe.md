@@ -171,6 +171,7 @@ Use these test units to test the frontend and backend functionalities.
 The domain model test units are designed to allow testing the domain model classes. 
 1. `CRUDTestMaster`: the super-root of all test units 
 2. Package `...test.modules` contain CRUD test units for each of the domain modules
+3. Default RDBMS is **PostgreSQL**. To use Apache Derby database, specify the environment variable `app.type=default` (using `-Dapp.type=default`)
 
 Each CRUD test units test CRUD on the objects of one domain class using the default Derby embedded database. 
 

@@ -1,10 +1,9 @@
 package org.jda.example.coursemanrestful.software;
 
 import ch.qos.logback.classic.Logger;
+import jda.modules.mosar.software.RFSoftware;
 import org.jda.example.coursemanrestful.software.config.SCCCourseMan;
 import org.jda.example.coursemanrestful.software.config.SCCCourseManDerby;
-
-import jda.modules.mosar.software.RFSoftware;
 import org.jda.example.coursemanrestful.utils.DToolkit;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +25,7 @@ public class CourseManRFSGen {
       scc = SCCCourseMan.class;
     } else {
       logger.info("Creating a default DOM Software (with embedded Derby database)...");
-      scc = org.courseman.software.config.SCCCourseManDerby.class;
+      scc = SCCCourseManDerby.class;
     }
 
     return scc;
