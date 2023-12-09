@@ -466,7 +466,7 @@ This starts the server process with a UI shown in the following image:
 ![Create a connection alias to the db](docs/derby/images/squirrelsql-apachederby-2-add-connection-alias.png)
 
 **Create a CLIENT connection alias to the db:**
-  - Note that the URL has the format `jdbc:derby://localhost:1527/<path-to-db-folder`
+  - Note that the URL has the format `jdbc:derby://localhost:1527/<path-to-db-folder>`
 ![Create a connection alias to the db](docs/derby/images/squirrelsql-apachederby-2-add-client-connection-alias.png)
 
 ### 5. Use the SQL editor to work with the data
