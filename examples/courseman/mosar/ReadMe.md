@@ -160,3 +160,45 @@ Generated outputs include:
 
 **ReactNative**
   - Refer to the instructions in the `Readme.md` file in the generated source code folder `frontend` in step 1.
+
+# Running CourseMan Tests
+As usual for Maven, the test units are created under the `src/test` subfolder.
+Use these test units to test the frontend and backend functionalities. 
+
+## Backend/Domain model test units
+
+### Overview
+The domain model test units are designed to allow testing the domain model classes. 
+1. `CRUDTestMaster`: the super-root of all test units 
+2. Package `...test.modules` contain CRUD test units for each of the domain modules
+
+Each CRUD test units test CRUD on the objects of one domain class using the default Derby embedded database. 
+
+### Procedure
+The **execution order** of the test units are as follows. Execute the test method `run()` of each unit on the IDE:
+
+1. `address.CRUDAddress`: to create test address objects
+2. `student.CRUDStudent`: to create test student objects
+3. `coursemodule.CRUDCompulsoryModule`: to create compulsory module objects
+4. `coursemodule.CRUDElectiveModule`: to create elective module objects
+5. `coursemodule.CRUDEnrolmentModule`: to create enrolment objects
+
+Use the following command to run a test class from the command line:
+```
+mvn test -Dtest=<fully-qualified-name-of-test-class>
+```
+
+For example, the following command execute the CRUDAddress test class:
+```
+mvn test -Dtest=org.jda.example.coursemanrestful.test.modules.address.CRUDAddress
+```
+
+## Running JDATool on the database 
+To view the data objects on the built-in JDA's UI, execute the `CRUDTestMaster` class in the IDE as follows:
+1. Configure the run configuration of the UI to access the database folder created by the test units. In Intellij (or the IDE of your choice), customise the run configuration of  the `CRUDTestMaster.main` method to specify the work directory as `.../jda/examples/courseman/mosar`.
+2. Execute the `CRUDTestMaster.main` method
+
+## Managing the database on SQuirrel SQL Client
+You can manage the database using the Squirrel SQL client. Refer to [these instructions](https://github.com/jdomainapp/jda#using-squirrel-sql-client-gui-to-work-with-apache-derby) on how to do this. 
+
+When the **domain model is changed**, you **must** use this SQL client to delete the database tables. The tool does not currently support auto update the database when these changes occur. 
