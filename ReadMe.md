@@ -455,6 +455,10 @@ Start the DB server process so that client can connect. Run the following comman
 ```
 :mosar$ mvn exec:java -DmainClass=jda.software.javadbserver.JavaDbServerProgram
 ```
+
+This starts the server process with a UI shown in the following image:
+![Java DB Server UI](docs/derby/images/javadb-server-ui.png)
+
 ### 4. Create a connection alias to the db
    - For CourseMan examples, path to the db directory is in the `data` subfolder of your project directory (e.g. `.../data/domainds`), as shown in the image below
 
