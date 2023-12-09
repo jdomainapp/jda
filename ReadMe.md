@@ -434,6 +434,8 @@ Replace `my-system-user-name` by your actual logged-in user of the host machine.
    3. `password`: the database user password
 3. Run the software
 
+You do not need to create the tables, the software will create them automatically. 
+
 ## Using Squirrel SQL Client (GUI) to work with Apache Derby
 
 ### 1. Download and install latest version of Squirrel SQL client (use the provided jar file)
