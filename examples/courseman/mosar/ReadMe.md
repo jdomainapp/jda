@@ -183,6 +183,16 @@ The **exection order** of the test units are as follows. Execute the test method
 4. `coursemodule.CRUDElectiveModule`: to create elective module objects
 5. `coursemodule.CRUDEnrolmentModule`: to create enrolment objects
 
+Use the following command to run a test class from the command line:
+```
+mvn test -Dtest=<fully-qualified-name-of-test-class>
+```
+
+For example, the following command execute the CRUDAddress test class:
+```
+mvn test -Dtest=org.jda.example.coursemanrestful.test.modules.address.CRUDAddress
+```
+
 ## Running JDATool on the database 
 To view the data objects on the built-in JDA's UI, execute the `CRUDTestMaster` class in the IDE as follows:
 1. Configure the run configuration of the UI to access the database folder created by the test units. In Intellij (or the IDE of your choice), customise the run configuration of  the `CRUDTestMaster.main` method to specify the work directory as `.../jda/examples/courseman/mosar`.
