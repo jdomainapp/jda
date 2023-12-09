@@ -56,13 +56,16 @@ import jda.modules.setup.model.SetUpConfig;
                 url = "http://swinburne.edu.vn"),
         dsDesc = @DSDesc(
                 type = "derby",
-                dsUrl = "data/domainds",
+                dsUrl = "//localhost:1527/data/domainds",
                 user = "admin",
                 password = "password",
                 dsmType = DSM.class,
                 domType = DOM.class,
                 osmType = JavaDbOSM.class,
-                connType = ConnectionType.Embedded),
+                connType =
+                    ConnectionType.Client
+                    //ConnectionType.Embedded
+        ),
         modules = {
                 ModuleMain.class,
                 ModuleCourseModule.class,

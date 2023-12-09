@@ -378,15 +378,13 @@ public abstract class SetUp extends SetUpBasic {
     
     if (md != null) {
       Class[] dependsOnArr = md.childModules();
-      if (dependsOnArr.length > 0) {
-        // has dependencies: add those not already contained in dependsOn
-        for (Class dependOnMd : dependsOnArr) {
-          if (!dependsOn.contains(dependOnMd)) {
-            dependsOn.add(dependOnMd);
-            
-            // recursively find the dependencies in dependOnMd 
-            getDependencyModules(dependOnMd, dependsOn);
-          }
+      // has dependencies: add those not already contained in dependsOn
+      for (Class dependOnMd : dependsOnArr) {
+        if (!dependsOn.contains(dependOnMd)) {
+          dependsOn.add(dependOnMd);
+
+          // recursively find the dependencies in dependOnMd
+          getDependencyModules(dependOnMd, dependsOn);
         }
       }
     }
@@ -645,7 +643,7 @@ public abstract class SetUp extends SetUpBasic {
    *    
    * @version 2.8
    */
-  protected DODMBasic initDODM(boolean startDBServerIfNeeded) {
+  public DODMBasic initDODM(boolean startDBServerIfNeeded) {
     if (debug)
     log(MessageCode.INIT_DODM,
         //"Kết nối dữ liệu " + getDBName()

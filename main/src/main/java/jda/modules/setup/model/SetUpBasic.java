@@ -149,8 +149,8 @@ public abstract class SetUpBasic {
   private StringBuffer status;
   
  // v2.8
-  private List<ChangeListener> changeListeners;
-  private ChangeEvent changeEvent;
+  private final List<ChangeListener> changeListeners;
+  private final ChangeEvent changeEvent;
   
   // v2.8
   private Boolean isSerialised;
@@ -163,7 +163,7 @@ public abstract class SetUpBasic {
    * the messages that are being displayed and hence are used by the system 
    * to localise the message content. 
    */
-  public static enum MessageCode implements InfoCode {    
+  public enum MessageCode implements InfoCode {
     VALIDATE_CONFIGURATION(""), 
     ERR_COMMAND_NOT_EXECUTABLE(""), 
     SETTING_UP_APPLICATION(""), 
@@ -186,9 +186,9 @@ public abstract class SetUpBasic {
     FAIL_TO_LAUNCH_APPLICATION("Lỗi chạy chương trình: {0}"),
     ;   
     
-    private String text;
+    private final String text;
     
-    private MessageCode(String text) {
+    MessageCode(String text) {
       this.text = text;
     }
     
@@ -485,7 +485,7 @@ public abstract class SetUpBasic {
       
       return val;
     } else {
-      throw new NotPossibleException(NotPossibleException.Code.INVALID_ARRAY_INDEX, new Object[] {i, args.length-1});
+      throw new NotPossibleException(NotPossibleException.Code.INVALID_ARRAY_INDEX, i, args.length-1);
     }
   }
 
@@ -902,17 +902,16 @@ public abstract class SetUpBasic {
 //    log(MessageCode.PROGRAM_DB,"+ Tên CSDL                : ",config.getDbName());
 
     String os = System.getProperty("os.name").toLowerCase();
-    
-    StringBuffer sb = new StringBuffer("------------------------------------------------------\n");
-    sb.append("Program settings:\n");
-    sb.append("\n");
-    sb.append(  "+ Operating system    : "+ os).append("\n")
-        .append("+ Program name        : " + config.getAppName()).append("\n")
-        .append("+ Set up folder       : " + config.getSetUpFolder()).append("\n")
-        .append("+ Program folder      : " + config.getAppFolder()).append("\n")
-        .append("+ Database            : " + config.getDodmConfig().getOsmConfig().getProtocolURL()).append("\n");
-    sb.append("------------------------------------------------------\n");
-    log(MessageCode.PROGRAM_SETTINGS, sb.toString());
+
+    String sb = "------------------------------------------------------\n" + "Program settings:\n" +
+        "\n" +
+        "+ Operating system    : " + os + "\n" +
+        "+ Program name        : " + config.getAppName() + "\n" +
+        "+ Set up folder       : " + config.getSetUpFolder() + "\n" +
+        "+ Program folder      : " + config.getAppFolder() + "\n" +
+        "+ Database            : " + config.getDodmConfig().getOsmConfig().getProtocolURL() + "\n" +
+        "------------------------------------------------------\n";
+    log(MessageCode.PROGRAM_SETTINGS, sb);
     
 //    System.out
 //        .println("------------------------------------------------------");
@@ -1158,9 +1157,19 @@ public abstract class SetUpBasic {
 //  }
 
   /**
-   * @effects 
-   *  initialise an <tt>DODM</tt> from the initial application configuration 
-   *  
+   *
+   * @effects
+   *  invoke the default {@link #initDODM()}
+   * @version 5.11
+   */
+  public DODMBasic initDODM(boolean startDBServerIfNeeded) throws DataSourceException {
+    return initDODM();
+  }
+
+  /**
+   * @effects
+   *  initialise an <tt>DODM</tt> from the initial application configuration
+   *
    *  <p>Throws DataSourceException if failed.
    */
   public DODMBasic initDODM() throws DataSourceException {
@@ -2585,8 +2594,8 @@ public abstract class SetUpBasic {
     }
     
     if (objects == null || objects.isEmpty())
-      throw new NotFoundException(NotFoundException.Code.OBJECT_NOT_FOUND, 
-          new Object[] {c, ""});
+      throw new NotFoundException(NotFoundException.Code.OBJECT_NOT_FOUND,
+          c, "");
     
     return objects;
   }
@@ -3038,7 +3047,7 @@ public abstract class SetUpBasic {
       // get all files and copy
       File srcDir = new File(srcDirUrl.getPath());
       File[] files = srcDir.listFiles();
-      if (files != null && files.length > 0) {
+      if (files != null) {
         for (File file : files) {
           if (file.isDirectory()) // skip directories
             continue;

@@ -114,7 +114,9 @@ public abstract class SoftwareImpl {
    */
   public void init() throws NotPossibleException {
     try {
-      sw.getSu().initDODM();
+//      ducmle: changed to not start JavaDBServer automatically
+//      sw.getSu().initDODM();
+      sw.getSu().initDODM(false);
     } catch (DataSourceException e) {
       throw new NotPossibleException(
           NotPossibleException.Code.FAIL_TO_PERFORM_COMMAND, e, new String[] {"Initialise DODM"});
