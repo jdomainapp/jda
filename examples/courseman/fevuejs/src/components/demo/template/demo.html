@@ -12,4 +12,19 @@
             {{ picker.startDate | date }} - {{ picker.endDate | date }}
         </template>
     </date-range-picker>
+
+    <h4>Slider</h4>
+    <vue-slider v-model="range" :enable-cross="false" />
+
+    <h4>Expandable input</h4>
+    <span
+        title="expandable input"
+        class="input"
+        role="textbox"
+        contenteditable
+        aria-placeholder="Please type someting in here"
+    ></span>
+
+    <h4>Rating</h4>
+    <star-rating></star-rating>
 </div>

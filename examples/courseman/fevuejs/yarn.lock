@@ -8468,6 +8468,11 @@ vue-bootstrap-toasts@^1.0.7:
   resolved "https://registry.npmjs.org/vue-bootstrap-toasts/-/vue-bootstrap-toasts-1.0.7.tgz"
   integrity sha512-JhurJOAwdNcINQ/QlT701sx0r447YTGpvtxtmZNC9pwDvEqp2I0Pyv15jS4neWwYHkA1gXB42nBsDRcWcj1hlg==
 
+vue-class-component@^7.1.0:
+  version "7.2.6"
+  resolved "https://registry.npmjs.org/vue-class-component/-/vue-class-component-7.2.6.tgz"
+  integrity sha512-+eaQXVrAm/LldalI272PpDe3+i4mPis0ORiMYxF6Ae4hyuCh15W8Idet7wPUEs4N4YptgFHGys4UrgNQOMyO6w==
+
 vue-eslint-parser@^7.0.0:
   version "7.11.0"
   resolved "https://registry.npmmirror.com/vue-eslint-parser/download/vue-eslint-parser-7.11.0.tgz"
@@ -8511,10 +8516,32 @@ vue-loader@^15.9.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
+vue-property-decorator@^8.0.0:
+  version "8.5.1"
+  resolved "https://registry.npmjs.org/vue-property-decorator/-/vue-property-decorator-8.5.1.tgz"
+  integrity sha512-O6OUN2OMsYTGPvgFtXeBU3jPnX5ffQ9V4I1WfxFQ6dqz6cOUbR3Usou7kgFpfiXDvV7dJQSFcJ5yUPgOtPPm1Q==
+  dependencies:
+    vue-class-component "^7.1.0"
+
 vue-router@^3.5.3:
   version "3.5.3"
   resolved "https://registry.npmjs.org/vue-router/-/vue-router-3.5.3.tgz"
   integrity sha512-FUlILrW3DGitS2h+Xaw8aRNvGTwtuaxrRkNSHWTizOfLUie7wuYwezeZ50iflRn8YPV5kxmU2LQuu3nM/b3Zsg==
+
+vue-slider-component@^3.2.24:
+  version "3.2.24"
+  resolved "https://registry.npmjs.org/vue-slider-component/-/vue-slider-component-3.2.24.tgz"
+  integrity sha512-28hfotAL/CPXPwqHgVFyUwUEV0zweoc2wW0bgraGkoIcRZGlFjk8caYJLE8+Luug5t3b9tJm/NyDXpyIdmcYZg==
+  dependencies:
+    core-js "^3.6.5"
+    vue-property-decorator "^8.0.0"
+
+vue-star-rating@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.npmjs.org/vue-star-rating/-/vue-star-rating-1.7.0.tgz"
+  integrity sha512-2qdONqnIlvFzJoallfr7VuFRB6hBzYgBVEbXC3yYZz2TfMhx36WtYQ5p7JRjW+pzZx2PGQYZ75UFoBE0jwIANw==
+  dependencies:
+    vue "^2.3.3"
 
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.3"
@@ -8542,7 +8569,7 @@ vue-toasted@^1.1.28:
   resolved "https://registry.npmjs.org/vue-toasted/-/vue-toasted-1.1.28.tgz"
   integrity sha512-UUzr5LX51UbbiROSGZ49GOgSzFxaMHK6L00JV8fir/CYNJCpIIvNZ5YmS4Qc8Y2+Z/4VVYRpeQL2UO0G800Raw==
 
-vue@*, "vue@^2 || ^3.0.0-0", vue@^2.5.18, vue@^2.6.10, vue@^2.6.11:
+vue@*, "vue@^2 || ^3.0.0-0", vue@^2.0.0, vue@^2.3.3, vue@^2.5.18, vue@^2.6.10, vue@^2.6.11:
   version "2.6.14"
   resolved "https://registry.npmmirror.com/vue/download/vue-2.6.14.tgz?cache=0&sync_timestamp=1636947969556&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fvue%2Fdownload%2Fvue-2.6.14.tgz"
   integrity sha1-5RqlJQJQ1Wmj+606ilpofWA24jU=
