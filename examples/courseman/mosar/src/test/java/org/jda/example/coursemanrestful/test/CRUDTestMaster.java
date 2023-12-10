@@ -1,22 +1,29 @@
 package org.jda.example.coursemanrestful.test;
 
 import ch.qos.logback.classic.Logger;
+import jda.modules.common.Toolkit;
 import jda.modules.common.exceptions.DataSourceException;
 import jda.modules.common.expression.Op;
+import jda.modules.common.io.ToolkitIO;
 import jda.mosa.software.SoftwareFactory;
 import jda.mosa.software.impl.DomSoftware;
 import jda.software.ddd.MicroDomSoftware;
+import org.courseman.software.config.SCCCourseManDerby;
 import org.jda.example.coursemanrestful.modules.address.model.Address;
 import org.jda.example.coursemanrestful.modules.coursemodule.model.CompulsoryModule;
 import org.jda.example.coursemanrestful.modules.coursemodule.model.CourseModule;
 import org.jda.example.coursemanrestful.modules.coursemodule.model.ElectiveModule;
 import org.jda.example.coursemanrestful.modules.enrolment.model.Enrolment;
 import org.jda.example.coursemanrestful.modules.student.model.Student;
+import org.jda.example.coursemanrestful.software.config.SCCCourseMan;
+import org.jda.example.coursemanrestful.utils.DToolkit;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -36,7 +43,14 @@ public class CRUDTestMaster<T> {
 
   @Before
   public void init() {
-    sw = SoftwareFactory.createDefaultDomSoftware();
+    Optional<String> appType = DToolkit.getEnvProp("app.type");
+    if (appType.isEmpty() || appType.get().equals("standard")) {
+      logger().info("Creating a standard DOM Software (using PostgreSQL database)...");
+      sw = SoftwareFactory.createStandardDomSoftware(SCCCourseMan.class);
+    } else {
+      logger().info("Creating a default DOM Software (with embedded Derby database)...");
+      sw = SoftwareFactory.createStandardDomSoftware(SCCCourseManDerby.class);
+    }
 
     sw.init();
   }
@@ -148,7 +162,12 @@ public class CRUDTestMaster<T> {
 
   protected Logger logger() { return logger; }
 
-  public static void main(String[] args) {
+  @Test
+  public void run() throws DataSourceException{
+    logger().info("run(): do nothing!");
+  }
+
+  public static void main(String[] args) throws DataSourceException {
     new CRUDTestMaster().runUI();
   }
 }

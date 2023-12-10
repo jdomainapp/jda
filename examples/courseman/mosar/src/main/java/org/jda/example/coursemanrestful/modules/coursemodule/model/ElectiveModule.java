@@ -60,6 +60,7 @@ public class ElectiveModule extends CourseModule {
                           @AttrRef("semester") Integer semester,
                           @AttrRef("credits") Integer credits) {
     super(name, semester, credits);
+    this.deptName = deptName;
   }
 
   protected ElectiveModule() { super(); }

@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+<<<<<<< HEAD
     "serve2": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
+=======
+>>>>>>> ffe828af34b0e78a3c12d1abc07819ca452af8fd
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },

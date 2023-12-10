@@ -171,6 +171,7 @@ Use these test units to test the frontend and backend functionalities.
 The domain model test units are designed to allow testing the domain model classes. 
 1. `CRUDTestMaster`: the super-root of all test units 
 2. Package `...test.modules` contain CRUD test units for each of the domain modules
+3. Default RDBMS is **PostgreSQL**. To use Apache Derby database, specify the environment variable `app.type=default` (using `-Dapp.type=default`)
 
 Each CRUD test units test CRUD on the objects of one domain class using the default Derby embedded database. 
 
@@ -182,6 +183,16 @@ The **exection order** of the test units are as follows. Execute the test method
 3. `coursemodule.CRUDCompulsoryModule`: to create compulsory module objects
 4. `coursemodule.CRUDElectiveModule`: to create elective module objects
 5. `coursemodule.CRUDEnrolmentModule`: to create enrolment objects
+
+Use the following command to run a test class from the command line:
+```
+mvn test -Dtest=<fully-qualified-name-of-test-class>
+```
+
+For example, the following command execute the CRUDAddress test class:
+```
+mvn test -Dtest=org.jda.example.coursemanrestful.test.modules.address.CRUDAddress
+```
 
 ## Running JDATool on the database 
 To view the data objects on the built-in JDA's UI, execute the `CRUDTestMaster` class in the IDE as follows:
