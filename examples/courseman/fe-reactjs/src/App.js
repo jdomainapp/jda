@@ -10,6 +10,7 @@ import ModuleAddress from './addresses'
 import ModuleEnrolment from './enrolments'
 import ModuleCourseModule from './course-modules'
 
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -26,7 +27,32 @@ export default class App extends React.Component {
   }
 
   getModules() {
-    return [{"endpoint":"/course-modules","name":"Manage Course modules"},{"endpoint":"/enrolments","name":"Manage Enrolments"},{"endpoint":"/students","name":"Manage Students"},{"endpoint":"/addresses","name":"Manage Addresses"},{"endpoint":"/student-classes","name":"Manage Student classes"}];
+    return [
+        {
+            "endpoint":"/course-modules","name":"Manage Course modules",
+            "subItem": [
+                {
+                    "endpoint":"/enrolments","name":"abc"
+                },{
+                    "endpoint":"/enrolments","name":"def"
+                },{
+                    "endpoint":"/enrolments","name":"hij"
+                },
+            ]
+        },
+        {
+            "endpoint":"/enrolments","name":"Manage Enrolments"
+        },
+        {
+            "endpoint":"/students","name":"Manage Students"
+        },
+        {
+            "endpoint":"/addresses","name":"Manage Addresses"
+        },
+        {
+            "endpoint":"/student-classes","name":"Manage Student classes"
+        }
+    ];
   }
 
   render() {
