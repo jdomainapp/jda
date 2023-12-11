@@ -15,7 +15,10 @@ export default class CourseModuleListView extends BaseListView {
 
   }
   renderRows() {
-    const current = this.props.current.content;
+    // const current = this.state.displayingContent;
+    // const current = this.props.current.content;
+    const current = this.props.displayingContent;
+    console.log(this.props.displayingContent)
       if (current instanceof Array) {
         return (<>
           {

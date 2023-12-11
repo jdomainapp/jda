@@ -17,7 +17,10 @@ export default class BaseMainForm extends React.Component {
       current: {}, // list or single object
       viewType: props.viewType ? props.viewType : "create", // create | details | browse (list) | submodule
       currentId: undefined, // filtered ID
-      searchInput: undefined // input for search box
+      searchInput: undefined, // input for search box
+      itemOffSet: 0,
+      numRowsPerPage: 1,
+      displayingContent: Array()
     };
     // method binding
     this.renderActionButtons = this.renderActionButtons.bind(this);
@@ -152,7 +155,7 @@ export default class BaseMainForm extends React.Component {
           });
       } else {
         this.retrieveObjectById(stateObjName, newValue,
-          (result) => { newState[stateObjName] = result; this.setState(newState, onDone); },
+          (result) => { newState[stateObjName] = result; this.setState({...newState,displayingContent: result.content.slice(this.state.itemOffSet, this.state.itemOffSet + this.state.numRowsPerPage)}, onDone); },
           () => { newState[stateObjName] = ""; this.setState(newState, onDone); });
       }
     } else {
