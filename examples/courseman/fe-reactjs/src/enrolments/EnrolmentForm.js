@@ -3,12 +3,32 @@ import { Button, Col, Form, FormCheck, FormControl, FormGroup } from "react-boot
 import BaseForm from "../base/BaseForm";
 
 
+import { DateRangePicker } from 'react-date-range';
+import { addDays } from 'date-fns';
+import {format} from 'date-fns';
+
+
 export default class EnrolmentForm extends BaseForm {
   constructor(props) {
     super(props);
     this.state = {
-      ...this.state
+      ...this.state,
+      ranges:
+          [{
+            startDate: new Date(),
+            endDate: addDays(new Date(), 7),
+            key: 'selection'
+          }],
     };
+  }
+
+  //test date range picker
+  async handleSelect(ranges) {
+
+    console.log(ranges);
+    await this.setState({ranges: [ranges.selection]})
+    this.props.handleStateChange("current.startDate", format(this.state.ranges[0].startDate,'yyyy-MM-dd'), false)
+    this.props.handleStateChange("current.endDate", format(this.state.ranges[0].endDate,'yyyy-MM-dd'), false)
   }
 
   renderTitle() {
@@ -61,6 +81,18 @@ export default class EnrolmentForm extends BaseForm {
 <FormGroup>
   <Form.Label>Final mark</Form.Label>
   <FormControl type="number" value={this.renderObject("current.finalMark")} onChange={(e) => this.props.handleStateChange("current.finalMark", e.target.value, false)} disabled />
+</FormGroup>
+
+<FormGroup>
+  <Form.Label>Date Range</Form.Label>
+  <DateRangePicker
+      onChange={item => this.handleSelect(item)}
+      showSelectionPreview={true}
+      moveRangeOnFirstSelection={false}
+      months={2}
+      ranges={this.state.ranges}
+      direction="horizontal"
+  />
 </FormGroup>
 </>);
   }

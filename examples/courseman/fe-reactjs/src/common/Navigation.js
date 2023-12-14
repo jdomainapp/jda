@@ -29,13 +29,22 @@ class Navigation extends React.Component {
               modules.map(
                   (module, index) =>
                       <Accordion.Item key={index} eventKey={index}>
-                        <Accordion.Button>
-                            <Nav>
-                                <Nav.Link href={module.endpoint} style={{color: "black"}}>
+
+                          {module.subItem && module.subItem.length > 0 ?
+                              <Accordion.Button style={{margin: 0,padding: 0,paddingRight: "10px"}}>
+                                  <Nav>
+                                      <Nav.Link href={module.endpoint} style={{color: "black"}}>
+                                          <h4>{module.name}</h4>
+                                      </Nav.Link>
+                                  </Nav>
+                              </Accordion.Button>
+                              :
+                              <Nav>
+                                  <Nav.Link href={module.endpoint} style={{color: "black"}}>
                                     <h4>{module.name}</h4>
-                                </Nav.Link>
-                            </Nav>
-                        </Accordion.Button>
+                                  </Nav.Link>
+                              </Nav>
+                          }
                         <Accordion.Body>
                           {module.subItem ?
                               this.renderModules(module.subItem)

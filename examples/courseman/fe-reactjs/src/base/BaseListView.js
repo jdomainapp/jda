@@ -22,7 +22,7 @@ export default class BaseListView extends React.Component {
   retrieveListData() {
     const onApiCallDone = (result) => {
       this.parentId = this.props.parentId;
-      this.props.handleStateChange("current", result);
+      this.props.handleStateChange("current", result === "" ? {} : result);
       // this.props.handleStateChange("currentId", undefined);
 
     }

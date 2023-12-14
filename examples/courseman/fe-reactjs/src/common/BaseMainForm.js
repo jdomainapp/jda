@@ -7,6 +7,7 @@ import BaseForm from "./BaseForm";
 import AutoDismissAlert from "../common/AutoDismissAlert";
 import DeleteConfirmation from "../common/DeleteConfirmation";
 
+
 export default class BaseMainForm extends BaseForm {
   constructor(props) {
     super(props);

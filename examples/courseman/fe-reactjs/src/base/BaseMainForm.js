@@ -9,6 +9,9 @@ import DeleteConfirmation from "../common/DeleteConfirmation";
 import constants from "../common/Constants";
 import { StompOverWSClient } from "../common/StompClient";
 import { CustomToast, ToastWrapper } from "../common/Toasts";
+import {ReactSearchAutocomplete} from "react-search-autocomplete";
+
+import 'bootstrap/dist/css/bootstrap.css';
 
 export default class BaseMainForm extends React.Component {
   constructor(props) {
@@ -19,7 +22,7 @@ export default class BaseMainForm extends React.Component {
       currentId: undefined, // filtered ID
       searchInput: undefined, // input for search box
       itemOffSet: 0,
-      numRowsPerPage: 1,
+      numRowsPerPage: 3,
       displayingContent: Array()
     };
     // method binding
@@ -328,13 +331,45 @@ export default class BaseMainForm extends React.Component {
         className="mr-1 col-md-4" value={this.state.currentId} />
     </>);
   }
+
+
+  formatResult(item) {
+    return (
+        <>
+          <span style={{ display: 'block', textAlign: 'left' }}>id: {item.id}</span>
+          <span style={{ display: 'block', textAlign: 'left' }}>code: {item.code}</span>
+          <span style={{ display: 'block', textAlign: 'left' }}>name: {item.name}</span>
+        </>
+    )
+  }
   renderSearchInput() {
     return (<>
-      <FormControl type="text" placeholder="Search"
-        className="mr-1 col-md-6" value={this.state.searchInput} />
-      <Button variant="outline-success">
-        <FontAwesomeIcon icon={faSearch} />
-      </Button>
+      {/*<FormControl type="text" placeholder="Search"*/}
+      {/*  className="mr-1 col-md-6" value={this.state.searchInput} />*/}
+      {/*<Button variant="outline-success">*/}
+      {/*  <FontAwesomeIcon icon={faSearch} />*/}
+      {/*</Button>*/}
+
+      <div style={{ width: 400 }}>
+
+        <ReactSearchAutocomplete
+            placeholder="Search"
+            items={this.state.current.content}
+            // onSearch={handleOnSearch}
+            // onHover={handleOnHover}
+            // onSelect={handleOnSelect}
+            // onFocus={handleOnFocus}
+            autoFocus
+            formatResult={this.formatResult}
+            fuseOptions= {{
+              keys: [
+                "code",
+                "name",
+                "description"
+              ]
+            }}
+        />
+      </div>
     </>);
   }
   renderTypeDropdown() {

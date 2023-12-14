@@ -34,28 +34,18 @@ export default class CourseModuleForm extends BaseForm {
             endDate: addDays(new Date(), 7),
             key: 'selection'
           }],
-      rating: 2,
       validated: false,
     };
 
   }
   //test date range picker
   async handleSelect(ranges) {
-    await this.setState({ranges: [ranges]});
-    console.log(this.state.ranges);
-    // console.log(ranges);
-    // {
-    //   selection: {
-    //     startDate: [native Date Object],
-    //     endDate: [native Date Object],
-    //   }
-    // }
+
+    console.log(ranges);
+    await this.setState({ranges: [ranges.selection]})
+    this.props.handleStateChange("current.startDate", this.state.ranges[0].startDate, false)
+    this.props.handleStateChange("current.endDate", this.state.ranges[0].endDate, false)
   }
-  // renderDateRangePicker(){
-  //   return (
-  //
-  //   )
-  // }
 
   changeRating( newRating, name ) {
     this.setState({
@@ -81,6 +71,8 @@ export default class CourseModuleForm extends BaseForm {
   }
 
   renderForm() {
+    console.log(this.props.current)
+
     switch (this.props.current.type) {
       case 'compulsory': return (<><Form>
         <FormGroup>
@@ -111,30 +103,30 @@ export default class CourseModuleForm extends BaseForm {
           <FormControl type="number" value={this.renderObject("current.semester")} onChange={(e) => this.props.handleStateChange("current.semester", e.target.value, false)}  />
         </FormGroup>
         <br />
+        <Carousel>
+          <Carousel.Item>
+            <h3>1</h3>
+          </Carousel.Item>
+          <Carousel.Item>
+            <h3>2</h3>
+          </Carousel.Item>
+          <Carousel.Item>
+            <h3>3</h3>
+          </Carousel.Item>
+          <Carousel.Item>
+            <h3>4</h3>
+          </Carousel.Item>
+          <Carousel.Item>
+            <h3>5</h3>
+          </Carousel.Item>
+          <Carousel.Item>
+            <h3>6</h3>
+          </Carousel.Item>
+        </Carousel>
         <FormGroup>
-          <Carousel>
-            <Carousel.Item>
-              <h3>1</h3>
-            </Carousel.Item>
-            <Carousel.Item>
-              <h3>2</h3>
-            </Carousel.Item>
-            <Carousel.Item>
-              <h3>3</h3>
-            </Carousel.Item>
-            <Carousel.Item>
-              <h3>4</h3>
-            </Carousel.Item>
-            <Carousel.Item>
-              <h3>5</h3>
-            </Carousel.Item>
-            <Carousel.Item>
-              <h3>6</h3>
-            </Carousel.Item>
-          </Carousel>
           <Form.Label>Date Range</Form.Label>
           <DateRangePicker
-              onChange={item => this.handleSelect(item.selection)}
+              onChange={item => this.handleSelect(item)}
               showSelectionPreview={true}
               moveRangeOnFirstSelection={false}
               months={2}
@@ -144,20 +136,30 @@ export default class CourseModuleForm extends BaseForm {
         </FormGroup>
         <br />
         <FormGroup>
-          <Form.Label>Price</Form.Label>
-          <Slider min={100} max={500} />
+          <Form.Label>Cost</Form.Label>
+          <div style={{display: "flex", alignItems: "center"}}>
+            <FormControl type="number" value={this.renderObject("current.cost")} onChange={(e) => this.props.handleStateChange("current.cost", e.target.value, false)}  />
+            <span style={{margin: "0 10px"}}>100</span>
+            <Slider
+                min={100}
+                max={500}
+                value={this.props.current.cost ? this.props.current.cost : 100}
+                onChange={(value)=>{this.props.handleStateChange("current.cost", value, false)}}
+            />
+            <span style={{margin: "0 10px"}}>500</span>
+          </div>
         </FormGroup>
         <br/>
         <FormGroup>
           <Form.Label>Rating</Form.Label>
           <StarRatings
-              rating={this.state.rating}
+              rating={this.props.current.rating ? this.props.current.rating : 0}
               starRatedColor="blue"
               numberOfStars={5}
               name='rating'
-              changeRating={async (newRating, name)=>
+              changeRating={(newRating, name)=>
                 {
-                  await this.setState({rating: newRating})
+                  this.props.handleStateChange("current.rating", newRating, false)
                 }
               }
           />
@@ -171,7 +173,7 @@ export default class CourseModuleForm extends BaseForm {
             border: "none",
             textAlign: "left",
             outline: "none",
-          }} onClick={(e)=>this.expand(e)}>Review</Button>
+          }} onClick={(e)=>this.expand(e)}>Description</Button>
           <div id="input" className={"content"}  style={{
             width: "100%",
             maxHeight: 0,
@@ -187,7 +189,7 @@ export default class CourseModuleForm extends BaseForm {
       backgroundColor: "transparent",
       outline: "none",
       margin: "0"
-    }} placeholder={"This is a test collapsible input"} rows={"5"}></textarea>
+    }} placeholder={"This is a test collapsible input"} rows={"5"} onChange={(e) => this.props.handleStateChange("current.description", e.target.value, false)}></textarea>
           </div>
           <br/>
         </FormGroup>

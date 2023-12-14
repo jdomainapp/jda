@@ -7,16 +7,19 @@ export default class EnrolmentListView extends BaseListView {
   renderVisibleColumns() {
     return (<>
       <th>Id</th>
-{!(this.props.excludes?.includes('student')) && <th>Student</th>}
-{!(this.props.excludes?.includes('courseModule')) && <th>Course module</th>}
-<th>Internal Mark</th>
-<th>Exam Mark</th>
-<th>Final Grade</th>
+      {!(this.props.excludes?.includes('student')) && <th>Student</th>}
+      {!(this.props.excludes?.includes('courseModule')) && <th>Course module</th>}
+      <th>Internal Mark</th>
+      <th>Exam Mark</th>
+      <th>Final Grade</th>
+      <th>Start Date</th>
+      <th>End Date</th>
       </>);
 
   }
   renderRows() {
-    const current = this.props.current.content;
+    // const current = this.props.current.content;
+    const current = this.props.displayingContent;
       if (current instanceof Array) {
         return (<>
           {
@@ -43,11 +46,13 @@ class EnrolmentListItemView extends BaseListItemView {
   renderVisibleColumns() {
     return (<>
       <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.id)}</td>
-{!(this.props.excludes?.includes('student')) && <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.student)}</td>}
-{!(this.props.excludes?.includes('courseModule')) && <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.courseModule)}</td>}
-<td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.internalMark)}</td>
-<td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.examMark)}</td>
-<td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.finalGrade)}</td>
+      {!(this.props.excludes?.includes('student')) && <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.student)}</td>}
+      {!(this.props.excludes?.includes('courseModule')) && <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.courseModule)}</td>}
+      <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.internalMark)}</td>
+      <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.examMark)}</td>
+      <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.finalGrade)}</td>
+      <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.startDate)}</td>
+      <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.endDate)}</td>
       </>);
   }
   //
