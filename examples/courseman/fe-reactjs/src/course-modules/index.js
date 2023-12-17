@@ -6,6 +6,7 @@ import React from "react";
 import BaseMainForm from "../base/BaseMainForm";
 import CourseModuleListView from "./CourseModuleListView";
 import CourseModuleForm from "./CourseModuleForm";
+import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
 // {{ view.submodule.imports }}
 
 const courseModuleAPI = new BaseAPI("course-modules", providers.axios);
@@ -34,6 +35,53 @@ class CourseModuleMainView extends BaseMainForm {
       currentId: this.props.currentId
     }
   }
+
+  getStructure() {
+    return {
+      fields: [
+        {
+          "endpoint": "#type", "name": "Type",
+        },
+        {
+          "endpoint": "#id", "name": "ID"
+        },
+        {
+          "endpoint": "#code", "name": "Code"
+        },
+        {
+          "endpoint": "#name", "name": "Name"
+        },
+        {
+          "endpoint": "#semester", "name": "Semester"
+        },
+        {
+          "endpoint": "#cost", "name": "Cost"
+        },
+        {
+          "endpoint": "#rating", "name": "Rating"
+        },
+        {
+          "endpoint": "#description", "name": "Description"
+        },
+        {
+          "endpoint": "#credit", "name": "Credit"
+        }
+      ],
+      "subItem": []
+    }
+  }
+
+  renderMenu() {
+    return (
+        <>
+          <h2>Fields</h2>
+          <AccordionSearchableMenu modules={this.getStructure().fields}/>
+          <h2>Sub-modules</h2>
+          <AccordionSearchableMenu modules={this.getStructure().subItem}/>
+        </>
+    )
+  }
+
   getPossibleTypes() {
     return ['compulsory','elective']
   }

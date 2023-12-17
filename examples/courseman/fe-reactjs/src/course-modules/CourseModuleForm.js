@@ -75,7 +75,7 @@ export default class CourseModuleForm extends BaseForm {
 
     switch (this.props.current.type) {
       case 'compulsory': return (<><Form>
-        <FormGroup>
+        <FormGroup id={"type"}>
           <Form.Label>Type</Form.Label>
           <Form.Control as="select" value={this.renderObject('current.type')} onChange={this.props.handleTypeChange} disabled={this.props.viewType !== "create"} custom>
             <option value='' disabled selected>&lt;Please choose one&gt;</option>
@@ -83,22 +83,22 @@ export default class CourseModuleForm extends BaseForm {
             <option value="elective">elective</option>  </Form.Control>
         </FormGroup>
         <br />
-        <FormGroup>
+        <FormGroup id={"id"}>
           <Form.Label>Id</Form.Label>
           <FormControl type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} disabled />
         </FormGroup>
         <br />
-        <FormGroup>
+        <FormGroup id={"code"}>
           <Form.Label>Code</Form.Label>
           <FormControl type="text" value={this.renderObject("current.code")} onChange={(e) => this.props.handleStateChange("current.code", e.target.value, false)} disabled />
         </FormGroup>
         <br />
-        <FormGroup>
+        <FormGroup id={"name"}>
           <Form.Label>Name</Form.Label>
           <FormControl type="text" value={this.renderObject("current.name")} onChange={(e) => this.props.handleStateChange("current.name", e.target.value, false)}  />
         </FormGroup>
         <br />
-        <FormGroup>
+        <FormGroup id={"semester"}>
           <Form.Label>Semester</Form.Label>
           <FormControl type="number" value={this.renderObject("current.semester")} onChange={(e) => this.props.handleStateChange("current.semester", e.target.value, false)}  />
         </FormGroup>
@@ -123,19 +123,8 @@ export default class CourseModuleForm extends BaseForm {
             <h3>6</h3>
           </Carousel.Item>
         </Carousel>
-        <FormGroup>
-          <Form.Label>Date Range</Form.Label>
-          <DateRangePicker
-              onChange={item => this.handleSelect(item)}
-              showSelectionPreview={true}
-              moveRangeOnFirstSelection={false}
-              months={2}
-              ranges={this.state.ranges}
-              direction="horizontal"
-          />
-        </FormGroup>
         <br />
-        <FormGroup>
+        <FormGroup id={"cost"}>
           <Form.Label>Cost</Form.Label>
           <div style={{display: "flex", alignItems: "center"}}>
             <FormControl type="number" value={this.renderObject("current.cost")} onChange={(e) => this.props.handleStateChange("current.cost", e.target.value, false)}  />
@@ -150,7 +139,7 @@ export default class CourseModuleForm extends BaseForm {
           </div>
         </FormGroup>
         <br/>
-        <FormGroup>
+        <FormGroup id={"rating"}>
           <Form.Label>Rating</Form.Label>
           <StarRatings
               rating={this.props.current.rating ? this.props.current.rating : 0}
@@ -165,7 +154,7 @@ export default class CourseModuleForm extends BaseForm {
           />
         </FormGroup>
         <br/>
-        <FormGroup>
+        <FormGroup id={"description"}>
           <Button style={{
             cursor: "pointer",
             padding: "18px",
@@ -194,7 +183,7 @@ export default class CourseModuleForm extends BaseForm {
           <br/>
         </FormGroup>
         <br/>
-        <FormGroup>
+        <FormGroup id={"credit"}>
           <Form.Label>Credits</Form.Label>
           <FormControl type="number" value={this.renderObject("current.credits")} onChange={(e) => this.props.handleStateChange("current.credits", e.target.value, false)}  />
         </FormGroup></Form></>);

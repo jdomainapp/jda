@@ -32,7 +32,7 @@ export default class App extends React.Component {
             "endpoint":"/course-modules","name":"Manage Course modules",
             "subItem": [
                 {
-                    "endpoint":"/enrolments","name":"abc"
+                    "endpoint":"#abc","name":"abc"
                 },{
                     "endpoint":"/enrolments","name":"def"
                 },{
