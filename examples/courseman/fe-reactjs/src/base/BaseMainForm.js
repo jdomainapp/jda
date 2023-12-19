@@ -33,6 +33,7 @@ export default class BaseMainForm extends React.Component {
     this.renderTopButtons = this.renderTopButtons.bind(this);
     this.renderObject = this.renderObject.bind(this);
     this._renderObject = this._renderObject.bind(this);
+    this.renderSearchInput = this.renderSearchInput.bind(this)
 
     this.setAlert = this.setAlert.bind(this);
     this.resetState = this.resetState.bind(this);
@@ -49,6 +50,8 @@ export default class BaseMainForm extends React.Component {
     this.handleDeepStateChange = this.handleDeepStateChange.bind(this);
     this.updateCurrentObjectState = this.updateCurrentObjectState.bind(this);
     this.partialApplyWithCallbacks = this.partialApplyWithCallbacks.bind(this);
+    this.handleOnSearch = this.handleOnSearch.bind(this)
+    this.handleOnSelect = this.handleOnSelect.bind(this)
   }
 
   // lifecycle
@@ -303,6 +306,8 @@ export default class BaseMainForm extends React.Component {
     }
   }
 
+  renderMenu() {}
+
   // base methods for drawing view
   renderSubmodules() { }
 
@@ -342,23 +347,28 @@ export default class BaseMainForm extends React.Component {
         </>
     )
   }
+  handleOnSearch(string, results) {
+    if(results.length != 0) {
+      // this.handleStateChange("current.content",results)
+      // this.handleStateChange("displayingContent",results.slice(this.state.itemOffSet, this.state.itemOffSet + this.state.numRowsPerPage))
+    }
+  }
+
+  handleOnSelect(item) {
+    console.log(item.id);
+    // this.changeToDetailsView();
+    this.handleStateChange(
+        "currentId", item.id, true);
+  }
+
   renderSearchInput() {
     return (<>
-      {/*<FormControl type="text" placeholder="Search"*/}
-      {/*  className="mr-1 col-md-6" value={this.state.searchInput} />*/}
-      {/*<Button variant="outline-success">*/}
-      {/*  <FontAwesomeIcon icon={faSearch} />*/}
-      {/*</Button>*/}
-
       <div style={{ width: 400 }}>
-
         <ReactSearchAutocomplete
             placeholder="Search"
             items={this.state.current.content}
-            // onSearch={handleOnSearch}
-            // onHover={handleOnHover}
-            // onSelect={handleOnSelect}
-            // onFocus={handleOnFocus}
+            onSearch={this.handleOnSearch}
+            onSelect={this.handleOnSelect}
             autoFocus
             formatResult={this.formatResult}
             fuseOptions= {{
@@ -410,23 +420,30 @@ export default class BaseMainForm extends React.Component {
 
   render() {
     return (<>
-      <Container className="border py-4">
-        {this.state.alert ? this.state.alert : ""}
-        {this.state.notifications && this.state.notifications.length > 0 ?
+      {this.state.alert ? this.state.alert : ""}
+      {this.state.notifications && this.state.notifications.length > 0 ?
           <ToastWrapper>{this.state.notifications}</ToastWrapper> : ""}
-        {this.props.compact === true ? "" :
-          <>
-            {this.renderTitle()}
-            <br />
-            {this.renderTopButtons()}
-          </>
-        }
-        <br />
-        {this.state.viewType === "browse" ? this.renderListView() : this.renderForm()}
-        <br />
-        {this.state.viewType === "browse" ? "" : this.renderSubmodules()}
-        <br />
-        {this.state.viewType === "browse" ? "" : this.renderActionButtons()}
+      <Container className="border py-4"
+                 style={{display: "grid", gridTemplateColumns: "200px 1fr", gap: "10px"}}
+      >
+        <div className="left-column">
+          {this.renderMenu()}
+        </div>
+        <div className="right-column">
+          {this.props.compact === true ? "" :
+              <>
+                {this.renderTitle()}
+                <br />
+                {this.renderTopButtons()}
+              </>
+          }
+          <br />
+          {this.state.viewType === "browse" ? this.renderListView() : this.renderForm()}
+          <br />
+          {this.state.viewType === "browse" ? "" : this.renderSubmodules()}
+          <br />
+          {this.state.viewType === "browse" ? "" : this.renderActionButtons()}
+        </div>
       </Container>
       <QuickScrollFab />
     </>);

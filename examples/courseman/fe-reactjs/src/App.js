@@ -32,7 +32,15 @@ export default class App extends React.Component {
             "endpoint":"/course-modules","name":"Manage Course modules",
             "subItem": [
                 {
-                    "endpoint":"/enrolments","name":"abc"
+                    "endpoint":"#abc","name":"abc","subItem": [
+                        {
+                            "endpoint":"#abc","name":"ggg"
+                        },{
+                            "endpoint":"/enrolments","name":"def"
+                        },{
+                            "endpoint":"/enrolments","name":"hij"
+                        },
+                    ]
                 },{
                     "endpoint":"/enrolments","name":"def"
                 },{
@@ -41,7 +49,15 @@ export default class App extends React.Component {
             ]
         },
         {
-            "endpoint":"/enrolments","name":"Manage Enrolments"
+            "endpoint":"/enrolments","name":"Manage Enrolments","subItem": [
+                {
+                    "endpoint":"#abc","name":"abc"
+                },{
+                    "endpoint":"/enrolments","name":"def"
+                },{
+                    "endpoint":"/enrolments","name":"hij"
+                },
+            ]
         },
         {
             "endpoint":"/students","name":"Manage Students"
