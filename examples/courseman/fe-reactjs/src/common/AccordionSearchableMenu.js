@@ -42,7 +42,7 @@ class CustomAccordionItem extends React.Component {
                     </Nav>
                 }
                 <Accordion.Collapse eventKey={this.props.index} in={this.state.open}>
-                    <div style={{margin: "10px"}}>
+                    <div style={{padding: "10px", backgroundColor: "white"}}>
                         {this.props.module.subItem ?
                             <AccordionSearchableMenu modules={this.props.module.subItem} isSub/>
                             : ""
@@ -107,7 +107,9 @@ class AccordionSearchableMenu extends React.Component {
             if(keyword != "") {
                 var newList = Array();
                 for(var i = 0; i < modules.length; i ++) {
-                    modules[i].ref.current.expand(this.handleSearch(keyword, modules[i].subItem))
+                    const subRes = this.handleSearch(keyword, modules[i].subItem)
+                    if(subRes) res = true
+                    modules[i].ref.current.expand(subRes)
                     if(this.isRelativeSubstring(modules[i].name, keyword)) {
                         modules[i].ref.current.changeBg("#E7F1FF")
                         res = true
