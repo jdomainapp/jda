@@ -126,6 +126,109 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "coursemodule",
+			"item": [
+				{
+					"name": "GetCourseModules",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/course-modules",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"course-modules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCourseModuleById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/course-modules/5",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"course-modules",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCompulsoryModules",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/course-modules?type=compulsory",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"course-modules"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "compulsory"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetElectiveModules",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/course-modules?type=elective",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"course-modules"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "elective"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetElectiveModulesSpecialised",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/elective-modules",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"elective-modules"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
