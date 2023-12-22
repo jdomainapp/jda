@@ -11,6 +11,7 @@ import { getCourseModule } from "../../api/course_module";
 import DateRangePicker from "vue2-daterange-picker";
 import "vue2-daterange-picker/dist/vue2-daterange-picker.css";
 
+import moment from 'moment';
 let startDate = null
 let endDate = null
 
@@ -51,25 +52,25 @@ export default {
     },
   },
 
-        computed: {
-            
-            studentId(){
-                this.state
-                return this.enrolment?.student?.id || ''
-            },
-            studentQuickView() {
-              this.state
-              return Object.values(this.enrolment?.student||{}).filter(e => typeof(e) != 'object').toString().replaceAll(',',' | ')
-            },
-            courseModuleId(){
-                this.state
-                return this.enrolment?.courseModule?.id || ''
-            },
-            courseModuleQuickView() {
-              this.state
-              return Object.values(this.enrolment?.courseModule||{}).filter(e => typeof(e) != 'object').toString().replaceAll(',',' | ')
-            },
-        },
+  computed: {
+      
+      studentId(){
+          this.state
+          return this.enrolment?.student?.id || ''
+      },
+      studentQuickView() {
+        this.state
+        return Object.values(this.enrolment?.student||{}).filter(e => typeof(e) != 'object').toString().replaceAll(',',' | ')
+      },
+      courseModuleId(){
+          this.state
+          return this.enrolment?.courseModule?.id || ''
+      },
+      courseModuleQuickView() {
+        this.state
+        return Object.values(this.enrolment?.courseModule||{}).filter(e => typeof(e) != 'object').toString().replaceAll(',',' | ')
+      },
+  },
 
   mounted() {
     if (this.parentData?.mode === "edit") {
@@ -166,11 +167,10 @@ export default {
     },
 
     onSubmit() {
-      this.enrolment.startDate = this.dateRange.startDate;
-      this.enrolment.endDate = this.dateRange.endDate;
       if (this.parentData.mode == "create") {
         this.create();
       } else {
+        console.log(this.enrolment)
         this.update();
       }
     },

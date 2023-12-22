@@ -56,7 +56,7 @@
     <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('description')">
         <div class="form-group">
             <label class="form-label">Rating</label>
-            <star-rating></star-rating>
+            <star-rating v-model="courseModule.rating"></star-rating>
         </div>
         <br />
     </div>

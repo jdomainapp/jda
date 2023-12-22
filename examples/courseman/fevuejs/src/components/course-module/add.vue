@@ -8,6 +8,10 @@ import {
   getCourseModule,
 } from "../../api/course_module";
 
+import VueSlider from "vue-slider-component";
+import "vue-slider-component/theme/antd.css";
+
+import StarRating from "vue-star-rating"
 export default {
   props: {
     parentData: Object,
