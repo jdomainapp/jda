@@ -56,6 +56,7 @@
                 
                 result.then(response => {
                     this.enrolments = response.data.content;
+                    console.log(response.data.content)
                 })
                 .catch(e => {
                     this.$toast.error(Message.GET_LIST_ENROLMENT_ERR + ' - ' + e.message);

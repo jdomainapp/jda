@@ -11,8 +11,8 @@ import { getCourseModule } from "../../api/course_module";
 import DateRangePicker from "vue2-daterange-picker";
 import "vue2-daterange-picker/dist/vue2-daterange-picker.css";
 
-let startDate = new Date();
-let endDate = new Date();
+let startDate = null
+let endDate = null
 
 export default {
     props: {
@@ -26,159 +26,161 @@ export default {
         DateRangePicker,
     },
 
-    data() {
-        return {
-            state: 0,
-            enrolment: new Enrolment(),
-            formSubModuleStudentSeen: false,
-            formSubModuleCourseModuleSeen: false,
+  data() {
+    return {
+      state: 0,
+      enrolment: new Enrolment(),
+      dateRange: { startDate, endDate },
+      formSubModuleStudentSeen: false,
+      formSubModuleCourseModuleSeen: false,
 
-            dataSubForm: {
-                mode: "create",
-                parent: "enrolments",
-                parentID: this.parentData ? this.parentData.parentID : 0,
-                hidFields: ["enrolments", "id"],
+      dataSubForm: {
+        mode: "create",
+        parent: "enrolments",
+        parentID: this.parentData ? this.parentData.parentID : 0,
+        hidFields: ["enrolments", "id"],
+      },
+    };
+  },
+
+  // watch to bind enrolment.startDate & enrolment.endDate with dateRange
+  watch: {
+    dateRange() {
+      this.enrolment.startDate = this.dateRange.startDate;
+      this.enrolment.endDate = this.dateRange.endDate;
+    },
+  },
+
+        computed: {
+            
+            studentId(){
+                this.state
+                return this.enrolment?.student?.id || ''
             },
-
-            // Date range picker
-            dateRange: { startDate, endDate },
-            options: {
-                format: "DD/MM/YYYY",
-                useCurrent: false,
-                showDropdowns: true,
-                showWeekNumbers: true,
-                showISOWeekNumbers: true,
-                timePicker: true,
-                timePicker24Hour: true,
-                timePickerSeconds: true,
-                autoApply: true,
-                locale: {
-                    cancelLabel: "Clear",
-                },
+            studentQuickView() {
+              this.state
+              return Object.values(this.enrolment?.student||{}).filter(e => typeof(e) != 'object').toString().replaceAll(',',' | ')
             },
-        };
+            courseModuleId(){
+                this.state
+                return this.enrolment?.courseModule?.id || ''
+            },
+            courseModuleQuickView() {
+              this.state
+              return Object.values(this.enrolment?.courseModule||{}).filter(e => typeof(e) != 'object').toString().replaceAll(',',' | ')
+            },
+        },
+
+  mounted() {
+    if (this.parentData?.mode === "edit") {
+      this.enrolment = this.parentData.enrolment;
+      this.dataSubForm.mode = "edit";
+      this.dataSubForm.enrolment = this.parentData.enrolment;
+      this.dataSubForm.parentID = this.parentData.enrolment.id;
+
+      this.dataSubForm.student = this.parentData.enrolment.student;
+      this.dataSubForm.courseModule = this.parentData.enrolment.courseModule;
+    }
+
+    // set this.dateRange if this.enrolment.startDate & this.enrolment.endDate has true value
+    if (this.enrolment.startDate && this.enrolment.endDate) {
+      this.dateRange.startDate = this.enrolment.startDate
+      this.dateRange.endDate = this.enrolment.endDate
+    }
+  },
+
+  methods: {
+    create() {
+      var result = addEnrolment(this.enrolment);
+      result
+        .then((res) => {
+          console.log(res);
+          this.$toast.success(Message.ADD_ENROLMENT_SUC);
+        })
+        .catch((error) => {
+          this.$toast.error(Message.ADD_ENROLMENT_ERR + " - " + error.message);
+        })
+        .finally(() => {});
     },
 
-    computed: {
-        studentId() {
-            this.state;
-            return this.enrolment?.student?.id || "";
-        },
-        studentQuickView() {
-            this.state;
-            return Object.values(this.enrolment?.student || {})
-                .filter((e) => typeof e != "object")
-                .toString()
-                .replaceAll(",", " | ");
-        },
-        courseModuleId() {
-            this.state;
-            return this.enrolment?.courseModule?.id || "";
-        },
-        courseModuleQuickView() {
-            this.state;
-            return Object.values(this.enrolment?.courseModule || {})
-                .filter((e) => typeof e != "object")
-                .toString()
-                .replaceAll(",", " | ");
-        },
+    unlinkStudent() {
+      this.enrolment.student = null;
     },
 
-    mounted() {
-        if (this.parentData?.mode === "edit") {
-            this.enrolment = this.parentData.enrolment;
-            this.dataSubForm.mode = "edit";
-            this.dataSubForm.enrolment = this.parentData.enrolment;
-            this.dataSubForm.parentID = this.parentData.enrolment.id;
+    getStudentById(event) {
+      let studentId = event.target.value;
 
-            this.dataSubForm.student = this.parentData.enrolment.student;
-            this.dataSubForm.courseModule =
-                this.parentData.enrolment.courseModule;
-        }
+      var result = getStudent(studentId);
+      result
+        .then((res) => {
+          this.enrolment.student = res.data;
+          this.dataSubForm.student = res.data;
+          this.state = (this.state + 1) % 2;
+        })
+        .catch((error) => {
+          this.$toast.error(Message.GET_STUDENT_ERR + " - " + error.message);
+        })
+        .finally(() => {});
     },
 
-    methods: {
-        create() {
-            var result = addEnrolment(this.enrolment);
-            result
-                .then((res) => {
-                    console.log(res);
-                    this.$toast.success(Message.ADD_ENROLMENT_SUC);
-                })
-                .catch((error) => {
-                    this.$toast.error(
-                        Message.ADD_ENROLMENT_ERR + " - " + error.message
-                    );
-                })
-                .finally(() => {});
-        },
-
-        unlinkStudent() {
-            this.enrolment.student = null;
-        },
-
-        getStudentById(event) {
-            let studentId = event.target.value;
-
-            var result = getStudent(studentId);
-            result
-                .then((res) => {
-                    this.enrolment.student = res.data;
-                    this.dataSubForm.student = res.data;
-                    this.state = (this.state + 1) % 2;
-                })
-                .catch((error) => {
-                    this.$toast.error(
-                        Message.GET_STUDENT_ERR + " - " + error.message
-                    );
-                })
-                .finally(() => {});
-        },
-
-        unlinkCourseModule() {
-            this.enrolment.courseModule = null;
-        },
-
-        getCourseModuleById(event) {
-            let courseModuleId = event.target.value;
-
-            var result = getCourseModule(courseModuleId);
-            result
-                .then((res) => {
-                    this.enrolment.courseModule = res.data;
-                    this.dataSubForm.courseModule = res.data;
-                    this.state = (this.state + 1) % 2;
-                })
-                .catch((error) => {
-                    this.$toast.error(
-                        Message.GET_COURSE_MODULE_ERR + " - " + error.message
-                    );
-                })
-                .finally(() => {});
-        },
-
-        update() {
-            var result = updateEnrolment(this.enrolment.id, this.enrolment);
-            result
-                .then((res) => {
-                    console.log(res);
-                    this.$toast.success(Message.UPDATE_ENROLMENT_SUC);
-                })
-                .catch((error) => {
-                    this.$toast.error(
-                        Message.UPDATE_ENROLMENT_ERR + " - " + error.message
-                    );
-                })
-                .finally(() => {});
-        },
-
-        onSubmit() {
-            if (this.parentData.mode == "create") {
-                this.create();
-            } else {
-                this.update();
-            }
-        },
+    unlinkCourseModule() {
+      this.enrolment.courseModule = null;
     },
+
+    getCourseModuleById(event) {
+      let courseModuleId = event.target.value;
+
+      var result = getCourseModule(courseModuleId);
+      result
+        .then((res) => {
+          this.enrolment.courseModule = res.data;
+          this.dataSubForm.courseModule = res.data;
+          this.state = (this.state + 1) % 2;
+        })
+        .catch((error) => {
+          this.$toast.error(
+            Message.GET_COURSE_MODULE_ERR + " - " + error.message
+          );
+        })
+        .finally(() => {});
+    },
+
+    update() {
+      var result = updateEnrolment(this.enrolment.id, this.enrolment);
+      result
+        .then((res) => {
+          console.log(res);
+          this.$toast.success(Message.UPDATE_ENROLMENT_SUC);
+        })
+        .catch((error) => {
+          this.$toast.error(
+            Message.UPDATE_ENROLMENT_ERR + " - " + error.message
+          );
+        })
+        .finally(() => {});
+    },
+  
+    formatDate(value, format) {
+      // using moment.js third party lib to format date
+      return moment(value).format(format);
+    },
+
+    onSubmit() {
+      this.enrolment.startDate = this.dateRange.startDate;
+      this.enrolment.endDate = this.dateRange.endDate;
+      if (this.parentData.mode == "create") {
+        this.create();
+      } else {
+        this.update();
+      }
+    },
+  },
+
+  filters: {
+    formatDate(value, format) {
+      // using moment.js third party lib to format date
+      return moment(value).format(format);
+    },
+  },
 };
 </script>
