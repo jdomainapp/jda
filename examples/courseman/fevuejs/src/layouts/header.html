@@ -65,21 +65,22 @@
                     />
                 </div>
                 <nav class="navbar navbar-light" v-if="store.display == 2">
-                    <!-- this is a header -->
-                    <a class="navbar-brand" href="#">
+                    <a
+                        class="navbar-brand"
+                        :href="'#'+store.form_tree.name.toLowerCase().replace(/ /g, '_')"
+                    >
                         {{store.form_tree.name}}
                     </a>
                     <!-- recursive component -->
-                    <nested-nav :items="store.form_tree.children" :searchQuery="searchQuery"></nested-nav>
+                    <nested-nav
+                        :items="store.form_tree.children"
+                        :searchQuery="searchQuery"
+                    ></nested-nav>
                 </nav>
 
                 <p class="alert alert-info mt-3" v-else>
                     There is nothing here
                 </p>
-
-                <!-- <p class="text-white bg-dark">
-                    Debug: {{ display == null ? "null" : display }}
-                </p> -->
             </div>
 
             <!-- Main content -->

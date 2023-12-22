@@ -16,14 +16,6 @@ export default {
         };
     },
 
-    computed: {
-        display: {
-            get() {
-                return store.display;
-            },
-        },
-    },
-
     components: {
         NestedNav
     },

@@ -31,7 +31,7 @@ export const store = Vue.observable({
                             { name: "Internal Mark", children: [] },
                             { name: "Exam Mark", children: [] },
                             {
-                                name: "StudentID",
+                                name: "Student ID",
                                 children: [
                                     { name: "Full Name", children: [] },
                                     { name: "Date of Birth", children: [] },

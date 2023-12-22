@@ -2,15 +2,13 @@
 <template>
     <nav class="nav nav-pills flex-column">
         <div v-for="(item, index) in filteredItems" :key="index">
-            <!-- click = prevent default for only one has nested nav -->
-            <!-- Todo: rewrite this code to more readable -->
             <a
                 class="nav-link"
                 :class="{
                     'has-children': item.children && item.children.length,
                     'is-open': showNestedNav[index],
                 }"
-                :href="'#' + item.name.toLowerCase().replace(/ /g, '_')"
+                :href="'#' + (parentId ? parentId + '_' : '') + item.name.toLowerCase().replace(/ /g, '_')"
                 @click="
                     item.children && item.children.length
                         ? toggleNestedNav($event, index)
@@ -34,6 +32,7 @@
                     showNestedNav[index]
                 "
                 :items="item.children"
+                :parentId="(parentId ? parentId + '_' : '') + item.name.toLowerCase().replace(/ /g, '_')"
                 class="nav nav-pills flex-column ml-4"
             ></nested-nav>
         </div>
@@ -71,6 +70,11 @@ export default {
         },
 
         searchQuery: {
+            type: String,
+            default: "",
+        },
+
+        parentId: {
             type: String,
             default: "",
         },
