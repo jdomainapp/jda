@@ -10,12 +10,17 @@ class CustomAccordionItem extends React.Component {
         this.state = {
             ...this.state,
             open: this.props.open ? this.props.open : false,
-            bg: "white"
+            bg: "white",
+            display: "block"
         }
     }
 
     changeBg(newColor) {
         this.setState({bg: newColor})
+    }
+
+    changeDisplay(newDisplay) {
+        this.setState({display: newDisplay})
     }
 
     expand(newState) {
@@ -24,7 +29,7 @@ class CustomAccordionItem extends React.Component {
 
     render() {
         return (
-            <Accordion.Item key={this.props.index} eventKey={this.props.index} style={{backgroundColor: this.state.bg}}>
+            <Accordion.Item key={this.props.index} eventKey={this.props.index} style={{backgroundColor: this.state.bg, display: this.state.display}}>
 
                 {this.props.module.subItem && this.props.module.subItem.length > 0 ?
                     <Accordion.Button style={{margin: 0,padding: 0,paddingRight: "10px", backgroundColor: "transparent"}} onClick={()=>this.setState({open: !this.state.open})}>
@@ -128,13 +133,48 @@ class AccordionSearchableMenu extends React.Component {
         return res;
     }
 
+    handleSearch2(keyword, modules) {
+        this.ready = false;
+        this.lastSearched = keyword;
+        var res = false;
+        if(modules) {
+            if(keyword != "") {
+                var newList = Array();
+                for(var i = 0; i < modules.length; i ++) {
+                    const subRes = this.handleSearch2(keyword, modules[i].subItem)
+                    if(subRes) res = true
+                    modules[i].ref.current.expand(subRes)
+                    if(this.isRelativeSubstring(modules[i].name, keyword)) {
+                        modules[i].ref.current.changeBg("#E7F1FF")
+                        modules[i].ref.current.changeDisplay("block")
+                        res = true
+                    } else if (!subRes) {
+                        modules[i].ref.current.changeBg("white")
+                        modules[i].ref.current.changeDisplay("none")
+                    } else {
+                        modules[i].ref.current.changeBg("white")
+                        modules[i].ref.current.changeDisplay("block")
+                    }
+                }
+            } else {
+                for(var i = 0; i < modules.length; i ++) {
+                    modules[i].ref.current.expand(false)
+                    this.handleSearch2(keyword, modules[i].subItem)
+                    modules[i].ref.current.changeBg("white")
+                    modules[i].ref.current.changeDisplay("block")
+                }
+            }
+        }
+        return res;
+    }
+
     render() {
         return (
             <>
                 {this.state.first == true?
                     <Form.Control style={{margin: "0 10px 5px 10px", width: "calc(100% - 20px)"}} type="text" placeholder="Search categories" onChange={e=> {
                         this.lastTyped = e.target.value;
-                        this.handleSearch(e.target.value, this.props.modules)
+                        this.handleSearch2(e.target.value, this.props.modules)
                     }}/>
                 :
                     <></>
@@ -142,7 +182,7 @@ class AccordionSearchableMenu extends React.Component {
 
                 <Accordion defaultActiveKey="0">
                     {this.state.modules ?
-                        this.state.modules .map(
+                        this.state.modules.map(
                             (module, index) =>
                                 <CustomAccordionItem key={index} eventKey={index} module={module} ref={module.ref}/>
                         )
