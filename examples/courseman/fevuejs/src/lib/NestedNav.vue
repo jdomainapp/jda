@@ -1,4 +1,10 @@
 <!-- This is for sidebar of App.vue -->
+<!--
+! Bug: the href is recursive, so if I have filter,
+! it will not include parent name which is
+! included in the filter
+? To make it as feature: make id of element not in filter display: none
+-->
 <template>
     <nav class="nav nav-pills flex-column">
         <div v-for="(item, index) in filteredItems" :key="index">
@@ -8,7 +14,11 @@
                     'has-children': item.children && item.children.length,
                     'is-open': showNestedNav[index],
                 }"
-                :href="'#' + (parentId ? parentId + '_' : '') + item.name.toLowerCase().replace(/ /g, '_')"
+                :href="
+                    '#' +
+                    (parentId ? parentId + '_' : '') +
+                    item.name.toLowerCase().replace(/ /g, '_')
+                "
                 @click="
                     item.children && item.children.length
                         ? toggleNestedNav($event, index)
@@ -32,7 +42,10 @@
                     showNestedNav[index]
                 "
                 :items="item.children"
-                :parentId="(parentId ? parentId + '_' : '') + item.name.toLowerCase().replace(/ /g, '_')"
+                :parentId="
+                    (parentId ? parentId + '_' : '') +
+                    item.name.toLowerCase().replace(/ /g, '_')
+                "
                 class="nav nav-pills flex-column ml-4"
             ></nested-nav>
         </div>
