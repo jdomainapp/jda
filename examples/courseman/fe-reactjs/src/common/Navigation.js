@@ -28,8 +28,8 @@ class Navigation extends React.Component {
             <Nav>
               <Navbar.Brand href="/">{this.props.appName}</Navbar.Brand>
               <NavDropdown alignRight title="Go to" align="right" style={{minWidth: "300px"}}>
-                  {/*<AccordionSearchableMenu modules={this.props.modules}/>*/}
-                  {this.state.testAccItem}
+                  <AccordionSearchableMenu modules={this.props.modules}/>
+                  {/*{this.state.testAccItem}*/}
               </NavDropdown>
             </Nav>
             <Nav>

@@ -20,9 +20,6 @@ import starRatings from "react-star-ratings/build/star-ratings";
 // import AirDatepicker from 'air-datepicker'
 // import 'air-datepicker/air-datepicker.css'
 
-
-
-
 export default class CourseModuleForm extends BaseForm {
   constructor(props) {
     super(props);
@@ -34,23 +31,74 @@ export default class CourseModuleForm extends BaseForm {
             endDate: addDays(new Date(), 7),
             key: 'selection'
           }],
-      validated: false,
+      // validation object
+      inputState: {
+        // id: {
+        //   optional: false,
+        //   validated: undefined,
+        //   message: "",
+        //   regex: /^S\d+$/,
+        //   validMsg: "",
+        //   invalidMsg: ""
+        // },
+        // code: {
+        //   optional: false,
+        //   validated: undefined,
+        //   message: "",
+        //   regex: /^S\d+$/,
+        //   validMsg: "",
+        //   invalidMsg: ""
+        // },
+        name: {
+          optional: false,
+          validated: undefined,
+          message: "",
+          regex: /^S\d+$/,
+          validMsg: "",
+          invalidMsg: "Name must start with 'S' and followed by one or more numbers!"
+        },
+        description: {
+          optional: true,
+          validated: undefined,
+          message: "",
+          regex: /^[A-Za-z\s]+$/,
+          validMsg: "",
+          invalidMsg: "Description must only include characters!"
+        },
+        // semester: {
+        //   optional: false,
+        //   validated: undefined,
+        //   message: "",
+        //   regex: /^S\d+$/,
+        //   validMsg: "",
+        //   invalidMsg: ""
+        // },
+        credits: {
+          optional: false,
+          validated: undefined,
+          message: "",
+          regex: /^\d+$/,
+          validMsg: "",
+          invalidMsg: "Name must be a number or a float number!"
+        },
+        // rating: {
+        //   optional: true,
+        //   validated: undefined,
+        //   message: "",
+        //   regex: /^S\d+$/,
+        //   validMsg: "",
+        //   invalidMsg: ""
+        // },
+        // cost: {
+        //   optional: true,
+        //   validated: undefined,
+        //   message: "",
+        //   regex: /^S\d+$/,
+        //   validMsg: "",
+        //   invalidMsg: ""
+        // }
+      }
     };
-
-  }
-  //test date range picker
-  async handleSelect(ranges) {
-
-    console.log(ranges);
-    await this.setState({ranges: [ranges.selection]})
-    this.props.handleStateChange("current.startDate", this.state.ranges[0].startDate, false)
-    this.props.handleStateChange("current.endDate", this.state.ranges[0].endDate, false)
-  }
-
-  changeRating( newRating, name ) {
-    this.setState({
-      rating: newRating
-    });
   }
 
   expand(e) {
@@ -70,17 +118,64 @@ export default class CourseModuleForm extends BaseForm {
     </>);
   }
 
-  renderForm() {
-    console.log(this.props.current)
+  async validate(value, name) {
+    var newInputState = this.state.inputState
+    // if(!value || value === '') {
+    //   newInputState[name].validated = undefined
+    // }
+    // else
+    if(this.state.inputState[name].regex.test(value)) {
+      newInputState[name].validated = true
+      newInputState[name].message = this.state.inputState[name].validMsg
+    } else {
+      newInputState[name].validated = false
+      newInputState[name].message = this.state.inputState[name].invalidMsg
+    }
 
+    await this.setState({inputState: newInputState})
+
+    var formValidated = true
+    Object.entries(this.state.inputState).forEach((val) => {
+      if(formValidated) {
+        if (val[1].optional) {
+          if (val[1].validated === false) {
+            formValidated = false
+            console.log(val)
+          }
+        } else {
+          if (val[1].validated === false || val[1].validated === undefined) {
+            formValidated = false
+            console.log(val)
+          }
+        }
+      }
+    })
+
+    this.props.setReadySubmit(formValidated)
+  }
+
+  renderForm() {
     switch (this.props.current.type) {
       case 'compulsory': return (<><Form>
         <FormGroup id={"type"}>
           <Form.Label>Type</Form.Label>
-          <Form.Control as="select" value={this.renderObject('current.type')} onChange={this.props.handleTypeChange} disabled={this.props.viewType !== "create"} custom>
+          <Form.Control
+              as="select" value={this.renderObject('current.type')}
+              onChange={(e)=>{
+                this.props.handleTypeChange(e)
+               }}
+              disabled={this.props.viewType !== "create"} custom
+              isValid={this.state.inputState.id ? this.state.inputState.id.validated : false}
+              isInvalid={this.state.inputState.id ? !this.state.inputState.id.validated : false}
+          >
             <option value='' disabled selected>&lt;Please choose one&gt;</option>
             <option value="compulsory">compulsory</option>
-            <option value="elective">elective</option>  </Form.Control>
+            <option value="elective">elective</option>
+          </Form.Control>
+          {this.state.inputState.id ?
+              <Form.Control.Feedback type={this.state.inputState.id.validated ? "valid" : "invalid"}>{this.state.inputState.id.message}</Form.Control.Feedback>
+              : ""
+          }
         </FormGroup>
         <br />
         <FormGroup id={"id"}>
@@ -95,7 +190,21 @@ export default class CourseModuleForm extends BaseForm {
         <br />
         <FormGroup id={"name"}>
           <Form.Label>Name</Form.Label>
-          <FormControl type="text" value={this.renderObject("current.name")} onChange={(e) => this.props.handleStateChange("current.name", e.target.value, false)}  />
+          <FormControl type="text" value={this.renderObject("current.name")}
+                       onChange={(e) => {
+                         this.props.handleStateChange("current.name", e.target.value, false)
+                         this.validate(
+                             this.renderObject('current.name'),
+                             "name"
+                         )
+                       }}
+                      isValid={this.state.inputState.name.validated !== undefined ? this.state.inputState.name.validated : false}
+                      isInvalid={this.state.inputState.name.validated !== undefined ? !this.state.inputState.name.validated : false}
+          />
+          {this.state.inputState.name.validated !== undefined ?
+              <Form.Control.Feedback type={this.state.inputState.name.validated ? "valid" : "invalid"}>{this.state.inputState.name.message}</Form.Control.Feedback>
+              : ""
+          }
         </FormGroup>
         <br />
         <FormGroup id={"semester"}>
@@ -170,23 +279,53 @@ export default class CourseModuleForm extends BaseForm {
             transition: "max-height 0.2s ease-out",
             backgroundColor: "#f1f1f1",
           }}>
-    <textarea style={{
-      width: "100%",
-      border: "none",
-      resize: "none",
-      padding: "0",
-      backgroundColor: "transparent",
-      outline: "none",
-      margin: "0"
-    }} placeholder={"This is a test collapsible input"} rows={"5"} onChange={(e) => this.props.handleStateChange("current.description", e.target.value, false)}></textarea>
+            <textarea style={{
+              width: "100%",
+              border: "none",
+              resize: "none",
+              padding: "0",
+              backgroundColor: "transparent",
+              outline: "none",
+              margin: "0"
+            }} placeholder={"This is a test collapsible input"} rows={"5"}
+            onChange={(e) => {
+              this.props.handleStateChange("current.description", e.target.value, false)
+              this.validate(
+                  this.renderObject('current.description'),
+                  "description",
+              )
+            }}
+            isValid={this.state.inputState.description.validated !== undefined ? this.state.inputState.description.validated : false}
+            isInvalid={this.state.inputState.description.validated !== undefined ? !this.state.inputState.description.validated : false}
+            ></textarea>
           </div>
-          <br/>
+
+          {this.state.inputState.description.validated !== undefined ?
+              <Form.Control.Feedback type={this.state.inputState.description.validated ? "valid" : "invalid"}>{this.state.inputState.description.message}</Form.Control.Feedback>
+              : ""
+          }
         </FormGroup>
         <br/>
         <FormGroup id={"credit"}>
           <Form.Label>Credits</Form.Label>
-          <FormControl type="number" value={this.renderObject("current.credits")} onChange={(e) => this.props.handleStateChange("current.credits", e.target.value, false)}  />
-        </FormGroup></Form></>);
+          <FormControl type="number" value={this.renderObject("current.credits")}
+                       onChange={(e) => {
+                         this.props.handleStateChange("current.credits", e.target.value, false)
+                         this.validate(
+                             this.renderObject('current.credits'),
+                             "credits"
+                         )
+                       }}
+                       isValid={this.state.inputState.credits.validated !== undefined ? this.state.inputState.credits.validated : false}
+                       isInvalid={this.state.inputState.credits.validated !== undefined ? !this.state.inputState.credits.validated : false}
+          />
+
+          {this.state.inputState.credits.validated !== undefined ?
+              <Form.Control.Feedback type={this.state.inputState.credits.validated ? "valid" : "invalid"}>{this.state.inputState.credits.message}</Form.Control.Feedback>
+              : ""
+          }
+        </FormGroup>
+      </Form></>);
       case 'elective': return (<><Form>
         <FormGroup>
           <Form.Label>Type</Form.Label>

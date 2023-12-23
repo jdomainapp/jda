@@ -37,47 +37,49 @@ class CourseModuleMainView extends BaseMainForm {
   }
 
   getStructure() {
-    return {
-      fields: [
-        {
-          "endpoint": "#type", "name": "Type",
-        },
-        {
-          "endpoint": "#id", "name": "ID"
-        },
-        {
-          "endpoint": "#code", "name": "Code"
-        },
-        {
-          "endpoint": "#name", "name": "Name"
-        },
-        {
-          "endpoint": "#semester", "name": "Semester"
-        },
-        {
-          "endpoint": "#cost", "name": "Cost"
-        },
-        {
-          "endpoint": "#rating", "name": "Rating"
-        },
-        {
-          "endpoint": "#description", "name": "Description"
-        },
-        {
-          "endpoint": "#credit", "name": "Credit"
-        }
-      ],
-      "subItem": []
-    }
+    return [
+      {
+        "endpoint": "#", "name": "Fields",
+        "subItem": [
+          {
+            "endpoint": "#type", "name": "Type",
+          },
+          {
+            "endpoint": "#id", "name": "ID"
+          },
+          {
+            "endpoint": "#code", "name": "Code"
+          },
+          {
+            "endpoint": "#name", "name": "Name"
+          },
+          {
+            "endpoint": "#semester", "name": "Semester"
+          },
+          {
+            "endpoint": "#cost", "name": "Cost"
+          },
+          {
+            "endpoint": "#rating", "name": "Rating"
+          },
+          {
+            "endpoint": "#description", "name": "Description"
+          },
+          {
+            "endpoint": "#credit", "name": "Credit"
+          }
+        ]
+      },
+      {
+        "endpoint": "#", "name": "Modules",
+      }
+    ]
   }
 
   renderMenu() {
     return (
         <>
-          <h2>Fields</h2>
-          <AccordionSearchableMenu modules={this.getStructure().fields}/>
-          <h2>Sub-modules</h2>
-          <AccordionSearchableMenu modules={this.getStructure().subItem}/>
+          <AccordionSearchableMenu modules={this.getStructure()}/>
         </>
     )
   }
@@ -103,8 +105,9 @@ class CourseModuleMainView extends BaseMainForm {
 
   renderForm() {
     return <CourseModuleForm {...this.props} {...this.state}
-    handleStateChange={this.handleStateChange.bind(this)}
-    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })} />;
+      setReadySubmit={this.setReadySubmit}
+      handleStateChange={this.handleStateChange.bind(this)}
+      handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })} />;
   }
 
   // renderSubmodules() {

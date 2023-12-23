@@ -23,7 +23,8 @@ export default class BaseMainForm extends React.Component {
       searchInput: undefined, // input for search box
       itemOffSet: 0,
       numRowsPerPage: 3,
-      displayingContent: Array()
+      displayingContent: Array(),
+      readySubmit: false
     };
     // method binding
     this.renderActionButtons = this.renderActionButtons.bind(this);
@@ -121,14 +122,27 @@ export default class BaseMainForm extends React.Component {
     return fn;
   }
 
+  setReadySubmit(newState) {
+    this.handleStateChange("current.readySubmit", newState, false)
+  }
+
   handleSubmit() {
-    const createUsing = this.getCreateHandler();
-    const updateUsing = this.getUpdateHandler();
-    if (this.state.viewType === "create"
-      || this.state.currentId === "" || !this.state.currentId) {
-      createUsing([this.state.current]);
-    } else if (this.state.viewType === "details" || this.props.mode === "submodule") {
-      updateUsing([this.state.currentId, this.state.current]);
+    if(this.state.current.readySubmit) {
+      const createUsing = this.getCreateHandler();
+      const updateUsing = this.getUpdateHandler();
+      if (this.state.viewType === "create"
+          || this.state.currentId === "" || !this.state.currentId) {
+        createUsing([this.state.current]);
+      } else if (this.state.viewType === "details" || this.props.mode === "submodule") {
+        updateUsing([this.state.currentId, this.state.current]);
+      }
+    } else {
+      this.addToastPopup((<>
+        <strong className="my-1">Submit failed!</strong>
+        <p className="my-1" style={{
+          wordBreak: "break-word"
+        }}>Please input correct values before submit.</p>
+      </>), "danger")
     }
   }
 
@@ -355,8 +369,7 @@ export default class BaseMainForm extends React.Component {
   }
 
   handleOnSelect(item) {
-    console.log(item.id);
-    // this.changeToDetailsView();
+    this.handleStateChange("viewType", "details")
     this.handleStateChange(
         "currentId", item.id, true);
   }
