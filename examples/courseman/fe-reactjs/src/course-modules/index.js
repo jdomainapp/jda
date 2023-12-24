@@ -7,6 +7,7 @@ import BaseMainForm from "../base/BaseMainForm";
 import CourseModuleListView from "./CourseModuleListView";
 import CourseModuleForm from "./CourseModuleForm";
 import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
+import {courseModules} from "../common/Constants";
 // {{ view.submodule.imports }}
 
 const courseModuleAPI = new BaseAPI("course-modules", providers.axios);
@@ -54,6 +55,11 @@ class CourseModuleMainView extends BaseMainForm {
     changeToDetailsView={() => this.handleStateChange("viewType", "details")}
     handleStateChange={this.handleStateChange}
     partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
+  }
+
+  renderMenu() {
+    return (<AccordionSearchableMenu modules={courseModules} controlling={this}/>
+    )
   }
 
   renderForm() {

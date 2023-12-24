@@ -1,8 +1,6 @@
 import React, {createRef} from "react";
-import {findDOMNode} from "react-dom";
 import {Form, Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import Accordion from 'react-bootstrap/Accordion';
-import {useAccordionButton} from "react-bootstrap";
 
 class CustomAccordionItem extends React.Component {
     constructor(props) {
@@ -29,12 +27,15 @@ class CustomAccordionItem extends React.Component {
 
     render() {
         return (
-            <Accordion.Item key={this.props.index} eventKey={this.props.index} style={{backgroundColor: this.state.bg, display: this.state.display}}>
+            <Accordion.Item key={this.props.index} eventKey={this.props.index} style={{backgroundColor: this.state.bg, display: this.state.display, borderRadius: 0, border: "none", borderLeft: "1px solid rgba(0,0,0,0.1)"}}>
 
                 {this.props.module.subItem && this.props.module.subItem.length > 0 ?
                     <Accordion.Button style={{margin: 0,padding: 0,paddingRight: "10px", backgroundColor: "transparent"}} onClick={()=>this.setState({open: !this.state.open})}>
                         <Nav>
-                            <Nav.Link href={this.props.module.endpoint} style={{color: "black"}}>
+                            <Nav.Link onClick={()=>{
+
+                                window.location.href = this.props.module.endpoint
+                            }} style={{color: "black"}}>
                                 <h4>{this.props.module.name}</h4>
                             </Nav.Link>
                         </Nav>
@@ -87,7 +88,11 @@ class AccordionSearchableMenu extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.state.modules)
+        console.log(this.props.controlling)
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(this.props.controlling)
     }
 
     isRelativeSubstring(longString, shortString) {
@@ -117,35 +122,6 @@ class AccordionSearchableMenu extends React.Component {
                     modules[i].ref.current.expand(subRes)
                     if(this.isRelativeSubstring(modules[i].name, keyword)) {
                         modules[i].ref.current.changeBg("#E7F1FF")
-                        res = true
-                    } else {
-                        modules[i].ref.current.changeBg("white")
-                    }
-                }
-            } else {
-                for(var i = 0; i < modules.length; i ++) {
-                    modules[i].ref.current.expand(false)
-                    this.handleSearch(keyword, modules[i].subItem)
-                    modules[i].ref.current.changeBg("white")
-                }
-            }
-        }
-        return res;
-    }
-
-    handleSearch2(keyword, modules) {
-        this.ready = false;
-        this.lastSearched = keyword;
-        var res = false;
-        if(modules) {
-            if(keyword != "") {
-                var newList = Array();
-                for(var i = 0; i < modules.length; i ++) {
-                    const subRes = this.handleSearch2(keyword, modules[i].subItem)
-                    if(subRes) res = true
-                    modules[i].ref.current.expand(subRes)
-                    if(this.isRelativeSubstring(modules[i].name, keyword)) {
-                        modules[i].ref.current.changeBg("#E7F1FF")
                         modules[i].ref.current.changeDisplay("block")
                         res = true
                     } else if (!subRes) {
@@ -159,7 +135,7 @@ class AccordionSearchableMenu extends React.Component {
             } else {
                 for(var i = 0; i < modules.length; i ++) {
                     modules[i].ref.current.expand(false)
-                    this.handleSearch2(keyword, modules[i].subItem)
+                    this.handleSearch(keyword, modules[i].subItem)
                     modules[i].ref.current.changeBg("white")
                     modules[i].ref.current.changeDisplay("block")
                 }
@@ -174,7 +150,7 @@ class AccordionSearchableMenu extends React.Component {
                 {this.state.first == true?
                     <Form.Control style={{margin: "0 10px 5px 10px", width: "calc(100% - 20px)"}} type="text" placeholder="Search categories" onChange={e=> {
                         this.lastTyped = e.target.value;
-                        this.handleSearch2(e.target.value, this.props.modules)
+                        this.handleSearch(e.target.value, this.props.modules)
                     }}/>
                 :
                     <></>

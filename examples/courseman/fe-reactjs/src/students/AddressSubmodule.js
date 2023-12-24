@@ -4,6 +4,6 @@ import AddressModule from "../addresses";
 
 export default class AddressSubmodule extends BaseSubmodule {
   renderModule(props) {
-    return (<AddressModule {...props} excludes={["student"]} />);
+    return (<AddressModule {...props} includeMenu={false} excludes={["student"]} />);
   }
 }

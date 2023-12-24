@@ -437,26 +437,43 @@ export default class BaseMainForm extends React.Component {
       <Button className="ml-2" onClick={this.handleSubmit}>Save</Button>
     </Row>
     </>);
-	}
+  }
+
+  renderMenu() {
+
+  }
 
   render() {
     return (<>
-      {this.state.alert ? this.state.alert : ""}
-      {this.state.notifications && this.state.notifications.length > 0 ?
-        <ToastWrapper>{this.state.notifications}</ToastWrapper> : ""}
-      {this.props.compact === true ? "" :
-          <>
-            {this.renderTitle()}
+      <Row>
+        {this.props.includeMenu === false ?
+            <></>
+        :
+            <Col md={2}>
+              {this.renderMenu()}
+            </Col>
+        }
+        <Col>
+          <Container className="border py-4">
+            {this.state.alert ? this.state.alert : ""}
+            {this.state.notifications && this.state.notifications.length > 0 ?
+                <ToastWrapper>{this.state.notifications}</ToastWrapper> : ""}
+            {this.props.compact === true ? "" :
+                <>
+                  {this.renderTitle()}
+                  <br />
+                  {this.renderTopButtons()}
+                </>
+            }
             <br />
-            {this.renderTopButtons()}
-          </>
-      }
-      <br />
-      {this.state.viewType === "browse" ? this.renderListView() : this.renderForm()}
-      <br />
-      {this.state.viewType === "browse" ? "" : this.renderSubmodules()}
-      <br />
-      {this.state.viewType === "browse" ? "" : this.renderActionButtons()}
+            {this.state.viewType === "browse" ? this.renderListView() : this.renderForm()}
+            <br />
+            {this.state.viewType === "browse" ? "" : this.renderSubmodules()}
+            <br />
+            {this.state.viewType === "browse" ? "" : this.renderActionButtons()}
+          </Container>
+        </Col>
+      </Row>
       <QuickScrollFab />
     </>);
   }
