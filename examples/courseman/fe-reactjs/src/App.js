@@ -1,7 +1,7 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import {Col, Container, Row} from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import constants from './common/Constants';
+import constants, {courseModules, enrolments, studentClasses, address, students} from './common/Constants';
 import Navigation from './common/Navigation';
 
 import ModuleStudent from './students'
@@ -9,6 +9,7 @@ import ModuleStudentClass from './student-classes'
 import ModuleAddress from './addresses'
 import ModuleEnrolment from './enrolments'
 import ModuleCourseModule from './course-modules'
+import AccordionSearchableMenu from "./common/AccordionSearchableMenu";
 
 
 export default class App extends React.Component {
@@ -77,21 +78,37 @@ export default class App extends React.Component {
           <Navigation appName={this.getAppName()}
                       modules={this.getModules()} />
           <br />
-          <Container>
-            <Switch>
-              <Route path='/course-modules'><ModuleCourseModule title='Manage Course modules' /></Route>
-<Route path='/enrolments'><ModuleEnrolment title='Manage Enrolments' /></Route>
-<Route path='/students'><ModuleStudent title='Manage Students' /></Route>
-<Route path='/addresses'><ModuleAddress title='Manage Addresses' /></Route>
-<Route path='/student-classes'><ModuleStudentClass title='Manage Student classes' /></Route>
-              <Route path='/'>
-                <h3 className="text-center">{this.getWelcomeMessage()}</h3>
-                <br />
-                <h4 className="text-center">Select a module to continue.</h4>
-              </Route>
-            </Switch>
-          </Container>
+            <Container>
+                <Row>
 
+                <Col md={2}>
+                    <Switch>
+                        <Route path='/course-modules'><AccordionSearchableMenu modules={courseModules}/></Route>
+                        <Route path='/enrolments'><AccordionSearchableMenu modules={enrolments}/></Route>
+                        <Route path='/students'><AccordionSearchableMenu modules={students}/></Route>
+                        <Route path='/addresses'><AccordionSearchableMenu modules={address}/></Route>
+                        <Route path='/student-classes'><AccordionSearchableMenu modules={studentClasses}/></Route>
+                        <Route path='/'><AccordionSearchableMenu modules={this.getModules()}/></Route>
+                    </Switch>
+                </Col>
+
+                <Col md={8}>
+                    <Switch>
+                        <Route path='/course-modules'><ModuleCourseModule title='Manage Course modules' /></Route>
+                        <Route path='/enrolments'><ModuleEnrolment title='Manage Enrolments' /></Route>
+                        <Route path='/students'><ModuleStudent title='Manage Students' /></Route>
+                        <Route path='/addresses'><ModuleAddress title='Manage Addresses' /></Route>
+                        <Route path='/student-classes'><ModuleStudentClass title='Manage Student classes' /></Route>
+                        <Route path='/'>
+                            <h3 className="text-center">{this.getWelcomeMessage()}</h3>
+                            <br />
+                            <h4 className="text-center">Select a module to continue.</h4>
+                        </Route>
+                    </Switch>
+                </Col>
+                </Row>
+
+          </Container>
         </Router>
       </>
     );

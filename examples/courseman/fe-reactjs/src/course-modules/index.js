@@ -36,53 +36,6 @@ class CourseModuleMainView extends BaseMainForm {
     }
   }
 
-  getStructure() {
-    return [
-      {
-        "endpoint": "#", "name": "Fields",
-        "subItem": [
-          {
-            "endpoint": "#type", "name": "Type",
-          },
-          {
-            "endpoint": "#id", "name": "ID"
-          },
-          {
-            "endpoint": "#code", "name": "Code"
-          },
-          {
-            "endpoint": "#name", "name": "Name"
-          },
-          {
-            "endpoint": "#semester", "name": "Semester"
-          },
-          {
-            "endpoint": "#cost", "name": "Cost"
-          },
-          {
-            "endpoint": "#rating", "name": "Rating"
-          },
-          {
-            "endpoint": "#description", "name": "Description"
-          },
-          {
-            "endpoint": "#credit", "name": "Credit"
-          }
-        ]
-      },
-      {
-        "endpoint": "#", "name": "Modules",
-      }
-    ]
-  }
-
-  renderMenu() {
-    return (
-        <>
-          <AccordionSearchableMenu modules={this.getStructure()}/>
-        </>
-    )
-  }
 
   getPossibleTypes() {
     return ['compulsory','elective']

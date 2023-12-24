@@ -9,9 +9,10 @@ import DeleteConfirmation from "../common/DeleteConfirmation";
 import constants from "../common/Constants";
 import { StompOverWSClient } from "../common/StompClient";
 import { CustomToast, ToastWrapper } from "../common/Toasts";
-import {ReactSearchAutocomplete} from "react-search-autocomplete";
 
 import 'bootstrap/dist/css/bootstrap.css';
+
+import { Typeahead } from 'react-bootstrap-typeahead';
 
 export default class BaseMainForm extends React.Component {
   constructor(props) {
@@ -22,10 +23,11 @@ export default class BaseMainForm extends React.Component {
       currentId: undefined, // filtered ID
       searchInput: undefined, // input for search box
       itemOffSet: 0,
-      numRowsPerPage: 3,
+      numRowsPerPage: 6,
       displayingContent: Array(),
       readySubmit: false
     };
+    this.searchRef = React.createRef()
     // method binding
     this.renderActionButtons = this.renderActionButtons.bind(this);
     this.renderSubmodules = this.renderSubmodules.bind(this);
@@ -175,7 +177,14 @@ export default class BaseMainForm extends React.Component {
           });
       } else {
         this.retrieveObjectById(stateObjName, newValue,
-          (result) => { newState[stateObjName] = result; this.setState({...newState,displayingContent: result.content.slice(this.state.itemOffSet, this.state.itemOffSet + this.state.numRowsPerPage)}, onDone); },
+          (result) => {
+            if(result.content && result.content.constructor === Array) {
+              newState[stateObjName] = result;
+              newState["displayingContent"] = result.content.slice(this.state.itemOffSet, this.state.itemOffSet + this.state.numRowsPerPage);
+            } else {
+              newState[stateObjName] = result;
+            }
+            this.setState(newState, onDone); },
           () => { newState[stateObjName] = ""; this.setState(newState, onDone); });
       }
     } else {
@@ -320,8 +329,6 @@ export default class BaseMainForm extends React.Component {
     }
   }
 
-  renderMenu() {}
-
   // base methods for drawing view
   renderSubmodules() { }
 
@@ -371,28 +378,29 @@ export default class BaseMainForm extends React.Component {
   handleOnSelect(item) {
     this.handleStateChange("viewType", "details")
     this.handleStateChange(
-        "currentId", item.id, true);
+        "currentId", item[0].id, true);
   }
 
   renderSearchInput() {
     return (<>
-      <div style={{ width: 400 }}>
-        <ReactSearchAutocomplete
+      <Form.Group>
+        <Typeahead
+            ref={this.searchRef}
+            id="search"
+            labelKey="name"
+            filterBy={['code', 'name', 'description']}
+            onChange={this.handleOnSelect}
+            options={this.state.current.content ? this.state.current.content : []}
             placeholder="Search"
-            items={this.state.current.content}
-            onSearch={this.handleOnSearch}
-            onSelect={this.handleOnSelect}
-            autoFocus
-            formatResult={this.formatResult}
-            fuseOptions= {{
-              keys: [
-                "code",
-                "name",
-                "description"
-              ]
+            onKeyDown={e=>{
+              if(e.code === "Enter") {
+                this.handleStateChange("current.content", this.searchRef.current.items, false)
+                this.handleStateChange("displayingContent", this.searchRef.current.items.slice(this.state.itemOffSet, this.state.itemOffSet + this.state.numRowsPerPage), false)
+              }
             }}
+            // selected={singleSelections}
         />
-      </div>
+      </Form.Group>
     </>);
   }
   renderTypeDropdown() {
@@ -435,29 +443,20 @@ export default class BaseMainForm extends React.Component {
     return (<>
       {this.state.alert ? this.state.alert : ""}
       {this.state.notifications && this.state.notifications.length > 0 ?
-          <ToastWrapper>{this.state.notifications}</ToastWrapper> : ""}
-      <Container className="border py-4"
-                 style={{display: "grid", gridTemplateColumns: "200px 1fr", gap: "10px"}}
-      >
-        <div className="left-column">
-          {this.renderMenu()}
-        </div>
-        <div className="right-column">
-          {this.props.compact === true ? "" :
-              <>
-                {this.renderTitle()}
-                <br />
-                {this.renderTopButtons()}
-              </>
-          }
-          <br />
-          {this.state.viewType === "browse" ? this.renderListView() : this.renderForm()}
-          <br />
-          {this.state.viewType === "browse" ? "" : this.renderSubmodules()}
-          <br />
-          {this.state.viewType === "browse" ? "" : this.renderActionButtons()}
-        </div>
-      </Container>
+        <ToastWrapper>{this.state.notifications}</ToastWrapper> : ""}
+      {this.props.compact === true ? "" :
+          <>
+            {this.renderTitle()}
+            <br />
+            {this.renderTopButtons()}
+          </>
+      }
+      <br />
+      {this.state.viewType === "browse" ? this.renderListView() : this.renderForm()}
+      <br />
+      {this.state.viewType === "browse" ? "" : this.renderSubmodules()}
+      <br />
+      {this.state.viewType === "browse" ? "" : this.renderActionButtons()}
       <QuickScrollFab />
     </>);
   }
