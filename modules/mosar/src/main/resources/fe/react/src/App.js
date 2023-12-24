@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import constants from './common/Constants';
 import Navigation from './common/Navigation';
 @loop{importDomainModule}[[
-import Module@slot{{ModuleName}} from './@slot{{module_names}}']]loop{importDomainModule}@
+import Module@slot{{ModuleName}} from './@slot{{moduleJnames}}']]loop{importDomainModule}@
 
 export default class App extends React.Component {
   constructor(props) {

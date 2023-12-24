@@ -1,9 +1,10 @@
+import React from "react";
 import BaseAPI from "../base/BaseAPI";
 import providers from "../common/BackendApiProviders";
 
 import BaseMainForm from "../base/BaseMainForm";
-import @slot{{ModuleName}}Form from "./@slot{{ModuleName}}Form";
 import @slot{{ModuleName}}ListView from "./@slot{{ModuleName}}ListView";
+import @slot{{ModuleName}}Form from "./@slot{{ModuleName}}Form";
 
 const @slot{{moduleName}}API = new BaseAPI("@slot{{moduleJnames}}", providers.axios);
 @loop{linkedModuleApi}[[

@@ -7,6 +7,6 @@ import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
 public class BaseModuleGen extends NameFormatter {
     @WithFilePath
     public String withFilePath(@RequiredParam.ModuleName String moduleName) {
-        return "/src/" + module_names(moduleName);
+        return "/src/" + moduleJnames(moduleName);
     }
 }

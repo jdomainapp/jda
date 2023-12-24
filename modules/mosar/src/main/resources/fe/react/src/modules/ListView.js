@@ -1,5 +1,6 @@
-import BaseListItemView from "../base/BaseListItemView";
+import React from "react";
 import BaseListView from "../base/BaseListView";
+import BaseListItemView from "../base/BaseListItemView";
 
 export default class @slot{{ModuleName}}ListView extends BaseListView {
   renderVisibleColumns() {

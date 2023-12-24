@@ -1,4 +1,6 @@
-import { Col, Form, FormControl, FormGroup } from "react-bootstrap";
+import React from "react";
+import { Button, Col, Form, FormCheck, FormControl, FormGroup, Carousel} from "react-bootstrap";
+
 import BaseForm from "../base/BaseForm";
 @loop{importLinkedSubmodules}[[
 import @slot{{LinkedDomain}}Submodule from "./@slot{{LinkedDomain}}Submodule";]]loop{importLinkedSubmodules}@
