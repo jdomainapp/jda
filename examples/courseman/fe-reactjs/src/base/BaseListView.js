@@ -16,6 +16,10 @@ export default class BaseListView extends React.Component {
     }
   }
 
+  componentDidMount() {
+      this.retrieveListData();
+  }
+
   renderVisibleColumns() { }
   renderRows() { }
   
@@ -32,10 +36,6 @@ export default class BaseListView extends React.Component {
     } else if (!this.props.current.content) {
       this.props.handleStateChange("currentId", "", true);
     }
-  }
-
-  componentDidMount() {
-    this.retrieveListData();
   }
 
   componentDidUpdate() {
