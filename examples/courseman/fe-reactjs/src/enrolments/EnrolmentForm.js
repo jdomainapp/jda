@@ -24,11 +24,10 @@ export default class EnrolmentForm extends BaseForm {
 
   //test date range picker
   async handleSelect(ranges) {
-
-    console.log(ranges);
-    await this.setState({ranges: [ranges.selection]})
-    this.props.handleStateChange("current.startDate", format(this.state.ranges[0].startDate,'yyyy-MM-dd'), false)
-    this.props.handleStateChange("current.endDate", format(this.state.ranges[0].endDate,'yyyy-MM-dd'), false)
+    // this.props.handleStateChange("current.startDate", format(ranges.selection.startDate,'yyyy-MM-dd'), false)
+    // this.props.handleStateChange("current.endDate", format(ranges.selection.endDate,'yyyy-MM-dd'), false)
+    this.props.handleStateChange("current.startDate", ranges.selection.startDate, false)
+    this.props.handleStateChange("current.endDate", ranges.selection.endDate, false)
   }
 
   renderTitle() {
@@ -90,7 +89,11 @@ export default class EnrolmentForm extends BaseForm {
       showSelectionPreview={true}
       moveRangeOnFirstSelection={false}
       months={2}
-      ranges={this.state.ranges}
+      ranges={[{
+        startDate: this.props.current && this.props.current.startDate ? this.props.current.startDate : new Date(),
+        endDate: this.props.current && this.props.current.endDate ? this.props.current.endDate : addDays(new Date(), 7),
+        key: 'selection'
+      }]}
       direction="horizontal"
   />
 </FormGroup>

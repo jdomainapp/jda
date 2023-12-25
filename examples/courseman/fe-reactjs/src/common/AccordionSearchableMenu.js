@@ -34,6 +34,8 @@ class CustomAccordionItem extends React.Component {
                         <Nav>
                             <Nav.Link onClick={()=>{
 
+                                // expand sub module here if possible, implementing T.T
+
                                 window.location.href = this.props.module.endpoint
                             }} style={{color: "black"}}>
                                 <h4>{this.props.module.name}</h4>

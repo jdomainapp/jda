@@ -30,35 +30,10 @@ export default class App extends React.Component {
   getModules() {
     return [
         {
-            "endpoint":"/course-modules","name":"Manage Course modules",
-            "subItem": [
-                {
-                    "endpoint":"#abc","name":"abc","subItem": [
-                        {
-                            "endpoint":"#abc","name":"ggg"
-                        },{
-                            "endpoint":"/enrolments","name":"def"
-                        },{
-                            "endpoint":"/enrolments","name":"hij"
-                        },
-                    ]
-                },{
-                    "endpoint":"/enrolments","name":"def"
-                },{
-                    "endpoint":"/enrolments","name":"hij"
-                },
-            ]
+            "endpoint":"/course-modules","name":"Manage Course modules"
         },
         {
-            "endpoint":"/enrolments","name":"Manage Enrolments","subItem": [
-                {
-                    "endpoint":"#abc","name":"abc"
-                },{
-                    "endpoint":"/enrolments","name":"def"
-                },{
-                    "endpoint":"/enrolments","name":"hij"
-                },
-            ]
+            "endpoint":"/enrolments","name":"Manage Enrolments"
         },
         {
             "endpoint":"/students","name":"Manage Students"
