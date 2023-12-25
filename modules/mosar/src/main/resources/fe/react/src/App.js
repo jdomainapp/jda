@@ -35,24 +35,14 @@ export default class App extends React.Component {
                       modules={this.getModules()} />
           <br />
           <Container>
-            <Row>
-              <Col md={2}>
-                <Switch>@loop{moduleMenu}[[
-                  <Route path='/@slot{{moduleJnames}}'><AccordionSearchableMenu modules={@slot{{moduleNames}}}/></Route>]]loop{moduleMenu}@
-                  <Route path='/'><AccordionSearchableMenu modules={this.getModules()}/></Route>
-                </Switch>
-              </Col>
-              <Col md={8}>
-                <Switch>@loop{moduleRoutes}[[
-                  <Route path='/@slot{{moduleJnames}}'><Module@slot{{ModuleName}} title='Manage @slot{{Module__names}}' /></Route>]]loop{moduleRoutes}@
-                  <Route path='/'>
-                    <h3 className="text-center">{this.getWelcomeMessage()}</h3>
-                    <br />
-                    <h4 className="text-center">Select a module to continue.</h4>
-                  </Route>
-                </Switch>
-              </Col>
-            </Row>
+            <Switch>@loop{moduleRoutes}[[
+              <Route path='/@slot{{moduleJnames}}'><Module@slot{{ModuleName}} title='Manage @slot{{Module__names}}' /></Route>]]loop{moduleRoutes}@
+              <Route path='/'>
+                <h3 className="text-center">{this.getWelcomeMessage()}</h3>
+                <br />
+                <h4 className="text-center">Select a module to continue.</h4>
+              </Route>
+            </Switch>
           </Container>
         </Router>
       </>

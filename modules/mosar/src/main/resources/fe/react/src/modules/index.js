@@ -5,7 +5,7 @@ import providers from "../common/BackendApiProviders";
 import BaseMainForm from "../base/BaseMainForm";
 import @slot{{ModuleName}}ListView from "./@slot{{ModuleName}}ListView";
 import @slot{{ModuleName}}Form from "./@slot{{ModuleName}}Form";
-
+import {@slot{{moduleNames}}} from "../common/Constants";
 const @slot{{moduleName}}API = new BaseAPI("@slot{{moduleJnames}}", providers.axios);
 @loop{linkedModuleApi}[[
 const @slot{{linkedDomain}}API = new BaseAPI("@slot{{linkedJdomains}}", providers.axios);]]loop{linkedModuleApi}@
@@ -53,6 +53,11 @@ class @slot{{ModuleName}}MainView extends BaseMainForm {
     handleStateChange={this.handleStateChange}
     partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
   }
+
+    renderMenu() {
+      return (<AccordionSearchableMenu modules={@slot{{moduleNames}}} controlling={this}/>
+      )
+    }
 
   renderForm() {
     return <@slot{{ModuleName}}Form {...this.props} {...this.state}

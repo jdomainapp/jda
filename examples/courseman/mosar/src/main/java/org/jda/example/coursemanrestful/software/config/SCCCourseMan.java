@@ -35,7 +35,7 @@ import jda.modules.setup.model.SetUpConfig;
     feProjPath = "/home/ducmle/tmp/restfstool-fe",
     feProjName = "fe-courseman",
     feProjResource = "src/main/resources/react",
-    feOutputPath = "/Users/jindojojin/Dev/GenOutput/fe-reactjs",
+    feOutputPath = "D:\\JDA\\ReactOutput",
     feServerPort = 5000,  // default: 3000
     feAppClass= FEApp.class,
     feThreaded = true,
