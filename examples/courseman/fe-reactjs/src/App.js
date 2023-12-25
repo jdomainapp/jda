@@ -79,35 +79,18 @@ export default class App extends React.Component {
                       modules={this.getModules()} />
           <br />
             <Container>
-                <Row>
-
-                <Col md={2}>
-                    <Switch>
-                        <Route path='/course-modules'><AccordionSearchableMenu modules={courseModules}/></Route>
-                        <Route path='/enrolments'><AccordionSearchableMenu modules={enrolments}/></Route>
-                        <Route path='/students'><AccordionSearchableMenu modules={students}/></Route>
-                        <Route path='/addresses'><AccordionSearchableMenu modules={address}/></Route>
-                        <Route path='/student-classes'><AccordionSearchableMenu modules={studentClasses}/></Route>
-                        <Route path='/'><AccordionSearchableMenu modules={this.getModules()}/></Route>
-                    </Switch>
-                </Col>
-
-                <Col md={8}>
-                    <Switch>
-                        <Route path='/course-modules'><ModuleCourseModule title='Manage Course modules' /></Route>
-                        <Route path='/enrolments'><ModuleEnrolment title='Manage Enrolments' /></Route>
-                        <Route path='/students'><ModuleStudent title='Manage Students' /></Route>
-                        <Route path='/addresses'><ModuleAddress title='Manage Addresses' /></Route>
-                        <Route path='/student-classes'><ModuleStudentClass title='Manage Student classes' /></Route>
-                        <Route path='/'>
-                            <h3 className="text-center">{this.getWelcomeMessage()}</h3>
-                            <br />
-                            <h4 className="text-center">Select a module to continue.</h4>
-                        </Route>
-                    </Switch>
-                </Col>
-                </Row>
-
+                <Switch>
+                    <Route path='/course-modules'><ModuleCourseModule title='Manage Course modules' /></Route>
+                    <Route path='/enrolments'><ModuleEnrolment title='Manage Enrolments' /></Route>
+                    <Route path='/students'><ModuleStudent title='Manage Students' /></Route>
+                    <Route path='/addresses'><ModuleAddress title='Manage Addresses' /></Route>
+                    <Route path='/student-classes'><ModuleStudentClass title='Manage Student classes' /></Route>
+                    <Route path='/'>
+                        <h3 className="text-center">{this.getWelcomeMessage()}</h3>
+                        <br />
+                        <h4 className="text-center">Select a module to continue.</h4>
+                    </Route>
+                </Switch>
           </Container>
         </Router>
       </>

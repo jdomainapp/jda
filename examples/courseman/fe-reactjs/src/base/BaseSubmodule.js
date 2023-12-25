@@ -1,7 +1,7 @@
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { Button } from "react-bootstrap";
+import {Button, Collapse} from "react-bootstrap";
 import DeleteConfirmation from "../common/DeleteConfirmation";
 
 export default class BaseSubmodule extends React.Component {
@@ -46,9 +46,11 @@ export default class BaseSubmodule extends React.Component {
           disabled={!this.props.current || this.props.current === ""}
           withoutModal /> : ""}
       {this.renderExpandButton()}
-      {this.state.expanded ?
-        this.renderModule(this.props)
-        : ""}
+      <Collapse in={this.state.expanded}>
+        <div>
+          {this.renderModule(this.props)}
+        </div>
+      </Collapse>
     </>);
   }
 }

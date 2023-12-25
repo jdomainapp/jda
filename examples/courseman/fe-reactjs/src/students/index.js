@@ -6,6 +6,8 @@ import React from "react";
 import BaseMainForm from "../base/BaseMainForm";
 import StudentListView from "./StudentListView";
 import StudentForm from "./StudentForm";
+import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
+import {enrolments, students} from "../common/Constants";
 // {{ view.submodule.imports }}
 
 const addressAPI = new BaseAPI("addresses", providers.axios);
@@ -60,6 +62,11 @@ class StudentMainView extends BaseMainForm {
     changeToDetailsView={() => this.handleStateChange("viewType", "details")}
     handleStateChange={this.handleStateChange}
     partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
+  }
+
+  renderMenu() {
+    return (<AccordionSearchableMenu modules={students} controlling={this}/>
+    )
   }
 
   renderForm() {

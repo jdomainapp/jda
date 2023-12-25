@@ -40,7 +40,7 @@ const constants =  {
 ]
 
 
-const enrolments = [
+const enrolment = [
   {
     "endpoint": "#", "name": "Fields",
     "subItem": [
@@ -71,40 +71,6 @@ const enrolments = [
     ]
   }
 ]
-
-
-const studentClasses = [
-  {
-    "endpoint": "#", "name": "Fields",
-    "subItem": [
-      {
-        "endpoint": "#id", "name": "ID"
-      },
-      {
-        "endpoint": "#student-id", "name": "Student ID"
-      },
-      {
-        "endpoint": "#course", "name": "Course ID"
-      },
-      {
-        "endpoint": "#internal-mark", "name": "Internal mark"
-      },
-      {
-        "endpoint": "#exam-mark", "name": "Exam mark"
-      },
-      {
-        "endpoint": "#final-grade", "name": "Final grade"
-      },
-      {
-        "endpoint": "#final-mark", "name": "Final mark"
-      },
-      {
-        "endpoint": "#date-range", "name": "Date range"
-      }
-    ]
-  }
-]
-
 
 const address = [
   {
@@ -159,11 +125,52 @@ const students = [
       },
       {
         "endpoint": "#enrolment", "name": "Enrolment",
-        "subItem": enrolments
+        "subItem": enrolment
+      }
+    ]
+  }
+]
+
+const studentClasses = [
+  {
+    "endpoint": "#", "name": "Fields",
+    "subItem": [
+      {
+        "endpoint": "#id", "name": "ID"
+      },
+      {
+        "endpoint": "#student-id", "name": "Student ID"
+      },
+      {
+        "endpoint": "#course", "name": "Course ID"
+      },
+      {
+        "endpoint": "#internal-mark", "name": "Internal mark"
+      },
+      {
+        "endpoint": "#exam-mark", "name": "Exam mark"
+      },
+      {
+        "endpoint": "#final-grade", "name": "Final grade"
+      },
+      {
+        "endpoint": "#final-mark", "name": "Final mark"
+      },
+      {
+        "endpoint": "#date-range", "name": "Date range"
+      }
+    ]
+  },
+  {
+    "endpoint": "#", "name": "Sub-modules",
+    "subItem": [
+      {
+        "endpoint": "#students", "name": "Students",
+        "subItem": students
       }
     ]
   }
 ]
 
 export default constants;
-export {courseModules, enrolments, studentClasses, address, students};
+export {courseModules, enrolment, studentClasses, address, students};

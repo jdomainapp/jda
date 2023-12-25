@@ -17,7 +17,6 @@ class Navigation extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.reff);
         this.reff.current.style.backgroundColor = "red"
     }
 

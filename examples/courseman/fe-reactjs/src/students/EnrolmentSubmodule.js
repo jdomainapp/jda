@@ -4,6 +4,6 @@ import EnrolmentModule from "../enrolments";
 
 export default class EnrolmentSubmodule extends BaseSubmodule {
   renderModule(props) {
-    return (<EnrolmentModule {...props} excludes={["student"]} />);
+    return (<EnrolmentModule id={"enrolment"} {...props} includeMenu={false} excludes={["student"]} />);
   }
 }

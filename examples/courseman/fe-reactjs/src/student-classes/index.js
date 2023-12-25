@@ -6,6 +6,8 @@ import React from "react";
 import BaseMainForm from "../base/BaseMainForm";
 import StudentClassListView from "./StudentClassListView";
 import StudentClassForm from "./StudentClassForm";
+import {enrolments, studentClasses} from "../common/Constants";
+import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
 // {{ view.submodule.imports }}
 
 const studentAPI = new BaseAPI("students", providers.axios);
@@ -47,6 +49,11 @@ class StudentClassMainView extends BaseMainForm {
         <h2 className="text-center">Manage Student Classes</h2>
       </>
     );
+  }
+
+  renderMenu() {
+    return (<AccordionSearchableMenu modules={studentClasses} controlling={this}/>
+    )
   }
 
   renderListView() {
