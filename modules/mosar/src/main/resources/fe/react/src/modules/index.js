@@ -9,6 +9,7 @@ import @slot{{ModuleName}}Form from "./@slot{{ModuleName}}Form";
 const @slot{{moduleName}}API = new BaseAPI("@slot{{moduleJnames}}", providers.axios);
 @loop{linkedModuleApi}[[
 const @slot{{linkedDomain}}API = new BaseAPI("@slot{{linkedJdomains}}", providers.axios);]]loop{linkedModuleApi}@
+import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
 
 
 export default function @slot{{ModuleName}}Module(props) {
@@ -41,7 +42,7 @@ class @slot{{ModuleName}}MainView extends BaseMainForm {
   renderTitle() {
     return (
       <>
-        <h2 className="text-center">Form: @slot{{ModuleName}}</h2>
+        <h2 className="text-center">Manage @slot{{ModuleName}}</h2>
       </>
     );
   }
@@ -55,6 +56,7 @@ class @slot{{ModuleName}}MainView extends BaseMainForm {
 
   renderForm() {
     return <@slot{{ModuleName}}Form {...this.props} {...this.state}
+    setReadySubmit={this.setReadySubmit}
     handleStateChange={this.handleStateChange.bind(this)}
     handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })} />;
   }

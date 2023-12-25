@@ -27,15 +27,15 @@ import jda.modules.setup.model.SetUpConfig;
 
 @RFSGenDesc(
   stackSpec = 
-//      StackSpec.FE, // for testing FE
+      StackSpec.FE, // for testing FE
 //    StackSpec.FS, // for production
-      StackSpec.BE, // for testing BE
+//      StackSpec.BE, // for testing BE
     genMode = GenerationMode.SOURCE_CODE, 
     beLangPlatform = LangPlatform.SPRING,
     feProjPath = "/home/ducmle/tmp/restfstool-fe",
     feProjName = "fe-courseman",
     feProjResource = "src/main/resources/react",
-    feOutputPath = "src/main/java/org/jda/example/coursemanrestful/frontend",
+    feOutputPath = "/Users/jindojojin/Dev/GenOutput/fe-reactjs",
     feServerPort = 5000,  // default: 3000
     feAppClass= FEApp.class,
     feThreaded = true,

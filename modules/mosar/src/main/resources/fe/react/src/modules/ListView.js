@@ -12,7 +12,7 @@ export default class @slot{{ModuleName}}ListView extends BaseListView {
 
   }
   renderRows() {
-    const current = this.props.current.content;
+    const current = this.props.displayingContent;
     if (current instanceof Array) {
       return (<>
         {

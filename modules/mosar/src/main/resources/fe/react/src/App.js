@@ -1,10 +1,11 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import {Col, Container, Row} from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import constants from './common/Constants';
+import constants, {@loop{importModuleConfig}[[@slot{{moduleNames}}, ]]loop{importModuleConfig}@} from './common/Constants';
 import Navigation from './common/Navigation';
 @loop{importDomainModule}[[
 import Module@slot{{ModuleName}} from './@slot{{moduleJnames}}']]loop{importDomainModule}@
+import AccordionSearchableMenu from "./common/AccordionSearchableMenu";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -34,16 +35,25 @@ export default class App extends React.Component {
                       modules={this.getModules()} />
           <br />
           <Container>
-            <Switch>@loop{moduleRoutes}[[
-              <Route path='/@slot{{moduleJnames}}'><Module@slot{{ModuleName}} title='Manage @slot{{Module__names}}' /></Route>]]loop{moduleRoutes}@
-              <Route path='/'>
-                <h3 className="text-center">{this.getWelcomeMessage()}</h3>
-                <br />
-                <h4 className="text-center">Select a module to continue.</h4>
-              </Route>
-            </Switch>
+            <Row>
+              <Col md={2}>
+                <Switch>@loop{moduleMenu}[[
+                  <Route path='/@slot{{moduleJnames}}'><AccordionSearchableMenu modules={@slot{{moduleNames}}}/></Route>]]loop{moduleMenu}@
+                  <Route path='/'><AccordionSearchableMenu modules={this.getModules()}/></Route>
+                </Switch>
+              </Col>
+              <Col md={8}>
+                <Switch>@loop{moduleRoutes}[[
+                  <Route path='/@slot{{moduleJnames}}'><Module@slot{{ModuleName}} title='Manage @slot{{Module__names}}' /></Route>]]loop{moduleRoutes}@
+                  <Route path='/'>
+                    <h3 className="text-center">{this.getWelcomeMessage()}</h3>
+                    <br />
+                    <h4 className="text-center">Select a module to continue.</h4>
+                  </Route>
+                </Switch>
+              </Col>
+            </Row>
           </Container>
-
         </Router>
       </>
     );
