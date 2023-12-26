@@ -1,12 +1,16 @@
 <br />
-<FormGroup id="date-range">
-    <Form.Label>Date Range</Form.Label>
-    <DateRangePicker
-        onChange={item => this.handleSelect(item)}
-        showSelectionPreview={true}
-        moveRangeOnFirstSelection={false}
-        months={2}
-        ranges={this.state.@slot{{fieldName}}}
-        direction="horizontal"
-    />
-</FormGroup>
+        <FormGroup>
+            <Form.Label>@slot{{fieldLabel}}</Form.Label>
+            <DateRangePicker
+                  onChange={item => this.handleDateRangeSelect(item, "@slot{{rangeID}}")}
+                  showSelectionPreview={true}
+                  moveRangeOnFirstSelection={false}
+                  months={2}
+                  ranges={[{
+                    startDate: this.props.current && this.props.current.@slot{{startDate}} ? this.props.current.@slot{{startDate}} : new Date(),
+                    endDate: this.props.current && this.props.current.@slot{{endDate}} ? this.props.current.@slot{{endDate}} : addDays(new Date(), 7),
+                    key: 'selection'
+                  }]}
+                  direction="horizontal"
+              />
+        </FormGroup>

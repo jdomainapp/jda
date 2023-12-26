@@ -4,29 +4,46 @@ import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.mosarfrontend.common.anotation.gen_controlers.RequiredParam;
 import jda.modules.mosarfrontend.common.anotation.gen_controlers.SlotReplacement;
 import jda.modules.mosarfrontend.common.anotation.template_desc.FileTemplateDesc;
-import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
-import jda.modules.mosarfrontend.reactjs.src.modules.BaseModuleGen;
 import org.modeshape.common.text.Inflector;
 
-import java.util.ArrayList;
-
-@FileTemplateDesc(templateFile = "/src/modules/inputTemplates/SimpleInput.js")
-public class SimpleFieldGen extends NameFormatter {
+@FileTemplateDesc(templateFile = "/inputTemplates/SimpleInput.js")
+public class SimpleInputGen extends NameFormatter {
     @SlotReplacement(id = "fieldLabel")
-    public String fieldLabel(@RequiredParam.ModuleField DField field){
+    public String fieldLabel(@RequiredParam.ModuleField DField field) {
         return field.getAttributeDesc() != null ? field.getAttributeDesc().label() : Inflector.getInstance().titleCase(field.getDAttr().name());
     }
 
-    @SlotReplacement(id="fieldType")
-    public String fieldType(@RequiredParam.ModuleField DField field){
+    @SlotReplacement(id = "fieldType")
+    public String fieldType(@RequiredParam.ModuleField DField field) {
         return getFieldType(field.getDAttr().type());
     }
 
-    @SlotReplacement(id="fieldOptions")
-    public String fieldOptions(@RequiredParam.ModuleField DField field){
-        return getFieldOptions(field.getDAttr())
+    @SlotReplacement(id = "fieldOptions")
+    public String fieldOptions(@RequiredParam.ModuleField DField field) {
+        return getFieldOptions(field.getDAttr());
+    }
+
+    @SlotReplacement(id = "fieldName")
+    public String fieldName(@RequiredParam.ModuleField DField field) {
+        return field.getDAttr().name();
+    }
+
+    private String getFieldOptions(DAttr dAttr) {
+        StringBuilder fieldOptions = new StringBuilder();
+        if (dAttr.id() || !dAttr.mutable() || dAttr.auto())
+            fieldOptions.append("disabled ");
+        if (!dAttr.optional() && !dAttr.id() && !dAttr.auto()) {
+            fieldOptions.append("required ");
+        }
+        if (!Double.isInfinite(dAttr.max()))
+            fieldOptions.append("max={" + dAttr.max() + "} ");
+        if (!Double.isInfinite(dAttr.min()))
+            fieldOptions.append("min={" + dAttr.min() + "} ");
+        if (dAttr.length() > 0)
+            fieldOptions.append("maxLength={" + dAttr.length() + "} ");
+        return fieldOptions.toString();
     }
 
     private String getFieldType(DAttr.Type type) {
@@ -64,15 +81,3 @@ public class SimpleFieldGen extends NameFormatter {
     }
 
 }
-
-    ArrayList<Slot> slotValues = new ArrayList<>();
-    String fieldLabel = field.getAttributeDesc() != null ? field.getAttributeDesc().label() : Inflector.getInstance().titleCase(field.getDAttr().name());
-    String fieldName = field.getDAttr().name();
-            slotValues.add(new Slot("fieldLabel", fieldLabel));
-                    slotValues.add(new Slot("type", type));
-                    slotValues.add(new Slot("fieldName", fieldName));
-                    slotValues.add(new Slot("fieldType", getFieldType(field.getDAttr().type())));
-                    if (field.getEnumValues() != null)
-                    slotValues.add(new Slot("enumOptions", renderEnumOption(field.getEnumValues())));
-                    slotValues.add(new Slot("fieldOptions", getFieldOptions(field.getDAttr())));
-                    result.add(slotValues);

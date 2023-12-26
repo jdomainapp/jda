@@ -2,14 +2,22 @@ package jda.modules.mosarfrontend.reactjs.src.modules;
 
 import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.dcsl.syntax.DAttr;
+import jda.modules.mccl.syntax.InputTypes;
+import jda.modules.mosar.config.RFSGenConfig;
 import jda.modules.mosarfrontend.common.anotation.gen_controlers.*;
 import jda.modules.mosarfrontend.common.anotation.template_desc.FileTemplateDesc;
-import jda.modules.mosarfrontend.common.utils.RegexUtils;
+import jda.modules.mosarfrontend.common.factory.FileFactory;
+import jda.modules.mosarfrontend.common.factory.ParamsFactory;
 import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
-import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
+import jda.modules.mosarfrontend.common.utils.RegexUtils;
 import jda.modules.mosarfrontend.common.utils.common_gen.FieldsUtil;
+import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
+import jda.modules.mosarfrontend.reactjs.src.modules.inputGen.DateRangeInputGen;
+import jda.modules.mosarfrontend.reactjs.src.modules.inputGen.EnumInputGen;
+import jda.modules.mosarfrontend.reactjs.src.modules.inputGen.RatingInputGen;
+import jda.modules.mosarfrontend.reactjs.src.modules.inputGen.SimpleInputGen;
 import org.modeshape.common.text.Inflector;
 
 import java.util.ArrayList;
@@ -30,14 +38,44 @@ public class FormGen extends BaseModuleGen {
         return subDomains.isEmpty() ? "" : "Base";
     }
 
-    @IfReplacement(id = "haveSubType")
+    @IfReplacement(ids = {"haveSubType", "haveSubType2"})
     public boolean haveSubType(@RequiredParam.SubDomains Map<String, Domain> subDomains) {
         return !subDomains.isEmpty();
     }
 
-    @IfReplacement(id = "haveSubType2")
-    public boolean haveSubType2(@RequiredParam.SubDomains Map<String, Domain> subDomains) {
-        return !subDomains.isEmpty();
+    @IfReplacement(id = "hasDateRange")
+    public boolean hasDateRange(@RequiredParam.ModuleFields DField[] fields) {
+        return Arrays.stream(fields).filter(f -> f.getInputType() == InputTypes.DateRangeStart).toArray(DField[]::new).length > 0;
+    }
+
+    @IfReplacement(id = "hasDateRange2")
+    public boolean hasDateRange2(@RequiredParam.ModuleFields DField[] fields) {
+        return Arrays.stream(fields).filter(f -> f.getInputType() == InputTypes.DateRangeStart).toArray(DField[]::new).length > 0;
+    }
+
+    @IfReplacement(id= "hasDateRange3")
+    public boolean hasDateRange3(@RequiredParam.ModuleFields DField[] fields) {
+        return Arrays.stream(fields).filter(f -> f.getInputType() == InputTypes.DateRangeStart).toArray(DField[]::new).length > 0;
+    }
+
+
+    @LoopReplacement(ids = {"dateRangeStates", "rangeIDMap"})
+    public Slot[][] dateRangeStates(@RequiredParam.ModuleFields DField[] fields) {
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        DField[] startFields = Arrays.stream(fields).filter(f -> f.getInputType() == InputTypes.DateRangeStart).toArray(DField[]::new);
+        for (DField sField : startFields) {
+            System.out.println("ID" + sField.getInputID());
+            ArrayList<Slot> slotValues = new ArrayList<>();
+            DField[] eFields = Arrays.stream(fields).filter(f -> f.getInputType() == InputTypes.DateRangeEnd && f.getInputID().equals(sField.getInputID())).toArray(DField[]::new);
+            DField eField = eFields.length > 0 ? eFields[0] : null;
+            System.out.println(eFields.length);
+            if (eField == null) break;
+            slotValues.add(new Slot("startField", sField.getDAttr().name()));
+            slotValues.add(new Slot("endField", eField.getDAttr().name()));
+            slotValues.add(new Slot("rangeID", sField.getInputID()));
+            result.add(slotValues);
+        }
+        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
     public void addBasicSlotForInput(DField[] dFields, ArrayList<ArrayList<Slot>> result, String type) {
@@ -49,18 +87,41 @@ public class FormGen extends BaseModuleGen {
             slotValues.add(new Slot("type", type));
             slotValues.add(new Slot("fieldName", fieldName));
             slotValues.add(new Slot("fieldType", getFieldType(field.getDAttr().type())));
-            if (field.getEnumValues() != null)
-                slotValues.add(new Slot("enumOptions", renderEnumOption(field.getEnumValues())));
             slotValues.add(new Slot("fieldOptions", getFieldOptions(field.getDAttr())));
             result.add(slotValues);
         }
     }
 
     @LoopReplacement(id = "formInputs")
-    public Slot[][] formInputs(@RequiredParam.ModuleFields DField[] dFields) {
+    public Slot[][] formInputs(@RequiredParam.ModuleFields DField[] dFields, @RequiredParam.RFSGenConfig RFSGenConfig genConfig, @RequiredParam.TemplateFolder String templateFolder) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        DField[] fields = Arrays.stream(dFields).filter(f -> f.getDAssoc() == null).toArray(DField[]::new);
-        addBasicSlotForInput(fields, result, null);
+        for (DField field : dFields) {
+            ParamsFactory.getInstance().setCurrentModuleField(field);
+            ArrayList<Slot> slotValues = new ArrayList<>();
+            String inputCode = "";
+            try {
+                if (field.getAttributeDesc() != null && field.getAttributeDesc().inputType() != InputTypes.Undefined) {
+                    System.out.println("Specific Input");
+                    switch (field.getAttributeDesc().inputType()) {
+                        case Rating:
+                            inputCode = (new FileFactory(RatingInputGen.class, genConfig.getFeOutputPath(), templateFolder)).genFile(false);
+                            break;
+                        case DateRangeStart:
+                            inputCode = (new FileFactory(DateRangeInputGen.class, genConfig.getFeOutputPath(), templateFolder)).genFile(false);
+                            break;
+                    }
+                } else if (field.getEnumValues() != null) {
+                    inputCode = (new FileFactory(EnumInputGen.class, genConfig.getFeOutputPath(), templateFolder)).genFile(false);
+                } else if (field.getDAssoc() != null) {
+
+                } else {
+                    inputCode = (new FileFactory(SimpleInputGen.class, genConfig.getFeOutputPath(), templateFolder)).genFile(false);
+                }
+            } catch (Exception e) {
+            }
+            slotValues.add(new Slot("inputCode", inputCode));
+            result.add(slotValues);
+        }
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
@@ -122,13 +183,6 @@ public class FormGen extends BaseModuleGen {
                 return "";
         }
         return "text";
-    }
-
-    @LoopReplacement(id = "formEnumInputs")
-    public Slot[][] formEnumInputs(@RequiredParam.ModuleFields DField[] dFields) {
-        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
-        addBasicSlotForInput(Arrays.stream(dFields).filter(f -> f.getEnumValues() != null).toArray(DField[]::new), result, null);
-        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
     @LoopReplacement(id = "formTypeEnumInputs")
@@ -273,15 +327,5 @@ public class FormGen extends BaseModuleGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    private String renderEnumOption(Enum[] enums) {
-        StringBuilder enumOptions = new StringBuilder();
-        for (Enum anEnum : enums) {
-            enumOptions.append("\n          <option value=\"");
-            enumOptions.append(anEnum.name());
-            enumOptions.append("\">");
-            enumOptions.append(anEnum.name());
-            enumOptions.append("</option>");
-        }
-        return enumOptions.toString();
-    }
+
 }
