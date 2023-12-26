@@ -9,6 +9,7 @@ import DeleteConfirmation from "../common/DeleteConfirmation";
 import constants from "../common/Constants";
 import { StompOverWSClient } from "../common/StompClient";
 import { CustomToast, ToastWrapper } from "../common/Toasts";
+import StructureConstructor  from "../patterns/accordion";
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -27,10 +28,10 @@ export default class BaseMainForm extends React.Component {
       displayingContent: Array(),
       readySubmit: false,
       inputState: {},
-      subForms: Array()
+      subForms: Array(),
+      structure: this.props.name !== undefined && this.props.structure ? new StructureConstructor(this.props.name, this.props.structure) : new StructureConstructor("", [])
     };
-    this.subForms = Array()
-    this.searchRef = React.createRef()
+
     // method binding
     this.renderActionButtons = this.renderActionButtons.bind(this);
     this.renderSubmodules = this.renderSubmodules.bind(this);

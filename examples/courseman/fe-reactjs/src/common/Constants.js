@@ -93,14 +93,14 @@ const students = [
     "endpoint": "address_id", "name": "Address ID"
   },
   {
+    "endpoint": "address", "name": "Address",
+    "subItem": address
+  },
+  {
     "endpoint": "email", "name": "Email"
   },
   {
     "endpoint": "class_id", "name": "Class ID"
-  },
-  {
-    "endpoint": "address", "name": "Address",
-    "subItem": address
   },
   {
     "endpoint": "enrolment", "name": "Enrolment",
@@ -113,25 +113,7 @@ const studentClasses = [
     "endpoint": "id", "name": "ID"
   },
   {
-    "endpoint": "student_id", "name": "Student ID"
-  },
-  {
-    "endpoint": "course", "name": "Course ID"
-  },
-  {
-    "endpoint": "internal_mark", "name": "Internal mark"
-  },
-  {
-    "endpoint": "exam_mark", "name": "Exam mark"
-  },
-  {
-    "endpoint": "final_grade", "name": "Final grade"
-  },
-  {
-    "endpoint": "final_mark", "name": "Final mark"
-  },
-  {
-    "endpoint": "date_range", "name": "Date range"
+    "endpoint": "name", "name": "Name"
   },
   {
     "endpoint": "students", "name": "Students",

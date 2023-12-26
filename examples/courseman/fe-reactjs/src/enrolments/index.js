@@ -62,7 +62,7 @@ class EnrolmentMainView extends BaseMainForm {
   }
 
   renderMenu() {
-    return (<AccordionSearchableMenu modules={enrolment} controlling={this}/>
+    return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
     )
   }
 

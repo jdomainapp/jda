@@ -39,8 +39,6 @@ class StudentClassMainView extends BaseMainForm {
       },
       currentId: this.props.currentId
     }
-    this.structure = new StructureConstructor({name: "student_classes", raw: studentClasses})
-    console.log(this.structure.getStructure())
   }
   getPossibleTypes() {
     return []
@@ -55,7 +53,7 @@ class StudentClassMainView extends BaseMainForm {
   }
 
   renderMenu() {
-    return (<AccordionSearchableMenu modules={studentClasses} controlling={this}/>
+    return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
     )
   }
 

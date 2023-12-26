@@ -66,7 +66,7 @@ class StudentMainView extends BaseMainForm {
 
   renderMenu() {
     // create a getMenu() function
-    return (<AccordionSearchableMenu modules={students} controlling={this}/>
+    return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
     )
   }
 

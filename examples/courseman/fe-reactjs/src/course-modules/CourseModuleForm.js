@@ -125,9 +125,10 @@ export default class CourseModuleForm extends BaseForm {
   renderForm() {
     switch (this.props.current.type) {
       case 'compulsory': return (<><Form>
-        <FormGroup id={"type"}>
+        <FormGroup>
           <Form.Label>Type</Form.Label>
           <Form.Control
+              {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
               as="select" value={this.renderObject('current.type')}
               onChange={(e)=>{
                 this.props.handleTypeChange(e)
@@ -146,20 +147,22 @@ export default class CourseModuleForm extends BaseForm {
           }
         </FormGroup>
         <br />
-        <FormGroup id={"id"}>
+        <FormGroup>
           <Form.Label>Id</Form.Label>
-          <FormControl type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} disabled />
+          <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} disabled />
         </FormGroup>
         <br />
-        <FormGroup id={"code"}>
+        <FormGroup>
           <Form.Label>Code</Form.Label>
-          <FormControl type="text" value={this.renderObject("current.code")} onChange={(e) => this.props.handleStateChange("current.code", e.target.value, false)} disabled />
+          <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.code")} onChange={(e) => this.props.handleStateChange("current.code", e.target.value, false)} disabled />
         </FormGroup>
         <br />
-        <FormGroup id={"name"}>
+        <FormGroup>
           <Form.Label>Name</Form.Label>
-          <FormControl type="text" value={this.renderObject("current.name")}
-                       onChange={(e) => {
+          <FormControl 
+                      {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
+                      type="text" value={this.renderObject("current.name")}
+                      onChange={(e) => {
                          this.props.handleStateChange("current.name", e.target.value, false)
                          this.validate(
                              this.renderObject('current.name'),
@@ -175,9 +178,9 @@ export default class CourseModuleForm extends BaseForm {
           }
         </FormGroup>
         <br />
-        <FormGroup id={"semester"}>
+        <FormGroup>
           <Form.Label>Semester</Form.Label>
-          <FormControl type="number" value={this.renderObject("current.semester")} onChange={(e) => this.props.handleStateChange("current.semester", e.target.value, false)}  />
+          <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.semester")} onChange={(e) => this.props.handleStateChange("current.semester", e.target.value, false)}  />
         </FormGroup>
         <br />
         <Carousel>
@@ -201,10 +204,10 @@ export default class CourseModuleForm extends BaseForm {
           </Carousel.Item>
         </Carousel>
         <br />
-        <FormGroup id={"cost"}>
+        <FormGroup>
           <Form.Label>Cost</Form.Label>
           <div style={{display: "flex", alignItems: "center"}}>
-            <FormControl type="number" value={this.renderObject("current.cost")} onChange={(e) => this.props.handleStateChange("current.cost", e.target.value, false)}  />
+            <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.cost")} onChange={(e) => this.props.handleStateChange("current.cost", e.target.value, false)}  />
             <span style={{margin: "0 10px"}}>100</span>
             <Slider
                 min={100}
@@ -216,7 +219,7 @@ export default class CourseModuleForm extends BaseForm {
           </div>
         </FormGroup>
         <br/>
-        <FormGroup id={"rating"}>
+        <FormGroup {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}>
           <Form.Label>Rating</Form.Label>
           <StarRatings
               rating={this.props.current.rating ? this.props.current.rating : 0}
@@ -231,8 +234,10 @@ export default class CourseModuleForm extends BaseForm {
           />
         </FormGroup>
         <br/>
-        <FormGroup id={"description"}>
-          <Button style={{
+        <FormGroup>
+          <Button 
+          {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
+          style={{
             cursor: "pointer",
             padding: "18px",
             width: "100%",
@@ -274,10 +279,12 @@ export default class CourseModuleForm extends BaseForm {
           }
         </FormGroup>
         <br/>
-        <FormGroup id={"credit"}>
+        <FormGroup>
           <Form.Label>Credits</Form.Label>
-          <FormControl type="number" value={this.renderObject("current.credits")}
-                       onChange={(e) => {
+          <FormControl 
+                      {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
+                      type="number" value={this.renderObject("current.credits")}
+                      onChange={(e) => {
                          this.props.handleStateChange("current.credits", e.target.value, false)
                          this.validate(
                              this.renderObject('current.credits'),
