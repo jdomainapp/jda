@@ -2,6 +2,7 @@ package org.jda.example.coursemanrestful.modules.coursemodule;
 
 import jda.modules.mccl.conceptmodel.view.RegionName;
 import jda.modules.mccl.conceptmodel.view.RegionType;
+import jda.modules.mccl.syntax.InputTypes;
 import jda.modules.mccl.syntax.MCCLConstants.AlignmentX;
 import jda.modules.mccl.syntax.ModuleDescriptor;
 import jda.modules.mccl.syntax.SetUpDesc;
@@ -57,4 +58,8 @@ public class ModuleCourseModule {
 
     @AttributeDesc(label = "Credits", alignX = AlignmentX.Center)
     private int credits;
+
+    @AttributeDesc(label = "Rating", inputType = InputTypes.Rating)
+    private int rating;
+
 }

@@ -291,7 +291,7 @@ public class FileFactory {
             }
 
             initFileTemplate();
-            updateFileContent(true);
+            updateFileContent(saveFileAfterDone);
             return this.fileContent;
         }
     }
