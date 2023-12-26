@@ -69,7 +69,8 @@ class EnrolmentMainView extends BaseMainForm {
   renderForm() {
     return <EnrolmentForm {...this.props} {...this.state}
     handleStateChange={this.handleStateChange.bind(this)}
-    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })} />;
+    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })}
+    mainForm={this} />;
   }
 
   // renderSubmodules() {

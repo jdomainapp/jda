@@ -33,6 +33,9 @@ export default class StudentClassForm extends BaseForm {
 <br />
 {this.props.excludes && this.props.excludes.includes("student-classes") ? "" : <>
 <StudentSubmodule
+  id="student_class-student"
+  ref={ref=>{this.props.mainForm.addSubForm(ref)}}
+  mainForm={this.props.mainForm}
   mode='submodule'
   viewType={this.props.viewType}
   title="Form: Student"

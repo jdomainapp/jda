@@ -9,9 +9,10 @@ export default class StudentForm extends BaseForm {
   constructor(props) {
     super(props);
     this.state = {
-      ...this.state
+      ...this.state,
     };
   }
+
 
   renderTitle() {
     return (<>
@@ -50,7 +51,12 @@ export default class StudentForm extends BaseForm {
 <Col md={7} className='px-0'>
     <Form.Label>Address</Form.Label>
   <FormControl type="text" value={this.renderObject("current.address")} onChange={(e) => this.props.handleStateChange("current.address", e.target.value, false)} disabled />
-</Col><AddressSubmodule compact={true} mode='submodule'
+</Col><AddressSubmodule 
+  id="student-student_address"
+  ref={ref=>{this.props.mainForm.addSubForm(ref)}}
+  mainForm={this.props.mainForm}
+  compact={true} 
+  mode='submodule'
   viewType={this.props.viewType}
   title="Form: Address"
   current={this.props.current.address}
@@ -76,17 +82,20 @@ export default class StudentForm extends BaseForm {
     <Form.Label>Student class</Form.Label>
   <FormControl type="text" value={this.renderObject("current.studentClass")} onChange={(e) => this.props.handleStateChange("current.studentClass", e.target.value, false)} disabled />
 </Col></FormGroup></> }
-<br />
-{this.props.excludes && this.props.excludes.includes("students") ? "" : <>
-<EnrolmentSubmodule
-  mode='submodule'
-  viewType={this.props.viewType}
-  title="Form: Enrolment"
-  current={this.props.current.enrolments}
-  thisNamePlural='enrolments'  parentName='students' parent='students'
-  parentId={this.props.currentId}
-  parentAPI={this.props.mainAPI}
-  partialApplyWithCallbacks={this.partialApplyWithCallbacks} /></>}
+<br />{this.props.excludes && this.props.excludes.includes("students") ? "" : <>
+      <EnrolmentSubmodule
+      id="student-enrolment"
+      ref={ref=>{this.props.mainForm.addSubForm(ref)}}
+      mainForm={this.props.mainForm}
+      mode='submodule'
+      viewType={this.props.viewType}
+      title="Form: Enrolment"
+      current={this.props.current.enrolments}
+      thisNamePlural='enrolments'  parentName='students' parent='students'
+      parentId={this.props.currentId}
+      parentAPI={this.props.mainAPI}
+      partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
+  </>}
 </>);
   }
 }

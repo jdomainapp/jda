@@ -8,6 +8,7 @@ import StudentClassListView from "./StudentClassListView";
 import StudentClassForm from "./StudentClassForm";
 import {enrolments, studentClasses} from "../common/Constants";
 import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
+import StructureConstructor from "../patterns/accordion";
 // {{ view.submodule.imports }}
 
 const studentAPI = new BaseAPI("students", providers.axios);
@@ -38,6 +39,8 @@ class StudentClassMainView extends BaseMainForm {
       },
       currentId: this.props.currentId
     }
+    this.structure = new StructureConstructor({name: "student_classes", raw: studentClasses})
+    console.log(this.structure.getStructure())
   }
   getPossibleTypes() {
     return []
@@ -66,7 +69,8 @@ class StudentClassMainView extends BaseMainForm {
   renderForm() {
     return <StudentClassForm {...this.props} {...this.state}
     handleStateChange={this.handleStateChange.bind(this)}
-    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })} />;
+    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })}
+    mainForm={this} />;
   }
 
   // renderSubmodules() {

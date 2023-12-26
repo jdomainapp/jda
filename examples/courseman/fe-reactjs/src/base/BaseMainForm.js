@@ -25,8 +25,11 @@ export default class BaseMainForm extends React.Component {
       itemOffSet: 0,
       numRowsPerPage: 6,
       displayingContent: Array(),
-      readySubmit: false
+      readySubmit: false,
+      inputState: {},
+      subForms: Array()
     };
+    this.subForms = Array()
     this.searchRef = React.createRef()
     // method binding
     this.renderActionButtons = this.renderActionButtons.bind(this);
@@ -38,6 +41,9 @@ export default class BaseMainForm extends React.Component {
     this._renderObject = this._renderObject.bind(this);
     this.renderSearchInput = this.renderSearchInput.bind(this)
 
+
+    this.addSubForm = this.addSubForm.bind(this);
+    this.getSubForm = this.getSubForm.bind(this);
     this.setAlert = this.setAlert.bind(this);
     this.resetState = this.resetState.bind(this);
     this.filterByType = this.filterByType.bind(this);
@@ -59,6 +65,9 @@ export default class BaseMainForm extends React.Component {
 
   // lifecycle
   componentDidMount() {
+    if(this.props.subWrapper) {
+      this.props.subWrapper.subForms = this.state.subForms
+    }
     if (this.props.parent) return;
     const socket = new SockJS(`${constants.host}/domainapp-ws`);
     const stompClient = new StompOverWSClient(socket);
@@ -72,6 +81,38 @@ export default class BaseMainForm extends React.Component {
         }
       }
     ]);
+  }
+
+  getSubFormIdFromTarget(id) {
+    return id.slice(0,id.lastIndexOf("-"))
+  }
+
+  addSubForm(subForm) {
+    if(subForm && this.state.subForms.indexOf(subForm) === -1) {
+      this.state.subForms.push(subForm)
+    }
+  }
+
+  getSubForm(subFormId) {
+    // if subform .id has dash then call getSubFormId() from target and recursive call else v
+    var res = Array()
+    for(var i = 0; i < this.state.subForms.length; i++) {
+      if(this.state.subForms[i].props.id === subFormId) {
+        res.push(this.state.subForms[i])
+        break
+      } else {
+        var subRes = this.state.subForms[i].getSubForm(subFormId)
+        if(subRes.length > 0) {
+          res.push(this.state.subForms[i], ...subRes)
+          break
+        }
+      }
+    }
+    return res
+  }
+
+  componentDidUpdate() {
+    // console.log(this.state.subForms)
   }
 
   // methods for view logic
@@ -128,8 +169,9 @@ export default class BaseMainForm extends React.Component {
     this.handleStateChange("current.readySubmit", newState, false)
   }
 
+
   handleSubmit() {
-    if(this.state.current.readySubmit) {
+    if(this.state.readySubmit) {
       const createUsing = this.getCreateHandler();
       const updateUsing = this.getUpdateHandler();
       if (this.state.viewType === "create"
