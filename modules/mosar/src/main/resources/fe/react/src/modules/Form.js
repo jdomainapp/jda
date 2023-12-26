@@ -1,8 +1,11 @@
 import React from "react";
 import { Button, Col, Form, FormCheck, FormControl, FormGroup, Carousel} from "react-bootstrap";
 import { DateRangePicker } from 'react-date-range';
-import { addDays } from 'date-fns';
-import {format} from 'date-fns';
+import { addDays,format } from 'date-fns';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
+import StarRatings from 'react-star-ratings';
+import starRatings from "react-star-ratings/build/star-ratings";
 import BaseForm from "../base/BaseForm";
 @loop{importLinkedSubmodules}[[
 import @slot{{LinkedDomain}}Submodule from "./@slot{{LinkedDomain}}Submodule";]]loop{importLinkedSubmodules}@
