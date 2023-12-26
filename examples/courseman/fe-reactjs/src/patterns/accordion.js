@@ -6,14 +6,15 @@ export default class StructureConstructor {
     }
 
     buildTree(prefixName, rawStructure) {
-        var res = rawStructure
-        for(var i = 0; i < res.length; i++) {
-            // console.log(prefixName + "-" + res[i]["endpoint"])   
-            // console.log(prefixName + "-" + res[i]["endpoint"])
-            res[i]["endpoint"] = `${prefixName}-${res[i]["endpoint"]}`
-            if(res[i]["subItem"] && res[i]["subItem"].length > 0) {
-                res[i]["subItem"] = this.buildTree(res[i]["endpoint"], res[i]["subItem"])
-            }
+        var res = []
+        for(var i = 0; i < rawStructure.length; i++) {
+            res.push({
+                "endpoint": prefixName + '-' + rawStructure[i]["endpoint"],
+                "name": rawStructure[i]["name"],
+                "subItem": (rawStructure[i]["subItem"] && rawStructure[i]["subItem"].length > 0) ?
+                            this.buildTree(prefixName + '-' + rawStructure[i]["endpoint"], rawStructure[i]["subItem"]) :
+                            undefined
+            })
         }
         return res
     }

@@ -31,9 +31,7 @@ class CustomAccordionItem extends React.Component {
             var subFormId = this.props.controlling.getSubFormIdFromTarget(this.props.module.endpoint)
     
             // expand sub module here if possible, implementing T.T
-            var subForm = this.props.controlling.getSubForm("student-enrolment")
-
-            console.log(subForm)
+            var subForm = this.props.controlling.getSubForm(subFormId)
 
             if(subForm.length > 0) {
                 for(var i = 0; i < subForm.length; i++) {
