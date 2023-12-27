@@ -24,20 +24,22 @@ export default class BaseForm extends React.Component {
   }
 
   getInputState() {
-
+    return {}
   }
 
   async validate(value, name) {
     var newInputState = this.props.inputState
-    if(newInputState[name].regex.test(value)) {
-      newInputState[name].validated = true
-      newInputState[name].message = newInputState[name].validMsg
-    } else {
-      newInputState[name].validated = false
-      newInputState[name].message = newInputState[name].invalidMsg
+    if(newInputState[name]) {
+      if(newInputState[name].regex.test(value)) {
+        newInputState[name].validated = true
+        newInputState[name].message = newInputState[name].validMsg
+      } else {
+        newInputState[name].validated = false
+        newInputState[name].message = newInputState[name].invalidMsg
+      }
+  
+      await this.props.handleStateChange("inputState", newInputState, false)
     }
-
-    await this.props.handleStateChange("inputState", newInputState, false)
 
     var formValidated = true
     Object.entries(newInputState).forEach((val) => {
@@ -45,12 +47,10 @@ export default class BaseForm extends React.Component {
         if (val[1].optional) {
           if (val[1].validated === false) {
             formValidated = false
-            console.log(val)
           }
         } else {
           if (val[1].validated === false || val[1].validated === undefined) {
             formValidated = false
-            console.log(val)
           }
         }
       }
@@ -102,6 +102,7 @@ export default class BaseForm extends React.Component {
   renderForm() { }
   renderListView() { }
   render() {
+    if(this.props.structure) this.props.structure.resetItr()
     return (<>
       {this.renderForm()}
     </>);

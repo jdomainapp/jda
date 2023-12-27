@@ -48,7 +48,7 @@ export default class EnrolmentForm extends BaseForm {
   <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} disabled />
 </FormGroup>
 <br />
-{ this.props.excludes && this.props.excludes.includes("student") ? <>{this.props.structure ? this.props.structure.skip(1) : undefined}</> : <><FormGroup id="student-id" className='d-flex flex-wrap justify-content-between align-items-end'><Col md={2.5} className='px-0'>
+{ this.props.excludes && this.props.excludes.includes("student") ? "" : <><FormGroup id="student-id" className='d-flex flex-wrap justify-content-between align-items-end'><Col md={2.5} className='px-0'>
     <Form.Label>Student Student ID</Form.Label>
   <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.studentId")} onChange={(e) => this.props.handleStateChange("current.studentId", e.target.value, true)}  />
 </Col>

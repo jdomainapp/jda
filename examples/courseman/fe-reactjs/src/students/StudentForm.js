@@ -44,7 +44,7 @@ export default class StudentForm extends BaseForm {
   <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="date" value={this.renderObject("current.dob")} onChange={(e) => this.props.handleStateChange("current.dob", e.target.value, false)}  />
 </FormGroup>
 <br />
-{ this.props.excludes && this.props.excludes.includes("address") ? <>{this.props.structure ? this.props.structure.skip(2) : undefined}</> : <><FormGroup className='d-flex flex-wrap justify-content-between align-items-end'><Col md={2.5} className='px-0'>
+{ this.props.excludes && this.props.excludes.includes("address") ? "" : <><FormGroup className='d-flex flex-wrap justify-content-between align-items-end'><Col md={2.5} className='px-0'>
     <Form.Label>Address ID</Form.Label>
   <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.addressId")} onChange={(e) => this.props.handleStateChange("current.addressId", e.target.value, true)}  />
 </Col>
@@ -74,7 +74,7 @@ export default class StudentForm extends BaseForm {
   <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.email")} onChange={(e) => this.props.handleStateChange("current.email", e.target.value, false)}  />
 </FormGroup>
 <br />
-{ this.props.excludes && this.props.excludes.includes("studentClass") ? <>{this.props.structure ? this.props.structure.skip(1) : undefined}</> : <><FormGroup className='d-flex flex-wrap justify-content-between align-items-end'><Col md={2.5} className='px-0'>
+{ this.props.excludes && this.props.excludes.includes("studentClass") ? "" : <><FormGroup className='d-flex flex-wrap justify-content-between align-items-end'><Col md={2.5} className='px-0'>
     <Form.Label>Student class Id</Form.Label>
   <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.studentClassId")} onChange={(e) => this.props.handleStateChange("current.studentClassId", e.target.value, true)}  />
 </Col>
@@ -82,7 +82,7 @@ export default class StudentForm extends BaseForm {
     <Form.Label>Student class</Form.Label>
   <FormControl type="text" value={this.renderObject("current.studentClass")} onChange={(e) => this.props.handleStateChange("current.studentClass", e.target.value, false)} disabled />
 </Col></FormGroup></> }
-<br />{this.props.excludes && this.props.excludes.includes("students") ? <>{this.props.structure ? this.props.structure.skip(1) : undefined}</> : <>
+<br />{this.props.excludes && this.props.excludes.includes("students") ? "" : <>
       <EnrolmentSubmodule
        {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
       ref={ref=>{this.props.mainForm.addSubForm(ref)}}
