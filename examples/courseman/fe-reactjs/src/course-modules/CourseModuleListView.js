@@ -18,15 +18,13 @@ export default class CourseModuleListView extends BaseListView {
 
   }
   renderRows() {
-    // const current = this.state.displayingContent;
-    // const current = this.props.current.content;
-    const current = this.props.displayingContent;
+    const current = this.props.displayingContent.slice(this.state.itemOffSet, this.state.itemOffSet + this.state.numRowsPerPage);
       if (current instanceof Array) {
         return (<>
           {
             current.map((item, index) =>
             <CourseModuleListItemView {...this.props} key={item.id} current={item}
-              index={index + 1} currentId={item.id}
+              index={this.state.itemOffSet + index + 1} currentId={item.id}
               changeToDetailsView={this.props.changeToDetailsView}
               handleStateChange={this.props.handleStateChange}
               handleDelete={this.props.partialApplyWithCallbacks(this.props.courseModuleAPI.deleteById)}
