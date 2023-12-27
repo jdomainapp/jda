@@ -1,5 +1,5 @@
 <br/>
-        <FormGroup id={"@slot{{fieldName}}"}>
+        <FormGroup id={"@slot{{fieldName}}"} {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}>
           <Form.Label>@slot{{fieldLabel}}</Form.Label>
           <StarRatings
               rating={this.props.current.@slot{{fieldName}} ? this.props.current.@slot{{fieldName}} : 0}

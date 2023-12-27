@@ -63,6 +63,7 @@ public class FieldsUtil {
         slotValues.add(new Slot("FieldLabel", NameFormatter.ModuleName(fieldLabel)));
         slotValues.add(new Slot("Field__label", NameFormatter.Module__name(fieldLabel)));
         slotValues.add(new Slot("fieldName", NameFormatter.moduleName(fieldName)));
+        slotValues.add(new Slot("field_name", NameFormatter.module_name(fieldName)));
         slotValues.add(new Slot("FieldName", NameFormatter.ModuleName(fieldName)));
         if (field.getLinkedDomain() != null) {
             String LinkedDomain = field.getLinkedDomain().getDomainClass().getSimpleName();

@@ -1,5 +1,5 @@
 <br />
-        <FormGroup>
+        <FormGroup {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}>
             <Form.Label>@slot{{fieldLabel}}</Form.Label>
             <DateRangePicker
                   onChange={item => this.handleDateRangeSelect(item, "@slot{{rangeID}}")}
@@ -7,8 +7,8 @@
                   moveRangeOnFirstSelection={false}
                   months={2}
                   ranges={[{
-                    startDate: this.props.current && this.props.current.@slot{{startDate}} ? this.props.current.@slot{{startDate}} : new Date(),
-                    endDate: this.props.current && this.props.current.@slot{{endDate}} ? this.props.current.@slot{{endDate}} : addDays(new Date(), 7),
+                    startDate: this.props.current && this.props.current.@slot{{startDate}} ? Date.parse(this.props.current.@slot{{startDate}}) : new Date(),
+                    endDate: this.props.current && this.props.current.@slot{{endDate}} ? Date.parse(this.props.current.@slot{{endDate}}) : addDays(new Date(), 7),
                     key: 'selection'
                   }]}
                   direction="horizontal"

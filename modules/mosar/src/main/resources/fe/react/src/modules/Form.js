@@ -1,7 +1,8 @@
 import React from "react";
 import { Button, Col, Form, FormCheck, FormControl, FormGroup, Carousel} from "react-bootstrap";
 import { DateRangePicker } from 'react-date-range';
-import { addDays,format } from 'date-fns';
+import { addDays } from 'date-fns';
+import {format} from 'date-fns';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import StarRatings from 'react-star-ratings';
@@ -40,8 +41,8 @@ export default class @slot{{ModuleName}}Form extends BaseForm {
 
   @if{hasDateRange2}((
   async handleDateRangeSelect(ranges, rangeID) {
-    this.props.handleStateChange(`current.\${RangeIDMap[rangeID].startDate}`, ranges.selection.startDate, false)
-    this.props.handleStateChange(`current.\${RangeIDMap[rangeID].endDate}`, ranges.selection.endDate, false)
+    this.props.handleStateChange(`current.\${RangeIDMap[rangeID].start}`, ranges.selection.startDate, false)
+    this.props.handleStateChange(`current.\${RangeIDMap[rangeID].end}`, ranges.selection.endDate, false)
   }
   ))if{hasDateRange2}@
 

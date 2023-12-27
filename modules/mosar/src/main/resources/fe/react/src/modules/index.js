@@ -5,11 +5,10 @@ import providers from "../common/BackendApiProviders";
 import BaseMainForm from "../base/BaseMainForm";
 import @slot{{ModuleName}}ListView from "./@slot{{ModuleName}}ListView";
 import @slot{{ModuleName}}Form from "./@slot{{ModuleName}}Form";
-import {@slot{{moduleNames}}} from "../common/Constants";
+import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
 const @slot{{moduleName}}API = new BaseAPI("@slot{{moduleJnames}}", providers.axios);
 @loop{linkedModuleApi}[[
 const @slot{{linkedDomain}}API = new BaseAPI("@slot{{linkedJdomains}}", providers.axios);]]loop{linkedModuleApi}@
-import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
 
 
 export default function @slot{{ModuleName}}Module(props) {
@@ -55,7 +54,7 @@ class @slot{{ModuleName}}MainView extends BaseMainForm {
   }
 
     renderMenu() {
-      return (<AccordionSearchableMenu modules={@slot{{moduleNames}}} controlling={this}/>
+      return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
       )
     }
 
@@ -63,7 +62,8 @@ class @slot{{ModuleName}}MainView extends BaseMainForm {
     return <@slot{{ModuleName}}Form {...this.props} {...this.state}
     setReadySubmit={this.setReadySubmit}
     handleStateChange={this.handleStateChange.bind(this)}
-    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })} />;
+    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })}
+    mainForm={this} />;
   }
 
 }
