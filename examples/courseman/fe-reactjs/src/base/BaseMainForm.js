@@ -84,15 +84,20 @@ export default class BaseMainForm extends React.Component {
   }
 
   addSubForm(subForm) {
-    if(subForm && this.state.subForms.indexOf(subForm) === -1) {
+    const currentIndex = this.state.subForms.indexOf(subForm)
+    if(subForm && currentIndex === -1) {
       this.state.subForms.push(subForm)
+    } else if (currentIndex !== -1) {
+      this.state.subForms[currentIndex] = subForm
+      console.log(currentIndex)
+      console.log(this.state.subForms)
     }
   }
 
   getSubForm(subFormId) {
-    // if subform .id has dash then call getSubFormId() from target and recursive call else v
+    // size of state.subForms increase when switching between views -> should reset state.subForm somewhere
     var res = Array()
-    for(var i = 0; i < this.state.subForms.length; i++) {
+    for(var i = this.state.subForms.length - 1; i >= 0 ; i--) {
       if(this.state.subForms[i].props.id === subFormId) {
         res.push(this.state.subForms[i])
         break
@@ -108,7 +113,6 @@ export default class BaseMainForm extends React.Component {
   }
 
   componentDidUpdate() {
-    // console.log(this.state.subForms)
   }
 
   // methods for view logic
