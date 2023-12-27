@@ -1,5 +1,6 @@
 package org.jda.example.coursemanrestful.modules.enrolment;
 
+import jda.modules.mccl.syntax.InputTypes;
 import org.jda.example.coursemanrestful.modules.coursemodule.model.CourseModule;
 import org.jda.example.coursemanrestful.modules.enrolment.model.Enrolment;
 import org.jda.example.coursemanrestful.modules.student.model.Student;
@@ -18,6 +19,8 @@ import jda.modules.setup.commands.CopyResourceFilesCommand;
 import jda.mosa.controller.Controller;
 import jda.mosa.view.View;
 import jda.mosa.view.assets.datafields.list.JComboField;
+
+import java.util.Date;
 
 /**
  * @Overview
@@ -80,4 +83,9 @@ public class ModuleEnrolment  {
   
   @AttributeDesc(label="Final Grade", alignX=AlignmentX.Center)
   private char finalGrade;
+
+  @AttributeDesc(label = "Schedule", inputType = InputTypes.DateRangeStart)
+  private Date startDate;
+  @AttributeDesc(label = "Schedule", inputType = InputTypes.DateRangeEnd)
+  private Date endDate;
 }

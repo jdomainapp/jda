@@ -1,5 +1,4 @@
-export default class Message {  
-
+export default class Message {
     //student class
     static ADD_STUDENT_CLASS_SUC = "Thêm mới student class thành công!";
     static ADD_STUDENT_CLASS_ERR = "Thêm mới student class thất bại!";
@@ -49,5 +48,4 @@ export default class Message {
     static GET_LIST_STUDENT_ERR = "Lấy danh sách student thất bại!";
     static DELETE_STUDENT_SUC = "Xóa student thành công!";
     static DELETE_STUDENT_ERR = "Xóa student thất bại!";
-
 }

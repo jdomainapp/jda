@@ -8,7 +8,7 @@ import jda.modules.mosarfrontend.reactjs.src.modules.SubmoduleGen;
 import jda.modules.mosarfrontend.reactjs.src.modules.indexGen;
 
 @AppTemplateDesc(
-        resource = "fe/react/resources.zip",
+        resource = "fe/react/resources_f59.zip",
         templateRootFolder = "fe/react",
         crossTemplates = @CrossTemplatesDesc(
                 Router = @ComponentGenDesc(

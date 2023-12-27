@@ -1,10 +1,11 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import {Col, Container, Row} from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import constants from './common/Constants';
+import constants, {@loop{importModuleConfig}[[@slot{{moduleNames}}, ]]loop{importModuleConfig}@} from './common/Constants';
 import Navigation from './common/Navigation';
 @loop{importDomainModule}[[
-import Module@slot{{ModuleName}} from './@slot{{module_names}}']]loop{importDomainModule}@
+import Module@slot{{ModuleName}} from './@slot{{moduleJnames}}']]loop{importDomainModule}@
+import AccordionSearchableMenu from "./common/AccordionSearchableMenu";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -43,7 +44,6 @@ export default class App extends React.Component {
               </Route>
             </Switch>
           </Container>
-
         </Router>
       </>
     );

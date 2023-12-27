@@ -22,20 +22,20 @@ export default {
         return {
             // Date range picker
             dateRange: { startDate, endDate },
-            options: {
-                format: "DD/MM/YYYY",
-                useCurrent: false,
-                showDropdowns: true,
-                showWeekNumbers: true,
-                showISOWeekNumbers: true,
-                timePicker: true,
-                timePicker24Hour: true,
-                timePickerSeconds: true,
-                autoApply: true,
-                locale: {
-                    cancelLabel: "Clear",
-                },
-            },
+            // options: {
+            //     format: "DD/MM/YYYY",
+            //     useCurrent: false,
+            //     showDropdowns: true,
+            //     showWeekNumbers: true,
+            //     showISOWeekNumbers: true,
+            //     timePicker: true,
+            //     timePicker24Hour: true,
+            //     timePickerSeconds: true,
+            //     autoApply: true,
+            //     locale: {
+            //         cancelLabel: "Clear",
+            //     },
+            // },
 
             // Vue slider
             range: [0, 30],
