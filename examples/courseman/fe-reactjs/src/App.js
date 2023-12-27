@@ -1,7 +1,7 @@
 import React from 'react';
 import {Col, Container, Row} from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import constants, {courseModules, enrolments, studentClasses, address, students} from './common/Constants';
+import constants, {courseModules, enrolment, studentClasses, address, students} from './common/Constants';
 import Navigation from './common/Navigation';
 
 import ModuleStudent from './students'
@@ -55,11 +55,11 @@ export default class App extends React.Component {
           <br />
             <Container>
                 <Switch>
-                    <Route path='/course-modules'><ModuleCourseModule title='Manage Course modules' /></Route>
-                    <Route path='/enrolments'><ModuleEnrolment title='Manage Enrolments' /></Route>
-                    <Route path='/students'><ModuleStudent title='Manage Students' /></Route>
-                    <Route path='/addresses'><ModuleAddress title='Manage Addresses' /></Route>
-                    <Route path='/student-classes'><ModuleStudentClass title='Manage Student classes' /></Route>
+                    <Route path='/course-modules'><ModuleCourseModule name="course_modules" structure={courseModules} title='Manage Course modules' /></Route>
+                    <Route path='/enrolments'><ModuleEnrolment name="enrolments" structure={enrolment} title='Manage Enrolments' /></Route>
+                    <Route path='/students'><ModuleStudent name="students" structure={students} title='Manage Students' /></Route>
+                    <Route path='/addresses'><ModuleAddress name="addresses" structure={address} title='Manage Addresses' /></Route>
+                    <Route path='/student-classes'><ModuleStudentClass name="student_classes" structure={studentClasses} title='Manage Student classes' /></Route>
                     <Route path='/'>
                         <h3 className="text-center">{this.getWelcomeMessage()}</h3>
                         <br />
