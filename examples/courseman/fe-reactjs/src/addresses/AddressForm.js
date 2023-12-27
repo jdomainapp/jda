@@ -30,8 +30,8 @@ export default class AddressForm extends BaseForm {
   <Form.Label>Name</Form.Label>
   <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.name")} onChange={(e) => this.props.handleStateChange("current.name", e.target.value, false)}  />
 </FormGroup>
-<br />{this.props.structure ? this.props.structure.skip(1) : undefined}
-{/* { this.props.excludes && this.props.excludes.includes("student") ? "" : <><FormGroup className='d-flex flex-wrap justify-content-between align-items-end'><Col md={2.5} className='px-0'>
+<br />
+{ this.props.excludes && this.props.excludes.includes("student") ? "" : <><FormGroup className='d-flex flex-wrap justify-content-between align-items-end'><Col md={2.5} className='px-0'>
     <Form.Label>Student Student ID</Form.Label>
   <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.studentId")} onChange={(e) => this.props.handleStateChange("current.studentId", e.target.value, true)}  />
 </Col>
@@ -40,7 +40,9 @@ export default class AddressForm extends BaseForm {
   <FormControl type="text" value={this.renderObject("current.student")} onChange={(e) => this.props.handleStateChange("current.student", e.target.value, false)} disabled />
 </Col>
 <StudentSubmodule 
-  structure={[]}
+  {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} 
+  ref={ref=>{this.props.mainForm.addSubForm(ref)}}
+  mainForm={this.props.mainForm}
   compact={true} mode='submodule'
   viewType={this.props.viewType}
   title="Form: Student"
@@ -53,7 +55,7 @@ export default class AddressForm extends BaseForm {
   handleUnlink={() =>
     this.props.handleStateChange("current.student", null, false,
       this.props.handleStateChange("current.studentId", ""))} /></FormGroup></> 
-      } */}
+      }
 </>);
   }
 }
