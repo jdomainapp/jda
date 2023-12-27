@@ -47,6 +47,9 @@ export default class BaseListView extends React.Component {
     this.retrieveListData();
   }
 
+  getPageContent() {
+    return this.props.displayingContent.slice(this.state.itemOffSet, this.state.itemOffSet + this.state.numRowsPerPage);
+  }
 
   async handlePageClick(event) {
     const newOffset = (event.selected * this.state.numRowsPerPage) % this.props.displayingContent.length;

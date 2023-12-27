@@ -18,7 +18,7 @@ export default class CourseModuleListView extends BaseListView {
 
   }
   renderRows() {
-    const current = this.props.displayingContent.slice(this.state.itemOffSet, this.state.itemOffSet + this.state.numRowsPerPage);
+    const current = this.getPageContent();
       if (current instanceof Array) {
         return (<>
           {

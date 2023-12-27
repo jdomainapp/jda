@@ -460,7 +460,7 @@ export default class BaseMainForm extends React.Component {
   render() {
     return (<>
       <Row>
-        {this.props.includeMenu === false && this.state.viewType !== "create" ?
+        {this.props.includeMenu === false || this.state.viewType !== "create" ?
             <></>
         :
             <Col md={2}>
