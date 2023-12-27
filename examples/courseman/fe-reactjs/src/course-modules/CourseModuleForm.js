@@ -32,72 +32,7 @@ export default class CourseModuleForm extends BaseForm {
             key: 'selection'
           }],
       // validation object
-      inputState: {
-        // id: {
-        //   optional: false,
-        //   validated: undefined,
-        //   message: "",
-        //   regex: /^S\d+$/,
-        //   validMsg: "",
-        //   invalidMsg: ""
-        // },
-        // code: {
-        //   optional: false,
-        //   validated: undefined,
-        //   message: "",
-        //   regex: /^S\d+$/,
-        //   validMsg: "",
-        //   invalidMsg: ""
-        // },
-        name: {
-          optional: false,
-          validated: undefined,
-          message: "",
-          regex: /^S\d+$/,
-          validMsg: "",
-          invalidMsg: "Name must start with 'S' and followed by one or more numbers!"
-        },
-        description: {
-          optional: true,
-          validated: undefined,
-          message: "",
-          regex: /^[A-Za-z\s]+$/,
-          validMsg: "",
-          invalidMsg: "Description must only include characters!"
-        },
-        // semester: {
-        //   optional: false,
-        //   validated: undefined,
-        //   message: "",
-        //   regex: /^S\d+$/,
-        //   validMsg: "",
-        //   invalidMsg: ""
-        // },
-        credits: {
-          optional: false,
-          validated: undefined,
-          message: "",
-          regex: /^\d+$/,
-          validMsg: "",
-          invalidMsg: "Name must be a number or a float number!"
-        },
-        // rating: {
-        //   optional: true,
-        //   validated: undefined,
-        //   message: "",
-        //   regex: /^S\d+$/,
-        //   validMsg: "",
-        //   invalidMsg: ""
-        // },
-        // cost: {
-        //   optional: true,
-        //   validated: undefined,
-        //   message: "",
-        //   regex: /^S\d+$/,
-        //   validMsg: "",
-        //   invalidMsg: ""
-        // }
-      }
+
     };
   }
 
@@ -111,6 +46,75 @@ export default class CourseModuleForm extends BaseForm {
     }
   }
 
+  getInputState() {
+    return {
+      // id: {
+      //   optional: false,
+      //   validated: undefined,
+      //   message: "",
+      //   regex: /^S\d+$/,
+      //   validMsg: "",
+      //   invalidMsg: ""
+      // },
+      // code: {
+      //   optional: false,
+      //   validated: undefined,
+      //   message: "",
+      //   regex: /^S\d+$/,
+      //   validMsg: "",
+      //   invalidMsg: ""
+      // },
+      name: {
+        optional: false,
+            validated: undefined,
+            message: "",
+            regex: /^S\d+$/,
+            validMsg: "",
+            invalidMsg: "Name must start with 'S' and followed by one or more numbers!"
+      },
+      description: {
+        optional: true,
+            validated: undefined,
+            message: "",
+            regex: /^[A-Za-z\s]+$/,
+            validMsg: "",
+            invalidMsg: "Description must only include characters!"
+      },
+      // semester: {
+      //   optional: false,
+      //   validated: undefined,
+      //   message: "",
+      //   regex: /^S\d+$/,
+      //   validMsg: "",
+      //   invalidMsg: ""
+      // },
+      credits: {
+        optional: false,
+            validated: undefined,
+            message: "",
+            regex: /^\d+$/,
+            validMsg: "",
+            invalidMsg: "Name must be a number or a float number!"
+      },
+      // rating: {
+      //   optional: true,
+      //   validated: undefined,
+      //   message: "",
+      //   regex: /^S\d+$/,
+      //   validMsg: "",
+      //   invalidMsg: ""
+      // },
+      // cost: {
+      //   optional: true,
+      //   validated: undefined,
+      //   message: "",
+      //   regex: /^S\d+$/,
+      //   validMsg: "",
+      //   invalidMsg: ""
+      // }
+    }
+  }
+
 
   renderTitle() {
     return (<>
@@ -118,98 +122,65 @@ export default class CourseModuleForm extends BaseForm {
     </>);
   }
 
-  async validate(value, name) {
-    var newInputState = this.state.inputState
-    // if(!value || value === '') {
-    //   newInputState[name].validated = undefined
-    // }
-    // else
-    if(this.state.inputState[name].regex.test(value)) {
-      newInputState[name].validated = true
-      newInputState[name].message = this.state.inputState[name].validMsg
-    } else {
-      newInputState[name].validated = false
-      newInputState[name].message = this.state.inputState[name].invalidMsg
-    }
-
-    await this.setState({inputState: newInputState})
-
-    var formValidated = true
-    Object.entries(this.state.inputState).forEach((val) => {
-      if(formValidated) {
-        if (val[1].optional) {
-          if (val[1].validated === false) {
-            formValidated = false
-            console.log(val)
-          }
-        } else {
-          if (val[1].validated === false || val[1].validated === undefined) {
-            formValidated = false
-            console.log(val)
-          }
-        }
-      }
-    })
-
-    this.props.setReadySubmit(formValidated)
-  }
-
   renderForm() {
     switch (this.props.current.type) {
       case 'compulsory': return (<><Form>
-        <FormGroup id={"type"}>
+        <FormGroup>
           <Form.Label>Type</Form.Label>
           <Form.Control
+              {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
               as="select" value={this.renderObject('current.type')}
               onChange={(e)=>{
                 this.props.handleTypeChange(e)
                }}
               disabled={this.props.viewType !== "create"} custom
-              isValid={this.state.inputState.id ? this.state.inputState.id.validated : false}
-              isInvalid={this.state.inputState.id ? !this.state.inputState.id.validated : false}
+              isValid={this.props.inputState.id ? this.props.inputState.id.validated : false}
+              isInvalid={this.props.inputState.id ? !this.props.inputState.id.validated : false}
           >
             <option value='' disabled selected>&lt;Please choose one&gt;</option>
             <option value="compulsory">compulsory</option>
             <option value="elective">elective</option>
           </Form.Control>
-          {this.state.inputState.id ?
-              <Form.Control.Feedback type={this.state.inputState.id.validated ? "valid" : "invalid"}>{this.state.inputState.id.message}</Form.Control.Feedback>
+          {this.props.inputState.id ?
+              <Form.Control.Feedback type={this.props.inputState.id.validated ? "valid" : "invalid"}>{this.props.inputState.id.message}</Form.Control.Feedback>
               : ""
           }
         </FormGroup>
         <br />
-        <FormGroup id={"id"}>
+        <FormGroup>
           <Form.Label>Id</Form.Label>
-          <FormControl type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} disabled />
+          <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} disabled />
         </FormGroup>
         <br />
-        <FormGroup id={"code"}>
+        <FormGroup>
           <Form.Label>Code</Form.Label>
-          <FormControl type="text" value={this.renderObject("current.code")} onChange={(e) => this.props.handleStateChange("current.code", e.target.value, false)} disabled />
+          <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.code")} onChange={(e) => this.props.handleStateChange("current.code", e.target.value, false)} disabled />
         </FormGroup>
         <br />
-        <FormGroup id={"name"}>
+        <FormGroup>
           <Form.Label>Name</Form.Label>
-          <FormControl type="text" value={this.renderObject("current.name")}
-                       onChange={(e) => {
+          <FormControl 
+                      {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
+                      type="text" value={this.renderObject("current.name")}
+                      onChange={(e) => {
                          this.props.handleStateChange("current.name", e.target.value, false)
                          this.validate(
                              this.renderObject('current.name'),
                              "name"
                          )
                        }}
-                      isValid={this.state.inputState.name.validated !== undefined ? this.state.inputState.name.validated : false}
-                      isInvalid={this.state.inputState.name.validated !== undefined ? !this.state.inputState.name.validated : false}
+                      isValid={this.props.inputState.name && this.props.inputState.name.validated !== undefined ? this.props.inputState.name.validated : false}
+                      isInvalid={this.props.inputState.name && this.props.inputState.name.validated !== undefined ? !this.props.inputState.name.validated : false}
           />
-          {this.state.inputState.name.validated !== undefined ?
-              <Form.Control.Feedback type={this.state.inputState.name.validated ? "valid" : "invalid"}>{this.state.inputState.name.message}</Form.Control.Feedback>
+          {this.props.inputState.name && this.props.inputState.name.validated !== undefined ?
+              <Form.Control.Feedback type={this.props.inputState.name.validated ? "valid" : "invalid"}>{this.props.inputState.name.message}</Form.Control.Feedback>
               : ""
           }
         </FormGroup>
         <br />
-        <FormGroup id={"semester"}>
+        <FormGroup>
           <Form.Label>Semester</Form.Label>
-          <FormControl type="number" value={this.renderObject("current.semester")} onChange={(e) => this.props.handleStateChange("current.semester", e.target.value, false)}  />
+          <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.semester")} onChange={(e) => this.props.handleStateChange("current.semester", e.target.value, false)}  />
         </FormGroup>
         <br />
         <Carousel>
@@ -233,10 +204,10 @@ export default class CourseModuleForm extends BaseForm {
           </Carousel.Item>
         </Carousel>
         <br />
-        <FormGroup id={"cost"}>
+        <FormGroup>
           <Form.Label>Cost</Form.Label>
           <div style={{display: "flex", alignItems: "center"}}>
-            <FormControl type="number" value={this.renderObject("current.cost")} onChange={(e) => this.props.handleStateChange("current.cost", e.target.value, false)}  />
+            <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.cost")} onChange={(e) => this.props.handleStateChange("current.cost", e.target.value, false)}  />
             <span style={{margin: "0 10px"}}>100</span>
             <Slider
                 min={100}
@@ -248,7 +219,7 @@ export default class CourseModuleForm extends BaseForm {
           </div>
         </FormGroup>
         <br/>
-        <FormGroup id={"rating"}>
+        <FormGroup {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}>
           <Form.Label>Rating</Form.Label>
           <StarRatings
               rating={this.props.current.rating ? this.props.current.rating : 0}
@@ -263,8 +234,10 @@ export default class CourseModuleForm extends BaseForm {
           />
         </FormGroup>
         <br/>
-        <FormGroup id={"description"}>
-          <Button style={{
+        <FormGroup>
+          <Button 
+          {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
+          style={{
             cursor: "pointer",
             padding: "18px",
             width: "100%",
@@ -295,33 +268,35 @@ export default class CourseModuleForm extends BaseForm {
                   "description",
               )
             }}
-            isValid={this.state.inputState.description.validated !== undefined ? this.state.inputState.description.validated : false}
-            isInvalid={this.state.inputState.description.validated !== undefined ? !this.state.inputState.description.validated : false}
+            isValid={this.props.inputState.description && this.props.inputState.description.validated !== undefined ? this.props.inputState.description.validated : false}
+            isInvalid={this.props.inputState.description && this.props.inputState.description.validated !== undefined ? !this.props.inputState.description.validated : false}
             ></textarea>
           </div>
 
-          {this.state.inputState.description.validated !== undefined ?
-              <Form.Control.Feedback type={this.state.inputState.description.validated ? "valid" : "invalid"}>{this.state.inputState.description.message}</Form.Control.Feedback>
+          {this.props.inputState.description && this.props.inputState.description.validated !== undefined ?
+              <Form.Control.Feedback type={this.props.inputState.description.validated ? "valid" : "invalid"}>{this.props.inputState.description.message}</Form.Control.Feedback>
               : ""
           }
         </FormGroup>
         <br/>
-        <FormGroup id={"credit"}>
+        <FormGroup>
           <Form.Label>Credits</Form.Label>
-          <FormControl type="number" value={this.renderObject("current.credits")}
-                       onChange={(e) => {
+          <FormControl 
+                      {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
+                      type="number" value={this.renderObject("current.credits")}
+                      onChange={(e) => {
                          this.props.handleStateChange("current.credits", e.target.value, false)
                          this.validate(
                              this.renderObject('current.credits'),
                              "credits"
                          )
                        }}
-                       isValid={this.state.inputState.credits.validated !== undefined ? this.state.inputState.credits.validated : false}
-                       isInvalid={this.state.inputState.credits.validated !== undefined ? !this.state.inputState.credits.validated : false}
+                       isValid={this.props.inputState.credits && this.props.inputState.credits.validated !== undefined ? this.props.inputState.credits.validated : false}
+                       isInvalid={this.props.inputState.credits && this.props.inputState.credits.validated !== undefined ? !this.props.inputState.credits.validated : false}
           />
 
-          {this.state.inputState.credits.validated !== undefined ?
-              <Form.Control.Feedback type={this.state.inputState.credits.validated ? "valid" : "invalid"}>{this.state.inputState.credits.message}</Form.Control.Feedback>
+          {this.props.inputState.credits && this.props.inputState.credits.validated !== undefined ?
+              <Form.Control.Feedback type={this.props.inputState.credits.validated ? "valid" : "invalid"}>{this.props.inputState.credits.message}</Form.Control.Feedback>
               : ""
           }
         </FormGroup>

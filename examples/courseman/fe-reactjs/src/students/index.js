@@ -65,14 +65,17 @@ class StudentMainView extends BaseMainForm {
   }
 
   renderMenu() {
-    return (<AccordionSearchableMenu modules={students} controlling={this}/>
+    // create a getMenu() function
+    return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
     )
   }
 
   renderForm() {
     return <StudentForm {...this.props} {...this.state}
     handleStateChange={this.handleStateChange.bind(this)}
-    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })} />;
+    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })}
+    mainForm={this}
+    />;
   }
 
   // renderSubmodules() {
