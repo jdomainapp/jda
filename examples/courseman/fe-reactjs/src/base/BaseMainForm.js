@@ -13,7 +13,7 @@ import StructureConstructor  from "../patterns/accordion";
 
 import 'bootstrap/dist/css/bootstrap.css';
 
-import { Typeahead } from 'react-bootstrap-typeahead';
+import AutoCompleteSearch from "../common/AutoCompleteSearch";
 
 export default class BaseMainForm extends React.Component {
   constructor(props) {
@@ -22,9 +22,6 @@ export default class BaseMainForm extends React.Component {
       current: {}, // list or single object
       viewType: props.viewType ? props.viewType : "create", // create | details | browse (list) | submodule
       currentId: undefined, // filtered ID
-      searchInput: undefined, // input for search box
-      itemOffSet: 0,
-      numRowsPerPage: 6,
       displayingContent: Array(),
       readySubmit: false,
       inputState: {},
@@ -60,8 +57,6 @@ export default class BaseMainForm extends React.Component {
     this.handleDeepStateChange = this.handleDeepStateChange.bind(this);
     this.updateCurrentObjectState = this.updateCurrentObjectState.bind(this);
     this.partialApplyWithCallbacks = this.partialApplyWithCallbacks.bind(this);
-    this.handleOnSearch = this.handleOnSearch.bind(this)
-    this.handleOnSelect = this.handleOnSelect.bind(this)
   }
 
   // lifecycle
@@ -89,15 +84,20 @@ export default class BaseMainForm extends React.Component {
   }
 
   addSubForm(subForm) {
-    if(subForm && this.state.subForms.indexOf(subForm) === -1) {
+    const currentIndex = this.state.subForms.indexOf(subForm)
+    if(subForm && currentIndex === -1) {
       this.state.subForms.push(subForm)
+    } else if (currentIndex !== -1) {
+      this.state.subForms[currentIndex] = subForm
+      console.log(currentIndex)
+      console.log(this.state.subForms)
     }
   }
 
   getSubForm(subFormId) {
-    // if subform .id has dash then call getSubFormId() from target and recursive call else v
+    // size of state.subForms increase when switching between views -> should reset state.subForm somewhere
     var res = Array()
-    for(var i = 0; i < this.state.subForms.length; i++) {
+    for(var i = this.state.subForms.length - 1; i >= 0 ; i--) {
       if(this.state.subForms[i].props.id === subFormId) {
         res.push(this.state.subForms[i])
         break
@@ -113,7 +113,6 @@ export default class BaseMainForm extends React.Component {
   }
 
   componentDidUpdate() {
-    // console.log(this.state.subForms)
   }
 
   // methods for view logic
@@ -223,7 +222,7 @@ export default class BaseMainForm extends React.Component {
           (result) => {
             if(result.content && result.content.constructor === Array) {
               newState[stateObjName] = result;
-              newState["displayingContent"] = result.content.slice(this.state.itemOffSet, this.state.itemOffSet + this.state.numRowsPerPage);
+              newState["displayingContent"] = result.content;
             } else {
               newState[stateObjName] = result;
             }
@@ -401,47 +400,23 @@ export default class BaseMainForm extends React.Component {
     </>);
   }
 
-
-  formatResult(item) {
-    return (
-        <>
-          <span style={{ display: 'block', textAlign: 'left' }}>id: {item.id}</span>
-          <span style={{ display: 'block', textAlign: 'left' }}>code: {item.code}</span>
-          <span style={{ display: 'block', textAlign: 'left' }}>name: {item.name}</span>
-        </>
-    )
-  }
-  handleOnSearch(string, results) {
-    if(results.length != 0) {
-      // this.handleStateChange("current.content",results)
-      // this.handleStateChange("displayingContent",results.slice(this.state.itemOffSet, this.state.itemOffSet + this.state.numRowsPerPage))
-    }
+  getSearchLabel() {
+    return "name"
   }
 
-  handleOnSelect(item) {
-    this.handleStateChange("viewType", "details")
-    this.handleStateChange(
-        "currentId", item[0].id, true);
+  getSearchFields() {
+    return []
   }
 
   renderSearchInput() {
     return (<>
       <Form.Group>
-        <Typeahead
-            ref={this.searchRef}
+        <AutoCompleteSearch
             id="search"
-            labelKey="name"
-            filterBy={['code', 'name', 'description']}
-            onChange={this.handleOnSelect}
-            options={this.state.current.content ? this.state.current.content : []}
-            placeholder="Search"
-            onKeyDown={e=>{
-              if(e.code === "Enter") {
-                this.handleStateChange("current.content", this.searchRef.current.items, false)
-                this.handleStateChange("displayingContent", this.searchRef.current.items.slice(this.state.itemOffSet, this.state.itemOffSet + this.state.numRowsPerPage), false)
-              }
-            }}
-            // selected={singleSelections}
+            getSearchLabel={this.getSearchLabel}
+            getSearchFields={this.getSearchFields}
+            source={this.state.current.content ? this.state.current.content : []}
+            handleStateChange={this.handleStateChange}
         />
       </Form.Group>
     </>);
@@ -463,7 +438,7 @@ export default class BaseMainForm extends React.Component {
       <Row className="mx-0 d-flex justify-content-between">
         {this.renderNavigationButtons()}
         <Col className="px-0 d-flex justify-content-end">
-          <Form className="d-flex justify-content-between" inline>
+          <Form className="d-flex justify-content-between">
             {this.renderTypeDropdown()}
             {this.renderIdInput()}
             {this.renderSearchInput()}
@@ -489,7 +464,7 @@ export default class BaseMainForm extends React.Component {
   render() {
     return (<>
       <Row>
-        {this.props.includeMenu === false ?
+        {this.props.includeMenu === false || this.state.viewType !== "create" ?
             <></>
         :
             <Col md={2}>

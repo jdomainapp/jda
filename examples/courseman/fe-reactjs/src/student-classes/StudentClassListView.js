@@ -12,7 +12,7 @@ export default class StudentClassListView extends BaseListView {
 
   }
   renderRows() {
-    const current = this.props.current.content;
+    const current = this.getPageContent();
       if (current instanceof Array) {
         return (<>
           {
