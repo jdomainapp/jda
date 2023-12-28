@@ -3,7 +3,7 @@ import {Col, Container, Row} from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navigation from './common/Navigation';
 @loop{importDomainModule}[[
-import {@slot{{moduleName}}Structure} from "./@slot{{moduleJnames}}/ModuleStructure"
+import {@slot{{moduleName}}Struct} from "./@slot{{moduleJnames}}/patterns/AccordionStruct"
 import Module@slot{{ModuleName}} from './@slot{{moduleJnames}}']]loop{importDomainModule}@
 import AccordionSearchableMenu from "./common/AccordionSearchableMenu";
 
@@ -36,7 +36,7 @@ export default class App extends React.Component {
           <br />
           <Container>
             <Switch>@loop{moduleRoutes}[[
-              <Route path='/@slot{{moduleJnames}}'><Module@slot{{ModuleName}} name="@slot{{moduleNames}}" structure={@slot{{moduleName}}Structure} title='Manage @slot{{Module__names}}' /></Route>]]loop{moduleRoutes}@
+              <Route path='/@slot{{moduleJnames}}'><Module@slot{{ModuleName}} name="@slot{{moduleNames}}" structure={@slot{{moduleName}}Struct} title='Manage @slot{{Module__names}}' /></Route>]]loop{moduleRoutes}@
               <Route path='/'>
                 <h3 className="text-center">{this.getWelcomeMessage()}</h3>
                 <br />

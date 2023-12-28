@@ -1,5 +1,13 @@
 <br />
-        <FormGroup {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}>
+        <FormGroup >
             <Form.Label>@slot{{fieldLabel}}</Form.Label>
-            <FormControl value={this.renderObject("current.@slot{{fieldName}}")} onChange={(e) => this.props.handleStateChange("current.@slot{{fieldName}}", e.target.value, false)}  type="@slot{{fieldType}}" @slot{{fieldOptions}} />
+            <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
+                      value={this.renderObject("current.@slot{{fieldName}}")}
+                      onChange={(e)=>{
+                                    this.props.handleTypeChange(e)
+                                   }}
+                      disabled={this.props.viewType !== "create"} custom
+                      isValid={this.props.inputState.id ? this.props.inputState.id.validated : false}
+                      isInvalid={this.props.inputState.id ? !this.props.inputState.id.validated : false}
+            type="@slot{{fieldType}}" />
         </FormGroup>
