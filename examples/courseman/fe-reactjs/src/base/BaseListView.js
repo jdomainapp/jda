@@ -30,6 +30,8 @@ export default class BaseListView extends React.Component {
       this.parentId = this.props.parentId;
       this.props.handleStateChange("current", result === "" ? {} : result);
     }
+    
+    console.log(this.props)
     if (this.props.parent && this.props.parentId) {
       this.props.parentAPI.getAllInner([
         this.props.mainAPI.objectNamePlural, this.props.parentId, onApiCallDone])

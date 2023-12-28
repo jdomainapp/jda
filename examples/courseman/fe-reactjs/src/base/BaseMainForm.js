@@ -87,10 +87,6 @@ export default class BaseMainForm extends React.Component {
     const currentIndex = this.state.subForms.indexOf(subForm)
     if(subForm && currentIndex === -1) {
       this.state.subForms.push(subForm)
-    } else if (currentIndex !== -1) {
-      this.state.subForms[currentIndex] = subForm
-      console.log(currentIndex)
-      console.log(this.state.subForms)
     }
   }
 
@@ -234,6 +230,7 @@ export default class BaseMainForm extends React.Component {
     }
   }
   handleDeepStateChange(outerName, innerName, newValue, needsApiCall, onDone) {
+
     let outer = this.state[outerName]; outer[innerName] = newValue;
     let newState = {}; newState[outerName] = outer;
     // ignoring `needsApiCall` for simplicity
