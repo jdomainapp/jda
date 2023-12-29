@@ -6,6 +6,7 @@ import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
 import jda.modules.mosarfrontend.common.utils.NewMCC;
 import jda.modules.sccl.syntax.SystemDesc;
+import lombok.Data;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Data
 public class ParamsFactory {
     private String TEMPLATE_ROOT_FOLDER;
     private jda.modules.mosar.config.RFSGenConfig rfsGenConfig;
@@ -65,10 +67,11 @@ public class ParamsFactory {
         this.currentField = field;
     }
 
+
     public String[] setRFSGenConfig(jda.modules.mosar.config.RFSGenConfig rfsGenConfig) {
         Class<?>[] mccClasses = rfsGenConfig.getMCCFuncs();
         this.rfsGenConfig = rfsGenConfig;
-        this.domains = Arrays.stream(mccClasses).map(NewMCC::readMCC).collect((Collectors.toMap(k -> k.getModuleDescriptor().modelDesc().model().getSimpleName(), k -> k)));
+        this.domains = Arrays.stream(mccClasses).map(NewMCC::readMCC).collect((Collectors.toMap(k -> k.getKey(), k -> k)));
         // link domain to field in each dField
         for (String domainName : this.domains.keySet()) {
             Domain domain = this.domains.get(domainName);
@@ -124,14 +127,14 @@ public class ParamsFactory {
     @RequiredParam.ModulesName
     public String[] getModulesName() {
         if (modulesName == null) {
-            modulesName = domains.values().stream().map(m -> m.getModuleDescriptor().modelDesc().model().getSimpleName()).toArray(String[]::new);
+            modulesName = domains.values().stream().map(m -> m.getKey()).toArray(String[]::new);
         }
         return modulesName;
     }
 
     @RequiredParam.ModuleName
     public String getModuleName() {
-        return this.currentNewMCC.getModuleDescriptor().modelDesc().model().getSimpleName();
+        return this.currentNewMCC.getKey();
     }
 
     @RequiredParam.ModuleFields
@@ -197,6 +200,13 @@ public class ParamsFactory {
 
     public void setTEMPLATE_ROOT_FOLDER(String TEMPLATE_ROOT_FOLDER) {
         this.TEMPLATE_ROOT_FOLDER = TEMPLATE_ROOT_FOLDER;
+    }
+
+    private String parentKey;
+
+    @RequiredParam.ParentModuleKey
+    public String getParentKey() {
+        return this.parentKey;
     }
 }
 

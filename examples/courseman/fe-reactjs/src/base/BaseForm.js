@@ -8,6 +8,11 @@ export default class BaseForm extends React.Component {
     this.renderForm = this.renderForm.bind(this);
     this.renderTitle = this.renderTitle.bind(this);
     this.renderListView = this.renderListView.bind(this);
+
+  }
+
+  componentDidMount() {
+    this.props.handleStateChange("inputState", this.getInputState(), false)
   }
 
   // methods for handling view data flow
@@ -16,6 +21,42 @@ export default class BaseForm extends React.Component {
   handleSubmit() {
     this.props.handleSubmit([this.getSubmitBody()]);
     this.resetState();
+  }
+
+  getInputState() {
+    return {}
+  }
+
+  async validate(value, name) {
+    var newInputState = this.props.inputState
+    if(newInputState[name]) {
+      if(newInputState[name].regex.test(value)) {
+        newInputState[name].validated = true
+        newInputState[name].message = newInputState[name].validMsg
+      } else {
+        newInputState[name].validated = false
+        newInputState[name].message = newInputState[name].invalidMsg
+      }
+  
+      await this.props.handleStateChange("inputState", newInputState, false)
+    }
+
+    var formValidated = true
+    Object.entries(newInputState).forEach((val) => {
+      if(formValidated) {
+        if (val[1].optional) {
+          if (val[1].validated === false) {
+            formValidated = false
+          }
+        } else {
+          if (val[1].validated === false || val[1].validated === undefined) {
+            formValidated = false
+          }
+        }
+      }
+    })
+
+    this.props.handleStateChange("readySubmit", formValidated, false)
   }
 
   renderObject(propPath) {
@@ -61,6 +102,7 @@ export default class BaseForm extends React.Component {
   renderForm() { }
   renderListView() { }
   render() {
+    if(this.props.structure) this.props.structure.resetItr()
     return (<>
       {this.renderForm()}
     </>);

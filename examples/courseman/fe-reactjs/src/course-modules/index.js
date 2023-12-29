@@ -7,6 +7,7 @@ import BaseMainForm from "../base/BaseMainForm";
 import CourseModuleListView from "./CourseModuleListView";
 import CourseModuleForm from "./CourseModuleForm";
 import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
+import {courseModules} from "../common/Constants";
 // {{ view.submodule.imports }}
 
 const courseModuleAPI = new BaseAPI("course-modules", providers.axios);
@@ -36,50 +37,13 @@ class CourseModuleMainView extends BaseMainForm {
     }
   }
 
-  getStructure() {
-    return {
-      fields: [
-        {
-          "endpoint": "#type", "name": "Type",
-        },
-        {
-          "endpoint": "#id", "name": "ID"
-        },
-        {
-          "endpoint": "#code", "name": "Code"
-        },
-        {
-          "endpoint": "#name", "name": "Name"
-        },
-        {
-          "endpoint": "#semester", "name": "Semester"
-        },
-        {
-          "endpoint": "#cost", "name": "Cost"
-        },
-        {
-          "endpoint": "#rating", "name": "Rating"
-        },
-        {
-          "endpoint": "#description", "name": "Description"
-        },
-        {
-          "endpoint": "#credit", "name": "Credit"
-        }
-      ],
-      "subItem": []
-    }
+  
+  getSearchLabel() {
+    return "name"
   }
 
-  renderMenu() {
-    return (
-        <>
-          <h2>Fields</h2>
-          <AccordionSearchableMenu modules={this.getStructure().fields}/>
-          <h2>Sub-modules</h2>
-          <AccordionSearchableMenu modules={this.getStructure().subItem}/>
-        </>
-    )
+  getSearchFields() {
+    return ["code", "name", "description"]
   }
 
   getPossibleTypes() {
@@ -101,10 +65,17 @@ class CourseModuleMainView extends BaseMainForm {
     partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
   }
 
+  renderMenu() {
+    return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
+    )
+  }
+
   renderForm() {
     return <CourseModuleForm {...this.props} {...this.state}
-    handleStateChange={this.handleStateChange.bind(this)}
-    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })} />;
+      setReadySubmit={this.setReadySubmit}
+      handleStateChange={this.handleStateChange.bind(this)}
+      handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })}
+      mainForm={this} />;
   }
 
   // renderSubmodules() {

@@ -29,6 +29,11 @@ public class SubmoduleGen extends BaseModuleGen {
         return NameFormatter.module_names(field.getLinkedDomain().getDomainClass().getSimpleName());
     }
 
+    @SlotReplacement(id = "linkedModule")
+    public String linkedModule(@RequiredParam.ModuleField DField field) {
+        return NameFormatter.moduleName(field.getLinkedDomain().getDomainClass().getSimpleName());
+    }
+
     @SlotReplacement(id = "excludeFields")
     public String excludeFields(@RequiredParam.ModuleField DField field, @RequiredParam.ModuleName String moduleName) {
         StringBuilder exclude = new StringBuilder();

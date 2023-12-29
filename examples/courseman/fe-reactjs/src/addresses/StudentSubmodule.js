@@ -4,6 +4,6 @@ import StudentModule from "../students";
 
 export default class StudentSubmodule extends BaseSubmodule {
   renderModule(props) {
-    return (<StudentModule {...props} excludes={["address"]} />);
+    return (<StudentModule {...props} id="" name="" subWrapper={this} includeMenu={false} excludes={["address"]} />);
   }
 }

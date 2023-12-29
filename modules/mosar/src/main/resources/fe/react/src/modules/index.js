@@ -1,10 +1,11 @@
+import React from "react";
 import BaseAPI from "../base/BaseAPI";
 import providers from "../common/BackendApiProviders";
 
 import BaseMainForm from "../base/BaseMainForm";
-import @slot{{ModuleName}}Form from "./@slot{{ModuleName}}Form";
 import @slot{{ModuleName}}ListView from "./@slot{{ModuleName}}ListView";
-
+import @slot{{ModuleName}}Form from "./@slot{{ModuleName}}Form";
+import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
 const @slot{{moduleName}}API = new BaseAPI("@slot{{moduleJnames}}", providers.axios);
 @loop{linkedModuleApi}[[
 const @slot{{linkedDomain}}API = new BaseAPI("@slot{{linkedJdomains}}", providers.axios);]]loop{linkedModuleApi}@
@@ -40,7 +41,7 @@ class @slot{{ModuleName}}MainView extends BaseMainForm {
   renderTitle() {
     return (
       <>
-        <h2 className="text-center">Form: @slot{{ModuleName}}</h2>
+        <h2 className="text-center">Manage @slot{{ModuleName}}</h2>
       </>
     );
   }
@@ -52,10 +53,17 @@ class @slot{{ModuleName}}MainView extends BaseMainForm {
     partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
   }
 
+    renderMenu() {
+      return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
+      )
+    }
+
   renderForm() {
     return <@slot{{ModuleName}}Form {...this.props} {...this.state}
+    setReadySubmit={this.setReadySubmit}
     handleStateChange={this.handleStateChange.bind(this)}
-    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })} />;
+    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })}
+    mainForm={this} />;
   }
 
 }
