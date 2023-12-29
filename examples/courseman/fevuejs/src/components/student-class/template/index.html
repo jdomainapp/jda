@@ -53,26 +53,21 @@
     </div>
     <br />
     <div class="tab-content">
-        <!-- <div>
-            <form-add
-                v-if="store.display == 1"
-                v-bind:parentData="dataSubForm"
-            ></form-add>
-        </div> -->
         <div>
             <form-add
-                v-if="store.display == 2"
+                v-if="display == 1"
                 v-bind:parentData="dataSubForm"
             ></form-add>
         </div>
-        <!--
-            Nguyen Dang Duc Anh: Why we have 3 div with 2 divs
-            has the same value except display = 1 or 2. Can I
-            rewrite like above without breaking the code?
-        -->
+        <div>
+            <form-add
+                v-if="display == 2"
+                v-bind:parentData="dataSubForm"
+            ></form-add>
+        </div>
         <div>
             <form-list
-                v-if="store.display == 3"
+                v-if="display == 3"
                 v-bind:parentData="dataSubForm"
                 @data="setData"
             ></form-list>
