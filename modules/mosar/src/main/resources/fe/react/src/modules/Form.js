@@ -41,8 +41,8 @@ export default class @slot{{ModuleName}}Form extends BaseForm {
 
   @if{hasDateRange2}((
   async handleDateRangeSelect(ranges, rangeID) {
-    this.props.handleStateChange(`current.\${RangeIDMap[rangeID].start}`, ranges.selection.startDate, false)
-    this.props.handleStateChange(`current.\${RangeIDMap[rangeID].end}`, ranges.selection.endDate, false)
+    this.props.handleStateChange(`current.\${RangeIDMap[rangeID].start}`, format(ranges.selection.startDate,'yyyy-MM-dd'), false)
+    this.props.handleStateChange(`current.\${RangeIDMap[rangeID].end}`, format(ranges.selection.endDate,'yyyy-MM-dd'), false)
   }
   ))if{hasDateRange2}@
 

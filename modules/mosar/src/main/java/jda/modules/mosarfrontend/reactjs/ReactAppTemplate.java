@@ -2,7 +2,11 @@ package jda.modules.mosarfrontend.reactjs;
 
 import jda.modules.mosarfrontend.common.anotation.template_desc.*;
 import jda.modules.mosarfrontend.reactjs.src.AppGen;
-import jda.modules.mosarfrontend.reactjs.src.modules.*;
+import jda.modules.mosarfrontend.reactjs.src.modules.FormGen;
+import jda.modules.mosarfrontend.reactjs.src.modules.ListViewGen;
+import jda.modules.mosarfrontend.reactjs.src.modules.SubmoduleGen;
+import jda.modules.mosarfrontend.reactjs.src.modules.indexGen;
+import jda.modules.mosarfrontend.reactjs.src.modules.patterns.AccordionStructGen;
 
 @AppTemplateDesc(
         resource = "fe/react/resources_f59.zip",
@@ -26,13 +30,13 @@ import jda.modules.mosarfrontend.reactjs.src.modules.*;
                         genClasses = {FormGen.class}
                 ),
                 Main = @ComponentGenDesc(
-                        genClasses = {indexGen.class, ModuleStructureGen.class}
+                        genClasses = {indexGen.class}
                 ),
                 Entity = @ComponentGenDesc(
                         genClasses = {}
                 ),
                 Ext = @ComponentGenDesc(
-                        genClasses = {}
+                        genClasses = {AccordionStructGen.class}
                 )
         ),
         moduleFieldTemplates = @ModuleFieldTemplateDesc(

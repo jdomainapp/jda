@@ -93,7 +93,7 @@ public class FormGen extends BaseModuleGen {
     }
 
     @LoopReplacement(id = "formInputs")
-    public Slot[][] formInputs(@RequiredParam.ModuleFields DField[] dFields, @RequiredParam.RFSGenConfig RFSGenConfig genConfig, @RequiredParam.TemplateFolder String templateFolder) {
+    public Slot[][] formInputs(@RequiredParam.ModuleFields DField[] dFields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : dFields) {
             ParamsFactory.getInstance().setCurrentModuleField(field);
@@ -104,18 +104,18 @@ public class FormGen extends BaseModuleGen {
                     System.out.println("Specific Input");
                     switch (field.getAttributeDesc().inputType()) {
                         case Rating:
-                            inputCode = (new FileFactory(RatingInputGen.class, genConfig.getFeOutputPath(), templateFolder)).genFile(false);
+                            inputCode = (new FileFactory(RatingInputGen.class)).genFile(false);
                             break;
                         case DateRangeStart:
-                            inputCode = (new FileFactory(DateRangeInputGen.class, genConfig.getFeOutputPath(), templateFolder)).genFile(false);
+                            inputCode = (new FileFactory(DateRangeInputGen.class)).genFile(false);
                             break;
                     }
                 } else if (field.getEnumValues() != null) {
-                    inputCode = (new FileFactory(EnumInputGen.class, genConfig.getFeOutputPath(), templateFolder)).genFile(false);
+                    inputCode = (new FileFactory(EnumInputGen.class)).genFile(false);
                 } else if (field.getDAssoc() != null) {
 
                 } else {
-                    inputCode = (new FileFactory(SimpleInputGen.class, genConfig.getFeOutputPath(), templateFolder)).genFile(false);
+                    inputCode = (new FileFactory(SimpleInputGen.class)).genFile(false);
                 }
             } catch (Exception e) {
             }
@@ -235,6 +235,9 @@ public class FormGen extends BaseModuleGen {
             return "";
         String template = "{this.props.excludes && this.props.excludes.includes(\"@slot{{moduleJnames}}\") ? \"\" : <>\n" +
                 "        <@slot{{LinkedDomain}}Submodule\n" +
+                "          {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} \n" +
+                "          ref={ref=>{this.props.mainForm.addSubForm(ref)}}\n" +
+                "          mainForm={this.props.mainForm}\n"+
                 "          mode='submodule'\n" +
                 "          viewType={this.props.viewType}\n" +
                 "          title=\"Form: @slot{{LinkedDomain}}\"\n" +
@@ -288,6 +291,9 @@ public class FormGen extends BaseModuleGen {
     String renderCompactSubmoduleView(DField field, String ModuleName) {
         if (field.getDAssoc().ascType() != DAssoc.AssocType.One2One) return "";
         String template = "<@slot{{LinkedDomain}}Submodule compact={true} mode='submodule'\n" +
+                "{...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}\n" +
+                "  ref={ref=>{this.props.mainForm.addSubForm(ref)}}\n" +
+                "  mainForm={this.props.mainForm}\n"+
                 "            viewType={this.props.viewType}\n" +
                 "            title=\"Form: @slot{{LinkedDomain}}\"\n" +
                 "            current={this.props.current.@slot{{fieldName}}}\n" +
