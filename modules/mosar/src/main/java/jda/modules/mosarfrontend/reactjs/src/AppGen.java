@@ -20,6 +20,14 @@ public class AppGen {
     public Slot[][] moduleRoutes(@RequiredParam.ModulesName String[] names) {
         return NameFormatter.getBasicDomainNameSlots(names);
     }
+    @LoopReplacement(id = "importModuleConfig")
+    public Slot[][] moduleConfigs(@RequiredParam.ModulesName String[] names) {
+        return NameFormatter.getBasicDomainNameSlots(names);
+    }
+    @LoopReplacement(id = "moduleMenu")
+    public Slot[][] moduleMenu(@RequiredParam.ModulesName String[] names) {
+        return NameFormatter.getBasicDomainNameSlots(names);
+    }
 
     @LoopReplacement(id = "importDomainModule")
     public Slot[][] importDomainModule(@RequiredParam.ModulesName String[] names) {

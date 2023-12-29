@@ -6,8 +6,6 @@ import lombok.Data;
 @Data
 public class NewMCC extends Domain {
     private ModuleDescriptor moduleDescriptor;
-
-
     public static NewMCC readMCC(Class<?> cls) {
         NewMCC newMCC = new NewMCC();
         newMCC.setModuleDescriptor(cls.getAnnotation(ModuleDescriptor.class));
@@ -21,6 +19,9 @@ public class NewMCC extends Domain {
         return newMCC;
     }
 
+    public String getKey(){
+        return this.getModuleDescriptor().modelDesc().model().getSimpleName();
+    }
     public ModuleDescriptor getModuleDescriptor() {
         return moduleDescriptor;
     }

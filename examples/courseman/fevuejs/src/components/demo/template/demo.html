@@ -6,7 +6,6 @@
     <date-range-picker
         ref="picker"
         v-model="dateRange"
-        :options="dateRangeOptions"
     >
         <template v-slot:input="picker" class="input_date">
             {{ picker.startDate | date }} - {{ picker.endDate | date }}

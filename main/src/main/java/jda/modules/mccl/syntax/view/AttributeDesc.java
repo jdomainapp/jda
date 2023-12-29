@@ -13,8 +13,11 @@ import jda.modules.common.CommonConstants;
 import jda.modules.common.types.Null;
 import jda.modules.common.types.properties.PropertyDesc;
 import jda.modules.common.types.properties.PropertyName;
+import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dcsl.syntax.Select;
+import jda.modules.dcsl.syntax.report.Input;
 import jda.modules.mccl.conceptmodel.view.StyleName;
+import jda.modules.mccl.syntax.InputTypes;
 import jda.modules.mccl.syntax.MCCLConstants;
 import jda.modules.mccl.syntax.ModuleDescriptor;
 import jda.modules.mccl.syntax.MCCLConstants.AlignmentX;
@@ -241,4 +244,10 @@ public @interface AttributeDesc {
    */
   /*v2.7.2: not used */
 //  public boolean loadBoundValues() default false;
+
+  /**
+   * use for declare special input field type
+   * linh.tq
+   */
+  public InputTypes inputType() default InputTypes.Undefined;
 }

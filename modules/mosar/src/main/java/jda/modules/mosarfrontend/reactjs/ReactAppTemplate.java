@@ -6,9 +6,10 @@ import jda.modules.mosarfrontend.reactjs.src.modules.FormGen;
 import jda.modules.mosarfrontend.reactjs.src.modules.ListViewGen;
 import jda.modules.mosarfrontend.reactjs.src.modules.SubmoduleGen;
 import jda.modules.mosarfrontend.reactjs.src.modules.indexGen;
+import jda.modules.mosarfrontend.reactjs.src.modules.patterns.AccordionStructGen;
 
 @AppTemplateDesc(
-        resource = "fe/react/resources.zip",
+        resource = "fe/react/resources_f59.zip",
         templateRootFolder = "fe/react",
         crossTemplates = @CrossTemplatesDesc(
                 Router = @ComponentGenDesc(
@@ -35,7 +36,7 @@ import jda.modules.mosarfrontend.reactjs.src.modules.indexGen;
                         genClasses = {}
                 ),
                 Ext = @ComponentGenDesc(
-                        genClasses = {}
+                        genClasses = {AccordionStructGen.class}
                 )
         ),
         moduleFieldTemplates = @ModuleFieldTemplateDesc(

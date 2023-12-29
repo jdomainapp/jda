@@ -6,7 +6,9 @@ export default class Enrolment {
         internalMark,
         examMark,
         finalGrade,
-        finalMark
+        finalMark,
+        startDate,
+        endDate
     ) {
         this.id = id;
         this.student = student;
@@ -15,6 +17,8 @@ export default class Enrolment {
         this.examMark = examMark;
         this.finalGrade = finalGrade;
         this.finalMark = finalMark;
+        this.startDate = startDate
+        this.endDate = endDate
     }
 
     setStudent(student) {

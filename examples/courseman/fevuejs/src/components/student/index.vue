@@ -1,5 +1,7 @@
 <template src="./template/index.html"></template>
 <script>
+// import { store, mutations } from "../../constants/store";
+
     export default {
         props: {
             parentData:Object

@@ -18,8 +18,7 @@ export default class EnrolmentListView extends BaseListView {
 
   }
   renderRows() {
-    // const current = this.props.current.content;
-    const current = this.props.displayingContent;
+    const current = this.getPageContent();
       if (current instanceof Array) {
         return (<>
           {

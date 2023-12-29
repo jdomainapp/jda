@@ -35,10 +35,11 @@ public class FileFactory {
     private final Map<Class<? extends Annotation>, ArrayList<Method>> handlerMapByAnnotation = new HashMap<>();
     private final Map<Class<? extends Annotation>, Method> actionMapByAnnotation = new HashMap<>();
 
-    public FileFactory(Class<?> fileTemplateDesc, String feOutputPath, String templateFolder) {
+    public FileFactory(Class<?> fileTemplateDesc) {
         this.fileTemplateDesc = fileTemplateDesc;
-        this.outPutFolder = feOutputPath;
-        this.templateRootFolder = templateFolder;
+        this.outPutFolder = ParamsFactory.getInstance().getRFSGenDesc().getFeOutputPath();
+        this.templateRootFolder = ParamsFactory.getInstance().getTEMPLATE_ROOT_FOLDER();
+//        this.templateRootFolder = templateFolder;
         for (Method declaredMethod : this.getClass().getDeclaredMethods()) {
             Annotation[] annotations = declaredMethod.getDeclaredAnnotations();
             if (annotations.length > 0) {
@@ -80,7 +81,6 @@ public class FileFactory {
         this.fileContent = getTemplate(this.fileTemplate.templateFile());
         // init default properties of file ( ext, name, path)
         initDefaultFileInfo();
-
     }
 
     @WithFileName
@@ -180,14 +180,14 @@ public class FileFactory {
         for (String id : ids) {
             Pattern pattern = regexUtils.createIfRegex(id);
             Matcher matcher = pattern.matcher(this.fileContent);
-                if (matcher.find()) {
-                    if (Boolean.FALSE.equals(MethodUtils.execute(this.handler, conditionMethod, Boolean.class))) {
-                        this.fileContent = matcher.replaceAll("");
-                    } else {
-                        String content = matcher.group(2);
-                        this.fileContent = matcher.replaceAll(content);
-                    }
+            if (matcher.find()) {
+                if (Boolean.FALSE.equals(MethodUtils.execute(this.handler, conditionMethod, Boolean.class))) {
+                    this.fileContent = matcher.replaceAll("");
+                } else {
+                    String content = matcher.group(2);
+                    this.fileContent = matcher.replaceAll(content);
                 }
+            }
         }
         return false;
     }
@@ -271,33 +271,36 @@ public class FileFactory {
 
     }
 
-    public String genFile(boolean saveFileAfterDone) throws Exception {
-        this.handler = this.fileTemplateDesc.getConstructor().newInstance();
-        if (!fileTemplateDesc.isAnnotationPresent(FileTemplateDesc.class)) {
-            throw new Exception("The class is not TemplateHandler (without @TemplateHandler annotation)");
-        } else {
-            this.fileTemplate = fileTemplateDesc.getAnnotation(FileTemplateDesc.class);
-            // init template handler methods
-            Method[] methods = this.fileTemplateDesc.getMethods();
-            // Reverse array to ensure the last method (have same annotation with previous declared method) will be executed last
-            Collections.reverse(Arrays.asList(methods));
-            for (Method method : methods) {
-                Annotation[] annotations = method.getDeclaredAnnotations();
-                for (Annotation annotation : annotations) {
-                    this.handlerMapByAnnotation.computeIfAbsent(annotation.annotationType(), k -> new ArrayList<>()); // init new if not exits
-                    ArrayList<Method> listMethod = this.handlerMapByAnnotation.get(annotation.annotationType());
-                    listMethod.add(method);
+    public String genFile(boolean saveFileAfterDone) {
+        try {
+            this.handler = this.fileTemplateDesc.getConstructor().newInstance();
+            if (!fileTemplateDesc.isAnnotationPresent(FileTemplateDesc.class)) {
+
+                throw new Exception("The class is not TemplateHandler (without @TemplateHandler annotation)");
+
+            } else {
+                this.fileTemplate = fileTemplateDesc.getAnnotation(FileTemplateDesc.class);
+                // init template handler methods
+                Method[] methods = this.fileTemplateDesc.getMethods();
+                // Reverse array to ensure the last method (have same annotation with previous declared method) will be executed last
+                Collections.reverse(Arrays.asList(methods));
+                for (Method method : methods) {
+                    Annotation[] annotations = method.getDeclaredAnnotations();
+                    for (Annotation annotation : annotations) {
+                        this.handlerMapByAnnotation.computeIfAbsent(annotation.annotationType(), k -> new ArrayList<>()); // init new if not exits
+                        ArrayList<Method> listMethod = this.handlerMapByAnnotation.get(annotation.annotationType());
+                        listMethod.add(method);
+                    }
                 }
+
+                initFileTemplate();
+                updateFileContent(saveFileAfterDone);
+                return this.fileContent;
             }
-
-            initFileTemplate();
-            updateFileContent(true);
-            return this.fileContent;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
         }
-    }
-
-    public String genAndGetContent() throws Exception {
-        return genFile(false);
     }
 }
 

@@ -90,7 +90,7 @@ public class AppFactory {
                 for (Class<?> genClass : componentGenDesc.genClasses()) {
                     // System.out.println(genClass);
                     try {
-                        (new FileFactory(genClass, rfsGenConfig.getFeOutputPath(), templateFolder)).genFile(true);
+                        (new FileFactory(genClass)).genFile(true);
                         if (callback != null)
                             callback.gen();
                     } catch (Exception e) {

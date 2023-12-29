@@ -23,16 +23,19 @@ export default class StudentClassForm extends BaseForm {
 <br />
 <FormGroup>
   <Form.Label>Id</Form.Label>
-  <FormControl type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} disabled />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} disabled />
 </FormGroup>
 <br />
 <FormGroup>
   <Form.Label>Name</Form.Label>
-  <FormControl type="text" value={this.renderObject("current.name")} onChange={(e) => this.props.handleStateChange("current.name", e.target.value, false)}  />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.name")} onChange={(e) => this.props.handleStateChange("current.name", e.target.value, false)}  />
 </FormGroup>
 <br />
 {this.props.excludes && this.props.excludes.includes("student-classes") ? "" : <>
 <StudentSubmodule
+  {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
+  ref={ref=>{this.props.mainForm.addSubForm(ref)}}
+  mainForm={this.props.mainForm}
   mode='submodule'
   viewType={this.props.viewType}
   title="Form: Student"
