@@ -89,6 +89,9 @@ class CustomAccordionItem extends React.Component {
     }
 }
 
+// providers: array of AccordionProviders
+// registerProvider(p: AccordionProvider)
+// forall p: providers...call p.actionX()
 class AccordionSearchableMenu extends React.Component {
     constructor(props) {
         super(props);

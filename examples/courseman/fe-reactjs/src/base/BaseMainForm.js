@@ -461,6 +461,17 @@ export default class BaseMainForm extends React.Component {
 
   }
 
+ // todo: ducmle
+ readPatternMains() {
+    return PatternMain[]...
+ }
+
+ // todo: ducmle
+ onRenderRegion(region, args) {
+    // for each PatternMain m: index.patternMains
+    //    m.s.onRender(region, this)
+ }
+
   render() {
     return (<>
       <Row>
@@ -468,6 +479,8 @@ export default class BaseMainForm extends React.Component {
             <></>
         :
             <Col md={2}>
+              // todo: ducmle
+              // this.onRenderRegion(Menu, this)
               {this.renderMenu()}
             </Col>
         }

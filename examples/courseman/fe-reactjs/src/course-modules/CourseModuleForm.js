@@ -180,7 +180,12 @@ export default class CourseModuleForm extends BaseForm {
         <br />
         <FormGroup>
           <Form.Label>Semester</Form.Label>
+
+          // todo: ducmle
+          <FormControl {this.props.mainForm.onRenderRegion(MenuItem, ["semester"])}.../>
+          // todo: ducmle (adapt this)
           <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.semester")} onChange={(e) => this.props.handleStateChange("current.semester", e.target.value, false)}  />
+
         </FormGroup>
         <br />
         <Carousel>

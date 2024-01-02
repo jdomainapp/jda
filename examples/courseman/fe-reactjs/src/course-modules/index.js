@@ -65,6 +65,15 @@ class CourseModuleMainView extends BaseMainForm {
     partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
   }
 
+ // todo: ducmle
+  initPatterns() {
+    // read pattern config...
+    // for each pattern in config
+    //   ...call PatternMain.init()
+    // add m to mains: PatternMain[]
+  }
+
+  // todo: ducmle (remove this)
   renderMenu() {
     return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
     )
