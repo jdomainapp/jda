@@ -23,7 +23,7 @@ export default class AddressForm extends BaseForm {
 <br />
 <FormGroup>
   <Form.Label>Id</Form.Label>
-  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} disabled />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} readOnly />
 </FormGroup>
 <br />
 <FormGroup>
@@ -37,7 +37,7 @@ export default class AddressForm extends BaseForm {
 </Col>
 <Col md={7} className='px-0'>
     <Form.Label>Student</Form.Label>
-  <FormControl type="text" value={this.renderObject("current.student")} onChange={(e) => this.props.handleStateChange("current.student", e.target.value, false)} disabled />
+  <FormControl type="text" value={this.renderObject("current.student")} onChange={(e) => this.props.handleStateChange("current.student", e.target.value, false)} readOnly />
 </Col>
 <StudentSubmodule 
   {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} 

@@ -23,7 +23,7 @@ export default class StudentClassForm extends BaseForm {
 <br />
 <FormGroup>
   <Form.Label>Id</Form.Label>
-  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} disabled />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} readOnly />
 </FormGroup>
 <br />
 <FormGroup>

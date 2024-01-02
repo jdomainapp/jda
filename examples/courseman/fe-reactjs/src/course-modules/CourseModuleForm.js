@@ -128,16 +128,17 @@ export default class CourseModuleForm extends BaseForm {
         <FormGroup>
           <Form.Label>Type</Form.Label>
           <Form.Control
+              onFocus={()=>{this.props.mainForm.handleElementFocus()}} 
               {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
               as="select" value={this.renderObject('current.type')}
               onChange={(e)=>{
                 this.props.handleTypeChange(e)
                }}
-              disabled={this.props.viewType !== "create"} custom
+              readOnly={this.props.viewType !== "create"} custom
               isValid={this.props.inputState.id ? this.props.inputState.id.validated : false}
               isInvalid={this.props.inputState.id ? !this.props.inputState.id.validated : false}
           >
-            <option value='' disabled selected>&lt;Please choose one&gt;</option>
+            <option value='' readOnly selected>&lt;Please choose one&gt;</option>
             <option value="compulsory">compulsory</option>
             <option value="elective">elective</option>
           </Form.Control>
@@ -149,12 +150,12 @@ export default class CourseModuleForm extends BaseForm {
         <br />
         <FormGroup>
           <Form.Label>Id</Form.Label>
-          <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} disabled />
+          <FormControl onFocus={()=>{console.log("ID focused")}} onSelect={()=>{console.log("ID focused")}} {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} readOnly />
         </FormGroup>
         <br />
         <FormGroup>
           <Form.Label>Code</Form.Label>
-          <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.code")} onChange={(e) => this.props.handleStateChange("current.code", e.target.value, false)} disabled />
+          <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.code")} onChange={(e) => this.props.handleStateChange("current.code", e.target.value, false)} readOnly />
         </FormGroup>
         <br />
         <FormGroup>
@@ -304,20 +305,20 @@ export default class CourseModuleForm extends BaseForm {
       case 'elective': return (<><Form>
         <FormGroup>
           <Form.Label>Type</Form.Label>
-          <Form.Control as="select" value={this.renderObject('current.type')} onChange={this.props.handleTypeChange} disabled={this.props.viewType !== "create"} custom>
-            <option value='' disabled selected>&lt;Please choose one&gt;</option>
+          <Form.Control as="select" value={this.renderObject('current.type')} onChange={this.props.handleTypeChange} readOnly={this.props.viewType !== "create"} custom>
+            <option value='' readOnly selected>&lt;Please choose one&gt;</option>
             <option value="compulsory">compulsory</option>
             <option value="elective">elective</option>  </Form.Control>
         </FormGroup>
         <br />
         <FormGroup>
           <Form.Label>Id</Form.Label>
-          <FormControl type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} disabled />
+          <FormControl type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} readOnly />
         </FormGroup>
         <br />
         <FormGroup>
           <Form.Label>Code</Form.Label>
-          <FormControl type="text" value={this.renderObject("current.code")} onChange={(e) => this.props.handleStateChange("current.code", e.target.value, false)} disabled />
+          <FormControl type="text" value={this.renderObject("current.code")} onChange={(e) => this.props.handleStateChange("current.code", e.target.value, false)} readOnly />
         </FormGroup>
         <br />
         <FormGroup>

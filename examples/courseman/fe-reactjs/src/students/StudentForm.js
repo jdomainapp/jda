@@ -25,7 +25,7 @@ export default class StudentForm extends BaseForm {
 <br />
 <FormGroup>
   <Form.Label>Id</Form.Label>
-  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} disabled />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} readOnly />
 </FormGroup>
 <br />
 <FormGroup>
@@ -36,7 +36,7 @@ export default class StudentForm extends BaseForm {
 <FormGroup>
   <Form.Label>Gender</Form.Label>
   <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} as="select" value={this.renderObject("current.gender")} onChange={(e) => this.props.handleStateChange("current.gender", e.target.value, false)} custom  >
-    <option value='' disabled selected>&lt;Please choose one&gt;</option>    <option value='Male'>Male</option>
+    <option value='' readOnly selected>&lt;Please choose one&gt;</option>    <option value='Male'>Male</option>
 <option value='Female'>Female</option>  </FormControl></FormGroup>
 <br />
 <FormGroup>
@@ -50,7 +50,7 @@ export default class StudentForm extends BaseForm {
 </Col>
 <Col md={7} className='px-0'>
     <Form.Label>Address</Form.Label>
-  <FormControl type="text" value={this.renderObject("current.address")} onChange={(e) => this.props.handleStateChange("current.address", e.target.value, false)} disabled />
+  <FormControl type="text" value={this.renderObject("current.address")} onChange={(e) => this.props.handleStateChange("current.address", e.target.value, false)} readOnly />
 </Col><AddressSubmodule 
   {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
   ref={ref=>{this.props.mainForm.addSubForm(ref)}}
@@ -80,7 +80,7 @@ export default class StudentForm extends BaseForm {
 </Col>
 <Col md={9} className='px-0'>
     <Form.Label>Student class</Form.Label>
-  <FormControl type="text" value={this.renderObject("current.studentClass")} onChange={(e) => this.props.handleStateChange("current.studentClass", e.target.value, false)} disabled />
+  <FormControl type="text" value={this.renderObject("current.studentClass")} onChange={(e) => this.props.handleStateChange("current.studentClass", e.target.value, false)} readOnly />
 </Col></FormGroup></> }
 <br />{this.props.excludes && this.props.excludes.includes("students") ? "" : <>
       <EnrolmentSubmodule

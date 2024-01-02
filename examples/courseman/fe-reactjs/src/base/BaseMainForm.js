@@ -80,7 +80,7 @@ export default class BaseMainForm extends React.Component {
   }
 
   getSubFormIdFromTarget(id) {
-    return id.slice(0,id.lastIndexOf("-"))
+    return id.split("-")
   }
 
   addSubForm(subForm) {
@@ -456,6 +456,13 @@ export default class BaseMainForm extends React.Component {
 
   renderMenu() {
 
+  }
+
+  handleElementFocus() {
+    console.log(this.props.subWrapper)
+    if(this.props.subWrapper) {
+      this.props.subWrapper.handleExpand(true)
+    }
   }
 
   render() {

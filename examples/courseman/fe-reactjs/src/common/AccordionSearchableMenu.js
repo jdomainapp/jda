@@ -29,26 +29,43 @@ class CustomAccordionItem extends React.Component {
         if(this.props.controlling) {
             // analize id endpoint here...
             var subFormId = this.props.controlling.getSubFormIdFromTarget(this.props.module.endpoint)
+
+            var currentId = "#"
+            const focusElement = (i, ids) => {
+                setTimeout(()=>{
+                    currentId += (i == 0 ? '' : '-') + ids[i]
+                    window.location.href = currentId
+                },100)
+            }
+            for(var i = 0; i < subFormId.length; i ++) {
+                focusElement(i, subFormId)
+            }
+
+            // window.location.href = '#' + subFormId
     
             // expand sub module here if possible, implementing T.T
-            var subForm = this.props.controlling.getSubForm(subFormId)
+            // var subForm = this.props.controlling.getSubForm(subFormId)
 
-            if(subForm.length > 0) {
-                for(var i = 0; i < subForm.length; i++) {
-                    if(subForm[i] && subForm[i].state ) {
-                        if(i == subForm.length - 1) {
-                            if(subForm[i].state.expanded === false) {
-                                subForm[i].setOnEntered(()=>{setTimeout(()=>{window.location.href = '#' + this.props.module.endpoint}, 100)})
-                            } else {
-                                setTimeout(()=>{window.location.href = '#' + this.props.module.endpoint}, 400)
-                            }
-                        }
-                        subForm[i].handleExpand(true)
-                    } 
-                }
-            } else {
-                window.location.href = '#' + this.props.module.endpoint
-            }
+            // if(subForm.length > 0) {
+            //     for(var i = 0; i < subForm.length; i++) {
+            //         if(subForm[i] && subForm[i].state ) {
+            //             if(i == subForm.length - 1) {
+            //                 if(subForm[i].state.expanded === false) {
+            //                     subForm[i].setOnEntered(()=>{setTimeout(()=>{window.location.href = '#' + this.props.module.endpoint}, 100)})
+            //                 } else {
+            //                     setTimeout(()=>{window.location.href = '#' + this.props.module.endpoint}, 400)
+            //                 }
+            //             }
+            //             subForm[i].handleExpand(true)
+            //         } 
+            //     }
+            // } else {
+            //     window.location.href = '#' + this.props.module.endpoint
+            // }
+            // setTimeout(()=>{window.location.href = '#' + this.props.module.endpoint}, 100)
+            // window.location.href = '#' + this.props.module.endpoint
+            // console.log(document.getElementById(this.props.module.endpoint))
+            // document.getElementById(this.props.module.endpoint).focus()
         } else {
             window.location.href = this.props.module.endpoint
         }
