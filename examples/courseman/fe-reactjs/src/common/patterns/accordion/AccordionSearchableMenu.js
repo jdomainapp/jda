@@ -89,6 +89,7 @@ class CustomAccordionItem extends React.Component {
     }
 }
 
+// todo: ducmle
 // providers: array of AccordionProviders
 // registerProvider(p: AccordionProvider)
 // forall p: providers...call p.actionX()
