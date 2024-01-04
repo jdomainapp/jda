@@ -8,6 +8,8 @@ import CourseModuleListView from "./CourseModuleListView";
 import CourseModuleForm from "./CourseModuleForm";
 import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
 import {courseModules} from "../common/Constants";
+
+import AccordionConsumerMain from "./patterns/accordionConsumer";
 // {{ view.submodule.imports }}
 
 const courseModuleAPI = new BaseAPI("course-modules", providers.axios);
@@ -71,6 +73,8 @@ class CourseModuleMainView extends BaseMainForm {
     // for each pattern in config
     //   ...call PatternMain.init()
     // add m to mains: PatternMain[]
+    let accordionConsumer = new AccordionConsumerMain()
+    this.consumers.push(accordionConsumer.init(this))
   }
 
   // todo: ducmle (remove this)

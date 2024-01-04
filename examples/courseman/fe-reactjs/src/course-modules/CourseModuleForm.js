@@ -181,10 +181,8 @@ export default class CourseModuleForm extends BaseForm {
         <FormGroup>
           <Form.Label>Semester</Form.Label>
 
-          // todo: ducmle
-          <FormControl {this.props.mainForm.onRenderRegion(MenuItem, ["semester"])}.../>
-          // todo: ducmle (adapt this)
-          <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.semester")} onChange={(e) => this.props.handleStateChange("current.semester", e.target.value, false)}  />
+          {/* todo: ducmle (adapt this) + */}
+          <FormControl {...this.getConsumer("AccordionConsumerMain").onModelRegion({mainForm: mainForm, region: "menuItem"})} type="number" value={this.renderObject("current.semester")} onChange={(e) => this.props.handleStateChange("current.semester", e.target.value, false)}  />
 
         </FormGroup>
         <br />

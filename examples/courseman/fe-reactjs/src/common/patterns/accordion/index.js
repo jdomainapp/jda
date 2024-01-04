@@ -97,6 +97,7 @@ class CustomAccordionItem extends React.Component {
 class AccordionSearchableMenu extends React.Component {
     constructor(props) {
         super(props);
+        this.providers = Array()
         this.state = {
             modules: this.initializeRef(this.props.modules),
             first: this.props.isSub ? false : true
@@ -108,6 +109,11 @@ class AccordionSearchableMenu extends React.Component {
             this.ready = true;
             if(this.lastSearched != this.lastTyped)  this.setState({modules: this.handleSearch(this.lastTyped, this.props.modules)});
         },100);
+    }
+
+    registerProvider(provider) {
+        provider.pattern = this
+        this.providers.push(provider)
     }
 
     initializeRef(modules) {

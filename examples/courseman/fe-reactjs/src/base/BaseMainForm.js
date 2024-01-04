@@ -18,6 +18,7 @@ import AutoCompleteSearch from "../common/AutoCompleteSearch";
 export default class BaseMainForm extends React.Component {
   constructor(props) {
     super(props);
+    this.consumers = Array()
     this.state = {
       current: {}, // list or single object
       viewType: props.viewType ? props.viewType : "create", // create | details | browse (list) | submodule
@@ -472,6 +473,15 @@ export default class BaseMainForm extends React.Component {
     //    m.s.onRender(region, this)
  }
 
+ getConsumer(name) {
+  for(var i = 0; i < this.consumers.length; i++) {
+    if(this.consumers[i].constructor.name == name) {
+      return this.consumers[i]
+    }
+  }
+  return undefined
+ }
+
   render() {
     return (<>
       <Row>
@@ -479,9 +489,10 @@ export default class BaseMainForm extends React.Component {
             <></>
         :
             <Col md={2}>
-              // todo: ducmle
-              // this.onRenderRegion(Menu, this)
-              {this.renderMenu()}
+              // todo: ducmle +
+              {this.consumers.map((consumer)=>(
+                <>{consumer.onRenderRegion(Menu, this)}</>
+              ))}
             </Col>
         }
         <Col>

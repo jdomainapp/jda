@@ -1,4 +1,4 @@
-const courseModules = [
+export default courseModules = [
   {
     "endpoint": "type", "name": "Type",
   },
