@@ -1,4 +1,4 @@
-export default courseModules = [
+const courseModules = [
   {
     "endpoint": "type", "name": "Type",
   },
@@ -27,3 +27,5 @@ export default courseModules = [
     "endpoint": "credit", "name": "Credit"
   }
 ]
+
+export default courseModules

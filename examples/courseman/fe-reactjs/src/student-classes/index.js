@@ -7,8 +7,8 @@ import BaseMainForm from "../base/BaseMainForm";
 import StudentClassListView from "./StudentClassListView";
 import StudentClassForm from "./StudentClassForm";
 import {enrolments, studentClasses} from "../common/Constants";
-import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
-import StructureConstructor from "../patterns/accordion";
+import AccordionSearchableMenu from "../common/patterns/accordion";
+import StructureConstructor from "../common/patterns/accordion/accordion";
 // {{ view.submodule.imports }}
 
 const studentAPI = new BaseAPI("students", providers.axios);

@@ -9,7 +9,6 @@ import ModuleStudentClass from './student-classes'
 import ModuleAddress from './addresses'
 import ModuleEnrolment from './enrolments'
 import ModuleCourseModule from './course-modules'
-import AccordionSearchableMenu from "./common/AccordionSearchableMenu";
 
 
 export default class App extends React.Component {

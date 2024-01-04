@@ -2,7 +2,7 @@ import  React, {createRef} from 'react';
 import ReactDOM, {findDOMNode} from "react-dom";
 import { Link } from 'react-router-dom'
 import {Form, Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
-import AccordionSearchableMenu from "./AccordionSearchableMenu";
+import AccordionSearchableMenu from "./patterns/accordion";
 
 
 
@@ -11,9 +11,6 @@ class Navigation extends React.Component {
     constructor(props) {
         super(props);
         this.reff = createRef(null)
-        this.state = {
-            testAccItem: <AccordionSearchableMenu modules={this.props.modules}/>
-        }
     }
 
     componentDidMount() {

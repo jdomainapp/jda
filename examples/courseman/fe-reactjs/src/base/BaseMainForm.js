@@ -9,11 +9,11 @@ import DeleteConfirmation from "../common/DeleteConfirmation";
 import constants from "../common/Constants";
 import { StompOverWSClient } from "../common/StompClient";
 import { CustomToast, ToastWrapper } from "../common/Toasts";
-import StructureConstructor  from "../patterns/accordion";
+import StructureConstructor  from "../common/patterns/accordion/accordion";
 
 import 'bootstrap/dist/css/bootstrap.css';
 
-import AutoCompleteSearch from "../common/AutoCompleteSearch";
+import AutoCompleteSearch from "../common/patterns/autosearch";
 
 export default class BaseMainForm extends React.Component {
   constructor(props) {
@@ -27,8 +27,10 @@ export default class BaseMainForm extends React.Component {
       readySubmit: false,
       inputState: {},
       subForms: Array(),
-      structure: this.props.name !== undefined && this.props.structure ? new StructureConstructor(this.props.name, this.props.structure) : new StructureConstructor("", [])
+      // structure: this.props.name !== undefined && this.props.structure ? new StructureConstructor(this.props.name, this.props.structure) : new StructureConstructor("", [])
     };
+
+    this.initPatterns()
 
     // method binding
     this.renderActionButtons = this.renderActionButtons.bind(this);
@@ -464,7 +466,11 @@ export default class BaseMainForm extends React.Component {
 
  // todo: ducmle
  readPatternMains() {
-    return PatternMain[]...
+    // return PatternMain[]...
+ }
+
+ initPatterns() {
+
  }
 
  // todo: ducmle
@@ -489,9 +495,9 @@ export default class BaseMainForm extends React.Component {
             <></>
         :
             <Col md={2}>
-              // todo: ducmle +
+              {/* // todo: ducmle + */}
               {this.consumers.map((consumer)=>(
-                <>{consumer.onRenderRegion(Menu, this)}</>
+                <>{consumer.onRenderRegion("menu", this)}</>
               ))}
             </Col>
         }

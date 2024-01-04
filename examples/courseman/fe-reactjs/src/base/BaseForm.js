@@ -102,7 +102,7 @@ export default class BaseForm extends React.Component {
   renderForm() { }
   renderListView() { }
   render() {
-    if(this.props.structure) this.props.structure.resetItr()
+    // if(this.props.structure) this.props.structure.resetItr()
     return (<>
       {this.renderForm()}
     </>);

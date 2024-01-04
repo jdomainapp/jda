@@ -6,7 +6,7 @@ import React from "react";
 import BaseMainForm from "../base/BaseMainForm";
 import CourseModuleListView from "./CourseModuleListView";
 import CourseModuleForm from "./CourseModuleForm";
-import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
+import AccordionSearchableMenu from "../common/patterns/accordion";
 import {courseModules} from "../common/Constants";
 
 import AccordionConsumerMain from "./patterns/accordionConsumer";

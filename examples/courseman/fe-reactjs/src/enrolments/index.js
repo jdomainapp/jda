@@ -7,7 +7,7 @@ import BaseMainForm from "../base/BaseMainForm";
 import EnrolmentListView from "./EnrolmentListView";
 import EnrolmentForm from "./EnrolmentForm";
 import {enrolment} from "../common/Constants";
-import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
+import AccordionSearchableMenu from "../common/patterns/accordion";
 // {{ view.submodule.imports }}
 
 const studentAPI = new BaseAPI("students", providers.axios);

@@ -6,7 +6,7 @@ import React from "react";
 import BaseMainForm from "../base/BaseMainForm";
 import AddressListView from "./AddressListView";
 import AddressForm from "./AddressForm";
-import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
+import AccordionSearchableMenu from "../common/patterns/accordion";
 // {{ view.submodule.imports }}
 
 const studentAPI = new BaseAPI("students", providers.axios);

@@ -98,8 +98,9 @@ class AccordionSearchableMenu extends React.Component {
     constructor(props) {
         super(props);
         this.providers = Array()
+        this.rawStructure = this.props.modules
         this.state = {
-            modules: this.initializeRef(this.props.modules),
+            modules: this.initializeRef(this.rawStructure.getStructure()),
             first: this.props.isSub ? false : true
         }
         this.ready = true;
