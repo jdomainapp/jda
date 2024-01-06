@@ -3,7 +3,24 @@
 
 export default class PatternProvider {
     constructor() {
+        this.consumer = undefined
         this.pattern = undefined
+    }
+
+    onRenderRegion(region, mainForm) {
+        
+    }
+    
+    onModelRegion(region, mainForm) {
+        
+    }
+
+    onAction() {
+
+    }
+
+    action() {
+        
     }
 
     initModel() {
@@ -11,14 +28,6 @@ export default class PatternProvider {
     }
     
     initView() {
-        
-    }
-
-    onRenderRegion(region, mainForm) {
-        
-    }
-    
-    onModelRegion({mainForm, region, props = {}}) {
         
     }
 }

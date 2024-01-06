@@ -1,37 +1,33 @@
 
 import React from "react";
 import { Typeahead } from 'react-bootstrap-typeahead';
+import Pattern from "../Pattern";
 
-export default class AutoCompleteSearch extends React.Component {
+export default class AutoCompleteSearch extends Pattern {
     constructor(props) {
         super(props)
         this.searchRef = React.createRef(null)
+
+        this.searchLabel = props.searchLabel
+        this.searchFields = props.searchFields
+        this.content = props.content
 
         this.handleOnSearch = this.handleOnSearch.bind(this);
         this.handleOnSelect = this.handleOnSelect.bind(this);
     }
 
-    formatResult(item) {
-        return (
-            <>
-            <span style={{ display: 'block', textAlign: 'left' }}>id: {item.id}</span>
-            <span style={{ display: 'block', textAlign: 'left' }}>code: {item.code}</span>
-            <span style={{ display: 'block', textAlign: 'left' }}>name: {item.name}</span>
-            </>
-        )
-    }
-
     handleOnSearch(e) {
-        console.log(this.props)
         if(e.code === "Enter") {
-            this.props.handleStateChange("displayingContent", this.searchRef.current.items, false)
+            this.providers.forEach(provider => {
+                provider.action("search", {result: this.searchRef.current.items})
+            })
         }
     }
     
     handleOnSelect(item) {
-        this.props.handleStateChange("viewType", "details")
-        this.props.handleStateChange(
-            "currentId", item[0].id, true);
+        this.providers.forEach(provider => {
+            provider.action("select", {item: item})
+        })
     }
 
 
@@ -39,13 +35,13 @@ export default class AutoCompleteSearch extends React.Component {
         return (
             <Typeahead
                 ref={this.searchRef}
-                id={this.props.id}
-                labelKey={this.props.getSearchLabel()}
-                filterBy={this.props.getSearchFields()}
+                id={"search"}
+                labelKey={this.searchLabel}
+                filterBy={this.searchFields}
                 onChange={this.handleOnSelect}
-                options={this.props.source}
-                placeholder="Search"
                 onKeyDown={this.handleOnSearch}
+                options={this.content ? this.content : []}
+                placeholder="Search"    
             />
         )
     }

@@ -9,7 +9,8 @@ import CourseModuleForm from "./CourseModuleForm";
 import AccordionSearchableMenu from "../common/patterns/accordion";
 import {courseModules} from "../common/Constants";
 
-import AccordionConsumerMain from "./patterns/accordionConsumer";
+import AccordionFactory from "./patterns/accordion";
+import SearchFactory from "./patterns/search";
 // {{ view.submodule.imports }}
 
 const courseModuleAPI = new BaseAPI("course-modules", providers.axios);
@@ -64,7 +65,8 @@ class CourseModuleMainView extends BaseMainForm {
     return <CourseModuleListView {...this.props} {...this.state}
     changeToDetailsView={() => this.handleStateChange("viewType", "details")}
     handleStateChange={this.handleStateChange}
-    partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
+    partialApplyWithCallbacks={this.partialApplyWithCallbacks} 
+    mainForm={this}/>
   }
 
  // todo: ducmle
@@ -73,14 +75,9 @@ class CourseModuleMainView extends BaseMainForm {
     // for each pattern in config
     //   ...call PatternMain.init()
     // add m to mains: PatternMain[]
-    let accordionConsumer = new AccordionConsumerMain()
-    this.consumers.push(accordionConsumer.init(this))
-  }
+    this.consumers.push(AccordionFactory.createProviderConsumer(this))
 
-  // todo: ducmle (remove this)
-  renderMenu() {
-    return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
-    )
+    this.consumers.push(SearchFactory.createProviderConsumer(this))
   }
 
   renderForm() {

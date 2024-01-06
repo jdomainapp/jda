@@ -5,27 +5,18 @@ import StructureConstructor from '../../../common/patterns/accordion/accordion'
 import AccordionSearchableMenu from '../../../common/patterns/accordion'
 import AccordionProvider from '../../../common/patterns/accordion/AccordionProvider'
 
-export default class AccordionConsumerMain  {
+export default class AccordionFactory  {
     constructor() {
         
     }
 
-    init(mainForm) {
+    static createProviderConsumer(mainForm) {
         let provider = new AccordionProvider()
-        let consumer = new PatternConsumer(provider)
+        let consumer = new PatternConsumer({provider, name: "accordion"})
         let state = new StructureConstructor("course_modules", courseModules)
-        console.log(state)
-        let pattern = new AccordionSearchableMenu({modules: state, controlling: mainForm})
+        let pattern = new AccordionSearchableMenu({modules: state})
         pattern.registerProvider(provider)
 
         return consumer
-
-        // initialise p: AccordionProvider
-        // initialise c: AccordionConsumer(p) // bind provider-consumer together
-        // initialise courseModules...menu state
-        // initialise state:...MenuState using StructureConstructor(courseModules)
-        // initialise menu: AccordionSearchableMenu(state)
-        // register...
-        // call menu.registerProvider(p)
     }
 }

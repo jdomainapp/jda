@@ -10,10 +10,6 @@ export default class AccordionProvider extends PatternProvider {
         switch(region) {
             case "menu":
                 return this.onRenderMenu()
-            case "menuItem":
-                return this.onRenderMenuItem()
-            case "skipMenuItem":
-                return this.onSkipMenuItem(props.num)
         }
     }
 
@@ -23,7 +19,16 @@ export default class AccordionProvider extends PatternProvider {
         }
     }
 
-    onRenderMenuItem() {
+    onModelRegion(region, mainForm, props = {}) {
+        switch(region) {
+            case "menuItem":
+                return this.onModelMenuItem()
+            case "skipMenuItem":
+                return this.onSkipMenuItem(props.num)
+        }
+    }
+
+    onModelMenuItem() {
         // todo: better to use get props by name
         return this.pattern.rawStructure.getCurrentProps()
     }

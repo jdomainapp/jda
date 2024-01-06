@@ -1,7 +1,6 @@
 import React from 'react';
 import {Col, Container, Row} from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import constants, {courseModules, enrolment, studentClasses, address, students} from './common/Constants';
 import Navigation from './common/Navigation';
 
 import ModuleStudent from './students'
@@ -9,6 +8,8 @@ import ModuleStudentClass from './student-classes'
 import ModuleAddress from './addresses'
 import ModuleEnrolment from './enrolments'
 import ModuleCourseModule from './course-modules'
+
+import StructureConstructor from './common/patterns/accordion/accordion';
 
 
 export default class App extends React.Component {
@@ -50,15 +51,15 @@ export default class App extends React.Component {
     return (<>
         <Router>
           <Navigation appName={this.getAppName()}
-                      modules={this.getModules()} />
+                      modules={new StructureConstructor("",this.getModules())} />
           <br />
             <Container>
                 <Switch>
-                    <Route path='/course-modules'><ModuleCourseModule name="course_modules" structure={courseModules} title='Manage Course modules' /></Route>
-                    <Route path='/enrolments'><ModuleEnrolment name="enrolments" structure={enrolment} title='Manage Enrolments' /></Route>
-                    <Route path='/students'><ModuleStudent name="students" structure={students} title='Manage Students' /></Route>
-                    <Route path='/addresses'><ModuleAddress name="addresses" structure={address} title='Manage Addresses' /></Route>
-                    <Route path='/student-classes'><ModuleStudentClass name="student_classes" structure={studentClasses} title='Manage Student classes' /></Route>
+                    <Route path='/course-modules'><ModuleCourseModule title='Manage Course modules' /></Route>
+                    <Route path='/enrolments'><ModuleEnrolment title='Manage Enrolments' /></Route>
+                    <Route path='/students'><ModuleStudent title='Manage Students' /></Route>
+                    <Route path='/addresses'><ModuleAddress title='Manage Addresses' /></Route>
+                    <Route path='/student-classes'><ModuleStudentClass title='Manage Student classes' /></Route>
                     <Route path='/'>
                         <h3 className="text-center">{this.getWelcomeMessage()}</h3>
                         <br />

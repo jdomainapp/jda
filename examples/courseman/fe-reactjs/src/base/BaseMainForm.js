@@ -14,6 +14,7 @@ import StructureConstructor  from "../common/patterns/accordion/accordion";
 import 'bootstrap/dist/css/bootstrap.css';
 
 import AutoCompleteSearch from "../common/patterns/autosearch";
+import SearchConsumer from "../course-modules/patterns/search/SearchConsumer";
 
 export default class BaseMainForm extends React.Component {
   constructor(props) {
@@ -34,13 +35,10 @@ export default class BaseMainForm extends React.Component {
 
     // method binding
     this.renderActionButtons = this.renderActionButtons.bind(this);
-    this.renderSubmodules = this.renderSubmodules.bind(this);
     this.renderNavigationButtons = this.renderNavigationButtons.bind(this);
-    this.renderSearchInput = this.renderSearchInput.bind(this);
     this.renderTopButtons = this.renderTopButtons.bind(this);
     this.renderObject = this.renderObject.bind(this);
     this._renderObject = this._renderObject.bind(this);
-    this.renderSearchInput = this.renderSearchInput.bind(this)
 
 
     this.addSubForm = this.addSubForm.bind(this);
@@ -80,10 +78,6 @@ export default class BaseMainForm extends React.Component {
         }
       }
     ]);
-  }
-
-  getSubFormIdFromTarget(id) {
-    return id.slice(0,id.lastIndexOf("-"))
   }
 
   addSubForm(subForm) {
@@ -212,7 +206,6 @@ export default class BaseMainForm extends React.Component {
           (result) => {
             newState["current"] = {...this.state.current};
             newState["current"][shortName] = result;
-            console.log(newState)
             this.setState(newState, onDone);
           },
           () => {
@@ -226,10 +219,16 @@ export default class BaseMainForm extends React.Component {
             if(result.content && result.content.constructor === Array) {
               newState[stateObjName] = result;
               newState["displayingContent"] = result.content;
+              this.consumers.forEach(consumer=>{
+                if(consumer.name === "") {
+                  consumer.actionUpdateContent(result.content) 
+                }
+              })
             } else {
               newState[stateObjName] = result;
             }
-            this.setState(newState, onDone); },
+            this.setState(newState, onDone);
+          },
           () => { newState[stateObjName] = ""; this.setState(newState, onDone); });
       }
     } else {
@@ -293,7 +292,7 @@ export default class BaseMainForm extends React.Component {
       function () {
         this.handleStateChange("currentId", this.state.currentId, true,
           function () {
-            if (this.state.currentId && this.state.current !== {}
+            if (this.state.currentId && this.state.current
                 && !(this.state.current instanceof Array)) {
               this.handleStateChange("viewType", "details");
             } else {
@@ -361,21 +360,12 @@ export default class BaseMainForm extends React.Component {
     // this.setAlert("danger", "Failure", "Operation failed!" + reason);
   }
 
-  setListFromPage(page) {
-    this.setState({
-      list: page.content
-    });
-  }
-
   partialApplyWithCallbacks(func) {
     return args => {
       const oldArgs = args ? args : [];
       return func([...oldArgs, this.onOperationSuccess, this.onOperationFailed]);
     }
   }
-
-  // base methods for drawing view
-  renderSubmodules() { }
 
   renderNavigationButtons() {
     return (<>
@@ -408,22 +398,9 @@ export default class BaseMainForm extends React.Component {
   }
 
   getSearchFields() {
-    return []
+    return ["name"]
   }
 
-  renderSearchInput() {
-    return (<>
-      <Form.Group>
-        <AutoCompleteSearch
-            id="search"
-            getSearchLabel={this.getSearchLabel}
-            getSearchFields={this.getSearchFields}
-            source={this.state.current.content ? this.state.current.content : []}
-            handleStateChange={this.handleStateChange}
-        />
-      </Form.Group>
-    </>);
-  }
   renderTypeDropdown() {
     const possibleTypes = this.getPossibleTypes();
     return (<>
@@ -444,7 +421,9 @@ export default class BaseMainForm extends React.Component {
           <Form className="d-flex justify-content-between">
             {this.renderTypeDropdown()}
             {this.renderIdInput()}
-            {this.renderSearchInput()}
+            {this.consumers.map((consumer)=>(
+                <>{consumer.onRenderRegion("searchbox", this)}</>
+              ))}
           </Form>
         </Col>
       </Row>
@@ -460,38 +439,15 @@ export default class BaseMainForm extends React.Component {
     </>);
   }
 
-  renderMenu() {
-
+  // override by each module
+  initPatterns() {
+    // empty
   }
-
- // todo: ducmle
- readPatternMains() {
-    // return PatternMain[]...
- }
-
- initPatterns() {
-
- }
-
- // todo: ducmle
- onRenderRegion(region, args) {
-    // for each PatternMain m: index.patternMains
-    //    m.s.onRender(region, this)
- }
-
- getConsumer(name) {
-  for(var i = 0; i < this.consumers.length; i++) {
-    if(this.consumers[i].constructor.name == name) {
-      return this.consumers[i]
-    }
-  }
-  return undefined
- }
 
   render() {
     return (<>
       <Row>
-        {this.props.includeMenu === false || this.state.viewType !== "create" ?
+        {this.props.includeMenu === false || (this.state.viewType !== "create" && this.state.viewType !== "details") ?
             <></>
         :
             <Col md={2}>
@@ -515,8 +471,6 @@ export default class BaseMainForm extends React.Component {
             }
             <br />
             {this.state.viewType === "browse" ? this.renderListView() : this.renderForm()}
-            <br />
-            {this.state.viewType === "browse" ? "" : this.renderSubmodules()}
             <br />
             {this.state.viewType === "browse" ? "" : this.renderActionButtons()}
           </Container>

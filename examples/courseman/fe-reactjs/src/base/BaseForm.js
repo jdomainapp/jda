@@ -96,6 +96,17 @@ export default class BaseForm extends React.Component {
       this.props[name + "API"].getById([id, onSuccess, onFailure]);
     }
   }
+  
+  onModelRegionMenuItem(consumerName) {
+    var res = {}
+    for(var i = 0; i < this.props.mainForm.consumers.length; i ++) {
+      if (this.props.mainForm.consumers[i].name == consumerName) {
+        let val = this.props.mainForm.consumers[i].onModelRegion("menuItem", this)
+        if(val) res[this.props.mainForm.consumers[i].name] = val
+      }
+    }
+    return res[consumerName]
+  }
 
   // methods for handling presentation
   renderTitle() { }

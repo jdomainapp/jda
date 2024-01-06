@@ -1,6 +1,7 @@
 import React, {createRef} from "react";
 import {Form, Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import Accordion from 'react-bootstrap/Accordion';
+import Pattern from "../Pattern";
 
 class CustomAccordionItem extends React.Component {
     constructor(props) {
@@ -24,36 +25,29 @@ class CustomAccordionItem extends React.Component {
     expand(newState) {
         this.setState({open: newState})
     }
+    
+    getSubFormIdFromTarget(id) {
+        return id.split("-")
+    }
 
     handleLinkClick() {
-        if(this.props.controlling) {
+        if(this.props.module.endpoint[0] != '/') {
             // analize id endpoint here...
-            var subFormId = this.props.controlling.getSubFormIdFromTarget(this.props.module.endpoint)
-    
-            // expand sub module here if possible, implementing T.T
-            var subForm = this.props.controlling.getSubForm(subFormId)
+            var subFormId = this.getSubFormIdFromTarget(this.props.module.endpoint)
 
-            if(subForm.length > 0) {
-                for(var i = 0; i < subForm.length; i++) {
-                    if(subForm[i] && subForm[i].state ) {
-                        if(i == subForm.length - 1) {
-                            if(subForm[i].state.expanded === false) {
-                                subForm[i].setOnEntered(()=>{setTimeout(()=>{window.location.href = '#' + this.props.module.endpoint}, 100)})
-                            } else {
-                                setTimeout(()=>{window.location.href = '#' + this.props.module.endpoint}, 400)
-                            }
-                        }
-                        subForm[i].handleExpand(true)
-                    } 
-                }
-            } else {
-                window.location.href = '#' + this.props.module.endpoint
+            var currentId = "#"
+            const focusElement = (i, ids) => {
+                setTimeout(()=>{
+                    currentId += (i == 0 ? '' : '-') + ids[i]
+                    window.location.href = currentId
+                },100)
+            }
+            for(var i = 0; i < subFormId.length; i ++) {
+                focusElement(i, subFormId)
             }
         } else {
             window.location.href = this.props.module.endpoint
         }
-
-        //scroll to endpoint
     }
 
     render() {
@@ -78,7 +72,7 @@ class CustomAccordionItem extends React.Component {
                 <Accordion.Collapse style={{border: "none"}} eventKey={this.props.index} in={this.state.open}>
                     <div style={{padding: "5px 0 5px 10px", backgroundColor: "white"}}>
                         {this.props.module.subItem ?
-                            <AccordionSearchableMenu modules={this.props.module.subItem} controlling={this.props.controlling} isSub/>
+                            <AccordionSearchableMenu modules={this.props.module.subItem} isSub/>
                             : ""
                         }
                     </div>
@@ -89,15 +83,9 @@ class CustomAccordionItem extends React.Component {
     }
 }
 
-// todo: ducmle
-// providers: array of AccordionProviders
-// registerProvider(p: AccordionProvider)
-// ...
-// forall p: providers...call p.actionX()
-class AccordionSearchableMenu extends React.Component {
+class AccordionSearchableMenu extends Pattern {
     constructor(props) {
         super(props);
-        this.providers = Array()
         this.rawStructure = this.props.modules
         this.state = {
             modules: this.initializeRef(this.rawStructure.getStructure()),
@@ -110,11 +98,6 @@ class AccordionSearchableMenu extends React.Component {
             this.ready = true;
             if(this.lastSearched != this.lastTyped)  this.setState({modules: this.handleSearch(this.lastTyped, this.props.modules)});
         },100);
-    }
-
-    registerProvider(provider) {
-        provider.pattern = this
-        this.providers.push(provider)
     }
 
     initializeRef(modules) {
@@ -178,7 +161,7 @@ class AccordionSearchableMenu extends React.Component {
 
     render() {
         return (
-            <>
+            <div className={this.state.first == true?"position-sticky":""} style={{top: "5px"}}>
                 {this.state.first == true?
                     <Form.Control style={{margin: this.props.small ? "0 10px 5px 10px" : "0", width: this.props.small ? "calc(100% - 20px)" : "100%"}} type="text" placeholder="Search categories" onChange={e=> {
                         this.lastTyped = e.target.value;
@@ -192,11 +175,11 @@ class AccordionSearchableMenu extends React.Component {
                     {this.state.modules ?
                         this.state.modules.map(
                             (module, index) =>
-                                <CustomAccordionItem key={index} eventKey={index} module={module} ref={module.ref} controlling={this.props.controlling}/>
+                                <CustomAccordionItem key={index} eventKey={index} module={module} ref={module.ref}/>
                         )
                         : ""}
                 </Accordion>
-            </>
+            </div>
         )
     }
 }

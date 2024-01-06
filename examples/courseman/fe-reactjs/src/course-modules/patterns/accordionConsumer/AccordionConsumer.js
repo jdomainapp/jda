@@ -1,2 +1,0 @@
-// extends PatternConsumer
-// todo: ducmle
