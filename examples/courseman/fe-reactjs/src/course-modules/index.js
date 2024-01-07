@@ -69,12 +69,10 @@ class CourseModuleMainView extends BaseMainForm {
     mainForm={this}/>
   }
 
- // todo: ducmle
+  // patterns
   initPatterns() {
-    // read pattern config...
-    // for each pattern in config
-    //   ...call PatternMain.init()
-    // add m to mains: PatternMain[]
+    super.initPatterns();
+
     this.consumers.push(AccordionFactory.createProviderConsumer(this))
 
     this.consumers.push(SearchFactory.createProviderConsumer(this))

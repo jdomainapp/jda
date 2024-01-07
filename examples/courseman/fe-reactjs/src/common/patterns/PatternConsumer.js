@@ -1,5 +1,4 @@
-// s: PatternConsumer
-// todo: ducmle
+// Pattern consumer
 
 export default class PatternConsumer {
     constructor(props) {

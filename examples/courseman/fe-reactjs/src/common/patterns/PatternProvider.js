@@ -1,6 +1,4 @@
-// todo: ducmle// s: PatternProvider
-// todo: ducmle
-
+// Pattern Provider
 export default class PatternProvider {
     constructor() {
         this.consumer = undefined

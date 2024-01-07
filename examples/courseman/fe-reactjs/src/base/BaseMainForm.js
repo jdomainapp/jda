@@ -19,7 +19,8 @@ import SearchConsumer from "../course-modules/patterns/search/SearchConsumer";
 export default class BaseMainForm extends React.Component {
   constructor(props) {
     super(props);
-    this.consumers = Array()
+    // ducmle: moved to initPatterns:
+    // this.consumers = Array()
     this.state = {
       current: {}, // list or single object
       viewType: props.viewType ? props.viewType : "create", // create | details | browse (list) | submodule
@@ -219,11 +220,12 @@ export default class BaseMainForm extends React.Component {
             if(result.content && result.content.constructor === Array) {
               newState[stateObjName] = result;
               newState["displayingContent"] = result.content;
-              this.consumers.forEach(consumer=>{
-                if(consumer.name === "") {
-                  consumer.actionUpdateContent(result.content) 
-                }
-              })
+              // this.consumers.forEach(consumer=>{
+              //   if(consumer.name === "") {
+              //     consumer.actionUpdateContent(result.content) 
+              //   }
+              // })
+              this.onObjectRetrieved(result.content);
             } else {
               newState[stateObjName] = result;
             }
@@ -235,12 +237,16 @@ export default class BaseMainForm extends React.Component {
       this.setState(newState, onDone);
     }
   }
+
+
+
   handleDeepStateChange(outerName, innerName, newValue, needsApiCall, onDone) {
     let outer = this.state[outerName]; outer[innerName] = newValue;
     let newState = {}; newState[outerName] = outer;
     // ignoring `needsApiCall` for simplicity
     this.setState(newState, onDone);
   }
+
   renderObject(propPath) {
     const realPropPath = propPath.replace("Id", ".id");
     const keys = realPropPath.split(".");
@@ -285,6 +291,15 @@ export default class BaseMainForm extends React.Component {
                                     && key.length - actualName.length <= 5)[0];
       this.props[actualAPIName].getById([id, onSuccess, onFailure]);
     }
+  }
+
+  onObjectRetrieved(content) {
+    // patterns
+    this.consumers.forEach(consumer=>{
+      if(consumer.name === "") {
+        consumer.actionUpdateContent(content) 
+      }
+    })
   }
 
   updateCurrentObjectState(evt) {
@@ -413,6 +428,7 @@ export default class BaseMainForm extends React.Component {
         </Form.Control> : ""}
     </>);
   }
+
   renderTopButtons() {
     return (<>
       <Row className="mx-0 d-flex justify-content-between">
@@ -421,14 +437,36 @@ export default class BaseMainForm extends React.Component {
           <Form className="d-flex justify-content-between">
             {this.renderTypeDropdown()}
             {this.renderIdInput()}
-            {this.consumers.map((consumer)=>(
-                <>{consumer.onRenderRegion("searchbox", this)}</>
-              ))}
+            {this.renderTopButtonsExt()}
           </Form>
         </Col>
       </Row>
     </>);
   }
+
+  // Region: top buttons extension
+  renderTopButtonsExt() {
+    // patterns
+    return this.consumers.map((consumer)=>(
+      <>{consumer.onRenderRegion("searchbox", this)}</>
+    ))
+  }
+  
+  // Region: LHSMenu
+  onRenderLHSMenu(){
+    if (this.props.includeMenu === false || (this.state.viewType !== "create" && this.state.viewType !== "details")) {
+      return <></>
+    } else {
+    // patterns
+    return <>
+        <Col md={2}>
+          {this.consumers.map((consumer)=>(
+            <>{consumer.onRenderRegion("menu", this)}</>
+          ))}
+        </Col></>
+    }
+  }
+
   renderActionButtons() {
     return (<>
     <Row className="d-flex justify-content-end mx-0">
@@ -439,24 +477,27 @@ export default class BaseMainForm extends React.Component {
     </>);
   }
 
-  // override by each module
+  // Each subtype to invoke super.initPatterns first, then write its own code to initiate the patterns
   initPatterns() {
-    // empty
+    this.consumers = Array()
   }
 
   render() {
     return (<>
       <Row>
-        {this.props.includeMenu === false || (this.state.viewType !== "create" && this.state.viewType !== "details") ?
-            <></>
-        :
-            <Col md={2}>
-              {/* // todo: ducmle + */}
-              {this.consumers.map((consumer)=>(
-                <>{consumer.onRenderRegion("menu", this)}</>
-              ))}
-            </Col>
+        {
+        // this.props.includeMenu === false || (this.state.viewType !== "create" && this.state.viewType !== "details") ?
+        //     <></>
+        // :
+        //     <Col md={2}>
+        //       {/* // todo: ducmle + */}
+        //       {this.consumers.map((consumer)=>(
+        //         <>{consumer.onRenderRegion("menu", this)}</>
+        //       ))}
+        //     </Col>
+          this.onRenderLHSMenu()
         }
+        
         <Col>
           <Container className="border py-4">
             {this.state.alert ? this.state.alert : ""}
