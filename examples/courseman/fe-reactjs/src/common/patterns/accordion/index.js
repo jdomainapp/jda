@@ -2,6 +2,7 @@ import React, {createRef} from "react";
 import {Form, Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import Accordion from 'react-bootstrap/Accordion';
 import Pattern from "../Pattern";
+import StructureConstructor from "./accordion";
 
 class CustomAccordionItem extends React.Component {
     constructor(props) {
@@ -52,7 +53,7 @@ class CustomAccordionItem extends React.Component {
 
     render() {
         return (
-            <Accordion.Item key={this.props.index} eventKey={this.props.index} style={{backgroundColor: this.state.bg, display: this.state.display, borderRadius: 0, border: "none", borderLeft: "1px solid rgba(0,0,0,0.1)"}}>
+            <Accordion.Item key={this.props.key} eventKey={this.props.eventKey} style={{backgroundColor: this.state.bg, display: this.state.display, borderRadius: 0, border: "none", borderLeft: "1px solid rgba(0,0,0,0.1)"}}>
 
                 {this.props.module.subItem && this.props.module.subItem.length > 0 ?
                     <Accordion.Button style={{margin: 0,padding: 0,paddingRight: "10px", backgroundColor: "transparent", border: "none"}} onClick={()=>this.setState({open: !this.state.open})}>
@@ -72,7 +73,7 @@ class CustomAccordionItem extends React.Component {
                 <Accordion.Collapse style={{border: "none"}} eventKey={this.props.index} in={this.state.open}>
                     <div style={{padding: "5px 0 5px 10px", backgroundColor: "white"}}>
                         {this.props.module.subItem ?
-                            <AccordionSearchableMenu modules={this.props.module.subItem} isSub/>
+                            <AccordionSearchableMenu modules={new StructureConstructor("", this.props.module.subItem)} isSub/>
                             : ""
                         }
                     </div>

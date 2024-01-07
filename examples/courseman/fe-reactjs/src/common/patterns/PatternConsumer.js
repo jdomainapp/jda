@@ -7,12 +7,12 @@ export default class PatternConsumer {
         props.provider.consumer = this
     }
 
-    onRenderRegion(region, mainForm) {
-        return this.provider.onRenderRegion(region, mainForm)
+    onRenderRegion(region, mainForm, props = {}) {
+        return this.provider.onRenderRegion(region, mainForm, props)
     }
 
-    onModelRegion(region, mainForm) {
-        return this.provider.onModelRegion(region, mainForm)
+    onModelRegion(region, mainForm, props = {}) {
+        return this.provider.onModelRegion(region, mainForm, props)
     }
 
     onAction() {
@@ -20,7 +20,7 @@ export default class PatternConsumer {
     }
 
     action() {
-        
+
     }
 
     onInitProviderModel() {

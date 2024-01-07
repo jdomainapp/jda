@@ -30,14 +30,18 @@ export default class AutoCompleteSearch extends Pattern {
         })
     }
 
+    formatResult(option) {
+        return "Specify display option!"
+    }
+
 
     render() {
         return (
             <Typeahead
                 ref={this.searchRef}
                 id={"search"}
-                labelKey={this.searchLabel}
-                filterBy={this.searchFields}
+                labelKey={this.props.formatResult ? this.props.formatResult: this.formatResult}
+                filterBy={this.searchFields ? this.searchFields : []}
                 onChange={this.handleOnSelect}
                 onKeyDown={this.handleOnSearch}
                 options={this.content ? this.content : []}

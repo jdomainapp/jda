@@ -12,8 +12,8 @@ export default class SearchFactory  {
         let provider = new SearchProvider()
         let consumer = new SearchConsumer({provider, mainForm: props.mainForm})
         let pattern = new AutoCompleteSearch({
-            formatResult: (option) => {return option.name}, 
-            searchFields: props.mainForm.getSearchFields(), 
+            formatResult: (option) => {return option.toString()}, 
+            searchFields: [], 
             content: props.mainForm.state.current.content
         })
         pattern.registerProvider(provider)

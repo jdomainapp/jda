@@ -69,14 +69,14 @@ class CourseModuleMainView extends BaseMainForm {
     mainForm={this}/>
   }
 
-  // patterns
-  initPatterns() {
-    super.initPatterns();
+ // patterns
+ initPatterns() {
+  super.initPatterns();
 
-    this.consumers.push(AccordionFactory.createProviderConsumer(this))
+  this.consumers.push(AccordionFactory.createProviderConsumer({mainForm: this, name: this.props.structure ? "" : undefined, structure: this.props.structure}))
 
-    this.consumers.push(SearchFactory.createProviderConsumer(this))
-  }
+  this.consumers.push(SearchFactory.createProviderConsumer({mainForm: this}))
+}
 
   renderForm() {
     return <CourseModuleForm {...this.props} {...this.state}

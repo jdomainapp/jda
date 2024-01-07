@@ -459,11 +459,11 @@ export default class BaseMainForm extends React.Component {
     } else {
     // patterns
     return <>
-        <Col md={2}>
-          {this.consumers.map((consumer)=>(
-            <>{consumer.onRenderRegion("menu", this)}</>
-          ))}
-        </Col></>
+      <Col md={2}>
+        {this.consumers.map((consumer)=>(
+          <>{consumer.onRenderRegion("menu", this)}</>
+        ))}
+      </Col></>
     }
   }
 
@@ -485,19 +485,7 @@ export default class BaseMainForm extends React.Component {
   render() {
     return (<>
       <Row>
-        {
-        // this.props.includeMenu === false || (this.state.viewType !== "create" && this.state.viewType !== "details") ?
-        //     <></>
-        // :
-        //     <Col md={2}>
-        //       {/* // todo: ducmle + */}
-        //       {this.consumers.map((consumer)=>(
-        //         <>{consumer.onRenderRegion("menu", this)}</>
-        //       ))}
-        //     </Col>
-          this.onRenderLHSMenu()
-        }
-        
+        {this.onRenderLHSMenu()}
         <Col>
           <Container className="border py-4">
             {this.state.alert ? this.state.alert : ""}

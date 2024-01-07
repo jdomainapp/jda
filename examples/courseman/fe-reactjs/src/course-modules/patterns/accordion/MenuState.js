@@ -25,6 +25,9 @@ const courseModules = [
   },
   {
     "endpoint": "credit", "name": "Credit"
+  },
+  {
+    "endpoint": "dept_name", "name": "Dept name"
   }
 ]
 

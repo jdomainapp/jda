@@ -8,6 +8,8 @@ import EnrolmentListView from "./EnrolmentListView";
 import EnrolmentForm from "./EnrolmentForm";
 import {enrolment} from "../common/Constants";
 import AccordionSearchableMenu from "../common/patterns/accordion";
+import AccordionFactory from "./patterns/accordion";
+import SearchFactory from "./patterns/search";
 // {{ view.submodule.imports }}
 
 const studentAPI = new BaseAPI("students", providers.axios);
@@ -32,6 +34,7 @@ enrolmentAPI={enrolmentAPI}
 class EnrolmentMainView extends BaseMainForm {
   constructor(props) {
     super(props);
+    if(this.props) console.log(this.props)
     this.state = {
       ...this.state,
       current: {
@@ -42,6 +45,15 @@ class EnrolmentMainView extends BaseMainForm {
       currentId: this.props.currentId
     }
   }
+
+  getSearchLabel() {
+    return "id"
+  }
+
+  getSearchFields() {
+    return ["id"]
+  }
+
   getPossibleTypes() {
     return []
   }
@@ -61,9 +73,13 @@ class EnrolmentMainView extends BaseMainForm {
     partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
   }
 
-  renderMenu() {
-    return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
-    )
+  // patterns
+  initPatterns() {
+    super.initPatterns();
+
+    this.consumers.push(AccordionFactory.createProviderConsumer({mainForm: this, name: this.props.structure ? "" : undefined, structure: this.props.structure}))
+
+    this.consumers.push(SearchFactory.createProviderConsumer({mainForm: this}))
   }
 
   renderForm() {

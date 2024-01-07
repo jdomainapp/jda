@@ -1,4 +1,4 @@
-import courseModules from './MenuState'
+import students from './MenuState'
 import PatternConsumer from '../../../common/patterns/PatternConsumer'
 import PatternProvider from '../../../common/patterns/PatternProvider'
 import StructureConstructor from '../../../common/patterns/accordion/accordion'
@@ -13,7 +13,7 @@ export default class AccordionFactory  {
     static createProviderConsumer(props = {}) {
         let provider = new AccordionProvider()
         let consumer = new PatternConsumer({provider, name: "accordion"})
-        let state = new StructureConstructor(props.name === undefined ? "course_modules" : props.name, props.structure ? props.structure : courseModules)
+        let state = new StructureConstructor(props.name === undefined ? "students" : props.name, props.structure ? props.structure : students)
         let pattern = new AccordionSearchableMenu({modules: state})
         pattern.registerProvider(provider)
 

@@ -13,7 +13,7 @@ export default class SearchFactory  {
         let consumer = new SearchConsumer({provider, mainForm: props.mainForm})
         let pattern = new AutoCompleteSearch({
             formatResult: (option) => {return option.name}, 
-            searchFields: props.mainForm.getSearchFields(), 
+            searchFields: [], 
             content: props.mainForm.state.current.content
         })
         pattern.registerProvider(provider)
