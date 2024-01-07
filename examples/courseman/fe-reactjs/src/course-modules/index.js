@@ -6,8 +6,6 @@ import React from "react";
 import BaseMainForm from "../base/BaseMainForm";
 import CourseModuleListView from "./CourseModuleListView";
 import CourseModuleForm from "./CourseModuleForm";
-import AccordionSearchableMenu from "../common/patterns/accordion";
-import {courseModules} from "../common/Constants";
 
 import AccordionFactory from "./patterns/accordion";
 import SearchFactory from "./patterns/search";
@@ -15,12 +13,11 @@ import SearchFactory from "./patterns/search";
 
 const courseModuleAPI = new BaseAPI("course-modules", providers.axios);
 
-
 export default function CourseModuleModule(props) {
   return <CourseModuleMainView
     mainAPI={courseModuleAPI}
     
-courseModuleAPI={courseModuleAPI}
+    courseModuleAPI={courseModuleAPI}
     {...props}
   />
 }
