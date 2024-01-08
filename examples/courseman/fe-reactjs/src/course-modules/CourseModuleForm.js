@@ -305,7 +305,7 @@ export default class CourseModuleForm extends BaseForm {
           <FormControl {...this.onModelRegionMenuItem("accordion")} type="text" value={this.renderObject("current.deptName")} onChange={(e) => this.props.handleStateChange("current.deptName", e.target.value, false)}  />
         </FormGroup> 
         :
-        <>{this.props.mainForm.consumers.map(consumer => consumer.onModelRegion("skipMenuItem", this.props.mainForm, {num: 1}))}</>}
+        <>{this.props.mainForm.consumers.map(consumer => consumer.onModelRegion("skipMenuItem", {num: 1}))}</>}
       </Form>
       </>
     )
