@@ -53,7 +53,7 @@ class CustomAccordionItem extends React.Component {
 
     render() {
         return (
-            <Accordion.Item key={this.props.key} eventKey={this.props.eventKey} 
+            <Accordion.Item key={this.props.key} eventKey={this.props.eventKey} ref={this.props.module.ref}
             style={{
                 backgroundColor: this.state.bg, display: this.state.display, borderRadius: 0, border: "none", borderLeft: "1px solid rgba(0,0,0,0.1)",
             }}
@@ -77,7 +77,7 @@ class CustomAccordionItem extends React.Component {
                 <Accordion.Collapse style={{border: "none"}} eventKey={this.props.index} in={this.state.open}>
                     <div style={{padding: "5px 0 5px 10px", backgroundColor: "white"}}>
                         {this.props.module.subItem ?
-                            <AccordionSearchableMenu modules={new StructureConstructor("", this.props.module.subItem)} isSub/>
+                            <AccordionSearchableMenu structure={this.props.module.subItem} isSub/>
                             : ""
                         }
                     </div>
@@ -93,7 +93,7 @@ class AccordionSearchableMenu extends Pattern {
         super(props);
         this.rawStructure = this.props.modules
         this.state = {
-            modules: this.initializeRef(this.rawStructure.getStructure()),
+            modules: this.props.modules !== undefined || this.props.structure !== undefined ? (this.props.modules !== undefined ? this.initializeRef(this.rawStructure.getStructure()) : this.props.structure) : [],
             first: this.props.isSub ? false : true
         }
         this.ready = true;
@@ -139,6 +139,7 @@ class AccordionSearchableMenu extends Pattern {
                 for(var i = 0; i < modules.length; i ++) {
                     const subRes = this.handleSearch(keyword, modules[i].subItem)
                     if(subRes) res = true
+                    if(!modules[i].ref.current) console.log(modules[i].endpoint)
                     modules[i].ref.current.expand(subRes)
                     if(this.isRelativeSubstring(modules[i].name, keyword)) {
                         modules[i].ref.current.changeBg("#E7F1FF")
@@ -165,12 +166,14 @@ class AccordionSearchableMenu extends Pattern {
     }
 
     render() {
+        console.log(this.state.modules)
         return (
             <div className={this.state.first == true?"position-sticky":""} style={{top: "5px"}}>
                 {this.state.first == true?
-                    <Form.Control style={{margin: this.props.small ? "0 10px 5px 10px" : "0", width: this.props.small ? "calc(100% - 20px)" : "100%"}} type="text" placeholder="Search categories" onChange={e=> {
+                    <Form.Control style={{margin: this.props.small ? "0 10px 5px 10px" : "0", width: this.props.small ? "calc(100% - 20px)" : "100%"}} type="text" placeholder="Search categories" 
+                    onChange={e=> {
                         this.lastTyped = e.target.value;
-                        this.handleSearch(e.target.value, this.props.modules)
+                        this.handleSearch(e.target.value, this.state.modules)
                     }}/>
                 :
                     <></>
