@@ -26,7 +26,7 @@ class CustomAccordionItem extends React.Component {
     expand(newState) {
         this.setState({open: newState})
     }
-    
+
     getSubFormIdFromTarget(id) {
         return id.split("-")
     }
@@ -53,7 +53,11 @@ class CustomAccordionItem extends React.Component {
 
     render() {
         return (
-            <Accordion.Item key={this.props.key} eventKey={this.props.eventKey} style={{backgroundColor: this.state.bg, display: this.state.display, borderRadius: 0, border: "none", borderLeft: "1px solid rgba(0,0,0,0.1)"}}>
+            <Accordion.Item key={this.props.key} eventKey={this.props.eventKey} 
+            style={{
+                backgroundColor: this.state.bg, display: this.state.display, borderRadius: 0, border: "none", borderLeft: "1px solid rgba(0,0,0,0.1)",
+            }}
+            >
 
                 {this.props.module.subItem && this.props.module.subItem.length > 0 ?
                     <Accordion.Button style={{margin: 0,padding: 0,paddingRight: "10px", backgroundColor: "transparent", border: "none"}} onClick={()=>this.setState({open: !this.state.open})}>

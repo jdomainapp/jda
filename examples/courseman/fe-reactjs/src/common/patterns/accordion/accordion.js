@@ -28,8 +28,7 @@ export default class StructureConstructor {
         if(this.structure.length > 0) {
             if(this.iterator >= this.structure.length) {
                 this.resetItr()
-            } 
-            console.log(this.iterator)
+            }
             return {id: this.structure[this.iterator]["endpoint"], structure: this.structure[this.iterator++]["subItem"]}
         } else {
             return {id: undefined, structure: undefined}

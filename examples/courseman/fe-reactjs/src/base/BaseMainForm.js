@@ -41,9 +41,6 @@ export default class BaseMainForm extends React.Component {
     this.renderObject = this.renderObject.bind(this);
     this._renderObject = this._renderObject.bind(this);
 
-
-    this.addSubForm = this.addSubForm.bind(this);
-    this.getSubForm = this.getSubForm.bind(this);
     this.setAlert = this.setAlert.bind(this);
     this.resetState = this.resetState.bind(this);
     this.filterByType = this.filterByType.bind(this);
@@ -79,35 +76,6 @@ export default class BaseMainForm extends React.Component {
         }
       }
     ]);
-  }
-
-  addSubForm(subForm) {
-    const currentIndex = this.state.subForms.indexOf(subForm)
-    if(subForm && currentIndex === -1) {
-      this.state.subForms.push(subForm)
-    } else if (currentIndex !== -1) {
-      this.state.subForms[currentIndex] = subForm
-      console.log(currentIndex)
-      console.log(this.state.subForms)
-    }
-  }
-
-  getSubForm(subFormId) {
-    // size of state.subForms increase when switching between views -> should reset state.subForm somewhere
-    var res = Array()
-    for(var i = this.state.subForms.length - 1; i >= 0 ; i--) {
-      if(this.state.subForms[i].props.id === subFormId) {
-        res.push(this.state.subForms[i])
-        break
-      } else {
-        var subRes = this.state.subForms[i].getSubForm(subFormId)
-        if(subRes.length > 0) {
-          res.push(this.state.subForms[i], ...subRes)
-          break
-        }
-      }
-    }
-    return res
   }
 
   componentDidUpdate() {

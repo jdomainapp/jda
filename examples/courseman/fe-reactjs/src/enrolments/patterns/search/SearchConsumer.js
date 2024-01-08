@@ -24,7 +24,6 @@ export default class SearchConsumer extends PatternConsumer {
 
     onActionSelect(item) {
         if(item.length === 1) {
-            console.log(item)
             this.mainForm.handleStateChange("viewType", "details")
             this.mainForm.handleStateChange(
                 "currentId", item[0].id, true);
@@ -39,7 +38,6 @@ export default class SearchConsumer extends PatternConsumer {
     }
 
     actionUpdateContent(content) {
-        console.log(content)
         this.provider.onActionUpdateContent(content)
     }
 }
