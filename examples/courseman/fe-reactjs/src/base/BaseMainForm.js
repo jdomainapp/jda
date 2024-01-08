@@ -448,7 +448,7 @@ export default class BaseMainForm extends React.Component {
   renderTopButtonsExt() {
     // patterns
     return this.consumers.map((consumer)=>(
-      <>{consumer.onRenderRegion("searchbox", this)}</>
+      <>{consumer.onRenderRegion("searchbox")}</>
     ))
   }
   

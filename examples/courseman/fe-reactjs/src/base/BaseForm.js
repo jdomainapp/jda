@@ -101,7 +101,7 @@ export default class BaseForm extends React.Component {
     var res = {}
     for(var i = 0; i < this.props.mainForm.consumers.length; i ++) {
       if (this.props.mainForm.consumers[i].name == consumerName) {
-        let val = this.props.mainForm.consumers[i].onModelRegion("menuItem", this)
+        let val = this.props.mainForm.consumers[i].onModelRegion("menuItem")
         if(val) res[this.props.mainForm.consumers[i].name] = val
       }
     }

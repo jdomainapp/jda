@@ -6,7 +6,7 @@ export default class AccordionProvider extends PatternProvider {
         super()
     }
 
-    onRenderRegion(region, mainForm, props = {}) {
+    onRenderRegion(region, props = {}) {
         switch(region) {
             case "menu":
                 return this.onRenderMenu()
@@ -19,7 +19,7 @@ export default class AccordionProvider extends PatternProvider {
         }
     }
 
-    onModelRegion(region, mainForm, props = {}) {
+    onModelRegion(region, props = {}) {
         switch(region) {
             case "menuItem":
                 return this.onModelMenuItem()

@@ -5,19 +5,19 @@ export default class PatternProvider {
         this.pattern = undefined
     }
 
-    onRenderRegion(region, mainForm) {
+    onRenderRegion(region, props = {}) {
         
     }
     
-    onModelRegion(region, mainForm) {
+    onModelRegion(region, props = {}) {
         
     }
 
-    onAction() {
+    onAction(action, props = {}) {
 
     }
 
-    action() {
+    action(action, props = {}) {
         
     }
 

@@ -5,22 +5,23 @@ export default class PatternConsumer {
         this.name = props.name ? props.name : ""
         this.provider = props.provider
         props.provider.consumer = this
+        this.mainForm = props.mainForm
     }
 
-    onRenderRegion(region, mainForm, props = {}) {
-        return this.provider.onRenderRegion(region, mainForm, props)
+    onRenderRegion(region, props={}) {
+        return this.provider.onRenderRegion(region, this.mainForm)
     }
 
-    onModelRegion(region, mainForm, props = {}) {
-        return this.provider.onModelRegion(region, mainForm, props)
+    onModelRegion(region, props={}) {
+        return this.provider.onModelRegion(region, this.mainForm)
     }
 
-    onAction() {
+    onAction(action, props={}) {
 
     }
 
-    action() {
-
+    action(action, props={}) {
+        
     }
 
     onInitProviderModel() {
