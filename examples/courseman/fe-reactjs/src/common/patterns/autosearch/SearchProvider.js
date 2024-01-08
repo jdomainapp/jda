@@ -6,7 +6,7 @@ export default class SearchProvider extends PatternProvider {
         super(props)
     }
 
-    onRenderRegion(region, mainForm, props = {}) {
+    onRenderRegion(region, props = {}) {
         switch(region) {
             case "searchbox":
                 return this.onRenderSearch()
