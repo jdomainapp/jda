@@ -9,11 +9,11 @@ export default class PatternConsumer {
     }
 
     onRenderRegion(region, props={}) {
-        return this.provider.onRenderRegion(region, this.mainForm)
+        return this.provider.onRenderRegion(region)
     }
 
     onModelRegion(region, props={}) {
-        return this.provider.onModelRegion(region, this.mainForm)
+        return this.provider.onModelRegion(region)
     }
 
     onAction(action, props={}) {
