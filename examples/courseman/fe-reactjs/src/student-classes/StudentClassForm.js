@@ -34,7 +34,6 @@ export default class StudentClassForm extends BaseForm {
 {this.props.excludes && this.props.excludes.includes("student-classes") ? "" : <>
 <StudentSubmodule
   {...this.onModelRegionMenuItem("accordion")}
-  ref={ref=>{this.props.mainForm.addSubForm(ref)}}
   mainForm={this.props.mainForm}
   mode='submodule'
   viewType={this.props.viewType}

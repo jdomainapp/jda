@@ -13,7 +13,7 @@ export default class AccordionFactory  {
     static createProviderConsumer(props = {}) {
         let provider = new AccordionProvider()
         let consumer = new PatternConsumer({provider, name: "accordion"})
-        let state = props.structure ? props.structure : new StructureConstructor("student_classes", studentClasses)
+        let state = new StructureConstructor(props.name === undefined ? "student_classes" : props.name, props.structure ? props.structure : studentClasses)
         let pattern = new AccordionSearchableMenu({modules: state})
         pattern.registerProvider(provider)
 

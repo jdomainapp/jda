@@ -1,8 +1,9 @@
 import React, {createRef} from "react";
-import {Form, Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import {Form, Container, Nav, Navbar, NavDropdown,Collapse, Button} from "react-bootstrap";
 import Accordion from 'react-bootstrap/Accordion';
 import Pattern from "../Pattern";
 import StructureConstructor from "./accordion";
+import arrowdown from "./arrowdown.svg" 
 
 class CustomAccordionItem extends React.Component {
     constructor(props) {
@@ -26,7 +27,7 @@ class CustomAccordionItem extends React.Component {
     expand(newState) {
         this.setState({open: newState})
     }
-    
+
     getSubFormIdFromTarget(id) {
         return id.split("-")
     }
@@ -53,33 +54,44 @@ class CustomAccordionItem extends React.Component {
 
     render() {
         return (
-            <Accordion.Item key={this.props.key} eventKey={this.props.eventKey} style={{backgroundColor: this.state.bg, display: this.state.display, borderRadius: 0, border: "none", borderLeft: "1px solid rgba(0,0,0,0.1)"}}>
+            <div ref={this.props.module.ref}
+            style={{
+                backgroundColor: this.state.bg, display: this.state.display, borderRadius: 0, border: "none",
+            }}
+            >
+                <div style={{
+                    display: "flex",
+                    padding: "0 10px",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    height: "40px"
+                }}>
+                    <a  onClick={()=>this.handleLinkClick()} style={{color: "black", cursor: "pointer"}}>
+                        {this.props.module.name}
+                    </a>
+                    {this.props.module.subItem && this.props.module.subItem.length > 0 ? 
+                        <Button 
+                            style={{display: "flex", margin: 0,height: "30px", width: "30px", alignItems: "center", justifyContent: "center", border: "none", backgroundColor: "transparent"}} 
+                            onClick={()=>this.setState({open: !this.state.open})}
+                        >
+                            
+                            <img style={{height: "20px", width: "20px", transition: "0.2s ease-in-out",transformOrigin: "center center", transform: this.state.open ? "rotate(180deg)" : "rotate(0deg)"}} 
+                            src={arrowdown} alt="drop"/>
+                        </Button>
+                    : <></>}
+                </div>
+                {this.props.module.subItem && this.props.module.subItem.length > 0 ? 
+                    <Collapse style={{border: "none", marginLeft: "10px"}} in={this.state.open}>
+                        <div>
+                            {this.props.module.subItem ?
+                                <AccordionSearchableMenu structure={this.props.module.subItem} isSub/>
+                                : ""
+                            }
+                        </div>
+                    </Collapse>
+                : <></>}
 
-                {this.props.module.subItem && this.props.module.subItem.length > 0 ?
-                    <Accordion.Button style={{margin: 0,padding: 0,paddingRight: "10px", backgroundColor: "transparent", border: "none"}} onClick={()=>this.setState({open: !this.state.open})}>
-                        <Nav>
-                            <Nav.Link onClick={()=>this.handleLinkClick()} style={{color: "black"}}>
-                                <h4>{this.props.module.name}</h4>
-                            </Nav.Link>
-                        </Nav>
-                    </Accordion.Button>
-                    :
-                    <Nav>
-                        <Nav.Link  onClick={()=>this.handleLinkClick()} style={{color: "black"}}>
-                            <h5>{this.props.module.name}</h5>
-                        </Nav.Link>
-                    </Nav>
-                }
-                <Accordion.Collapse style={{border: "none"}} eventKey={this.props.index} in={this.state.open}>
-                    <div style={{padding: "5px 0 5px 10px", backgroundColor: "white"}}>
-                        {this.props.module.subItem ?
-                            <AccordionSearchableMenu modules={new StructureConstructor("", this.props.module.subItem)} isSub/>
-                            : ""
-                        }
-                    </div>
-                </Accordion.Collapse>
-
-            </Accordion.Item>
+            </div>
         )
     }
 }
@@ -89,7 +101,7 @@ class AccordionSearchableMenu extends Pattern {
         super(props);
         this.rawStructure = this.props.modules
         this.state = {
-            modules: this.initializeRef(this.rawStructure.getStructure()),
+            modules: this.props.modules !== undefined || this.props.structure !== undefined ? (this.props.modules !== undefined ? this.initializeRef(this.rawStructure.getStructure()) : this.props.structure) : [],
             first: this.props.isSub ? false : true
         }
         this.ready = true;
@@ -135,6 +147,7 @@ class AccordionSearchableMenu extends Pattern {
                 for(var i = 0; i < modules.length; i ++) {
                     const subRes = this.handleSearch(keyword, modules[i].subItem)
                     if(subRes) res = true
+                    if(!modules[i].ref.current) console.log(modules[i].endpoint)
                     modules[i].ref.current.expand(subRes)
                     if(this.isRelativeSubstring(modules[i].name, keyword)) {
                         modules[i].ref.current.changeBg("#E7F1FF")
@@ -162,24 +175,24 @@ class AccordionSearchableMenu extends Pattern {
 
     render() {
         return (
-            <div className={this.state.first == true?"position-sticky":""} style={{top: "5px"}}>
+            <div style={this.state.first == true ? {top: "5px", position: "sticky"} : {borderLeft: "1px solid rgba(0,0,0,0.1)"}}>
                 {this.state.first == true?
-                    <Form.Control style={{margin: this.props.small ? "0 10px 5px 10px" : "0", width: this.props.small ? "calc(100% - 20px)" : "100%"}} type="text" placeholder="Search categories" onChange={e=> {
+                    <Form.Control style={{margin: this.props.small ? "0 10px 5px 10px" : "0 0 5px 0", width: this.props.small ? "calc(100% - 20px)" : "100%"}} type="text" placeholder="Search categories" 
+                    onChange={e=> {
                         this.lastTyped = e.target.value;
-                        this.handleSearch(e.target.value, this.props.modules)
+                        this.handleSearch(e.target.value, this.state.modules)
                     }}/>
                 :
                     <></>
                 }
-
-                <Accordion defaultActiveKey="0" style={{border: "none"}}>
-                    {this.state.modules ?
-                        this.state.modules.map(
-                            (module, index) =>
-                                <CustomAccordionItem key={index} eventKey={index} module={module} ref={module.ref}/>
-                        )
-                        : ""}
-                </Accordion>
+                
+                {this.state.modules ?
+                    this.state.modules.map(
+                        (module) =>
+                            <CustomAccordionItem module={module} ref={module.ref}/>
+                    )
+                    : ""
+                }
             </div>
         )
     }

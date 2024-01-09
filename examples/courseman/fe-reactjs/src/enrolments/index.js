@@ -34,7 +34,6 @@ enrolmentAPI={enrolmentAPI}
 class EnrolmentMainView extends BaseMainForm {
   constructor(props) {
     super(props);
-    if(this.props) console.log(this.props)
     this.state = {
       ...this.state,
       current: {

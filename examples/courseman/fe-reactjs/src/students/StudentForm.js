@@ -53,7 +53,6 @@ export default class StudentForm extends BaseForm {
   <FormControl type="text" value={this.renderObject("current.address")} onChange={(e) => this.props.handleStateChange("current.address", e.target.value, false)} readOnly />
 </Col><AddressSubmodule 
   {...this.onModelRegionMenuItem("accordion")}
-  ref={ref=>{this.props.mainForm.addSubForm(ref)}}
   mainForm={this.props.mainForm}
   compact={true} 
   mode='submodule'
@@ -85,7 +84,6 @@ export default class StudentForm extends BaseForm {
 <br />{this.props.excludes && this.props.excludes.includes("students") ? "" : <>
       <EnrolmentSubmodule
        {...this.onModelRegionMenuItem("accordion")}
-      ref={ref=>{this.props.mainForm.addSubForm(ref)}}
       mainForm={this.props.mainForm}
       mode='submodule'
       viewType={this.props.viewType}

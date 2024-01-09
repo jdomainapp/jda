@@ -41,7 +41,6 @@ export default class AddressForm extends BaseForm {
 </Col>
 <StudentSubmodule 
   {...this.onModelRegionMenuItem("accordion")} 
-  ref={ref=>{this.props.mainForm.addSubForm(ref)}}
   mainForm={this.props.mainForm}
   compact={true} mode='submodule'
   viewType={this.props.viewType}
