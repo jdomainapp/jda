@@ -105,6 +105,10 @@ public @interface DAttr {
   /**<code>true</code> if the value of the associated attribute may be un-defined (e.g. null), otherwise false.<br>
    * Default: <code>true</code>*/
   public boolean optional() default true;
+
+  /**<code>false</code> use for search pattern in SPA app
+   * Default: <code>false</code>*/
+  public boolean searchKey() default false;
   
   /**the maximum length of the attribute value (only applicable to non-numeric, non-userdefined type)<br>
    * Default: <code>MetaConstants#DEFAULT_DATTR_LENGTH</code>
