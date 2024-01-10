@@ -2,6 +2,7 @@ import PatternConsumer from '../../../common/patterns/PatternConsumer'
 import SearchProvider from '../../../common/patterns/autosearch/SearchProvider'
 import AutoCompleteSearch from '../../../common/patterns/autosearch'
 import SearchConsumer from './SearchConsumer'
+import AddressesModel from '../../model/Addresses'
 
 export default class SearchFactory  {
     constructor() {
@@ -12,7 +13,7 @@ export default class SearchFactory  {
         let provider = new SearchProvider()
         let consumer = new SearchConsumer({provider, mainForm: props.mainForm})
         let pattern = new AutoCompleteSearch({
-            formatResult: (option) => {return option.name + " " + option.name}, 
+            formatResult: AddressesModel.formatResult, 
             searchFields: [], 
             content: props.mainForm.state.current.content
         })

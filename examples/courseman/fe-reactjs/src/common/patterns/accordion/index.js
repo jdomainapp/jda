@@ -56,10 +56,12 @@ class CustomAccordionItem extends React.Component {
         return (
             <div ref={this.props.module.ref}
             style={{
-                backgroundColor: this.state.bg, display: this.state.display, borderRadius: 0, border: "none",
+                display: this.state.display, borderRadius: 0, border: "none",
             }}
             >
                 <div style={{
+                    transition: "0.2s ease-in-out",
+                    backgroundColor: this.state.bg != "white" ? this.state.bg : (this.state.open ? "rgba(0,0,0,0.1)" : "white"), 
                     display: "flex",
                     padding: "0 10px",
                     justifyContent: "space-between",

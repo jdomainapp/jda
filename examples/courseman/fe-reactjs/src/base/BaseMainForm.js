@@ -439,8 +439,8 @@ export default class BaseMainForm extends React.Component {
     return (<>
     <Row className="d-flex justify-content-end mx-0">
       <Col md={9} />
-      <Button variant="secondary" onClick={this.resetState}>Reset</Button>
-      <Button className="ml-2" onClick={this.handleSubmit}>Save</Button>
+      <Button variant="secondary" style={{width: "80px"}} onClick={this.resetState}>Reset</Button>
+      <Button className="ml-2" style={{width: "80px"}} onClick={this.handleSubmit}>Save</Button>
     </Row>
     </>);
   }
