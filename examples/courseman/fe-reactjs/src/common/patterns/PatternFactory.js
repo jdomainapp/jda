@@ -6,6 +6,10 @@ export default class PatternFactory  {
         
     }
 
+    /*
+      @effects initialise a pair of (PatternProvider, PatternConsumer) and a Pattern object, whose services
+      are served by the pair to the target component.
+     */
     static createProviderConsumer(props = {}) {
         let provider = this.createProvider(props)
         let consumer = this.createConsumer(provider, props)
