@@ -4,7 +4,7 @@ import PatternFactory from '../../../common/patterns/PatternFactory'
 
 import AutoCompleteSearch from '../../../common/patterns/autosearch'
 import SearchConsumer from './SearchConsumer'
-import CourseModuleModel from '../../model/CourseModule'
+import CourseModule from '../../model/CourseModule'
 
 export default class SearchFactory  extends PatternFactory {
     constructor() {

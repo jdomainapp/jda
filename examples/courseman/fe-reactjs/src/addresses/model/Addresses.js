@@ -1,4 +1,4 @@
-export default class AddressesModel {
+export default class Addresses {
     constructor() {
 
     }

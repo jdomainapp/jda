@@ -1,4 +1,4 @@
-export default class EnrolmentsModel {
+export default class Enrolments {
     constructor() {
 
     }
