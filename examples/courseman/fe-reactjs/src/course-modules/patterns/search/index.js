@@ -1,4 +1,4 @@
-import PatternConsumer from '../../../common/patterns/PatternConsumer'
+// import PatternConsumer from '../../../common/patterns/PatternConsumer'
 import SearchProvider from '../../../common/patterns/autosearch/SearchProvider'
 import PatternFactory from '../../../common/patterns/PatternFactory'
 

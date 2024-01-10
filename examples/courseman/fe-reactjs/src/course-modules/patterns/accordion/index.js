@@ -1,6 +1,6 @@
 import courseModules from './MenuState'
-import PatternConsumer from '../../../common/patterns/PatternConsumer'
-import PatternProvider from '../../../common/patterns/PatternProvider'
+// import PatternConsumer from '../../../common/patterns/PatternConsumer'
+// import PatternProvider from '../../../common/patterns/PatternProvider'
 import StructureConstructor from '../../../common/patterns/accordion/accordion'
 import AccordionSearchableMenu from '../../../common/patterns/accordion'
 import AccordionProvider from '../../../common/patterns/accordion/AccordionProvider'
