@@ -19,8 +19,7 @@ export default class AddressForm extends BaseForm {
   }
 
   renderForm() {
-    return (<>
-<br />
+    return (<Form>
 <FormGroup>
   <Form.Label>Id</Form.Label>
   <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} readOnly />
@@ -55,6 +54,6 @@ export default class AddressForm extends BaseForm {
     this.props.handleStateChange("current.student", null, false,
       this.props.handleStateChange("current.studentId", ""))} /></FormGroup></> 
       }
-</>);
+</Form>);
   }
 }

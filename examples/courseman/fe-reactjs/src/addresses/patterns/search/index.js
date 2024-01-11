@@ -3,22 +3,23 @@ import SearchProvider from '../../../common/patterns/autosearch/SearchProvider'
 import AutoCompleteSearch from '../../../common/patterns/autosearch'
 import SearchConsumer from './SearchConsumer'
 import Addresses from '../../model/Addresses'
+import PatternFactory from '../../../common/patterns/PatternFactory'
 
-export default class SearchFactory  {
-    constructor() {
-        
+export default class SearchFactory extends PatternFactory {
+
+    static createProvider(props) {
+        return new SearchProvider()
     }
 
-    static createProviderConsumer(props = {}) {
-        let provider = new SearchProvider()
-        let consumer = new SearchConsumer({provider, mainForm: props.mainForm})
-        let pattern = new AutoCompleteSearch({
+    static createConsumer(props) {
+        return new SearchConsumer({provider: props.provider, mainForm: props.mainForm})
+    }
+
+    static createPattern(props) {
+        return new AutoCompleteSearch({
             formatResult: Addresses.formatResult, 
             searchFields: [], 
             content: props.mainForm.state.current.content
         })
-        pattern.registerProvider(provider)
-
-        return consumer
     }
 }
