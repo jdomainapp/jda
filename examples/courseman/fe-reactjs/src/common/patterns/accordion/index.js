@@ -177,7 +177,12 @@ class AccordionSearchableMenu extends Pattern {
 
     render() {
         return (
-            <div style={this.state.first == true ? {top: "5px", position: "sticky"} : {borderLeft: "1px solid rgba(0,0,0,0.1)"}}>
+            <div style={
+                this.state.first == true ? {
+                    top: "5px", 
+                    position: "sticky",
+                } : {borderLeft: "1px solid rgba(0,0,0,0.1)"}
+                }>
                 {this.state.first == true?
                     <Form.Control style={{margin: this.props.small ? "0 10px 5px 10px" : "0 0 5px 0", width: this.props.small ? "calc(100% - 20px)" : "100%"}} type="text" placeholder="Search categories" 
                     onChange={e=> {
@@ -187,14 +192,19 @@ class AccordionSearchableMenu extends Pattern {
                 :
                     <></>
                 }
-                
-                {this.state.modules ?
-                    this.state.modules.map(
-                        (module) =>
-                            <CustomAccordionItem module={module} ref={module.ref}/>
-                    )
-                    : ""
-                }
+                <div style={{
+                        maxHeight: "calc(100vh - 150px)",
+                        overflowY: "auto"
+                    }}>
+                    
+                    {this.state.modules ?
+                        this.state.modules.map(
+                            (module) =>
+                                <CustomAccordionItem module={module} ref={module.ref}/>
+                        )
+                        : ""
+                    }
+                </div>
             </div>
         )
     }

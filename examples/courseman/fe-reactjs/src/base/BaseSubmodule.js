@@ -36,9 +36,7 @@ export default class BaseSubmodule extends React.Component {
 
   renderExpandButton() {
     return (<>
-      <Button id={this.props.id} onFocus = {() => {
-      this.handleExpand(true)
-    }} variant={this.props.compact ? "outline-secondary" : "success"}
+      <Button variant={this.props.compact ? "outline-secondary" : "success"}
         className={this.props.compact ? "" : "mr-1"} onClick={()=>this.handleExpand(!this.state.expanded)}>
       {this.props.compact === true ? "" : <>{this.props.title}</>}
       <FontAwesomeIcon className={this.props.compact === true ? "ml-0" : "ml-1"}
@@ -59,7 +57,9 @@ export default class BaseSubmodule extends React.Component {
           readOnly={!this.props.current || this.props.current === ""}
           withoutModal /> : ""}
       {this.renderExpandButton()}
-      <div style={{display: this.state.expanded ? "block" : "none"}}>
+      <div id={this.props.id} onFocus = {() => {
+        this.handleExpand(true)
+      }} style={{height: this.state.expanded ? "fit-content" : "0", width: "100%", overflow: "hidden"}}>
           {this.renderModule(this.props, this.state.formRef)}
         </div>
     </>);
