@@ -1,6 +1,7 @@
 package jda.modules.mosarfrontend.reactjs.src.modules.inputGen;
 
 import jda.modules.dcsl.syntax.DAttr;
+import jda.modules.mosarfrontend.common.anotation.gen_controlers.IfReplacement;
 import jda.modules.mosarfrontend.common.anotation.gen_controlers.RequiredParam;
 import jda.modules.mosarfrontend.common.anotation.gen_controlers.SlotReplacement;
 import jda.modules.mosarfrontend.common.anotation.template_desc.FileTemplateDesc;
@@ -12,7 +13,7 @@ import org.modeshape.common.text.Inflector;
 public class SimpleInputGen extends NameFormatter {
     @SlotReplacement(id = "fieldLabel")
     public String fieldLabel(@RequiredParam.ModuleField DField field) {
-        return field.getAttributeDesc() != null ? field.getAttributeDesc().label() : Inflector.getInstance().titleCase(field.getDAttr().name());
+        return field.getAttributeDesc() != null ? field.getAttributeDesc().label() : Module__name(field.getDAttr().name());
     }
 
     @SlotReplacement(id = "fieldType")
@@ -28,6 +29,23 @@ public class SimpleInputGen extends NameFormatter {
     @SlotReplacement(id = "fieldName")
     public String fieldName(@RequiredParam.ModuleField DField field) {
         return field.getDAttr().name();
+    }
+
+    @IfReplacement(id = "readonly")
+    public boolean isReadonlyField(@RequiredParam.ModuleField DField dField) {
+        return dField.getDAttr().id();
+    }
+
+    @IfReplacement(id = "withValidate")
+    public boolean withValidate(@RequiredParam.ModuleField DField dField) {
+        if (dField.getAttributeDesc() != null)
+            return dField.getAttributeDesc().jsValidation().regex().length() > 0;
+        return false;
+    }
+
+    @IfReplacement(id = "withValidate1")
+    public boolean withValidate1(@RequiredParam.ModuleField DField dField) {
+        return withValidate(dField);
     }
 
     private String getFieldOptions(DAttr dAttr) {

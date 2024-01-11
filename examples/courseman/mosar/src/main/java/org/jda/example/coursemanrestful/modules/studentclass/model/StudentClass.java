@@ -42,7 +42,7 @@ public class StudentClass implements Subscriber {
     private static int idCounter;
 
     // candidate identifier
-    @DAttr(name="name",length=20,type=Type.String,optional=false, cid=true)
+    @DAttr(name="name",length=20,type=Type.String,optional=false, cid=true, searchKey = true)
     private String name;
 
     @DAttr(name="students",type=Type.Collection,

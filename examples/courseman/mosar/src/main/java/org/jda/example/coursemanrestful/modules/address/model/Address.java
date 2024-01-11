@@ -48,7 +48,7 @@ public class Address implements Subscriber, Publisher {
     private int id;
     private static int idCounter;
 
-    @DAttr(name = A_name, type = Type.String, length = 20, optional = false)
+    @DAttr(name = A_name, type = Type.String, length = 20, optional = false, searchKey = true)
     private String name;
 
     @DAttr(name = "student", type = Type.Domain, serialisable = false)

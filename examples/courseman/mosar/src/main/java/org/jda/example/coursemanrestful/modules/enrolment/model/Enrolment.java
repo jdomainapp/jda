@@ -41,7 +41,7 @@ public class Enrolment implements Comparable, Publisher {
   private static final String AttributeName_FinalMark = "finalMark";
 
   // attributes
-  @DAttr(name = "id", id = true, auto = true, type = Type.Integer, length = 5, optional = false, mutable = false)
+  @DAttr(name = "id", id = true, auto = true, type = Type.Integer, length = 5, optional = false, mutable = false, searchKey = true)
   private final int id;
   private static int idCounter = 0;
 

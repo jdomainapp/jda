@@ -36,14 +36,14 @@ public abstract class CourseModule {
     private final int id;
     private static int idCounter;
 
-    @DAttr(name = "code", auto = true, type = Type.String, length = 12,
+    @DAttr(name = "code", auto = true, type = Type.String, length = 12, searchKey = true,
             mutable = false, optional = false, derivedFrom = {"semester"})
     private String code;
 
-    @DAttr(name = "name", type = Type.String, length = 30, optional = false)
+    @DAttr(name = "name", type = Type.String, length = 30, optional = false, searchKey = true)
     private String name;
 
-    @DAttr(name = "description", type = Type.String, optional = true)
+    @DAttr(name = "description", type = Type.String, optional = true, searchKey = true)
     private String description;
 
     @DAttr(name = "semester", type = Type.Integer, length = 2, optional = false, min = 1)
@@ -54,7 +54,7 @@ public abstract class CourseModule {
     @DAttr(name = "rating", type = Type.Integer, optional = true, min=1, max=5)
     private int rating;
 
-    @DAttr(name = "cost", type = Type.Double, optional = true)
+    @DAttr(name = "cost", type = Type.Double, optional = true, min = 100, max = 500)
     private double cost;
 
     // static variable to keep track of module code

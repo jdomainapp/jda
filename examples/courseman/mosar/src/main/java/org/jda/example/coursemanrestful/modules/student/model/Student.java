@@ -57,7 +57,7 @@ public class Student implements Subscriber, Publisher {
 
     // attributes of students
     @DAttr(name = A_id, id = true, type = Type.String, auto = true, length = 6,
-            mutable = false, optional = false)
+            mutable = false, optional = false, searchKey = true)
     private String id;
     //static variable to keep track of student id
     private static int idCounter = 0;

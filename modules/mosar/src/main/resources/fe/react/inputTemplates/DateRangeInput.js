@@ -1,5 +1,5 @@
 <br />
-        <FormGroup {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}>
+        <FormGroup {...this.onModelRegionMenuItem("accordion")}>
             <Form.Label>@slot{{fieldLabel}}</Form.Label>
             <DateRangePicker
                   onChange={item => this.handleDateRangeSelect(item, "@slot{{rangeID}}")}

@@ -89,7 +89,12 @@ public class JDateFieldSimple<C> extends JBindableField {
       // TODO Auto-generated method stub
       return true;
     }
-    
+
+    @Override
+    public boolean searchKey() {
+      return false;
+    }
+
     @Override
     public String name() {
       return "year";

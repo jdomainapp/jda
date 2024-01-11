@@ -3,6 +3,7 @@ package org.jda.example.coursemanrestful.modules.coursemodule;
 import jda.modules.mccl.conceptmodel.view.RegionName;
 import jda.modules.mccl.conceptmodel.view.RegionType;
 import jda.modules.mccl.syntax.InputTypes;
+import jda.modules.mccl.syntax.JSValidation;
 import jda.modules.mccl.syntax.MCCLConstants.AlignmentX;
 import jda.modules.mccl.syntax.ModuleDescriptor;
 import jda.modules.mccl.syntax.SetUpDesc;
@@ -10,6 +11,7 @@ import jda.modules.mccl.syntax.controller.ControllerDesc;
 import jda.modules.mccl.syntax.model.ModelDesc;
 import jda.modules.mccl.syntax.view.AttributeDesc;
 import jda.modules.mccl.syntax.view.ViewDesc;
+import jda.modules.mosarfrontend.common.utils.RegexUtils;
 import jda.modules.setup.commands.CopyResourceFilesCommand;
 import jda.mosa.controller.Controller;
 import jda.mosa.view.View;
@@ -50,13 +52,19 @@ public class ModuleCourseModule {
     @AttributeDesc(label = "Code", alignX = AlignmentX.Center)
     private String code;
 
-    @AttributeDesc(label = "Name")
+    @AttributeDesc(label = "Name", jsValidation = @JSValidation(regex = "", invalidMsg = "Name must start with 'S' and followed by one or more numbers!"))
     private String name;
+
+    @AttributeDesc(label = "Description", inputType = InputTypes.TextArea, jsValidation = @JSValidation(regex = "", invalidMsg = "Description must only include characters!"))
+    private String description;
 
     @AttributeDesc(label = "Semester", alignX = AlignmentX.Center)
     private int semester;
 
-    @AttributeDesc(label = "Credits", alignX = AlignmentX.Center)
+    @AttributeDesc(label = "Cost", inputType = InputTypes.Slider)
+    private int cost;
+
+    @AttributeDesc(label = "Credits", alignX = AlignmentX.Center, jsValidation = @JSValidation(regex = "", invalidMsg = "Name must be a number or a float number!"))
     private int credits;
 
     @AttributeDesc(label = "Rating", inputType = InputTypes.Rating)

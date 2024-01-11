@@ -1,26 +1,57 @@
-export default class PatternFactory {
+import PatternConsumer from './PatternConsumer'
+import PatternProvider from './PatternProvider'
+
+export default class PatternFactory  {
     constructor() {
-
+        
     }
 
-    createProvider(props = {}) {
-        return null
-    }
-
-    createConsumer(props = {}) {
-        return null
-    }
-
-    createPattern(props = {}) {
-        return null
-    }
-
-    static createProviderConsumer(props) {
+    /*
+      @effects initialise a pair of (PatternProvider, PatternConsumer) and a Pattern object, whose services
+      are served by the pair to the target component.
+     */
+    static createProviderConsumer(props = {}) {
         let provider = this.createProvider(props)
-        let consumer = this.createConsumer({provider, ...props})
-        let pattern = this.createPattern(props)
+        let consumer = this.createConsumer(provider, props)
+        let state = this.initPatternState(props)
+        let pattern = this.createPattern(state)
         pattern.registerProvider(provider)
 
         return consumer
+    }
+
+    /* implement by subtype
+      @effects result is an instance of PatternProvider
+     */
+    static createProvider(props) {
+
+    }
+
+    /* implement by subtype
+      @effects create and return an instance of PatternConsumer that is paired with its specified provider
+     */
+    static createConsumer(provider, props) {
+      return new PatternConsumer({provider, mainForm: props.mainForm, name: this.getPatternName()})
+    }
+
+    // implement by subtype
+    static getPatternName() {
+
+    }
+
+    /*
+      implement by subtype
+      @effects result is an object, each property of which is a state variable
+     */    
+    static initPatternState(props) {
+
+    }
+
+    /*
+      implement by subtype
+      @requires state is an object, each property of which is a state variable
+     */
+    static createPattern(state) {
+
     }
 }

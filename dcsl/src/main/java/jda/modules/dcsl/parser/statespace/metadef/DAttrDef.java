@@ -195,6 +195,11 @@ public class DAttrDef extends MetaAttrDef implements DAttr {
     return (Integer) propValMap.getOrDefault("length", -1);
   }
 
+  @Override
+  public boolean searchKey() {
+    return (Boolean) propValMap.getOrDefault("searchKey", false);
+  }
+
   /* (non-Javadoc)
    * @see domainapp.basics.model.meta.DAttr#max()
    */
