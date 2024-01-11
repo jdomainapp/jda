@@ -47,7 +47,7 @@ export default class SearchFactory  extends PatternFactory {
      */ 
     static initPatternState(props) {
       let state = {
-              formatResult: CourseModuleModel.formatResult, 
+              formatResult: CourseModule.formatResult, 
               searchFields: props.mainForm.getSearchFields(), 
               content: props.mainForm.state.current.content
           }
