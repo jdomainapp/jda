@@ -1,6 +1,5 @@
 <template src="./template/index.html"></template>
 <script>
-import { store } from "../../constants/store";
 
 export default {
     props: {
@@ -15,7 +14,6 @@ export default {
     data() {
         return {
             display: 1,
-            store: store,
             dataSubForm: {
                 mode: "create",
                 parent: this.parentData
@@ -28,28 +26,6 @@ export default {
     },
 
     mounted() {},
-
-    // for reactive data
-    // computed: {
-    //     display: {
-    //         get() {
-    //             return store.display;
-    //         },
-    //         set(value) {
-    //             mutations.setDisplay(value);
-    //         },
-    //     },
-    // },
-
-    // when start import component, change display to 2
-    // created() {
-    //     mutations.setDisplay(2);
-    // },
-
-    // when about to destroy component, change display to null
-    // beforeDestroy() {
-    //     mutations.setDisplay(null);
-    // },
 
     methods: {
         setData(data) {

@@ -1,9 +1,8 @@
-// This file is to store variables that are used in the store
+// This file is to store global variables
 import Vue from "vue";
 
 // display can be number or null
 export const store = Vue.observable({
-
     // demo nested tree
     form_trees: [
         {
@@ -40,7 +39,10 @@ export const store = Vue.observable({
                                         {
                                             name: "Address ID",
                                             children: [
-                                                { name: "City name", children: [] },
+                                                {
+                                                    name: "City name",
+                                                    children: [],
+                                                },
                                             ],
                                         },
                                         {
@@ -64,7 +66,7 @@ export const store = Vue.observable({
                         },
                     ],
                 },
-            ]
+            ],
         },
         {
             name: "Student",
@@ -81,14 +83,26 @@ export const store = Vue.observable({
                             name: "Address ID",
                             children: [{ name: "City name", children: [] }],
                         },
-                    ]
-                }
+                    ],
+                },
             ],
-        }
-    ]});
+        },
+    ],
+
+    // can be either null or recursive tree
+    tree: {
+        name: "root",
+        children: [],
+    },
+});
 
 export const mutations = {
-    setDisplay(value) {
-        store.display = value;
+    // demo nested tree
+    addNode(parentNode, sidebarID) {
+        let newNode = {
+            name: sidebarID,
+            children: [],
+        };
+        parentNode.children.push(newNode);
     },
 };

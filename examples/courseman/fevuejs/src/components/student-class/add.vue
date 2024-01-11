@@ -5,6 +5,7 @@ import Message from "../../constants/message";
 import { addStudentClass, updateStudentClass } from "../../api/student_class";
 
 import { getStudent } from "../../api/student";
+
 export default {
     props: {
         parentData: Object,
