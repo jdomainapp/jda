@@ -1,22 +1,27 @@
 import students from './MenuState'
 import PatternConsumer from '../../../common/patterns/PatternConsumer'
-import PatternProvider from '../../../common/patterns/PatternProvider'
 import StructureConstructor from '../../../common/patterns/accordion/accordion'
 import AccordionSearchableMenu from '../../../common/patterns/accordion'
 import AccordionProvider from '../../../common/patterns/accordion/AccordionProvider'
+import PatternFactory from "../../../common/patterns/PatternFactory";
 
-export default class AccordionFactory  {
-    constructor() {
-        
+export default class AccordionFactory extends PatternFactory {
+
+    static createProvider(props) {
+        return new AccordionProvider()
     }
 
-    static createProviderConsumer(props = {}) {
-        let provider = new AccordionProvider()
-        let consumer = new PatternConsumer({provider, name: "accordion"})
-        let state = new StructureConstructor(props.name === undefined ? "students" : props.name, props.structure ? props.structure : students)
-        let pattern = new AccordionSearchableMenu({modules: state})
-        pattern.registerProvider(provider)
+    static createConsumer(props) {
+        return new PatternConsumer({provider: props.provider, name: "accordion"})
+    }
 
-        return consumer
+    static initPatternState(props) {
+        return {
+            modules: new StructureConstructor(props.name === undefined ? "students" : props.name, props.structure ? props.structure : students)
+        }
+    }
+
+    static createPattern(state) {
+        return new AccordionSearchableMenu(state)
     }
 }

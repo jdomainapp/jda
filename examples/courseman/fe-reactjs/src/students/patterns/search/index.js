@@ -1,24 +1,50 @@
-import PatternConsumer from '../../../common/patterns/PatternConsumer'
+
+// import PatternConsumer from '../../../common/patterns/PatternConsumer'
 import SearchProvider from '../../../common/patterns/autosearch/SearchProvider'
+import PatternFactory from '../../../common/patterns/PatternFactory'
+
 import AutoCompleteSearch from '../../../common/patterns/autosearch'
 import SearchConsumer from './SearchConsumer'
 import Students from '../../model/Students'
 
-export default class SearchFactory  {
-    constructor() {
-        
+
+export default class SearchFactory  extends PatternFactory {
+
+    // implement by subtype
+    static createProvider(props) {
+        return new SearchProvider()
     }
 
-    static createProviderConsumer(props = {}) {
-        let provider = new SearchProvider()
-        let consumer = new SearchConsumer({provider, mainForm: props.mainForm})
-        let pattern = new AutoCompleteSearch({
-            formatResult: Students.formatResult, 
-            searchFields: [], 
-            content: props.mainForm.state.current.content
-        })
-        pattern.registerProvider(provider)
+    /* implement by subtype
+      @effects create and return an instance of PatternConsumer that is paired with its specified provider
+     */
+    static createConsumer(props) {
+        return new SearchConsumer({provider: props.provider, mainForm: props.mainForm})
+    }
 
-        return consumer
+    // implement by subtype
+    static getPatternName() {
+        return "autosearch"
+    }
+
+    /*
+      implement by subtype
+      @effects result is an object, each property of which is a state variable
+     */
+    static initPatternState(props) {
+        let state = {
+            formatResult: Students.formatResult,
+            searchFields: [],
+            content: props.mainForm.state.current.content
+        }
+        return state
+    }
+
+    /*
+      implement by subtype
+      @requires state is an object, each property of which is a state variable
+     */
+    static createPattern(state) {
+        return new AutoCompleteSearch(state)
     }
 }

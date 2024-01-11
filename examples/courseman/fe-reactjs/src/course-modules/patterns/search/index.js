@@ -7,22 +7,6 @@ import SearchConsumer from './SearchConsumer'
 import CourseModule from '../../model/CourseModule'
 
 export default class SearchFactory  extends PatternFactory {
-    constructor() {
-        
-    }
-
-    // static createProviderConsumer(props = {}) {
-    //     let provider = new SearchProvider()
-    //     let consumer = new SearchConsumer({provider, mainForm: props.mainForm})
-    //     let pattern = new AutoCompleteSearch({
-    //         formatResult: CourseModuleModel.formatResult, 
-    //         searchFields: props.mainForm.getSearchFields(), 
-    //         content: props.mainForm.state.current.content
-    //     })
-    //     pattern.registerProvider(provider)
-
-    //     return consumer
-    // }
 
     // implement by subtype
     static createProvider(props) {
@@ -32,8 +16,8 @@ export default class SearchFactory  extends PatternFactory {
     /* implement by subtype
       @effects create and return an instance of PatternConsumer that is paired with its specified provider
      */
-    static createConsumer(provider, props) {
-      return new SearchConsumer({provider, mainForm: props.mainForm})
+    static createConsumer(props) {
+      return new SearchConsumer({provider: props.provider, mainForm: props.mainForm})
     }
 
     // implement by subtype

@@ -3,7 +3,7 @@ import {Form, Container, Nav, Navbar, NavDropdown,Collapse, Button} from "react-
 import Accordion from 'react-bootstrap/Accordion';
 import Pattern from "../Pattern";
 import StructureConstructor from "./accordion";
-import arrowdown from "./arrowdown.svg" 
+import arrowdown from "./arrowdown.svg"
 
 class CustomAccordionItem extends React.Component {
     constructor(props) {
@@ -47,6 +47,8 @@ class CustomAccordionItem extends React.Component {
             for(var i = 0; i < subFormId.length; i ++) {
                 focusElement(i, subFormId)
             }
+
+            this.changeBg("#E7F1FF")
         } else {
             window.location.href = this.props.module.endpoint
         }
@@ -61,28 +63,28 @@ class CustomAccordionItem extends React.Component {
             >
                 <div style={{
                     transition: "0.2s ease-in-out",
-                    backgroundColor: this.state.bg != "white" ? this.state.bg : (this.state.open ? "rgba(0,0,0,0.1)" : "white"), 
+                    backgroundColor: this.state.bg != "white" ? this.state.bg : (this.state.open ? "rgba(0,0,0,0.1)" : "white"),
                     display: "flex",
                     padding: "0 10px",
                     justifyContent: "space-between",
                     alignItems: "center",
                     height: "40px"
                 }}>
-                    <a  onClick={()=>this.handleLinkClick()} style={{color: "black", cursor: "pointer"}}>
+                    <a onClick={()=>this.handleLinkClick()} style={{color: "black", cursor: "pointer"}}>
                         {this.props.module.name}
                     </a>
-                    {this.props.module.subItem && this.props.module.subItem.length > 0 ? 
-                        <Button 
-                            style={{display: "flex", margin: 0,height: "30px", width: "30px", alignItems: "center", justifyContent: "center", border: "none", backgroundColor: "transparent"}} 
+                    {this.props.module.subItem && this.props.module.subItem.length > 0 ?
+                        <Button
+                            style={{display: "flex", margin: 0,height: "30px", width: "30px", alignItems: "center", justifyContent: "center", border: "none", backgroundColor: "transparent"}}
                             onClick={()=>this.setState({open: !this.state.open})}
                         >
-                            
-                            <img style={{height: "20px", width: "20px", transition: "0.2s ease-in-out",transformOrigin: "center center", transform: this.state.open ? "rotate(180deg)" : "rotate(0deg)"}} 
+
+                            <img style={{height: "20px", width: "20px", transition: "0.2s ease-in-out",transformOrigin: "center center", transform: this.state.open ? "rotate(180deg)" : "rotate(0deg)"}}
                             src={arrowdown} alt="drop"/>
                         </Button>
                     : <></>}
                 </div>
-                {this.props.module.subItem && this.props.module.subItem.length > 0 ? 
+                {this.props.module.subItem && this.props.module.subItem.length > 0 ?
                     <Collapse style={{border: "none", marginLeft: "10px"}} in={this.state.open}>
                         <div>
                             {this.props.module.subItem ?
@@ -179,12 +181,12 @@ class AccordionSearchableMenu extends Pattern {
         return (
             <div style={
                 this.state.first == true ? {
-                    top: "5px", 
+                    top: "5px",
                     position: "sticky",
                 } : {borderLeft: "1px solid rgba(0,0,0,0.1)"}
                 }>
                 {this.state.first == true?
-                    <Form.Control style={{margin: this.props.small ? "0 10px 5px 10px" : "0 0 5px 0", width: this.props.small ? "calc(100% - 20px)" : "100%"}} type="text" placeholder="Search categories" 
+                    <Form.Control style={{margin: this.props.small ? "0 10px 5px 10px" : "0 0 5px 0", width: this.props.small ? "calc(100% - 20px)" : "100%"}} type="text" placeholder="Search categories"
                     onChange={e=> {
                         this.lastTyped = e.target.value;
                         this.handleSearch(e.target.value, this.state.modules)
@@ -196,7 +198,7 @@ class AccordionSearchableMenu extends Pattern {
                         maxHeight: "calc(100vh - 150px)",
                         overflowY: "auto"
                     }}>
-                    
+
                     {this.state.modules ?
                         this.state.modules.map(
                             (module) =>

@@ -86,13 +86,13 @@ export default class EnrolmentForm extends BaseForm {
   <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.finalMark")} onChange={(e) => this.props.handleStateChange("current.finalMark", e.target.value, false)} readOnly />
 </FormGroup>
 
-<FormGroup {...this.onModelRegionMenuItem("accordion")}>
-  <Form.Label>Date Range</Form.Label>
+<FormGroup>
+  <Form.Label {...this.onModelRegionMenuItem("accordion")}>Date Range</Form.Label>
   <DateRangePicker
       onChange={item => this.handleSelect(item)}
       showSelectionPreview={true}
       moveRangeOnFirstSelection={false}
-      months={2}
+      months={1}
       ranges={[{
         startDate: this.props.current && this.props.current.startDate ? Date.parse(this.props.current.startDate) : new Date(),
         endDate: this.props.current && this.props.current.endDate ? Date.parse(this.props.current.endDate) : addDays(new Date(), 7),

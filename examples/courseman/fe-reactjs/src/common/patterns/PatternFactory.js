@@ -12,7 +12,7 @@ export default class PatternFactory  {
      */
     static createProviderConsumer(props = {}) {
         let provider = this.createProvider(props)
-        let consumer = this.createConsumer(provider, props)
+        let consumer = this.createConsumer({provider, ...props})
         let state = this.initPatternState(props)
         let pattern = this.createPattern(state)
         pattern.registerProvider(provider)
@@ -30,8 +30,8 @@ export default class PatternFactory  {
     /* implement by subtype
       @effects create and return an instance of PatternConsumer that is paired with its specified provider
      */
-    static createConsumer(provider, props) {
-      return new PatternConsumer({provider, mainForm: props.mainForm, name: this.getPatternName()})
+    static createConsumer(props) {
+      return new PatternConsumer({provider: props.provider, mainForm: props.mainForm, name: this.getPatternName()})
     }
 
     // implement by subtype

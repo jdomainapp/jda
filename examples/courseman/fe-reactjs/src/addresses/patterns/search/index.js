@@ -15,11 +15,15 @@ export default class SearchFactory extends PatternFactory {
         return new SearchConsumer({provider: props.provider, mainForm: props.mainForm})
     }
 
-    static createPattern(props) {
-        return new AutoCompleteSearch({
-            formatResult: Addresses.formatResult, 
-            searchFields: [], 
+    static initPatternState(props) {
+        return {
+            formatResult: Addresses.formatResult,
+            searchFields: [],
             content: props.mainForm.state.current.content
-        })
+        }
+    }
+
+    static createPattern(state) {
+        return new AutoCompleteSearch(state)
     }
 }
