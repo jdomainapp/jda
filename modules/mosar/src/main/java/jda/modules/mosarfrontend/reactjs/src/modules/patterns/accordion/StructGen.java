@@ -27,6 +27,17 @@ public class StructGen extends NameFormatter {
             slotValues.add(new Slot("subStructure", ""));
             result.add(slotValues);
         }
+        genEndpoints(fields,result,mKey,pKey);
+        if(mcc.getSubDomains().size()>0){
+            for (String type: mcc.getSubDomains().keySet()){
+                genEndpoints(mcc.getSubDomains().get(type).getDFields(),result,mKey,pKey);
+            }
+        }
+        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+
+    }
+
+    private void genEndpoints(DField[] fields, ArrayList<ArrayList<Slot>> result, String mKey, String pKey){
         for (DField field : fields) {
             if(field.getInputType() == InputTypes.DateRangeStart){//only for date_range
                 ArrayList<Slot> slotValuesDateRange = new ArrayList<>();
@@ -72,7 +83,5 @@ public class StructGen extends NameFormatter {
             }
             result.add(slotValues);
         }
-        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
-
     }
 }

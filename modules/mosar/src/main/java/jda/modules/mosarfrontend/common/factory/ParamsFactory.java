@@ -28,6 +28,7 @@ public class ParamsFactory {
     private NewMCC currentNewMCC;
     private Domain currentSubDomain;
     private DField currentField;
+    private DField[] moduleFields;
     private Map<String, NewMCC> domains;
     private SystemDesc systemDesc;
 
@@ -55,6 +56,7 @@ public class ParamsFactory {
 
     public void setCurrentModule(String module) {
         this.currentNewMCC = domains.get(module);
+        this.moduleFields = null; // reset moduleFields
     }
 
     public void setCurrentSubDomain(String subDomainName) {
@@ -137,9 +139,13 @@ public class ParamsFactory {
         return this.currentNewMCC.getKey();
     }
 
+
     @RequiredParam.ModuleFields
     public DField[] getModuleFields() {
-        return this.currentNewMCC.getDFields();
+        if (this.moduleFields == null) {
+            this.moduleFields = this.currentNewMCC.getDFields();
+        }
+        return this.moduleFields;
     }
 
     @RequiredParam.ModuleField

@@ -1,7 +1,6 @@
 package jda.modules.mosarfrontend.reactjs.src.modules;
 
 import jda.modules.dcsl.syntax.DAssoc;
-import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.mccl.syntax.InputTypes;
 import jda.modules.mosarfrontend.common.anotation.gen_controlers.*;
 import jda.modules.mosarfrontend.common.anotation.template_desc.FileTemplateDesc;
@@ -11,11 +10,10 @@ import jda.modules.mosarfrontend.common.factory.Slot;
 import jda.modules.mosarfrontend.common.utils.DField;
 import jda.modules.mosarfrontend.common.utils.Domain;
 import jda.modules.mosarfrontend.common.utils.NewMCC;
-import jda.modules.mosarfrontend.common.utils.RegexUtils;
 import jda.modules.mosarfrontend.common.utils.common_gen.FieldsUtil;
 import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
-import jda.modules.mosarfrontend.reactjs.src.modules.inputGen.*;
-import org.modeshape.common.text.Inflector;
+import jda.modules.mosarfrontend.reactjs.src.modules.inputGen.FormInputsGen;
+import jda.modules.mosarfrontend.reactjs.src.modules.inputGen.TypeSelectGen;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,21 +27,38 @@ public class FormGen extends BaseModuleGen {
     public String withFileName(@RequiredParam.ModuleName String name) {
         return name + "Form";
     }
-    @IfReplacement(id = "hasDateRange")
+
+    @IfReplacement(ids = {"hasDateRange", "hasDateRange2", "hasDateRange3"})
     public boolean hasDateRange(@RequiredParam.ModuleFields DField[] fields) {
         return Arrays.stream(fields).filter(f -> f.getInputType() == InputTypes.DateRangeStart).toArray(DField[]::new).length > 0;
     }
 
-    @IfReplacement(id = "hasDateRange2")
-    public boolean hasDateRange2(@RequiredParam.ModuleFields DField[] fields) {
-        return Arrays.stream(fields).filter(f -> f.getInputType() == InputTypes.DateRangeStart).toArray(DField[]::new).length > 0;
+    @IfReplacement(ids = {"hasSubType", "hasSubType2", "hasSubType3"})
+    public boolean hasSubType(@RequiredParam.MCC NewMCC mcc) {
+        return mcc.getSubDomains().size() > 0;
     }
 
-    @IfReplacement(id = "hasDateRange3")
-    public boolean hasDateRange3(@RequiredParam.ModuleFields DField[] fields) {
-        return Arrays.stream(fields).filter(f -> f.getInputType() == InputTypes.DateRangeStart).toArray(DField[]::new).length > 0;
+    @IfReplacement(id="hasTextAreaInput")
+    public boolean hasTextAreaInput(@RequiredParam.ModuleFields DField[] fields){
+        return Arrays.stream(fields).filter(f -> f.getInputType() == InputTypes.TextArea).toArray(DField[]::new).length > 0;
     }
 
+    @LoopReplacement(id = "subTypeForms")
+    public Slot[][] subTypeForms(@RequiredParam.SubDomains Map<String, Domain> subDomains, @RequiredParam.ModuleFields DField[] fields) {
+        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
+        int skipCount = 0;
+        for (String type : subDomains.keySet()) {
+            ArrayList<Slot> slotValues = new ArrayList<>();
+            slotValues.add(new Slot("subtype", NameFormatter.moduleName(type)));
+            slotValues.add(new Slot("skipCount", String.valueOf(skipCount)));
+            skipCount += subDomains.get(type).getDFields().length;
+            ParamsFactory.getInstance().setModuleFields(subDomains.get(type).getDFields());
+            slotValues.add(new Slot("subTypeFormItems", (new FileFactory(FormInputsGen.class)).genFile(false)));
+            ParamsFactory.getInstance().setModuleFields(fields);
+            result.add(slotValues);
+        }
+        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+    }
 
     @LoopReplacement(id = "validations")
     public Slot[][] validations(@RequiredParam.ModuleFields DField[] fields) {
@@ -52,7 +67,7 @@ public class FormGen extends BaseModuleGen {
         for (DField field : hasRegexFields) {
             System.out.println("ID" + field.getInputID());
             ArrayList<Slot> slotValues = FieldsUtil.getBasicFieldSlots(field);
-            if(field.getAttributeDesc()!=null){
+            if (field.getAttributeDesc() != null) {
                 slotValues.add(new Slot("regex", field.getAttributeDesc().jsValidation().regex()));
                 slotValues.add(new Slot("validMsg", field.getAttributeDesc().jsValidation().validMsg()));
                 slotValues.add(new Slot("invalidMsg", field.getAttributeDesc().jsValidation().invalidMsg()));
@@ -63,7 +78,7 @@ public class FormGen extends BaseModuleGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacement(ids = {"dateRangeStates", "rangeIDMap"})
+    @LoopReplacement(ids = {"dateRangeStates", "rangeIDMap","dateRangeSelectHandler"})
     public Slot[][] dateRangeStates(@RequiredParam.ModuleFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         DField[] startFields = Arrays.stream(fields).filter(f -> f.getInputType() == InputTypes.DateRangeStart).toArray(DField[]::new);
@@ -82,123 +97,19 @@ public class FormGen extends BaseModuleGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    public void addBasicSlotForInput(DField[] dFields, ArrayList<ArrayList<Slot>> result, String type) {
-        for (DField field : dFields) {
-            ArrayList<Slot> slotValues = new ArrayList<>();
-            String fieldLabel = field.getAttributeDesc() != null ? field.getAttributeDesc().label() : Inflector.getInstance().titleCase(field.getDAttr().name());
-            String fieldName = field.getDAttr().name();
-            slotValues.add(new Slot("fieldLabel", fieldLabel));
-            slotValues.add(new Slot("type", type));
-            slotValues.add(new Slot("fieldName", fieldName));
-            slotValues.add(new Slot("fieldType", getFieldType(field.getDAttr().type())));
-            slotValues.add(new Slot("fieldOptions", getFieldOptions(field.getDAttr())));
-            result.add(slotValues);
-        }
-    }
-
     @SlotReplacement(id = "typeSelector")
-    public String typeSelector(@RequiredParam.MCC NewMCC mcc){
-        if(!mcc.getSubDomains().isEmpty()){
+    public String typeSelector(@RequiredParam.MCC NewMCC mcc) {
+        if (!mcc.getSubDomains().isEmpty()) {
             return (new FileFactory(TypeSelectGen.class)).genFile(false);
         }
         return "";
     }
-    @LoopReplacement(id = "formInputs")
-    public Slot[][] formInputs( @RequiredParam.ModuleFields DField[] dFields) {
-        ArrayList<ArrayList<Slot>> result = new ArrayList<>();
 
-        for (DField field : dFields) {
-            ParamsFactory.getInstance().setCurrentModuleField(field);
-            ArrayList<Slot> slotValues = new ArrayList<>();
-            String inputCode = "";
-            try {
-                if (field.getAttributeDesc() != null && field.getAttributeDesc().inputType() != InputTypes.Undefined) {
-                    System.out.println("Specific Input");
-                    switch (field.getAttributeDesc().inputType()) {
-                        case Rating:
-                            inputCode = (new FileFactory(RatingInputGen.class)).genFile(false);
-                            break;
-                        case DateRangeStart:
-                            inputCode = (new FileFactory(DateRangeInputGen.class)).genFile(false);
-                            break;
-                        case Slider:
-                            inputCode = (new FileFactory(SliderInputGen.class)).genFile(false);
-                            break;
-                        case TextArea:
-                            inputCode = (new FileFactory(TextAreaInputGen.class)).genFile(false);
-                            break;
-                    }
-                } else if (field.getEnumValues() != null) {
-                    inputCode = (new FileFactory(EnumInputGen.class)).genFile(false);
-                } else if (field.getDAssoc() != null) {
-                    if (field.getDAssoc().ascType() == DAssoc.AssocType.One2One)
-                        inputCode = (new FileFactory(OneOneInputGen.class)).genFile(false);
-                    else {
-                        if (field.getDAssoc().endType() == DAssoc.AssocEndType.One)
-                            inputCode = (new FileFactory(OneSideInputGen.class)).genFile(false);
-                        else inputCode = (new FileFactory(ManySideInputGen.class)).genFile(false);
-                    }
 
-                } else {
-                    inputCode = (new FileFactory(SimpleInputGen.class)).genFile(false);
-                }
-            } catch (Exception e) {
-            }
-            slotValues.add(new Slot("inputCode", inputCode));
-            result.add(slotValues);
-        }
-        return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
+    @SlotReplacement(id="formInputs")
+    public String formInputs(){
+        return new FileFactory(FormInputsGen.class).genFile(false);
     }
-    private String getFieldOptions(DAttr dAttr) {
-        StringBuilder fieldOptions = new StringBuilder();
-        if (dAttr.id() || !dAttr.mutable() || dAttr.auto())
-            fieldOptions.append("disabled ");
-        if (!dAttr.optional() && !dAttr.id() && !dAttr.auto()) {
-            fieldOptions.append("required ");
-        }
-        if (!Double.isInfinite(dAttr.max()))
-            fieldOptions.append("max={" + dAttr.max() + "} ");
-        if (!Double.isInfinite(dAttr.min()))
-            fieldOptions.append("min={" + dAttr.min() + "} ");
-        if (dAttr.length() > 0)
-            fieldOptions.append("maxLength={" + dAttr.length() + "} ");
-        return fieldOptions.toString();
-    }
-
-    private String getFieldType(DAttr.Type type) {
-        switch (type) {
-            case String:
-            case StringMasked:
-            case Char:
-                return "text";
-            case Integer:
-            case BigInteger:
-            case Long:
-            case Float:
-            case Double:
-            case Short:
-            case Byte:
-            case ByteArraySmall:
-            case ByteArrayLarge:
-                return "number";
-            case Date:
-                return "date";
-            case Boolean:
-            case Domain:
-            case Collection:
-            case Array:
-            case Color:
-            case Font:
-            case File:
-            case Null:
-            case Image:
-            case Serializable:
-            case Other:
-                return "";
-        }
-        return "text";
-    }
-
 
     @LoopReplacement(id = "importLinkedSubmodules")
     public Slot[][] importLinkedSubmodules(@RequiredParam.LinkedFields DField[] dFields) {

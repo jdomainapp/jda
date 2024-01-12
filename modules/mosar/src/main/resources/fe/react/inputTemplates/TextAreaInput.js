@@ -9,8 +9,8 @@
             border: "none",
             textAlign: "left",
             outline: "none",
-          }} onClick={(e)=>this.expand(e)}>@slot{{fieldLabel}}</Button>
-          <div id="input" className={"content"}  style={{
+          }} onClick={(e)=>this.expand(e,"@slot{{fieldName}}Input")}>@slot{{fieldLabel}}</Button>
+          <div id="@slot{{fieldName}}Input" className={"content"}  style={{
             width: "100%",
             maxHeight: 0,
             overflow: "hidden",

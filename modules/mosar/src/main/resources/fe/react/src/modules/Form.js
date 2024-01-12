@@ -14,10 +14,6 @@ import @slot{{LinkedDomain}}Submodule from "./@slot{{LinkedDomain}}Submodule";]]
 @if{hasDateRange3}((
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
-const RangeIDMap={@loop{rangeIDMap}[[
-    @slot{{rangeID}}:{start: '@slot{{startField}}', end:'@slot{{endField}}'}
-    ]]loop{rangeIDMap}@
-}
 ))if{hasDateRange3}@
 
 export default class @slot{{ModuleName}}Form extends BaseForm {
@@ -27,8 +23,8 @@ export default class @slot{{ModuleName}}Form extends BaseForm {
       ...this.state @if{hasDateRange}((,
       @loop{dateRangeStates}[[@slot{{rangeID}}:
         [{
-            startDate: new Date(),
-            endDate: addDays(new Date(),7),
+            @slot{{startField}}: new Date(),
+            @slot{{endField}}: addDays(new Date(),7),
             key: 'selection'
         }]
       ]]loop{dateRangeStates}@
@@ -36,12 +32,17 @@ export default class @slot{{ModuleName}}Form extends BaseForm {
     };
   }
 
-  @if{hasDateRange2}((
-  async handleDateRangeSelect(ranges, rangeID) {
-    this.props.handleStateChange(`current.\${RangeIDMap[rangeID].start}`, format(ranges.selection.startDate,'yyyy-MM-dd'), false)
-    this.props.handleStateChange(`current.\${RangeIDMap[rangeID].end}`, format(ranges.selection.endDate,'yyyy-MM-dd'), false)
+@if{hasTextAreaInput}((
+  expand(e, inputID) {
+    e.preventDefault()
+    var coll = document.getElementById(inputID);
+    if (coll.style.maxHeight != "0px") {
+      coll.style.maxHeight = "0px";
+    } else {
+      coll.style.maxHeight = coll.scrollHeight + "px";
+    }
   }
-  ))if{hasDateRange2}@
+))if{hasTextAreaInput}@
 
   getInputState() {
     return {
@@ -58,18 +59,40 @@ export default class @slot{{ModuleName}}Form extends BaseForm {
     }
   }
 
+@if{hasDateRange2}((
+@loop{dateRangeSelectHandler}[[
+  async handle_select_@slot{{rangeID}}(ranges) {
+    this.props.handleStateChange("current.@slot{{startField}}", format(ranges.selection.startDate,'yyyy-MM-dd'), false)
+    this.props.handleStateChange("current.@slot{{endField}}", format(ranges.selection.endDate,'yyyy-MM-dd'), false)
+  }
+]]loop{dateRangeSelectHandler}@
+))if{hasDateRange2}@
+
   renderTitle() {
     return (<>
       Form: @slot{{ModuleName}}
     </>);
   }
-
+@if{hasSubType}((
+    renderSubTypeForm() {
+      switch (this.props.current.type) {
+      @loop{subTypeForms}[[
+        case "@slot{{subtype}}":
+          return <>
+            {this.props.mainForm.consumers.map(consumer => consumer.onModelRegion("skipMenuItem", { num: @slot{{skipCount}} }))}
+            @slot{{subTypeFormItems}}
+          </>]]loop{subTypeForms}@
+        default:
+          return <></>
+      }
+    }
+))if{hasSubType}@
   renderForm() {
     return (
       <Form>
-      @slot{{typeSelector}}
-      @loop{formInputs}[[
-        @slot{{inputCode}}]]loop{formInputs}@
+      @if{hasSubType2}((@slot{{typeSelector}}))if{hasSubType2}@
+      @slot{{formInputs}}
+      @if{hasSubType3}(({this.renderSubTypeForm()}))if{hasSubType3}@
       </Form>);
   }
 }

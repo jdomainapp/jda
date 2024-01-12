@@ -52,10 +52,10 @@ public class ModuleCourseModule {
     @AttributeDesc(label = "Code", alignX = AlignmentX.Center)
     private String code;
 
-    @AttributeDesc(label = "Name", jsValidation = @JSValidation(regex = "", invalidMsg = "Name must start with 'S' and followed by one or more numbers!"))
+    @AttributeDesc(label = "Name", jsValidation = @JSValidation(regex = "/^S\\d+$/", invalidMsg = "Name must start with 'S' and followed by one or more numbers!"))
     private String name;
 
-    @AttributeDesc(label = "Description", inputType = InputTypes.TextArea, jsValidation = @JSValidation(regex = "", invalidMsg = "Description must only include characters!"))
+    @AttributeDesc(label = "Description", inputType = InputTypes.TextArea, jsValidation = @JSValidation(regex = "/^[A-Za-z\\s]+$/", invalidMsg = "Description must only include characters!"))
     private String description;
 
     @AttributeDesc(label = "Semester", alignX = AlignmentX.Center)
@@ -64,7 +64,7 @@ public class ModuleCourseModule {
     @AttributeDesc(label = "Cost", inputType = InputTypes.Slider)
     private int cost;
 
-    @AttributeDesc(label = "Credits", alignX = AlignmentX.Center, jsValidation = @JSValidation(regex = "", invalidMsg = "Name must be a number or a float number!"))
+    @AttributeDesc(label = "Credits", alignX = AlignmentX.Center, jsValidation = @JSValidation(regex = "/^\\d+$/", invalidMsg = "Name must be a number or a float number!"))
     private int credits;
 
     @AttributeDesc(label = "Rating", inputType = InputTypes.Rating)

@@ -8,6 +8,7 @@ import jda.modules.mosarfrontend.reactjs.src.modules.SubmoduleGen;
 import jda.modules.mosarfrontend.reactjs.src.modules.indexGen;
 import jda.modules.mosarfrontend.reactjs.src.modules.patterns.accordion.AccordionIndexGen;
 import jda.modules.mosarfrontend.reactjs.src.modules.patterns.accordion.MenuStateGen;
+import jda.modules.mosarfrontend.reactjs.src.modules.patterns.model.ModelGen;
 import jda.modules.mosarfrontend.reactjs.src.modules.patterns.search.SearchConsumerGen;
 import jda.modules.mosarfrontend.reactjs.src.modules.patterns.search.SearchIndexGen;
 
@@ -36,7 +37,7 @@ import jda.modules.mosarfrontend.reactjs.src.modules.patterns.search.SearchIndex
                         genClasses = {indexGen.class}
                 ),
                 Entity = @ComponentGenDesc(
-                        genClasses = {}
+                        genClasses = {ModelGen.class}
                 ),
                 Ext = @ComponentGenDesc(
                         genClasses = {MenuStateGen.class, AccordionIndexGen.class, SearchIndexGen.class, SearchConsumerGen.class}

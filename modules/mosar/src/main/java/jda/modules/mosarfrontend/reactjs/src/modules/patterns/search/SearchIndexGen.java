@@ -6,7 +6,7 @@ import jda.modules.mosarfrontend.common.anotation.template_desc.FileTemplateDesc
 import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
 
 @FileTemplateDesc(templateFile = "/src/modules/patterns/search/index.js")
-public class SearchIndexGen {
+public class SearchIndexGen extends NameFormatter {
     @WithFilePath
     public String filePath(@RequiredParam.ModuleName String name) {
         return String.format("/src/%s/patterns/search", NameFormatter.moduleJnames(name));
