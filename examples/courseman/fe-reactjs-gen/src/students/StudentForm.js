@@ -90,7 +90,7 @@ export default class StudentForm extends BaseForm {
         <FormGroup className='d-flex flex-wrap justify-content-between align-items-end'>
           <Col md={2.5} className='px-0'>
             <Form.Label>Address ID</Form.Label>
-            <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.addressId")} onChange={(e) => this.props.handleStateChange("current.addressId", e.target.value, true)} />
+            <FormControl {...this.onModelRegionMenuItem("accordion")} type="text" value={this.renderObject("current.addressId")} onChange={(e) => this.props.handleStateChange("current.addressId", e.target.value, true)} />
           </Col>
           <Col md={7} className='px-0'>
             <Form.Label>Current Address</Form.Label>
@@ -128,7 +128,7 @@ export default class StudentForm extends BaseForm {
         <FormGroup className='d-flex flex-wrap justify-content-between align-items-end'>
           <Col md={2.5} className='px-0'>
             <Form.Label>Student class Id</Form.Label>
-            <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.studentClassId")} onChange={(e) => this.props.handleStateChange("current.studentClassId", e.target.value, true)} />
+            <FormControl {...this.onModelRegionMenuItem("accordion")} type="text" value={this.renderObject("current.studentClassId")} onChange={(e) => this.props.handleStateChange("current.studentClassId", e.target.value, true)} />
           </Col>
           <Col md={9} className='px-0'>
             <Form.Label>Student class</Form.Label>

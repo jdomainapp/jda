@@ -18,15 +18,22 @@ public class LinkedInputBaseGen extends SimpleInputGen {
     @SlotReplacement(id = "linkedFields")
     public String linkedFields(@RequiredParam.ModuleField DField field) {
         if(field.getLinkedField()!=null)
-        return moduleNames(field.getLinkedField().getDAttr().name());
+            return moduleNames(field.getLinkedField().getDAttr().name());
         return "";
     }
 
     @SlotReplacement(id = "linkedField")
     public String linkedField(@RequiredParam.ModuleField DField field) {
         if(field.getLinkedField()!=null)
-        return moduleName(field.getLinkedField().getDAttr().name());
+            return moduleName(field.getLinkedField().getDAttr().name());
         return "";
+    }
+
+    @SlotReplacement(id = "idType")
+    public String idType(@RequiredParam.ModuleField DField field){
+        if(field.getLinkedField()!=null)
+        return getFieldType(field.getLinkedField().getLinkedDomain().getIdField().getDAttr().type()) ;
+        return "text";
     }
 
     @SlotReplacement(id = "fieldNames")

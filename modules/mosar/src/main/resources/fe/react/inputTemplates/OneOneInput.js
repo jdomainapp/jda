@@ -2,7 +2,7 @@
         <FormGroup className='d-flex flex-wrap justify-content-between align-items-end'>
           <Col md={2.5} className='px-0'>
             <Form.Label>@slot{{Linked__domain}} ID</Form.Label>
-            <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.@slot{{fieldName}}Id")} onChange={(e) => this.props.handleStateChange("current.@slot{{fieldName}}Id", e.target.value, true)} />
+            <FormControl {...this.onModelRegionMenuItem("accordion")} type="@slot{{idType}}" value={this.renderObject("current.@slot{{fieldName}}Id")} onChange={(e) => this.props.handleStateChange("current.@slot{{fieldName}}Id", e.target.value, true)} />
           </Col>
           <Col md={7} className='px-0'>
             <Form.Label>@slot{{fieldLabel}}</Form.Label>
