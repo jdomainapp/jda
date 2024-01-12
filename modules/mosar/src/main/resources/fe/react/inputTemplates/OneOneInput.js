@@ -10,7 +10,6 @@
           </Col>
           <@slot{{LinkedDomain}}Submodule
             {...this.onModelRegionMenuItem("accordion")}
-            ref={ref => { this.props.mainForm.addSubForm(ref) }}
             mainForm={this.props.mainForm}
             compact={true} mode='submodule'
             viewType={this.props.viewType}

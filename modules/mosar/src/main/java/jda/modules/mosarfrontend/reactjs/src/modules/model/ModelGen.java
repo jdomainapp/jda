@@ -11,11 +11,11 @@ import jda.modules.mosarfrontend.common.utils.common_gen.NameFormatter;
 
 import java.util.ArrayList;
 
-@FileTemplateDesc(templateFile = "/src/modules/patterns/model/Model.js")
+@FileTemplateDesc(templateFile = "/src/modules/model/Model.js")
 public class ModelGen extends NameFormatter {
     @WithFilePath
     public String filePath(@RequiredParam.ModuleName String name) {
-        return String.format("/src/%s/patterns/model", NameFormatter.moduleJnames(name));
+        return String.format("/src/%s/model", NameFormatter.moduleJnames(name));
     }
 
     @WithFileName

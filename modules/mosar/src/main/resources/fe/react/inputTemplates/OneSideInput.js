@@ -1,7 +1,6 @@
  {this.props.excludes && this.props.excludes.includes("@slot{{fieldName}}") ? "" : <>
         <@slot{{LinkedDomain}}Submodule
           {...this.onModelRegionMenuItem("accordion")}
-          ref={ref => { this.props.mainForm.addSubForm(ref) }}
           mainForm={this.props.mainForm}
           mode='submodule'
           viewType={this.props.viewType}
