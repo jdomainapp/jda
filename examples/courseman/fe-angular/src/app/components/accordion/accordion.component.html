@@ -1,0 +1,78 @@
+<div class="row" *ngIf="!parent">
+    <div class="col-3">
+        <!-- <nav id="navbar-example3" class="navbar navbar-light bg-light flex-column align-items-stretch p-3" style="position: sticky; top: 60px;">
+            <a class="navbar-brand" href="#">Navigation</a>
+            <input type="text" placeholder="search..." class="form-control mb-1" />
+            <nav class="nav nav-pills flex-column">
+                <a class="nav-link" href="#item-1">Item 1</a>
+                <nav class="nav nav-pills flex-column">
+                    <a class="nav-link ms-3 my-1" href="#item-1-1">Item 1-1</a>
+                    <a class="nav-link ms-3 my-1" href="#item-1-2">Item 1-2</a>
+                </nav>
+                <a class="nav-link" href="#item-2">Item 2</a>
+                <nav class="nav nav-pills flex-column">
+                    <a class="nav-link ms-3 my-1" href="#item-2-1">Item 2-1</a>
+                    <a class="nav-link ms-3 my-1" href="#item-2-2">Item 2-2</a>
+                </nav>
+                <a class="nav-link" href="#item-3">Item 3</a>
+                <nav class="nav nav-pills flex-column">
+                    <a class="nav-link ms-3 my-1" href="#item-3-1">Item 3-1</a>
+                    <a class="nav-link ms-3 my-1" href="#item-3-2">Item 3-2</a>
+                </nav>
+            </nav>
+        </nav> -->
+<!--         
+        <nav id="navbar-example3" class="navbar navbar-light bg-light flex-column align-items-stretch p-3"
+            style="position: sticky; top: 60px;">
+            <a class="navbar-brand" href="#">Navigation</a>
+            <input type="text" placeholder="search..." class="form-control" />
+            <nav class="nav nav-pills flex-column">
+                    <a class="nav-link" href="#student">Student</a>
+                    <nav class="nav nav-pills flex-column">
+                        <a *ngFor="" class="nav-link ms-3 my-1" href="#student-id">ID</a>
+                    </nav>
+                </ng-container>
+            </nav>
+        </nav> -->
+    </div>
+
+    <div class="col-9">
+        <!-- <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-offset="500" tabindex="0">
+            <div id="item-1">Item 1
+                <p style="height:300px">...</p>
+            </div>
+
+            <div id="item-1-1">Item 1-1
+                <p style="height:300px">...</p>
+            </div>
+            <div id="item-1-2">Item 1-2
+                <p style="height:300px">...</p>
+            </div>
+
+            <div id="item-2">Item 2
+                <p style="height:300px">...</p>
+            </div>
+            
+            <div id="item-2-1">Item 2-1
+                <p style="height:300px">...</p>
+            </div>
+            <div id="item-2-2">Item 2-2
+                <p style="height:300px">...</p>
+            </div>
+            
+                <div id="item-3">Item 3
+                    <p style="height:300px">...</p>
+                </div>
+                
+                <div id="item-3-1">Item 3-1
+                    <p style="height:300px">...</p>
+                </div>
+                <div id="item-3-2">Item 3-2
+                    <p style="height:300px">...</p>
+                </div>
+           
+        </div> -->
+
+        <ng-content></ng-content>
+    </div>
+</div>

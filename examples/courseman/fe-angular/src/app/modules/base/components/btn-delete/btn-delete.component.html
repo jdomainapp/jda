@@ -1,0 +1,21 @@
+<button type="button" class="btn btn-danger" (click)="showModal()">Delete</button>
+
+<div hidden [hidden]="!modalVisible" role="dialog" aria-modal="true" class="fade modal show" tabindex="-1"
+    style="display: block; padding-right: 15px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title h4">Confirm delete</div>
+                <button type="button" class="close">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">Delete this resource?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" (click)="onCancel()">Cancel</button>
+                <button type="button" class="btn btn-danger btn-sm" (click)="onConfirm()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>

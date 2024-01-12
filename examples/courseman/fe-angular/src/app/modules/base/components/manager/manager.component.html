@@ -1,0 +1,15 @@
+<div class="border py-4 container">
+  <h2 class="text-center">Form: {{title}}</h2><br>
+
+  <button (click)="setView('form')" class="me-2 btn btn-primary">Main</button>
+  <button (click)="setView('list')" class="me-2 btn btn-primary">Browse</button>
+  <br>
+
+  <div *ngIf="view == 'form'">
+    <ng-container [ngTemplateOutlet]="formTemplate" [ngTemplateOutletContext]="{$implicit:item}"></ng-container>
+  </div>
+  
+  <div *ngIf="view == 'list'">
+    <ng-container [ngTemplateOutlet]="listTemplate" [ngTemplateOutletContext]="{selectItem}"></ng-container>
+  </div>
+</div>

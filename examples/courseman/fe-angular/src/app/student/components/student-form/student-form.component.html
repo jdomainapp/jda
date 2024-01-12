@@ -1,0 +1,135 @@
+<h4 ngbScrollSpyFragment="student"></h4>
+
+<div class="mx-0 d-flex justify-content-between row">
+    <div class="px-0 col">
+        <button (click)="newItem()" class="me-2 btn btn-primary">Main</button>
+        <button (click)="onHide()" class="me-2 btn btn-primary">Browse</button>
+        <app-btn-delete *ngIf="item?.id" (confirmed)="deleteItem(item!.id)"></app-btn-delete>
+    </div>
+    <div class="px-0 d-flex justify-content-end col">
+        <form class="d-flex justify-content-end form-inline" (ngSubmit)="getById()">
+            <input placeholder="ID..." type="text" class="me-1 col-md-4 form-control" [(ngModel)]="searchId"
+            name="searchId">
+            
+            <button type="submit" class="btn btn-outline-success">Search</button>
+        </form>
+    </div>
+    <br><br>
+</div>
+
+
+<div class="row">
+    <div class="col-md-3" *ngIf="viewMode!='embedded'">
+        <nav class="h-100 flex-column align-items-stretch pe-4 border-end">
+            <nav class="nav nav-pills flex-column" style="position: sticky; top: 60px;">
+                <a role="button" class="nav-link" ngbScrollSpyItem="student-class">Student Class</a>
+                <nav class="nav nav-pills flex-column">
+                    <a *ngFor="let menu of menus" role="button" class="nav-link ms-3 my-1"
+                   parent="student-class">{{menu.label}}</a>
+                </nav>
+            </nav>
+        </nav>
+    </div>
+    
+    <div class="col-md-{{viewMode=='embedded' ? '12' : '9'}}">
+        <form class='border py-4 container needs-validation' [formGroup]="form">
+            <div class="form-group">
+                <h4 ngbScrollSpyFragment="student.id"></h4>
+                <label class="form-label">ID</label>
+                <input type="text" class="form-control" name="id" disabled value="{{item.id}}" />
+            </div>
+            <br>
+            
+            <div class="form-group">
+                <h4 ngbScrollSpyFragment="student.name"></h4>
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" formControlName="name"
+                [ngClass]="{'is-invalid': submitted && form.get('name')?.errors }" />
+                
+                <div *ngIf="submitted && form.get('name')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('name')!.errors!['required']">Full Name is required</div>
+                    <div *ngIf="form.get('name')!.errors!['maxlength']">Full Name is maximum 30 characters</div>
+                </div>
+            </div>
+            <br>
+            
+            <div class="form-group">
+                <h4 ngbScrollSpyFragment="student.dob"></h4>
+                <label class="form-label">Date of birth</label>
+                <input type="date" class="form-control" formControlName="dob"
+                [ngClass]="{'is-invalid': submitted && form.get('dob')?.errors }" />
+                
+                <div *ngIf="submitted && form.get('dob')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('dob')!.errors!['required']">Date of birth is required</div>
+                    <div *ngIf="form.get('dob')!.errors!['maxlength']">Date of birth is maximum 15 characters</div>
+                </div>
+            </div>
+            <br>
+            
+            <div class="form-group">
+                <h4 ngbScrollSpyFragment="student.email"></h4>
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" formControlName="email"
+                [ngClass]="{'is-invalid': submitted && form.get('email')?.errors }" />
+                
+                <div *ngIf="submitted && form.get('email')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('email')!.errors!['required']">Email is required</div>
+                    <div *ngIf="form.get('email')!.errors!['email']">Email is invalid format</div>
+                    <div *ngIf="form.get('email')!.errors!['maxlength']">Email is maximum 30 characters</div>
+                </div>
+            </div>
+            <br>
+            
+            <div class="form-group">
+                <h4 ngbScrollSpyFragment="student.gender"></h4>
+                <label class="form-label">Gender</label>
+                <select class="form-control" formControlName="gender"
+                [ngClass]="{'is-invalid': submitted && form.get('gender')?.errors }">
+                
+                <option value="" disabled="">&lt;Please choose one&gt;</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+            
+            <div *ngIf="submitted && form.get('gender')?.errors" class="invalid-feedback">
+                <div *ngIf="form.get('gender')!.errors!['required']">Gender is required</div>
+            </div>
+        </div>
+        <br>
+        
+        <!-- one2one -->
+        <ng-container *ngIf="params.address == undefined">
+            <app-has-one formControlName="address" label="Address" apiName="addresses">
+                <ng-template #subform let-ref>
+                    <app-address-form viewMode="embedded" [item]="ref" [params]="getParams({student: item})" />
+                </ng-template>
+            </app-has-one>
+            <div *ngIf="submitted && form.get('address')?.errors" class="text-danger">
+                <small *ngIf="form.get('address')!.errors!['required']">Address is required</small>
+            </div>
+            <br>
+        </ng-container>
+        
+        <!-- many2one -->
+        <ng-container *ngIf="params.studentClass == undefined">
+            <app-belongs-to formControlName="studentClass" label="Student Class" apiName="student-classes" />
+            <div *ngIf="submitted && form.get('studentClass')?.errors" class="text-danger">
+                <small *ngIf="form.get('studentClass')!.errors!['required']">Student Class is required</small>
+            </div>
+            <br>
+        </ng-container>
+
+        <app-has-many label="Enrolment">
+            <app-enrolment viewMode="embedded" belongsTo="students/{{item.id}}/"
+                (onEmbedded)="handleEmbedded('enrolment', 'Enrolment', $event)"
+                [params]="getParams({student: item})"></app-enrolment>
+        </app-has-many>
+        
+        <br>
+        <div class="d-flex justify-content-end">
+            <button type="reset" class="me-2 btn btn-secondary">Reset</button>
+            <button type="button" (click)="onSubmit()" class="me-2 btn btn-primary">Save</button>
+        </div>
+    </form>
+</div>
+</div>
