@@ -1,6 +1,4 @@
-<h4 ngbScrollSpyFragment="student"></h4>
-
-<div class="mx-0 d-flex justify-content-between row">
+<div class="mx-0 d-flex justify-content-between row" *ngIf="viewMode!='embedded'">
     <div class="px-0 col">
         <button (click)="newItem()" class="me-2 btn btn-primary">Main</button>
         <button (click)="onHide()" class="me-2 btn btn-primary">Browse</button>
@@ -36,7 +34,7 @@
             <div class="form-group">
                 <h4 ngbScrollSpyFragment="student.id"></h4>
                 <label class="form-label">ID</label>
-                <input type="text" class="form-control" name="id" disabled value="{{item.id}}" />
+                <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" />
             </div>
             <br>
             
@@ -120,7 +118,7 @@
         </ng-container>
 
         <app-has-many label="Enrolment">
-            <app-enrolment viewMode="embedded" belongsTo="students/{{item.id}}/"
+            <app-enrolment viewMode="embedded" belongsTo="students/{{item?.id}}/"
                 (onEmbedded)="handleEmbedded('enrolment', 'Enrolment', $event)"
                 [params]="getParams({student: item})"></app-enrolment>
         </app-has-many>

@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Input, Renderer2, ViewContainerRef } from '@angular/core';
-import { PatternService } from './pattern.consumer';
+import { PatternService } from './pattern.service';
 
 @Directive({
     selector: '[modelRegion]',
@@ -14,12 +14,6 @@ export class ModelRegionDirective {
     ) { }
 
     ngOnInit() {
-        // foreach consumers with region name
-        // consumer.render(region)
-        
-        // this.patternService.onRenderRegion(this.region);
-        
-        
-        // [typeahead] = "items" typeaheadOptionField = "name"[isAnimated] = "true"
+        // TODO:
     }
 }

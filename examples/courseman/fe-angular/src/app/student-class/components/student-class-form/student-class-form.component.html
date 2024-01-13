@@ -42,7 +42,7 @@
         <br>
 
         <app-has-many label="Student">
-            <app-student viewMode="embedded" belongsTo="student-classes/{{item.id}}/"
+            <app-student viewMode="embedded" belongsTo="student-classes/{{item?.id}}/"
                 (onEmbedded)="handleEmbedded('student', 'Student', $event)"
                 [params]="getParams({studentClass: item})"></app-student>
         </app-has-many>

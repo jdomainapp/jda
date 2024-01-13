@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { BaseManagerComponent } from 'src/app/modules/base/components/base-manager/base-manager.component';
   
 @Component({
@@ -7,5 +7,5 @@ import { BaseManagerComponent } from 'src/app/modules/base/components/base-manag
 })
 export class AddressComponent extends BaseManagerComponent {
   override title = 'Address';
-  
+
 }

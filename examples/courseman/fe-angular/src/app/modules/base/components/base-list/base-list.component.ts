@@ -1,16 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges, Type } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
+import { AutoSearchFactory } from '../../patterns/autosearch/autosearch.factory';
 
 @Component({
   selector: 'app-base-list',
   templateUrl: './base-list.component.html',
 })
 export class BaseListComponent extends BaseComponent {
-  states: string[] = [
-    'abc', 
-    'test',
-    'test a',
-  ];
 
   @Input('belongsTo') apiPrefix: string = ''; 
 
@@ -25,6 +21,8 @@ export class BaseListComponent extends BaseComponent {
   set items(data: any[]) {
     this._items = data;
     this.filter();
+
+    this.patternService.onDataChange({items: this.items});
   }
   get items(): any[] {
     return this._items;
@@ -32,6 +30,8 @@ export class BaseListComponent extends BaseComponent {
 
   ngOnInit(): void {
     this.getList();
+
+    this.patternService.addConsumer(AutoSearchFactory.createProviderConsumer({ host: this }));
   }
 
   getList(): void {
@@ -72,7 +72,5 @@ export class BaseListComponent extends BaseComponent {
   override afterDelete(id: any): void {
     this.items = this.items.filter(item => item.id !== id);
   }
-
-  /* typeahead */
 
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-base-manager',
@@ -32,4 +32,5 @@ export class BaseManagerComponent {
   @Output('onEmbedded') embeddedEvent = new EventEmitter();
 
   @Input() menuPrefix: string = '';
+
 }

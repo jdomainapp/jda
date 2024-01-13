@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgComponentOutlet } from '@angular/common';
 import { BaseComponent } from './components/base/base.component';
 import { BaseService } from './services/base.service';
 import { BaseListComponent } from './components/base-list/base-list.component';
@@ -16,7 +16,9 @@ import { HasManyComponent } from './components/has-many/has-many.component';
 import { BaseManagerComponent } from './components/base-manager/base-manager.component';
 import { ManagerComponent } from './components/manager/manager.component';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-import { ViewRegionComponent } from 'src/app/pattern/view-region';
+import { ViewRegionComponent } from 'src/app/modules/base/pattern/view-region';
+import { AutoSearchComponent } from './patterns/autosearch/autosearch.component';
+import { PatternService } from './pattern/pattern.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { ViewRegionComponent } from 'src/app/pattern/view-region';
     BelongsToComponent,
     HasManyComponent,
     
-    ViewRegionComponent
+    ViewRegionComponent,
+    AutoSearchComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +46,9 @@ import { ViewRegionComponent } from 'src/app/pattern/view-region';
     ReactiveFormsModule,
     
     BrowserAnimationsModule,
-    TypeaheadModule.forRoot()
+    TypeaheadModule.forRoot(),
+
+    NgComponentOutlet,    
   ],
   exports: [
     PagedTableComponent,
@@ -54,9 +59,12 @@ import { ViewRegionComponent } from 'src/app/pattern/view-region';
     BaseManagerComponent,
     ManagerComponent,
     ViewRegionComponent,
+
+    AutoSearchComponent,
   ],
   providers: [
-    BaseService
+    BaseService,
+    PatternService
   ]
 })
 export class BaseModule { }

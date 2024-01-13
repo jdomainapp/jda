@@ -50,13 +50,13 @@
 
             <div class="form-group">
                 <label class="form-label">ID</label>
-                <input type="text" class="form-control" name="id" disabled value="{{item.id}}" />
+                <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" />
             </div>
             <br>
 
             <div class="form-group">
                 <label class="form-label">Code</label>
-                <input type="text" class="form-control" name="code" disabled value="{{item.code}}" />
+                <input type="text" class="form-control" name="code" disabled value="{{item?.code}}" />
             </div>
             <br>
             
@@ -140,7 +140,7 @@
             <br>
             
             <app-has-many label="Enrolment">
-                <app-enrolment viewMode="embedded" belongsTo="course-modules/{{item.id}}/"
+                <app-enrolment viewMode="embedded" belongsTo="course-modules/{{item?.id}}/"
                     (onEmbedded)="handleEmbedded('enrolment', 'Enrolment', $event)"
                     [params]="getParams({courseModule: item})"></app-enrolment>
             </app-has-many>

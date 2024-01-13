@@ -1,28 +1,27 @@
 import {
     Component,
-    ComponentRef,
     ContentChild,
+    Input,
     TemplateRef,
     ViewContainerRef
 } from '@angular/core';
+import { PatternService } from './pattern.service';
 
 @Component({
     selector: 'ViewRegion',
     template: '<ng-content></ng-content>'
 })
 export class ViewRegionComponent {
-    name!: string;
+    @Input() name!: string;
     
     @ContentChild(TemplateRef) templateRef!: TemplateRef<any>;
 
     constructor(
-        private container: ViewContainerRef,
+        public container: ViewContainerRef,
+        private patternService: PatternService,
     ) { }
     
-    ngAfterViewInit() {
-        
-        // const comp: ComponentRef<AccordionComponent> = this.container.createComponent(AccordionComponent);
-        // comp.instance.ref = this.templateRef;
-        
+    ngOnInit() {
+        this.patternService.render(this);
     }
 }

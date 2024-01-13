@@ -10,7 +10,4 @@ import { BaseManagerComponent } from 'src/app/modules/base/components/base-manag
 export class StudentClassComponent extends BaseManagerComponent {
   override title = 'Student Class';
   
-  constructor() {
-    super();
-  }
 }

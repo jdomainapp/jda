@@ -30,7 +30,7 @@ import { StudentListComponent } from './student/components/student-list/student-
 import { StudentComponent } from './student/components/student/student.component';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { NgxSliderModule } from 'ngx-slider-v2';
-import { AutoSearchComponent } from './patterns/autosearch/autosearch.component';
+import { PatternService } from './modules/base/pattern/pattern.service';
 
 @NgModule({
   declarations: [
@@ -58,8 +58,6 @@ import { AutoSearchComponent } from './patterns/autosearch/autosearch.component'
 
     AccordionComponent,
     FragmentComponent,
-
-    AutoSearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,7 +69,7 @@ import { AutoSearchComponent } from './patterns/autosearch/autosearch.component'
 
     // PatternModule,
       BrowserAnimationsModule,
-      TypeaheadModule.forRoot(),
+      
       RatingModule.forRoot(),
     // NgbModule
     NgbRatingModule,
@@ -79,7 +77,7 @@ import { AutoSearchComponent } from './patterns/autosearch/autosearch.component'
     AccordionModule.forRoot(), 
     NgxSliderModule
   ],
-  providers: [BaseService],
+  providers: [BaseService, PatternService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
