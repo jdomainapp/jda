@@ -135,9 +135,45 @@ export default class BaseMainForm extends React.Component {
     this.handleStateChange("current.readySubmit", newState, false)
   }
 
+  validate() {
+    var formValidated = true
+    var newInputState = this.state.inputState
+    var currentState = this.state.current
+    Object.entries(newInputState).forEach((val) => {
+      if(currentState[val[0]]) {
+        if(val[1].regex.test(currentState[val[0]])) {
+          if(val[1].validate !== true) {
+            val[1].validated = true
+            val[1].message = val[1].validMsg
+          }
+        } else {
+          if(val[1].validate !== false) {
+            val[1].validated = false
+            val[1].message = val[1].invalidMsg
+          }
+        }
+
+      } else {
+        val[1].validated = undefined
+      }
+      
+      if (val[1].optional) {
+        if (val[1].validated === false) {
+          if(formValidated) formValidated = false
+        }
+      } else {
+        if (val[1].validated === false || val[1].validated === undefined) {
+          if(formValidated) formValidated = false
+        }
+      }
+    })
+    this.handleStateChange("inputState", newInputState, false)
+    return formValidated
+  }
+
 
   handleSubmit() {
-    if(this.state.readySubmit) {
+    if(this.validate()) {
       const createUsing = this.getCreateHandler();
       const updateUsing = this.getUpdateHandler();
       if (this.state.viewType === "create"

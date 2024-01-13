@@ -76,7 +76,7 @@ export default class CourseModuleForm extends BaseForm {
         optional: true,
         validated: undefined,
         message: "",
-        regex: /^[A-Za-z\s]+$/,
+        regex: /^[A-Za-z\s]$/,
         validMsg: "",
         invalidMsg: "Description must only include characters!"
       },
@@ -174,13 +174,10 @@ export default class CourseModuleForm extends BaseForm {
         <Form.Label>Name</Form.Label>
         <FormControl
           {...this.onModelRegionMenuItem("accordion")}
-          type="text" value={this.renderObject("current.name")}
+          type="text" value={this.renderObject('current.name')}
           onChange={(e) => {
             this.props.handleStateChange("current.name", e.target.value, false)
-            this.validate(
-              this.renderObject('current.name'),
-              "name"
-            )
+            this.validate(this.renderObject('current.name'),"name")
           }}
           isValid={this.props.inputState.name && this.props.inputState.name.validated !== undefined ? this.props.inputState.name.validated : false}
           isInvalid={this.props.inputState.name && this.props.inputState.name.validated !== undefined ? !this.props.inputState.name.validated : false}
@@ -273,12 +270,10 @@ export default class CourseModuleForm extends BaseForm {
             outline: "none",
             margin: "0"
           }} placeholder={"This is a test collapsible input"} rows={"5"}
+            value={ this.renderObject('current.description')}
             onChange={(e) => {
               this.props.handleStateChange("current.description", e.target.value, false)
-              this.validate(
-                this.renderObject('current.description'),
-                "description",
-              )
+              this.validate(this.renderObject('current.description'),"description")
             }}
             isValid={this.props.inputState.description && this.props.inputState.description.validated !== undefined ? this.props.inputState.description.validated : false}
             isInvalid={this.props.inputState.description && this.props.inputState.description.validated !== undefined ? !this.props.inputState.description.validated : false}
@@ -295,7 +290,7 @@ export default class CourseModuleForm extends BaseForm {
         <Form.Label>Credits</Form.Label>
         <FormControl
           {...this.onModelRegionMenuItem("accordion")}
-          type="number" value={this.renderObject("current.credits")}
+          type="number" value={this.renderObject('current.credits')}
           onChange={(e) => {
             this.props.handleStateChange("current.credits", e.target.value, false)
             this.validate(
