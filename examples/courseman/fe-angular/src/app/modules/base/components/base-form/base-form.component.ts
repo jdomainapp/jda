@@ -41,7 +41,9 @@ export abstract class BaseFormComponent extends BaseComponent {
   onReset(): void {
     this.submitted = false;
 
-    this.item = {};
+    this.newItem();
+    // TODO: to original data if editing
+
   }
 
   ngOnInit(): void {
@@ -69,6 +71,11 @@ export abstract class BaseFormComponent extends BaseComponent {
   newItem(): void {
     this.searchId = '';
     this.item = {};
+
+    // bind passed data
+    if (this.params) {
+      this.form.patchValue(this.params);
+    }
   }
 
   save(): void {
