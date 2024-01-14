@@ -280,7 +280,7 @@ export default class BaseMainForm extends React.Component {
     if (name === "current") {
       const className = this.constructor.name.replace("MainForm", "").replace("MainView", "");
       const propName = className.charAt(0).toLowerCase() + className.substring(1);
-      if (this.props.parent && (!id || id === "")) {
+      if (this.props.parent && (!id || id === "") && this.props.parentId) {
         return this.props.parentAPI.getAllInner([
           this.props.thisNamePlural, this.props.parentId, onSuccess, onFailure]);
       }
