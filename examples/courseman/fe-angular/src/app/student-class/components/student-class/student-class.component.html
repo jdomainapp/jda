@@ -1,0 +1,17 @@
+    <div class="border py-4 container">
+        <h2 class="text-center">Form: {{title}}</h2>
+        <br>
+        
+        <div *ngIf="view=='form'">
+            <app-student-class-form 
+                (onHide)="changeView('list')"
+                [searchId]="searchId"
+                ></app-student-class-form>
+        </div>
+        <div *ngIf="view=='list'">
+            <app-student-class-list 
+                (onHide)="changeView('form')"
+                (onItemSelect)="edit($event)"
+            ></app-student-class-list>
+        </div>
+    </div>

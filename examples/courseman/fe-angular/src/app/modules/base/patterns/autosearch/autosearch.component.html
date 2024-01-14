@@ -1,0 +1,2 @@
+<input autocomplete="off" placeholder="Search" type="text" class="ms-1 form-control" [(ngModel)]="keyword" (ngModelChange)="onChange()"
+    name="searchKeyword" [typeahead]="items" typeaheadOptionField="name" [isAnimated]="true">

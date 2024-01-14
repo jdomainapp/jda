@@ -1,0 +1,117 @@
+<div class="mx-0 d-flex justify-content-between row" >
+    <div class="px-0 col">
+        <button (click)="newItem()" class="me-2 btn btn-primary">Main</button>
+        <button (click)="onHide()" class="me-2 btn btn-primary">Browse</button>
+        <app-btn-delete *ngIf="item?.id" (confirmed)="deleteItem(item!.id)"></app-btn-delete>
+    </div>
+    <div class="px-0 d-flex justify-content-end col">
+        <form class="d-flex justify-content-end form-inline" (ngSubmit)="getById()">
+            <input placeholder="ID..." type="text" class="me-1 col-md-4 form-control" [(ngModel)]="searchId"
+            name="searchId">
+            
+            <button type="submit" class="btn btn-outline-success">Search</button>
+        </form>
+    </div>
+    <br>
+</div>
+
+<br>
+<div class="row">
+    <div class="col-md-3" *ngIf="viewMode!='embedded'">
+        <nav class="h-100 flex-column align-items-stretch pe-4 border-end">
+            <nav class="nav nav-pills flex-column" style="position: sticky; top: 60px;">
+                <a role="button" class="nav-link" ngbScrollSpyItem="student-class">Student Class</a>
+                <nav class="nav nav-pills flex-column">
+                    <a *ngFor="let menu of menus" role="button" class="nav-link ms-3 my-1"
+                   parent="student-class">{{menu.label}}</a>
+                </nav>
+            </nav>
+        </nav>
+    </div>
+    
+    <div class="col-md-{{viewMode=='embedded' ? '12' : '9'}}">
+        <form class='border py-4 container needs-validation' [formGroup]="form">
+            <div class="form-group">
+                <label class="form-label">ID</label>
+                <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" />
+            </div>
+            <br>
+
+            <!-- many2one -->
+            <ng-container *ngIf="params.student == undefined">
+                <app-belongs-to formControlName="student" label="Student" apiName="students" />
+                <div *ngIf="submitted && form.get('student')?.errors" class="text-danger">
+                    <small *ngIf="form.get('student')!.errors!['required']">Student is required</small>
+                </div>
+                <br>
+            </ng-container>
+            
+            <!-- many2one -->
+            <ng-container *ngIf="params.courseModule == undefined">
+                <app-belongs-to formControlName="courseModule" label="Course Module" apiName="course-modules" />
+                <div *ngIf="submitted && form.get('courseModule')?.errors" class="text-danger">
+                    <small *ngIf="form.get('courseModule')!.errors!['required']">Course Module is required</small>
+                </div>
+                <br>
+            </ng-container>
+
+            <div class="form-group">
+                <label class="form-label">Internal Mark</label>
+                <input type="text" class="form-control" formControlName="internalMark"
+                    [ngClass]="{'is-invalid': submitted && form.get('internalMark')?.errors }" />
+            
+                <div *ngIf="submitted && form.get('internalMark')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('internalMark')!.errors!['required']">Internal Mark is required</div>
+                    <div *ngIf="form.get('internalMark')!.errors!['maxlength']">Internal Mark is maximum 4 characters</div>
+                    <div *ngIf="form.get('internalMark')!.errors!['min']">Internal Mark is greater or equals 0</div>
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <label class="form-label">Exam Mark</label>
+                <input type="text" class="form-control" formControlName="examMark"
+                    [ngClass]="{'is-invalid': submitted && form.get('examMark')?.errors }" />
+            
+                <div *ngIf="submitted && form.get('examMark')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('examMark')!.errors!['required']">Exam Mark is required</div>
+                    <div *ngIf="form.get('examMark')!.errors!['maxlength']">Exam Mark is maximum 4 characters</div>
+                    <div *ngIf="form.get('examMark')!.errors!['min']">Exam Mark is greater or equals 0</div>
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <label class="form-label">Final Mark</label>
+                <input type="text" class="form-control" name="finalMark" disabled value="{{item.finalMark}}" />
+            </div>
+            <br>
+
+            <div class="form-group">
+                <label class="form-label">Final Grade</label>
+                <input type="text" class="form-control" name="finalGrade" disabled value="{{item.finalGrade}}" />
+            </div>
+            <br>
+
+            <!-- date -->
+            <div class="form-group">
+                <label class="form-label">Start date - End date</label>
+                <input type="text" class="form-control mb-3" placeholder="start date - end date" bsDaterangepicker formControlName="range"
+                    (ngModelChange)="onSelectDate()"
+                    [bsConfig]="{ adaptivePosition: true,  dateInputFormat: 'DD-MM-YYYY'}" 
+                    [ngClass]="{'is-invalid': submitted && form.get('range')?.errors }"  />
+                    
+                <div *ngIf="submitted && form.get('range')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('range')!.errors!['required']">Start-End Date is required</div>
+                </div>
+            </div>
+            <br>
+        
+        <br>
+        <div class="d-flex justify-content-end">
+            <button type="reset" class="me-2 btn btn-secondary">Reset</button>
+            <button type="button" (click)="onSubmit()" class="me-2 btn btn-primary">Save</button>
+        </div>
+    </form>
+</div>
+</div>

@@ -1,0 +1,33 @@
+<table class="table table-bordered table-hover">
+    <thead>
+        <ng-content select="[header]"></ng-content>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let item of pagedItems | paginate: {
+                                      itemsPerPage: pageSize,
+                                      currentPage: page,
+                                      totalItems: count
+                                    }">
+            <ng-container [ngTemplateOutlet]="rowTemplate" [ngTemplateOutletContext]="{$implicit:item}"></ng-container>
+        </ng-container>
+    </tbody>
+</table>
+
+<p *ngIf="!pagedItems || pagedItems.length == 0" class="text-center text-danger">
+    <em>No results.</em>
+</p>
+
+<div class="mt-3 d-flex justify-content-between">
+    <pagination-controls previousLabel="Prev" nextLabel="Next" [responsive]="true"
+        (pageChange)="onPageChange($event)">
+    </pagination-controls>
+
+    <div>
+        Items per Page:
+        <select (change)="onPageSizeChange($event)">
+            <option *ngFor="let pageSize of pageSizes" [ngValue]="pageSize">
+                {{ pageSize }}
+            </option>
+        </select>
+    </div>
+</div>

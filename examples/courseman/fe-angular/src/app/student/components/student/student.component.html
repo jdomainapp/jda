@@ -1,0 +1,21 @@
+<div class="border py-4 container">
+    <h2 class="text-center">Form: {{title}}</h2><br>
+    <div *ngIf="view=='form'">
+        <app-student-form 
+            (onHide)="changeView('list')"
+            [searchId]="searchId"
+            [params]="params"
+            [viewMode]="viewMode"
+            [menuPrefix]="menuPrefix"
+            (onEmbedded)="embeddedEvent.emit($event)"
+            ></app-student-form>
+    </div>
+    <div *ngIf="view=='list'">
+        <app-student-list 
+            (onHide)="changeView('form')"
+            (onItemSelect)="edit($event)"
+            [params]="params"
+            [belongsTo]="belongsTo"
+        ></app-student-list>
+    </div>
+</div>

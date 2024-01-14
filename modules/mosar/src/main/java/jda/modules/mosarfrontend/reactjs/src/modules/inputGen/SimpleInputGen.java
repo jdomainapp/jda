@@ -64,7 +64,7 @@ public class SimpleInputGen extends NameFormatter {
         return fieldOptions.toString();
     }
 
-    private String getFieldType(DAttr.Type type) {
+    protected String getFieldType(DAttr.Type type) {
         switch (type) {
             case String:
             case StringMasked:
