@@ -222,7 +222,7 @@ for each module
     press Enter -> matching objects shown on the Browse's content
   
   on LHS menu:
-    click on each item -> target form item is focused
+    click on each item -> target form item is focused and unhighlight current item, if present
     
   for each submodule (recursively)
     repeat the above steps (of the parent module)
