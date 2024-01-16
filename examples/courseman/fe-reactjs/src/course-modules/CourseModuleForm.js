@@ -68,9 +68,9 @@ export default class CourseModuleForm extends BaseForm {
         optional: false,
         validated: undefined,
         message: "",
-        regex: /^S\d+$/,
+        regex: /^[A-Za-z\s]{1,30}$/,
         validMsg: "",
-        invalidMsg: "Name must start with 'S' and followed by one or more numbers!"
+        invalidMsg: "Name must be specified up to 30 characters in length!"
       },
       description: {
         optional: true,
@@ -193,7 +193,7 @@ export default class CourseModuleForm extends BaseForm {
         <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.semester")} onChange={(e) => this.props.handleStateChange("current.semester", e.target.value, false)} />
       </FormGroup>
       <br />
-      <Carousel>
+      { <Carousel>
         <Carousel.Item>
           <h3>1</h3>
         </Carousel.Item>
@@ -212,8 +212,8 @@ export default class CourseModuleForm extends BaseForm {
         <Carousel.Item>
           <h3>6</h3>
         </Carousel.Item>
-      </Carousel>
-      <br />
+      </Carousel> }
+      {/* <br /> */}
       <FormGroup>
         <Form.Label>Cost</Form.Label>
         <div style={{ display: "flex", alignItems: "center" }}>

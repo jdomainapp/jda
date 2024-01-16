@@ -203,3 +203,28 @@ To view the data objects on the built-in JDA's UI, execute the `CRUDTestMaster` 
 You can manage the database using the Squirrel SQL client. Refer to [these instructions](https://github.com/jdomainapp/jda#using-squirrel-sql-client-gui-to-work-with-apache-derby) on how to do this. 
 
 When the **domain model is changed**, you **must** use this SQL client to delete the database tables. The tool does not currently support auto update the database when these changes occur. 
+
+## FrontEnd testing script
+
+```
+for each module
+  click Main
+    Create new object where each view field satisfies its data validation rule -> object created
+    Create new object where combinations of view fields disatisfy their data validation rules -> inform user with error message 
+  click Browse
+    Select an object to open in Main
+    Edit the object
+  click Browse
+    Delete an object
+
+  click Browse:
+    input keywords to search for objects -> matching objects listed on pop-up
+    press Enter -> matching objects shown on the Browse's content
+  
+  on LHS menu:
+    click on each item -> target form item is focused
+    
+  for each submodule (recursively)
+    repeat the above steps (of the parent module)
+    for Browse: ensure that only objects linked to the parent object are listed
+```
