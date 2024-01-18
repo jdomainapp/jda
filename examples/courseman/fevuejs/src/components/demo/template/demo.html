@@ -3,10 +3,7 @@
     <br />
 
     <h4>Date range picker</h4>
-    <date-range-picker
-        ref="picker"
-        v-model="dateRange"
-    >
+    <date-range-picker ref="picker" v-model="dateRange">
         <template v-slot:input="picker" class="input_date">
             {{ picker.startDate | date }} - {{ picker.endDate | date }}
         </template>

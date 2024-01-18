@@ -7,31 +7,41 @@
             <th>Gender</th>
             <th>Date of birth</th>
             <th>Email</th>
-            
+
             <th>Current Address</th>
             <th>Student class</th>
             <th>Action</th>
         </tr>
     </thead>
     <tbody>
-    <tr style="cursor: pointer;" v-for="(student, index) in students" v-if="students" :key="student.id">
-        <td style="vertical-align: middle;">{{index + 1}}</td>
-        <td style="vertical-align: middle;">{{student.id}}</td>
-        <td style="vertical-align: middle;">{{student.name}}</td>
-        <td style="vertical-align: middle;">{{student.gender}}</td>
-        <td style="vertical-align: middle;">{{student.dob}}</td>
-        <td style="vertical-align: middle;">{{student.email}}</td> 
-        <td>{{student.address}}</td>
-        <td>{{student.studentClass}}</td>
-        <td style="vertical-align: middle; width: 200px;">
-            <button class="btn btn-primary" v-on:click="emitData(student)">
-                Edit
-            </button>
-            <a class="btn btn-danger" data-target="#myModal" v-on:click="getStudentId(student.id)" data-toggle="modal">
-                Delete
-            </a>
-        </td>
-    </tr>
+        <tr
+            style="cursor: pointer"
+            v-for="(student, index) in students"
+            v-if="students"
+            :key="student.id"
+        >
+            <td style="vertical-align: middle">{{index + 1}}</td>
+            <td style="vertical-align: middle">{{student.id}}</td>
+            <td style="vertical-align: middle">{{student.name}}</td>
+            <td style="vertical-align: middle">{{student.gender}}</td>
+            <td style="vertical-align: middle">{{student.dob}}</td>
+            <td style="vertical-align: middle">{{student.email}}</td>
+            <td>{{student.address}}</td>
+            <td>{{student.studentClass}}</td>
+            <td style="vertical-align: middle; width: 200px">
+                <button class="btn btn-primary" v-on:click="emitData(student)">
+                    Edit
+                </button>
+                <a
+                    class="btn btn-danger"
+                    data-target="#myModal"
+                    v-on:click="getStudentId(student.id)"
+                    data-toggle="modal"
+                >
+                    Delete
+                </a>
+            </td>
+        </tr>
     </tbody>
     <Toasts></Toasts>
     <modal-confirm @confirm="deleteStudent(studentId)"></modal-confirm>

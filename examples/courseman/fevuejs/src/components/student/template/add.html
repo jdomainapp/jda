@@ -9,6 +9,7 @@
                 type="text"
                 class="form-control"
                 v-model="student.id"
+                title="Student ID"
             />
         </div>
         <br />
@@ -18,7 +19,12 @@
     >
         <div class="form-group">
             <label class="form-label">Full Name</label>
-            <input type="text" class="form-control" v-model="student.name" />
+            <input
+                type="text"
+                class="form-control"
+                v-model="student.name"
+                title="Full Name"
+            />
         </div>
         <br />
     </div>
@@ -27,7 +33,12 @@
     >
         <div class="form-group">
             <label class="form-label">Date of birth</label>
-            <input type="date" class="form-control" v-model="student.dob" />
+            <input
+                type="date"
+                class="form-control"
+                v-model="student.dob"
+                title="Date of birth"
+            />
         </div>
         <br />
     </div>
@@ -36,7 +47,12 @@
     >
         <div class="form-group">
             <label class="form-label">Email</label>
-            <input type="text" class="form-control" v-model="student.email" />
+            <input
+                type="text"
+                class="form-control"
+                v-model="student.email"
+                title="Email"
+            />
         </div>
         <br />
     </div>
@@ -46,7 +62,11 @@
     >
         <div class="form-group">
             <label class="form-label">Gender</label>
-            <select class="custom-select" v-model="student.gender">
+            <select
+                class="custom-select"
+                v-model="student.gender"
+                title="Gender"
+            >
                 <option value="" disabled="">&lt;Please choose one&gt;</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -74,6 +94,7 @@
                     class="form-control"
                     v-model="addressId"
                     v-on:change="getAddressById"
+                    title="Address ID"
                 />
             </div>
             <div class="px-0 col-md-7">
@@ -83,6 +104,7 @@
                     type="text"
                     class="form-control"
                     v-bind:value="addressQuickView"
+                    title="Address"
                 />
             </div>
             <button
@@ -96,6 +118,7 @@
                 type="button"
                 class="btn btn-outline-secondary"
                 v-on:click="formSubModuleAddressSeen = !formSubModuleAddressSeen"
+                title="Address"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -138,6 +161,7 @@
                     class="form-control"
                     v-model="studentClassId"
                     v-on:change="getStudentClassById"
+                    title="Student class ID"
                 />
             </div>
             <div class="px-0 col-md-7">
@@ -147,6 +171,7 @@
                     type="text"
                     class="form-control"
                     v-bind:value="studentClassQuickView"
+                    title="Student class"
                 />
             </div>
             <button
@@ -160,6 +185,7 @@
                 type="button"
                 class="btn btn-outline-secondary"
                 v-on:click="formSubModuleStudentClassSeen = !formSubModuleStudentClassSeen"
+                title="Student class"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -227,7 +253,7 @@
     <div class="d-flex justify-content-end mx-0 row">
         <div class="col-md-9"></div>
         <button type="button" class="btn btn-secondary">Reset</button>
-        <button class="ml-2 btn btn-primary">Save</button>
+        <button type="submit" class="ml-2 btn btn-primary">Save</button>
     </div>
     <Toasts></Toasts>
 </form>

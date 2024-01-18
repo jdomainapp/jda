@@ -3,7 +3,6 @@ import Vue from "vue";
 
 // display can be number or null
 export const store = Vue.observable({
-
     // demo nested tree
     form_trees: [
         {
@@ -40,7 +39,10 @@ export const store = Vue.observable({
                                         {
                                             name: "Address ID",
                                             children: [
-                                                { name: "City name", children: [] },
+                                                {
+                                                    name: "City name",
+                                                    children: [],
+                                                },
                                             ],
                                         },
                                         {
@@ -64,7 +66,7 @@ export const store = Vue.observable({
                         },
                     ],
                 },
-            ]
+            ],
         },
         {
             name: "Student",
@@ -81,11 +83,12 @@ export const store = Vue.observable({
                             name: "Address ID",
                             children: [{ name: "City name", children: [] }],
                         },
-                    ]
-                }
+                    ],
+                },
             ],
-        }
-    ]});
+        },
+    ],
+});
 
 export const mutations = {
     setDisplay(value) {

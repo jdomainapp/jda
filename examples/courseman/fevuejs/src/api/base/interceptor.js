@@ -1,11 +1,11 @@
-import Error from './http_error'
+import Error from "./http_error";
 
-export const errorInterceptor = error => {
+export const errorInterceptor = (error) => {
     if (!error.response) {
-      return Promise.reject(error);
+        return Promise.reject(error);
     }
 
-    switch(error.response.status) {
+    switch (error.response.status) {
         case 400:
             error.message = Error.HttpError_400;
             break;
@@ -13,25 +13,25 @@ export const errorInterceptor = error => {
             error.message = Error.HttpError_401;
             break;
         case 404:
-                error.message = Error.HttpError_404;
-                break;
+            error.message = Error.HttpError_404;
+            break;
         case 500:
             error.message = Error.HttpError_500;
             break;
         default:
-            // default case
+        // default case
     }
 
     return Promise.reject(error);
-}
+};
 
-export const responseInterceptor = response => {
-    switch(response.status) {
-        case 200: 
+export const responseInterceptor = (response) => {
+    switch (response.status) {
+        case 200:
             break;
         default:
-            // default case
+        // default case
     }
-    
+
     return response;
-}
+};

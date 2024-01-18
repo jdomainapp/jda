@@ -12,25 +12,38 @@
         </tr>
     </thead>
     <tbody>
-        <tr style="cursor: pointer;" v-for="(courseModule, index) in courseModules" v-if="courseModules"
-            :key="courseModule.id">
-            <td style="vertical-align: middle;">{{index + 1}}</td>
-            <td style="vertical-align: middle;">{{courseModule.id}}</td>
-            <td style="vertical-align: middle;">{{courseModule.code}}</td>
-            <td style="vertical-align: middle;">{{courseModule.name}}</td>
-            <td style="vertical-align: middle;">{{courseModule.semester}}</td>
-            <td style="vertical-align: middle;">{{courseModule.credits}}</td>
-            <td style="vertical-align: middle; width: 200px;">
-                <button class="btn btn-primary" v-on:click="emitData(courseModule)">
+        <tr
+            style="cursor: pointer"
+            v-for="(courseModule, index) in courseModules"
+            v-if="courseModules"
+            :key="courseModule.id"
+        >
+            <td style="vertical-align: middle">{{index + 1}}</td>
+            <td style="vertical-align: middle">{{courseModule.id}}</td>
+            <td style="vertical-align: middle">{{courseModule.code}}</td>
+            <td style="vertical-align: middle">{{courseModule.name}}</td>
+            <td style="vertical-align: middle">{{courseModule.semester}}</td>
+            <td style="vertical-align: middle">{{courseModule.credits}}</td>
+            <td style="vertical-align: middle; width: 200px">
+                <button
+                    class="btn btn-primary"
+                    v-on:click="emitData(courseModule)"
+                >
                     Edit
                 </button>
-                <a class="btn btn-danger" data-target="#myModal" v-on:click="getCourseModuleId(courseModule.id)"
-                    data-toggle="modal">
+                <a
+                    class="btn btn-danger"
+                    data-target="#myModal"
+                    v-on:click="getCourseModuleId(courseModule.id)"
+                    data-toggle="modal"
+                >
                     Delete
                 </a>
             </td>
         </tr>
     </tbody>
     <Toasts></Toasts>
-    <modal-confirm @confirm="deleteCourseModule(courseModuleId)"></modal-confirm>
+    <modal-confirm
+        @confirm="deleteCourseModule(courseModuleId)"
+    ></modal-confirm>
 </table>
