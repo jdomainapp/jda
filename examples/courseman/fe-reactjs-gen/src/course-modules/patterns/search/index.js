@@ -28,11 +28,11 @@ export default class SearchFactory  extends PatternFactory {
     /*
       implement by subtype
       @effects result is an object, each property of which is a state variable
-     */
+     */ 
     static initPatternState(props) {
       let state = {
-              formatResult: CourseModule.formatResult,
-              searchFields: props.mainForm.getSearchFields(),
+              formatResult: CourseModule.formatResult, 
+              searchFields: props.mainForm.getSearchFields(), 
               content: props.mainForm.state.current.content
           }
       return state
@@ -41,7 +41,7 @@ export default class SearchFactory  extends PatternFactory {
     /*
       implement by subtype
       @requires state is an object, each property of which is a state variable
-     */
+     */    
     static createPattern(state) {
       return new AutoCompleteSearch(state)
     }

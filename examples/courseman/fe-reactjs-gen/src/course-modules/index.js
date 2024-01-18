@@ -1,19 +1,22 @@
-import React from "react";
+// import CourseModuleMainView from "./CourseModuleMainView";
 import BaseAPI from "../base/BaseAPI";
 import providers from "../common/BackendApiProviders";
 
+import React from "react";
 import BaseMainForm from "../base/BaseMainForm";
 import CourseModuleListView from "./CourseModuleListView";
 import CourseModuleForm from "./CourseModuleForm";
+
 import AccordionFactory from "./patterns/accordion";
 import SearchFactory from "./patterns/search";
+// {{ view.submodule.imports }}
+
 const courseModuleAPI = new BaseAPI("course-modules", providers.axios);
-
-
 
 export default function CourseModuleModule(props) {
   return <CourseModuleMainView
     mainAPI={courseModuleAPI}
+    
     courseModuleAPI={courseModuleAPI}
     {...props}
   />
@@ -34,22 +37,23 @@ class CourseModuleMainView extends BaseMainForm {
     }
   }
 
-    getSearchLabel() {
-      return "name"
-    }
+  
+  getSearchLabel() {
+    return "name"
+  }
 
-    getSearchFields() {
-      return ["code","name","description",]
-    }
+  getSearchFields() {
+    return ["code", "name", "description"]
+  }
 
   getPossibleTypes() {
-    return ["compulsory","elective",]
+    return ['compulsory','elective']
   }
 
   renderTitle() {
     return (
       <>
-        <h2 className="text-center">Form: CourseModule</h2>
+        <h2 className="text-center">Manage Course Modules</h2>
       </>
     );
   }
@@ -58,24 +62,30 @@ class CourseModuleMainView extends BaseMainForm {
     return <CourseModuleListView {...this.props} {...this.state}
     changeToDetailsView={() => this.handleStateChange("viewType", "details")}
     handleStateChange={this.handleStateChange}
-    partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
+    partialApplyWithCallbacks={this.partialApplyWithCallbacks} 
+    mainForm={this}/>
   }
 
-   // patterns
-  initPatterns() {
-    super.initPatterns();
+ // patterns
+ initPatterns() {
+  super.initPatterns();
 
-    this.consumers.push(AccordionFactory.createProviderConsumer({mainForm: this, name: this.props.structure ? "" : undefined, structure: this.props.structure}))
+  this.consumers.push(AccordionFactory.createProviderConsumer({mainForm: this, name: this.props.structure ? "" : undefined, structure: this.props.structure}))
 
-    this.consumers.push(SearchFactory.createProviderConsumer({mainForm: this}))
-  }
+  this.consumers.push(SearchFactory.createProviderConsumer({mainForm: this}))
+}
 
   renderForm() {
     return <CourseModuleForm {...this.props} {...this.state}
-    setReadySubmit={this.setReadySubmit}
-    handleStateChange={this.handleStateChange.bind(this)}
-    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })}
-    mainForm={this} />;
+      setReadySubmit={this.setReadySubmit}
+      handleStateChange={this.handleStateChange.bind(this)}
+      handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })}
+      mainForm={this} />;
   }
 
+  // renderSubmodules() {
+  //   return (<>
+  //     {{ view.submodules }}
+  //     </>);
+  // }
 }

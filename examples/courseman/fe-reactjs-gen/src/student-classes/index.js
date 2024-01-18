@@ -1,22 +1,26 @@
-import React from "react";
+// import StudentClassMainView from "./StudentClassMainView";
 import BaseAPI from "../base/BaseAPI";
 import providers from "../common/BackendApiProviders";
 
+import React from "react";
 import BaseMainForm from "../base/BaseMainForm";
 import StudentClassListView from "./StudentClassListView";
 import StudentClassForm from "./StudentClassForm";
 import AccordionFactory from "./patterns/accordion";
 import SearchFactory from "./patterns/search";
-const studentClassAPI = new BaseAPI("student-classes", providers.axios);
+// {{ view.submodule.imports }}
 
 const studentAPI = new BaseAPI("students", providers.axios);
+
+const studentClassAPI = new BaseAPI("student-classes", providers.axios);
 
 
 export default function StudentClassModule(props) {
   return <StudentClassMainView
     mainAPI={studentClassAPI}
-    studentClassAPI={studentClassAPI}
-    studentAPI={studentAPI}
+    
+studentAPI={studentAPI}
+studentClassAPI={studentClassAPI}
     {...props}
   />
 }
@@ -35,15 +39,6 @@ class StudentClassMainView extends BaseMainForm {
       currentId: this.props.currentId
     }
   }
-
-    getSearchLabel() {
-      return "name"
-    }
-
-    getSearchFields() {
-      return ["name",]
-    }
-
   getPossibleTypes() {
     return []
   }
@@ -51,10 +46,20 @@ class StudentClassMainView extends BaseMainForm {
   renderTitle() {
     return (
       <>
-        <h2 className="text-center">Form: StudentClass</h2>
+        <h2 className="text-center">Manage Student Classes</h2>
       </>
     );
   }
+
+  
+ // patterns
+ initPatterns() {
+  super.initPatterns();
+
+  this.consumers.push(AccordionFactory.createProviderConsumer({mainForm: this, name: this.props.structure ? "" : undefined, structure: this.props.structure}))
+
+  this.consumers.push(SearchFactory.createProviderConsumer({mainForm: this}))
+}
 
   renderListView() {
     return <StudentClassListView {...this.props} {...this.state}
@@ -63,21 +68,16 @@ class StudentClassMainView extends BaseMainForm {
     partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
   }
 
-   // patterns
-  initPatterns() {
-    super.initPatterns();
-
-    this.consumers.push(AccordionFactory.createProviderConsumer({mainForm: this, name: this.props.structure ? "" : undefined, structure: this.props.structure}))
-
-    this.consumers.push(SearchFactory.createProviderConsumer({mainForm: this}))
-  }
-
   renderForm() {
     return <StudentClassForm {...this.props} {...this.state}
-    setReadySubmit={this.setReadySubmit}
     handleStateChange={this.handleStateChange.bind(this)}
     handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })}
     mainForm={this} />;
   }
 
+  // renderSubmodules() {
+  //   return (<>
+  //     {{ view.submodules }}
+  //     </>);
+  // }
 }

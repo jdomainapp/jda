@@ -16,6 +16,10 @@ class CustomAccordionItem extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.handleLinkClick = this.handleLinkClick.bind(this)
+    }
+
     changeBg(newColor) {
         this.setState({bg: newColor})
     }
@@ -48,7 +52,7 @@ class CustomAccordionItem extends React.Component {
                 focusElement(i, subFormId)
             }
 
-            this.changeBg("#E7F1FF")
+            this.props.mainMenu.setHighlight(this.props.module.endpoint)
         } else {
             window.location.href = this.props.module.endpoint
         }
@@ -63,12 +67,13 @@ class CustomAccordionItem extends React.Component {
             >
                 <div style={{
                     transition: "0.2s ease-in-out",
-                    backgroundColor: this.state.bg != "white" ? this.state.bg : (this.state.open ? "rgba(0,0,0,0.1)" : "white"),
+                    backgroundColor: this.props.mainMenu.getHighlight() === this.props.module.endpoint ? "#E7F1FF" : this.state.bg != "white" ? this.state.bg : (this.state.open ? "rgba(0,0,0,0.1)" : "white"),
                     display: "flex",
                     padding: "0 10px",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    height: "40px"
+                    height: "40px",
+                    borderRadius: "10px"
                 }}>
                     <a onClick={()=>this.handleLinkClick()} style={{color: "black", cursor: "pointer"}}>
                         {this.props.module.name}
@@ -88,7 +93,7 @@ class CustomAccordionItem extends React.Component {
                     <Collapse style={{border: "none", marginLeft: "10px"}} in={this.state.open}>
                         <div>
                             {this.props.module.subItem ?
-                                <AccordionSearchableMenu structure={this.props.module.subItem} isSub/>
+                                <Menu mainMenu={this.props.mainMenu} structure={this.props.module.subItem} isSub/>
                                 : ""
                             }
                         </div>
@@ -100,21 +105,31 @@ class CustomAccordionItem extends React.Component {
     }
 }
 
-class AccordionSearchableMenu extends Pattern {
+class Menu extends React.Component {
     constructor(props) {
         super(props);
         this.rawStructure = this.props.modules
+        this.modules = this.props.modules !== undefined || this.props.structure !== undefined ? (this.props.modules !== undefined ? this.initializeRef(this.rawStructure.getStructure()) : this.props.structure) : []
         this.state = {
-            modules: this.props.modules !== undefined || this.props.structure !== undefined ? (this.props.modules !== undefined ? this.initializeRef(this.rawStructure.getStructure()) : this.props.structure) : [],
+            ...this.state,
+            highlighting: "",
             first: this.props.isSub ? false : true
         }
         this.ready = true;
         this.lastSearched = ""
         this.lastTyped = ""
-        setInterval(()=>{
-            this.ready = true;
-            if(this.lastSearched != this.lastTyped)  this.setState({modules: this.handleSearch(this.lastTyped, this.props.modules)});
-        },100);
+        this.mainMenu = this.props.mainMenu ? this.props.mainMenu : this
+
+    }
+
+    componentDidMount() {
+        this.setHighlight = this.setHighlight.bind(this)
+        this.getHighlight = this.getHighlight.bind(this)
+        console.log("mount")
+        // setInterval(()=>{
+        //     this.ready = true;
+        //     if(this.lastSearched != this.lastTyped)  this.setState({modules: this.handleSearch(this.lastTyped, this.props.modules)});
+        // },100);
     }
 
     initializeRef(modules) {
@@ -141,29 +156,34 @@ class AccordionSearchableMenu extends Pattern {
         return shortIndex === shortString.length;
     }
 
-    handleSearch(keyword, modules) {
+    handleSearch(keyword, modules, parentMatched = false) {
         this.ready = false;
         this.lastSearched = keyword;
         var res = false;
         if(modules) {
             if(keyword != "") {
-                var newList = Array();
                 for(var i = 0; i < modules.length; i ++) {
-                    const subRes = this.handleSearch(keyword, modules[i].subItem)
-                    if(subRes) res = true
-                    if(!modules[i].ref.current) console.log(modules[i].endpoint)
-                    modules[i].ref.current.expand(subRes)
-                    if(this.isRelativeSubstring(modules[i].name, keyword)) {
+                    let matched = this.isRelativeSubstring(modules[i].name, keyword)
+                    if(matched) {
                         modules[i].ref.current.changeBg("#E7F1FF")
                         modules[i].ref.current.changeDisplay("block")
                         res = true
-                    } else if (!subRes) {
-                        modules[i].ref.current.changeBg("white")
-                        modules[i].ref.current.changeDisplay("none")
                     } else {
                         modules[i].ref.current.changeBg("white")
                         modules[i].ref.current.changeDisplay("block")
                     }
+                    const subRes = this.handleSearch(keyword, modules[i].subItem, matched || parentMatched)
+                    if(subRes) {
+                        res = true
+                    } else {
+                        if(matched || parentMatched) {
+                            modules[i].ref.current.changeDisplay("block")
+                        } else {
+                            modules[i].ref.current.changeBg("white")
+                            modules[i].ref.current.changeDisplay("none")
+                        }
+                    }
+                    modules[i].ref.current.expand(subRes)
                 }
             } else {
                 for(var i = 0; i < modules.length; i ++) {
@@ -175,6 +195,22 @@ class AccordionSearchableMenu extends Pattern {
             }
         }
         return res;
+    }
+
+    setHighlight(id) {
+        if(this.mainMenu === this) {
+            this.setState({highlighting: id})
+        } else {
+            this.mainMenu.setHighlight(id)
+        }
+    }
+
+    getHighlight() {
+        if(this.mainMenu === this) {
+            return this.state.highlighting
+        } else {
+            return this.mainMenu.getHighlight()
+        }
     }
 
     render() {
@@ -189,26 +225,37 @@ class AccordionSearchableMenu extends Pattern {
                     <Form.Control style={{margin: this.props.small ? "0 10px 5px 10px" : "0 0 5px 0", width: this.props.small ? "calc(100% - 20px)" : "100%"}} type="text" placeholder="Search categories"
                     onChange={e=> {
                         this.lastTyped = e.target.value;
-                        this.handleSearch(e.target.value, this.state.modules)
+                        this.handleSearch(e.target.value, this.modules)
                     }}/>
                 :
                     <></>
                 }
-                <div style={{
+                <div style={this.state.first == true?{
                         maxHeight: "calc(100vh - 150px)",
                         overflowY: "auto"
-                    }}>
+                    }: {}}>
 
-                    {this.state.modules ?
-                        this.state.modules.map(
+                    {this.modules ?
+                        this.modules.map(
                             (module) =>
-                                <CustomAccordionItem module={module} ref={module.ref}/>
+                                <CustomAccordionItem mainMenu={this.mainMenu} module={module} ref={module.ref}/>
                         )
                         : ""
                     }
                 </div>
             </div>
         )
+    }
+}
+
+class AccordionSearchableMenu extends Pattern {
+    constructor(props)  {
+        super(props)
+        this.rawStructure = this.props.modules
+    }
+
+    render() {
+        return <Menu {...this.props}/>
     }
 }
 

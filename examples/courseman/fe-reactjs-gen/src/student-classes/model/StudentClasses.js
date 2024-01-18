@@ -1,4 +1,4 @@
-export default class CourseModule {
+export default class StudentClasses {
     constructor() {
 
     }

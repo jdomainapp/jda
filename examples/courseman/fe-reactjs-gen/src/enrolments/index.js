@@ -1,24 +1,31 @@
-import React from "react";
+// import EnrolmentMainView from "./EnrolmentMainView";
 import BaseAPI from "../base/BaseAPI";
 import providers from "../common/BackendApiProviders";
 
+import React from "react";
 import BaseMainForm from "../base/BaseMainForm";
 import EnrolmentListView from "./EnrolmentListView";
 import EnrolmentForm from "./EnrolmentForm";
+import {enrolment} from "../common/Constants";
+import AccordionSearchableMenu from "../common/patterns/accordion";
 import AccordionFactory from "./patterns/accordion";
 import SearchFactory from "./patterns/search";
-const enrolmentAPI = new BaseAPI("enrolments", providers.axios);
+// {{ view.submodule.imports }}
 
 const studentAPI = new BaseAPI("students", providers.axios);
+
 const courseModuleAPI = new BaseAPI("course-modules", providers.axios);
+
+const enrolmentAPI = new BaseAPI("enrolments", providers.axios);
 
 
 export default function EnrolmentModule(props) {
   return <EnrolmentMainView
     mainAPI={enrolmentAPI}
-    enrolmentAPI={enrolmentAPI}
-    studentAPI={studentAPI}
-    courseModuleAPI={courseModuleAPI}
+    
+studentAPI={studentAPI}
+courseModuleAPI={courseModuleAPI}
+enrolmentAPI={enrolmentAPI}
     {...props}
   />
 }
@@ -38,13 +45,13 @@ class EnrolmentMainView extends BaseMainForm {
     }
   }
 
-    getSearchLabel() {
-      return "name"
-    }
+  getSearchLabel() {
+    return "id"
+  }
 
-    getSearchFields() {
-      return ["id",]
-    }
+  getSearchFields() {
+    return ["id"]
+  }
 
   getPossibleTypes() {
     return []
@@ -53,7 +60,7 @@ class EnrolmentMainView extends BaseMainForm {
   renderTitle() {
     return (
       <>
-        <h2 className="text-center">Form: Enrolment</h2>
+        <h2 className="text-center">Manage Enrolment</h2>
       </>
     );
   }
@@ -65,7 +72,7 @@ class EnrolmentMainView extends BaseMainForm {
     partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
   }
 
-   // patterns
+  // patterns
   initPatterns() {
     super.initPatterns();
 
@@ -76,10 +83,14 @@ class EnrolmentMainView extends BaseMainForm {
 
   renderForm() {
     return <EnrolmentForm {...this.props} {...this.state}
-    setReadySubmit={this.setReadySubmit}
     handleStateChange={this.handleStateChange.bind(this)}
     handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })}
     mainForm={this} />;
   }
 
+  // renderSubmodules() {
+  //   return (<>
+  //     {{ view.submodules }}
+  //     </>);
+  // }
 }

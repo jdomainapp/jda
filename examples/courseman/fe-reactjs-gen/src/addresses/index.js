@@ -1,22 +1,27 @@
-import React from "react";
+// import AddressMainView from "./AddressMainView";
 import BaseAPI from "../base/BaseAPI";
 import providers from "../common/BackendApiProviders";
 
+import React from "react";
 import BaseMainForm from "../base/BaseMainForm";
 import AddressListView from "./AddressListView";
 import AddressForm from "./AddressForm";
+import AccordionSearchableMenu from "../common/patterns/accordion";
 import AccordionFactory from "./patterns/accordion";
 import SearchFactory from "./patterns/search";
-const addressAPI = new BaseAPI("addresses", providers.axios);
+// {{ view.submodule.imports }}
 
 const studentAPI = new BaseAPI("students", providers.axios);
+
+const addressAPI = new BaseAPI("addresses", providers.axios);
 
 
 export default function AddressModule(props) {
   return <AddressMainView
     mainAPI={addressAPI}
-    addressAPI={addressAPI}
-    studentAPI={studentAPI}
+    
+studentAPI={studentAPI}
+addressAPI={addressAPI}
     {...props}
   />
 }
@@ -35,15 +40,6 @@ class AddressMainView extends BaseMainForm {
       currentId: this.props.currentId
     }
   }
-
-    getSearchLabel() {
-      return "name"
-    }
-
-    getSearchFields() {
-      return ["name",]
-    }
-
   getPossibleTypes() {
     return []
   }
@@ -63,21 +59,25 @@ class AddressMainView extends BaseMainForm {
     partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
   }
 
-   // patterns
-  initPatterns() {
-    super.initPatterns();
+ // patterns
+ initPatterns() {
+  super.initPatterns();
 
-    this.consumers.push(AccordionFactory.createProviderConsumer({mainForm: this, name: this.props.structure ? "" : undefined, structure: this.props.structure}))
+  this.consumers.push(AccordionFactory.createProviderConsumer({mainForm: this, name: this.props.structure ? "" : undefined, structure: this.props.structure}))
 
-    this.consumers.push(SearchFactory.createProviderConsumer({mainForm: this}))
-  }
+  this.consumers.push(SearchFactory.createProviderConsumer({mainForm: this}))
+}
 
   renderForm() {
     return <AddressForm {...this.props} {...this.state}
-    setReadySubmit={this.setReadySubmit}
     handleStateChange={this.handleStateChange.bind(this)}
     handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })}
     mainForm={this} />;
   }
 
+  // renderSubmodules() {
+  //   return (<>
+  //     {{ view.submodules }}
+  //     </>);
+  // }
 }
