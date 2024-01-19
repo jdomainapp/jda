@@ -4,6 +4,7 @@ import { getAllEnrolments, deleteEnrolment } from "../../api/enrolment";
 import { getInnerListByOuterId } from "../../api/enrolment";
 import ModalConfirm from "../modal/confirm.vue";
 import Message from "../../constants/message";
+import { BPagination, BTable, BFormSelect } from "bootstrap-vue";
 
 export default {
     props: {
@@ -12,6 +13,9 @@ export default {
 
     components: {
         "modal-confirm": ModalConfirm,
+        BPagination,
+        BTable,
+        BFormSelect
     },
 
     data() {
@@ -25,11 +29,41 @@ export default {
                 parentID: this.parentData ? this.parentData.parentID : 0,
                 mode: "edit",
             },
+
+            page: {
+                perPage: 5,
+                currentPage: 1,
+                // #	Id	Student	Course module	Internal Mark	Exam Mark	Final Grade	Start Date	End Date	Action
+                fields: [
+                    { key: "#", label: "#" },
+                    { key: "id", label: "ID" },
+                    { key: "student", label: "Student" },
+                    { key: "courseModule", label: "Course module" },
+                    { key: "internalMark", label: "Internal Mark" },
+                    { key: "examMark", label: "Exam Mark" },
+                    { key: "finalGrade", label: "Final Grade" },
+                    { key: "startDate", label: "Start Date" },
+                    { key: "endDate", label: "End Date" },
+                    { key: "action", label: "Action" },
+                ],
+
+                options: [
+                    { value: 5, text: '5 rows / page' },
+                    { value: 10, text: '10 rows / page' },
+                    { value: 20, text: '20 rows / page' },
+                ]
+            },
         };
     },
 
     mounted() {
         this.getEnrolments();
+    },
+
+    computed: {
+        rows() {
+            return this.enrolments.length;
+        },
     },
 
     methods: {

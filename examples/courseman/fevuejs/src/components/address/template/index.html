@@ -23,12 +23,14 @@
                     placeholder="ID..."
                     type="text"
                     class="mr-1 col-md-4 form-control"
+                    disabled
                 />
                 <input
                     placeholder="Search"
                     type="text"
                     class="mr-1 col-md-6 form-control"
                     value=""
+                    v-model="searchName"
                 />
                 <button
                     type="button"

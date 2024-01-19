@@ -19,10 +19,22 @@ export default {
                 parentID: this.parentData ? this.parentData.parentID : 0,
                 address: null,
             },
+
+            searchName: "",
         };
     },
 
     mounted() {},
+
+    // watch for changes searchName
+    watch: {
+        searchName: function (val) {
+            // if val is not empty then go to display 2
+            if (val) {
+                this.display = 3;
+            }
+        },
+    },
 
     methods: {
         setData(data) {

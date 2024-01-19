@@ -1,4 +1,4 @@
-<table class="table table-bordered table-hover">
+<!-- <table class="table table-bordered table-hover">
     <thead>
         <tr>
             <th>#</th>
@@ -45,4 +45,35 @@
     </tbody>
     <Toasts></Toasts>
     <modal-confirm @confirm="deleteStudent(studentId)"></modal-confirm>
-</table>
+</table> -->
+
+<div class="overflow-auto">
+    <b-table id="table-list" :items="students" :per-page="page.perPage" :current-page="page.currentPage"
+        :fields="page.fields" responsive class="table table-bordered table-hover""
+    >
+        <template #cell(#)=" row">
+        {{(page.currentPage - 1) * page.perPage + row.index + 1}}
+        </template>
+        <template #cell(action)="row">
+            <button class="btn btn-primary" v-on:click="emitData(row.item)">
+                Edit
+            </button>
+            <a class="btn btn-danger" data-target="#myModal" v-on:click="getStudentId(row.item.id)" data-toggle="modal">
+                Delete
+            </a>
+        </template>
+    </b-table>
+
+    <div class="float-left">
+        <b-pagination v-model="page.currentPage" :total-rows="rows" :per-page="page.perPage" first-text="First"
+            prev-text="Prev" next-text="Next" last-text="Last" aria-controls="table-list">
+        </b-pagination>
+    </div>
+
+    <div class="float-right">
+        <b-form-select v-model="page.perPage" :options="page.options" class="mb-3"></b-form-select>
+    </div>
+
+    <Toasts></Toasts>
+    <modal-confirm @confirm="deleteStudent(studentId)"></modal-confirm>
+</div>

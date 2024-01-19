@@ -7,10 +7,14 @@ import {
 
 import ModalConfirm from "../modal/confirm.vue";
 import Message from "../../constants/message";
+import { BPagination, BTable, BFormSelect } from "bootstrap-vue";
 
 export default {
     components: {
         "modal-confirm": ModalConfirm,
+        BPagination,
+        BTable,
+        BFormSelect
     },
 
     data() {
@@ -23,11 +27,34 @@ export default {
                 parentID: this.parentData ? this.parentData.parentID : 0,
                 mode: "edit",
             },
+
+            page: {
+                perPage: 5,
+                currentPage: 1,
+                fields: [
+                    { key: "#", label: "#" },
+                    { key: "id", label: "ID" },
+                    { key: "name", label: "Name" },
+                    { key: "action", label: "Action" },
+                ],
+
+                options: [
+                    { value: 5, text: '5 rows / page' },
+                    { value: 10, text: '10 rows / page' },
+                    { value: 20, text: '20 rows / page' },
+                ]
+            },
         };
     },
 
     mounted() {
         this.getStudentClasses();
+    },
+
+    computed: {
+        rows() {
+            return this.studentClasses.length;
+        },
     },
 
     methods: {
