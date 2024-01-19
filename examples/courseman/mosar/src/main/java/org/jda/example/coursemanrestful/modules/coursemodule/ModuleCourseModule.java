@@ -55,7 +55,7 @@ public class ModuleCourseModule {
     @AttributeDesc(label = "Name", jsValidation = @JSValidation(regex = "/^S\\d+$/", invalidMsg = "Name must start with 'S' and followed by one or more numbers!"))
     private String name;
 
-    @AttributeDesc(label = "Description", inputType = InputTypes.TextArea, jsValidation = @JSValidation(regex = "/^[A-Za-z\\s]+$/", invalidMsg = "Description must only include characters!"))
+    @AttributeDesc(label = "Description", inputType = InputTypes.TextArea, jsValidation = @JSValidation(optional = true,regex = "/^[A-Za-z\\s]$/", invalidMsg = "Description must only include characters!"))
     private String description;
 
     @AttributeDesc(label = "Semester", alignX = AlignmentX.Center)

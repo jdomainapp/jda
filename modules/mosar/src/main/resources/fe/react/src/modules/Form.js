@@ -48,7 +48,7 @@ export default class @slot{{ModuleName}}Form extends BaseForm {
     return {
         @loop{validations}[[
             @slot{{fieldName}}: {
-                    optional: false,
+                    optional: @slot{{isOptional}},
                     validated: undefined,
                     message: "",
                     regex: @slot{{regex}},

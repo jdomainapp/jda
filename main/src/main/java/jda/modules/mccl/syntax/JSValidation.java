@@ -10,4 +10,5 @@ public @interface JSValidation {
     public String regex() default "";
     public String invalidMsg() default "";
     public String validMsg() default "";
+    public boolean optional() default false;
 }

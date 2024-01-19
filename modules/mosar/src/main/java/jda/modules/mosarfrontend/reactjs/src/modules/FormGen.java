@@ -38,8 +38,8 @@ public class FormGen extends BaseModuleGen {
         return mcc.getSubDomains().size() > 0;
     }
 
-    @IfReplacement(id="hasTextAreaInput")
-    public boolean hasTextAreaInput(@RequiredParam.ModuleFields DField[] fields){
+    @IfReplacement(id = "hasTextAreaInput")
+    public boolean hasTextAreaInput(@RequiredParam.ModuleFields DField[] fields) {
         return Arrays.stream(fields).filter(f -> f.getInputType() == InputTypes.TextArea).toArray(DField[]::new).length > 0;
     }
 
@@ -68,6 +68,7 @@ public class FormGen extends BaseModuleGen {
             System.out.println("ID" + field.getInputID());
             ArrayList<Slot> slotValues = FieldsUtil.getBasicFieldSlots(field);
             if (field.getAttributeDesc() != null) {
+                slotValues.add(new Slot("isOptional", String.valueOf(field.getAttributeDesc().jsValidation().optional())));
                 slotValues.add(new Slot("regex", field.getAttributeDesc().jsValidation().regex()));
                 slotValues.add(new Slot("validMsg", field.getAttributeDesc().jsValidation().validMsg()));
                 slotValues.add(new Slot("invalidMsg", field.getAttributeDesc().jsValidation().invalidMsg()));
@@ -78,7 +79,7 @@ public class FormGen extends BaseModuleGen {
         return result.stream().map(v -> v.toArray(Slot[]::new)).toArray(Slot[][]::new);
     }
 
-    @LoopReplacement(ids = {"dateRangeStates", "rangeIDMap","dateRangeSelectHandler"})
+    @LoopReplacement(ids = {"dateRangeStates", "rangeIDMap", "dateRangeSelectHandler"})
     public Slot[][] dateRangeStates(@RequiredParam.ModuleFields DField[] fields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         DField[] startFields = Arrays.stream(fields).filter(f -> f.getInputType() == InputTypes.DateRangeStart).toArray(DField[]::new);
@@ -106,8 +107,8 @@ public class FormGen extends BaseModuleGen {
     }
 
 
-    @SlotReplacement(id="formInputs")
-    public String formInputs(){
+    @SlotReplacement(id = "formInputs")
+    public String formInputs() {
         return new FileFactory(FormInputsGen.class).genFile(false);
     }
 
