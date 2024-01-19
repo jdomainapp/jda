@@ -27,36 +27,25 @@ export default class BaseForm extends React.Component {
     return {}
   }
 
-  async validate(value, name) {
+  validate(value, name) {
     var newInputState = this.props.inputState
     if(newInputState[name]) {
       if(newInputState[name].regex.test(value)) {
-        newInputState[name].validated = true
-        newInputState[name].message = newInputState[name].validMsg
+        if(newInputState[name].validate !== true) {
+          newInputState[name].validated = true
+          newInputState[name].message = newInputState[name].validMsg
+          this.props.handleStateChange("inputState", newInputState, false)
+        }
       } else {
-        newInputState[name].validated = false
-        newInputState[name].message = newInputState[name].invalidMsg
-      }
-  
-      await this.props.handleStateChange("inputState", newInputState, false)
-    }
-
-    var formValidated = true
-    Object.entries(newInputState).forEach((val) => {
-      if(formValidated) {
-        if (val[1].optional) {
-          if (val[1].validated === false) {
-            formValidated = false
-          }
-        } else {
-          if (val[1].validated === false || val[1].validated === undefined) {
-            formValidated = false
-          }
+        if(newInputState[name].validate !== false) {
+          newInputState[name].validated = false
+          newInputState[name].message = newInputState[name].invalidMsg
+          this.props.handleStateChange("inputState", newInputState, false)
         }
       }
-    })
+    }
 
-    this.props.handleStateChange("readySubmit", formValidated, false)
+    return value
   }
 
   renderObject(propPath) {

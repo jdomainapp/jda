@@ -45,10 +45,10 @@ export default class CourseModuleForm extends BaseForm {
                   },
         
             description: {
-                    optional: false,
+                    optional: true,
                     validated: undefined,
                     message: "",
-                    regex: /^[A-Za-z\s]+$/,
+                    regex: /^[A-Za-z\s]$/,
                     validMsg: "",
                     invalidMsg: "Description must only include characters!"
                   },

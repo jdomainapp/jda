@@ -125,11 +125,6 @@ class Menu extends React.Component {
     componentDidMount() {
         this.setHighlight = this.setHighlight.bind(this)
         this.getHighlight = this.getHighlight.bind(this)
-        console.log("mount")
-        // setInterval(()=>{
-        //     this.ready = true;
-        //     if(this.lastSearched != this.lastTyped)  this.setState({modules: this.handleSearch(this.lastTyped, this.props.modules)});
-        // },100);
     }
 
     initializeRef(modules) {
@@ -231,7 +226,7 @@ class Menu extends React.Component {
                     <></>
                 }
                 <div style={this.state.first == true?{
-                        maxHeight: "calc(100vh - 150px)",
+                        maxHeight: "calc(100vh - 150px)",   
                         overflowY: "auto"
                     }: {}}>
 

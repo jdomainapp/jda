@@ -490,7 +490,7 @@ export default class BaseMainForm extends React.Component {
     return (<>
       <Row>
         {this.onRenderLHSMenu()}
-        <Col>
+        <Col md={this.props.includeMenu === false || (this.state.viewType !== "create" && this.state.viewType !== "details") ? 12 : 10}>
           <Container className="border py-4">
             {this.state.alert ? this.state.alert : ""}
             {this.state.notifications && this.state.notifications.length > 0 ?
