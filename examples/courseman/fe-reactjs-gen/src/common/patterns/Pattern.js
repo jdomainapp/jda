@@ -3,12 +3,7 @@ import React from "react"
 export default class Pattern extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {}
         this.providers = Array()
-    }
-
-    componentDidMount() {
-        console.log("hello")
     }
 
     registerProvider(provider) {

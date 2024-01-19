@@ -134,7 +134,7 @@ export default class BaseMainForm extends React.Component {
   setReadySubmit(newState) {
     this.handleStateChange("current.readySubmit", newState, false)
   }
-
+  
   validate() {
     var formValidated = true
     var newInputState = this.state.inputState
@@ -168,6 +168,7 @@ export default class BaseMainForm extends React.Component {
       }
     })
     this.handleStateChange("inputState", newInputState, false)
+    console.log(newInputState)
     return formValidated
   }
 
@@ -490,7 +491,7 @@ export default class BaseMainForm extends React.Component {
     return (<>
       <Row>
         {this.onRenderLHSMenu()}
-        <Col>
+        <Col md={this.props.includeMenu === false || (this.state.viewType !== "create" && this.state.viewType !== "details") ? 12 : 10}>
           <Container className="border py-4">
             {this.state.alert ? this.state.alert : ""}
             {this.state.notifications && this.state.notifications.length > 0 ?

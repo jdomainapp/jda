@@ -16,10 +16,6 @@ class CustomAccordionItem extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.handleLinkClick = this.handleLinkClick.bind(this)
-    }
-
     changeBg(newColor) {
         this.setState({bg: newColor})
     }
@@ -72,8 +68,7 @@ class CustomAccordionItem extends React.Component {
                     padding: "0 10px",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    height: "40px",
-                    borderRadius: "10px"
+                    height: "40px"
                 }}>
                     <a onClick={()=>this.handleLinkClick()} style={{color: "black", cursor: "pointer"}}>
                         {this.props.module.name}
@@ -111,25 +106,22 @@ class Menu extends React.Component {
         this.rawStructure = this.props.modules
         this.modules = this.props.modules !== undefined || this.props.structure !== undefined ? (this.props.modules !== undefined ? this.initializeRef(this.rawStructure.getStructure()) : this.props.structure) : []
         this.state = {
-            ...this.state,
+            first: this.props.isSub ? false : true,
             highlighting: "",
-            first: this.props.isSub ? false : true
         }
         this.ready = true;
         this.lastSearched = ""
         this.lastTyped = ""
         this.mainMenu = this.props.mainMenu ? this.props.mainMenu : this
-
+        setInterval(()=>{
+            this.ready = true;
+            if(this.lastSearched != this.lastTyped)  this.setState({modules: this.handleSearch(this.lastTyped, this.props.modules)});
+        },100);
     }
 
     componentDidMount() {
         this.setHighlight = this.setHighlight.bind(this)
         this.getHighlight = this.getHighlight.bind(this)
-        console.log("mount")
-        // setInterval(()=>{
-        //     this.ready = true;
-        //     if(this.lastSearched != this.lastTyped)  this.setState({modules: this.handleSearch(this.lastTyped, this.props.modules)});
-        // },100);
     }
 
     initializeRef(modules) {
@@ -156,34 +148,29 @@ class Menu extends React.Component {
         return shortIndex === shortString.length;
     }
 
-    handleSearch(keyword, modules, parentMatched = false) {
+    handleSearch(keyword, modules) {
         this.ready = false;
         this.lastSearched = keyword;
         var res = false;
         if(modules) {
             if(keyword != "") {
+                var newList = Array();
                 for(var i = 0; i < modules.length; i ++) {
-                    let matched = this.isRelativeSubstring(modules[i].name, keyword)
-                    if(matched) {
+                    const subRes = this.handleSearch(keyword, modules[i].subItem)
+                    if(subRes) res = true
+                    if(!modules[i].ref.current) console.log(modules[i].endpoint)
+                    modules[i].ref.current.expand(subRes)
+                    if(this.isRelativeSubstring(modules[i].name, keyword)) {
                         modules[i].ref.current.changeBg("#E7F1FF")
                         modules[i].ref.current.changeDisplay("block")
                         res = true
+                    } else if (!subRes) {
+                        modules[i].ref.current.changeBg("white")
+                        modules[i].ref.current.changeDisplay("none")
                     } else {
                         modules[i].ref.current.changeBg("white")
                         modules[i].ref.current.changeDisplay("block")
                     }
-                    const subRes = this.handleSearch(keyword, modules[i].subItem, matched || parentMatched)
-                    if(subRes) {
-                        res = true
-                    } else {
-                        if(matched || parentMatched) {
-                            modules[i].ref.current.changeDisplay("block")
-                        } else {
-                            modules[i].ref.current.changeBg("white")
-                            modules[i].ref.current.changeDisplay("none")
-                        }
-                    }
-                    modules[i].ref.current.expand(subRes)
                 }
             } else {
                 for(var i = 0; i < modules.length; i ++) {
@@ -230,7 +217,8 @@ class Menu extends React.Component {
                 :
                     <></>
                 }
-                <div style={this.state.first == true?{
+                <div style={this.state.first == true ? {
+                        height: "fit-content",
                         maxHeight: "calc(100vh - 150px)",
                         overflowY: "auto"
                     }: {}}>
