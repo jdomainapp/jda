@@ -23,12 +23,14 @@
                     placeholder="ID..."
                     type="text"
                     class="mr-1 col-md-4 form-control"
+                    v-model="search.id"
                 />
                 <input
                     placeholder="Search"
                     type="text"
                     class="mr-1 col-md-6 form-control"
                     value=""
+                    v-model="search.keyword"
                 />
                 <button
                     type="button"
@@ -70,6 +72,7 @@
                 v-if="display == 3"
                 v-bind:parentData="dataSubForm"
                 @data="setData"
+                v-bind:search="search"
             ></form-list>
         </div>
     </div>

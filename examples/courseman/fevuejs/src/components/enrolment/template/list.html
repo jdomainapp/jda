@@ -51,7 +51,7 @@
 </table> -->
 
 <div class="overflow-auto">
-    <b-table id="table-list" :items="enrolments" :per-page="page.perPage" :current-page="page.currentPage"
+    <b-table id="table-list" :items="filterResults" :per-page="page.perPage" :current-page="page.currentPage"
         :fields="page.fields" responsive class="table table-bordered table-hover""
     >
         <template #cell(#)=" row">

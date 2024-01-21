@@ -1,6 +1,6 @@
 <template src="./template/index.html"></template>
 <script>
-import { store } from "../../constants/store";
+// import { store } from "../../constants/store";
 
 export default {
     props: {
@@ -15,7 +15,8 @@ export default {
     data() {
         return {
             display: 1,
-            store: store,
+            cache_display: 1,
+            // store: store,
             dataSubForm: {
                 mode: "create",
                 parent: this.parentData
@@ -24,36 +25,40 @@ export default {
                 parentID: this.parentData ? this.parentData.parentID : 0,
                 studentClass: null,
             },
+
+            search: {
+                id: "",
+                keyword: "",
+            }
         };
     },
 
-    mounted() {},
+    mounted() { },
 
-    // for reactive data
-    // computed: {
-    //     display: {
-    //         get() {
-    //             return store.display;
-    //         },
-    //         set(value) {
-    //             mutations.setDisplay(value);
-    //         },
-    //     },
-    // },
+    watch: {
+        search: {
+            handler: function (val) {
+                val.id = String(val.id).trim();
+                val.keyword = String(val.keyword).trim();
+                const id = val.id !== "";
+                const keyword = val.keyword !== "";
 
-    // when start import component, change display to 2
-    // created() {
-    //     mutations.setDisplay(2);
-    // },
-
-    // when about to destroy component, change display to null
-    // beforeDestroy() {
-    //     mutations.setDisplay(null);
-    // },
+                // If id and keyword are empty, return back to last display (create || edit)
+                // HOWEVER, when display change, the list will be re-rendered => fetch data again
+                if (!(id || keyword)) {
+                    this.display = this.cache_display;
+                } else {
+                    this.cache_display = this.display === 3 ? 1 : this.display;
+                    this.display = 3;
+                }
+            },
+            deep: true,
+        },
+    },
 
     methods: {
         setData(data) {
-            console.log("set studentClass", data);
+            // console.log("set studentClass", data);
             this.dataSubForm.mode = data.mode;
             this.dataSubForm.studentClass = data.studentClass;
             this.display = 1;

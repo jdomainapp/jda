@@ -10,6 +10,19 @@ import Message from "../../constants/message";
 import { BPagination, BTable, BFormSelect } from "bootstrap-vue";
 
 export default {
+    props: {
+        search: {
+            type: Object,
+            default: () => {
+                return {
+                    id: "",
+                    keyword: "",
+                };
+            },
+            required: true,
+        }
+    },
+
     components: {
         "modal-confirm": ModalConfirm,
         BPagination,
@@ -59,8 +72,29 @@ export default {
 
     computed: {
         rows() {
-            return this.courseModules.length;
+            return this.filterResults.length;
         },
+
+        filterResults() {
+            const keyword = this.search.keyword.toLowerCase();
+            const id = this.search.id.toLowerCase();
+
+            return this.courseModules.filter((s) => {
+                let matchesId = true;
+                let matchesKeyword = true;
+
+                if (id !== "") {
+                    matchesId = s.id.toString().toLowerCase().includes(id);
+                }
+
+                if (keyword !== "") {
+                    matchesKeyword =
+                        s.name.toLowerCase().includes(keyword)
+                }
+
+                return matchesId && matchesKeyword;
+            });
+        }
     },
 
     methods: {

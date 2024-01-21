@@ -1,4 +1,4 @@
-import Vue from "vue";
+// import Vue from "vue";
 import VueRouter from "vue-router";
 
 //path
@@ -79,7 +79,7 @@ import { ENROLMENT_INDEX, ENROLMENT_LIST, ENROLMENT_ADD } from "./component.js";
 import { STUDENT_INDEX, STUDENT_LIST, STUDENT_ADD } from "./component.js";
 import { DEMO } from "./component.js"; // demo design pattern
 
-Vue.use(VueRouter);
+// Vue.use(VueRouter);
 
 export const router = new VueRouter({
     mode: "history", // Nguyen Dang Duc Anh, 02/12/2023: Em thêm mode history để không có # trong url.

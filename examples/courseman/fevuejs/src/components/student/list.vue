@@ -9,6 +9,17 @@ import { BPagination, BTable, BFormSelect } from "bootstrap-vue";
 export default {
     props: {
         parentData: Object,
+
+        search: {
+            type: Object,
+            default: () => {
+                return {
+                    id: "",
+                    keyword: "",
+                };
+            },
+            required: true,
+        }
     },
 
     components: {
@@ -60,8 +71,28 @@ export default {
 
     computed: {
         rows() {
-            return this.students.length;
+            return this.filterResults.length;
         },
+
+        filterResults() {
+            const keyword = this.search.keyword.toLowerCase();
+            const id = this.search.id.toLowerCase();
+
+            return this.students.filter((s) => {
+                let matchesId = true;
+                let matchesKeyword = true;
+
+                if (id !== "") {
+                    matchesId = s.id.toString().toLowerCase().includes(id);
+                }
+
+                if (keyword !== "") {
+                    matchesKeyword = s.name.toLowerCase().includes(keyword);
+                }
+
+                return matchesId && matchesKeyword;
+            });
+        }
     },
 
     methods: {
