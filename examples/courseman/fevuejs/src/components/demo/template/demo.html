@@ -13,34 +13,19 @@
     <vue-slider v-model="range" :enable-cross="false" />
 
     <h4>Expandable input</h4>
-    <span
-        title="expandable input"
-        class="input"
-        role="textbox"
-        contenteditable
-        aria-placeholder="Please type someting in here"
-    ></span>
+    <span title="expandable input" class="input" role="textbox" contenteditable
+        aria-placeholder="Please type someting in here"></span>
 
     <h4>Rating</h4>
     <star-rating></star-rating>
 
     <div class="overflow-auto">
-        <b-pagination
-            v-model="currentPage"
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="my-table"
-        ></b-pagination>
+        <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage"
+            aria-controls="my-table"></b-pagination>
 
         <p class="mt-3">Current Page: {{ currentPage }}</p>
 
-        <b-table
-            id="my-table"
-            :items="items"
-            :per-page="perPage"
-            :current-page="currentPage"
-            small
-        ></b-table>
+        <b-table id="my-table" :items="items" :per-page="perPage" :current-page="currentPage" small></b-table>
     </div>
 
     <b-alert show>Default Alert</b-alert>

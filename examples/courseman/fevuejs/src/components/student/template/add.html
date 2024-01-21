@@ -1,72 +1,37 @@
 <form v-on:submit.prevent="onSubmit">
-    <div
-        v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('id')"
-    >
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('id')">
         <div class="form-group">
             <label class="form-label">Student ID</label>
-            <input
-                disabled
-                type="text"
-                class="form-control"
-                v-model="student.id"
-                title="Student ID"
-            />
+            <input disabled type="text" class="form-control" v-model="student.id" title="Student ID" />
         </div>
         <br />
     </div>
-    <div
-        v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('name')"
-    >
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('name')">
         <div class="form-group">
             <label class="form-label">Full Name</label>
-            <input
-                type="text"
-                class="form-control"
-                v-model="student.name"
-                title="Full Name"
-            />
+            <input type="text" class="form-control" v-model="student.name" title="Full Name" />
         </div>
         <br />
     </div>
-    <div
-        v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('dob')"
-    >
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('dob')">
         <div class="form-group">
             <label class="form-label">Date of birth</label>
-            <input
-                type="date"
-                class="form-control"
-                v-model="student.dob"
-                title="Date of birth"
-            />
+            <input type="date" class="form-control" v-model="student.dob" title="Date of birth" />
         </div>
         <br />
     </div>
-    <div
-        v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('email')"
-    >
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('email')">
         <div class="form-group">
             <label class="form-label">Email</label>
-            <input
-                type="text"
-                class="form-control"
-                v-model="student.email"
-                title="Email"
-            />
+            <input type="text" class="form-control" v-model="student.email" title="Email" />
         </div>
         <br />
     </div>
 
-    <div
-        v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('gender')"
-    >
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('gender')">
         <div class="form-group">
             <label class="form-label">Gender</label>
-            <select
-                class="custom-select"
-                v-model="student.gender"
-                title="Gender"
-            >
+            <select class="custom-select" v-model="student.gender" title="Gender">
                 <option value="" disabled="">&lt;Please choose one&gt;</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -75,178 +40,96 @@
         <br />
     </div>
 
-    <div
-        v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('address')"
-    >
-        <div
-            class="
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('address')">
+        <div class="
                 d-flex
                 flex-wrap
                 justify-content-between
                 align-items-end
                 form-group
-            "
-        >
+            ">
             <div class="px-0 col-md-2.5">
                 <label class="form-label">Address ID</label>
-                <input
-                    type="text"
-                    class="form-control"
-                    v-model="addressId"
-                    v-on:change="getAddressById"
-                    title="Address ID"
-                />
+                <input type="text" class="form-control" v-model="addressId" v-on:change="getAddressById"
+                    title="Address ID" />
             </div>
             <div class="px-0 col-md-7">
                 <label class="form-label">Address</label>
-                <input
-                    disabled
-                    type="text"
-                    class="form-control"
-                    v-bind:value="addressQuickView"
-                    title="Address"
-                />
+                <input disabled type="text" class="form-control" v-bind:value="addressQuickView" title="Address" />
             </div>
-            <button
-                type="button"
-                class="btn btn-outline-danger"
-                v-on:click="unlinkAddress"
-            >
+            <button type="button" class="btn btn-outline-danger" v-on:click="unlinkAddress">
                 Unlink
             </button>
-            <button
-                type="button"
-                class="btn btn-outline-secondary"
-                v-on:click="formSubModuleAddressSeen = !formSubModuleAddressSeen"
-                title="Address"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-chevron-down"
-                    viewBox="0 0 16 16"
-                >
-                    <path
-                        fill-rule="evenodd"
-                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-                    />
+            <button type="button" class="btn btn-outline-secondary"
+                v-on:click="formSubModuleAddressSeen = !formSubModuleAddressSeen" title="Address">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-chevron-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
                 </svg>
             </button>
         </div>
         <div class="form-group" v-if="formSubModuleAddressSeen">
-            <form-sub-module-address
-                v-bind:parentData="dataSubForm"
-            ></form-sub-module-address>
+            <form-sub-module-address v-bind:parentData="dataSubForm"></form-sub-module-address>
         </div>
         <br />
     </div>
-    <div
-        v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('studentClass')"
-    >
-        <div
-            class="
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('studentClass')">
+        <div class="
                 d-flex
                 flex-wrap
                 justify-content-between
                 align-items-end
                 form-group
-            "
-        >
+            ">
             <div class="px-0 col-md-2.5">
                 <label class="form-label">Student class ID</label>
-                <input
-                    type="text"
-                    class="form-control"
-                    v-model="studentClassId"
-                    v-on:change="getStudentClassById"
-                    title="Student class ID"
-                />
+                <input type="text" class="form-control" v-model="studentClassId" v-on:change="getStudentClassById"
+                    title="Student class ID" />
             </div>
             <div class="px-0 col-md-7">
                 <label class="form-label">Student class</label>
-                <input
-                    disabled
-                    type="text"
-                    class="form-control"
-                    v-bind:value="studentClassQuickView"
-                    title="Student class"
-                />
+                <input disabled type="text" class="form-control" v-bind:value="studentClassQuickView"
+                    title="Student class" />
             </div>
-            <button
-                type="button"
-                class="btn btn-outline-danger"
-                v-on:click="unlinkStudentClass"
-            >
+            <button type="button" class="btn btn-outline-danger" v-on:click="unlinkStudentClass">
                 Unlink
             </button>
-            <button
-                type="button"
-                class="btn btn-outline-secondary"
-                v-on:click="formSubModuleStudentClassSeen = !formSubModuleStudentClassSeen"
-                title="Student class"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-chevron-down"
-                    viewBox="0 0 16 16"
-                >
-                    <path
-                        fill-rule="evenodd"
-                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-                    />
+            <button type="button" class="btn btn-outline-secondary"
+                v-on:click="formSubModuleStudentClassSeen = !formSubModuleStudentClassSeen" title="Student class">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-chevron-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
                 </svg>
             </button>
         </div>
         <div class="form-group" v-if="formSubModuleStudentClassSeen">
-            <form-sub-module-student-class
-                v-bind:parentData="dataSubForm"
-            ></form-sub-module-student-class>
+            <form-sub-module-student-class v-bind:parentData="dataSubForm"></form-sub-module-student-class>
         </div>
         <br />
     </div>
 
-    <div
-        v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('enrolments')"
-    >
-        <div
-            class="
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('enrolments')">
+        <div class="
                 d-flex
                 flex-wrap
                 justify-content-between
                 align-items-end
                 form-group
-            "
-        >
-            <button
-                type="button"
-                class="mr-1 btn btn-success"
-                v-on:click="formSubModuleEnrolmentSeen = !formSubModuleEnrolmentSeen"
-            >
+            ">
+            <button type="button" class="mr-1 btn btn-success"
+                v-on:click="formSubModuleEnrolmentSeen = !formSubModuleEnrolmentSeen">
                 Form: Enrolment
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-chevron-down"
-                    viewBox="0 0 16 16"
-                >
-                    <path
-                        fill-rule="evenodd"
-                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-                    />
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-chevron-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
                 </svg>
             </button>
         </div>
         <div class="form-group" v-if="formSubModuleEnrolmentSeen">
-            <form-sub-module-enrolment
-                v-bind:parentData="dataSubForm"
-            ></form-sub-module-enrolment>
+            <form-sub-module-enrolment v-bind:parentData="dataSubForm"></form-sub-module-enrolment>
         </div>
         <br />
     </div>
