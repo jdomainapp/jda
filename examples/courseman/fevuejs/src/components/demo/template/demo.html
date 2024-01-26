@@ -43,4 +43,14 @@
             </b-col>
         </b-row>
     </div>
+    <div v-for="n in 5" :key="n">
+        <br />
+    </div>
+    <auto-search @search="search = $event"></auto-search>
+    <p>
+        {{JSON.stringify(search)}}
+    </p>
+    <div v-for="n in 5" :key="n">
+        <br />
+    </div>
 </div>

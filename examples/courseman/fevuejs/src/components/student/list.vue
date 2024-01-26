@@ -4,7 +4,6 @@ import { getAllStudents, deleteStudent } from "../../api/student";
 import { getInnerListByOuterId } from "../../api/student";
 import ModalConfirm from "../modal/confirm.vue";
 import Message from "../../constants/message";
-import { BPagination, BTable, BFormSelect } from "bootstrap-vue";
 
 export default {
     props: {
@@ -24,9 +23,6 @@ export default {
 
     components: {
         "modal-confirm": ModalConfirm,
-        BPagination,
-        BTable,
-        BFormSelect
     },
 
     data() {

@@ -12,11 +12,13 @@ import "vue-slider-component/theme/antd.css";
 // rating
 import StarRating from "vue-star-rating";
 
+import AutoSearch from '../common/patterns/autosearch/index.vue';
+
 let startDate = new Date();
 let endDate = new Date();
 
 export default {
-    components: { DateRangePicker, VueSlider, StarRating },
+    components: { DateRangePicker, VueSlider, StarRating, AutoSearch },
 
     data() {
         return {
@@ -53,6 +55,11 @@ export default {
                 { id: 8, first_name: "Rockhead", last_name: "Slate" },
                 { id: 9, first_name: "Pearl", last_name: "Slaghoople" },
             ],
+
+            search: {
+                id: "",
+                keyword: "",
+            },
         };
     },
 

@@ -4,20 +4,11 @@
             <div class="navbar-nav">
                 <a href="/" class="navbar-brand">Courseman</a>
                 <div class="dropdown">
-                    <a
-                        role="button"
-                        class="dropdown-toggle nav-link"
-                        id="dropdownMenuButton"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                    >
+                    <a role="button" class="dropdown-toggle nav-link" id="dropdownMenuButton" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
                         Go to
                     </a>
-                    <div
-                        class="dropdown-menu"
-                        aria-labelledby="dropdownMenuButton"
-                    >
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <router-link class="dropdown-item" to="/student-class">
                             Manage Student classes
                         </router-link>
@@ -55,33 +46,10 @@
         <div class="row">
             <div class="col-md-3 sidebar">
                 <div class="input-group">
-                    <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Search"
-                        aria-label="Search"
-                        aria-describedby="basic-addon2"
-                        v-model="searchQuery"
-                    />
+                    <input type="text" class="form-control" placeholder="Search" aria-label="Search"
+                        aria-describedby="basic-addon2" v-model="searchQuery" />
                 </div>
-                <nav class="navbar navbar-light" v-if="currentModuleName">
-                    <!-- <a
-                        class="navbar-brand"
-                        :href="'#'+store.form_tree.name.toLowerCase().replace(/ /g, '_')"
-                    >
-                        {{store.form_tree.name}}
-                    </a> -->
-                    <!-- recursive component -->
-                    <nested-nav
-                        :items="viewTree"
-                        :searchQuery="searchQuery"
-                        :forModule="currentModuleName"
-                    ></nested-nav>
-                </nav>
-
-                <p class="alert alert-info mt-3" v-else>
-                    There is nothing here
-                </p>
+                <accordion-menu v-bind:Items="items" v-bind:query="searchQuery"></accordion-menu>
             </div>
 
             <!-- Main content -->

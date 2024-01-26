@@ -1,13 +1,17 @@
 <template src="./template/index.html"></template>
 <script>
+import { mutations } from '../../constants/store';
+
 export default {
     props: {
         parentData: Object,
+        parentID: String,
     },
 
     components: {
         "form-add": () => import("./add.vue"),
         "form-list": () => import("./list.vue"),
+        "auto-search": () => import("../common/patterns/autosearch/index.vue"),
     },
 
     data() {
@@ -25,10 +29,41 @@ export default {
                 id: "",
                 keyword: "",
             },
+
+            tree: {
+                parentID: this.parentID ? this.parentID : "",
+                observableTree: []
+            },
         };
     },
 
-    mounted() {},
+    created() {
+        const parentID = this.tree.parentID;
+
+        this.tree.observableTree = [
+            {
+                name: "Form: Enrolment",
+                id: "FormEnrolment",
+                display: true, // no hidfields so automatically = true
+            }
+        ].map((item) => {
+            item.parentID = parentID;
+            item.id = parentID + item.id;
+            return item;
+        });
+
+        this.tree.observableTree.forEach((item) => {
+            mutations.addItem(item);
+        });
+    },
+
+    destroyed() {
+        this.tree.observableTree.forEach((item) => {
+            mutations.deleteItem(item);
+        });
+    },
+
+    mounted() { },
 
     watch: {
         search: {
@@ -63,6 +98,13 @@ export default {
             this.display = 2;
             this.dataSubForm.mode = "create";
         },
+
+        // hidFields(field) {
+        //     return !this.parentData
+        //         || !this.parentData.hidFields
+        //         || !this.parentData.hidFields.includes(field);
+        // }
+        // <- No need as there is no hidFields in index.vue
     },
 };
 </script>

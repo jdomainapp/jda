@@ -5,9 +5,12 @@ import Message from "../../constants/message";
 import { addStudentClass, updateStudentClass } from "../../api/student_class";
 
 import { getStudent } from "../../api/student";
+import { mutations } from "../../constants/store";
+
 export default {
     props: {
         parentData: Object,
+        parentID: String
     },
 
     components: {
@@ -24,12 +27,53 @@ export default {
                 mode: "create",
                 parent: "student-classes",
                 parentID: this.parentData ? this.parentData.parentID : 0,
-                hidFields: ["studentClass", "id"],
+                hidFields: ["studentClass", "id"], // hidFields should be hashset
+            },
+
+            tree: {
+                parentID: this.parentID ? this.parentID : "",
+                observableTree: []
             },
         };
     },
 
     computed: {},
+
+    created() {
+        const parentID = this.tree.parentID;
+
+        this.tree.observableTree = [
+            {
+                name: "Id",
+                id: "ID",
+                display: this.hidFields('id'),
+            },
+            {
+                name: "Name",
+                id: "Name",
+                display: this.hidFields('name'),
+            },
+            {
+                name: "Form: Student",
+                id: "FormStudent",
+                display: this.hidFields('students'),
+            }
+        ].map((item) => {
+            item.parentID = parentID;
+            item.id = parentID + item.id;
+            return item;
+        });
+
+        this.tree.observableTree.forEach((item) => {
+            mutations.addItem(item);
+        });
+    },
+
+    destroyed() {
+        this.tree.observableTree.forEach((item) => {
+            mutations.deleteItem(item);
+        });
+    },
 
     mounted() {
         if (this.parentData?.mode === "edit") {
@@ -53,7 +97,7 @@ export default {
                         Message.ADD_STUDENT_CLASS_ERR + " - " + error.message
                     );
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
 
         unlinkStudent() {
@@ -75,7 +119,7 @@ export default {
                         Message.GET_STUDENT_ERR + " - " + error.message
                     );
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
 
         update() {
@@ -93,7 +137,7 @@ export default {
                         Message.UPDATE_STUDENT_CLASS_ERR + " - " + error.message
                     );
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
 
         onSubmit() {
@@ -102,6 +146,12 @@ export default {
             } else {
                 this.update();
             }
+        },
+
+        hidFields(field) {
+            return !this.parentData
+                || !this.parentData.hidFields
+                || !this.parentData.hidFields.includes(field);
         },
     },
 };

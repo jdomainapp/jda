@@ -8,6 +8,8 @@ import BootstrapVue from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
+//? INFO: I move all Vue.use into this main file to avoid duplicate code
+
 Vue.use(VueRouter);
 Vue.use(VueBootstrapToasts);
 Vue.use(BootstrapVue);

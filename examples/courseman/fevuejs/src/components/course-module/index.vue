@@ -1,13 +1,18 @@
 <template src="./template/index.html"></template>
 <script>
+import { mutations } from '../../constants/store';
+
 export default {
     props: {
         parentData: Object,
+        parentID: String,
+        // Checkpoint: Làm tiếp phần này
     },
 
     components: {
         "form-add": () => import("./add.vue"),
         "form-list": () => import("./list.vue"),
+        "auto-search": () => import("../common/patterns/autosearch/index.vue"),
     },
 
     data() {
@@ -27,7 +32,38 @@ export default {
                 id: "",
                 keyword: "",
             },
+
+            tree: {
+                parentID: this.parentID ? this.parentID : "",
+                observableTree: [],
+            }
         };
+    },
+
+    created() {
+        const parentID = this.tree.parentID;
+
+        this.tree.observableTree = [
+            {
+                name: "Form: Course module",
+                id: "FormCourseModule",
+                display: true, // no hidfields so automatically = true
+            }
+        ].map((item) => {
+            item.parentID = parentID;
+            item.id = parentID + item.id;
+            return item;
+        });
+
+        this.tree.observableTree.forEach((item) => {
+            mutations.addItem(item);
+        });
+    },
+
+    destroyed() {
+        this.tree.observableTree.forEach((item) => {
+            mutations.deleteItem(item);
+        });
     },
 
     mounted() { },

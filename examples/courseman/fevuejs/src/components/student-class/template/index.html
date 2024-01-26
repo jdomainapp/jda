@@ -1,5 +1,5 @@
 <div class="border py-4 container">
-    <h2 id="form:_student_class" class="text-center">Form: Student class</h2>
+    <h2 class="text-center" :id="tree.observableTree[0].id">{{tree.observableTree[0].name}}</h2>
     <br />
     <div class="mx-0 d-flex justify-content-between row">
         <div class="px-0 col">
@@ -17,7 +17,7 @@
                 </li>
             </ul>
         </div>
-        <div class="px-0 d-flex justify-content-end col">
+        <!-- <div class="px-0 d-flex justify-content-end col">
             <form class="d-flex justify-content-between form-inline">
                 <input v-model="search.id" placeholder="ID..." type="text" class="mr-1 col-md-4 form-control" />
                 <input v-model="search.keyword" placeholder="Search" type="text" class="mr-1 col-md-6 form-control"
@@ -30,17 +30,20 @@
                     </svg>
                 </button>
             </form>
-        </div>
+        </div> -->
+        <auto-search @search="search = $event"></auto-search>
     </div>
     <br />
     <div class="tab-content">
         <div>
             <div>
-                <form-add v-if="display == 1" v-bind:parentData="dataSubForm"></form-add>
+                <form-add v-if="display == 1" v-bind:parentData="dataSubForm"
+                    v-bind:parentID="tree.observableTree[0].id"></form-add>
             </div>
         </div>
         <div>
-            <form-add v-if="display == 2" v-bind:parentData="dataSubForm"></form-add>
+            <form-add v-if="display == 2" v-bind:parentData="dataSubForm"
+                v-bind:parentID="tree.observableTree[0].id"></form-add>
         </div>
         <div>
             <form-list v-if="display == 3" v-bind:parentData="dataSubForm" @data="setData"

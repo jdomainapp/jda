@@ -7,9 +7,13 @@ import { addStudent, updateStudent } from "../../api/student";
 import { getAddress } from "../../api/address";
 import { getStudentClass } from "../../api/student_class";
 import { getEnrolment } from "../../api/enrolment";
+
+import { mutations } from "../../constants/store";
+
 export default {
     props: {
         parentData: Object,
+        parentID: String,
     },
 
     components: {
@@ -34,7 +38,84 @@ export default {
                 parentID: this.parentData ? this.parentData.parentID : 0,
                 hidFields: ["student", "id", "students", "id", "student", "id"],
             },
+
+            tree: {
+                parentID: this.parentID ? this.parentID : "",
+                observableTree: []
+            },
         };
+    },
+
+    created() {
+        const parentID = this.tree.parentID;
+
+        this.tree.observableTree = [
+            {
+                name: "Student ID",
+                id: "StudentID",
+                display: this.hidFields('id'),
+            },
+            {
+                name: "Full Name",
+                id: "FullName",
+                display: this.hidFields('name'),
+            },
+            {
+                name: "Date of birth",
+                id: "DateOfBirth",
+                display: this.hidFields('dob'),
+            },
+            {
+                name: "Email",
+                id: "Email",
+                display: this.hidFields('email'),
+            },
+            {
+                name: "Gender",
+                id: "Gender",
+                display: this.hidFields('gender'),
+            },
+            {
+                name: "Address ID",
+                id: "AddressAdd",
+                display: this.hidFields('address'),
+            },
+            {
+                name: "Address",
+                id: "Address",
+                display: this.hidFields('address'),
+            },
+            {
+                name: "Student class ID",
+                id: "StudentClassAdd",
+                display: this.hidFields('studentClass'),
+            },
+            {
+                name: "Student class",
+                id: "StudentClass",
+                display: this.hidFields('studentClass'),
+            },
+            {
+                name: "Form: Enrolment",
+                id: "Enrolment",
+                display: this.hidFields('enrolments'),
+            }
+        ].map((item) => {
+            item.parentID = parentID;
+            item.id = parentID + item.id;
+            return item;
+        });
+
+        this.tree.observableTree.forEach((item) => {
+            mutations.addItem(item);
+        });
+    },
+
+    destroyed() {
+        // mutations.deleteItem(this.observableTree);
+        this.tree.observableTree.forEach((item) => {
+            mutations.deleteItem(item);
+        });
     },
 
     computed: {
@@ -88,7 +169,7 @@ export default {
                         Message.ADD_STUDENT_ERR + " - " + error.message
                     );
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
 
         unlinkAddress() {
@@ -110,7 +191,7 @@ export default {
                         Message.GET_ADDRESS_ERR + " - " + error.message
                     );
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
 
         unlinkStudentClass() {
@@ -132,7 +213,7 @@ export default {
                         Message.GET_STUDENT_CLASS_ERR + " - " + error.message
                     );
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
 
         unlinkEnrolment() {
@@ -154,7 +235,7 @@ export default {
                         Message.GET_ENROLMENT_ERR + " - " + error.message
                     );
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
 
         update() {
@@ -169,7 +250,7 @@ export default {
                         Message.UPDATE_STUDENT_ERR + " - " + error.message
                     );
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
 
         onSubmit() {
@@ -179,6 +260,12 @@ export default {
                 this.update();
             }
         },
+
+        hidFields(field) {
+            return !this.parentData
+                || !this.parentData.hidFields
+                || !this.parentData.hidFields.includes(field);
+        }
     },
 };
 </script>

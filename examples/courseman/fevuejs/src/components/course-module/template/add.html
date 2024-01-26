@@ -9,28 +9,28 @@
     </div>
     <br />
 
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('id')">
+    <div v-if="hidFields('id')">
         <div class="form-group">
             <label class="form-label">Id</label>
             <input disabled type="number" class="form-control" v-model="courseModule.id" placeholder="Id" />
         </div>
         <br />
     </div>
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('code')">
+    <div v-if="hidFields('code')">
         <div class="form-group">
             <label class="form-label">Code</label>
             <input disabled type="text" class="form-control" v-model="courseModule.code" placeholder="Code" />
         </div>
         <br />
     </div>
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('name')">
+    <div v-if="hidFields('name')">
         <div class="form-group">
             <label class="form-label">Name</label>
             <input type="text" class="form-control" v-model="courseModule.name" placeholder="Name" />
         </div>
         <br />
     </div>
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('semester')">
+    <div v-if="hidFields('semester')">
         <div class="form-group">
             <label class="form-label">Semester</label>
             <input type="number" class="form-control" v-model="courseModule.semester" placeholder="Semester" />
@@ -41,7 +41,7 @@
     <!-- 
         Slider
     -->
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('description')">
+    <div v-if="hidFields('description')">
         <div class="form-group">
             <label class="form-label">Cost</label>
             <vue-slider v-model="cost.value" :enable-cross="false" :min="cost.min" :max="cost.max"
@@ -53,7 +53,7 @@
     <!--
         Star rating
     -->
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('description')">
+    <div v-if="hidFields('description')">
         <div class="form-group">
             <label class="form-label">Rating</label>
             <star-rating v-model="courseModule.rating"></star-rating>
@@ -62,7 +62,7 @@
     </div>
 
     <!-- Expandable input -->
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('description')">
+    <div v-if="hidFields('description')">
         <div class="form-group">
             <label class="form-label" hidden>Description</label>
             <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
@@ -77,7 +77,7 @@
         <br />
     </div>
 
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('credits')">
+    <div v-if="hidFields('credits')">
         <div class="form-group">
             <label class="form-label">Credits</label>
             <input type="number" class="form-control" v-model="courseModule.credits" placeholder="Credits" />
@@ -85,7 +85,7 @@
         <br />
     </div>
 
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('deptName')">
+    <div v-if="hidFields('deptName')">
         <div class="form-group" v-if="courseModule.type == 'elective'">
             <label class="form-label">Dept. Name</label>
             <input type="text" class="form-control" v-model="courseModule.deptName" placeholder="Dept. Name" />
