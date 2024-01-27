@@ -5,6 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.jda.example.coursemanmsa.coursemgnt.events.source.SimpleSourceBean;
 import org.jda.example.coursemanmsa.coursemgnt.modules.address.model.Address;
 import org.jda.example.coursemanmsa.coursemgnt.modules.studentclass.model.StudentClass;
@@ -76,6 +78,8 @@ public class CourseMgntController {
 	
 
 	@RequestMapping(value = PATH_ADRESS + "/**")
+	@Bulkhead(name = "addressService")
+	@CircuitBreaker(name = "addressService")
 	public ResponseEntity<?> handleAddress(HttpServletRequest req, HttpServletResponse res) throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		DefaultController<Address, Integer> controller = ControllerRegistry.getInstance().get(Address.class);
 		return controller != null ? controller.handleRequest(req, res)
