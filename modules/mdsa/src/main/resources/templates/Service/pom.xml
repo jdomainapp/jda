@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>jda.example</groupId>
+		<artifactId>jda-eg-coursemanmsa-servicestmsa</artifactId>
+		<version>1.0</version>
+	</parent>
+	
+	<groupId>__App.outputPackage__</groupId>
+	<artifactId>__name__</artifactId>
+	<version>1.0</version>
+	<name>__name__</name>
+	<description>__description__</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>jda.modules</groupId>
+    		<artifactId>jda-msacommon</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<version>4.0.2</version>
+		</dependency>
+
+	</dependencies>
+</project>

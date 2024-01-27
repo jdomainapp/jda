@@ -241,6 +241,58 @@
           <artifactId>logback-classic</artifactId>
           <version>1.2.3</version>
       </dependency>
-      <!-- END: logging -->        
+      <!-- END: logging -->
+
+       <dependency>
+           <groupId>jda.modules</groupId>
+           <artifactId>jda-mosar</artifactId>
+           <version>5.4-SNAPSHOT</version>
+           <scope>compile</scope>
+       </dependency>
+       <dependency>
+           <groupId>commons-io</groupId>
+           <artifactId>commons-io</artifactId>
+           <version>2.11.0</version>
+           <scope>compile</scope>
+       </dependency>
+       <dependency>
+           <groupId>org.springframework.cloud</groupId>
+           <artifactId>spring-cloud-context</artifactId>
+           <version>4.0.3</version>
+           <scope>compile</scope>
+       </dependency>
+       <dependency>
+           <groupId>org.springframework.cloud</groupId>
+           <artifactId>spring-cloud-netflix-eureka-client</artifactId>
+           <version>4.0.2</version>
+           <scope>compile</scope>
+       </dependency>
+       <dependency>
+           <groupId>jda.modules</groupId>
+           <artifactId>jda-msacommon</artifactId>
+           <version>1.0</version>
+           <scope>compile</scope>
+       </dependency>
+       <dependency>
+           <groupId>org.projectlombok</groupId>
+           <artifactId>lombok</artifactId>
+           <version>1.18.22</version>
+       </dependency>
+       <dependency>
+           <groupId>org.springframework.cloud</groupId>
+           <artifactId>spring-cloud-commons</artifactId>
+           <version>4.0.3</version>
+           <scope>compile</scope>
+       </dependency>
+       <dependency>
+           <groupId>org.springframework.cloud</groupId>
+           <artifactId>spring-cloud-netflix-eureka-client</artifactId>
+           <version>4.0.2</version>
+           <scope>compile</scope>
+       </dependency>
+       <dependency>
+           <groupId>org.springframework.hateoas</groupId>
+           <artifactId>spring-hateoas</artifactId>
+       </dependency>
     </dependencies>   
 </project>

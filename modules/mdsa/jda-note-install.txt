@@ -1,0 +1,27 @@
+* local-maven
+
+mvn install:install-file -Dfile="D:\work-space\jda\local-maven-repo\jayway\jsonpath\json-path\2.4.0\json-path-2.4.0.jar" -DpomFile="D:\work-space\jda\local-maven-repo\jayway\jsonpath\json-path\2.4.0\json-path-2.4.0.pom"
+
+
+* Lombok
+- use adoptJDK 16
+- add shared build process vm param: -Djps.track.ap.dependencies=false
+
+* Lombok error: java.lang.IllegalAccessError: class lombok.javac.apt.LombokProces sor (in unnamed module @0x1e314f3a) cannot access class com.sun.tools.javac.processing.JavacProcessingEnvironment
+- project example/msa: pom modify 
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>1.18.28</scope>
+		</dependency>
+
+* eureka/ api gateway
+- Unable to start web server; nested exception is org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+
+> add VM options: --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED
+
+
+* address-service
+> add dependency: spring-cloud-eureka-client
+> model Address add @...(scheme="address")
+

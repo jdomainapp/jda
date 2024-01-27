@@ -1,0 +1,14 @@
+spring:
+    application:
+     name: __name__
+    profiles:
+      active: dev
+    cloud:
+        config: 
+            uri: http://localhost:8071
+
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    __outputPackage__: DEBUG
