@@ -18,9 +18,17 @@
             </ul>
         </div>
         <!-- todo: BaseMainForm.renderTopButtonsExt():
-        1. BaseMainForm: .vue file or JS class
+        BaseMainForm: .vue file or JS class
+        - (A) is super Vue component of all the module's index component        -->
+        <!-- <auto-search @search="search = $event"></auto-search> -->
+
+        <!-- (B) -->
+        <BaseMainForm onRenderRegion="top-button-ext"/>
+
+        <!-- BaseMainForm.topButtonExtension:
+          this.consumers.map((consumer)=>(
+            {consumer.onRenderRegion("searchbox")})
         -->
-        <auto-search @search="search = $event"></auto-search>
     </div>
     <br />
     <div class="tab-content">
