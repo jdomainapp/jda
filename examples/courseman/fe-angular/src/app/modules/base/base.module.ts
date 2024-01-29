@@ -19,6 +19,12 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { ViewRegionComponent } from 'src/app/modules/base/pattern/view-region';
 import { AutoSearchComponent } from './patterns/autosearch/autosearch.component';
 import { PatternService } from './pattern/pattern.service';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { MenuComponent } from './patterns/accordion/menu.component';
+import { MenuItemComponent } from './patterns/accordion/menu-item.component';
+import { AccordionComponent } from './patterns/accordion/accordion.component';
+import { ModelRegionDirective } from './pattern/model-region';
 
 @NgModule({
   declarations: [
@@ -33,7 +39,11 @@ import { PatternService } from './pattern/pattern.service';
     HasManyComponent,
     
     ViewRegionComponent,
-    AutoSearchComponent
+    ModelRegionDirective,
+    AutoSearchComponent,
+    MenuComponent,
+    MenuItemComponent,
+    AccordionComponent,
   ],
   imports: [
     CommonModule,
@@ -47,6 +57,8 @@ import { PatternService } from './pattern/pattern.service';
     
     BrowserAnimationsModule,
     TypeaheadModule.forRoot(),
+    AccordionModule.forRoot(), 
+    CollapseModule.forRoot(),
 
     NgComponentOutlet,    
   ],
@@ -59,8 +71,12 @@ import { PatternService } from './pattern/pattern.service';
     BaseManagerComponent,
     ManagerComponent,
     ViewRegionComponent,
+    ModelRegionDirective,
 
     AutoSearchComponent,
+    MenuComponent,
+    MenuItemComponent,
+    AccordionComponent,
   ],
   providers: [
     BaseService,

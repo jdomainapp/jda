@@ -141,7 +141,6 @@
             
             <app-has-many label="Enrolment">
                 <app-enrolment viewMode="embedded" belongsTo="course-modules/{{item?.id}}/"
-                    (onEmbedded)="handleEmbedded('enrolment', 'Enrolment', $event)"
                     [params]="getParams({courseModule: item})"></app-enrolment>
             </app-has-many>
         

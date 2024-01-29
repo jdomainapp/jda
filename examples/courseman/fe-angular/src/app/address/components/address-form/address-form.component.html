@@ -42,7 +42,7 @@
     <ng-container *ngIf="params.student == undefined">
         <app-has-one formControlName="student" label="Student" apiName="students">
             <ng-template #subform let-ref>
-                <app-student-form [item]="ref" viewMode="embedded" [params]="getParams({address: item})" />
+                <app-student-form [item]="ref" viewMode="has-one" [params]="getParams({address: item})" />
             </ng-template>
         </app-has-one>
 

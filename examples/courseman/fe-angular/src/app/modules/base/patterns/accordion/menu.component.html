@@ -1,0 +1,5 @@
+<nav *ngIf="items" class="nav nav-pills flex-column menu">
+    <ng-container *ngFor="let item of items">
+        <app-menu-item [item]="item" [prefix]="prefix"></app-menu-item>
+    </ng-container>
+</nav>

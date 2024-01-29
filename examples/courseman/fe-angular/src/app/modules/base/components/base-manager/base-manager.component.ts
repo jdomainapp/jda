@@ -5,6 +5,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   template: '',
 })
 export class BaseManagerComponent {
+
   title = 'Title';
 
   view = 'form';

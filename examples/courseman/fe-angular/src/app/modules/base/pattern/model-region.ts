@@ -1,19 +1,18 @@
-import { Directive, ElementRef, Input, Renderer2, ViewContainerRef } from '@angular/core';
+import { Directive, ElementRef, Host, Input, Renderer2, ViewContainerRef } from '@angular/core';
 import { PatternService } from './pattern.service';
 
 @Directive({
     selector: '[modelRegion]',
-
 })
 export class ModelRegionDirective {
     @Input() modelRegion = '';
 
     constructor(
-        private container: ViewContainerRef,
+        @Host() public element: ElementRef,
         private patternService: PatternService
     ) { }
 
-    ngOnInit() {
-        // TODO:
+    ngAfterViewInit() {
+        this.patternService.renderModelRegion(this);
     }
 }
