@@ -8,46 +8,29 @@
 <template>
     <nav class="nav nav-pills flex-column">
         <div v-for="(item, index) in filteredItems" :key="index">
-            <a
-                class="nav-link"
-                :class="{
-                    'has-children': item.children && item.children.length,
-                    'is-open': showNestedNav[index],
-                }"
-                :href="
-                    '#' +
-                    (parentId ? parentId + '_' : '') +
-                    item.name.toLowerCase().replace(/ /g, '_')
-                "
-                @click="
-                    item.children && item.children.length
-                        ? toggleNestedNav($event, index)
-                        : null
-                "
-            >
+            <a class="nav-link" :class="{
+                'has-children': item.children && item.children.length,
+                'is-open': showNestedNav[index],
+            }" :href="'#' +
+    (parentId ? parentId + '_' : '') +
+    item.name.toLowerCase().replace(/ /g, '_')
+    " @click="
+        item.children && item.children.length
+            ? toggleNestedNav($event, index)
+            : null
+        ">
                 <span v-if="item.children && item.children.length">
-                    <img
-                        v-if="showNestedNav[index]"
-                        :src="arrow.down"
-                        alt="-"
-                    />
+                    <img v-if="showNestedNav[index]" :src="arrow.down" alt="-" />
                     <img v-else :src="arrow.right" alt="+" />
                 </span>
                 {{ item.name }}
             </a>
-            <nested-nav
-                v-if="
-                    item.children &&
-                    item.children.length &&
-                    showNestedNav[index]
-                "
-                :items="item.children"
-                :parentId="
-                    (parentId ? parentId + '_' : '') +
-                    item.name.toLowerCase().replace(/ /g, '_')
-                "
-                class="nav nav-pills flex-column ml-4"
-            ></nested-nav>
+            <nested-nav v-if="item.children &&
+                item.children.length &&
+                showNestedNav[index]
+                " :items="item.children" :parentId="(parentId ? parentId + '_' : '') +
+        item.name.toLowerCase().replace(/ /g, '_')
+        " class="nav nav-pills flex-column ml-4"></nested-nav>
         </div>
     </nav>
 </template>

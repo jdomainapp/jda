@@ -15,6 +15,15 @@ export default {
         };
     },
 
+    // watch: {
+    //     items: {
+    //         handler(val) {
+    //             console.log(JSON.stringify(val, null, 2));
+    //         },
+    //         deep: true,
+    //     },
+    // },
+
     components: {
         "accordion-menu": () => import("./lib/AccordionMenu.vue"),
     },

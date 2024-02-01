@@ -1,7 +1,12 @@
 // This file is to store variables that are used in the store
 import Vue from "vue";
 
-// display can be number or null
+// This map is to store the last index of item that has the same parentID
+let lastIndexMap = new Map();
+
+// This map is to store the index of item in formTree
+let indexMap = new Map();
+
 export const store = Vue.observable({
     formTree: [],
 });
@@ -16,36 +21,32 @@ export const mutations = {
 
         delete item.display;
 
-        let depth = 0;
-        let parentID = item.parentID;
-
-        while (parentID !== "") {
-            depth++;
-            parentID = store.formTree.find((i) => i.id === parentID).parentID;
-        }
-
-        item.depth = depth;
-
-        const parentIndex = store.formTree.findIndex(
-            (i) => i.id === item.parentID
-        );
-
-        let index = parentIndex + 1;
-
-        while (
-            index < store.formTree.length &&
-            store.formTree[index].depth >= depth
-        ) {
+        let index = lastIndexMap.get(item.parentID);
+        if (index === undefined) {
+            index = store.formTree.length;
+        } else {
             index++;
         }
 
         store.formTree.splice(index, 0, item);
+        lastIndexMap.set(item.parentID, index);
+
+        // Update the index map
+        for (let i = index; i < store.formTree.length; i++) {
+            indexMap.set(store.formTree[i].id, i);
+        }
     },
 
     deleteItem(item) {
-        const index = store.formTree.findIndex((i) => i.id === item.id);
-        if (index !== -1) {
+        const index = indexMap.get(item.id);
+        if (index !== undefined) {
             store.formTree.splice(index, 1);
+            indexMap.delete(item.id);
+
+            // Update the index map
+            for (let i = index; i < store.formTree.length; i++) {
+                indexMap.set(store.formTree[i].id, i);
+            }
         }
     },
 };

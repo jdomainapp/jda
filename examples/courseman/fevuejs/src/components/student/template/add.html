@@ -121,8 +121,8 @@
                 form-group
             ">
             <button type="button" class="mr-1 btn btn-success"
-                v-on:click="formSubModuleEnrolmentSeen = !formSubModuleEnrolmentSeen">
-                Form: Enrolment
+                v-on:click="formSubModuleEnrolmentSeen = !formSubModuleEnrolmentSeen" :id="tree.observableTree[9].id">
+                {{tree.observableTree[9].name}}
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-chevron-down" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
