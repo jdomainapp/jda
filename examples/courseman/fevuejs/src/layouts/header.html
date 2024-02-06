@@ -49,7 +49,7 @@
                     <input type="text" class="form-control" placeholder="Search" aria-label="Search"
                         aria-describedby="basic-addon2" v-model="searchQuery" />
                 </div>
-                <accordion-menu v-bind:Items="items" v-bind:query="searchQuery"></accordion-menu>
+                <accordion-menu v-bind:Items="processedItems" v-bind:searchQuery="searchQuery"></accordion-menu>
             </div>
 
             <!-- Main content -->
