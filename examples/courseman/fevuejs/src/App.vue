@@ -17,8 +17,7 @@ export default {
 
     computed: {
         processedItems() {
-            const deepClone = JSON.parse(JSON.stringify(this.items));
-            return this.arrayToTree(deepClone);
+            return this.arrayToTree(this.items);
         }
     },
 

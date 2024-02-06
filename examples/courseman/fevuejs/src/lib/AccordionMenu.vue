@@ -31,7 +31,7 @@
             <!-- This is for sub-menu that has children -->
             <div v-else>
                 <b-button v-b-toggle="'accordion_' + item.id" class="m-1">{{ item.name }}</b-button>
-                <b-collapse :id="'accordion_' + item.id">
+                <b-collapse :id="'accordion_' + item.id" :visible="searchQuery.trim() !== ''">
                     <b-card>
                         <accordion-menu :Items="item.children" :searchQuery="searchQuery" />
                     </b-card>

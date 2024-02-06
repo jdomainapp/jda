@@ -17,11 +17,12 @@ export const mutations = {
 
         // item.visible = true;
 
-        let index = store.formTree.findIndex((i) => i.id === item.parentID);
-        while (store.formTree[index + 1]?.parentID === item.parentID) {
-            index++;
-        }
-        store.formTree.splice(index + 1, 0, item);
+        // let index = store.formTree.findIndex((i) => i.id === item.parentID);
+        // while (store.formTree[index + 1]?.parentID === item.parentID) {
+        //     index++;
+        // }
+        // store.formTree.splice(index + 1, 0, item);
+        store.formTree.push(item);
     },
 
     deleteItem(item) {
