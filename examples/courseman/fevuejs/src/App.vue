@@ -17,7 +17,8 @@ export default {
 
     computed: {
         processedItems() {
-            return this.arrayToTree(this.items);
+            const deepClone = JSON.parse(JSON.stringify(this.items));
+            return this.arrayToTree(deepClone);
         }
     },
 
@@ -59,3 +60,26 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.accordion_menu_div,
+.main_content {
+    overflow: hidden;
+    overflow-y: auto;
+    /* 
+        56px is the height of navbar. 24px is the margin
+        between this div and nav bar... 18px is padding bottom
+    */
+    height: calc(100vh - 56px - 24px - 18px);
+    scroll-behavior: smooth;
+}
+
+/* Make height = auto when width = 768px like bootstrap */
+@media (max-width: 768px) {
+
+    .accordion_menu_div,
+    .main_content {
+        height: auto;
+    }
+}
+</style>

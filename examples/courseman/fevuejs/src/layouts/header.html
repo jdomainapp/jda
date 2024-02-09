@@ -43,17 +43,21 @@
     </nav>
     <br />
     <div class="container">
-        <div class="row">
-            <div class="col-md-3 sidebar">
+        <div class="row justify-content-center">
+            <!-- Accordion menu. Hide if the output is empty array -->
+            <div class="col-md-3 sidebar accordion_menu_div" v-if="processedItems.length !== 0">
                 <div class="input-group mb-1">
                     <input type="text" class="form-control" placeholder="Search" aria-label="Search"
                         aria-describedby="basic-addon2" v-model="searchQuery" />
                 </div>
-                <accordion-menu v-bind:Items="processedItems" v-bind:searchQuery="searchQuery"></accordion-menu>
+                <div class="accordion_menu_display">
+                    <!-- Accordion menu component is a recursive component to display sub-sub-etc-menu -->
+                    <accordion-menu v-bind:Items="processedItems" v-bind:searchQuery="searchQuery"></accordion-menu>
+                </div>
             </div>
 
             <!-- Main content -->
-            <div class="col-md-9">
+            <div class="col-md-9 main_content">
                 <router-view />
             </div>
         </div>
