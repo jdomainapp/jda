@@ -8,4 +8,6 @@ import { Component, Input } from '@angular/core';
 export class MenuComponent {
   @Input() items: any[] = [];
   @Input() prefix: string = '';
+
+  @Input() searching: boolean = false;
 }

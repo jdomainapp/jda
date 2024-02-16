@@ -28,17 +28,17 @@
     </div>
 
     <div class="col">
-        <form class='border py-4 container needs-validation' [formGroup]="form">
+        <form class='border py-4 container needs-validation' [formGroup]="form" id="student-class" modelRegion="form">
         
             <div class="form-group">
                 <label class="form-label">ID</label>
-                <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" modelRegion="forminput" />
+                <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" id="id" modelRegion="forminput" />
             </div>
             <br>
         
             <div class="form-group">
                 <label class="form-label">Class name</label>
-                <input type="text" class="form-control" formControlName="name" name="name"
+                <input type="text" class="form-control" formControlName="name" name="name" id="name"
                     [ngClass]="{'is-invalid': submitted && form.get('name')?.errors }" modelRegion="forminput" />
         
                 <div *ngIf="submitted && form.get('name')?.errors" class="invalid-feedback">
@@ -49,7 +49,8 @@
             <br>
         
             <app-has-many label="Student">
-                <app-student viewMode="embedded" belongsTo="student-classes/{{item?.id}}/"
+                <app-student viewMode="embedded" 
+                    belongsTo="student-classes/{{item?.id}}/"
                     [params]="getParams({studentClass: item})"></app-student>
             </app-has-many>
         

@@ -15,7 +15,7 @@ export const MenuStudentClass = [
                 "endpoint": "name", "name": "Name"
             },
             {
-                "endpoint": "gender", "name": "gender"
+                "endpoint": "gender", "name": "Gender"
             },
             {
                 "endpoint": "dob", "name": "DoB"

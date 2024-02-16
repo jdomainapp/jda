@@ -13,6 +13,7 @@ export class AccordionProvider extends PatternProvider {
 
     override onModelRegion(region: ModelRegionDirective, data?: {}): void {
         switch (region.modelRegion) {
+            case "form":
             case "forminput":
                 return this.pattern.renderModel(region);
         }

@@ -21,7 +21,7 @@ export class ViewRegionComponent {
         private patternService: PatternService,
     ) { }
     
-    ngOnInit() {
+    ngAfterViewInit() {
         this.patternService.render(this);
     }
 }

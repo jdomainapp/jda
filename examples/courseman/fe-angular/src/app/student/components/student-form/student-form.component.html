@@ -22,17 +22,17 @@
     </div>
 
     <div class="col">
-        <form class='border py-4 container needs-validation' [formGroup]="form">
+        <form class='border py-4 container needs-validation' [formGroup]="form" id="student" modelRegion="form">
             <div class="form-group">
                 <label class="form-label">ID</label>
-                <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" modelRegion="forminput" />
+                <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" id="id" modelRegion="forminput"/>
             </div>
             <br>
             
             <div class="form-group">
                 <label class="form-label">Full Name</label>
-                <input type="text" class="form-control" formControlName="name"
-                [ngClass]="{'is-invalid': submitted && form.get('name')?.errors }" modelRegion="forminput" />
+                <input type="text" class="form-control" formControlName="name" name="name" id="name" modelRegion="forminput"
+                [ngClass]="{'is-invalid': submitted && form.get('name')?.errors }" />
                 
                 <div *ngIf="submitted && form.get('name')?.errors" class="invalid-feedback">
                     <div *ngIf="form.get('name')!.errors!['required']">Full Name is required</div>
@@ -43,8 +43,8 @@
             
             <div class="form-group">
                 <label class="form-label">Date of birth</label>
-                <input type="date" class="form-control" formControlName="dob"
-                [ngClass]="{'is-invalid': submitted && form.get('dob')?.errors }" modelRegion="forminput" />
+                <input type="date" class="form-control" formControlName="dob" id="dob" modelRegion="forminput"
+                [ngClass]="{'is-invalid': submitted && form.get('dob')?.errors }"   />
                 
                 <div *ngIf="submitted && form.get('dob')?.errors" class="invalid-feedback">
                     <div *ngIf="form.get('dob')!.errors!['required']">Date of birth is required</div>
@@ -55,8 +55,8 @@
             
             <div class="form-group">
                 <label class="form-label">Email</label>
-                <input type="email" class="form-control" formControlName="email"
-                [ngClass]="{'is-invalid': submitted && form.get('email')?.errors }" modelRegion="forminput" />
+                <input type="email" class="form-control" formControlName="email" id="email" modelRegion="forminput"
+                [ngClass]="{'is-invalid': submitted && form.get('email')?.errors }"  />
                 
                 <div *ngIf="submitted && form.get('email')?.errors" class="invalid-feedback">
                     <div *ngIf="form.get('email')!.errors!['required']">Email is required</div>
@@ -68,8 +68,8 @@
             
             <div class="form-group">
                 <label class="form-label">Gender</label>
-                <select class="form-control" formControlName="gender"
-                [ngClass]="{'is-invalid': submitted && form.get('gender')?.errors }" modelRegion="forminput">
+                <select class="form-control" formControlName="gender" id="gender" modelRegion="forminput"
+                [ngClass]="{'is-invalid': submitted && form.get('gender')?.errors }" >
                 
                 <option value="" disabled="">&lt;Please choose one&gt;</option>
                 <option value="Male">Male</option>

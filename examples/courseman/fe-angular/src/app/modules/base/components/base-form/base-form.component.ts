@@ -44,7 +44,7 @@ export abstract class BaseFormComponent extends BaseComponent {
 
     this.newItem();
     // TODO: to original data if editing
-
+    
   }
 
   ngOnInit(): void {

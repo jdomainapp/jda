@@ -1,9 +1,10 @@
 <nav id="navbar-example3" class="navbar navbar-light bg-light flex-column align-items-stretch justify-content-start p-3"
-    style="position: sticky; top: 60px;">
+    style="position: sticky; top: 0px;">
+    <!-- style="position: sticky; top: 60px;"> -->
     <label class="navbar-brand">Navigation</label>
     <input type="text" placeholder="search..." [(ngModel)]="searchKeyword" (ngModelChange)="search()" class="form-control mb-1" />
 
     <div style="height: 100vh; overflow-y: scroll;">
-        <app-menu [items]="filteredItems"></app-menu>
+        <app-menu [items]="filteredItems" [searching]="searchKeyword ? true : false"></app-menu>
     </div>
 </nav>

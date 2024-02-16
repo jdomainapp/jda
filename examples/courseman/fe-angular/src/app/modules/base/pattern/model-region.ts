@@ -1,5 +1,6 @@
-import { Directive, ElementRef, Host, Input, Renderer2, ViewContainerRef } from '@angular/core';
+import { Directive, ElementRef, Host, Input, Optional, Renderer2, ViewContainerRef } from '@angular/core';
 import { PatternService } from './pattern.service';
+import { BaseFormComponent } from '../components/base-form/base-form.component';
 
 @Directive({
     selector: '[modelRegion]',
@@ -9,7 +10,7 @@ export class ModelRegionDirective {
 
     constructor(
         @Host() public element: ElementRef,
-        private patternService: PatternService
+        private patternService: PatternService,
     ) { }
 
     ngAfterViewInit() {

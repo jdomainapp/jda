@@ -7,7 +7,7 @@ export class AccordionFactory {
     static createProviderConsumer(data: any = {}): AccordionConsumer {
         let provider = new AccordionProvider();
         let consumer = new AccordionConsumer(provider, data.host);
-        let pattern = new AccordionPattern(data.host.menus);
+        let pattern = new AccordionPattern();
         pattern!.registerProvider(provider);
 
         return consumer;    
