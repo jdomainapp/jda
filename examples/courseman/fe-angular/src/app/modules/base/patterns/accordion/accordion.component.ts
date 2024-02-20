@@ -8,16 +8,16 @@ import { AccordionService } from './accordion.service';
 })
 export class AccordionComponent {
     @Input() items: any[] = []; 
+    forms: any = {};
+    
     filteredItems: any[] = [];
-
     searchKeyword = "";
-    prefix = '';
 
     constructor(
         private router: Router,
-        private accordionService: AccordionService,
         @SkipSelf() @Host() @Optional() public parent?: AccordionComponent
     ) {
+        
     }
 
     ngOnInit() {
@@ -25,8 +25,6 @@ export class AccordionComponent {
     }
 
     search() {
-        this.accordionService.searchKeyword = this.searchKeyword;
-
         this.filteredItems = this.items;
         
         if (this.searchKeyword) {

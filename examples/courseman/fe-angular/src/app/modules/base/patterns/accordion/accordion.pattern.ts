@@ -9,77 +9,66 @@ import { AccordionService } from "./accordion.service";
 export class AccordionPattern extends Pattern {
     componentRef!: ComponentRef<AccordionComponent>;
     closed$ = new Subject<any>();
+
     items: any[] = [];
-
-    override render(region: ViewRegionComponent): void {
-        // ignore rendered
-        if (region.container.element.nativeElement.hasAttribute('rendered')) return;
-
+    
+    override render(region: ViewRegionComponent): void {  
         region.container.clear();
-
+        
         this.componentRef = region.container.createComponent(AccordionComponent);
         this.componentRef.instance.items = this.items;
-
         this.componentRef.changeDetectorRef.detectChanges();
 
-        // marked as rendered
-        region.container.element.nativeElement.setAttribute('rendered', true);
-        
         // handle events
 
     }
 
     forms: any = {};
-    inputs: any[] = [];
+
     // TODO: change form id by parent
     override renderModel(region: ModelRegionDirective, data?: {} | undefined): void {
-        // ignore rendered
-        if (region.element.nativeElement.hasAttribute('rendered')) return;
-        
-        let id = region.element.nativeElement.getAttribute('id');
+        console.log('model')
+        const nativeElement = region.element.nativeElement;
+
+        let id = nativeElement.getAttribute('id');
         if (id) {
-            if (region.element.nativeElement.tagName.toLowerCase() === 'form') {
-                const menu = { endpoint: id, name: id, subItem: this.inputs };
+            // get outer form id
+            const form = nativeElement.parentElement.closest('form');
+            
+            // update id if not rendered
+            if (form && !nativeElement.hasAttribute('rendered')) {
+                id = form.getAttribute('id') + '-' + nativeElement.id;
+                nativeElement.id = id;
+            }
+            
+            // if form element 
+            if (nativeElement.tagName.toLowerCase() === 'form') {
+                const item = { endpoint: id, name: id, subItem: [] };
+                this.forms[id] = item;
 
-                this.inputs = [];
-                this.forms[id] = menu;
-
-                // get outer form
-                const form = region.element.nativeElement.parentElement.closest('form');
-
+                // if outer form
                 if (form) {
-                    // inner form
-                    const id = form.getAttribute('id');
-                    let _menu = this.forms[id];
-                    _menu.subItem.push(menu);
+                    let _item = this.forms[form.getAttribute('id')];
+                    _item.subItem.push(item);
                 } else {
                     // outmost level
-                    this.items.unshift(menu);
+                    this.items.push(item);
                 }
-            } else {
-                // get outer form id
-                const form = region.element.nativeElement.parentElement.closest('form');
+            } else { // forminput element
+                // label
+                const label = nativeElement.parentElement.querySelector('label');
 
-                if (form) {
-                    // update id
-                    const id = form.getAttribute('id') + '-' + region.element.nativeElement.id;
-                    region.element.nativeElement.id = id;
-
-                    // label
-                    const label = region.element.nativeElement.parentElement.querySelector('label');
-
-                    this.inputs.push({ endpoint: id, name: label.textContent });
-                }
+                const _item = this.forms[form.getAttribute('id')];
+                _item.subItem.push({ endpoint: id, name: label.textContent });
             }
-
+            
             // marked as rendered
-            region.element.nativeElement.setAttribute('rendered', true);
+            nativeElement.setAttribute('rendered', true);
         }
     }
 
     override onDataChange(data: any = {}): void {
         // this.items = data.items;
-
         // this.componentRef.instance.items = this.items;
     }
 }

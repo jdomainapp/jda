@@ -12,7 +12,7 @@ export class AutoSearchProvider extends PatternProvider {
     }
 
     override onModelRegion(region: ModelRegionDirective, data?: {}): void {
-        throw new Error("Method not supported.");
+        // do nothing
     }
     
 }

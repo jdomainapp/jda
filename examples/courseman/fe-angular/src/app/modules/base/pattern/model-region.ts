@@ -13,7 +13,7 @@ export class ModelRegionDirective {
         private patternService: PatternService,
     ) { }
 
-    ngAfterViewInit() {
+    ngOnInit() {
         this.patternService.renderModelRegion(this);
     }
 }

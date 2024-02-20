@@ -17,19 +17,11 @@
 
 <br>
 <div class="row">
-    <div class="col-md-3" *ngIf="viewMode!='embedded'">
-        <nav class="h-100 flex-column align-items-stretch pe-4 border-end">
-            <nav class="nav nav-pills flex-column" style="position: sticky; top: 60px;">
-                <a role="button" class="nav-link" ngbScrollSpyItem="student-class">Student Class</a>
-                <nav class="nav nav-pills flex-column">
-                    <a *ngFor="let menu of menus" role="button" class="nav-link ms-3 my-1"
-                   parent="student-class">{{menu.label}}</a>
-                </nav>
-            </nav>
-        </nav>
+    <div class="col-3" *ngIf="viewMode=='default'">
+        <ViewRegion name="menu"></ViewRegion>
     </div>
     
-    <div class="col-md-{{viewMode=='embedded' ? '12' : '9'}}">
+    <div class="col">
         <form class='border py-4 container needs-validation' [formGroup]="form">
 
             <div class="form-group">

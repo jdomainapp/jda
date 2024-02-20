@@ -3,5 +3,9 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class AccordionService {
-    searchKeyword: string = '';
+    items: any[] = [];
+
+    forms: any = {};
+
+    
 }

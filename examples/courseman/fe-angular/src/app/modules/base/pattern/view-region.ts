@@ -2,6 +2,7 @@ import {
     Component,
     ContentChild,
     Input,
+    SimpleChanges,
     TemplateRef,
     ViewContainerRef
 } from '@angular/core';
@@ -21,7 +22,7 @@ export class ViewRegionComponent {
         private patternService: PatternService,
     ) { }
     
-    ngAfterViewInit() {
+    ngOnInit() {
         this.patternService.render(this);
     }
 }
