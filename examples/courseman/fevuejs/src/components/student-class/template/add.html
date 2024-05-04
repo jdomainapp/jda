@@ -1,15 +1,17 @@
 <form v-on:submit.prevent="onSubmit">
     <div v-if="hidFields('id')">
         <div class="form-group">
-            <label class="form-label" :id="tree.observableTree[0].id">{{tree.observableTree[0].name}}</label>
-            <input disabled type="number" class="form-control" v-model="studentClass.id" title="Id" />
+            <label class="form-label" :for="tree.observableTree[0].id">{{tree.observableTree[0].name}}</label>
+            <input disabled type="number" class="form-control" v-model="studentClass.id" title="Id"
+                :id="tree.observableTree[0].id" />
         </div>
         <br />
     </div>
     <div v-if="hidFields('name')">
         <div class="form-group">
-            <label class="form-label" :id="tree.observableTree[1].id">{{tree.observableTree[1].name}}</label>
-            <input type="text" class="form-control" v-model="studentClass.name" title="Name" />
+            <label class="form-label" :for="tree.observableTree[1].id">{{tree.observableTree[1].name}}</label>
+            <input type="text" class="form-control" v-model="studentClass.name" title="Name"
+                :id="tree.observableTree[1].id" />
         </div>
         <br />
     </div>

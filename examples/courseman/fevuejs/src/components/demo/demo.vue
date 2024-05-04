@@ -12,38 +12,33 @@ import "vue-slider-component/theme/antd.css";
 // rating
 import StarRating from "vue-star-rating";
 
-import AutoSearch from '../common/patterns/autosearch/index.vue';
+import ViewRegion from '../common/pattern/viewregion.vue';
+import PatternService from '../common/pattern/pattern.service';
 
-let startDate = new Date();
-let endDate = new Date();
+import AutoSearchFactory from '../common/patterns/autosearch/autosearch.factory';
+
+import AccordionMenuFactory from '../common/patterns/accordionmenu/accordion.factory';
+import AccordionMenu from '../common/patterns/accordionmenu/template/index.vue';
+
+// let startDate = new Date();
+// let endDate = new Date();
 
 export default {
-    components: { DateRangePicker, VueSlider, StarRating, AutoSearch },
+    components: { DateRangePicker, VueSlider, StarRating, ViewRegion, AccordionMenu },
 
     data() {
         return {
+            id: null,
+            patternService: new PatternService(),
+
             // Date range picker
-            dateRange: { startDate, endDate },
-            // options: {
-            //     format: "DD/MM/YYYY",
-            //     useCurrent: false,
-            //     showDropdowns: true,
-            //     showWeekNumbers: true,
-            //     showISOWeekNumbers: true,
-            //     timePicker: true,
-            //     timePicker24Hour: true,
-            //     timePickerSeconds: true,
-            //     autoApply: true,
-            //     locale: {
-            //         cancelLabel: "Clear",
-            //     },
-            // },
-
+            // dateRange: { startDate, endDate },
             // Vue slider
-            range: [0, 30],
+            // range: [0, 30],
+            // perPage: 3,
+            // currentPage: 1,
 
-            perPage: 3,
-            currentPage: 1,
+            // begin search
             items: [
                 { id: 1, first_name: "Fred", last_name: "Flintstone" },
                 { id: 2, first_name: "Wilma", last_name: "Flintstone" },
@@ -56,24 +51,44 @@ export default {
                 { id: 9, first_name: "Pearl", last_name: "Slaghoople" },
             ],
 
-            search: {
-                id: "",
-                keyword: "",
-            },
+            // pattern service need "items" as wrote in autosearch.pattern.js
+            searchKeyword: "",
+            searchID: "",
+            // end search
+
         };
     },
 
-    computed: {
-        rows() {
-            return this.items.length;
-        },
+    created() {
+        this.patternService.addConsumer(AutoSearchFactory.createProviderConsumer({ host: this }));
+        this.patternService.addConsumer(AccordionMenuFactory.createProviderConsumer({ host: this }));
     },
 
-    filters: {
-        date(val) {
-            return val ? val.toLocaleString() : "";
-        },
-    },
+    mounted() {
+        this.id = this._uid
+    }
+
+    // watch: {
+    //     // Check if the searchKeyword is changed
+    //     searchKeyword: {
+    //         handler(newVal) {
+    //             console.log(newVal);
+    //         },
+    //         deep: true,
+    //     },
+    // },
+
+    // computed: {
+    //     rows() {
+    //         return this.items.length;
+    //     },
+    // },
+
+    // filters: {
+    //     date(val) {
+    //         return val ? val.toLocaleString() : "";
+    //     },
+    // },
 };
 </script>
 

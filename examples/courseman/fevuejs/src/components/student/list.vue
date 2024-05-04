@@ -83,7 +83,14 @@ export default {
                 }
 
                 if (keyword !== "") {
-                    matchesKeyword = s.name.toLowerCase().includes(keyword);
+                    for (const key in s) {
+                        if (s[key] && s[key].toString().toLowerCase().includes(keyword)) {
+                            matchesKeyword = true;
+                            break;
+                        } else {
+                            matchesKeyword = false;
+                        }
+                    }
                 }
 
                 return matchesId && matchesKeyword;
@@ -116,6 +123,7 @@ export default {
             result
                 .then((response) => {
                     this.students = response.data.content;
+                    console.log(this.students);
                 })
                 .catch((e) => {
                     this.$toast.error(
