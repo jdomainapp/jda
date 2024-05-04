@@ -65,9 +65,8 @@ public class AcademicAdminController implements ModuleReconfigurable {
 	}
 	
 	@RequestMapping(value = PATH_COURSEMGNT+"/**")
-	@CircuitBreaker(name = "courseManagement", fallbackMethod = "buildFallbackCourse")
-	@Retry(name = "retryCallCourse", fallbackMethod = "buildFallbackCourse")
-	@Bulkhead(name = "bulkheadCourseService", type= Type.SEMAPHORE, fallbackMethod = "buildFallbackCourse")
+	@Bulkhead(name = "coursemgntService")
+//	@CircuitBreaker(name = "coursemgntService")
 	public ResponseEntity<?> handleCourseManagement(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		String path = ControllerTk.getServiceUri(req); 
 		String requestData = ControllerTk.getRequestData(req); 
@@ -115,6 +114,8 @@ ducmle: commented out because it is conflict with coursemgnt-controller
 	 *
 	 * @version 1.0
 	 */
+	@Bulkhead(name = "addressService")
+//	@CircuitBreaker(name = "addressService")
 	public ResponseEntity handleAddressService(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		String path = ControllerTk.getServiceUri(gatewayServer, req);
 		String requestData = ControllerTk.getRequestData(req);

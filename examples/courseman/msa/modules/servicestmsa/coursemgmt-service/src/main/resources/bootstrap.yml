@@ -12,3 +12,32 @@ logging:
     com.netflix: WARN
     org.springframework.web: WARN
     org.jda.example.coursemanmsa: DEBUG
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      failureRateThreshold: 50
+      #      slowCallRateThreshold: 100
+      #      slowCallDurationThreshold: 60000
+      permittedNumberOfCallsInHalfOpenState: 10
+      maxWaitDurationInHalfOpenState: 1s #0
+      #      slidingWindowType: COUNT_BASED
+      slidingWindowSize: 100
+      minimumNumberOfCalls: 100
+      waitDurationInOpenState: 60000ms
+      automaticTransitionFromOpenToHalfOpenEnabled: true #false
+      registerHealthIndicator: true
+      eventConsumerBufferSize: 100000
+  instances:
+    addressService:
+      baseConfig: default
+
+resilience4j.bulkhead:
+  configs:
+    default:
+      maxConcurrentCalls: 25
+      maxWaitDuration: 1 #0
+      eventConsumerBufferSize: 100000
+  instances:
+    addressService:
+      baseConfig: default

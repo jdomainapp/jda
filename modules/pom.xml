@@ -30,8 +30,8 @@
  -->
    <module>dompattern</module>
    <module>mosar</module>
-<!--   <module>msacommon</module>-->
-<!-- <module>mdsa</module>-->
+   <module>msacommon</module>
+    <module>mdsa</module>
 
 <!--     <module>plugineclipse</module> -->
   </modules>

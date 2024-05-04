@@ -22,7 +22,8 @@
 	    <module>basics</module>
 	    <module>swgen</module>
       <module>mosar</module>
-      <!-- <module>msa</module> -->
+      <module>msa</module>
+      <module>mdsagen</module>
 <!--      <module>mdsa</module>-->
       <!--
         <module>kse2016</module>
