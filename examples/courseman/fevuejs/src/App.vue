@@ -1,16 +1,17 @@
 <template src="./layouts/header.html"></template>
+
 <script>
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import "bootstrap/js/dist/popover.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { store } from "./constants/store";
+import { getters } from "./constants/store";
 
 export default {
     name: "App",
     data() {
         return {
-            items: store.formTree,
+            items: getters.formTree,
             searchQuery: "",
         };
     },
@@ -21,15 +22,6 @@ export default {
             return this.arrayToTree(deepClone);
         }
     },
-
-    // watch: {
-    //     items: {
-    //         handler(val) {
-    //             console.log(JSON.stringify(val, null, 2));
-    //         },
-    //         deep: true,
-    //     },
-    // },
 
     methods: {
         arrayToTree(items, parentID = "") {

@@ -1,9 +1,18 @@
 // This file is to store variables that are used in the store
 import Vue from "vue";
 
-export const store = Vue.observable({
+const store = Vue.observable({
     formTree: [],
+
+    // search store will store the query given the id of the item
+    // use hashmap
+    searchStore: [],
 });
+
+export const getters = {
+    formTree: store.formTree,
+    searchStore: store.searchStore,
+};
 
 export const mutations = {
     // Description: formTree will scan for parent item of this item

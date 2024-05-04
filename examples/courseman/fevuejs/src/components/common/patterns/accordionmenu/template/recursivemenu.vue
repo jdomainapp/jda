@@ -32,7 +32,8 @@
             <div v-else>
                 <div class="d-flex justify-content-between align-items-center">
                     <a :href="'#' + item.id" :name="item.name">📁 {{ item.name }}</a>
-                    <b-button v-b-toggle="'accordion_' + item.id" class="accordion_menu_button" variant="dark">+</b-button>
+                    <b-button v-b-toggle="'accordion_' + item.id" class="accordion_menu_button"
+                        variant="dark">+</b-button>
                 </div>
                 <b-collapse :id="'accordion_' + item.id" :visible="searchQuery.trim() !== ''">
                     <b-card>
@@ -45,9 +46,19 @@
 </template>
 
 <script>
+import { BButton, BCollapse, BCard, VBToggle } from 'bootstrap-vue';
+import Vue from 'vue';
+
+Vue.directive('b-toggle', VBToggle);
 
 export default {
     name: "AccordionMenu",
+
+    components: {
+        BButton,
+        BCollapse,
+        BCard,
+    },
 
     props: {
         Items: Array,

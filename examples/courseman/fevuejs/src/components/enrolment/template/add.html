@@ -119,7 +119,7 @@
         <div class="form-group">
             <label class="form-label" :for="tree.observableTree[9].id">{{tree.observableTree[9].name}}</label>
             <div :id="tree.observableTree[9].id">
-                <date-range-picker ref="picker" v-model="dateRange">
+                <date-range-picker ref="picker" v-model="dateRange" opens="right">
                     <template v-slot:input="picker">
                         <span v-if="dateRange.startDate === null && dateRange.endDate === null">
                             Select date range for enrolment
