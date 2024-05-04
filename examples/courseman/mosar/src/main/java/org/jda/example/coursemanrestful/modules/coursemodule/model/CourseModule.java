@@ -33,7 +33,7 @@ public abstract class CourseModule {
 
     // attributes
     @DAttr(name = "id", id = true, auto = true, type = Type.Integer, length = 3, mutable = false, optional = false)
-    private int id;
+    private final int id;
     private static int idCounter;
 
     @DAttr(name = "code", auto = true, type = Type.String, length = 12,
@@ -42,14 +42,23 @@ public abstract class CourseModule {
 
     @DAttr(name = "name", type = Type.String, length = 30, optional = false)
     private String name;
+
+    @DAttr(name = "description", type = Type.String, optional = true)
+    private String description;
+
     @DAttr(name = "semester", type = Type.Integer, length = 2, optional = false, min = 1)
     private int semester;
     @DAttr(name = "credits", type = Type.Integer, length = 2, optional = false, min = 1)
     private int credits;
 
+    @DAttr(name = "rating", type = Type.Integer, optional = true, min=1, max=5)
+    private int rating;
+
+    @DAttr(name = "cost", type = Type.Double, optional = true)
+    private double cost;
 
     // static variable to keep track of module code
-    private static Map<Tuple, Integer> currNums = new LinkedHashMap<Tuple, Integer>();
+    private static final Map<Tuple, Integer> currNums = new LinkedHashMap<Tuple, Integer>();
 
     protected CourseModule() {
         id = nextID(null);
@@ -57,7 +66,12 @@ public abstract class CourseModule {
 
     // constructor method: create objects from data source
     @DOpt(type = DOpt.Type.DataSourceConstructor)
-    protected CourseModule(Integer id, String code, String name, Integer semester, Integer credits)
+    protected CourseModule(Integer id, String code, String name,
+                           String description,
+                           Integer semester, Integer credits,
+                           Integer rating,
+                           Double cost
+                           )
             throws ConstraintViolationException {
         this.id = nextID(id);
         // automatically generate a code
@@ -67,6 +81,13 @@ public abstract class CourseModule {
         this.name = name;
         this.semester = semester;
         this.credits = credits;
+
+        this.description = description;
+        if (rating != null)
+            this.rating = rating;
+
+        if (cost != null)
+            this.cost = cost;
     }
 
 //  @DOpt(type=DOpt.Type.ObjectFormConstructor)
@@ -79,8 +100,17 @@ public abstract class CourseModule {
     // @version 2.0
     @DOpt(type = DOpt.Type.ObjectFormConstructor)
     protected CourseModule(@AttrRef("name") String name,
+                           @AttrRef("description") String description,
+                           @AttrRef("semester") Integer semester, @AttrRef("credits") Integer credits,
+                           @AttrRef("rating") Integer rating,
+                           @AttrRef("cost") Double cost) {
+        this(null, null, name, description, semester, credits, rating, cost);
+    }
+
+    @DOpt(type = DOpt.Type.RequiredConstructor)
+    protected CourseModule(@AttrRef("name") String name,
                            @AttrRef("semester") Integer semester, @AttrRef("credits") Integer credits) {
-        this(null, null, name, semester, credits);
+        this(null, null, name,null, semester, credits,null, null);
     }
 
     private static int nextID(Integer currID) {
@@ -131,6 +161,30 @@ public abstract class CourseModule {
         return credits;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
     // override toString
     @Override
     public String toString() {
@@ -156,11 +210,8 @@ public abstract class CourseModule {
             return false;
         CourseModule other = (CourseModule) obj;
         if (code == null) {
-            if (other.code != null)
-                return false;
-        } else if (!code.equals(other.code))
-            return false;
-        return true;
+          return other.code == null;
+        } else return code.equals(other.code);
     }
 
     // automatically generate a next module code

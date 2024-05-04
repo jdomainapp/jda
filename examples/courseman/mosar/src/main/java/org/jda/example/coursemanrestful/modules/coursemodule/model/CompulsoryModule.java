@@ -25,20 +25,35 @@ public class CompulsoryModule extends CourseModule {
   @DOpt(type=DOpt.Type.ObjectFormConstructor)
   public CompulsoryModule(
       @AttrRef("name")@JsonProperty("name")  String name,
+      @AttrRef("description")@JsonProperty("description") String description,
       @AttrRef("semester")@JsonProperty("semester")  Integer semester, 
-      @AttrRef("credits")@JsonProperty("credits")  Integer credits) {
-    this(null, null, name, semester, credits);
+      @AttrRef("credits")@JsonProperty("credits")  Integer credits,
+      @AttrRef("rating")@JsonProperty("rating") Integer rating,
+      @AttrRef("cost")@JsonProperty("cost") Double cost
+  ) {
+    this(null, null, name, description, semester, credits, rating, cost);
+  }
+
+  @DOpt(type = DOpt.Type.RequiredConstructor)
+  public CompulsoryModule(@AttrRef("name") String name,
+                         @AttrRef("semester") Integer semester,
+                           @AttrRef("credits") Integer credits) {
+    super(name, semester, credits);
   }
 
   @DOpt(type=DOpt.Type.DataSourceConstructor)
   @JsonCreator
   public CompulsoryModule(@JsonProperty("id") Integer id, 
       @JsonProperty("code") String code, 
-      @JsonProperty("name") String name, 
+      @JsonProperty("name") String name,
+      @JsonProperty("description") String description,
       @JsonProperty("semester") Integer semester, 
-      @JsonProperty("credits") Integer credits)
+      @JsonProperty("credits") Integer credits,
+      @JsonProperty("rating") Integer rating,
+      @JsonProperty("cost") Double cost
+      )
     throws ConstraintViolationException {
-    super(id, code, name, semester, credits);
+    super(id, code, name, description, semester, credits, rating, cost);
   }
 
   private CompulsoryModule() { }

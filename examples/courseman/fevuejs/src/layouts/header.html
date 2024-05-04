@@ -1,41 +1,93 @@
 <div id="root">
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
         <div class="container">
-            <div class="navbar-nav"><a href="/" class="navbar-brand">Courseman</a>
+            <div class="navbar-nav">
+                <a href="/" class="navbar-brand">Courseman</a>
                 <div class="dropdown">
-                    <a role="button" class="dropdown-toggle nav-link" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a
+                        role="button"
+                        class="dropdown-toggle nav-link"
+                        id="dropdownMenuButton"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
                         Go to
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        
+                    <div
+                        class="dropdown-menu"
+                        aria-labelledby="dropdownMenuButton"
+                    >
                         <router-link class="dropdown-item" to="/student-class">
                             Manage Student classes
                         </router-link>
-                        
+
                         <router-link class="dropdown-item" to="/address">
                             Manage Addresses
                         </router-link>
-                        
+
                         <router-link class="dropdown-item" to="/course-module">
                             Manage Course modules
                         </router-link>
-                        
+
                         <router-link class="dropdown-item" to="/enrolment">
                             Manage Enrolments
                         </router-link>
-                        
+
                         <router-link class="dropdown-item" to="/student">
                             Manage Students
                         </router-link>
-                        
+
+                        <!-- demo design pattern -->
+                        <router-link class="dropdown-item" to="/demo">
+                            Demo
+                        </router-link>
                     </div>
                 </div>
             </div>
-            <div class="navbar-nav"><a href="#" class="nav-link" role="button">Help</a></div>
+            <div class="navbar-nav">
+                <a href="#" class="nav-link" role="button">Help</a>
+            </div>
         </div>
     </nav>
-    </br>
+    <br />
     <div class="container">
-        <router-view />
+        <div class="row">
+            <div class="col-md-3 sidebar">
+                <div class="input-group">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search"
+                        aria-label="Search"
+                        aria-describedby="basic-addon2"
+                        v-model="searchQuery"
+                    />
+                </div>
+                <nav class="navbar navbar-light" v-if="currentModuleName">
+                    <!-- <a
+                        class="navbar-brand"
+                        :href="'#'+store.form_tree.name.toLowerCase().replace(/ /g, '_')"
+                    >
+                        {{store.form_tree.name}}
+                    </a> -->
+                    <!-- recursive component -->
+                    <nested-nav
+                        :items="viewTree"
+                        :searchQuery="searchQuery"
+                        :forModule="currentModuleName"
+                    ></nested-nav>
+                </nav>
+
+                <p class="alert alert-info mt-3" v-else>
+                    There is nothing here
+                </p>
+            </div>
+
+            <!-- Main content -->
+            <div class="col-md-9">
+                <router-view />
+            </div>
+        </div>
     </div>
 </div>

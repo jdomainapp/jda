@@ -25,6 +25,8 @@ import jda.modules.patterndom.assets.domevents.CMEventType;
 import jda.modules.patterndom.assets.domevents.Publisher;
 import jda.util.events.ChangeEventSource;
 
+import java.util.Date;
+
 /**
  * Represents an enrolment
  *
@@ -40,7 +42,7 @@ public class Enrolment implements Comparable, Publisher {
 
   // attributes
   @DAttr(name = "id", id = true, auto = true, type = Type.Integer, length = 5, optional = false, mutable = false)
-  private int id;
+  private final int id;
   private static int idCounter = 0;
 
   @DAttr(name = "student", type = Type.Domain, length = 5, optional = false)
@@ -79,6 +81,12 @@ public class Enrolment implements Comparable, Publisher {
           derivedFrom={AttributeName_InternalMark, AttributeName_ExamMark})
   private Integer finalMark;
 
+  @DAttr(name = "startDate", type = Type.Date, optional = false, format = DAttr.Format.Date)
+  private Date startDate;
+
+  @DAttr(name = "endDate", type = Type.Date, optional = false, format = DAttr.Format.Date)
+  private Date endDate;
+
   // v2.6.4.b
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private final StateHistory<String, Object> stateHist;
@@ -97,25 +105,33 @@ public class Enrolment implements Comparable, Publisher {
   @DOpt(type=DOpt.Type.ObjectFormConstructor)
   @DOpt(type=DOpt.Type.RequiredConstructor)
   public Enrolment(@AttrRef("student") Student student,
-                   @AttrRef("courseModule") CourseModule courseModule) throws ConstraintViolationException {
-    this(null, student, courseModule, 0.0, 0.0, null);
+                   @AttrRef("courseModule") CourseModule courseModule,
+                   @AttrRef("startDate") Date startDate,
+                   @AttrRef("endDate") Date endDate
+                   ) throws ConstraintViolationException {
+    this(null, student, courseModule, 0.0, 0.0, null, startDate, endDate);
   }
 
   @DOpt(type=DOpt.Type.ObjectFormConstructor)
   public Enrolment(@AttrRef("student") Student s,
                    @AttrRef("courseModule") CourseModule m,
                    @AttrRef("internalMark") Double internalMark,
-                   @AttrRef("examMark") Double examMark)
+                   @AttrRef("examMark") Double examMark,
+                   @AttrRef("startDate") Date startDate,
+                   @AttrRef("endDate") Date endDate)
           throws ConstraintViolationException {
-    this(null, s, m, internalMark, examMark, null);
+    this(null, s, m, internalMark, examMark, null, startDate, endDate);
   }
 
   // @version 2.0
   @DOpt(type=DOpt.Type.DataSourceConstructor)
-  public Enrolment(Integer id, Student s, CourseModule m, Double internalMark,
+  public Enrolment(Integer id, Student s, CourseModule m,
+                   Double internalMark,
                    Double examMark,
                    // v2.7.3: not used but needed to load data from source
-                   Character finalGrade) throws ConstraintViolationException {
+                   Character finalGrade,
+                   Date startDate,
+                   Date endDate) throws ConstraintViolationException {
     this();
     this.student = s;
     this.courseModule = m;
@@ -125,6 +141,8 @@ public class Enrolment implements Comparable, Publisher {
 
     updateFinalMark();
 
+    this.startDate = startDate;
+    this.endDate = endDate;
     // publish/subscribe pattern
     // register student as subscriber for add event
     addSubscriber(student, CMEventType.values());
@@ -205,6 +223,22 @@ public class Enrolment implements Comparable, Publisher {
     return courseModule;
   }
 
+  public Date getStartDate() {
+    return startDate;
+  }
+
+  public void setStartDate(Date startDate) {
+    this.startDate = startDate;
+  }
+
+  public Date getEndDate() {
+    return endDate;
+  }
+
+  public void setEndDate(Date endDate) {
+    this.endDate = endDate;
+  }
+
   public Double getInternalMark() {
     return internalMark;
   }
@@ -256,7 +290,10 @@ public class Enrolment implements Comparable, Publisher {
     else
       return "Enrolment(" + getId() + "," +
               ((student != null) ? student.getId() : "null") + "," +
-              ((courseModule != null) ? courseModule.getCode() : "null") + ")";
+              ((courseModule != null) ? courseModule.getCode() : "null") +
+              String.format("startDate: %s, endDate: %s", startDate, endDate)
+          + ")"
+          ;
   }
 
   @Override
@@ -276,9 +313,7 @@ public class Enrolment implements Comparable, Publisher {
     if (getClass() != obj.getClass())
       return false;
     Enrolment other = (Enrolment) obj;
-    if (id != other.id)
-      return false;
-    return true;
+    return id == other.id;
   }
 
   private static int nextID(Integer currID) {
@@ -352,7 +387,7 @@ public class Enrolment implements Comparable, Publisher {
    *  notify register all registered listeners
    */
   @Override
-  public void finalize() throws Throwable {
+  protected void finalize() throws Throwable {
     notify(CMEventType.OnRemoved, getEventSource());
   }
 }

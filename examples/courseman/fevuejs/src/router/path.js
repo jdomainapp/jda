@@ -1,17 +1,47 @@
-export const HOME_PATH = '/';
+import {
+    STUDENT_CLASS_INDEX_NAME,
+    STUDENT_CLASS_LIST_NAME,
+    STUDENT_CLASS_ADD_NAME,
+    ADDRESS_INDEX_NAME,
+    ADDRESS_LIST_NAME,
+    ADDRESS_ADD_NAME,
+    COURSE_MODULE_INDEX_NAME,
+    COURSE_MODULE_LIST_NAME,
+    COURSE_MODULE_ADD_NAME,
+    ENROLMENT_INDEX_NAME,
+    ENROLMENT_LIST_NAME,
+    ENROLMENT_ADD_NAME,
+    STUDENT_INDEX_NAME,
+    STUDENT_LIST_NAME,
+    STUDENT_ADD_NAME,
 
-export const STUDENT_CLASS_INDEX_PATH = '/student-class';
-export const STUDENT_CLASS_LIST_PATH = '/student-class-list';
-export const STUDENT_CLASS_ADD_PATH = '/student-class-add';
-export const ADDRESS_INDEX_PATH = '/address';
-export const ADDRESS_LIST_PATH = '/address-list';
-export const ADDRESS_ADD_PATH = '/address-add';
-export const COURSE_MODULE_INDEX_PATH = '/course-module';
-export const COURSE_MODULE_LIST_PATH = '/course-module-list';
-export const COURSE_MODULE_ADD_PATH = '/course-module-add';
-export const ENROLMENT_INDEX_PATH = '/enrolment';
-export const ENROLMENT_LIST_PATH = '/enrolment-list';
-export const ENROLMENT_ADD_PATH = '/enrolment-add';
-export const STUDENT_INDEX_PATH = '/student';
-export const STUDENT_LIST_PATH = '/student-list';
-export const STUDENT_ADD_PATH = '/student-add';
+    // demo design pattern
+    DEMO_NAME,
+} from "./name.js";
+
+export const HOME_PATH = "/";
+
+// Nguyen Dang Duc Anh, 02/12/2023: Như file component.js, em viết lại string của các const để thêm từ name.js vào.
+
+export const STUDENT_CLASS_INDEX_PATH = `/${STUDENT_CLASS_INDEX_NAME}`;
+export const STUDENT_CLASS_LIST_PATH = `/${STUDENT_CLASS_LIST_NAME}`;
+export const STUDENT_CLASS_ADD_PATH = `/${STUDENT_CLASS_ADD_NAME}`;
+
+export const ADDRESS_INDEX_PATH = `/${ADDRESS_INDEX_NAME}`;
+export const ADDRESS_LIST_PATH = `/${ADDRESS_LIST_NAME}`;
+export const ADDRESS_ADD_PATH = `/${ADDRESS_ADD_NAME}`;
+
+export const COURSE_MODULE_INDEX_PATH = `/${COURSE_MODULE_INDEX_NAME}`;
+export const COURSE_MODULE_LIST_PATH = `/${COURSE_MODULE_LIST_NAME}`;
+export const COURSE_MODULE_ADD_PATH = `/${COURSE_MODULE_ADD_NAME}`;
+
+export const ENROLMENT_INDEX_PATH = `/${ENROLMENT_INDEX_NAME}`;
+export const ENROLMENT_LIST_PATH = `/${ENROLMENT_LIST_NAME}`;
+export const ENROLMENT_ADD_PATH = `/${ENROLMENT_ADD_NAME}`;
+
+export const STUDENT_INDEX_PATH = `/${STUDENT_INDEX_NAME}`;
+export const STUDENT_LIST_PATH = `/${STUDENT_LIST_NAME}`;
+export const STUDENT_ADD_PATH = `/${STUDENT_ADD_NAME}`;
+
+// demo design pattern:
+export const DEMO_PATH = `/${DEMO_NAME}`;

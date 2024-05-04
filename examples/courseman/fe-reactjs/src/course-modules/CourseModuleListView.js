@@ -6,22 +6,25 @@ import BaseListItemView from "../base/BaseListItemView";
 export default class CourseModuleListView extends BaseListView {
   renderVisibleColumns() {
     return (<>
-      <th>Id</th>
-<th>Code</th>
-<th>Name</th>
-<th>Semester</th>
-<th>Credits</th>
+        <th>Id</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Semester</th>
+        <th>cost</th>
+        <th>rating</th>
+        <th>Description</th>
+        <th>Credits</th>
       </>);
 
   }
   renderRows() {
-    const current = this.props.current.content;
+    const current = this.getPageContent();
       if (current instanceof Array) {
         return (<>
           {
             current.map((item, index) =>
             <CourseModuleListItemView {...this.props} key={item.id} current={item}
-              index={index + 1} currentId={item.id}
+              index={this.state.itemOffSet + index + 1} currentId={item.id}
               changeToDetailsView={this.props.changeToDetailsView}
               handleStateChange={this.props.handleStateChange}
               handleDelete={this.props.partialApplyWithCallbacks(this.props.courseModuleAPI.deleteById)}
@@ -41,11 +44,14 @@ export default class CourseModuleListView extends BaseListView {
 class CourseModuleListItemView extends BaseListItemView {
   renderVisibleColumns() {
     return (<>
-      <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.id)}</td>
-<td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.code)}</td>
-<td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.name)}</td>
-<td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.semester)}</td>
-<td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.credits)}</td>
+        <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.id)}</td>
+        <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.code)}</td>
+        <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.name)}</td>
+        <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.semester)}</td>
+        <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.cost)}</td>
+        <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.rating)}</td>
+        <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.description)}</td>
+        <td style={this.verticalAlignCell} onClick={this.changeCurrent}>{this.renderObject(this.props.current.credits)}</td>
       </>);
   }
   //

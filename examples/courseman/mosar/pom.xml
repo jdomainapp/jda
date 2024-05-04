@@ -60,7 +60,7 @@
 	           <mainClass>${mainClassRun}</mainClass>
 	         </configuration>
          	</execution> -->
-			<execution>
+			  <execution>
   	         <id>runbe</id>
 	         <configuration>
 	           <daemonThreadJoinTimeout>-1</daemonThreadJoinTimeout>

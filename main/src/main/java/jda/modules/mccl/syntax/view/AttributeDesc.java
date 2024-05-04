@@ -13,8 +13,11 @@ import jda.modules.common.CommonConstants;
 import jda.modules.common.types.Null;
 import jda.modules.common.types.properties.PropertyDesc;
 import jda.modules.common.types.properties.PropertyName;
+import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dcsl.syntax.Select;
+import jda.modules.dcsl.syntax.report.Input;
 import jda.modules.mccl.conceptmodel.view.StyleName;
+import jda.modules.mccl.syntax.InputTypes;
 import jda.modules.mccl.syntax.MCCLConstants;
 import jda.modules.mccl.syntax.ModuleDescriptor;
 import jda.modules.mccl.syntax.MCCLConstants.AlignmentX;
@@ -41,19 +44,19 @@ public @interface AttributeDesc {
    * 
    * @version 5.1 
    */
-  public String id() default CommonConstants.NullString;
+  String id() default CommonConstants.NullString;
 
   /***
    * The text that will be used to label this field
    * Default: <tt>{@link CommonConstants#EmptyString}</tt>
    */
-  public String label() default CommonConstants.EmptyString;// Null;
+  String label() default CommonConstants.EmptyString;// Null;
   
   /** 
    * a {@link Select} annotation which describes the domain field 
    * of another domain class to which this view refers.
    * Default: @Select() */
-  public Select ref() default @Select();
+  Select ref() default @Select();
   
   /**
    * The GUI component class that will be used to display the value of this field
@@ -62,7 +65,7 @@ public @interface AttributeDesc {
    * 
    * <p>Default: {@link MCCLConstants#DEFAULT_DISPLAY_CLASS}
    */
-  public Class type() default Null.class;
+  Class type() default Null.class;
 
   /**
    * <b>ONLY</b> applicable to container-typed attribute. 
@@ -79,13 +82,13 @@ public @interface AttributeDesc {
    * The display width of the GUI component object of this field
    * Default: {@link MCCLConstants#DEFAULT_FIELD_WIDTH}
    */
-  public int width() default MCCLConstants.DEFAULT_FIELD_WIDTH; //-1;
+  int width() default MCCLConstants.DEFAULT_FIELD_WIDTH; //-1;
 
   /**
    * The display height of the GUI component object of this field
    * Default: {@link MCCLConstants#DEFAULT_FIELD_HEIGHT}
    */
-  public int height() default MCCLConstants.DEFAULT_FIELD_HEIGHT; //-1;
+  int height() default MCCLConstants.DEFAULT_FIELD_HEIGHT; //-1;
   
   /**
    * Specifies the horizontal alignment of the value of this field on display
@@ -93,7 +96,7 @@ public @interface AttributeDesc {
    * <p>Default: {@link MCCLConstants.AlignmentX#Left}
    * @version 2.7.2
    */
-  public AlignmentX alignX() default AlignmentX.Left;
+  AlignmentX alignX() default AlignmentX.Left;
   
   /**
    * Specifies the vertical alignment of the value of this field on display
@@ -101,20 +104,20 @@ public @interface AttributeDesc {
    * <p>Default: {@link MCCLConstants.AlignmentY#Top}
    * @version 2.7.2
    */
-  public AlignmentY alignY() default AlignmentY.Top;
+  AlignmentY alignY() default AlignmentY.Top;
   
   /**
    * The name of the display style that is applied to the label of this field
    * Default: StyleName.Null
    */
-  public StyleName styleLabel() default StyleName.Null; 
+  StyleName styleLabel() default StyleName.Null;
 
   /**
    * The name of the display style that is applied to the GUI component 
    * of this field
    * Default: StyleName.Null
    */
-  public StyleName styleField() default StyleName.Null; 
+  StyleName styleField() default StyleName.Null;
   
   /**
    * <b>Note</b>: This attribute is NOT currently being used for data field!!!
@@ -123,7 +126,7 @@ public @interface AttributeDesc {
    * false if otherwise.
    * <br>Default: false
    */
-  public boolean isStateListener() default false;
+  boolean isStateListener() default false;
   
   /**
    *   This is used together with {@link ControllerDesc#isDataFieldStateListener()} 
@@ -140,7 +143,7 @@ public @interface AttributeDesc {
    *   
    *   <p>Default: <tt>false</tt>
    */
-  public boolean isStateEventSource() default false;
+  boolean isStateEventSource() default false;
   
   /**
    * this overrides the mutable() value fields of the <tt>DomainConstraint</tt> 
@@ -149,7 +152,7 @@ public @interface AttributeDesc {
    * </tt>false</tt> if otherwise.
    * Default: <tt>true</tt>
    */
-  public boolean editable() default true;
+  boolean editable() default true;
 
   /**
    * Whether or not this attribute is visible on the view of the primary module.
@@ -172,7 +175,7 @@ public @interface AttributeDesc {
    * <p>Default: {@link ControllerDesc()}
    * @version 2.6.4.b
    */
-  public ControllerDesc controllerDesc() default @ControllerDesc();
+  ControllerDesc controllerDesc() default @ControllerDesc();
 
   /**
    * Similar to {@link #controllerDesc()}, this applies only to container-type attributes. 
@@ -189,7 +192,7 @@ public @interface AttributeDesc {
    * the bounded value is to be displayed together with the object id (Oid).
    * <br>Default: <tt>false</tt> (i.e. the bounded value is displayed without the Oid)
    */
-  public boolean displayOidWithBoundValue() default false;
+  boolean displayOidWithBoundValue() default false;
 
   /**
    * This applies only to bounded attribute. If <tt>true</tt>,
@@ -200,7 +203,7 @@ public @interface AttributeDesc {
    * {@link #displayOidWithBoundValue()} is set to <tt>true</tt> (however, 
    * it may be set either to <tt>true</tt> OR <tt>false</tt> if otherwise)  
    */
-  public boolean loadOidWithBoundValue() default false;
+  boolean loadOidWithBoundValue() default false;
 
   /**
    * This property is typically used for adding section labels on an object form.<br>
@@ -210,7 +213,7 @@ public @interface AttributeDesc {
    * <br>Default: <tt>false</tt> (i.e. both label and data field are displayed)
    * @version 2.7.4
    */
-  public boolean labelOnly() default false;
+  boolean labelOnly() default false;
 
   /**
    * The additional properties that are associated with this
@@ -241,4 +244,10 @@ public @interface AttributeDesc {
    */
   /*v2.7.2: not used */
 //  public boolean loadBoundValues() default false;
+
+  /**
+   * use for declare special input field type
+   * linh.tq
+   */
+  InputTypes inputType() default InputTypes.Undefined;
 }

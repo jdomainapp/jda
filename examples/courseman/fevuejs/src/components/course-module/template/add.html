@@ -1,63 +1,102 @@
 <form v-on:submit.prevent="onSubmit">
-    <div class="form-group"><label class="form-label">Type</label>
-        <select class="custom-select" v-model="courseModule.type">
+    <div class="form-group">
+        <label class="form-label">Type</label>
+        <select class="custom-select" v-model="courseModule.type" title="Type">
             <option value="" disabled="">Please choose one</option>
             <option value="compulsory">compulsory</option>
             <option value="elective">elective</option>
         </select>
-    </div><br>
-    
-<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('id')">
-    <div class="form-group" >
-        <label class="form-label">Id</label>
-        <input disabled type="number" class="form-control" v-model="courseModule.id">
     </div>
-    <br>
-</div>
-<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('code')">
-    <div class="form-group" >
-        <label class="form-label">Code</label>
-        <input disabled type="text" class="form-control" v-model="courseModule.code">
+    <br />
+
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('id')">
+        <div class="form-group">
+            <label class="form-label">Id</label>
+            <input disabled type="number" class="form-control" v-model="courseModule.id" placeholder="Id" />
+        </div>
+        <br />
     </div>
-    <br>
-</div>
-<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('name')">
-    <div class="form-group" >
-        <label class="form-label">Name</label>
-        <input  type="text" class="form-control" v-model="courseModule.name">
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('code')">
+        <div class="form-group">
+            <label class="form-label">Code</label>
+            <input disabled type="text" class="form-control" v-model="courseModule.code" placeholder="Code" />
+        </div>
+        <br />
     </div>
-    <br>
-</div>
-<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('semester')">
-    <div class="form-group" >
-        <label class="form-label">Semester</label>
-        <input  type="number" class="form-control" v-model="courseModule.semester">
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('name')">
+        <div class="form-group">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" v-model="courseModule.name" placeholder="Name" />
+        </div>
+        <br />
     </div>
-    <br>
-</div>
-<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('credits')">
-    <div class="form-group" >
-        <label class="form-label">Credits</label>
-        <input  type="number" class="form-control" v-model="courseModule.credits">
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('semester')">
+        <div class="form-group">
+            <label class="form-label">Semester</label>
+            <input type="number" class="form-control" v-model="courseModule.semester" placeholder="Semester" />
+        </div>
+        <br />
     </div>
-    <br>
-</div>
-    
-    
-                     
-        
-<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('deptName')">
-    <div class="form-group" v-if="courseModule.type == 'elective'">
-        <label class="form-label">Dept. Name</label>
-        <input  type="text" class="form-control" v-model="courseModule.deptName">
+
+    <!-- 
+        Slider
+    -->
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('description')">
+        <div class="form-group">
+            <label class="form-label">Cost</label>
+            <vue-slider v-model="cost.value" :enable-cross="false" :min="cost.min" :max="cost.max"
+                :marks="[cost.min, cost.max]" />
+        </div>
+        <br />
     </div>
-    <br>
-</div>             
-    
+
+    <!--
+        Star rating
+    -->
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('description')">
+        <div class="form-group">
+            <label class="form-label">Rating</label>
+            <star-rating v-model="courseModule.rating"></star-rating>
+        </div>
+        <br />
+    </div>
+
+    <!-- Expandable input -->
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('description')">
+        <div class="form-group">
+            <label class="form-label" hidden>Description</label>
+            <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+                aria-expanded="false" aria-controls="collapseExample" title="Toggle to show/hide description">
+                Description
+            </button>
+            <div class="form-content mt-2 collapse" id="collapseExample">
+                <span title="Description" class="form-input-span" role="textbox" contenteditable
+                    aria-placeholder="Please type someting in here"></span>
+            </div>
+        </div>
+        <br />
+    </div>
+
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('credits')">
+        <div class="form-group">
+            <label class="form-label">Credits</label>
+            <input type="number" class="form-control" v-model="courseModule.credits" placeholder="Credits" />
+        </div>
+        <br />
+    </div>
+
+    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('deptName')">
+        <div class="form-group" v-if="courseModule.type == 'elective'">
+            <label class="form-label">Dept. Name</label>
+            <input type="text" class="form-control" v-model="courseModule.deptName" placeholder="Dept. Name" />
+        </div>
+        <br />
+    </div>
+
     <div class="d-flex justify-content-end mx-0 row">
         <div class="col-md-9"></div>
-        <button type="button" class="btn btn-secondary">Reset</button>
-        <button class="ml-2 btn btn-primary">Save</button>
+        <button type="reset" class="btn btn-secondary">Reset</button>
+        <button type="submit" class="ml-2 btn btn-primary">Save</button>
     </div>
     <Toasts></Toasts>
 </form>

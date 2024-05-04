@@ -6,6 +6,8 @@ import React from "react";
 import BaseMainForm from "../base/BaseMainForm";
 import CourseModuleListView from "./CourseModuleListView";
 import CourseModuleForm from "./CourseModuleForm";
+import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
+import {courseModules} from "../common/Constants";
 // {{ view.submodule.imports }}
 
 const courseModuleAPI = new BaseAPI("course-modules", providers.axios);
@@ -34,6 +36,16 @@ class CourseModuleMainView extends BaseMainForm {
       currentId: this.props.currentId
     }
   }
+
+  
+  getSearchLabel() {
+    return "name"
+  }
+
+  getSearchFields() {
+    return ["code", "name", "description"]
+  }
+
   getPossibleTypes() {
     return ['compulsory','elective']
   }
@@ -53,10 +65,17 @@ class CourseModuleMainView extends BaseMainForm {
     partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
   }
 
+  renderMenu() {
+    return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
+    )
+  }
+
   renderForm() {
     return <CourseModuleForm {...this.props} {...this.state}
-    handleStateChange={this.handleStateChange.bind(this)}
-    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })} />;
+      setReadySubmit={this.setReadySubmit}
+      handleStateChange={this.handleStateChange.bind(this)}
+      handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })}
+      mainForm={this} />;
   }
 
   // renderSubmodules() {

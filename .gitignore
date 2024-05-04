@@ -22,7 +22,7 @@
 hs_err_pid*
 
 # project-specific stuff
-/docs
+#/docs
 bin/
 *archives/
 classes/

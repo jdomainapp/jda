@@ -1,0 +1,234 @@
+{
+	"info": {
+		"_postman_id": "6cf29b51-952e-4e9a-b590-1ed35c736ac6",
+		"name": "jda-eg-coursemanmosar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16424499",
+		"_collection_link": "https://bold-capsule-151734.postman.co/workspace/jda~7e9ab1e3-a53e-41a2-a473-263b3a75089b/collection/27656402-6cf29b51-952e-4e9a-b590-1ed35c736ac6?action=share&source=collection_link&creator=16424499"
+	},
+	"item": [
+		{
+			"name": "address",
+			"item": [
+				{
+					"name": "GetAddresses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/addresses",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"addresses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAddressById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/addresses/1",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"addresses",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "student",
+			"item": [
+				{
+					"name": "GetStudents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/addresses",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"addresses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetStudentById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/students/S2023",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"students",
+								"S2023"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "enrolment",
+			"item": [
+				{
+					"name": "GetEnrolments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/enrolments",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"enrolments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetEnrolmentById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/enrolments/1",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"enrolments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "coursemodule",
+			"item": [
+				{
+					"name": "GetCourseModules",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/course-modules",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"course-modules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCourseModuleById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/course-modules/5",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"course-modules",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCompulsoryModules",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/course-modules?type=compulsory",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"course-modules"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "compulsory"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetElectiveModules",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/course-modules?type=elective",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"course-modules"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "elective"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetElectiveModulesSpecialised",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-mosar}}/elective-modules",
+							"host": [
+								"{{base-mosar}}"
+							],
+							"path": [
+								"elective-modules"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

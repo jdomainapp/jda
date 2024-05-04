@@ -1,7 +1,5 @@
 package org.jda.example.coursemanrestful.software;
 
-import org.jda.example.coursemanrestful.software.config.SCCCourseManDerby;
-
 import jda.modules.mosar.software.RFSoftware;
 
 /**
@@ -13,10 +11,11 @@ import jda.modules.mosar.software.RFSoftware;
  * @version 
  */
 public class CourseManRFSRun {
-  
   public static void main(String[] args) throws Exception {
-    Class scc = SCCCourseManDerby.class;
-    
+//    Class scc = SCCCourseManDerby.class;
+    Class scc = CourseManRFSGen.getSCCFromEnv();
+
+
     new RFSoftware(scc)
       .init()
       .run();

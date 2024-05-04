@@ -65,8 +65,8 @@ public class JavaDbServerSetUp extends SetUp {
      */
     // set language and label constant class for that language
     final Language Lang = 
-//        Language.English; 
-        Language.Vietnamese;
+        Language.English;
+//        Language.Vietnamese;
   //v3.0: final String labelConstantClass = 
         //vn.com.courseman.setup.config.lang.vi.DomainLabelConstants.class.getName();
   //       null; 

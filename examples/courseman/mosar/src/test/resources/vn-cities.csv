@@ -1,0 +1,66 @@
+city,lat,lng,country,iso2,admin_name,capital,population,population_proper
+Ho Chi Minh City,10.7756,106.7019,Vietnam,VN,Hồ Chí Minh,admin,15136000,7431000
+Hanoi,21.0283,105.8542,Vietnam,VN,Hà Nội,primary,8246600,8246600
+Haiphong,20.8651,106.6838,Vietnam,VN,Hải Phòng,admin,2103500,2103500
+Cần Thơ,10.0333,105.7833,Vietnam,VN,Cần Thơ,admin,1237300,1237300
+Biên Hòa,10.9500,106.8167,Vietnam,VN,Đồng Nai,admin,1104000,1104000
+Thủ Đức,10.8266,106.7609,Vietnam,VN,Hồ Chí Minh,minor,1013795,1013795
+Huế,16.4667,107.5792,Vietnam,VN,Thừa Thiên-Huế,admin,652572,652572
+Tân An,10.9050,106.6994,Vietnam,VN,Hồ Chí Minh,,618984,618984
+Bắc Ninh,21.1833,106.0500,Vietnam,VN,Bắc Ninh,admin,520000,520000
+Hải Dương,20.9397,106.3306,Vietnam,VN,Hải Dương,admin,507469,507469
+Vinh,18.6667,105.6667,Vietnam,VN,Nghệ An,admin,490000,490000
+Thanh Hóa,19.8075,105.7764,Vietnam,VN,Thanh Hóa,admin,393294,393294
+Nam Định,20.4200,106.1683,Vietnam,VN,Nam Định,admin,352108,352108
+Long Xuyên,10.3736,105.4458,Vietnam,VN,An Giang,admin,278658,278658
+Việt Trì,21.3000,105.4333,Vietnam,VN,Phú Thọ,admin,277539,277539
+Mỹ Tho,10.3500,106.3500,Vietnam,VN,Tiền Giang,admin,270700,270700
+Thái Bình,20.4461,106.3422,Vietnam,VN,Thái Bình,admin,268167,268167
+Sa Đéc,10.3000,105.7667,Vietnam,VN,Đồng Tháp,minor,213610,213610
+Phủ Từ Sơn,21.1189,105.9611,Vietnam,VN,Bắc Ninh,,202874,202874
+Bắc Giang,21.2667,106.2000,Vietnam,VN,Bắc Giang,admin,201595,201595
+Vĩnh Long,10.2500,105.9667,Vietnam,VN,Vĩnh Long,admin,200120,200120
+Lạng Sơn,21.8478,106.7578,Vietnam,VN,Lạng Sơn,admin,200108,200108
+Sầm Sơn,19.7333,105.9000,Vietnam,VN,Thanh Hóa,,172350,172350
+Ninh Bình,20.2539,105.9750,Vietnam,VN,Ninh Bình,admin,160166,160166
+Vĩnh Yên,21.3100,105.5967,Vietnam,VN,Vĩnh Phúc,admin,152801,152801
+Long Bình,10.9458,106.8775,Vietnam,VN,Đồng Nai,,133206,133206
+Hội An,15.8833,108.3333,Vietnam,VN,Quảng Nam,,121716,121716
+Bình Hòa,10.9061,106.7308,Vietnam,VN,Bình Dương,,88500,88500
+Cửa Lô,18.8167,105.7167,Vietnam,VN,Nghệ An,,75260,75260
+Tam Hiệp,10.9497,106.8575,Vietnam,VN,Đồng Nai,,35747,35747
+Bửu Long,10.9600,106.7967,Vietnam,VN,Đồng Nai,,31861,31861
+Quận Mười Một,10.7638,106.6436,Vietnam,VN,Hồ Chí Minh,minor,,
+Quận Năm,10.7557,106.6675,Vietnam,VN,Hồ Chí Minh,minor,,
+Quận Mười,10.7682,106.6663,Vietnam,VN,Hồ Chí Minh,minor,,
+Quận Phú Nhuận,10.7948,106.6763,Vietnam,VN,Hồ Chí Minh,minor,,
+Quận Sáu,10.7468,106.6490,Vietnam,VN,Hồ Chí Minh,minor,,
+Đống Đa,21.0201,105.8310,Vietnam,VN,Hà Nội,minor,,
+Hai BàTrưng,21.0134,105.8477,Vietnam,VN,Hà Nội,minor,,
+Quận Ba,10.7749,106.6863,Vietnam,VN,Hồ Chí Minh,minor,,
+Hoàn Kiếm,21.0286,105.8506,Vietnam,VN,Hà Nội,minor,,
+Quận Một,10.7807,106.6994,Vietnam,VN,Hồ Chí Minh,minor,,
+Quận Bốn,10.7668,106.7057,Vietnam,VN,Hồ Chí Minh,minor,,
+Cầu Giấy,21.0323,105.8007,Vietnam,VN,Hà Nội,minor,,
+Quận Tân Phú,10.7838,106.6370,Vietnam,VN,Hồ Chí Minh,minor,,
+Quận Bình Thạnh,10.8033,106.6967,Vietnam,VN,Hồ Chí Minh,minor,,
+Ba Đình,21.0341,105.8145,Vietnam,VN,Hà Nội,minor,,
+Thanh Khê,16.0706,108.1910,Vietnam,VN,Đà Nẵng,minor,,
+Thanh Xuân,20.9947,105.7998,Vietnam,VN,Hà Nội,minor,,
+Đà Nẵng,16.0748,108.2240,Vietnam,VN,Đà Nẵng,admin,,
+Quận Bảy,10.7118,106.7364,Vietnam,VN,Hồ Chí Minh,minor,,
+Tây Hồ,21.0689,105.8105,Vietnam,VN,Hà Nội,minor,,
+Lái Thiêu,10.9051,106.6995,Vietnam,VN,Bình Dương,minor,,
+Hà Đông,20.9714,105.7788,Vietnam,VN,Hà Nội,minor,,
+Cầu Diễn,21.0393,105.7666,Vietnam,VN,Hà Nội,minor,,
+Quận Hai,10.7916,106.7495,Vietnam,VN,Hồ Chí Minh,minor,,
+Hóc Môn,10.8886,106.5958,Vietnam,VN,Hồ Chí Minh,minor,,
+Cẩm Lệ,16.0177,108.2038,Vietnam,VN,Đà Nẵng,minor,,
+Quận Chín,10.8397,106.7709,Vietnam,VN,Hồ Chí Minh,minor,,
+Văn Điển,20.9463,105.8450,Vietnam,VN,Hà Nội,minor,,
+Sơn Trà,16.0607,108.2326,Vietnam,VN,Đà Nẵng,minor,,
+Trâu Quỳ,21.0195,105.9369,Vietnam,VN,Hà Nội,minor,,
+Trôi,21.0695,105.7065,Vietnam,VN,Hà Nội,minor,,
+Phùng,21.0890,105.6590,Vietnam,VN,Hà Nội,minor,,
+Tân Túc,10.6954,106.5913,Vietnam,VN,Hồ Chí Minh,minor,,
+Đông Anh,21.1550,105.8486,Vietnam,VN,Hà Nội,minor,,

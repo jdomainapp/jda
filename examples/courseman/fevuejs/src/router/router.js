@@ -9,6 +9,7 @@ import { ADDRESS_INDEX_PATH, ADDRESS_LIST_PATH, ADDRESS_ADD_PATH } from './path.
 import { COURSE_MODULE_INDEX_PATH, COURSE_MODULE_LIST_PATH, COURSE_MODULE_ADD_PATH } from './path.js'
 import { ENROLMENT_INDEX_PATH, ENROLMENT_LIST_PATH, ENROLMENT_ADD_PATH } from './path.js'
 import { STUDENT_INDEX_PATH, STUDENT_LIST_PATH, STUDENT_ADD_PATH } from './path.js'
+import { DEMO_PATH } from './path.js' // demo design pattern
 
 //name
 import { HOME_NAME } from './name.js'
@@ -18,6 +19,7 @@ import { ADDRESS_INDEX_NAME, ADDRESS_LIST_NAME, ADDRESS_ADD_NAME } from './name.
 import { COURSE_MODULE_INDEX_NAME, COURSE_MODULE_LIST_NAME, COURSE_MODULE_ADD_NAME } from './name.js'
 import { ENROLMENT_INDEX_NAME, ENROLMENT_LIST_NAME, ENROLMENT_ADD_NAME } from './name.js'
 import { STUDENT_INDEX_NAME, STUDENT_LIST_NAME, STUDENT_ADD_NAME } from './name.js'
+import { DEMO_NAME } from './name.js' // demo design pattern
 
 //component
 import { HOME } from './component.js'
@@ -27,10 +29,12 @@ import { ADDRESS_INDEX, ADDRESS_LIST, ADDRESS_ADD } from './component.js'
 import { COURSE_MODULE_INDEX, COURSE_MODULE_LIST, COURSE_MODULE_ADD } from './component.js'
 import { ENROLMENT_INDEX, ENROLMENT_LIST, ENROLMENT_ADD } from './component.js'
 import { STUDENT_INDEX, STUDENT_LIST, STUDENT_ADD } from './component.js'
+import { DEMO } from './component.js' // demo design pattern
 
 Vue.use(VueRouter)
 
 export const router = new VueRouter({
+    mode: 'history', // Nguyen Dang Duc Anh, 02/12/2023: Em thêm mode history để không có # trong url.
     routes: [
         { path: HOME_PATH, name: HOME_NAME, component: HOME },
         
@@ -54,5 +58,7 @@ export const router = new VueRouter({
         { path: STUDENT_LIST_PATH, name: STUDENT_LIST_NAME, component: STUDENT_LIST },
         { path: STUDENT_ADD_PATH, name: STUDENT_ADD_NAME, component: STUDENT_ADD },
         
+        // demo design pattern:
+        { path: DEMO_PATH, name: DEMO_NAME, component: DEMO },
     ]
 })

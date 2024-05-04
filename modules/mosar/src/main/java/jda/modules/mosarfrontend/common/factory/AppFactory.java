@@ -24,7 +24,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class AppFactory {
-    private RFSGenConfig rfsGenConfig;
+    private final RFSGenConfig rfsGenConfig;
 
     public AppFactory(RFSGenConfig rfsGenConfig) {
         this.rfsGenConfig = rfsGenConfig;
@@ -76,7 +76,7 @@ public class AppFactory {
     }
 
     public interface Callback {
-        public void gen() throws Exception;
+        void gen() throws Exception;
     }
 
     private void loopGenMethod(Annotation genDesc, String templateFolder, Callback callback) {
@@ -90,7 +90,7 @@ public class AppFactory {
                 for (Class<?> genClass : componentGenDesc.genClasses()) {
                     // System.out.println(genClass);
                     try {
-                        (new FileFactory(genClass, rfsGenConfig.getFeOutputPath(), templateFolder)).genFile(true);
+                        (new FileFactory(genClass)).genFile(true);
                         if (callback != null)
                             callback.gen();
                     } catch (Exception e) {

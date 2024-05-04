@@ -6,6 +6,8 @@ import React from "react";
 import BaseMainForm from "../base/BaseMainForm";
 import StudentListView from "./StudentListView";
 import StudentForm from "./StudentForm";
+import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
+import {enrolments, students} from "../common/Constants";
 // {{ view.submodule.imports }}
 
 const addressAPI = new BaseAPI("addresses", providers.axios);
@@ -62,10 +64,18 @@ class StudentMainView extends BaseMainForm {
     partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
   }
 
+  renderMenu() {
+    // create a getMenu() function
+    return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
+    )
+  }
+
   renderForm() {
     return <StudentForm {...this.props} {...this.state}
     handleStateChange={this.handleStateChange.bind(this)}
-    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })} />;
+    handleTypeChange={(e) => this.setState({ current: {...this.state.current, type: e.target.value} })}
+    mainForm={this}
+    />;
   }
 
   // renderSubmodules() {

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RestController()
 @RequestMapping(value = "/course-modules")
 @Generated(value = "jda.modules.mosar.software.backend.generators.SourceCodeWebControllerGenerator")
-public class CourseModuleController extends DefaultRestfulWithInheritanceController<org.jda.example.coursemanrestful.modules.coursemodule.model.CourseModule> {
+public class CourseModuleController extends DefaultRestfulWithInheritanceController<CourseModule> {
 
     @org.springframework.web.bind.annotation.GetMapping()
     public Page getEntityListByTypeAndPage(@org.springframework.web.bind.annotation.RequestParam(value = "type", required = false) String arg0, PagingModel arg1) {

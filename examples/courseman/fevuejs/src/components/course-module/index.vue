@@ -18,7 +18,7 @@
                     parent: this.parentData ? this.parentData.parent: "course-modules",
                     parentID: this.parentData ? this.parentData.parentID : 0,
                     courseModule: null
-                }
+                },
             }
         },
 

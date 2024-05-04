@@ -21,23 +21,22 @@ import org.jda.example.coursemanrestful.modules.studentclass.ModuleStudentClass;
 @RFSGenDesc(
 //        stackSpec = StackSpec.FS,      // Gen Fullstack
         // stackSpec = StackSpec.BE,   // Gen Backend only
-         stackSpec = StackSpec.FE,   // Gen Frontend only
-        execSpec = ExecSpec.Gen,
+         stackSpec = StackSpec.BE,   // Gen Frontend only
+//        execSpec = ExecSpec.Gen,
         genMode = GenerationMode.SOURCE_CODE,
-        fePlatform = FEPlatform.ANGULAR,
-        feOutputPath = "/data/projects/jda/examples/courseman/mosar/src/main/java/org/jda/example/coursemanrestful/frontend",
-        feProjPath = "", // deprecated
-        feProjName = "", // deprecated
-        feProjResource = "", // deprecated
-        feServerPort = 5000,  // deprecated
-        feAppClass = FEApp.class, // deprecated
-        feThreaded = true, // deprecated
         beLangPlatform = LangPlatform.SPRING,
-        bePackage = "org.jda.example.coursemanrestful.modules",
-        beOutputPath = "/data/projects/jda/examples/courseman/mosar/src/main/java",
-        beTargetPackage = "org.jda.example.coursemanrestful.backend"
-        , beAppClass = BESpringApp.class,
-        beServerPort = 8080  // default: 8080
+    feProjPath = "/home/ducmle/tmp/restfstool-fe",
+    feProjName = "fe-courseman",
+    feProjResource = "src/main/resources/react",
+    feOutputPath = "src/main/java/org/jda/example/coursemanrestful/frontend",
+    feServerPort = 5000,  // default: 3000
+    feAppClass= FEApp.class,
+    feThreaded = true,
+    bePackage = "org.jda.example.coursemanrestful.modules",
+    beOutputPath = "src/main/java",
+    beTargetPackage = "org.jda.example.coursemanrestful.backend"
+    ,beAppClass = BESpringApp.class,
+    beServerPort = 8080  // default: 8080
 )
 
 @SystemDesc(

@@ -2,6 +2,7 @@ package jda.modules.mosarfrontend.common.utils;
 
 import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.dcsl.syntax.DAttr;
+import jda.modules.mccl.syntax.InputTypes;
 import jda.modules.mccl.syntax.view.AttributeDesc;
 import lombok.Data;
 
@@ -70,5 +71,17 @@ public class DField {
 
     public void setLinkedField(DField linkedField) {
         this.linkedField = linkedField;
+    }
+
+    public InputTypes getInputType() {
+        if (this.getAttributeDesc() != null) {
+            return this.getAttributeDesc().inputType();
+        } else return InputTypes.Undefined;
+    }
+
+    public String getInputID() {
+        if (this.getAttributeDesc() != null && this.getAttributeDesc().id() != null)
+            return this.getAttributeDesc().id();
+        else return this.getDAttr().name();
     }
 }
