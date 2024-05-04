@@ -6,8 +6,10 @@ import React from "react";
 import BaseMainForm from "../base/BaseMainForm";
 import StudentListView from "./StudentListView";
 import StudentForm from "./StudentForm";
-import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
+import AccordionSearchableMenu from "../common/patterns/accordion";
 import {enrolments, students} from "../common/Constants";
+import AccordionFactory from "./patterns/accordion";
+import SearchFactory from "./patterns/search";
 // {{ view.submodule.imports }}
 
 const addressAPI = new BaseAPI("addresses", providers.axios);
@@ -64,11 +66,14 @@ class StudentMainView extends BaseMainForm {
     partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
   }
 
-  renderMenu() {
-    // create a getMenu() function
-    return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
-    )
-  }
+ // patterns
+ initPatterns() {
+  super.initPatterns();
+
+  this.consumers.push(AccordionFactory.createProviderConsumer({mainForm: this, name: this.props.structure ? "" : undefined, structure: this.props.structure}))
+
+  this.consumers.push(SearchFactory.createProviderConsumer({mainForm: this}))
+}
 
   renderForm() {
     return <StudentForm {...this.props} {...this.state}

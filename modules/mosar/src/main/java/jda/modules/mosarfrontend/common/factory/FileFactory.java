@@ -138,12 +138,13 @@ public class FileFactory {
                     Pattern regex = RegexUtils.createSlotRegex(slot.getSlotName());
                     Matcher subMatcher = regex.matcher(loopContent);
                     if (subMatcher.find()) {
-                        loopContent = subMatcher.replaceAll(slot.getSlotValue() != null ? slot.getSlotValue() : "");
+                        String value = Matcher.quoteReplacement(slot.getSlotValue() != null ? slot.getSlotValue() : "");
+                        loopContent = subMatcher.replaceAll(value);
                     }
                 }
                 replaceValue.append(loopContent);
             }
-            content = matcher.replaceAll(replaceValue.toString());
+            content = matcher.replaceAll(Matcher.quoteReplacement(replaceValue.toString()));
         }
         return content;
     }

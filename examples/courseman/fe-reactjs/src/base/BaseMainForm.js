@@ -9,15 +9,18 @@ import DeleteConfirmation from "../common/DeleteConfirmation";
 import constants from "../common/Constants";
 import { StompOverWSClient } from "../common/StompClient";
 import { CustomToast, ToastWrapper } from "../common/Toasts";
-import StructureConstructor  from "../patterns/accordion";
+import StructureConstructor  from "../common/patterns/accordion/accordion";
 
 import 'bootstrap/dist/css/bootstrap.css';
 
-import AutoCompleteSearch from "../common/AutoCompleteSearch";
+import AutoCompleteSearch from "../common/patterns/autosearch";
+import SearchConsumer from "../course-modules/patterns/search/SearchConsumer";
 
 export default class BaseMainForm extends React.Component {
   constructor(props) {
     super(props);
+    // ducmle: moved to initPatterns:
+    // this.consumers = Array()
     this.state = {
       current: {}, // list or single object
       viewType: props.viewType ? props.viewType : "create", // create | details | browse (list) | submodule
@@ -26,22 +29,18 @@ export default class BaseMainForm extends React.Component {
       readySubmit: false,
       inputState: {},
       subForms: Array(),
-      structure: this.props.name !== undefined && this.props.structure ? new StructureConstructor(this.props.name, this.props.structure) : new StructureConstructor("", [])
+      // structure: this.props.name !== undefined && this.props.structure ? new StructureConstructor(this.props.name, this.props.structure) : new StructureConstructor("", [])
     };
+
+    this.initPatterns()
 
     // method binding
     this.renderActionButtons = this.renderActionButtons.bind(this);
-    this.renderSubmodules = this.renderSubmodules.bind(this);
     this.renderNavigationButtons = this.renderNavigationButtons.bind(this);
-    this.renderSearchInput = this.renderSearchInput.bind(this);
     this.renderTopButtons = this.renderTopButtons.bind(this);
     this.renderObject = this.renderObject.bind(this);
     this._renderObject = this._renderObject.bind(this);
-    this.renderSearchInput = this.renderSearchInput.bind(this)
 
-
-    this.addSubForm = this.addSubForm.bind(this);
-    this.getSubForm = this.getSubForm.bind(this);
     this.setAlert = this.setAlert.bind(this);
     this.resetState = this.resetState.bind(this);
     this.filterByType = this.filterByType.bind(this);
@@ -77,39 +76,6 @@ export default class BaseMainForm extends React.Component {
         }
       }
     ]);
-  }
-
-  getSubFormIdFromTarget(id) {
-    return id.slice(0,id.lastIndexOf("-"))
-  }
-
-  addSubForm(subForm) {
-    const currentIndex = this.state.subForms.indexOf(subForm)
-    if(subForm && currentIndex === -1) {
-      this.state.subForms.push(subForm)
-    } else if (currentIndex !== -1) {
-      this.state.subForms[currentIndex] = subForm
-      console.log(currentIndex)
-      console.log(this.state.subForms)
-    }
-  }
-
-  getSubForm(subFormId) {
-    // size of state.subForms increase when switching between views -> should reset state.subForm somewhere
-    var res = Array()
-    for(var i = this.state.subForms.length - 1; i >= 0 ; i--) {
-      if(this.state.subForms[i].props.id === subFormId) {
-        res.push(this.state.subForms[i])
-        break
-      } else {
-        var subRes = this.state.subForms[i].getSubForm(subFormId)
-        if(subRes.length > 0) {
-          res.push(this.state.subForms[i], ...subRes)
-          break
-        }
-      }
-    }
-    return res
   }
 
   componentDidUpdate() {
@@ -169,9 +135,45 @@ export default class BaseMainForm extends React.Component {
     this.handleStateChange("current.readySubmit", newState, false)
   }
 
+  validate() {
+    var formValidated = true
+    var newInputState = this.state.inputState
+    var currentState = this.state.current
+    Object.entries(newInputState).forEach((val) => {
+      if(currentState[val[0]]) {
+        if(val[1].regex.test(currentState[val[0]])) {
+          if(val[1].validate !== true) {
+            val[1].validated = true
+            val[1].message = val[1].validMsg
+          }
+        } else {
+          if(val[1].validate !== false) {
+            val[1].validated = false
+            val[1].message = val[1].invalidMsg
+          }
+        }
+
+      } else {
+        val[1].validated = undefined
+      }
+      
+      if (val[1].optional) {
+        if (val[1].validated === false) {
+          if(formValidated) formValidated = false
+        }
+      } else {
+        if (val[1].validated === false || val[1].validated === undefined) {
+          if(formValidated) formValidated = false
+        }
+      }
+    })
+    this.handleStateChange("inputState", newInputState, false)
+    return formValidated
+  }
+
 
   handleSubmit() {
-    if(this.state.readySubmit) {
+    if(this.validate()) {
       const createUsing = this.getCreateHandler();
       const updateUsing = this.getUpdateHandler();
       if (this.state.viewType === "create"
@@ -209,7 +211,6 @@ export default class BaseMainForm extends React.Component {
           (result) => {
             newState["current"] = {...this.state.current};
             newState["current"][shortName] = result;
-            console.log(newState)
             this.setState(newState, onDone);
           },
           () => {
@@ -223,22 +224,33 @@ export default class BaseMainForm extends React.Component {
             if(result.content && result.content.constructor === Array) {
               newState[stateObjName] = result;
               newState["displayingContent"] = result.content;
+              // this.consumers.forEach(consumer=>{
+              //   if(consumer.name === "") {
+              //     consumer.actionUpdateContent(result.content) 
+              //   }
+              // })
+              this.onObjectRetrieved(result.content);
             } else {
               newState[stateObjName] = result;
             }
-            this.setState(newState, onDone); },
+            this.setState(newState, onDone);
+          },
           () => { newState[stateObjName] = ""; this.setState(newState, onDone); });
       }
     } else {
       this.setState(newState, onDone);
     }
   }
+
+
+
   handleDeepStateChange(outerName, innerName, newValue, needsApiCall, onDone) {
     let outer = this.state[outerName]; outer[innerName] = newValue;
     let newState = {}; newState[outerName] = outer;
     // ignoring `needsApiCall` for simplicity
     this.setState(newState, onDone);
   }
+
   renderObject(propPath) {
     const realPropPath = propPath.replace("Id", ".id");
     const keys = realPropPath.split(".");
@@ -268,7 +280,7 @@ export default class BaseMainForm extends React.Component {
     if (name === "current") {
       const className = this.constructor.name.replace("MainForm", "").replace("MainView", "");
       const propName = className.charAt(0).toLowerCase() + className.substring(1);
-      if (this.props.parent && (!id || id === "")) {
+      if (this.props.parent && (!id || id === "") && this.props.parentId) {
         return this.props.parentAPI.getAllInner([
           this.props.thisNamePlural, this.props.parentId, onSuccess, onFailure]);
       }
@@ -285,12 +297,21 @@ export default class BaseMainForm extends React.Component {
     }
   }
 
+  onObjectRetrieved(content) {
+    // patterns
+    this.consumers.forEach(consumer=>{
+      if(consumer.name === "") {
+        consumer.actionUpdateContent(content) 
+      }
+    })
+  }
+
   updateCurrentObjectState(evt) {
     this.setState({ currentId: evt.target.value },
       function () {
         this.handleStateChange("currentId", this.state.currentId, true,
           function () {
-            if (this.state.currentId && this.state.current !== {}
+            if (this.state.currentId && this.state.current
                 && !(this.state.current instanceof Array)) {
               this.handleStateChange("viewType", "details");
             } else {
@@ -358,21 +379,12 @@ export default class BaseMainForm extends React.Component {
     // this.setAlert("danger", "Failure", "Operation failed!" + reason);
   }
 
-  setListFromPage(page) {
-    this.setState({
-      list: page.content
-    });
-  }
-
   partialApplyWithCallbacks(func) {
     return args => {
       const oldArgs = args ? args : [];
       return func([...oldArgs, this.onOperationSuccess, this.onOperationFailed]);
     }
   }
-
-  // base methods for drawing view
-  renderSubmodules() { }
 
   renderNavigationButtons() {
     return (<>
@@ -405,22 +417,9 @@ export default class BaseMainForm extends React.Component {
   }
 
   getSearchFields() {
-    return []
+    return ["name"]
   }
 
-  renderSearchInput() {
-    return (<>
-      <Form.Group>
-        <AutoCompleteSearch
-            id="search"
-            getSearchLabel={this.getSearchLabel}
-            getSearchFields={this.getSearchFields}
-            source={this.state.current.content ? this.state.current.content : []}
-            handleStateChange={this.handleStateChange}
-        />
-      </Form.Group>
-    </>);
-  }
   renderTypeDropdown() {
     const possibleTypes = this.getPossibleTypes();
     return (<>
@@ -433,6 +432,7 @@ export default class BaseMainForm extends React.Component {
         </Form.Control> : ""}
     </>);
   }
+
   renderTopButtons() {
     return (<>
       <Row className="mx-0 d-flex justify-content-between">
@@ -441,37 +441,56 @@ export default class BaseMainForm extends React.Component {
           <Form className="d-flex justify-content-between">
             {this.renderTypeDropdown()}
             {this.renderIdInput()}
-            {this.renderSearchInput()}
+            {this.renderTopButtonsExt()}
           </Form>
         </Col>
       </Row>
     </>);
   }
+
+  // Region: top buttons extension
+  renderTopButtonsExt() {
+    // patterns
+    return this.consumers.map((consumer)=>(
+      <>{consumer.onRenderRegion("searchbox")}</>
+    ))
+  }
+  
+  // Region: LHSMenu
+  onRenderLHSMenu(){
+    if (this.props.includeMenu === false || (this.state.viewType !== "create" && this.state.viewType !== "details")) {
+      return <></>
+    } else {
+    // patterns
+    return <>
+      <Col md={2}>
+        {this.consumers.map((consumer)=>(
+          <>{consumer.onRenderRegion("menu", this)}</>
+        ))}
+      </Col></>
+    }
+  }
+
   renderActionButtons() {
     return (<>
     <Row className="d-flex justify-content-end mx-0">
       <Col md={9} />
-      <Button variant="secondary" onClick={this.resetState}>Reset</Button>
-      <Button className="ml-2" onClick={this.handleSubmit}>Save</Button>
+      <Button variant="secondary" style={{width: "80px"}} onClick={this.resetState}>Reset</Button>
+      <Button className="ml-2" style={{width: "80px"}} onClick={this.handleSubmit}>Save</Button>
     </Row>
     </>);
   }
 
-  renderMenu() {
-
+  // Each subtype to invoke super.initPatterns first, then write its own code to initiate the patterns
+  initPatterns() {
+    this.consumers = Array()
   }
 
   render() {
     return (<>
       <Row>
-        {this.props.includeMenu === false || this.state.viewType !== "create" ?
-            <></>
-        :
-            <Col md={2}>
-              {this.renderMenu()}
-            </Col>
-        }
-        <Col>
+        {this.onRenderLHSMenu()}
+        <Col md={this.props.includeMenu === false || (this.state.viewType !== "create" && this.state.viewType !== "details") ? 12 : 10}>
           <Container className="border py-4">
             {this.state.alert ? this.state.alert : ""}
             {this.state.notifications && this.state.notifications.length > 0 ?
@@ -485,8 +504,6 @@ export default class BaseMainForm extends React.Component {
             }
             <br />
             {this.state.viewType === "browse" ? this.renderListView() : this.renderForm()}
-            <br />
-            {this.state.viewType === "browse" ? "" : this.renderSubmodules()}
             <br />
             {this.state.viewType === "browse" ? "" : this.renderActionButtons()}
           </Container>

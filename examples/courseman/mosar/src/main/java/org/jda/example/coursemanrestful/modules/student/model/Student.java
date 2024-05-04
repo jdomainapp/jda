@@ -57,8 +57,8 @@ public class Student implements Subscriber, Publisher {
 
     // attributes of students
     @DAttr(name = A_id, id = true, type = Type.String, auto = true, length = 6,
-            mutable = false, optional = false)
-    private String id;
+            mutable = false, optional = false, searchKey = true)
+    private final String id;
     //static variable to keep track of student id
     private static int idCounter = 0;
 
@@ -439,11 +439,8 @@ public class Student implements Subscriber, Publisher {
             return false;
         Student other = (Student) obj;
         if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+          return other.id == null;
+        } else return id.equals(other.id);
     }
 
     // automatically generate the next student id
@@ -558,7 +555,7 @@ public class Student implements Subscriber, Publisher {
      * @effects notify register all registered listeners
      */
     @Override
-    public void finalize() throws Throwable {
+    protected void finalize() throws Throwable {
         notify(CMEventType.OnRemoved, getEventSource());
     }
 }

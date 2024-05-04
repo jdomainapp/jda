@@ -1,0 +1,17 @@
+import { PatternProvider } from "src/app/modules/base/pattern/pattern.provider"
+import { ViewRegionComponent } from "../../pattern/view-region";
+
+export class AutoSearchProvider extends PatternProvider {
+    
+    override onRenderRegion(region: ViewRegionComponent, data?: {}): void {
+        switch (region.name) {
+            case "searchbox":
+                return this.pattern.render(region);
+        }
+    }
+
+    override onModelRegion(region: string, data?: {}): void {
+        throw new Error("Method not supported.");
+    }
+    
+}

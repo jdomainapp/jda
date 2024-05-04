@@ -6,9 +6,8 @@ import React from "react";
 import BaseMainForm from "../base/BaseMainForm";
 import StudentClassListView from "./StudentClassListView";
 import StudentClassForm from "./StudentClassForm";
-import {enrolments, studentClasses} from "../common/Constants";
-import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
-import StructureConstructor from "../patterns/accordion";
+import AccordionFactory from "./patterns/accordion";
+import SearchFactory from "./patterns/search";
 // {{ view.submodule.imports }}
 
 const studentAPI = new BaseAPI("students", providers.axios);
@@ -52,10 +51,15 @@ class StudentClassMainView extends BaseMainForm {
     );
   }
 
-  renderMenu() {
-    return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
-    )
-  }
+  
+ // patterns
+ initPatterns() {
+  super.initPatterns();
+
+  this.consumers.push(AccordionFactory.createProviderConsumer({mainForm: this, name: this.props.structure ? "" : undefined, structure: this.props.structure}))
+
+  this.consumers.push(SearchFactory.createProviderConsumer({mainForm: this}))
+}
 
   renderListView() {
     return <StudentClassListView {...this.props} {...this.state}

@@ -1,49 +1,59 @@
 <form v-on:submit.prevent="onSubmit">
-    
-    
-<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('id')">
-    <div class="form-group" >
-        <label class="form-label">ID</label>
-        <input disabled type="number" class="form-control" v-model="address.id">
-    </div>
-    <br>
-</div>
-<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('name')">
-    <div class="form-group" >
-        <label class="form-label">City name</label>
-        <input  type="text" class="form-control" v-model="address.name">
-    </div>
-    <br>
-</div>
-    
-    
-<div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('student')">
-    <div class="d-flex flex-wrap justify-content-between align-items-end form-group" >
-        <div class="px-0 col-md-2.5">
-            <label class="form-label">Student ID</label>
-            <input type="text" class="form-control" v-model="studentId" v-on:change="getStudentById">
+    <div v-if="hidFields('id')">
+        <div class="form-group">
+            <label class="form-label" :id="tree.observableTree[0].id">{{tree.observableTree[0].name}}</label>
+            <input disabled type="number" class="form-control" v-model="address.id" title="ID" />
         </div>
-        <div class="px-0 col-md-7">
-            <label class="form-label">Student</label>
-            <input disabled type="text" class="form-control" v-bind:value="studentQuickView">
+        <br />
+    </div>
+    <div v-if="hidFields('name')">
+        <div class="form-group">
+            <label class="form-label" :id="tree.observableTree[1].id">{{tree.observableTree[1].name}}</label>
+            <input type="text" class="form-control" v-model="address.name" title="City name" />
         </div>
-    <button type="button" class="btn btn-outline-danger" v-on:click="unlinkStudent">Unlink</button>
-    <button type="button" class="btn btn-outline-secondary" v-on:click="formSubModuleStudentSeen = !formSubModuleStudentSeen">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-        </svg>
-    </button>
+        <br />
     </div>
-    <div class="form-group" v-if="formSubModuleStudentSeen">
-        <form-sub-module-student v-bind:parentData="dataSubForm"></form-sub-module-student>
+
+    <div v-if="hidFields('student')">
+        <div class="
+                d-flex
+                flex-wrap
+                justify-content-between
+                align-items-end
+                form-group
+            ">
+            <div class="px-0 col-md-2.5">
+                <label class="form-label" :id="tree.observableTree[2].id">{{tree.observableTree[2].name}}</label>
+                <input type="text" class="form-control" v-model="studentId" v-on:change="getStudentById"
+                    title="Student ID" />
+            </div>
+            <div class="px-0 col-md-7">
+                <label class="form-label" :id="tree.observableTree[3].id">{{tree.observableTree[3].name}}</label>
+                <input disabled type="text" class="form-control" v-bind:value="studentQuickView" title="Student" />
+            </div>
+            <button type="button" class="btn btn-outline-danger" v-on:click="unlinkStudent">
+                Unlink
+            </button>
+            <button type="button" class="btn btn-outline-secondary"
+                v-on:click="formSubModuleStudentSeen = !formSubModuleStudentSeen" title="Show/Hide">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-chevron-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                </svg>
+            </button>
+        </div>
+        <div class="form-group" v-if="formSubModuleStudentSeen">
+            <form-sub-module-student v-bind:parentData="dataSubForm"
+                v-bind:parentID="tree.observableTree[3].id"></form-sub-module-student>
+        </div>
+        <br />
     </div>
-    <br>
-</div>
-    
+
     <div class="d-flex justify-content-end mx-0 row">
         <div class="col-md-9"></div>
         <button type="button" class="btn btn-secondary">Reset</button>
-        <button class="ml-2 btn btn-primary">Save</button>
+        <button type="submit" class="ml-2 btn btn-primary">Save</button>
     </div>
     <Toasts></Toasts>
 </form>

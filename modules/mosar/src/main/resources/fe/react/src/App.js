@@ -3,10 +3,8 @@ import {Col, Container, Row} from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navigation from './common/Navigation';
 @loop{importDomainModule}[[
-import {@slot{{moduleName}}Struct} from "./@slot{{moduleJnames}}/patterns/AccordionStruct"
 import Module@slot{{ModuleName}} from './@slot{{moduleJnames}}']]loop{importDomainModule}@
-import AccordionSearchableMenu from "./common/AccordionSearchableMenu";
-
+import StructureConstructor from './common/patterns/accordion/accordion';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -32,11 +30,11 @@ export default class App extends React.Component {
     return (<>
         <Router>
           <Navigation appName={this.getAppName()}
-                      modules={this.getModules()} />
+                      modules={new StructureConstructor("",this.getModules())} />
           <br />
           <Container>
             <Switch>@loop{moduleRoutes}[[
-              <Route path='/@slot{{moduleJnames}}'><Module@slot{{ModuleName}} name="@slot{{moduleNames}}" structure={@slot{{moduleName}}Struct} title='Manage @slot{{Module__names}}' /></Route>]]loop{moduleRoutes}@
+              <Route path='/@slot{{moduleJnames}}'><Module@slot{{ModuleName}} title='Manage @slot{{Module__names}}' /></Route>]]loop{moduleRoutes}@
               <Route path='/'>
                 <h3 className="text-center">{this.getWelcomeMessage()}</h3>
                 <br />

@@ -6,18 +6,18 @@ import React from "react";
 import BaseMainForm from "../base/BaseMainForm";
 import CourseModuleListView from "./CourseModuleListView";
 import CourseModuleForm from "./CourseModuleForm";
-import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
-import {courseModules} from "../common/Constants";
+
+import AccordionFactory from "./patterns/accordion";
+import SearchFactory from "./patterns/search";
 // {{ view.submodule.imports }}
 
 const courseModuleAPI = new BaseAPI("course-modules", providers.axios);
-
 
 export default function CourseModuleModule(props) {
   return <CourseModuleMainView
     mainAPI={courseModuleAPI}
     
-courseModuleAPI={courseModuleAPI}
+    courseModuleAPI={courseModuleAPI}
     {...props}
   />
 }
@@ -62,13 +62,18 @@ class CourseModuleMainView extends BaseMainForm {
     return <CourseModuleListView {...this.props} {...this.state}
     changeToDetailsView={() => this.handleStateChange("viewType", "details")}
     handleStateChange={this.handleStateChange}
-    partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
+    partialApplyWithCallbacks={this.partialApplyWithCallbacks} 
+    mainForm={this}/>
   }
 
-  renderMenu() {
-    return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
-    )
-  }
+ // patterns
+ initPatterns() {
+  super.initPatterns();
+
+  this.consumers.push(AccordionFactory.createProviderConsumer({mainForm: this, name: this.props.structure ? "" : undefined, structure: this.props.structure}))
+
+  this.consumers.push(SearchFactory.createProviderConsumer({mainForm: this}))
+}
 
   renderForm() {
     return <CourseModuleForm {...this.props} {...this.state}

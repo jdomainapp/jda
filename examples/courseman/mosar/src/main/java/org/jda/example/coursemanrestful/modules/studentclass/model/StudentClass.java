@@ -38,11 +38,11 @@ import jda.util.events.ChangeEventSource;
 @DClass(schema="courseman")
 public class StudentClass implements Subscriber {
     @DAttr(name="id",id=true,auto=true,length=6,mutable=false,type=Type.Integer)
-    private int id;
+    private final int id;
     private static int idCounter;
 
     // candidate identifier
-    @DAttr(name="name",length=20,type=Type.String,optional=false, cid=true)
+    @DAttr(name="name",length=20,type=Type.String,optional=false, cid=true, searchKey = true)
     private String name;
 
     @DAttr(name="students",type=Type.Collection,
@@ -207,9 +207,7 @@ public class StudentClass implements Subscriber {
         if (getClass() != obj.getClass())
             return false;
         StudentClass other = (StudentClass) obj;
-        if (id != other.id)
-            return false;
-        return true;
+      return id == other.id;
     }
 
     private static int nextID(Integer currID) {

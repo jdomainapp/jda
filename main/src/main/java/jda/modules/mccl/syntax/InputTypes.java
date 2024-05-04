@@ -5,5 +5,7 @@ public enum InputTypes {
     DateRangeEnd,
     Rating,
     Password,
+    TextArea,
+    Slider,
     Undefined
 }

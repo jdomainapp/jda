@@ -45,10 +45,10 @@ public class Address implements Subscriber, Publisher {
     public static final String A_name = "name";
 
     @DAttr(name = "id", id = true, auto = true, length = 3, mutable = false, optional = false, type = Type.Integer)
-    private int id;
+    private final int id;
     private static int idCounter;
 
-    @DAttr(name = A_name, type = Type.String, length = 20, optional = false)
+    @DAttr(name = A_name, type = Type.String, length = 20, optional = false, searchKey = true)
     private String name;
 
     @DAttr(name = "student", type = Type.Domain, serialisable = false)
@@ -185,7 +185,7 @@ public class Address implements Subscriber, Publisher {
      * @effects notify register all registered listeners
      */
     @Override
-    public void finalize() throws Throwable {
+    protected void finalize() throws Throwable {
         notify(CMEventType.OnRemoved, getEventSource());
     }
 

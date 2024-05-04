@@ -1,4 +1,4 @@
-<table class="table table-bordered table-hover">
+<!-- <table class="table table-bordered table-hover">
     <thead>
         <tr>
             <th>#</th>
@@ -12,25 +12,70 @@
         </tr>
     </thead>
     <tbody>
-        <tr style="cursor: pointer;" v-for="(courseModule, index) in courseModules" v-if="courseModules"
-            :key="courseModule.id">
-            <td style="vertical-align: middle;">{{index + 1}}</td>
-            <td style="vertical-align: middle;">{{courseModule.id}}</td>
-            <td style="vertical-align: middle;">{{courseModule.code}}</td>
-            <td style="vertical-align: middle;">{{courseModule.name}}</td>
-            <td style="vertical-align: middle;">{{courseModule.semester}}</td>
-            <td style="vertical-align: middle;">{{courseModule.credits}}</td>
-            <td style="vertical-align: middle; width: 200px;">
-                <button class="btn btn-primary" v-on:click="emitData(courseModule)">
+        <tr
+            style="cursor: pointer"
+            v-for="(courseModule, index) in courseModules"
+            v-if="courseModules"
+            :key="courseModule.id"
+        >
+            <td style="vertical-align: middle">{{index + 1}}</td>
+            <td style="vertical-align: middle">{{courseModule.id}}</td>
+            <td style="vertical-align: middle">{{courseModule.code}}</td>
+            <td style="vertical-align: middle">{{courseModule.name}}</td>
+            <td style="vertical-align: middle">{{courseModule.semester}}</td>
+            <td style="vertical-align: middle">{{courseModule.credits}}</td>
+            <td style="vertical-align: middle; width: 200px">
+                <button
+                    class="btn btn-primary"
+                    v-on:click="emitData(courseModule)"
+                >
                     Edit
                 </button>
-                <a class="btn btn-danger" data-target="#myModal" v-on:click="getCourseModuleId(courseModule.id)"
-                    data-toggle="modal">
+                <a
+                    class="btn btn-danger"
+                    data-target="#myModal"
+                    v-on:click="getCourseModuleId(courseModule.id)"
+                    data-toggle="modal"
+                >
                     Delete
                 </a>
             </td>
         </tr>
     </tbody>
     <Toasts></Toasts>
+    <modal-confirm
+        @confirm="deleteCourseModule(courseModuleId)"
+    ></modal-confirm>
+</table> -->
+
+<div class="overflow-auto">
+    <b-table id="table-list" :items="filterResults" :per-page="page.perPage" :current-page="page.currentPage"
+        :fields="page.fields" responsive class="table table-bordered table-hover""
+    >
+        <template #cell(#)=" row">
+        {{(page.currentPage - 1) * page.perPage + row.index + 1}}
+        </template>
+        <template #cell(action)="row">
+            <button class="btn btn-primary" v-on:click="emitData(row.item)">
+                Edit
+            </button>
+            <a class="btn btn-danger" data-target="#myModal" v-on:click="getCourseModuleId(row.item.id)"
+                data-toggle="modal">
+                Delete
+            </a>
+        </template>
+    </b-table>
+
+    <div class="float-left">
+        <b-pagination v-model="page.currentPage" :total-rows="rows" :per-page="page.perPage" first-text="First"
+            prev-text="Prev" next-text="Next" last-text="Last" aria-controls="table-list">
+        </b-pagination>
+    </div>
+
+    <div class="float-right">
+        <b-form-select v-model="page.perPage" :options="page.options" class="mb-3"></b-form-select>
+    </div>
+
+    <Toasts></Toasts>
     <modal-confirm @confirm="deleteCourseModule(courseModuleId)"></modal-confirm>
-</table>
+</div>

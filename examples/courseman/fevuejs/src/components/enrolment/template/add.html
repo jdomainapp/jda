@@ -1,54 +1,62 @@
 <form v-on:submit.prevent="onSubmit">
+    <div v-if="hidFields('id')">
+        <div class="form-group">
+            <label class="form-label" :id="tree.observableTree[0].id">{{tree.observableTree[0].name}}</label>
+            <input disabled type="number" class="form-control" v-model="enrolment.id" title="Id" />
+        </div>
+        <br />
+    </div>
+    <div v-if="hidFields('internalMark')">
+        <div class="form-group">
+            <label class="form-label" :id="tree.observableTree[1].id">{{tree.observableTree[1].name}}</label>
+            <input type="number" class="form-control" v-model="enrolment.internalMark" title="Internal Mark" />
+        </div>
+        <br />
+    </div>
+    <div v-if="hidFields('examMark')">
+        <div class="form-group">
+            <label class="form-label" :id="tree.observableTree[2].id">{{tree.observableTree[2].name}}</label>
+            <input type="number" class="form-control" v-model="enrolment.examMark" title="Exam Mark" />
+        </div>
+        <br />
+    </div>
+    <div v-if="hidFields('finalGrade')">
+        <div class="form-group">
+            <label class="form-label" :id="tree.observableTree[3].id">{{tree.observableTree[3].name}}</label>
+            <input disabled type="text" class="form-control" v-model="enrolment.finalGrade" title="Final Grade" />
+        </div>
+        <br />
+    </div>
+    <div v-if="hidFields('finalMark')">
+        <div class="form-group">
+            <label class="form-label" :id="tree.observableTree[4].id">{{tree.observableTree[4].name}}</label>
+            <input disabled type="number" class="form-control" v-model="enrolment.finalMark" title="Final mark" />
+        </div>
+        <br />
+    </div>
 
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('id')">
-        <div class="form-group">
-            <label class="form-label">Id</label>
-            <input disabled type="number" class="form-control" v-model="enrolment.id">
-        </div>
-        <br>
-    </div>
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('internalMark')">
-        <div class="form-group">
-            <label class="form-label">Internal Mark</label>
-            <input type="number" class="form-control" v-model="enrolment.internalMark">
-        </div>
-        <br>
-    </div>
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('examMark')">
-        <div class="form-group">
-            <label class="form-label">Exam Mark</label>
-            <input type="number" class="form-control" v-model="enrolment.examMark">
-        </div>
-        <br>
-    </div>
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('finalGrade')">
-        <div class="form-group">
-            <label class="form-label">Final Grade</label>
-            <input disabled type="text" class="form-control" v-model="enrolment.finalGrade">
-        </div>
-        <br>
-    </div>
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('finalMark')">
-        <div class="form-group">
-            <label class="form-label">Final mark</label>
-            <input disabled type="number" class="form-control" v-model="enrolment.finalMark">
-        </div>
-        <br>
-    </div>
-
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('student')">
-        <div class="d-flex flex-wrap justify-content-between align-items-end form-group">
+    <div v-if="hidFields('student')">
+        <div class="
+                d-flex
+                flex-wrap
+                justify-content-between
+                align-items-end
+                form-group
+            ">
             <div class="px-0 col-md-2.5">
-                <label class="form-label">Student ID</label>
-                <input type="text" class="form-control" v-model="studentId" v-on:change="getStudentById">
+                <label class="form-label" :id="tree.observableTree[5].id">{{tree.observableTree[5].name}}</label>
+                <input type="text" class="form-control" v-model="studentId" v-on:change="getStudentById"
+                    title="Student ID" />
             </div>
             <div class="px-0 col-md-7">
-                <label class="form-label">Student</label>
-                <input disabled type="text" class="form-control" v-bind:value="studentQuickView">
+                <label class="form-label" :id="tree.observableTree[6].id">{{tree.observableTree[6].name}}</label>
+                <input disabled type="text" class="form-control" v-bind:value="studentQuickView" title="Student" />
             </div>
-            <button type="button" class="btn btn-outline-danger" v-on:click="unlinkStudent">Unlink</button>
+            <button type="button" class="btn btn-outline-danger" v-on:click="unlinkStudent">
+                Unlink
+            </button>
             <button type="button" class="btn btn-outline-secondary"
-                v-on:click="formSubModuleStudentSeen = !formSubModuleStudentSeen">
+                v-on:click="formSubModuleStudentSeen = !formSubModuleStudentSeen" title="Search">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-chevron-down" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -57,24 +65,35 @@
             </button>
         </div>
         <div class="form-group" v-if="formSubModuleStudentSeen">
-            <form-sub-module-student v-bind:parentData="dataSubForm"></form-sub-module-student>
+            <form-sub-module-student v-bind:parentData="dataSubForm"
+                v-bind:parentID="tree.observableTree[6].id"></form-sub-module-student>
         </div>
-        <br>
+        <br />
     </div>
 
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('courseModule')">
-        <div class="d-flex flex-wrap justify-content-between align-items-end form-group">
+    <div v-if="hidFields('courseModule')">
+        <div class="
+                d-flex
+                flex-wrap
+                justify-content-between
+                align-items-end
+                form-group
+            ">
             <div class="px-0 col-md-2.5">
-                <label class="form-label">Course module ID</label>
-                <input type="text" class="form-control" v-model="courseModuleId" v-on:change="getCourseModuleById">
+                <label class="form-label" :id="tree.observableTree[7].id">{{tree.observableTree[7].name}}</label>
+                <input type="text" class="form-control" v-model="courseModuleId" v-on:change="getCourseModuleById"
+                    title="Course module ID" />
             </div>
             <div class="px-0 col-md-7">
-                <label class="form-label">Course module</label>
-                <input disabled type="text" class="form-control" v-bind:value="courseModuleQuickView">
+                <label class="form-label" :id="tree.observableTree[8].id">{{tree.observableTree[8].name}}</label>
+                <input disabled type="text" class="form-control" v-bind:value="courseModuleQuickView"
+                    title="Course module" />
             </div>
-            <button type="button" class="btn btn-outline-danger" v-on:click="unlinkCourseModule">Unlink</button>
+            <button type="button" class="btn btn-outline-danger" v-on:click="unlinkCourseModule">
+                Unlink
+            </button>
             <button type="button" class="btn btn-outline-secondary"
-                v-on:click="formSubModuleCourseModuleSeen = !formSubModuleCourseModuleSeen">
+                v-on:click="formSubModuleCourseModuleSeen = !formSubModuleCourseModuleSeen" title="Search">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-chevron-down" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -83,15 +102,16 @@
             </button>
         </div>
         <div class="form-group" v-if="formSubModuleCourseModuleSeen">
-            <form-sub-module-course-module v-bind:parentData="dataSubForm"></form-sub-module-course-module>
+            <form-sub-module-course-module v-bind:parentData="dataSubForm"
+                v-bind:parentID="tree.observableTree[8].id"></form-sub-module-course-module>
         </div>
-        <br>
+        <br />
     </div>
 
     <!-- Date range of enrolment  -->
-    <div v-if="!parentData || !parentData.hidFields || !parentData.hidFields.includes('dateRange')">
+    <div v-if="hidFields('dateRange')">
         <div class="form-group">
-            <label class="form-label">Enrolment Date Range</label>
+            <label class="form-label" :id="tree.observableTree[9].id">{{tree.observableTree[9].name}}</label>
             <div>
                 <date-range-picker ref="picker" v-model="dateRange">
                     <template v-slot:input="picker">
@@ -99,21 +119,20 @@
                             Select date range for enrolment
                         </span>
                         <span v-else>
-                             <!-- {{ dateRange.startDate | formatDate('DD/MM/YYYY')}}  - {{dateRange.endDate | formatDate('DD/MM/YYYY') }} -->
-                            {{ formatDate(dateRange.startDate, "DD/MM/YYYY")}} - {{ formatDate(dateRange.endDate, "DD/MM/YYYY")}}
-                            </span>
+                            <!-- {{ dateRange.startDate | formatDate('DD/MM/YYYY')}}  - {{dateRange.endDate | formatDate('DD/MM/YYYY') }} -->
+                            {{ formatDate(dateRange.startDate, "DD/MM/YYYY")}} -
+                            {{ formatDate(dateRange.endDate, "DD/MM/YYYY")}}
+                        </span>
                     </template>
                 </date-range-picker>
             </div>
-
         </div>
     </div>
-
 
     <div class="d-flex justify-content-end mx-0 row">
         <div class="col-md-9"></div>
         <button type="button" class="btn btn-secondary">Reset</button>
-        <button class="ml-2 btn btn-primary">Save</button>
+        <button type="submit" class="ml-2 btn btn-primary">Save</button>
     </div>
     <Toasts></Toasts>
 </form>

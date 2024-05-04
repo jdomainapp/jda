@@ -73,6 +73,18 @@ public class CRUDStudent extends CRUDTestMaster<Student> {
             new Student(randName(), randGender(), randDob(), any(Address.class), randEmail()),
             new Student(randName(), randGender(), randDob(), any(Address.class), randEmail()),
             new Student(randName(), randGender(), randDob(), any(Address.class), randEmail()),
+            new Student(randName(), randGender(), randDob(), any(Address.class), randEmail()),
+            new Student(randName(), randGender(), randDob(), any(Address.class), randEmail()),
+            new Student(randName(), randGender(), randDob(), any(Address.class), randEmail()),
+            new Student(randName(), randGender(), randDob(), any(Address.class), randEmail()),
+            new Student(randName(), randGender(), randDob(), any(Address.class), randEmail()),
+            new Student(randName(), randGender(), randDob(), any(Address.class), randEmail()),
+            new Student(randName(), randGender(), randDob(), any(Address.class), randEmail()),
+            new Student(randName(), randGender(), randDob(), any(Address.class), randEmail()),
+            new Student(randName(), randGender(), randDob(), any(Address.class), randEmail()),
+            new Student(randName(), randGender(), randDob(), any(Address.class), randEmail()),
+            new Student(randName(), randGender(), randDob(), any(Address.class), randEmail()),
+            new Student(randName(), randGender(), randDob(), any(Address.class), randEmail()),
         };
 
         getSw().createObjects(Student.class, Arrays.asList(objs));

@@ -6,7 +6,11 @@ import jda.modules.mosarfrontend.reactjs.src.modules.FormGen;
 import jda.modules.mosarfrontend.reactjs.src.modules.ListViewGen;
 import jda.modules.mosarfrontend.reactjs.src.modules.SubmoduleGen;
 import jda.modules.mosarfrontend.reactjs.src.modules.indexGen;
-import jda.modules.mosarfrontend.reactjs.src.modules.patterns.AccordionStructGen;
+import jda.modules.mosarfrontend.reactjs.src.modules.patterns.accordion.AccordionIndexGen;
+import jda.modules.mosarfrontend.reactjs.src.modules.patterns.accordion.MenuStateGen;
+import jda.modules.mosarfrontend.reactjs.src.modules.patterns.model.ModelGen;
+import jda.modules.mosarfrontend.reactjs.src.modules.patterns.search.SearchConsumerGen;
+import jda.modules.mosarfrontend.reactjs.src.modules.patterns.search.SearchIndexGen;
 
 @AppTemplateDesc(
         resource = "fe/react/resources_f59.zip",
@@ -33,10 +37,10 @@ import jda.modules.mosarfrontend.reactjs.src.modules.patterns.AccordionStructGen
                         genClasses = {indexGen.class}
                 ),
                 Entity = @ComponentGenDesc(
-                        genClasses = {}
+                        genClasses = {ModelGen.class}
                 ),
                 Ext = @ComponentGenDesc(
-                        genClasses = {AccordionStructGen.class}
+                        genClasses = {MenuStateGen.class, AccordionIndexGen.class, SearchIndexGen.class, SearchConsumerGen.class}
                 )
         ),
         moduleFieldTemplates = @ModuleFieldTemplateDesc(

@@ -17,8 +17,8 @@ export default class Enrolment {
         this.examMark = examMark;
         this.finalGrade = finalGrade;
         this.finalMark = finalMark;
-        this.startDate = startDate
-        this.endDate = endDate
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     setStudent(student) {

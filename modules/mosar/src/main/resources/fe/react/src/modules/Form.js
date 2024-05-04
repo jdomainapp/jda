@@ -12,10 +12,8 @@ import BaseForm from "../base/BaseForm";
 import @slot{{LinkedDomain}}Submodule from "./@slot{{LinkedDomain}}Submodule";]]loop{importLinkedSubmodules}@
 
 @if{hasDateRange3}((
-const RangeIDMap={@loop{rangeIDMap}[[
-    @slot{{rangeID}}:{start: '@slot{{startField}}', end:'@slot{{endField}}'}
-    ]]loop{rangeIDMap}@
-}
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 ))if{hasDateRange3}@
 
 export default class @slot{{ModuleName}}Form extends BaseForm {
@@ -25,94 +23,76 @@ export default class @slot{{ModuleName}}Form extends BaseForm {
       ...this.state @if{hasDateRange}((,
       @loop{dateRangeStates}[[@slot{{rangeID}}:
         [{
-            startDate: new Date(),
-            endDate: addDays(new Date(),7),
+            @slot{{startField}}: new Date(),
+            @slot{{endField}}: addDays(new Date(),7),
             key: 'selection'
         }]
       ]]loop{dateRangeStates}@
       ))if{hasDateRange}@
     };
-    @if{haveSubType2}((
-    this.renderBaseForm = this.renderBaseForm.bind(this)
-    this.renderTypeSelect = this.renderTypeSelect.bind(this)
-    this.renderInputsByType = this.renderInputsByType.bind(this)
-    ))if{haveSubType2}@
   }
 
-  @if{hasDateRange2}((
-  async handleDateRangeSelect(ranges, rangeID) {
-    this.props.handleStateChange(`current.\${RangeIDMap[rangeID].start}`, format(ranges.selection.startDate,'yyyy-MM-dd'), false)
-    this.props.handleStateChange(`current.\${RangeIDMap[rangeID].end}`, format(ranges.selection.endDate,'yyyy-MM-dd'), false)
+@if{hasTextAreaInput}((
+  expand(e, inputID) {
+    e.preventDefault()
+    var coll = document.getElementById(inputID);
+    if (coll.style.maxHeight != "0px") {
+      coll.style.maxHeight = "0px";
+    } else {
+      coll.style.maxHeight = coll.scrollHeight + "px";
+    }
   }
-  ))if{hasDateRange2}@
+))if{hasTextAreaInput}@
+
+  getInputState() {
+    return {
+        @loop{validations}[[
+            @slot{{fieldName}}: {
+                    optional: @slot{{isOptional}},
+                    validated: undefined,
+                    message: "",
+                    regex: @slot{{regex}},
+                    validMsg: "@slot{{validMsg}}",
+                    invalidMsg: "@slot{{invalidMsg}}"
+                  },
+        ]]loop{validations}@
+    }
+  }
+
+@if{hasDateRange2}((
+@loop{dateRangeSelectHandler}[[
+  async handle_select_@slot{{rangeID}}(ranges) {
+    this.props.handleStateChange("current.@slot{{startField}}", format(ranges.selection.startDate,'yyyy-MM-dd'), false)
+    this.props.handleStateChange("current.@slot{{endField}}", format(ranges.selection.endDate,'yyyy-MM-dd'), false)
+  }
+]]loop{dateRangeSelectHandler}@
+))if{hasDateRange2}@
 
   renderTitle() {
     return (<>
       Form: @slot{{ModuleName}}
     </>);
   }
-
-  render@slot{{formBase}}Form() {
-    return (
-      <>@loop{formInputs}[[
-        @slot{{inputCode}}]]loop{formInputs}@
-        @loop{formLinkedInputs}[[
-        @slot{{AssocWithSideOne}}
-        @slot{{AssocWithSideMany}}
-        ]]loop{formLinkedInputs}@
-      </>);
-  }
-  @if{haveSubType}((
-  renderTypeSelect(){
-    return (
-    <FormGroup>
-        <Form.Label>Type</Form.Label>
-        <Form.Control as="select" value={this.renderObject('current.type')} onChange={this.props.handleTypeChange} disabled={this.props.viewType !== "create"} custom>
-            <option value='' disabled selected>&lt;Please choose one&gt;</option>@loop{moduleTypeOptions}[[
-            <option value="@slot{{type}}">@slot{{type}}</option>]]loop{moduleTypeOptions}@
-        </Form.Control>
-    </FormGroup>
-    )
-  }
-
-  renderInputsByType(type){
-    return(
-        <>@loop{formTypeInputs}[[
-        {type==='@slot{{type}}' && <><br />
-        <FormGroup>
-          <Form.Label>@slot{{fieldLabel}}</Form.Label>
-          <FormControl value={this.renderObject("current.@slot{{fieldName}}")} onChange={(e) => this.props.handleStateChange("current.@slot{{fieldName}}", e.target.value, false)}  type="@slot{{fieldType}}" @slot{{fieldOptions}} />
-        </FormGroup></>}]]loop{formTypeInputs}@
-        @loop{formTypeEnumInputs}[[
-        {type==='@slot{{type}}' && <><br />
-        <FormGroup>
-        <Form.Label>@slot{{fieldLabel}}</Form.Label>
-        <FormControl as="select" value={this.renderObject("current.@slot{{fieldName}}")} onChange={(e) => this.props.handleStateChange("current.@slot{{fieldName}}", e.target.value, false)} custom @slot{{fieldOptions}} >
-          <option value='' disabled selected>&lt;Please choose one&gt;</option>@slot{{enumOptions}}
-        </FormControl>
-        </FormGroup></>}]]loop{formTypeEnumInputs}@
-        @loop{formTypeLinkedInputs}[[
-            @slot{{AssocWithSideOne}}
-            @slot{{AssocWithSideMany}}
-        ]]loop{formTypeLinkedInputs}@
-        </>
-    )
-  }
-
-
-  renderForm(){
-    switch(this.props.current.type){@loop{typedFormRender}[[
-        case '@slot{{type}}':
-            return (
-                <Form>
-                    {this.renderTypeSelect()}
-                    {this.renderBaseForm()}
-                    {this.renderInputsByType('@slot{{type}}')}
-                </Form>
-            )]]loop{typedFormRender}@
+@if{hasSubType}((
+    renderSubTypeForm() {
+      switch (this.props.current.type) {
+      @loop{subTypeForms}[[
+        case "@slot{{subtype}}":
+          return <>
+            {this.props.mainForm.consumers.map(consumer => consumer.onModelRegion("skipMenuItem", { num: @slot{{skipCount}} }))}
+            @slot{{subTypeFormItems}}
+          </>]]loop{subTypeForms}@
         default:
-            return <></>
+          return <></>
+      }
     }
+))if{hasSubType}@
+  renderForm() {
+    return (
+      <Form>
+      @if{hasSubType2}((@slot{{typeSelector}}))if{hasSubType2}@
+      @slot{{formInputs}}
+      @if{hasSubType3}(({this.renderSubTypeForm()}))if{hasSubType3}@
+      </Form>);
   }
-  ))if{haveSubType}@
 }

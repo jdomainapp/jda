@@ -12,9 +12,15 @@ import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
 
 import StarRating from "vue-star-rating";
+
+import { mutations } from "../../constants/store";
+// import { store } from "../../constants/store";
+
+
 export default {
     props: {
         parentData: Object,
+        parentID: String,
     },
 
     components: { VueSlider, StarRating },
@@ -47,10 +53,100 @@ export default {
                 min: 100,
                 max: 500,
             },
+
+            tree: {
+                parentID: this.parentID ? this.parentID : "",
+                observableTree: [],
+            },
         };
     },
 
     computed: {},
+
+    created() {
+        const parentID = this.tree.parentID;
+
+        this.tree.observableTree = [
+            {
+                name: "Type",
+                id: "Type",
+                display: true,
+            },
+            {
+                name: "Id",
+                id: "ID",
+                display: this.hidFields("id"),
+            },
+            {
+                name: "Code",
+                id: "Code",
+                display: this.hidFields('code'),
+            },
+            {
+                name: "Name",
+                id: "Name",
+                display: this.hidFields("name"),
+            },
+            {
+                name: "Semester",
+                id: "Semester",
+                display: this.hidFields("semester"),
+            },
+            {
+                name: "Cost",
+                id: "Cost",
+                display: this.hidFields("description"),
+            },
+            {
+                name: "Rating",
+                id: "Rating",
+                display: this.hidFields("description"),
+            },
+            {
+                name: "Description",
+                id: "Description",
+                display: this.hidFields("description"),
+            },
+            {
+                name: "Credits",
+                id: "Credits",
+                display: this.hidFields("credits"),
+            },
+            {
+                name: "Dept. Name",
+                id: "DeptName",
+                display: false,
+            },
+        ].map((item) => {
+            item.parentID = parentID;
+            item.id = parentID + item.id;
+            return item;
+        });
+
+        this.tree.observableTree.forEach((item) => {
+            mutations.addItem(item);
+        });
+    },
+
+    destroyed() {
+        this.tree.observableTree.forEach((item) => {
+            mutations.deleteItem(item);
+        });
+    },
+
+    watch: {
+        "courseModule.type": function (val) {
+            switch (val) {
+                case "elective":
+                    this.tree.observableTree[9].display = this.hidFields("deptName") && val == 'elective';
+                    mutations.addItem(this.tree.observableTree[9]);
+                    break;
+                default:
+                    mutations.deleteItem(this.tree.observableTree[9]);
+                    break;
+            }
+        },
+    },
 
     mounted() {
         if (this.parentData?.mode === "edit") {
@@ -90,7 +186,7 @@ export default {
                         Message.ADD_COURSE_MODULE_ERR + " - " + error.message
                     );
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
 
         update() {
@@ -108,7 +204,7 @@ export default {
                         Message.UPDATE_COURSE_MODULE_ERR + " - " + error.message
                     );
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
 
         onSubmit() {
@@ -117,6 +213,12 @@ export default {
             } else {
                 this.update();
             }
+        },
+
+        hidFields(field) {
+            return !this.parentData
+                || !this.parentData.hidFields
+                || !this.parentData.hidFields.includes(field);
         },
     },
 };

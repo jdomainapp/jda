@@ -12,13 +12,13 @@ export default class @slot{{ModuleName}}ListView extends BaseListView {
 
   }
   renderRows() {
-    const current = this.props.displayingContent;
+    const current = this.getPageContent();
     if (current instanceof Array) {
       return (<>
         {
           current.map((item, index) =>
             <@slot{{ModuleName}}ListItemView {...this.props} key={item.id} current={item}
-              index={index + 1} currentId={item.id}
+              index={this.state.itemOffSet + index + 1} currentId={item.id}
               changeToDetailsView={this.props.changeToDetailsView}
               handleStateChange={this.props.handleStateChange}
               handleDelete={this.props.partialApplyWithCallbacks(this.props.@slot{{moduleName}}API.deleteById)}

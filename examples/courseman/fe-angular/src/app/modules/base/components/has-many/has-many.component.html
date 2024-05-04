@@ -1,0 +1,7 @@
+<button type="button" class="mr-1 btn btn-success" (click)="toggleForm()">Form: {{label}}
+    <i class="fa fa-chevron-{{formVisible ? 'up' : 'down'}}"></i>
+</button>
+
+<ng-content *ngIf="formVisible"></ng-content>
+
+<br/>

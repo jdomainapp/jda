@@ -1,1 +1,0 @@
-export const @slot{{moduleName}}Struct = @slot{{moduleStruct}}

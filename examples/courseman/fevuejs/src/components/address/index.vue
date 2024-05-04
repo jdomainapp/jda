@@ -1,43 +1,104 @@
 <template src="./template/index.html"></template>
 <script>
-    export default {
-        props: {
-            parentData:Object
-        },
+import { mutations } from '../../constants/store';
 
-        components: {
-            "form-add": () => import('./add.vue'),
-            "form-list": () => import('./list.vue'),
-        },
+export default {
+    props: {
+        parentData: Object,
+        parentID: String,
+    },
 
-        data() {
-            return {
-                display: 1,
-                dataSubForm: {
-                    mode: "create",
-                    parent: this.parentData ? this.parentData.parent: "addresses",
-                    parentID: this.parentData ? this.parentData.parentID : 0,
-                    address: null
-                }
-            }
-        },
+    components: {
+        "form-add": () => import("./add.vue"),
+        "form-list": () => import("./list.vue"),
+        "auto-search": () => import("../common/patterns/autosearch/index.vue"),
+    },
 
-        mounted() {
-            
-        },
-
-        methods: {
-            setData(data){
-                console.log("set address",data)
-                this.dataSubForm.mode = data.mode;
-                this.dataSubForm.address = data.address;
-                this.display = 1;
+    data() {
+        return {
+            display: 1,
+            cache_display: 1,
+            dataSubForm: {
+                mode: "create",
+                parent: this.parentData ? this.parentData.parent : "addresses",
+                parentID: this.parentData ? this.parentData.parentID : 0,
+                address: null,
             },
 
-            mainForm() {
-                this.display = 2;
-                this.dataSubForm.mode = "create";
+            search: {
+                id: "",
+                keyword: "",
+            },
+
+            tree: {
+                parentID: this.parentID ? this.parentID : "",
+                observableTree: []
+            },
+        };
+    },
+
+    created() {
+        const parentID = this.tree.parentID;
+
+        this.tree.observableTree = [
+            {
+                name: "Form: Address",
+                id: "FormAddress",
+                display: true, // no hidfields so automatically = true
             }
-        }
-    };
+        ].map((item) => {
+            item.parentID = parentID;
+            item.id = parentID + item.id;
+            return item;
+        });
+
+        this.tree.observableTree.forEach((item) => {
+            mutations.addItem(item);
+        });
+    },
+
+    destroyed() {
+        this.tree.observableTree.forEach((item) => {
+            mutations.deleteItem(item);
+        });
+    },
+
+    mounted() { },
+
+    // watch for changes searchName
+    watch: {
+        search: {
+            handler: function (val) {
+                val.id = val.id.trim();
+                val.keyword = val.keyword.trim();
+                const id = val.id !== "";
+                const keyword = val.keyword !== "";
+
+                // If id and keyword are empty, return back to last display (create || edit)
+                // HOWEVER, when display change, the list will be re-rendered => fetch data again
+                if (!(id || keyword)) {
+                    this.display = this.cache_display;
+                } else {
+                    this.cache_display = this.display === 3 ? 1 : this.display;
+                    this.display = 3;
+                }
+            },
+            deep: true,
+        },
+    },
+
+    methods: {
+        setData(data) {
+            // console.log("set address", data);
+            this.dataSubForm.mode = data.mode;
+            this.dataSubForm.address = data.address;
+            this.display = 1;
+        },
+
+        mainForm() {
+            this.display = 2;
+            this.dataSubForm.mode = "create";
+        },
+    },
+};
 </script>

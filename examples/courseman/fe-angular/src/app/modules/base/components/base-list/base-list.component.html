@@ -1,0 +1,40 @@
+<div class="mx-0 d-flex justify-content-between row">
+  <div class="px-0 col">
+    <button (click)="onHide()" class="me-2 btn btn-primary">Main</button>
+    <button (click)="onHide()" class="me-2 btn btn-primary">Browse</button>
+  </div>
+
+  <div class="px-0 d-flex justify-content-end col">
+    <form class="d-flex justify-content-between form-inline" (ngSubmit)="filter()">
+      <input placeholder="ID..." type="text" class="ms-1 form-control" [(ngModel)]="searchId" name="searchId">
+
+      <ViewRegion name="searchbox"></ViewRegion>
+      
+      <!-- <AutoSearchComponent [items]="items" [(keyword)]="searchKeyword">
+      </AutoSearchComponent> -->
+
+      <!-- <input autocomplete="off" placeholder="Search" type="text" class="me-1 form-control" value="" [(ngModel)]="searchKeyword"
+        name="searchKeyword" [typeahead]="items" typeaheadOptionField="name" [isAnimated]="true"> -->
+
+      <button type="submit" class="ms-2 btn btn-outline-success">Search</button>
+    </form>
+  </div>
+</div>
+
+<br>
+<app-paged-table [items]="filteredItems">
+  <tr header>
+    <th *ngFor="let column of columns">{{column.title}}</th>
+    <th></th>
+  </tr>
+  <ng-template #row let-item>
+    <tr style="cursor: pointer;">
+      <td *ngFor="let column of columns" (click)="onItemSelect(item.id)">
+        {{ renderItem(item[column.field]) }}
+      </td>
+      <td style="vertical-align: middle;">
+        <app-btn-delete (confirmed)="deleteItem(item.id)"></app-btn-delete>
+      </td>
+    </tr>
+  </ng-template>
+</app-paged-table>

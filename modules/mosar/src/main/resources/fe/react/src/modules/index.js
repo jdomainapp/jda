@@ -5,7 +5,8 @@ import providers from "../common/BackendApiProviders";
 import BaseMainForm from "../base/BaseMainForm";
 import @slot{{ModuleName}}ListView from "./@slot{{ModuleName}}ListView";
 import @slot{{ModuleName}}Form from "./@slot{{ModuleName}}Form";
-import AccordionSearchableMenu from "../common/AccordionSearchableMenu";
+import AccordionFactory from "./patterns/accordion";
+import SearchFactory from "./patterns/search";
 const @slot{{moduleName}}API = new BaseAPI("@slot{{moduleJnames}}", providers.axios);
 @loop{linkedModuleApi}[[
 const @slot{{linkedDomain}}API = new BaseAPI("@slot{{linkedJdomains}}", providers.axios);]]loop{linkedModuleApi}@
@@ -34,6 +35,15 @@ class @slot{{ModuleName}}MainView extends BaseMainForm {
       currentId: this.props.currentId
     }
   }
+
+    getSearchLabel() {
+      return "name"
+    }
+
+    getSearchFields() {
+      return [@loop{searchKeys}[["@slot{{key}}",]]loop{searchKeys}@]
+    }
+
   getPossibleTypes() {
     return [@slot{{moduleTypes}}]
   }
@@ -41,7 +51,7 @@ class @slot{{ModuleName}}MainView extends BaseMainForm {
   renderTitle() {
     return (
       <>
-        <h2 className="text-center">Manage @slot{{ModuleName}}</h2>
+        <h2 className="text-center">Form: @slot{{ModuleName}}</h2>
       </>
     );
   }
@@ -53,10 +63,14 @@ class @slot{{ModuleName}}MainView extends BaseMainForm {
     partialApplyWithCallbacks={this.partialApplyWithCallbacks} />
   }
 
-    renderMenu() {
-      return (<AccordionSearchableMenu modules={this.state.structure ? this.state.structure.getStructure() : []} controlling={this}/>
-      )
-    }
+   // patterns
+  initPatterns() {
+    super.initPatterns();
+
+    this.consumers.push(AccordionFactory.createProviderConsumer({mainForm: this, name: this.props.structure ? "" : undefined, structure: this.props.structure}))
+
+    this.consumers.push(SearchFactory.createProviderConsumer({mainForm: this}))
+  }
 
   renderForm() {
     return <@slot{{ModuleName}}Form {...this.props} {...this.state}

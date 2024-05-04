@@ -89,7 +89,12 @@ public class JDateFieldSimple<C> extends JBindableField {
       // TODO Auto-generated method stub
       return true;
     }
-    
+
+    @Override
+    public boolean searchKey() {
+      return false;
+    }
+
     @Override
     public String name() {
       return "year";
@@ -203,10 +208,10 @@ public class JDateFieldSimple<C> extends JBindableField {
 
   private Format format;
 
-  private Calendar cal;
+  private final Calendar cal;
 
   /**v3.0: cases mappings from years to their calendar maps */
-  private static HashMap<Integer,Map> calYearMap = new HashMap();
+  private static final HashMap<Integer,Map> calYearMap = new HashMap();
 
   public JDateFieldSimple(DataValidator validator, Configuration config,
       Object val, 
@@ -447,15 +452,15 @@ public class JDateFieldSimple<C> extends JBindableField {
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
     );
     
-    private JComboField<Integer> dayField;
-    private JComboField<Integer> monthField;
-    private JTextField<Integer> yearField;
+    private final JComboField<Integer> dayField;
+    private final JComboField<Integer> monthField;
+    private final JTextField<Integer> yearField;
     
-    private JDateFieldSimple dateField;
+    private final JDateFieldSimple dateField;
     
-    private DayDataSource dayDs;
+    private final DayDataSource dayDs;
     
-    private Calendar cal;
+    private final Calendar cal;
     
     public DatePanel(DataValidator dataValidator, 
         Configuration config, 
@@ -720,13 +725,13 @@ public class JDateFieldSimple<C> extends JBindableField {
       
       // update month (if needed)
       boolean diffMonth = false, diffYear = false;
-      if (currMonth == null || month != (int) currMonth) {
+      if (currMonth == null || month != currMonth) {
         diffMonth = true;
         monthField.setValue(month);
       }
 
       // update days if needed
-      if (currYear == null || year != (int)currYear) {
+      if (currYear == null || year != currYear) {
         // different year
         diffYear = true;
         yearField.setValue(year);
@@ -738,7 +743,7 @@ public class JDateFieldSimple<C> extends JBindableField {
       }
       
       // display field value (if needed)
-      if (currDay == null || day != (int) currDay) {
+      if (currDay == null || day != currDay) {
         dayField.setValue(day);
       }
     }

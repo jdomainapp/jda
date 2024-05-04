@@ -1,0 +1,155 @@
+<div class="mx-0 d-flex justify-content-between row" *ngIf="viewMode != 'embedded'">
+    <div class="px-0 col">
+        <button (click)="newItem()" class="me-2 btn btn-primary">Main</button>
+        <button (click)="onHide()" class="me-2 btn btn-primary">Browse</button>
+        <app-btn-delete *ngIf="item?.id" (confirmed)="deleteItem(item!.id)"></app-btn-delete>
+    </div>
+    <div class="px-0 d-flex justify-content-end col">
+        <form class="d-flex justify-content-end form-inline" (ngSubmit)="getById()">
+            <input placeholder="ID..." type="text" class="me-1 col-md-4 form-control" [(ngModel)]="searchId"
+            name="searchId">
+            
+            <button type="submit" class="btn btn-outline-success">Search</button>
+        </form>
+    </div>
+    <br>
+</div>
+
+<br>
+<div class="row">
+    <div class="col-md-3" *ngIf="viewMode!='embedded'">
+        <nav class="h-100 flex-column align-items-stretch pe-4 border-end">
+            <nav class="nav nav-pills flex-column" style="position: sticky; top: 60px;">
+                <a role="button" class="nav-link" ngbScrollSpyItem="student-class">Student Class</a>
+                <nav class="nav nav-pills flex-column">
+                    <a *ngFor="let menu of menus" role="button" class="nav-link ms-3 my-1"
+                   parent="student-class">{{menu.label}}</a>
+                </nav>
+            </nav>
+        </nav>
+    </div>
+    
+    <div class="col-md-{{viewMode=='embedded' ? '12' : '9'}}">
+        <form class='border py-4 container needs-validation' [formGroup]="form">
+
+            <div class="form-group">
+                <label class="form-label">Type</label>
+                <select class="form-control" [(ngModel)]="item.type" (ngModelChange)="onChange()" formControlName="type"
+                    [ngClass]="{'is-invalid': submitted && form.get('type')?.errors }">
+            
+                    <option value="">&lt;Please choose one&gt;</option>
+                    <option value="compulsory">compulsory</option>
+                    <option value="elective">elective</option>
+                </select>
+
+                <div *ngIf="submitted && form.get('type')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('type')!.errors!['required']">Type is required</div>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group">
+                <label class="form-label">ID</label>
+                <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" />
+            </div>
+            <br>
+
+            <div class="form-group">
+                <label class="form-label">Code</label>
+                <input type="text" class="form-control" name="code" disabled value="{{item?.code}}" />
+            </div>
+            <br>
+            
+            <div class="form-group">
+                <label class="form-label">Course Name</label>
+                <input type="text" class="form-control" formControlName="name"
+                [ngClass]="{'is-invalid': submitted && form.get('name')?.errors }" />
+                
+                <div *ngIf="submitted && form.get('name')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('name')!.errors!['required']">Course Name is required</div>
+                    <div *ngIf="form.get('name')!.errors!['maxlength']">Course Name is maximum 30 characters</div>
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <accordion [isAnimated]="true">
+                    <accordion-group heading="Description">
+                        <textarea class="form-control" formControlName="description"></textarea>
+                    </accordion-group>
+                </accordion>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <label class="form-label">Semester</label>
+                <input type="number" class="form-control" formControlName="semester"
+                    [ngClass]="{'is-invalid': submitted && form.get('semester')?.errors }" />
+            
+                <div *ngIf="submitted && form.get('semester')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('semester')!.errors!['required']">Semester is required</div>
+                    <div *ngIf="form.get('semester')!.errors!['maxlength']">Semester is maximum 2 characters</div>
+                    <div *ngIf="form.get('semester')!.errors!['min']">Semester is greater or equals 1</div>
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <label class="form-label">Credits</label>
+                <input type="number" class="form-control" formControlName="credits"
+                    [ngClass]="{'is-invalid': submitted && form.get('credits')?.errors }" />
+            
+                <div *ngIf="submitted && form.get('credits')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('credits')!.errors!['required']">Credits is required</div>
+                    <div *ngIf="form.get('credits')!.errors!['maxlength']">Credits is maximum 2 characters</div>
+                    <div *ngIf="form.get('credits')!.errors!['min']">Credits is greater or equals 1</div>
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <label class="form-label">Rating</label>
+
+                <ngb-rating [(rate)]="item.rating" (rateChange)="form.patchValue({rating: item.rating})" [max]="5" class="form-control" style="font-size: 35px;"></ngb-rating>
+                <input type="hidden" class="form-control" formControlName="rating"
+                    [ngClass]="{'is-invalid': submitted && form.get('rating')?.errors }" />
+            
+                <div *ngIf="submitted && form.get('rating')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('rating')!.errors!['min']">Rating is greater than or equals 1</div>
+                    <div *ngIf="form.get('rating')!.errors!['min']">Rating is less than or equals 5</div>
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <label class="form-label">Cost</label>
+                <ngx-slider [options]="options" formControlName="cost"></ngx-slider>
+            </div>
+            <br>
+
+            <div class="form-group" *ngIf="form.get('type')!.value=='elective'">
+                <label class="form-label">Department Name</label>
+                <input type="text" class="form-control" formControlName="deptName"
+                    [ngClass]="{'is-invalid': submitted && form.get('deptName')?.errors }" />
+            
+                <div *ngIf="submitted && form.get('deptName')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('deptName')!.errors!['required']">Department Name is required</div>
+                    <div *ngIf="form.get('deptName')!.errors!['maxlength']">Department Name is maximum 30 characters</div>
+                </div>
+            </div>
+            <br>
+            
+            <app-has-many label="Enrolment">
+                <app-enrolment viewMode="embedded" belongsTo="course-modules/{{item?.id}}/"
+                    (onEmbedded)="handleEmbedded('enrolment', 'Enrolment', $event)"
+                    [params]="getParams({courseModule: item})"></app-enrolment>
+            </app-has-many>
+        
+            <br>
+            <div class="d-flex justify-content-end">
+                <button type="reset" class="me-2 btn btn-secondary">Reset</button>
+                <button type="button" (click)="onSubmit()" class="me-2 btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
