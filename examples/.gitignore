@@ -8,6 +8,7 @@ dcsl-journal/
 drawing/
 helidon/
 jee/
+jee
 /jee/jee-courseman/
 kengine/
 pinevalleyfurniture/
@@ -27,3 +28,4 @@ previousReleases/
 setup/
 src.incoming/
 build.xml
+
