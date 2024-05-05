@@ -6,7 +6,6 @@ export default {
     props: {
         parentData: Object,
         parentID: String,
-        // Checkpoint: Làm tiếp phần này
     },
 
     components: {

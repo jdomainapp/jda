@@ -1,10 +1,9 @@
-{
+ {
   "name": "example-coursemanresful",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --port 8081",
-    "serve2": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --port 8081",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },

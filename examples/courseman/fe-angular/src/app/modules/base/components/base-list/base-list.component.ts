@@ -38,7 +38,7 @@ export class BaseListComponent extends BaseComponent {
     this.service.getList(this.apiPrefix + this.apiName).subscribe(res => {
       const { content } = res;
       this.items = content;
-    })
+    });
   }
 
   /* filter */

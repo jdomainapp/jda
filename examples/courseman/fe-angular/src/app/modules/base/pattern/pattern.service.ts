@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { PatternConsumer } from "./pattern.consumer";
 import { ViewRegionComponent } from "./view-region";
+import { ModelRegionDirective } from "./model-region";
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +16,12 @@ export class PatternService {
     render(region: ViewRegionComponent) {
         this.consumers.forEach(consumer => {
             consumer.onRenderRegion(region);
+        });
+    }
+
+    renderModelRegion(region: ModelRegionDirective) {
+        this.consumers.forEach(consumer => {
+            consumer.onModelRegion(region);
         });
     }
 

@@ -1,5 +1,6 @@
 import { PatternProvider } from "src/app/modules/base/pattern/pattern.provider"
 import { ViewRegionComponent } from "../../pattern/view-region";
+import { ModelRegionDirective } from "../../pattern/model-region";
 
 export class AutoSearchProvider extends PatternProvider {
     
@@ -10,8 +11,8 @@ export class AutoSearchProvider extends PatternProvider {
         }
     }
 
-    override onModelRegion(region: string, data?: {}): void {
-        throw new Error("Method not supported.");
+    override onModelRegion(region: ModelRegionDirective, data?: {}): void {
+        // do nothing
     }
     
 }

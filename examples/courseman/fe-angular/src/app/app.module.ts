@@ -14,8 +14,6 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { AddressFormComponent } from './address/components/address-form/address-form.component';
 import { AddressListComponent } from './address/components/address-list/address-list.component';
 import { AddressComponent } from './address/components/address/address.component';
-import { AccordionComponent } from './components/accordion/accordion.component';
-import { FragmentComponent } from './components/accordion/fragment.component';
 import { CourseModuleFormComponent } from './course-module/components/course-module-form/course-module-form.component';
 import { CourseModuleListComponent } from './course-module/components/course-module-list/course-module-list.component';
 import { CourseModuleComponent } from './course-module/components/course-module/course-module.component';
@@ -56,8 +54,6 @@ import { PatternService } from './modules/base/pattern/pattern.service';
     EnrolmentListComponent,
     EnrolmentFormComponent,
 
-    AccordionComponent,
-    FragmentComponent,
   ],
   imports: [
     BrowserModule,

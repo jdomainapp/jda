@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { FormGroup } from '@angular/forms';
+import { AccordionFactory } from '../../patterns/accordion/accordion.factory';
 
 @Component({
   selector: 'app-base-form',
@@ -43,7 +44,7 @@ export abstract class BaseFormComponent extends BaseComponent {
 
     this.newItem();
     // TODO: to original data if editing
-
+    
   }
 
   ngOnInit(): void {
@@ -58,6 +59,10 @@ export abstract class BaseFormComponent extends BaseComponent {
     if (this.params) {
       this.form.patchValue(this.params);
     }
+
+    this.patternService.addConsumer(AccordionFactory.createProviderConsumer(
+      { host: this }
+    ));
   }
 
   getById(): void {
@@ -124,18 +129,5 @@ export abstract class BaseFormComponent extends BaseComponent {
 
   /** accordion menu */
   menus: any[] = [];
-  @Input() menuPrefix: string = '';
-
-  @Output('onEmbedded') embeddedEvent = new EventEmitter(); 
-
-  handleEmbedded(name: string, label: string, subItems: any[]) {
-    this.menus.push({name, label, subItems});
-  }
-
-  ngAfterViewInit() {
-    // accordion menu
-    if (this.viewMode == 'embedded') {
-      this.embeddedEvent.emit(this.menus);
-    }
-  }
+  @Input() prefix: string = '';
 }

@@ -1,23 +1,14 @@
 <div id="root">
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark root_nav">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
         <div class="container">
             <div class="navbar-nav">
                 <a href="/" class="navbar-brand">Courseman</a>
                 <div class="dropdown">
-                    <a
-                        role="button"
-                        class="dropdown-toggle nav-link"
-                        id="dropdownMenuButton"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                    >
+                    <a role="button" class="dropdown-toggle nav-link" id="dropdownMenuButton" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
                         Go to
                     </a>
-                    <div
-                        class="dropdown-menu"
-                        aria-labelledby="dropdownMenuButton"
-                    >
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <router-link class="dropdown-item" to="/student-class">
                             Manage Student classes
                         </router-link>
@@ -38,6 +29,7 @@
                             Manage Students
                         </router-link>
 
+                        <!-- demo design pattern -->
                         <router-link class="dropdown-item" to="/demo">
                             Demo
                         </router-link>
@@ -49,30 +41,23 @@
             </div>
         </div>
     </nav>
-    <div class="container root_container">
-        <div class="row">
-            <div class="col-md-3 sidebar overflow_content">
-                <div class="input-group sticky-top root_sidebar_search">
-                    <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Search"
-                        aria-label="Search"
-                        aria-describedby="basic-addon2"
-                        v-model="searchQuery"
-                    />
+    <br />
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- Accordion menu. Hide if the output is empty array -->
+            <div class="col-md-3 sidebar accordion_menu_div" v-if="processedItems.length !== 0">
+                <div class="input-group mb-1">
+                    <input type="text" class="form-control" placeholder="Search categories"
+                        aria-label="Search categories" aria-describedby="basic-addon2" v-model="searchQuery" />
                 </div>
-                <nav class="navbar navbar-light">
-                    <!-- recursive component -->
-                    <nested-nav2 :search-query="searchQuery"></nested-nav2>
-                </nav>
-                <!-- <p class="alert alert-info mt-3" v-else>
-                    There is nothing here
-                </p> -->
+                <div class="accordion_menu_display">
+                    <!-- Accordion menu component is a recursive component to display sub-sub-etc-menu -->
+                    <accordion-menu v-bind:Items="processedItems" v-bind:searchQuery="searchQuery"></accordion-menu>
+                </div>
             </div>
 
             <!-- Main content -->
-            <div class="col-md-9 overflow_content">
+            <div class="col-md-9 main_content">
                 <router-view />
             </div>
         </div>

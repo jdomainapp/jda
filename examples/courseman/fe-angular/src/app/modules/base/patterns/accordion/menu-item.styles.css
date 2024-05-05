@@ -1,0 +1,15 @@
+.menu-item.active, .menu-item:hover {
+  background-color: #33b5e5;
+}
+
+.menu-item.active, .menu-item:hover a {
+  color: #fff !important;
+}
+
+div.arrow:hover {
+  cursor: pointer;
+}
+  
+a {
+    color: black !important;
+}

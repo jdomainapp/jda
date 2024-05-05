@@ -1,56 +1,10 @@
-<div id="demo">
+<div v-modelRegion id="demo">
     <h1>Demo design patterns</h1>
     <br />
 
-    <h4>Date range picker</h4>
-    <date-range-picker ref="picker" v-model="dateRange">
-        <template v-slot:input="picker" class="input_date">
-            {{ picker.startDate | date }} - {{ picker.endDate | date }}
-        </template>
-    </date-range-picker>
+    <view-region name="searchbox" v-bind:patternService="patternService"></view-region>
+    <h1>Should be changed: {{searchKeyword}}</h1>
 
-    <h4>Slider</h4>
-    <vue-slider v-model="range" :enable-cross="false" />
-
-    <h4>Expandable input</h4>
-    <span title="expandable input" class="input" role="textbox" contenteditable
-        aria-placeholder="Please type someting in here"></span>
-
-    <h4>Rating</h4>
-    <star-rating></star-rating>
-
-    <div class="overflow-auto">
-        <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage"
-            aria-controls="my-table"></b-pagination>
-
-        <p class="mt-3">Current Page: {{ currentPage }}</p>
-
-        <b-table id="my-table" :items="items" :per-page="perPage" :current-page="currentPage" small></b-table>
-    </div>
-
-    <b-alert show>Default Alert</b-alert>
-
-    <div class="container">
-        <b-row>
-            <b-col>
-                <b-card title="Welcome to Vue.js with Bootstrap">
-                    <p>
-                        This is a sample component demonstrating how to
-                        integrate Bootstrap with Vue.js.
-                    </p>
-                    <b-button variant="primary">Click me</b-button>
-                </b-card>
-            </b-col>
-        </b-row>
-    </div>
-    <div v-for="n in 5" :key="n">
-        <br />
-    </div>
-    <auto-search @search="search = $event"></auto-search>
-    <p>
-        {{JSON.stringify(search)}}
-    </p>
-    <div v-for="n in 5" :key="n">
-        <br />
-    </div>
+    <!-- <AccordionMenu></AccordionMenu> -->
+    <view-region name="menu" v-bind:patternService="patternService"></view-region>
 </div>

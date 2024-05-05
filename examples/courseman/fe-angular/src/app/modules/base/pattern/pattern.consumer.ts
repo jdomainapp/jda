@@ -1,3 +1,4 @@
+import { ModelRegionDirective } from "./model-region";
 import { PatternProvider } from "./pattern.provider";
 import { ViewRegionComponent } from "./view-region";
 
@@ -15,7 +16,7 @@ export class PatternConsumer {
         return this.provider.onRenderRegion(region, data);
     }
 
-    onModelRegion(region: string, data = {}) {
+    onModelRegion(region: ModelRegionDirective, data = {}) {
         return this.provider.onModelRegion(region, data);
     }
 

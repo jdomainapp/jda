@@ -40,8 +40,8 @@ export class BaseComponent {
       // return JSON.stringify(obj);
       return Object.keys(obj)
         .map((key) => obj[key])
-        .filter((value) => typeof value !== 'object' && !(value instanceof Array))
-        .reduce((k1, k2) => '' + k1 + ' | ' + k2);
+        .filter((value) => (typeof value !== 'object') && !(value instanceof Array))
+        .reduce((k1, k2) => '' + k1 + ' | ' + k2, '');
     } else {
       return obj;
     }

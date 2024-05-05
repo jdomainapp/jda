@@ -1,4 +1,4 @@
-<h4 id="{{menuPrefix}}-student-class"></h4>
+
 <div class="mx-0 d-flex justify-content-between row" *ngIf="viewMode != 'embedded'">
     <div class="px-0 col">
         <button (click)="newItem()" class="me-2 btn btn-primary">Main</button>
@@ -18,39 +18,49 @@
 
 <br>
 
-<AccordionComponent>
-    <form class='border py-4 container needs-validation' [formGroup]="form">
+<div class="row">
+    <div class="col-3">
+    
+        <ViewRegion name="menu"></ViewRegion>
+
+        <!-- <AccordionComponent [items]="menus">
+        </AccordionComponent> -->
+    </div>
+
+    <div class="col">
+        <form class='border py-4 container needs-validation' [formGroup]="form" id="student-class" modelRegion="form">
         
-        <div class="form-group">
-            <label class="form-label">ID</label>
-            <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" />
-        </div>
-        <br>
-
-        <div class="form-group">
-            <h5 id="student-name"></h5>
-            <label class="form-label">Class name</label>
-            <input type="text" class="form-control" formControlName="name"
-                [ngClass]="{'is-invalid': submitted && form.get('name')?.errors }" />
-
-            <div *ngIf="submitted && form.get('name')?.errors" class="invalid-feedback">
-                <div *ngIf="form.get('name')!.errors!['required']">Name is required</div>
-                <div *ngIf="form.get('name')!.errors!['maxlength']">Name is maximum 20 characters</div>
+            <div class="form-group">
+                <label class="form-label">ID</label>
+                <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" id="id" modelRegion="forminput" />
             </div>
+            <br>
+        
+            <div class="form-group">
+                <label class="form-label">Class name</label>
+                <input type="text" class="form-control" formControlName="name" name="name" id="name"
+                    [ngClass]="{'is-invalid': submitted && form.get('name')?.errors }" modelRegion="forminput" />
+        
+                <div *ngIf="submitted && form.get('name')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('name')!.errors!['required']">Name is required</div>
+                    <div *ngIf="form.get('name')!.errors!['maxlength']">Name is maximum 20 characters</div>
+                </div>
+            </div>
+            <br>
+        
+            <app-has-many label="Student">
+                <app-student viewMode="embedded" 
+                    belongsTo="student-classes/{{item?.id}}/"
+                    [params]="getParams({studentClass: item})"></app-student>
+            </app-has-many>
+        
+            <div class="d-flex justify-content-end">
+                <button type="button" class="me-2 btn btn-secondary" (click)="onReset()">Reset</button>
+                <button type="button" (click)="onSubmit()" class="me-2 btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-        </div>
-        <br>
 
-        <app-has-many label="Student">
-            <app-student viewMode="embedded" belongsTo="student-classes/{{item?.id}}/"
-                (onEmbedded)="handleEmbedded('student', 'Student', $event)"
-                [params]="getParams({studentClass: item})"></app-student>
-        </app-has-many>
-
-        <div class="d-flex justify-content-end">
-            <button type="button" class="me-2 btn btn-secondary" (click)="onReset()">Reset</button>
-            <button type="button" (click)="onSubmit()" class="me-2 btn btn-primary">Save</button>
-        </div>
-    </form>
-</AccordionComponent>
         

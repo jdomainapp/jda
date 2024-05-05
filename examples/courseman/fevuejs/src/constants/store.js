@@ -1,108 +1,35 @@
-// This file is to store global variables
+// This file is to store variables that are used in the store
 import Vue from "vue";
 
-// display can be number or null
-export const store = Vue.observable({
-    // demo nested tree
-    form_trees: [
-        {
-            name: "StudentClass",
-            children: [
-                { name: "Name", children: [] },
-                {
-                    name: "Form: Student",
-                    children: [
-                        { name: "Full Name", children: [] },
-                        { name: "Date of Birth", children: [] },
-                        { name: "Email", children: [] },
-                        { name: "Gender", children: [] },
-                        {
-                            name: "Address ID",
-                            children: [{ name: "City name", children: [] }],
-                        },
-                        {
-                            name: "Student class ID",
-                            children: [{ name: "Name", children: [] }],
-                        },
-                        {
-                            name: "Form: Enrolment",
-                            children: [
-                                { name: "Internal Mark", children: [] },
-                                { name: "Exam Mark", children: [] },
-                                {
-                                    name: "Student ID",
-                                    children: [
-                                        { name: "Full Name", children: [] },
-                                        { name: "Date of Birth", children: [] },
-                                        { name: "Email", children: [] },
-                                        { name: "Gender", children: [] },
-                                        {
-                                            name: "Address ID",
-                                            children: [
-                                                {
-                                                    name: "City name",
-                                                    children: [],
-                                                },
-                                            ],
-                                        },
-                                        {
-                                            name: "Student class ID",
-                                            children: [
-                                                { name: "Name", children: [] },
-                                            ],
-                                        },
-                                    ],
-                                },
-                                {
-                                    name: "Course module ID",
-                                    children: [
-                                        { name: "Type", children: [] },
-                                        { name: "Name", children: [] },
-                                        { name: "Semester", children: [] },
-                                        { name: "Credits", children: [] },
-                                    ],
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ],
-        },
-        {
-            name: "Student",
-            children: [
-                { name: "Name", children: [] },
-                {
-                    name: "Form: Student",
-                    children: [
-                        { name: "Full Name", children: [] },
-                        { name: "Date of Birth", children: [] },
-                        { name: "Email", children: [] },
-                        { name: "Gender", children: [] },
-                        {
-                            name: "Address ID",
-                            children: [{ name: "City name", children: [] }],
-                        },
-                    ],
-                },
-            ],
-        },
-    ],
+const store = Vue.observable({
+    formTree: [],
 
-    // can be either null or recursive tree
-    tree: {
-        name: "root",
-        children: [],
-    },
+    // search store will store the query given the id of the item
+    // use hashmap
+    searchStore: [],
 });
 
+export const getters = {
+    formTree: store.formTree,
+    searchStore: store.searchStore,
+};
+
 export const mutations = {
-    // demo nested tree
-    addNode(parentNode, sidebarID) {
-        let newNode = {
-            name: sidebarID,
-            children: [],
-        };
-        parentNode.children.push(newNode);
+    // Description: formTree will scan for parent item of this item
+    // and add this item behind the parent item in array
+    addItem(item) {
+        if (item.display !== true) {
+            return;
+        }
+
+        delete item.display;
+        store.formTree.push(item);
+    },
+
+    deleteItem(item) {
+        const index = store.formTree.findIndex((i) => i.id === item.id);
+        if (index > -1) {
+            store.formTree.splice(index, 1);
+        }
     },
 };
