@@ -5,13 +5,9 @@ import Message from "../../constants/message";
 import { addAddress, updateAddress } from "../../api/address";
 
 import { getStudent } from "../../api/student";
-
-import { mutations } from "../../constants/store";
-
 export default {
     props: {
         parentData: Object,
-        parentID: String,
     },
 
     components: {
@@ -30,52 +26,7 @@ export default {
                 parentID: this.parentData ? this.parentData.parentID : 0,
                 hidFields: ["address", "id"],
             },
-
-            tree: {
-                parentID: this.parentID ? this.parentID : "",
-                observableTree: [],
-            },
         };
-    },
-
-    created() {
-        const parentID = this.tree.parentID;
-
-        this.tree.observableTree = [
-            {
-                name: "ID",
-                id: "ID",
-                display: this.hidFields("id"),
-            },
-            {
-                name: "City name",
-                id: "CityName",
-                display: this.hidFields("name"),
-            },
-            {
-                name: "Student ID",
-                id: "StudentID",
-                display: this.hidFields("student"),
-            },
-            {
-                name: "Student",
-                id: "Student",
-                display: this.hidFields("student"),
-            },
-        ].map((item) => {
-            item.parentID = parentID;
-            item.id = parentID + item.id;
-            return item;
-        });
-
-        this.tree.observableTree.forEach((item) => {
-            mutations.addItem(item);
-        });
-    },
-    destroyed() {
-        this.tree.observableTree.forEach((item) => {
-            mutations.deleteItem(item);
-        });
     },
 
     computed: {
@@ -162,12 +113,6 @@ export default {
             } else {
                 this.update();
             }
-        },
-
-        hidFields(field) {
-            return !this.parentData
-                || !this.parentData.hidFields
-                || !this.parentData.hidFields.includes(field);
         },
     },
 };

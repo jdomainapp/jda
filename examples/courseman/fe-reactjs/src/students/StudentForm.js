@@ -25,34 +25,35 @@ export default class StudentForm extends BaseForm {
 <br />
 <FormGroup>
   <Form.Label>Id</Form.Label>
-  <FormControl {...this.onModelRegionMenuItem("accordion")} type="text" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} readOnly />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} readOnly />
 </FormGroup>
 <br />
 <FormGroup>
   <Form.Label>Name</Form.Label>
-  <FormControl {...this.onModelRegionMenuItem("accordion")} type="text" value={this.renderObject("current.name")} onChange={(e) => this.props.handleStateChange("current.name", e.target.value, false)}  />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.name")} onChange={(e) => this.props.handleStateChange("current.name", e.target.value, false)}  />
 </FormGroup>
 <br />
 <FormGroup>
   <Form.Label>Gender</Form.Label>
-  <FormControl {...this.onModelRegionMenuItem("accordion")} as="select" value={this.renderObject("current.gender")} onChange={(e) => this.props.handleStateChange("current.gender", e.target.value, false)} custom  >
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} as="select" value={this.renderObject("current.gender")} onChange={(e) => this.props.handleStateChange("current.gender", e.target.value, false)} custom  >
     <option value='' readOnly selected>&lt;Please choose one&gt;</option>    <option value='Male'>Male</option>
 <option value='Female'>Female</option>  </FormControl></FormGroup>
 <br />
 <FormGroup>
   <Form.Label>Dob</Form.Label>
-  <FormControl {...this.onModelRegionMenuItem("accordion")} type="date" value={this.renderObject("current.dob")} onChange={(e) => this.props.handleStateChange("current.dob", e.target.value, false)}  />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="date" value={this.renderObject("current.dob")} onChange={(e) => this.props.handleStateChange("current.dob", e.target.value, false)}  />
 </FormGroup>
 <br />
 { this.props.excludes && this.props.excludes.includes("address") ? "" : <><FormGroup className='d-flex flex-wrap justify-content-between align-items-end'><Col md={2.5} className='px-0'>
     <Form.Label>Address ID</Form.Label>
-  <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.addressId")} onChange={(e) => this.props.handleStateChange("current.addressId", e.target.value, true)}  />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.addressId")} onChange={(e) => this.props.handleStateChange("current.addressId", e.target.value, true)}  />
 </Col>
 <Col md={7} className='px-0'>
     <Form.Label>Address</Form.Label>
   <FormControl type="text" value={this.renderObject("current.address")} onChange={(e) => this.props.handleStateChange("current.address", e.target.value, false)} readOnly />
 </Col><AddressSubmodule 
-  {...this.onModelRegionMenuItem("accordion")}
+  {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
+  ref={ref=>{this.props.mainForm.addSubForm(ref)}}
   mainForm={this.props.mainForm}
   compact={true} 
   mode='submodule'
@@ -70,12 +71,12 @@ export default class StudentForm extends BaseForm {
 <br />
 <FormGroup>
   <Form.Label>Email</Form.Label>
-  <FormControl {...this.onModelRegionMenuItem("accordion")} type="text" value={this.renderObject("current.email")} onChange={(e) => this.props.handleStateChange("current.email", e.target.value, false)}  />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.email")} onChange={(e) => this.props.handleStateChange("current.email", e.target.value, false)}  />
 </FormGroup>
 <br />
 { this.props.excludes && this.props.excludes.includes("studentClass") ? "" : <><FormGroup className='d-flex flex-wrap justify-content-between align-items-end'><Col md={2.5} className='px-0'>
     <Form.Label>Student class Id</Form.Label>
-  <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.studentClassId")} onChange={(e) => this.props.handleStateChange("current.studentClassId", e.target.value, true)}  />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.studentClassId")} onChange={(e) => this.props.handleStateChange("current.studentClassId", e.target.value, true)}  />
 </Col>
 <Col md={9} className='px-0'>
     <Form.Label>Student class</Form.Label>
@@ -83,7 +84,8 @@ export default class StudentForm extends BaseForm {
 </Col></FormGroup></> }
 <br />{this.props.excludes && this.props.excludes.includes("students") ? "" : <>
       <EnrolmentSubmodule
-       {...this.onModelRegionMenuItem("accordion")}
+       {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
+      ref={ref=>{this.props.mainForm.addSubForm(ref)}}
       mainForm={this.props.mainForm}
       mode='submodule'
       viewType={this.props.viewType}

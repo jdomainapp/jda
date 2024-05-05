@@ -1,14 +1,23 @@
 <div id="root">
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark root_nav">
         <div class="container">
             <div class="navbar-nav">
                 <a href="/" class="navbar-brand">Courseman</a>
                 <div class="dropdown">
-                    <a role="button" class="dropdown-toggle nav-link" id="dropdownMenuButton" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
+                    <a
+                        role="button"
+                        class="dropdown-toggle nav-link"
+                        id="dropdownMenuButton"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
                         Go to
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div
+                        class="dropdown-menu"
+                        aria-labelledby="dropdownMenuButton"
+                    >
                         <router-link class="dropdown-item" to="/student-class">
                             Manage Student classes
                         </router-link>
@@ -29,7 +38,6 @@
                             Manage Students
                         </router-link>
 
-                        <!-- demo design pattern -->
                         <router-link class="dropdown-item" to="/demo">
                             Demo
                         </router-link>
@@ -41,19 +49,30 @@
             </div>
         </div>
     </nav>
-    <br />
-    <div class="container">
+    <div class="container root_container">
         <div class="row">
-            <div class="col-md-3 sidebar">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search" aria-label="Search"
-                        aria-describedby="basic-addon2" v-model="searchQuery" />
+            <div class="col-md-3 sidebar overflow_content">
+                <div class="input-group sticky-top root_sidebar_search">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search"
+                        aria-label="Search"
+                        aria-describedby="basic-addon2"
+                        v-model="searchQuery"
+                    />
                 </div>
-                <accordion-menu v-bind:Items="items" v-bind:query="searchQuery"></accordion-menu>
+                <nav class="navbar navbar-light">
+                    <!-- recursive component -->
+                    <nested-nav2 :search-query="searchQuery"></nested-nav2>
+                </nav>
+                <!-- <p class="alert alert-info mt-3" v-else>
+                    There is nothing here
+                </p> -->
             </div>
 
             <!-- Main content -->
-            <div class="col-md-9">
+            <div class="col-md-9 overflow_content">
                 <router-view />
             </div>
         </div>

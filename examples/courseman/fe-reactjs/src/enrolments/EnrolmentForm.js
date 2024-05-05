@@ -45,12 +45,13 @@ export default class EnrolmentForm extends BaseForm {
 <br />
 <FormGroup>
   <Form.Label>Id</Form.Label>
-  <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} readOnly />
+  <FormControl
+              onFocus={()=>{this.props.mainForm.handleElementFocus()}}  {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} readOnly />
 </FormGroup>
 <br />
 { this.props.excludes && this.props.excludes.includes("student") ? "" : <><FormGroup id="student-id" className='d-flex flex-wrap justify-content-between align-items-end'><Col md={2.5} className='px-0'>
     <Form.Label>Student Student ID</Form.Label>
-  <FormControl {...this.onModelRegionMenuItem("accordion")} type="text" value={this.renderObject("current.studentId")} onChange={(e) => this.props.handleStateChange("current.studentId", e.target.value, true)}  />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.studentId")} onChange={(e) => this.props.handleStateChange("current.studentId", e.target.value, true)}  />
 </Col>
 <Col md={9} className='px-0'>
     <Form.Label>Student</Form.Label>
@@ -59,7 +60,7 @@ export default class EnrolmentForm extends BaseForm {
 <br />
 { this.props.excludes && this.props.excludes.includes("courseModule") ? <>{this.props.structure ? this.props.structure.getCurrentProps() : undefined}</> : <><FormGroup id="course" className='d-flex flex-wrap justify-content-between align-items-end'><Col md={2.5} className='px-0'>
     <Form.Label>Course module Id</Form.Label>
-  <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.courseModuleId")} onChange={(e) => this.props.handleStateChange("current.courseModuleId", e.target.value, true)}  />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.courseModuleId")} onChange={(e) => this.props.handleStateChange("current.courseModuleId", e.target.value, true)}  />
 </Col>
 <Col md={9} className='px-0'>
     <Form.Label>Course module</Form.Label>
@@ -68,31 +69,31 @@ export default class EnrolmentForm extends BaseForm {
 <br />
 <FormGroup>
   <Form.Label>Internal mark</Form.Label>
-  <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.internalMark")} onChange={(e) => this.props.handleStateChange("current.internalMark", e.target.value, false)}  />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.internalMark")} onChange={(e) => this.props.handleStateChange("current.internalMark", e.target.value, false)}  />
 </FormGroup>
 <br />
 <FormGroup>
   <Form.Label>Exam mark</Form.Label>
-  <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.examMark")} onChange={(e) => this.props.handleStateChange("current.examMark", e.target.value, false)}  />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.examMark")} onChange={(e) => this.props.handleStateChange("current.examMark", e.target.value, false)}  />
 </FormGroup>
 <br />
 <FormGroup>
   <Form.Label>Final grade</Form.Label>
-  <FormControl {...this.onModelRegionMenuItem("accordion")} type="text" value={this.renderObject("current.finalGrade")} onChange={(e) => this.props.handleStateChange("current.finalGrade", e.target.value, false)} readOnly />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.finalGrade")} onChange={(e) => this.props.handleStateChange("current.finalGrade", e.target.value, false)} readOnly />
 </FormGroup>
 <br />
 <FormGroup>
   <Form.Label>Final mark</Form.Label>
-  <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.finalMark")} onChange={(e) => this.props.handleStateChange("current.finalMark", e.target.value, false)} readOnly />
+  <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.finalMark")} onChange={(e) => this.props.handleStateChange("current.finalMark", e.target.value, false)} readOnly />
 </FormGroup>
 
-<FormGroup>
-  <Form.Label {...this.onModelRegionMenuItem("accordion")}>Date Range</Form.Label>
+<FormGroup {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}>
+  <Form.Label>Date Range</Form.Label>
   <DateRangePicker
       onChange={item => this.handleSelect(item)}
       showSelectionPreview={true}
       moveRangeOnFirstSelection={false}
-      months={1}
+      months={2}
       ranges={[{
         startDate: this.props.current && this.props.current.startDate ? Date.parse(this.props.current.startDate) : new Date(),
         endDate: this.props.current && this.props.current.endDate ? Date.parse(this.props.current.endDate) : addDays(new Date(), 7),
