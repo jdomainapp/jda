@@ -1,3 +1,4 @@
+import { ModelRegionDirective } from "./model-region";
 import { Pattern } from "./pattern";
 import { PatternConsumer } from "./pattern.consumer";
 import { ViewRegionComponent } from "./view-region";
@@ -8,7 +9,7 @@ export abstract class PatternProvider {
     
     abstract onRenderRegion(region: ViewRegionComponent, data?: {}): void;
 
-    abstract onModelRegion(region: string, data?: {}): void;
+    abstract onModelRegion(region: ModelRegionDirective, data?: {}): void;
 
     onDataChange(data: any = {}) {
         this.pattern.onDataChange(data);

@@ -1,4 +1,4 @@
-<div class="mx-0 d-flex justify-content-between row" *ngIf="viewMode!='embedded'">
+<div class="mx-0 d-flex justify-content-between row" *ngIf="viewMode!='has-one'">
     <div class="px-0 col">
         <button (click)="newItem()" class="me-2 btn btn-primary">Main</button>
         <button (click)="onHide()" class="me-2 btn btn-primary">Browse</button>
@@ -12,36 +12,26 @@
             <button type="submit" class="btn btn-outline-success">Search</button>
         </form>
     </div>
-    <br><br>
+    <br>
 </div>
 
-
+<br>
 <div class="row">
-    <div class="col-md-3" *ngIf="viewMode!='embedded'">
-        <nav class="h-100 flex-column align-items-stretch pe-4 border-end">
-            <nav class="nav nav-pills flex-column" style="position: sticky; top: 60px;">
-                <a role="button" class="nav-link" ngbScrollSpyItem="student-class">Student Class</a>
-                <nav class="nav nav-pills flex-column">
-                    <a *ngFor="let menu of menus" role="button" class="nav-link ms-3 my-1"
-                   parent="student-class">{{menu.label}}</a>
-                </nav>
-            </nav>
-        </nav>
+    <div class="col-3" *ngIf="viewMode=='default'">
+        <ViewRegion name="menu"></ViewRegion>
     </div>
-    
-    <div class="col-md-{{viewMode=='embedded' ? '12' : '9'}}">
-        <form class='border py-4 container needs-validation' [formGroup]="form">
+
+    <div class="col">
+        <form class='border py-4 container needs-validation' [formGroup]="form" id="student" modelRegion="form">
             <div class="form-group">
-                <h4 ngbScrollSpyFragment="student.id"></h4>
                 <label class="form-label">ID</label>
-                <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" />
+                <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" id="id" modelRegion="forminput"/>
             </div>
             <br>
             
             <div class="form-group">
-                <h4 ngbScrollSpyFragment="student.name"></h4>
                 <label class="form-label">Full Name</label>
-                <input type="text" class="form-control" formControlName="name"
+                <input type="text" class="form-control" formControlName="name" name="name" id="name" modelRegion="forminput"
                 [ngClass]="{'is-invalid': submitted && form.get('name')?.errors }" />
                 
                 <div *ngIf="submitted && form.get('name')?.errors" class="invalid-feedback">
@@ -52,10 +42,9 @@
             <br>
             
             <div class="form-group">
-                <h4 ngbScrollSpyFragment="student.dob"></h4>
                 <label class="form-label">Date of birth</label>
-                <input type="date" class="form-control" formControlName="dob"
-                [ngClass]="{'is-invalid': submitted && form.get('dob')?.errors }" />
+                <input type="date" class="form-control" formControlName="dob" id="dob" modelRegion="forminput"
+                [ngClass]="{'is-invalid': submitted && form.get('dob')?.errors }"   />
                 
                 <div *ngIf="submitted && form.get('dob')?.errors" class="invalid-feedback">
                     <div *ngIf="form.get('dob')!.errors!['required']">Date of birth is required</div>
@@ -65,10 +54,9 @@
             <br>
             
             <div class="form-group">
-                <h4 ngbScrollSpyFragment="student.email"></h4>
                 <label class="form-label">Email</label>
-                <input type="email" class="form-control" formControlName="email"
-                [ngClass]="{'is-invalid': submitted && form.get('email')?.errors }" />
+                <input type="email" class="form-control" formControlName="email" id="email" modelRegion="forminput"
+                [ngClass]="{'is-invalid': submitted && form.get('email')?.errors }"  />
                 
                 <div *ngIf="submitted && form.get('email')?.errors" class="invalid-feedback">
                     <div *ngIf="form.get('email')!.errors!['required']">Email is required</div>
@@ -79,10 +67,9 @@
             <br>
             
             <div class="form-group">
-                <h4 ngbScrollSpyFragment="student.gender"></h4>
                 <label class="form-label">Gender</label>
-                <select class="form-control" formControlName="gender"
-                [ngClass]="{'is-invalid': submitted && form.get('gender')?.errors }">
+                <select class="form-control" formControlName="gender" id="gender" modelRegion="forminput"
+                [ngClass]="{'is-invalid': submitted && form.get('gender')?.errors }" >
                 
                 <option value="" disabled="">&lt;Please choose one&gt;</option>
                 <option value="Male">Male</option>
@@ -119,7 +106,6 @@
 
         <app-has-many label="Enrolment">
             <app-enrolment viewMode="embedded" belongsTo="students/{{item?.id}}/"
-                (onEmbedded)="handleEmbedded('enrolment', 'Enrolment', $event)"
                 [params]="getParams({student: item})"></app-enrolment>
         </app-has-many>
         

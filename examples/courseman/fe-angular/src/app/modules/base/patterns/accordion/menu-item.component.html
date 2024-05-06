@@ -1,0 +1,18 @@
+<ng-container *ngIf="item.subItem" >
+    <div class="d-flex justify-content-between menu-item {{isActive ? 'active' : ''}}" (click)="isCollapsed = !isCollapsed">
+        <a href="#{{prefix ? prefix+'-': ''}}{{item.endpoint}}" class="nav-link my-1">{{item.name}}</a>
+        <ng-container *ngIf="item.subItem">
+            <div class="d-flex align-items-center mx-3 arrow"><i class="fa fa-chevron-{{isCollapsed ? 'down' : 'up'}}"></i>
+            </div>
+        </ng-container>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="!item.subItem">
+    <a href="#{{prefix ? prefix+'-': ''}}{{item.endpoint}}" class="nav-link my-1  menu-item {{isActive ? 'active' : ''}}">{{item.name}}</a>
+</ng-container>
+
+<div [collapse]="isCollapsed" [isAnimated]="true">
+    <app-menu [items]="item.subItem" ></app-menu>
+    <!-- <app-menu [items]="item.subItem" prefix="{{prefix ? prefix+'-': ''}}{{item.endpoint}}"></app-menu> -->
+</div>

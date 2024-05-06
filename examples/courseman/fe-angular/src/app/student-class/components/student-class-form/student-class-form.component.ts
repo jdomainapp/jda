@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { BaseFormComponent } from 'src/app/modules/base/components/base-form/base-form.component';
 import { Student } from 'src/app/student/models/student';
+import { MenuStudentClass } from '../../patterns/accordion/menu';
+import { AccordionFactory } from 'src/app/modules/base/patterns/accordion/accordion.factory';
 
 @Component({
   selector: 'app-student-class-form',
@@ -18,10 +20,12 @@ export class StudentClassFormComponent extends BaseFormComponent {
     });
   }
 
-  override menus: any[] = [
-    { name: 'id', label: 'ID' },
-    { name: 'name', label: 'Name' },
-  ];
+  override menus = MenuStudentClass;
+
+  // override menus: any[] = [
+  //   { endpoint: 'id', name: 'ID' },
+  //   { endpoint: 'name', name: 'Name' },
+  // ];
 
   // mapValidators(rules: any[]): any[] {
     

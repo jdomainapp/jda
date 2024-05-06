@@ -2,6 +2,7 @@ import {
     Component,
     ContentChild,
     Input,
+    SimpleChanges,
     TemplateRef,
     ViewContainerRef
 } from '@angular/core';

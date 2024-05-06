@@ -23,11 +23,7 @@ export class StudentFormComponent extends BaseFormComponent {
   }
 
   // override menus: any[] = [
-  //   { name: 'id', label: 'ID' },
-  //   { name: 'name', label: 'Name' },
-  //   { name: 'dob', label: 'Date of birth' },
-  //   { name: 'email', label: 'Email' },
-  //   { name: 'gender', label: 'Gender' },
+  //   { endpoint: 'abc', label: 'ID' },
   // ];
 
   // mapValidators(rules: any[]): any[] {

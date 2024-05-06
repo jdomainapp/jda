@@ -1,4 +1,4 @@
-<div class="mx-0 d-flex justify-content-between row" *ngIf="viewMode != 'embedded'">
+<div class="mx-0 d-flex justify-content-between row" *ngIf="viewMode != 'has-one'">
     <div class="px-0 col">
         <button (click)="newItem()" class="me-2 btn btn-primary">Main</button>
         <button (click)="onHide()" class="me-2 btn btn-primary">Browse</button>
@@ -16,44 +16,53 @@
 </div>
 <br><br>
 
-<form class='border py-4 container needs-validation' 
-    [formGroup]="form">
-    <div class="form-group">
-        <label class="form-label">ID</label>
-        <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" />
+<div class="row">
+    <div class="col-3" *ngIf="viewMode=='default'">
+        <ViewRegion name="menu"></ViewRegion>
     </div>
-    <br>
-    <div class="form-group">
-        <label class="form-label">City name</label>
-        <input 
-            type="text" 
-            class="form-control" 
-            formControlName="name"
-            [ngClass]="{'is-invalid': submitted && form.get('name')?.errors }" />
 
-        <div *ngIf="submitted && form.get('name')?.errors" class="invalid-feedback">
-            <div *ngIf="form.get('name')!.errors!['required']">Name is required</div>
-            <div *ngIf="form.get('name')!.errors!['maxlength']">Name is maximum 20 characters</div>
-        </div>
+    <div class="col">
+
+        <form class='border py-4 container needs-validation' 
+            [formGroup]="form" id="address" modelRegion="form">
+            <div class="form-group">
+                <label class="form-label">ID</label>
+                <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" id="id" modelRegion="forminput" />
+            </div>
+            <br>
+            <div class="form-group">
+                <label class="form-label">City name</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    formControlName="name" id="name" modelRegion="forminput"
+                    [ngClass]="{'is-invalid': submitted && form.get('name')?.errors }" />
+
+                <div *ngIf="submitted && form.get('name')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('name')!.errors!['required']">Name is required</div>
+                    <div *ngIf="form.get('name')!.errors!['maxlength']">Name is maximum 20 characters</div>
+                </div>
+            </div>
+            <br>
+
+            <!-- one2one -->
+            <ng-container *ngIf="params.student == undefined">
+                <app-has-one formControlName="student" label="Student" apiName="students">
+                    <ng-template #subform let-ref>
+                        <app-student-form [item]="ref" viewMode="has-one" [params]="getParams({address: item})" />
+                    </ng-template>
+                </app-has-one>
+
+                <div *ngIf="submitted && form.get('student')?.errors" class="text-danger">
+                    <small *ngIf="form.get('student')!.errors!['required']">Student is required</small>
+                </div>
+                <br>
+            </ng-container>
+
+            <div class="d-flex justify-content-end">
+                <button type="button" class="me-2 btn btn-secondary" (click)="onReset()">Reset</button>
+                <button type="button" (click)="onSubmit()" class="me-2 btn btn-primary">Save</button>
+            </div>
+        </form>
     </div>
-    <br>
-
-    <!-- one2one -->
-    <ng-container *ngIf="params.student == undefined">
-        <app-has-one formControlName="student" label="Student" apiName="students">
-            <ng-template #subform let-ref>
-                <app-student-form [item]="ref" viewMode="embedded" [params]="getParams({address: item})" />
-            </ng-template>
-        </app-has-one>
-
-        <div *ngIf="submitted && form.get('student')?.errors" class="text-danger">
-            <small *ngIf="form.get('student')!.errors!['required']">Student is required</small>
-        </div>
-        <br>
-    </ng-container>
-
-    <div class="d-flex justify-content-end">
-        <button type="button" class="me-2 btn btn-secondary" (click)="onReset()">Reset</button>
-        <button type="button" (click)="onSubmit()" class="me-2 btn btn-primary">Save</button>
-    </div>
-</form>
+</div>

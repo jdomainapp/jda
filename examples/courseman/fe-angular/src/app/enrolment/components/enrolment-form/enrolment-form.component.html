@@ -1,4 +1,4 @@
-<div class="mx-0 d-flex justify-content-between row" >
+<div class="mx-0 d-flex justify-content-between row">
     <div class="px-0 col">
         <button (click)="newItem()" class="me-2 btn btn-primary">Main</button>
         <button (click)="onHide()" class="me-2 btn btn-primary">Browse</button>
@@ -17,23 +17,15 @@
 
 <br>
 <div class="row">
-    <div class="col-md-3" *ngIf="viewMode!='embedded'">
-        <nav class="h-100 flex-column align-items-stretch pe-4 border-end">
-            <nav class="nav nav-pills flex-column" style="position: sticky; top: 60px;">
-                <a role="button" class="nav-link" ngbScrollSpyItem="student-class">Student Class</a>
-                <nav class="nav nav-pills flex-column">
-                    <a *ngFor="let menu of menus" role="button" class="nav-link ms-3 my-1"
-                   parent="student-class">{{menu.label}}</a>
-                </nav>
-            </nav>
-        </nav>
+    <div class="col-3" *ngIf="viewMode=='default'">
+        <ViewRegion name="menu"></ViewRegion>
     </div>
     
-    <div class="col-md-{{viewMode=='embedded' ? '12' : '9'}}">
-        <form class='border py-4 container needs-validation' [formGroup]="form">
+    <div class="col">
+        <form class='border py-4 container needs-validation' [formGroup]="form" id="enrolment" modelRegion="form">
             <div class="form-group">
                 <label class="form-label">ID</label>
-                <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" />
+                <input type="text" class="form-control" name="id" disabled value="{{item?.id}}" id="id" modelRegion="forminput" />
             </div>
             <br>
 
@@ -57,7 +49,7 @@
 
             <div class="form-group">
                 <label class="form-label">Internal Mark</label>
-                <input type="text" class="form-control" formControlName="internalMark"
+                <input type="text" class="form-control" formControlName="internalMark" id="internalMark" modelRegion="forminput"
                     [ngClass]="{'is-invalid': submitted && form.get('internalMark')?.errors }" />
             
                 <div *ngIf="submitted && form.get('internalMark')?.errors" class="invalid-feedback">
@@ -70,7 +62,7 @@
 
             <div class="form-group">
                 <label class="form-label">Exam Mark</label>
-                <input type="text" class="form-control" formControlName="examMark"
+                <input type="text" class="form-control" formControlName="examMark" id="examMark" modelRegion="forminput"
                     [ngClass]="{'is-invalid': submitted && form.get('examMark')?.errors }" />
             
                 <div *ngIf="submitted && form.get('examMark')?.errors" class="invalid-feedback">
@@ -83,13 +75,13 @@
 
             <div class="form-group">
                 <label class="form-label">Final Mark</label>
-                <input type="text" class="form-control" name="finalMark" disabled value="{{item.finalMark}}" />
+                <input type="text" class="form-control" name="finalMark" disabled value="{{item.finalMark}}" id="finalMark" modelRegion="forminput" />
             </div>
             <br>
 
             <div class="form-group">
                 <label class="form-label">Final Grade</label>
-                <input type="text" class="form-control" name="finalGrade" disabled value="{{item.finalGrade}}" />
+                <input type="text" class="form-control" name="finalGrade" disabled value="{{item.finalGrade}}" id="finalGrade" modelRegion="forminput" />
             </div>
             <br>
 
@@ -99,7 +91,9 @@
                 <input type="text" class="form-control mb-3" placeholder="start date - end date" bsDaterangepicker formControlName="range"
                     (ngModelChange)="onSelectDate()"
                     [bsConfig]="{ adaptivePosition: true,  dateInputFormat: 'DD-MM-YYYY'}" 
-                    [ngClass]="{'is-invalid': submitted && form.get('range')?.errors }"  />
+                    [ngClass]="{'is-invalid': submitted && form.get('range')?.errors }" 
+                    id="startdate-enddate" modelRegion="forminput"
+                    />
                     
                 <div *ngIf="submitted && form.get('range')?.errors" class="invalid-feedback">
                     <div *ngIf="form.get('range')!.errors!['required']">Start-End Date is required</div>

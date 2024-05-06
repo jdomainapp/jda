@@ -1,19 +1,19 @@
-import { Directive, ElementRef, Input, Renderer2, ViewContainerRef } from '@angular/core';
+import { Directive, ElementRef, Host, Input, Optional, Renderer2, ViewContainerRef } from '@angular/core';
 import { PatternService } from './pattern.service';
+import { BaseFormComponent } from '../components/base-form/base-form.component';
 
 @Directive({
     selector: '[modelRegion]',
-
 })
 export class ModelRegionDirective {
     @Input() modelRegion = '';
 
     constructor(
-        private container: ViewContainerRef,
-        private patternService: PatternService
+        @Host() public element: ElementRef,
+        private patternService: PatternService,
     ) { }
 
     ngOnInit() {
-        // TODO:
+        this.patternService.renderModelRegion(this);
     }
 }

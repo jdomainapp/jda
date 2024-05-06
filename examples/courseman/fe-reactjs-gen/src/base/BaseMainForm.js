@@ -246,7 +246,9 @@ export default class BaseMainForm extends React.Component {
 
 
   handleDeepStateChange(outerName, innerName, newValue, needsApiCall, onDone) {
-    let outer = this.state[outerName]; outer[innerName] = newValue;
+    let outer = this.state[outerName];
+    if(outer[innerName])
+      outer[innerName] = newValue;
     let newState = {}; newState[outerName] = outer;
     // ignoring `needsApiCall` for simplicity
     this.setState(newState, onDone);

@@ -19,11 +19,21 @@ import AutoSearchFactory from '../common/patterns/autosearch/autosearch.factory'
 
 import AccordionMenuFactory from '../common/patterns/accordionmenu/accordion.factory';
 import AccordionMenu from '../common/patterns/accordionmenu/template/index.vue';
+import ViewRegion from '../common/pattern/viewregion.vue';
+import PatternService from '../common/pattern/pattern.service';
 
+import AutoSearchFactory from '../common/patterns/autosearch/autosearch.factory';
+
+import AccordionMenuFactory from '../common/patterns/accordionmenu/accordion.factory';
+import AccordionMenu from '../common/patterns/accordionmenu/template/index.vue';
+
+// let startDate = new Date();
+// let endDate = new Date();
 // let startDate = new Date();
 // let endDate = new Date();
 
 export default {
+    components: { DateRangePicker, VueSlider, StarRating, ViewRegion, AccordionMenu },
     components: { DateRangePicker, VueSlider, StarRating, ViewRegion, AccordionMenu },
 
     data() {
@@ -33,11 +43,16 @@ export default {
 
             // Date range picker
             // dateRange: { startDate, endDate },
+            // dateRange: { startDate, endDate },
             // Vue slider
             // range: [0, 30],
             // perPage: 3,
             // currentPage: 1,
+            // range: [0, 30],
+            // perPage: 3,
+            // currentPage: 1,
 
+            // begin search
             // begin search
             items: [
                 { id: 1, first_name: "Fred", last_name: "Flintstone" },
@@ -84,6 +99,11 @@ export default {
     //     },
     // },
 
+    // filters: {
+    //     date(val) {
+    //         return val ? val.toLocaleString() : "";
+    //     },
+    // },
     // filters: {
     //     date(val) {
     //         return val ? val.toLocaleString() : "";

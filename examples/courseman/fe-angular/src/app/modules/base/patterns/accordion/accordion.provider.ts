@@ -2,17 +2,21 @@ import { PatternProvider } from "src/app/modules/base/pattern/pattern.provider"
 import { ViewRegionComponent } from "../../pattern/view-region";
 import { ModelRegionDirective } from "../../pattern/model-region";
 
-export class AutoSearchProvider extends PatternProvider {
+export class AccordionProvider extends PatternProvider {
     
     override onRenderRegion(region: ViewRegionComponent, data?: {}): void {
         switch (region.name) {
-            case "searchbox":
+            case "menu":
                 return this.pattern.render(region);
         }
     }
 
     override onModelRegion(region: ModelRegionDirective, data?: {}): void {
-        // do nothing
+        switch (region.modelRegion) {
+            case "form":
+            case "forminput":
+                return this.pattern.renderModel(region);
+        }
     }
     
 }
