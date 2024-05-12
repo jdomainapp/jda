@@ -28,7 +28,7 @@ export default function DeleteConfirmation(props) {
   return (
     <>
       <Button variant={props.outline ? "outline-danger" : "danger"}
-        readOnly={props.readOnly}
+        disabled={props.disabled}
         onClick={props.withoutModal ? onAction : handleShow}>
         {props.label ? props.label : "Delete"}</Button>
       {hasModal === true ? 

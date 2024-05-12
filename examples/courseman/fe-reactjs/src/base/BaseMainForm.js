@@ -193,6 +193,7 @@ export default class BaseMainForm extends React.Component {
   }
 
   handleStateChange(stateName, newValue, needsApiCall = false, onDone = undefined) {
+    console.log(this.state)
     let newState = {};
     if (stateName.includes(".") && stateName.indexOf(".") === stateName.lastIndexOf(".")) {
       const outer = stateName.split(".")[0];
@@ -245,10 +246,9 @@ export default class BaseMainForm extends React.Component {
 
 
   handleDeepStateChange(outerName, innerName, newValue, needsApiCall, onDone) {
-    let outer = this.state[outerName];
-    if(outer[innerName])
-      outer[innerName] = newValue;
-    let newState = {}; newState[outerName] = outer;
+    let newState = {};
+    newState[outerName] = this.state[outerName] ? this.state[outerName] : {};
+    newState[outerName][innerName] = newValue;
     // ignoring `needsApiCall` for simplicity
     this.setState(newState, onDone);
   }
