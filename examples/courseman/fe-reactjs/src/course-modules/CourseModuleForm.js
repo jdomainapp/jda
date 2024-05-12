@@ -26,11 +26,11 @@ export default class CourseModuleForm extends BaseForm {
     this.state = {
       ...this.state,
       ranges:
-          [{
-            startDate: new Date(),
-            endDate: addDays(new Date(), 7),
-            key: 'selection'
-          }],
+        [{
+          startDate: new Date(),
+          endDate: addDays(new Date(), 7),
+          key: 'selection'
+        }],
       // validation object
 
     };
@@ -39,7 +39,7 @@ export default class CourseModuleForm extends BaseForm {
   expand(e) {
     e.preventDefault()
     var coll = document.getElementById("input");
-    if (coll.style.maxHeight != "0px"){
+    if (coll.style.maxHeight != "0px") {
       coll.style.maxHeight = "0px";
     } else {
       coll.style.maxHeight = coll.scrollHeight + "px";
@@ -66,19 +66,19 @@ export default class CourseModuleForm extends BaseForm {
       // },
       name: {
         optional: false,
-            validated: undefined,
-            message: "",
-            regex: /^S\d+$/,
-            validMsg: "",
-            invalidMsg: "Name must start with 'S' and followed by one or more numbers!"
+        validated: undefined,
+        message: "",
+        regex: /^[A-Za-z\s]{1,30}$/,
+        validMsg: "",
+        invalidMsg: "Name must be specified up to 30 characters in length!"
       },
       description: {
         optional: true,
-            validated: undefined,
-            message: "",
-            regex: /^[A-Za-z\s]+$/,
-            validMsg: "",
-            invalidMsg: "Description must only include characters!"
+        validated: undefined,
+        message: "",
+        regex: /^[A-Za-z\s]$/,
+        validMsg: "",
+        invalidMsg: "Description must only include characters!"
       },
       // semester: {
       //   optional: false,
@@ -90,11 +90,11 @@ export default class CourseModuleForm extends BaseForm {
       // },
       credits: {
         optional: false,
-            validated: undefined,
-            message: "",
-            regex: /^\d+$/,
-            validMsg: "",
-            invalidMsg: "Name must be a number or a float number!"
+        validated: undefined,
+        message: "",
+        regex: /^\d+$/,
+        validMsg: "",
+        invalidMsg: "Name must be a number or a float number!"
       },
       // rating: {
       //   optional: true,
@@ -122,122 +122,130 @@ export default class CourseModuleForm extends BaseForm {
     </>);
   }
 
-  renderForm() {
+  renderSubTypeForm() {
     switch (this.props.current.type) {
-      case 'compulsory': return (<><Form>
-        <FormGroup>
-          <Form.Label>Type</Form.Label>
-          <Form.Control
-              onFocus={()=>{this.props.mainForm.handleElementFocus()}} 
-              {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
-              as="select" value={this.renderObject('current.type')}
-              onChange={(e)=>{
-                this.props.handleTypeChange(e)
-               }}
-              readOnly={this.props.viewType !== "create"} custom
-              isValid={this.props.inputState.id ? this.props.inputState.id.validated : false}
-              isInvalid={this.props.inputState.id ? !this.props.inputState.id.validated : false}
-          >
-            <option value='' readOnly selected>&lt;Please choose one&gt;</option>
-            <option value="compulsory">compulsory</option>
-            <option value="elective">elective</option>
-          </Form.Control>
-          {this.props.inputState.id ?
-              <Form.Control.Feedback type={this.props.inputState.id.validated ? "valid" : "invalid"}>{this.props.inputState.id.message}</Form.Control.Feedback>
-              : ""
-          }
+      case "elective":
+        return <FormGroup>
+          <Form.Label>Dept name</Form.Label>
+          <FormControl {...this.onModelRegionMenuItem("accordion")} type="text" value={this.renderObject("current.deptName")} onChange={(e) => this.props.handleStateChange("current.deptName", e.target.value, false)} />
         </FormGroup>
-        <br />
-        <FormGroup>
-          <Form.Label>Id</Form.Label>
-          <FormControl onFocus={()=>{console.log("ID focused")}} onSelect={()=>{console.log("ID focused")}} {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} readOnly />
-        </FormGroup>
-        <br />
-        <FormGroup>
-          <Form.Label>Code</Form.Label>
-          <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="text" value={this.renderObject("current.code")} onChange={(e) => this.props.handleStateChange("current.code", e.target.value, false)} readOnly />
-        </FormGroup>
-        <br />
-        <FormGroup>
-          <Form.Label>Name</Form.Label>
-          <FormControl 
-                      {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
-                      type="text" value={this.renderObject("current.name")}
-                      onChange={(e) => {
-                         this.props.handleStateChange("current.name", e.target.value, false)
-                         this.validate(
-                             this.renderObject('current.name'),
-                             "name"
-                         )
-                       }}
-                      isValid={this.props.inputState.name && this.props.inputState.name.validated !== undefined ? this.props.inputState.name.validated : false}
-                      isInvalid={this.props.inputState.name && this.props.inputState.name.validated !== undefined ? !this.props.inputState.name.validated : false}
+      case "compulsory":
+        return <>
+          {this.props.mainForm.consumers.map(consumer => consumer.onModelRegion("skipMenuItem", { num: 1 }))}
+        </>
+    }
+  }
+
+  renderForm() {
+    return (<><Form>
+      <FormGroup>
+        <Form.Label>Type</Form.Label>
+        <Form.Control
+          {...this.onModelRegionMenuItem("accordion")}
+          as="select" value={this.renderObject('current.type')}
+          onChange={(e) => {
+            this.props.handleTypeChange(e)
+          }}
+          readOnly={this.props.viewType !== "create"} custom
+          isValid={this.props.inputState.id ? this.props.inputState.id.validated : false}
+          isInvalid={this.props.inputState.id ? !this.props.inputState.id.validated : false}
+        >
+          <option value='' readOnly selected>&lt;Please choose one&gt;</option>
+          <option value="compulsory">compulsory</option>
+          <option value="elective">elective</option>
+        </Form.Control>
+        {this.props.inputState.id ?
+          <Form.Control.Feedback type={this.props.inputState.id.validated ? "valid" : "invalid"}>{this.props.inputState.id.message}</Form.Control.Feedback>
+          : ""
+        }
+      </FormGroup>
+      <br />
+      <FormGroup>
+        <Form.Label>Id</Form.Label>
+        <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} readOnly />
+      </FormGroup>
+      <br />
+      <FormGroup>
+        <Form.Label>Code</Form.Label>
+        <FormControl {...this.onModelRegionMenuItem("accordion")} type="text" value={this.renderObject("current.code")} onChange={(e) => this.props.handleStateChange("current.code", e.target.value, false)} readOnly />
+      </FormGroup>
+      <br />
+      <FormGroup>
+        <Form.Label>Name</Form.Label>
+        <FormControl
+          {...this.onModelRegionMenuItem("accordion")}
+          type="text" value={this.renderObject('current.name')}
+          onChange={(e) => {
+            this.props.handleStateChange("current.name", e.target.value, false)
+            this.validate(this.renderObject('current.name'),"name")
+          }}
+          isValid={this.props.inputState.name && this.props.inputState.name.validated !== undefined ? this.props.inputState.name.validated : false}
+          isInvalid={this.props.inputState.name && this.props.inputState.name.validated !== undefined ? !this.props.inputState.name.validated : false}
+        />
+        {this.props.inputState.name && this.props.inputState.name.validated !== undefined ?
+          <Form.Control.Feedback type={this.props.inputState.name.validated ? "valid" : "invalid"}>{this.props.inputState.name.message}</Form.Control.Feedback>
+          : ""
+        }
+      </FormGroup>
+      <br />
+      <FormGroup>
+        <Form.Label>Semester</Form.Label>
+        <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.semester")} onChange={(e) => this.props.handleStateChange("current.semester", e.target.value, false)} />
+      </FormGroup>
+      <br />
+      { <Carousel>
+        <Carousel.Item>
+          <h3>1</h3>
+        </Carousel.Item>
+        <Carousel.Item>
+          <h3>2</h3>
+        </Carousel.Item>
+        <Carousel.Item>
+          <h3>3</h3>
+        </Carousel.Item>
+        <Carousel.Item>
+          <h3>4</h3>
+        </Carousel.Item>
+        <Carousel.Item>
+          <h3>5</h3>
+        </Carousel.Item>
+        <Carousel.Item>
+          <h3>6</h3>
+        </Carousel.Item>
+      </Carousel> }
+      {/* <br /> */}
+      <FormGroup>
+        <Form.Label>Cost</Form.Label>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <FormControl {...this.onModelRegionMenuItem("accordion")} type="number" value={this.renderObject("current.cost")} onChange={(e) => this.props.handleStateChange("current.cost", e.target.value, false)} />
+          <span style={{ margin: "0 10px" }}>100</span>
+          <Slider
+            min={100}
+            max={500}
+            value={this.props.current.cost ? this.props.current.cost : 100}
+            onChange={(value) => { this.props.handleStateChange("current.cost", value, false) }}
           />
-          {this.props.inputState.name && this.props.inputState.name.validated !== undefined ?
-              <Form.Control.Feedback type={this.props.inputState.name.validated ? "valid" : "invalid"}>{this.props.inputState.name.message}</Form.Control.Feedback>
-              : ""
+          <span style={{ margin: "0 10px" }}>500</span>
+        </div>
+      </FormGroup>
+      <br />
+      <FormGroup {...this.onModelRegionMenuItem("accordion")}>
+        <Form.Label>Rating</Form.Label>
+        <StarRatings
+          rating={this.props.current.rating ? this.props.current.rating : 0}
+          starRatedColor="blue"
+          numberOfStars={5}
+          name='rating'
+          changeRating={(newRating, name) => {
+            this.props.handleStateChange("current.rating", newRating, false)
           }
-        </FormGroup>
-        <br />
-        <FormGroup>
-          <Form.Label>Semester</Form.Label>
-          <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.semester")} onChange={(e) => this.props.handleStateChange("current.semester", e.target.value, false)}  />
-        </FormGroup>
-        <br />
-        <Carousel>
-          <Carousel.Item>
-            <h3>1</h3>
-          </Carousel.Item>
-          <Carousel.Item>
-            <h3>2</h3>
-          </Carousel.Item>
-          <Carousel.Item>
-            <h3>3</h3>
-          </Carousel.Item>
-          <Carousel.Item>
-            <h3>4</h3>
-          </Carousel.Item>
-          <Carousel.Item>
-            <h3>5</h3>
-          </Carousel.Item>
-          <Carousel.Item>
-            <h3>6</h3>
-          </Carousel.Item>
-        </Carousel>
-        <br />
-        <FormGroup>
-          <Form.Label>Cost</Form.Label>
-          <div style={{display: "flex", alignItems: "center"}}>
-            <FormControl {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)} type="number" value={this.renderObject("current.cost")} onChange={(e) => this.props.handleStateChange("current.cost", e.target.value, false)}  />
-            <span style={{margin: "0 10px"}}>100</span>
-            <Slider
-                min={100}
-                max={500}
-                value={this.props.current.cost ? this.props.current.cost : 100}
-                onChange={(value)=>{this.props.handleStateChange("current.cost", value, false)}}
-            />
-            <span style={{margin: "0 10px"}}>500</span>
-          </div>
-        </FormGroup>
-        <br/>
-        <FormGroup {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}>
-          <Form.Label>Rating</Form.Label>
-          <StarRatings
-              rating={this.props.current.rating ? this.props.current.rating : 0}
-              starRatedColor="blue"
-              numberOfStars={5}
-              name='rating'
-              changeRating={(newRating, name)=>
-                {
-                  this.props.handleStateChange("current.rating", newRating, false)
-                }
-              }
-          />
-        </FormGroup>
-        <br/>
-        <FormGroup>
-          <Button 
-          {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
+          }
+        />
+      </FormGroup>
+      <br />
+      <FormGroup>
+        <Button
+          {...this.onModelRegionMenuItem("accordion")}
           style={{
             cursor: "pointer",
             padding: "18px",
@@ -245,101 +253,63 @@ export default class CourseModuleForm extends BaseForm {
             border: "none",
             textAlign: "left",
             outline: "none",
-          }} onClick={(e)=>this.expand(e)}>Description</Button>
-          <div id="input" className={"content"}  style={{
+          }} onClick={(e) => this.expand(e)}>Description</Button>
+        <div id="input" className={"content"} style={{
+          width: "100%",
+          maxHeight: 0,
+          overflow: "hidden",
+          transition: "max-height 0.2s ease-out",
+          backgroundColor: "#f1f1f1",
+        }}>
+          <textarea style={{
             width: "100%",
-            maxHeight: 0,
-            overflow: "hidden",
-            transition: "max-height 0.2s ease-out",
-            backgroundColor: "#f1f1f1",
-          }}>
-            <textarea style={{
-              width: "100%",
-              border: "none",
-              resize: "none",
-              padding: "0",
-              backgroundColor: "transparent",
-              outline: "none",
-              margin: "0"
-            }} placeholder={"This is a test collapsible input"} rows={"5"}
+            border: "none",
+            resize: "none",
+            padding: "0",
+            backgroundColor: "transparent",
+            outline: "none",
+            margin: "0"
+          }} placeholder={"This is a test collapsible input"} rows={"5"}
+            value={ this.renderObject('current.description')}
             onChange={(e) => {
               this.props.handleStateChange("current.description", e.target.value, false)
-              this.validate(
-                  this.renderObject('current.description'),
-                  "description",
-              )
+              this.validate(this.renderObject('current.description'),"description")
             }}
             isValid={this.props.inputState.description && this.props.inputState.description.validated !== undefined ? this.props.inputState.description.validated : false}
             isInvalid={this.props.inputState.description && this.props.inputState.description.validated !== undefined ? !this.props.inputState.description.validated : false}
-            ></textarea>
-          </div>
+          ></textarea>
+        </div>
 
-          {this.props.inputState.description && this.props.inputState.description.validated !== undefined ?
-              <Form.Control.Feedback type={this.props.inputState.description.validated ? "valid" : "invalid"}>{this.props.inputState.description.message}</Form.Control.Feedback>
-              : ""
-          }
-        </FormGroup>
-        <br/>
-        <FormGroup>
-          <Form.Label>Credits</Form.Label>
-          <FormControl 
-                      {...(this.props.structure ? this.props.structure.getCurrentProps() : undefined)}
-                      type="number" value={this.renderObject("current.credits")}
-                      onChange={(e) => {
-                         this.props.handleStateChange("current.credits", e.target.value, false)
-                         this.validate(
-                             this.renderObject('current.credits'),
-                             "credits"
-                         )
-                       }}
-                       isValid={this.props.inputState.credits && this.props.inputState.credits.validated !== undefined ? this.props.inputState.credits.validated : false}
-                       isInvalid={this.props.inputState.credits && this.props.inputState.credits.validated !== undefined ? !this.props.inputState.credits.validated : false}
-          />
+        {this.props.inputState.description && this.props.inputState.description.validated !== undefined ?
+          <Form.Control.Feedback type={this.props.inputState.description.validated ? "valid" : "invalid"}>{this.props.inputState.description.message}</Form.Control.Feedback>
+          : ""
+        }
+      </FormGroup>
+      <br />
+      <FormGroup>
+        <Form.Label>Credits</Form.Label>
+        <FormControl
+          {...this.onModelRegionMenuItem("accordion")}
+          type="number" value={this.renderObject('current.credits')}
+          onChange={(e) => {
+            this.props.handleStateChange("current.credits", e.target.value, false)
+            this.validate(
+              this.renderObject('current.credits'),
+              "credits"
+            )
+          }}
+          isValid={this.props.inputState.credits && this.props.inputState.credits.validated !== undefined ? this.props.inputState.credits.validated : false}
+          isInvalid={this.props.inputState.credits && this.props.inputState.credits.validated !== undefined ? !this.props.inputState.credits.validated : false}
+        />
 
-          {this.props.inputState.credits && this.props.inputState.credits.validated !== undefined ?
-              <Form.Control.Feedback type={this.props.inputState.credits.validated ? "valid" : "invalid"}>{this.props.inputState.credits.message}</Form.Control.Feedback>
-              : ""
-          }
-        </FormGroup>
-      </Form></>);
-      case 'elective': return (<><Form>
-        <FormGroup>
-          <Form.Label>Type</Form.Label>
-          <Form.Control as="select" value={this.renderObject('current.type')} onChange={this.props.handleTypeChange} readOnly={this.props.viewType !== "create"} custom>
-            <option value='' readOnly selected>&lt;Please choose one&gt;</option>
-            <option value="compulsory">compulsory</option>
-            <option value="elective">elective</option>  </Form.Control>
-        </FormGroup>
-        <br />
-        <FormGroup>
-          <Form.Label>Id</Form.Label>
-          <FormControl type="number" value={this.renderObject("current.id")} onChange={(e) => this.props.handleStateChange("current.id", e.target.value, false)} readOnly />
-        </FormGroup>
-        <br />
-        <FormGroup>
-          <Form.Label>Code</Form.Label>
-          <FormControl type="text" value={this.renderObject("current.code")} onChange={(e) => this.props.handleStateChange("current.code", e.target.value, false)} readOnly />
-        </FormGroup>
-        <br />
-        <FormGroup>
-          <Form.Label>Name</Form.Label>
-          <FormControl type="text" value={this.renderObject("current.name")} onChange={(e) => this.props.handleStateChange("current.name", e.target.value, false)}  />
-        </FormGroup>
-        <br />
-        <FormGroup>
-          <Form.Label>Semester</Form.Label>
-          <FormControl type="number" value={this.renderObject("current.semester")} onChange={(e) => this.props.handleStateChange("current.semester", e.target.value, false)}  />
-        </FormGroup>
-        <br />
-        <FormGroup>
-          <Form.Label>Credits</Form.Label>
-          <FormControl type="number" value={this.renderObject("current.credits")} onChange={(e) => this.props.handleStateChange("current.credits", e.target.value, false)}  />
-        </FormGroup>
-        <br />
-        <FormGroup>
-          <Form.Label>Dept name</Form.Label>
-          <FormControl type="text" value={this.renderObject("current.deptName")} onChange={(e) => this.props.handleStateChange("current.deptName", e.target.value, false)}  />
-        </FormGroup></Form></>);
-    }
+        {this.props.inputState.credits && this.props.inputState.credits.validated !== undefined ?
+          <Form.Control.Feedback type={this.props.inputState.credits.validated ? "valid" : "invalid"}>{this.props.inputState.credits.message}</Form.Control.Feedback>
+          : ""
+        }
+      </FormGroup>
+      {this.renderSubTypeForm()}
+    </Form>
+    </>
+    )
   }
 }
