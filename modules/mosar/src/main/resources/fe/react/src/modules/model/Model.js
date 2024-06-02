@@ -1,4 +1,4 @@
-export default class @slot{{ModuleName}} {
+export default class @slot{{ModuleNames}} {
     constructor() {
 
     }

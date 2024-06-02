@@ -20,7 +20,7 @@ public class ModelGen extends NameFormatter {
 
     @WithFileName
     public String fileName(@RequiredParam.ModuleName String name) {
-        return ModuleName(name);
+        return ModuleNames(name);
     }
 
     @LoopReplacement(id = "searchKeys")
