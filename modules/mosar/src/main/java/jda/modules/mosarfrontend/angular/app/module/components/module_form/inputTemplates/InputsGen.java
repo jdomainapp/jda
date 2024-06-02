@@ -1,4 +1,4 @@
-package jda.modules.mosarfrontend.angular.app.module.form.inputTemplates;
+package jda.modules.mosarfrontend.angular.app.module.components.module_form.inputTemplates;
 
 import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.dcsl.syntax.DAttr;

@@ -3,10 +3,10 @@ package jda.modules.mosarfrontend.angular;
 import jda.modules.mosarfrontend.angular.app.AppComponentGen;
 import jda.modules.mosarfrontend.angular.app.AppModuleGen;
 import jda.modules.mosarfrontend.angular.app.AppRoutingModuleGen;
-import jda.modules.mosarfrontend.angular.app.module.form.formComponentGen;
-import jda.modules.mosarfrontend.angular.app.module.form.formComponentHtmlGen;
-import jda.modules.mosarfrontend.angular.app.module.models.ModelGen;
-import jda.modules.mosarfrontend.angular.app.module.moduleComponentGen;
+import jda.modules.mosarfrontend.angular.app.module.components.module.ModuleHtmlGen;
+import jda.modules.mosarfrontend.angular.app.module.components.module.ModuleTsGen;
+import jda.modules.mosarfrontend.angular.app.module.components.module_form.FormTsGen;
+import jda.modules.mosarfrontend.angular.app.module.components.module_list.ModuleListGen;
 import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.ComponentGenDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.CrossTemplatesDesc;
@@ -26,13 +26,16 @@ import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesD
         ),
         moduleTemplates = @ModuleTemplatesDesc(
                 Form = @ComponentGenDesc(
-                        genClasses = {}
+                        genClasses = {FormTsGen.class}
+                ),
+                List = @ComponentGenDesc(
+                        genClasses = {ModuleListGen.class}
                 ),
                 Entity = @ComponentGenDesc(
-                        genClasses = {ModelGen.class}
+                        genClasses = {}
                 ),
                 Main = @ComponentGenDesc(
-                        genClasses = {}
+                        genClasses = {ModuleTsGen.class, ModuleHtmlGen.class}
                 )
         )
 )

@@ -1,16 +1,22 @@
     <div class="border py-4 container">
         <h2 class="text-center">Form: {{title}}</h2><br>
         <div *ngIf="view=='form'">
-            <app-address-form 
+            <app-@slot{{moduleJname}}-form
                 (onHide)="changeView('list')"
                 [searchId]="searchId"
-                ></app-address-form>
+                [params]="params"
+                [viewMode]="viewMode"
+                [belongsTo]="belongsTo"
+                ></app-@slot{{moduleJname}}-form>
         </div>
         <div *ngIf="view=='list'">
-            <app-address-list 
+            <app-@slot{{moduleJname}}-list
                 (onHide)="changeView('form')"
                 (onItemSelect)="edit($event)"
-            ></app-address-list>
+                [params]="params"
+                [viewMode]="viewMode"
+                [belongsTo]="belongsTo"
+            ></app-@slot{{moduleJname}}-list>
         </div>
     </div>
 
