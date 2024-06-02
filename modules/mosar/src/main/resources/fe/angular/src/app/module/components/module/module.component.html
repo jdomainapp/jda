@@ -1,0 +1,16 @@
+    <div class="border py-4 container">
+        <h2 class="text-center">Form: {{title}}</h2><br>
+        <div *ngIf="view=='form'">
+            <app-address-form 
+                (onHide)="changeView('list')"
+                [searchId]="searchId"
+                ></app-address-form>
+        </div>
+        <div *ngIf="view=='list'">
+            <app-address-list 
+                (onHide)="changeView('form')"
+                (onItemSelect)="edit($event)"
+            ></app-address-list>
+        </div>
+    </div>
+

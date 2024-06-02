@@ -5,6 +5,7 @@ import jda.modules.mosarfrontend.angular.app.AppModuleGen;
 import jda.modules.mosarfrontend.angular.app.AppRoutingModuleGen;
 import jda.modules.mosarfrontend.angular.app.module.form.formComponentGen;
 import jda.modules.mosarfrontend.angular.app.module.form.formComponentHtmlGen;
+import jda.modules.mosarfrontend.angular.app.module.models.ModelGen;
 import jda.modules.mosarfrontend.angular.app.module.moduleComponentGen;
 import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
 import jda.modules.mosarfrontend.common.anotation.template_desc.ComponentGenDesc;
@@ -25,10 +26,13 @@ import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesD
         ),
         moduleTemplates = @ModuleTemplatesDesc(
                 Form = @ComponentGenDesc(
-                        genClasses = {formComponentGen.class, formComponentHtmlGen.class}
+                        genClasses = {}
+                ),
+                Entity = @ComponentGenDesc(
+                        genClasses = {ModelGen.class}
                 ),
                 Main = @ComponentGenDesc(
-                        genClasses = {moduleComponentGen.class}
+                        genClasses = {}
                 )
         )
 )
