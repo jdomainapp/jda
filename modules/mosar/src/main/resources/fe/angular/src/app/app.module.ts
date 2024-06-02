@@ -1,48 +1,53 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule} from './app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BaseComponent } from './base/base.component';
-import { BaseFormComponent } from './base/base-form/base-form.component';
-import { BaseListComponent } from './base/base-list/base-list.component';
-import { BaseFormDirectiveComponent } from './base/base-form/base-form-directive.component';
-import { CompDirective } from './common/comp.directive';
-import { BaseService } from './base/base.service';
-import { BaseCommonComponent } from './base/base-common/base-common.component';
-import { ToastrModule } from 'ngx-toastr';
+import { BaseModule } from './modules/base/base.module';
+import { BaseService } from './modules/base/services/base.service';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NotificationService } from './common/notification.service';
-
+import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { RatingModule } from 'ngx-bootstrap/rating';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 @loop{importModuleComponents}[[
-import { @slot{{ModuleName}}Component } from './@slot{{moduleJname}}/@slot{{moduleJname}}.component';
-import { @slot{{ModuleName}}FormComponent } from './@slot{{moduleJname}}/@slot{{moduleJname}}-form/@slot{{moduleJname}}-form.component';]]loop{importModuleComponents}@
-
+import { @slot{{ModuleName}}FormComponent } from './@slot{{moduleJname}}/components/@slot{{moduleJname}}-form/@slot{{moduleJname}}-form.component';
+import { @slot{{ModuleName}}ListComponent } from './@slot{{moduleJname}}/components/@slot{{moduleJname}}-list/@slot{{moduleJname}}-list.component';
+import { @slot{{ModuleName}}Component } from './@slot{{moduleJname}}/components/@slot{{moduleJname}}/@slot{{moduleJname}}.component';
+]]loop{importModuleComponents}@
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { NgxSliderModule } from 'ngx-slider-v2';
+import { PatternService } from './modules/base/pattern/pattern.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BaseComponent,
-    BaseCommonComponent,
-    BaseFormComponent,
-    BaseListComponent,
-    BaseFormDirectiveComponent,
-    CompDirective,
     @loop{declareModuleComponents}[[
     @slot{{ModuleName}}Component,
-    @slot{{ModuleName}}FormComponent,]]loop{declareModuleComponents}@
+    @slot{{ModuleName}}ListComponent,
+    @slot{{ModuleName}}FormComponent,
+]]loop{declareModuleComponents}@
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule ,
     AppRoutingModule,
-    HttpClientModule,
-    ToastrModule.forRoot(),
-    BrowserAnimationsModule
+
+    BaseModule,
+    FormsModule,
+    ReactiveFormsModule,
+
+    // PatternModule,
+      BrowserAnimationsModule,
+
+      RatingModule.forRoot(),
+    // NgbModule
+    NgbRatingModule,
+    BsDatepickerModule.forRoot(),
+    AccordionModule.forRoot(),
+    NgxSliderModule
   ],
-  providers: [BaseService, NotificationService],
+  providers: [BaseService, PatternService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
