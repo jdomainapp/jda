@@ -23,9 +23,7 @@ public class DateRangeInput extends BaseFormGen {
     public String range_label(@RequiredParam.ModuleField DField dField, @RequiredParam.ModuleFields DField[] dFields) {
         DateRangeConfig config = getConfig(dFields, dField);
 
-        return FieldsUtil.getLabel(config.getStart()) +
-                " - " +
-                FieldsUtil.getLabel(config.getEnd());
+        return FieldsUtil.getLabel(config.getStart());
     }
 
     @SlotReplacement(id = "range_id")
@@ -33,7 +31,7 @@ public class DateRangeInput extends BaseFormGen {
         return dField.getAttributeDesc().id();
     }
 
-    @SlotReplacement(id="RangeName")
+    @SlotReplacement(id = "RangeName")
     public String rangeName(@RequiredParam.ModuleField DField dField) {
         return ModuleName(dField.getAttributeDesc().id());
     }

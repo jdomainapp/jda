@@ -39,7 +39,7 @@ export class @slot{{ModuleName}}FormComponent extends BaseFormComponent {
         @slot{{fieldName}}:[[new Date(this.item?.@slot{{start}}), new Date(this.item?.@slot{{end}})], Validators.required]
   ]]loop{dateRangeInputs}@))if{haveDateRange2}@
     @if{haveSubType2}((@loop{subTypeFields}[[
-        @slot{{fieldName}}: [this.item?.@slot{{fieldName}},this.item.type == '@slot{{type}}' [@slot{{fieldValidators}}]],
+        @slot{{fieldName}}: [this.item?.@slot{{fieldName}},this.item.type == '@slot{{type}}', [@slot{{fieldValidators}}]],
   ]]loop{subTypeFields}@))if{haveSubType2}@
     });
   }

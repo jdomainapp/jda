@@ -45,6 +45,9 @@ public class FormHtmlGen extends BaseFormGen {
                 } else {
                     return ""; // Skip date range end
                 }
+            case "text-area":
+                genClass = TextAreaInput.class;
+                break;
             case "date":
                 genClass = DateInput.class;
                 break;
@@ -90,6 +93,8 @@ public class FormHtmlGen extends BaseFormGen {
                         return "slider";
                     case Rating:
                         return "rating";
+                    case TextArea:
+                        return "text-area";
                     default:
                         return "";
                 }

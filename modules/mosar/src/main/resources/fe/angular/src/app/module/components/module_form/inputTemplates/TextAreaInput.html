@@ -1,0 +1,7 @@
+<div class="form-group">
+                <accordion [isAnimated]="true">
+                    <accordion-group heading="@slot{{fieldLabel}}">
+                        <textarea class="form-control" formControlName="@slot{{fieldName}}"></textarea>
+                    </accordion-group>
+                </accordion>
+            </div>
