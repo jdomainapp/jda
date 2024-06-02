@@ -1,4 +1,4 @@
-package jda.modules.mosarfrontend.reactjs.src.modules.patterns.model;
+package jda.modules.mosarfrontend.reactjs.src.modules.model;
 
 import jda.modules.mosarfrontend.common.anotation.gen_controlers.LoopReplacement;
 import jda.modules.mosarfrontend.common.anotation.gen_controlers.RequiredParam;
