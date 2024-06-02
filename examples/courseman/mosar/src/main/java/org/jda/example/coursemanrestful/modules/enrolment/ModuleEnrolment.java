@@ -84,9 +84,9 @@ public class ModuleEnrolment  {
   @AttributeDesc(label="Final Grade", alignX=AlignmentX.Center)
   private char finalGrade;
 
-  @AttributeDesc(id = "date_range",label = "Date range", inputType = InputTypes.DateRangeStart)
+  @AttributeDesc(id = "date_range",label = "Schedule", inputType = InputTypes.DateRangeStart)
   private Date startDate;
 
-  @AttributeDesc(id = "date_range",label = "Date range", inputType = InputTypes.DateRangeEnd)
+  @AttributeDesc(id = "date_range",label = "Schedule", inputType = InputTypes.DateRangeEnd)
   private Date endDate;
 }
