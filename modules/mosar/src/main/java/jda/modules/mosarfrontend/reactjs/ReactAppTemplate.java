@@ -13,7 +13,7 @@ import jda.modules.mosarfrontend.reactjs.src.modules.patterns.search.SearchConsu
 import jda.modules.mosarfrontend.reactjs.src.modules.patterns.search.SearchIndexGen;
 
 @AppTemplateDesc(
-        resource = "fe/react/resources_f59.zip",
+        resource = "fe/react/resources.zip",
         templateRootFolder = "fe/react",
         crossTemplates = @CrossTemplatesDesc(
                 Router = @ComponentGenDesc(
