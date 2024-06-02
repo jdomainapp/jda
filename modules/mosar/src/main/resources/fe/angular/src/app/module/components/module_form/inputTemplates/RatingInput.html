@@ -1,0 +1,12 @@
+            <div class="form-group">
+                <label class="form-label">@slot{{fieldLabel}}</label>
+
+                <ngb-rating [(rate)]="item.@slot{{fieldName}}" (rateChange)="form.patchValue({@slot{{fieldName}}: item.@slot{{fieldName}}})" [max]="5" class="form-control" style="font-size: 35px;"></ngb-rating>
+                <input type="hidden" class="form-control" formControlName="@slot{{fieldName}}"
+                    [ngClass]="{'is-invalid': submitted && form.get('@slot{{fieldName}}')?.errors }" />
+
+                <div *ngIf="submitted && form.get('@slot{{fieldName}}')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('@slot{{fieldName}}')!.errors!['min']">Rating is greater than or equals @slot{{min}}</div>
+                    <div *ngIf="form.get('@slot{{fieldName}}')!.errors!['min']">Rating is less than or equals @slot{{max}}</div>
+                </div>
+            </div>

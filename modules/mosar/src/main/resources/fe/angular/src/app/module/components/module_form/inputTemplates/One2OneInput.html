@@ -1,0 +1,13 @@
+<!-- one2one -->
+            <ng-container *ngIf="params.@slot{{fieldName}} == undefined">
+                <app-has-one formControlName="@slot{{fieldName}}" label="@slot{{fieldLabel}}" apiName="@slot{{fieldJnames}}">
+                    <ng-template #subform let-ref>
+                        <app-@slot{{fieldJname}}-form [item]="ref" viewMode="has-one" [params]="getParams({@slot{{linkedName}}: item})" />
+                    </ng-template>
+                </app-has-one>
+
+                <div *ngIf="submitted && form.get('@slot{{fieldName}}')?.errors" class="text-danger">
+                    <small *ngIf="form.get('@slot{{fieldName}}')!.errors!['required']">@slot{{fieldLabel}} is required</small>
+                </div>
+                <br>
+            </ng-container>

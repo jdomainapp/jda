@@ -1,7 +1,13 @@
-    <div class="form-group">
-        <label class="form-label">Type</label>
-        <select class="custom-select" [(ngModel)]="item.type">
-            <option value="" disabled="">&lt;Please choose one&gt;</option>@loop{typeOptions}[[
-            <option value="@slot{{formType}}">@slot{{formType}}</option>]]loop{typeOptions}@
-        </select>
-    </div><br>
+<div class="form-group">
+                <label class="form-label">Type</label>
+                <select class="form-control" [(ngModel)]="item.type" (ngModelChange)="onChange()" formControlName="type"
+                    [ngClass]="{'is-invalid': submitted && form.get('type')?.errors }">
+
+                    <option value="">&lt;Please choose one&gt;</option>@loop{typeOptions}[[
+                    <option value="@slot{{option}}">@slot{{option}}</option>]]loop{typeOptions}@
+                </select>
+
+                <div *ngIf="submitted && form.get('type')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('type')!.errors!['required']">Type is required</div>
+                </div>
+            </div>

@@ -5,6 +5,7 @@ import jda.modules.mosarfrontend.angular.app.AppModuleGen;
 import jda.modules.mosarfrontend.angular.app.AppRoutingModuleGen;
 import jda.modules.mosarfrontend.angular.app.module.components.module.ModuleHtmlGen;
 import jda.modules.mosarfrontend.angular.app.module.components.module.ModuleTsGen;
+import jda.modules.mosarfrontend.angular.app.module.components.module_form.FormHtmlGen;
 import jda.modules.mosarfrontend.angular.app.module.components.module_form.FormTsGen;
 import jda.modules.mosarfrontend.angular.app.module.components.module_list.ModuleListGen;
 import jda.modules.mosarfrontend.common.anotation.template_desc.AppTemplateDesc;
@@ -26,7 +27,7 @@ import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesD
         ),
         moduleTemplates = @ModuleTemplatesDesc(
                 Form = @ComponentGenDesc(
-                        genClasses = {FormTsGen.class}
+                        genClasses = {FormTsGen.class, FormHtmlGen.class}
                 ),
                 List = @ComponentGenDesc(
                         genClasses = {ModuleListGen.class}

@@ -1,0 +1,8 @@
+<!-- many2one -->
+            <ng-container *ngIf="params.@slot{{fieldName}} == undefined">
+                <app-belongs-to formControlName="@slot{{fieldName}}" label="@slot{{fieldLabel}}" apiName="@slot{{fieldJnames}}" />
+                <div *ngIf="submitted && form.get('@slot{{fieldName}}')?.errors" class="text-danger">
+                    <small *ngIf="form.get('@slot{{fieldName}}')!.errors!['required']">@slot{{fieldLabel}} is required</small>
+                </div>
+                <br>
+            </ng-container>

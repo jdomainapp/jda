@@ -1,13 +1,38 @@
-<form class = 'border py-4 container needs-validation'>
-@slot{{selectFormType}}
-    @slot{{normalInputs}}
-    @slot{{enumInputs}}
-    @slot{{linkedInputs}}@loop{subTypeInputs}[[    @slot{{normalTypedInputs}}    @slot{{enumTypedInputs}}    @slot{{linkedTypedInputs}}
-    ]]loop{subTypeInputs}@
-    <div class="d-flex justify-content-end mx-0 row">
-        <div class="col-md-9"></div>
-        <button type="button" class="btn btn-secondary" (click) = "reset()">Reset</button>
-        <button type="button" class="ml-2 btn btn-primary" (click)="save()">Save</button>
+<div class="mx-0 d-flex justify-content-between row" *ngIf="viewMode != 'has-one'">
+    <div class="px-0 col">
+        <button (click)="newItem()" class="me-2 btn btn-primary">Main</button>
+        <button (click)="onHide()" class="me-2 btn btn-primary">Browse</button>
+        <app-btn-delete *ngIf="item?.id" (confirmed)="deleteItem(item!.id)"></app-btn-delete>
     </div>
-</form>
+    <div class="px-0 d-flex justify-content-end col">
+        <form class="d-flex justify-content-end form-inline" (ngSubmit)="getById()">
+            <input placeholder="ID..." type="text" class="me-1 col-md-4 form-control"
+                   [(ngModel)]="searchId"
+                   name="searchId">
 
+            <button type="submit" class="btn btn-outline-success">Search</button>
+        </form>
+    </div>
+</div>
+<br><br>
+
+<div class="row">
+    <div class="col-3" *ngIf="viewMode=='default'">
+        <ViewRegion name="menu"></ViewRegion>
+    </div>
+
+    <div class="col">
+        <form class='border py-4 container needs-validation' [formGroup]="form" id="@slot{{moduleJname}}" modelRegion="form">
+            @if{haveSubType}((@slot{{subTypeSelect}}))if{haveSubType}@
+            @loop{formInputs}[[
+            @slot{{formInput}}
+            <br>
+
+            ]]loop{formInputs}@
+            <div class="d-flex justify-content-end">
+                <button type="reset" class="me-2 btn btn-secondary">Reset</button>
+                <button type="button" (click)="onSubmit()" class="me-2 btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

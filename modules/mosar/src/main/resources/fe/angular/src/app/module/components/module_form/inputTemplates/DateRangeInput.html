@@ -1,0 +1,14 @@
+<!-- date -->
+            <div class="form-group">
+                <label class="form-label">@slot{{range_label}}</label>
+                <input type="text" class="form-control mb-3" placeholder="start date - end date" bsDaterangepicker formControlName="@slot{{range_id}}"
+                    (ngModelChange)="onSelect@slot{{RangeName}}()"
+                    [bsConfig]="{ adaptivePosition: true,  dateInputFormat: 'DD-MM-YYYY'}"
+                    [ngClass]="{'is-invalid': submitted && form.get('@slot{{range_id}}')?.errors }"
+                    id="@slot{{range_id}}" modelRegion="forminput"
+                    />
+
+                <div *ngIf="submitted && form.get('@slot{{range_id}}')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('@slot{{range_id}}')!.errors!['required']">@slot{{range_label}} is required</div>
+                </div>
+            </div>

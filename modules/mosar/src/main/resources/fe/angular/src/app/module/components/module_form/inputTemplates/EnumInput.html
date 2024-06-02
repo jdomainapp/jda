@@ -1,8 +1,12 @@
-    @loop{EnumInputs}[[
-    <div @slot{{ngIfForType}} class="form-group">
-        <label class="form-label">@slot{{fieldLabel}}</label>
-        <select class="custom-select" name = "@slot{{fieldName}}" [(ngModel)]="item.@slot{{fieldName}}" @slot{{fieldOptions}}>
-            <option value="" disabled="">&lt;Please choose one&gt;</option>@slot{{EnumOptions}}
-        </select>
-    </div>
-    <br>]]loop{EnumInputs}@
+<div class="form-group">
+                <label class="form-label">@slot{{fieldLabel}}</label>
+                <select class="form-control" formControlName="@slot{{fieldName}}" id="@slot{{fieldName}}" modelRegion="forminput"
+                [ngClass]="{'is-invalid': submitted && form.get('@slot{{fieldName}}')?.errors }" >
+                    <option value="" disabled="">&lt;Please choose one&gt;</option>@loop{EnumOptions}[[
+                    <option value="@slot{{enumName}}">@slot{{enumName}}</option>]]loop{EnumOptions}@
+                </select>
+
+                <div *ngIf="submitted && form.get('@slot{{fieldName}}')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('@slot{{fieldName}}')!.errors!['required']">@slot{{fieldLabel}} is required</div>
+                </div>
+            </div>

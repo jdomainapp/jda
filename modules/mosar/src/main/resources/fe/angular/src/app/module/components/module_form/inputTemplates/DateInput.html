@@ -1,0 +1,9 @@
+<div class="form-group">
+                <label class="form-label">@slot{{fieldLabel}}</label>
+                <input type="date" class="form-control" formControlName="@slot{{fieldName}}" id="@slot{{fieldName}}" modelRegion="forminput"
+                [ngClass]="{'is-invalid': submitted && form.get('@slot{{fieldName}}')?.errors }"   />
+                
+                <div *ngIf="submitted && form.get('@slot{{fieldName}}')?.errors" class="invalid-feedback">
+                    <div *ngIf="form.get('@slot{{fieldName}}')!.errors!['required']">Date of birth is required</div>
+                </div>
+            </div>

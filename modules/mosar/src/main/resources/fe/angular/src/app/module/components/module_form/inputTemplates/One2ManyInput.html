@@ -1,0 +1,5 @@
+<!-- one2many -->
+            <app-has-many label="@slot{{fieldLabel}}">
+                <app-@slot{{linkedModuleJname}} viewMode="embedded" belongsTo="@slot{{moduleJnames}}/{{item?.id}}/"
+                    [params]="getParams({@slot{{linkedName}}: item})"></app-@slot{{linkedModuleJname}}>
+            </app-has-many>

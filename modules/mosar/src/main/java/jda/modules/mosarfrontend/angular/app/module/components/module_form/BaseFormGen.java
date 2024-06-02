@@ -62,4 +62,6 @@ public class BaseFormGen extends NameFormatter {
     public boolean haveSubType(@RequiredParam.SubDomains Map<String, Domain> subDomain) {
         return !subDomain.isEmpty();
     }
+
+
 }

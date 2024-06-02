@@ -43,6 +43,10 @@ public class FieldsUtil {
         return "text";
     }
 
+    public static String getLabel(DField field) {
+        return field.getAttributeDesc() != null ? field.getAttributeDesc().label() : Inflector.getInstance().titleCase(field.getDAttr().name());
+    }
+
     public static Slot[][] getBasicFieldSlots(DField[] dFields) {
         ArrayList<ArrayList<Slot>> result = new ArrayList<>();
         for (DField field : dFields) {
@@ -57,7 +61,7 @@ public class FieldsUtil {
 
     public static ArrayList<Slot> getBasicFieldSlots(DField field, String moduleName) {
         ArrayList<Slot> slotValues = new ArrayList<>();
-        String fieldLabel = field.getAttributeDesc() != null ? field.getAttributeDesc().label() : Inflector.getInstance().titleCase(field.getDAttr().name());
+        String fieldLabel = getLabel(field);
         String fieldName = field.getDAttr().name();
         slotValues.add(new Slot("fieldLabel", fieldLabel));
         slotValues.add(new Slot("FieldLabel", NameFormatter.ModuleName(fieldLabel)));
