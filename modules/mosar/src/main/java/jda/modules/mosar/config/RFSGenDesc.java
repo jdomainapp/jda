@@ -77,19 +77,19 @@ public @interface RFSGenDesc {
      * front-end project path
      */
     @Deprecated
-    String feProjPath();
+    String feProjPath() default "";
 
     /**
      * front-end project name
      */
     @Deprecated
-    String feProjName();
+    String feProjName() default "";
 
     /**
      * front-end's shared resources for project
      */
     @Deprecated
-    String feProjResource();
+    String feProjResource() default "";
 
     /**
      * frontend server port
