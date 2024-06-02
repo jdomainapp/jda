@@ -1,5 +1,6 @@
 package org.jda.example.coursemanrestful.software.config;
 
+import jda.modules.mosar.config.*;
 import jda.modules.mosar.software.frontend.FEApp;
 import org.jda.example.coursemanrestful.modules.ModuleMain;
 import org.jda.example.coursemanrestful.modules.address.ModuleAddress;
@@ -13,10 +14,6 @@ import jda.modules.dodm.dsm.DSM;
 import jda.modules.dodm.osm.postgresql.PostgreSQLOSM;
 import jda.modules.mccl.conceptmodel.Configuration.Language;
 import jda.modules.mccl.conceptmodel.dodm.OsmConfig.ConnectionType;
-import jda.modules.mosar.config.GenerationMode;
-import jda.modules.mosar.config.LangPlatform;
-import jda.modules.mosar.config.RFSGenDesc;
-import jda.modules.mosar.config.StackSpec;
 import jda.modules.mosarbackend.springboot.BESpringApp;
 import jda.modules.sccl.syntax.DSDesc;
 import jda.modules.sccl.syntax.OrgDesc;
@@ -26,24 +23,21 @@ import jda.modules.sccl.syntax.SystemDesc;
 import jda.modules.setup.model.SetUpConfig;
 
 @RFSGenDesc(
-  stackSpec = 
-      StackSpec.FE, // for testing FE
+        stackSpec =
+                StackSpec.FE, // for testing FE
 //    StackSpec.FS, // for production
 //      StackSpec.BE, // for testing BE
-    genMode = GenerationMode.SOURCE_CODE, 
-    beLangPlatform = LangPlatform.SPRING,
-    feProjPath = "/home/ducmle/tmp/restfstool-fe",
-    feProjName = "fe-courseman",
-    feProjResource = "src/main/resources/react",
-    feOutputPath = "examples/courseman/fe-reactjs-gen",
-    feServerPort = 5000,  // default: 3000
-    feAppClass= FEApp.class,
-    feThreaded = true,
-    bePackage = "org.jda.example.coursemanrestful.modules",
-    beOutputPath = "src/main/java", 
-    beTargetPackage = "org.jda.example.coursemanrestful.backend"
-    ,beAppClass = BESpringApp.class,
-    beServerPort = 8080  // default: 8080
+        fePlatform = FEPlatform.ANGULAR,
+        feOutputPath = "examples/courseman/fe-angular-gen",
+        genMode = GenerationMode.SOURCE_CODE,
+        beLangPlatform = LangPlatform.SPRING,
+        feAppClass = FEApp.class,
+        feThreaded = true,
+        bePackage = "org.jda.example.coursemanrestful.modules",
+        beOutputPath = "src/main/java",
+        beTargetPackage = "org.jda.example.coursemanrestful.backend"
+        , beAppClass = BESpringApp.class,
+        beServerPort = 8080  // default: 8080
 )
 @SystemDesc(
         appName = "Courseman",

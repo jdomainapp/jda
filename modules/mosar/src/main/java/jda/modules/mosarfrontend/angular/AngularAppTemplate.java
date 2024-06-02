@@ -13,7 +13,7 @@ import jda.modules.mosarfrontend.common.anotation.template_desc.ModuleTemplatesD
 
 @AppTemplateDesc(
         templateRootFolder = "fe/angular",
-        resource = "fe/angular/angularResources.zip",
+        resource = "fe/angular/resources.zip",
         crossTemplates = @CrossTemplatesDesc(
                 Router = @ComponentGenDesc(
                         genClasses = {AppComponentGen.class, AppRoutingModuleGen.class}
