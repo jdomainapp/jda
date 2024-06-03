@@ -9,7 +9,6 @@ import jda.modules.mosarfrontend.common.utils.DField;
 import java.util.Arrays;
 
 @FileTemplateDesc(templateFile = "src/app/module/components/module_form/inputTemplates/EnumInput.html")
-
 public class EnumInput extends BaseInputGen {
     @LoopReplacement(id = "EnumOptions")
     public Slot[][] enumOptions(@RequiredParam.ModuleField DField dField) {

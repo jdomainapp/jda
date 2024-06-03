@@ -6,13 +6,14 @@ import jda.modules.dcsl.syntax.DAssoc;
 import jda.modules.dcsl.syntax.DAttr;
 import jda.modules.dcsl.syntax.DClass;
 import jda.modules.mccl.syntax.view.AttributeDesc;
+import lombok.Getter;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
+@Getter
 public class Domain {
     public DClass getDClass() {
         return dClass;

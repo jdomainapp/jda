@@ -24,11 +24,8 @@
     <div class="col">
         <form class='border py-4 container needs-validation' [formGroup]="form" id="@slot{{moduleJname}}" modelRegion="form">
             @if{haveSubType}((@slot{{subTypeSelect}}))if{haveSubType}@
-            @loop{formInputs}[[
-            @slot{{formInput}}
-            <br>
-
-            ]]loop{formInputs}@
+            @slot{{formInputs}}
+@loop{subForms}[[@slot{{subFormInputs}}]]loop{subForms}@
             <div class="d-flex justify-content-end">
                 <button type="reset" class="me-2 btn btn-secondary">Reset</button>
                 <button type="button" (click)="onSubmit()" class="me-2 btn btn-primary">Save</button>
