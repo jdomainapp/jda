@@ -27,8 +27,8 @@ import jda.modules.setup.model.SetUpConfig;
                 StackSpec.FE, // for testing FE
 //    StackSpec.FS, // for production
 //      StackSpec.BE, // for testing BE
-        fePlatform = FEPlatform.ANGULAR,
-        feOutputPath = "examples/courseman/fe-angular-gen",
+        fePlatform = FEPlatform.REACT,
+        feOutputPath = "examples/courseman/fe-reactjs-gen",
         genMode = GenerationMode.SOURCE_CODE,
         beLangPlatform = LangPlatform.SPRING,
         feAppClass = FEApp.class,

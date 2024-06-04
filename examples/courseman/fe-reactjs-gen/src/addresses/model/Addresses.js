@@ -4,6 +4,6 @@ export default class Addresses {
     }
 
     static formatResult(option) {
-        return option.name + " " + option.name
+        return ["name",].reduce((format,key)=> `${format}  ${option[key]}`,"")
     }
 }

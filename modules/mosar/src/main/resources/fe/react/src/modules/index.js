@@ -36,14 +36,6 @@ class @slot{{ModuleName}}MainView extends BaseMainForm {
     }
   }
 
-    getSearchLabel() {
-      return "name"
-    }
-
-    getSearchFields() {
-      return [@loop{searchKeys}[["@slot{{key}}",]]loop{searchKeys}@]
-    }
-
   getPossibleTypes() {
     return [@slot{{moduleTypes}}]
   }

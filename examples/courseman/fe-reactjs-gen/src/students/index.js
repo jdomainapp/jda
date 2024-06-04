@@ -40,14 +40,6 @@ class StudentMainView extends BaseMainForm {
     }
   }
 
-    getSearchLabel() {
-      return "name"
-    }
-
-    getSearchFields() {
-      return ["id",]
-    }
-
   getPossibleTypes() {
     return []
   }

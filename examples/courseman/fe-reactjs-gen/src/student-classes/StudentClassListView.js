@@ -12,13 +12,13 @@ export default class StudentClassListView extends BaseListView {
 
   }
   renderRows() {
-    const current = this.getPageContent();
+    const current = this.props.current.content;
     if (current instanceof Array) {
       return (<>
         {
           current.map((item, index) =>
             <StudentClassListItemView {...this.props} key={item.id} current={item}
-              index={this.state.itemOffSet + index + 1} currentId={item.id}
+              index={index + 1} currentId={item.id}
               changeToDetailsView={this.props.changeToDetailsView}
               handleStateChange={this.props.handleStateChange}
               handleDelete={this.props.partialApplyWithCallbacks(this.props.studentClassAPI.deleteById)}

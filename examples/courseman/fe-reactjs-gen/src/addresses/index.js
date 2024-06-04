@@ -36,14 +36,6 @@ class AddressMainView extends BaseMainForm {
     }
   }
 
-    getSearchLabel() {
-      return "name"
-    }
-
-    getSearchFields() {
-      return ["name",]
-    }
-
   getPossibleTypes() {
     return []
   }

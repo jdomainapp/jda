@@ -4,6 +4,6 @@ export default class StudentClasses {
     }
 
     static formatResult(option) {
-        return option.name
+        return ["name",].reduce((format,key)=> `${format}  ${option[key]}`,"")
     }
 }

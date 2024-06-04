@@ -96,7 +96,7 @@ const studentClasses = [
     },
     
     {
-        "endpoint":"date_range", "name":"Date range",
+        "endpoint":"date_range", "name":"Schedule",
         
     },
     

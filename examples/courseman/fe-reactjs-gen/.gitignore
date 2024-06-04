@@ -22,3 +22,10 @@ pnpm-debug.log*
 *.sln
 *.sw?
 /package-lock.json
+__MACOSX/public/._robots.txt
+__MACOSX/src/._.DS_Store
+__MACOSX/src/base/._BaseListView.js
+__MACOSX/src/base/._BaseMainForm.js
+__MACOSX/src/base/._BaseSubmodule.js
+__MACOSX/src/common/._DeleteConfirmation.js
+yarn.lock

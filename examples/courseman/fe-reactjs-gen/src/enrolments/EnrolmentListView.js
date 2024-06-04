@@ -10,8 +10,8 @@ export default class EnrolmentListView extends BaseListView {
       <th>Exam mark</th>
       <th>Final grade</th>
       <th>Finalmark</th>
-      <th>Date range</th>
-      <th>Date range</th>
+      <th>Schedule</th>
+      <th>Schedule</th>
       
       {!(this.props.excludes?.includes('student')) && <th>Student</th>}
       {!(this.props.excludes?.includes('courseModule')) && <th>Course module</th>}
@@ -19,13 +19,13 @@ export default class EnrolmentListView extends BaseListView {
 
   }
   renderRows() {
-    const current = this.getPageContent();
+    const current = this.props.current.content;
     if (current instanceof Array) {
       return (<>
         {
           current.map((item, index) =>
             <EnrolmentListItemView {...this.props} key={item.id} current={item}
-              index={this.state.itemOffSet + index + 1} currentId={item.id}
+              index={index + 1} currentId={item.id}
               changeToDetailsView={this.props.changeToDetailsView}
               handleStateChange={this.props.handleStateChange}
               handleDelete={this.props.partialApplyWithCallbacks(this.props.enrolmentAPI.deleteById)}

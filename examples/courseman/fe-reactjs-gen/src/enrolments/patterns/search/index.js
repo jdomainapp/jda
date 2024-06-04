@@ -4,7 +4,7 @@ import PatternFactory from '../../../common/patterns/PatternFactory'
 
 import AutoCompleteSearch from '../../../common/patterns/autosearch'
 import SearchConsumer from './SearchConsumer'
-import Enrolment from '../../model/Enrolment'
+import Enrolments from '../../model/Enrolments'
 
 export default class SearchFactory  extends PatternFactory {
 
@@ -30,12 +30,11 @@ export default class SearchFactory  extends PatternFactory {
       @effects result is an object, each property of which is a state variable
      */
     static initPatternState(props) {
-      let state = {
-              formatResult: Enrolment.formatResult,
+      return {
+              formatResult: Enrolments.formatResult,
               searchFields: props.mainForm.getSearchFields(),
               content: props.mainForm.state.current.content
           }
-      return state
     }
 
     /*

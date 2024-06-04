@@ -4,6 +4,6 @@ export default class Enrolments {
     }
 
     static formatResult(option) {
-        return option.courseModule.name
+        return ["id",].reduce((format,key)=> `${format}  ${option[key]}`,"")
     }
 }

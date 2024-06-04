@@ -138,7 +138,7 @@ export default class EnrolmentForm extends BaseForm {
         </FormGroup>
         <br />
         <FormGroup {...this.onModelRegionMenuItem("accordion")}>
-            <Form.Label>Date range</Form.Label>
+            <Form.Label>Schedule</Form.Label>
             <DateRangePicker
                   onChange={item => this.handle_select_date_range(item)}
                   showSelectionPreview={true}

@@ -34,14 +34,6 @@ class CourseModuleMainView extends BaseMainForm {
     }
   }
 
-    getSearchLabel() {
-      return "name"
-    }
-
-    getSearchFields() {
-      return ["code","name","description",]
-    }
-
   getPossibleTypes() {
     return ["compulsory","elective",]
   }
