@@ -19,13 +19,6 @@ import AutoSearchFactory from '../common/patterns/autosearch/autosearch.factory'
 
 import AccordionMenuFactory from '../common/patterns/accordionmenu/accordion.factory';
 import AccordionMenu from '../common/patterns/accordionmenu/template/index.vue';
-import ViewRegion from '../common/pattern/viewregion.vue';
-import PatternService from '../common/pattern/pattern.service';
-
-import AutoSearchFactory from '../common/patterns/autosearch/autosearch.factory';
-
-import AccordionMenuFactory from '../common/patterns/accordionmenu/accordion.factory';
-import AccordionMenu from '../common/patterns/accordionmenu/template/index.vue';
 
 // let startDate = new Date();
 // let endDate = new Date();
@@ -33,7 +26,6 @@ import AccordionMenu from '../common/patterns/accordionmenu/template/index.vue';
 // let endDate = new Date();
 
 export default {
-    components: { DateRangePicker, VueSlider, StarRating, ViewRegion, AccordionMenu },
     components: { DateRangePicker, VueSlider, StarRating, ViewRegion, AccordionMenu },
 
     data() {

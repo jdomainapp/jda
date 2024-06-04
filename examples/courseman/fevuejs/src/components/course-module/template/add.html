@@ -1,7 +1,7 @@
 <form v-on:submit.prevent="onSubmit">
     <div class="form-group">
-        <label class="form-label" :for="tree.observableTree[0].id">{{tree.observableTree[0].name}}</label>
-        <select class="custom-select" v-model="courseModule.type" title="Type" :id="tree.observableTree[0].id">
+        <label class="form-label" for="Type">Type</label>
+        <select class="custom-select" v-model="courseModule.type" title="Type" id="Type">
             <option value="" disabled="">Please choose one</option>
             <option value="compulsory">compulsory</option>
             <option value="elective">elective</option>
@@ -11,33 +11,30 @@
 
     <div v-if="hidFields('id')">
         <div class="form-group">
-            <label class="form-label" :for="tree.observableTree[1].id">{{tree.observableTree[1].name}}</label>
-            <input disabled type="number" class="form-control" v-model="courseModule.id" placeholder="Id"
-                :id="tree.observableTree[1].id" />
+            <label class="form-label" for="ID">Id</label>
+            <input disabled type="number" class="form-control" v-model="courseModule.id" placeholder="Id" id="ID" />
         </div>
         <br />
     </div>
     <div v-if="hidFields('code')">
         <div class="form-group">
-            <label class="form-label" :for="tree.observableTree[2].id">{{tree.observableTree[2].name}}</label>
-            <input disabled type="text" class="form-control" v-model="courseModule.code" placeholder="Code"
-                :id="tree.observableTree[2].id" />
+            <label class="form-label" for="Code">Code</label>
+            <input disabled type="text" class="form-control" v-model="courseModule.code" placeholder="Code" id="Code" />
         </div>
         <br />
     </div>
     <div v-if="hidFields('name')">
         <div class="form-group">
-            <label class="form-label" :for="tree.observableTree[3].id">{{tree.observableTree[3].name}}</label>
-            <input type="text" class="form-control" v-model="courseModule.name" placeholder="Name"
-                :id="tree.observableTree[3].id" />
+            <label class="form-label" for="Name">Name</label>
+            <input type="text" class="form-control" v-model="courseModule.name" placeholder="Name" id="Name" />
         </div>
         <br />
     </div>
     <div v-if="hidFields('semester')">
         <div class="form-group">
-            <label class="form-label" :for="tree.observableTree[4].id">{{tree.observableTree[4].name}}</label>
+            <label class="form-label" for="Semester">Semester</label>
             <input type="number" class="form-control" v-model="courseModule.semester" placeholder="Semester"
-                :id="tree.observableTree[4].id" />
+                id="Semester" />
         </div>
         <br />
     </div>
@@ -47,9 +44,9 @@
     -->
     <div v-if="hidFields('description')">
         <div class="form-group">
-            <label class="form-label" :for="tree.observableTree[5].id">{{tree.observableTree[5].name}}</label>
+            <label class="form-label" for="Cost">Cost</label>
             <vue-slider v-model="cost.value" :enable-cross="false" :min="cost.min" :max="cost.max"
-                :marks="[cost.min, cost.max]" :id="tree.observableTree[5].id" />
+                :marks="[cost.min, cost.max]" id="Cost" />
         </div>
         <br />
     </div>
@@ -59,8 +56,8 @@
     -->
     <div v-if="hidFields('description')">
         <div class="form-group">
-            <label class="form-label" :for="tree.observableTree[6].id">{{tree.observableTree[6].name}}</label>
-            <star-rating v-model="courseModule.rating" :id="tree.observableTree[6].id"></star-rating>
+            <label class="form-label" for="Rating">Rating</label>
+            <star-rating v-model="courseModule.rating" id="Rating"></star-rating>
         </div>
         <br />
     </div>
@@ -68,12 +65,12 @@
     <!-- Expandable input -->
     <div v-if="hidFields('description')">
         <div class="form-group">
-            <label class="form-label" hidden :for="tree.observableTree[7].id">{{tree.observableTree[7].name}}</label>
+            <label class="form-label" hidden for="Description">Description</label>
             <br />
             <button type="button" class="btn btn-outline-secondary w-100 text-left" data-toggle="collapse"
                 data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
-                title="Toggle to show/hide description" :id="tree.observableTree[7].id">
-                {{tree.observableTree[7].name}}
+                title="Toggle to show/hide description" id="Description">
+                Description
             </button>
             <div class="form-content mt-2 collapse" id="collapseExample">
                 <span title="Description" class="form-input-span" role="textbox" contenteditable
@@ -85,18 +82,18 @@
 
     <div v-if="hidFields('credits')">
         <div class="form-group">
-            <label class="form-label" :for="tree.observableTree[8].id">{{tree.observableTree[8].name}}</label>
+            <label class="form-label" for="Credits">Credits</label>
             <input type="number" class="form-control" v-model="courseModule.credits" placeholder="Credits"
-                :id="tree.observableTree[8].id" />
+                id="Credits" />
         </div>
         <br />
     </div>
 
     <div v-if="hidFields('deptName')">
         <div class="form-group" v-if="courseModule.type == 'elective'">
-            <label class="form-label" :for="tree.observableTree[9].id">{{tree.observableTree[9].name}}</label>
+            <label class="form-label" for="DeptName">Dept. Name</label>
             <input type="text" class="form-control" v-model="courseModule.deptName" placeholder="Dept. Name"
-                :id="tree.observableTree[9].id" />
+                id="DeptName" />
         </div>
         <br />
     </div>

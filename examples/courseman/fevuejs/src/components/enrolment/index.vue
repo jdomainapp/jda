@@ -1,11 +1,11 @@
 <template src="./template/index.html"></template>
 <script>
-import { mutations } from '../../constants/store';
+// import { mutations } from '../../constants/store';
 
 export default {
     props: {
         parentData: Object,
-        parentID: String,
+        // parentID: String,
     },
 
     components: {
@@ -30,37 +30,37 @@ export default {
                 keyword: "",
             },
 
-            tree: {
-                parentID: this.parentID ? this.parentID : "",
-                observableTree: []
-            },
+            // tree: {
+            //     parentID: this.parentID ? this.parentID : "",
+            //     observableTree: []
+            // },
         };
     },
 
-    created() {
-        const parentID = this.tree.parentID;
+    // created() {
+    //     const parentID = this.tree.parentID;
 
-        this.tree.observableTree = [
-            {
-                name: "Form: Enrolment",
-                id: "FormEnrolment",
-                display: true, // no hidfields so automatically = true
-            }
-        ].map((item) => {
-            item.parentID = parentID;
-            item.id = parentID + item.id;
-            return item;
-        });
+    //     this.tree.observableTree = [
+    //         {
+    //             name: "Form: Enrolment",
+    //             id: "FormEnrolment",
+    //             display: true, // no hidfields so automatically = true
+    //         }
+    //     ].map((item) => {
+    //         item.parentID = parentID;
+    //         item.id = parentID + item.id;
+    //         return item;
+    //     });
 
-        this.tree.observableTree.forEach((item) => {
-            mutations.addItem(item);
-        });
-    },
+    //     // this.tree.observableTree.forEach((item) => {
+    //     //     mutations.addItem(item);
+    //     // });
+    // },
 
     destroyed() {
-        this.tree.observableTree.forEach((item) => {
-            mutations.deleteItem(item);
-        });
+        // this.tree.observableTree.forEach((item) => {
+        //     mutations.deleteItem(item);
+        // });
     },
 
     mounted() { },

@@ -1,1 +1,0 @@
-<template src="./template/add.html"></template>

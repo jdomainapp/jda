@@ -114,6 +114,12 @@ export default {
                 this.update();
             }
         },
+
+        hidFields(field) {
+            return !this.parentData
+                || !this.parentData.hidFields
+                || !this.parentData.hidFields.includes(field);
+        },
     },
 };
 </script>

@@ -15,12 +15,12 @@ import moment from "moment";
 let startDate = null;
 let endDate = null;
 
-import { mutations } from "../../constants/store";
+// import { mutations } from "../../constants/store";
 
 export default {
     props: {
         parentData: Object,
-        parentID: String,
+        // parentID: String,
     },
 
     components: {
@@ -45,83 +45,83 @@ export default {
                 hidFields: ["enrolments", "id"],
             },
 
-            tree: {
-                parentID: this.parentID ? this.parentID : "",
-                observableTree: [],
-            },
+            // tree: {
+            //     parentID: this.parentID ? this.parentID : "",
+            //     observableTree: [],
+            // },
         };
     },
 
-    created() {
-        const parentID = this.tree.parentID;
+    // created() {
+    //     const parentID = this.tree.parentID;
 
-        this.tree.observableTree = [
-            {
-                name: "Id",
-                id: "ID",
-                display: this.hidFields('id'),
-            },
-            {
-                name: "Internal Mark",
-                id: "InternalMark",
-                display: this.hidFields('internalMark'),
-            },
-            {
-                name: "Exam Mark",
-                id: "ExamMark",
-                display: this.hidFields('examMark'),
-            },
-            {
-                name: "Final Grade",
-                id: "FinalGrade",
-                display: this.hidFields('finalGrade'),
-            },
-            {
-                name: "Final Mark",
-                id: "FinalMark",
-                display: this.hidFields('finalMark'),
-            },
-            {
-                name: "Student ID",
-                id: "StudentID",
-                display: this.hidFields('student'),
-            },
-            {
-                name: "Student",
-                id: "Student",
-                display: this.hidFields('student'),
-            },
-            {
-                name: "Course module ID",
-                id: "CourseModuleID",
-                display: this.hidFields('courseModule'),
-            },
-            {
-                name: "Course module",
-                id: "CourseModule",
-                display: this.hidFields('courseModule'),
-            },
-            {
-                name: "Enrolment Date Range",
-                id: "EnrolmentDateRange",
-                display: this.hidFields('dateRange'),
-                // "dateRange" is my placeholder for hidden fields
-            },
-        ].map((item) => {
-            item.parentID = parentID;
-            item.id = parentID + item.id;
-            return item;
-        });
+    //     this.tree.observableTree = [
+    //         {
+    //             name: "Id",
+    //             id: "ID",
+    //             display: this.hidFields('id'),
+    //         },
+    //         {
+    //             name: "Internal Mark",
+    //             id: "InternalMark",
+    //             display: this.hidFields('internalMark'),
+    //         },
+    //         {
+    //             name: "Exam Mark",
+    //             id: "ExamMark",
+    //             display: this.hidFields('examMark'),
+    //         },
+    //         {
+    //             name: "Final Grade",
+    //             id: "FinalGrade",
+    //             display: this.hidFields('finalGrade'),
+    //         },
+    //         {
+    //             name: "Final Mark",
+    //             id: "FinalMark",
+    //             display: this.hidFields('finalMark'),
+    //         },
+    //         {
+    //             name: "Student ID",
+    //             id: "StudentID",
+    //             display: this.hidFields('student'),
+    //         },
+    //         {
+    //             name: "Student",
+    //             id: "Student",
+    //             display: this.hidFields('student'),
+    //         },
+    //         {
+    //             name: "Course module ID",
+    //             id: "CourseModuleID",
+    //             display: this.hidFields('courseModule'),
+    //         },
+    //         {
+    //             name: "Course module",
+    //             id: "CourseModule",
+    //             display: this.hidFields('courseModule'),
+    //         },
+    //         {
+    //             name: "Enrolment Date Range",
+    //             id: "EnrolmentDateRange",
+    //             display: this.hidFields('dateRange'),
+    //             // "dateRange" is my placeholder for hidden fields
+    //         },
+    //     ].map((item) => {
+    //         item.parentID = parentID;
+    //         item.id = parentID + item.id;
+    //         return item;
+    //     });
 
-        this.tree.observableTree.forEach((item) => {
-            mutations.addItem(item);
-        });
-    },
+    //     // this.tree.observableTree.forEach((item) => {
+    //     //     mutations.addItem(item);
+    //     // });
+    // },
 
     destroyed() {
-        this.tree.observableTree.forEach((item) => {
-            mutations.deleteItem(item);
-        });
+        // this.tree.observableTree.forEach((item) => {
+        //     mutations.deleteItem(item);
+        // });
     },
 
     // watch to bind enrolment.startDate & enrolment.endDate with dateRange

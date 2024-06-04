@@ -1,41 +1,37 @@
 <form v-on:submit.prevent="onSubmit">
     <div v-if="hidFields('id')">
         <div class="form-group">
-            <label class="form-label" :for="tree.observableTree[0].id">{{tree.observableTree[0].name}}</label>
-            <input disabled type="text" class="form-control" v-model="student.id" title="Student ID"
-                :id="tree.observableTree[0].id" />
+            <label class="form-label" for="StudentID">Student ID</label>
+            <input disabled type="text" class="form-control" v-model="student.id" title="Student ID" id="StudentID" />
         </div>
         <br />
     </div>
     <div v-if="hidFields('name')">
         <div class="form-group">
-            <label class="form-label" :for="tree.observableTree[1].id">{{tree.observableTree[1].name}}</label>
-            <input type="text" class="form-control" v-model="student.name" title="Full Name"
-                :id="tree.observableTree[1].id" />
+            <label class="form-label" for="FullName">Full Name</label>
+            <input type="text" class="form-control" v-model="student.name" title="Full Name" id="FullName" />
         </div>
         <br />
     </div>
     <div v-if="hidFields('dob')">
         <div class="form-group">
-            <label class="form-label" :for="tree.observableTree[2].id">{{tree.observableTree[2].name}}</label>
-            <input type="date" class="form-control" v-model="student.dob" title="Date of birth"
-                :id="tree.observableTree[2].id" />
+            <label class="form-label" for="DateOfBirth">Date of birth</label>
+            <input type="date" class="form-control" v-model="student.dob" title="Date of birth" id="DateOfBirth" />
         </div>
         <br />
     </div>
     <div v-if="hidFields('email')">
         <div class="form-group">
-            <label class="form-label" :for="tree.observableTree[3].id">{{tree.observableTree[3].name}}</label>
-            <input type="text" class="form-control" v-model="student.email" title="Email"
-                :id="tree.observableTree[3].id" />
+            <label class="form-label" for="Email">Email</label>
+            <input type="text" class="form-control" v-model="student.email" title="Email" id="Email" />
         </div>
         <br />
     </div>
 
     <div v-if="hidFields('gender')">
         <div class="form-group">
-            <label class="form-label" :for="tree.observableTree[4].id">{{tree.observableTree[4].name}}</label>
-            <select class="custom-select" v-model="student.gender" title="Gender" :id="tree.observableTree[4].id">
+            <label class="form-label" for="Gender">Gender</label>
+            <select class="custom-select" v-model="student.gender" title="Gender" id="Gender">
                 <option value="" disabled="">&lt;Please choose one&gt;</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -53,14 +49,14 @@
                 form-group
             ">
             <div class="px-0 col-md-2.5">
-                <label class="form-label" :for="tree.observableTree[5].id">{{tree.observableTree[5].name}}</label>
+                <label class="form-label" for="AddressAdd">Address ID</label>
                 <input type="text" class="form-control" v-model="addressId" v-on:change="getAddressById"
-                    title="Address ID" :id="tree.observableTree[5].id" />
+                    title="Address ID" id="AddressAdd" />
             </div>
             <div class="px-0 col-md-7">
-                <label class="form-label" :for="tree.observableTree[6].id">{{tree.observableTree[6].name}}</label>
+                <label class="form-label" for="Address">Address</label>
                 <input disabled type="text" class="form-control" v-bind:value="addressQuickView" title="Address"
-                    :id="tree.observableTree[6].id" />
+                    id="Address" />
             </div>
             <button type="button" class="btn btn-outline-danger" v-on:click="unlinkAddress">
                 Unlink
@@ -75,8 +71,7 @@
             </button>
         </div>
         <div class="form-group" v-if="formSubModuleAddressSeen">
-            <form-sub-module-address v-bind:parentData="dataSubForm"
-                v-bind:parentID="tree.observableTree[6].id"></form-sub-module-address>
+            <form-sub-module-address v-bind:parentData="dataSubForm"></form-sub-module-address>
         </div>
         <br />
     </div>
@@ -89,14 +84,14 @@
                 form-group
             ">
             <div class="px-0 col-md-2.5">
-                <label class="form-label" :for="tree.observableTree[7].id">{{tree.observableTree[7].name}}</label>
+                <label class="form-label" for="StudentClassAdd">Student class ID</label>
                 <input type="text" class="form-control" v-model="studentClassId" v-on:change="getStudentClassById"
-                    title="Student class ID" :id="tree.observableTree[7].id" />
+                    title="Student class ID" id="StudentClassAdd" />
             </div>
             <div class="px-0 col-md-7">
-                <label class="form-label" :for="tree.observableTree[8].id">{{tree.observableTree[8].name}}</label>
+                <label class="form-label" for="StudentClass">Student class</label>
                 <input disabled type="text" class="form-control" v-bind:value="studentClassQuickView"
-                    title="Student class" :id="tree.observableTree[8].id" />
+                    title="Student class" id="StudentClass" />
             </div>
             <button type="button" class="btn btn-outline-danger" v-on:click="unlinkStudentClass">
                 Unlink
@@ -111,8 +106,7 @@
             </button>
         </div>
         <div class="form-group" v-if="formSubModuleStudentClassSeen">
-            <form-sub-module-student-class v-bind:parentData="dataSubForm"
-                v-bind:parentID="tree.observableTree[8].id"></form-sub-module-student-class>
+            <form-sub-module-student-class v-bind:parentData="dataSubForm"></form-sub-module-student-class>
         </div>
         <br />
     </div>
@@ -126,8 +120,8 @@
                 form-group
             ">
             <button type="button" class="mr-1 btn btn-success"
-                v-on:click="formSubModuleEnrolmentSeen = !formSubModuleEnrolmentSeen" :id="tree.observableTree[9].id">
-                {{tree.observableTree[9].name}}
+                v-on:click="formSubModuleEnrolmentSeen = !formSubModuleEnrolmentSeen" id="Enrolment">
+                Form: Enrolment
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-chevron-down" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -136,8 +130,7 @@
             </button>
         </div>
         <div class="form-group" v-if="formSubModuleEnrolmentSeen">
-            <form-sub-module-enrolment v-bind:parentData="dataSubForm"
-                v-bind:parentID="tree.observableTree[9].id"></form-sub-module-enrolment>
+            <form-sub-module-enrolment v-bind:parentData="dataSubForm"></form-sub-module-enrolment>
         </div>
         <br />
     </div>

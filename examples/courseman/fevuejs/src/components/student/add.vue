@@ -88,7 +88,7 @@ export default {
                         Message.ADD_STUDENT_ERR + " - " + error.message
                     );
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
 
         unlinkAddress() {
@@ -110,7 +110,7 @@ export default {
                         Message.GET_ADDRESS_ERR + " - " + error.message
                     );
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
 
         unlinkStudentClass() {
@@ -132,7 +132,7 @@ export default {
                         Message.GET_STUDENT_CLASS_ERR + " - " + error.message
                     );
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
 
         unlinkEnrolment() {
@@ -154,7 +154,7 @@ export default {
                         Message.GET_ENROLMENT_ERR + " - " + error.message
                     );
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
 
         update() {
@@ -169,7 +169,7 @@ export default {
                         Message.UPDATE_STUDENT_ERR + " - " + error.message
                     );
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
 
         onSubmit() {
@@ -178,6 +178,12 @@ export default {
             } else {
                 this.update();
             }
+        },
+
+        hidFields(field) {
+            return !this.parentData
+                || !this.parentData.hidFields
+                || !this.parentData.hidFields.includes(field);
         },
     },
 };

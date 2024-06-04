@@ -1,5 +1,5 @@
 <div class="border py-4 container">
-    <h2 class="text-center" :id="tree.observableTree[0].id">{{tree.observableTree[0].name}}</h2>
+    <h2 class="text-center" id="FormAddress">Form: Address</h2>
     <br />
     <div class="mx-0 d-flex justify-content-between row">
         <div class="px-0 col">
@@ -24,12 +24,10 @@
     <br />
     <div class="tab-content">
         <div>
-            <form-add v-if="display == 1" v-bind:parentData="dataSubForm"
-                v-bind:parentID="tree.observableTree[0].id"></form-add>
+            <form-add v-if="display == 1" v-bind:parentData="dataSubForm"></form-add>
         </div>
         <div>
-            <form-add v-if="display == 2" v-bind:parentData="dataSubForm"
-                v-bind:parentID="tree.observableTree[0].id"></form-add>
+            <form-add v-if="display == 2" v-bind:parentData="dataSubForm"></form-add>
         </div>
         <div>
             <form-list v-if="display == 3" v-bind:parentData="dataSubForm" @data="setData"

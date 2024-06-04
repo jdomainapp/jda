@@ -1,4 +1,4 @@
-<div v-modelRegion :id="id">
+<div :id="id">
     <h1>Demo design patterns</h1>
     <br />
 
@@ -11,5 +11,5 @@
     <h1>Should be changed: {{searchKeyword}}</h1>
 
     <!-- <AccordionMenu></AccordionMenu> -->
-    <view-region name="menu" v-bind:patternService="patternService"></view-region>
+    <view-region v-modelRegion name="menu" v-bind:patternService="patternService"></view-region>
 </div>
