@@ -18,7 +18,7 @@ export default class StudentClassListView extends BaseListView {
           {
             current.map((item, index) =>
             <StudentClassListItemView {...this.props} key={item.id} current={item}
-              index={index + 1} currentId={item.id}
+              index={this.state.itemOffSet + index + 1} currentId={item.id}
               changeToDetailsView={this.props.changeToDetailsView}
               handleStateChange={this.props.handleStateChange}
               handleDelete={this.props.partialApplyWithCallbacks(this.props.studentClassAPI.deleteById)}
