@@ -24,18 +24,7 @@ export default {
     data() {
         return {
             state: 0,
-            courseModule: new CourseModule(
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-            ),
+            courseModule: new CourseModule(),
 
             dataSubForm: {
                 mode: "create",

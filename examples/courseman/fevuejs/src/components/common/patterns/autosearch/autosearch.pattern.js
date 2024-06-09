@@ -25,8 +25,9 @@ export default class AutoSearchPattern extends Pattern {
                         keywordChange: (event) =>
                             // event is the keyword from the search box
                             this.onAction("select", event),
-                        
+
                         // no effect yet
+                        // (04/06/2024) now bonus with ID search instead of just keyword
                         idChange: (event) => this.onAction("idChange", event),
                     },
                 }),

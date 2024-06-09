@@ -10,16 +10,16 @@ import Message from "../../constants/message";
 
 export default {
     props: {
-        search: {
-            type: Object,
-            default: () => {
-                return {
-                    id: "",
-                    keyword: "",
-                };
-            },
+        searchID: {
+            type: String,
+            default: "",
             required: true,
-        }
+        },
+        searchKeyword: {
+            type: String,
+            default: "",
+            required: true,
+        },
     },
 
     components: {
@@ -66,14 +66,20 @@ export default {
         this.getCourseModules();
     },
 
+    watch: {
+        courseModules(newList) {
+            this.$emit("update-list", newList);
+        },
+    },
+
     computed: {
         rows() {
             return this.filterResults.length;
         },
 
         filterResults() {
-            const keyword = this.search.keyword.toLowerCase();
-            const id = this.search.id.toLowerCase();
+            const keyword = this.searchKeyword.toLowerCase();
+            const id = this.searchID.toLowerCase();
 
             return this.courseModules.filter((s) => {
                 let matchesId = true;

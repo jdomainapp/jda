@@ -17,18 +17,9 @@
                 </li>
             </ul>
         </div>
-        <!-- todo: BaseMainForm.renderTopButtonsExt():
-        BaseMainForm: .vue file or JS class
-        - (A) is super Vue component of all the module's index component        -->
-        <auto-search @search="search = $event"></auto-search>
 
-        <!-- (B) -->
-        <!-- <BaseMainForm onRenderRegion="top-button-ext"/> -->
-
-        <!-- BaseMainForm.topButtonExtension:
-          this.consumers.map((consumer)=>(
-            {consumer.onRenderRegion("searchbox")})
-        -->
+        <!-- Provider - Consumer pattern: searchbox -->
+        <view-region name="searchbox" v-bind:patternService="patternService"></view-region>
     </div>
     <br />
     <div class="tab-content">
@@ -39,8 +30,8 @@
             <form-add v-if="display == 2" v-bind:parentData="dataSubForm"></form-add>
         </div>
         <div>
-            <form-list v-if="display == 3" v-bind:parentData="dataSubForm" @data="setData"
-                v-bind:search="search"></form-list>
+            <form-list v-if="display == 3" v-bind:parentData="dataSubForm" @data="setData" v-bind:searchID="searchID"
+                v-bind:searchKeyword="searchKeyword" @update-list="updateList"></form-list>
         </div>
     </div>
     <Toasts></Toasts>
