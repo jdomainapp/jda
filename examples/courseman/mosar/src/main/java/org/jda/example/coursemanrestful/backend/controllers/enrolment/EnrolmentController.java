@@ -1,7 +1,7 @@
 package org.jda.example.coursemanrestful.backend.controllers.enrolment;
 
 import jda.modules.mosar.backend.base.controllers.DefaultRestfulController;
-import org.jda.example.coursemanrestful.modules.enrolment.model.Enrolment;
+import org.jda.example.coursemanrestful.modules_org.enrolment.model.Enrolment;
 import javax.annotation.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import jda.modules.mosar.backend.base.models.Identifier;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RestController()
 @RequestMapping(value = "/enrolments")
 @Generated(value = "jda.modules.mosar.software.backend.generators.SourceCodeWebControllerGenerator")
-public class EnrolmentController extends DefaultRestfulController<org.jda.example.coursemanrestful.modules.enrolment.model.Enrolment> {
+public class EnrolmentController extends DefaultRestfulController<org.jda.example.coursemanrestful.modules_org.enrolment.model.Enrolment> {
 
     @org.springframework.web.bind.annotation.DeleteMapping(value = "/{id}")
     public void deleteEntityById(Identifier arg0) {

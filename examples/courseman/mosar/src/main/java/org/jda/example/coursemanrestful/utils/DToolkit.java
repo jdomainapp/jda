@@ -1,6 +1,6 @@
 package org.jda.example.coursemanrestful.utils;
 
-import org.jda.example.coursemanrestful.modules.student.model.Gender;
+import org.jda.example.coursemanrestful.modules_org.student.model.Gender;
 
 import java.util.Calendar;
 import java.util.Date;

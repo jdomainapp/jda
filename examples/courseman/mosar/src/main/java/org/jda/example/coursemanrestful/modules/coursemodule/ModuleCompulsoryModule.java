@@ -1,42 +1,80 @@
 package org.jda.example.coursemanrestful.modules.coursemodule;
 
-import org.jda.example.coursemanrestful.modules.coursemodule.model.CompulsoryModule;
-
+import jda.modules.common.types.Null;
+import jda.modules.dcsl.syntax.Select;
+import jda.modules.mccl.conceptmodel.module.ModuleType;
 import jda.modules.mccl.conceptmodel.view.RegionName;
 import jda.modules.mccl.conceptmodel.view.RegionType;
+import jda.modules.mccl.syntax.controller.ControllerDesc;
+import jda.modules.mccl.syntax.controller.ControllerDesc.*;
+import jda.modules.mccl.syntax.InputTypes;
+import jda.modules.mccl.syntax.JSValidation;
+import jda.modules.mccl.syntax.MCCLConstants.AlignmentX;
+import jda.modules.mccl.syntax.model.ModelDesc;
 import jda.modules.mccl.syntax.ModuleDescriptor;
 import jda.modules.mccl.syntax.SetUpDesc;
-import jda.modules.mccl.syntax.controller.ControllerDesc;
-import jda.modules.mccl.syntax.model.ModelDesc;
 import jda.modules.mccl.syntax.view.AttributeDesc;
 import jda.modules.mccl.syntax.view.ViewDesc;
-import jda.modules.setup.commands.CopyResourceFilesCommand;
-import jda.mosa.controller.Controller;
+import jda.modules.setup.commands.*;
+import jda.mosa.controller.*;
 import jda.mosa.view.View;
+import org.jda.example.coursemanrestful.modules.coursemodule.model.CompulsoryModule;
 
-/**
- * @Overview
- *  Module for {@link CompulsoryModule}
- * 
- * @author dmle
- */
-@ModuleDescriptor(name="ModuleCompulsoryModule",
-modelDesc=@ModelDesc(
-    model= CompulsoryModule.class
-),
-viewDesc=@ViewDesc(
-    formTitle="Manage Compulsory Module",
-    domainClassLabel="Compulsory Module",    
-    imageIcon="coursemodule.jpg",
-    viewType=RegionType.Data,
-    view=View.class,
-    parent=RegionName.Tools
-),
-controllerDesc=@ControllerDesc(controller=Controller.class),
-isPrimary=true
-,setUpDesc=@SetUpDesc(postSetUp=CopyResourceFilesCommand.class)
+@ModuleDescriptor(
+    name = "ModuleCompulsoryModule",
+    modelDesc = @ModelDesc(
+        model = CompulsoryModule.class
+    ),
+    viewDesc = @ViewDesc(
+        formTitle = "Manage Compulsory Module",
+        domainClassLabel = "Compulsory Module",
+        imageIcon = "coursemodule.jpg",
+        view = View.class,
+        viewType = RegionType.Data,
+        parent = RegionName.Tools,
+        topX = -1,
+        topY = -1,
+        widthRatio = -1f,
+        heightRatio = -1f,
+        children = {
+            
+        },
+        excludeComponents = {
+            
+        },
+        props = {
+            
+        }
+    ),
+    controllerDesc = @ControllerDesc(
+        controller = Controller.class,
+        openPolicy = OpenPolicy.I,
+        isDataFieldStateListener = false
+    ),
+    setUpDesc = @SetUpDesc(
+        postSetUp = CopyResourceFilesCommand.class
+    ),
+    subtypes = {
+        
+    },
+    type = ModuleType.DomainData,
+    isPrimary = true
 )
-public class ModuleCompulsoryModule  extends ModuleCourseModule {
-  @AttributeDesc(label="Form: Compulsory Module")
-  private String title;
+public class ModuleCompulsoryModule extends ModuleCourseModule {
+            @AttributeDesc(
+        label = "Student Class",
+        alignX = AlignmentX.Left,
+        jsValidation = @JSValidation(),
+        inputType = InputTypes.Undefined,
+        type = Null.class,
+        ref = @Select(),
+        loadOidWithBoundValue = false,
+        displayOidWithBoundValue = false,
+        width = -1,
+        height = -1,
+        isStateEventSource = false,
+        id = "␀",
+        controllerDesc = @ControllerDesc()
+    )
+    private String title;
 }

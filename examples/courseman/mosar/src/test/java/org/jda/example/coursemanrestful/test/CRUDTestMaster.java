@@ -1,28 +1,24 @@
 package org.jda.example.coursemanrestful.test;
 
 import ch.qos.logback.classic.Logger;
-import jda.modules.common.Toolkit;
 import jda.modules.common.exceptions.DataSourceException;
 import jda.modules.common.expression.Op;
-import jda.modules.common.io.ToolkitIO;
 import jda.mosa.software.SoftwareFactory;
 import jda.mosa.software.impl.DomSoftware;
 import jda.software.ddd.MicroDomSoftware;
 import org.courseman.software.config.SCCCourseManDerby;
-import org.jda.example.coursemanrestful.modules.address.model.Address;
-import org.jda.example.coursemanrestful.modules.coursemodule.model.CompulsoryModule;
-import org.jda.example.coursemanrestful.modules.coursemodule.model.CourseModule;
-import org.jda.example.coursemanrestful.modules.coursemodule.model.ElectiveModule;
-import org.jda.example.coursemanrestful.modules.enrolment.model.Enrolment;
-import org.jda.example.coursemanrestful.modules.student.model.Student;
-import org.jda.example.coursemanrestful.software.config.SCCCourseMan;
+import org.jda.example.coursemanrestful.modules_org.address.model.Address;
+import org.jda.example.coursemanrestful.modules_org.coursemodule.model.CompulsoryModule;
+import org.jda.example.coursemanrestful.modules_org.coursemodule.model.CourseModule;
+import org.jda.example.coursemanrestful.modules_org.coursemodule.model.ElectiveModule;
+import org.jda.example.coursemanrestful.modules_org.enrolment.model.Enrolment;
+import org.jda.example.coursemanrestful.modules_org.student.model.Student;
+import org.jda.example.coursemanrestful.software_org.config.SCCCourseMan;
 import org.jda.example.coursemanrestful.utils.DToolkit;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Supplier;
 

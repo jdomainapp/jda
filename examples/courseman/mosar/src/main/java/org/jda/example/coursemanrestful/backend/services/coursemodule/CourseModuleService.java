@@ -1,7 +1,7 @@
 package org.jda.example.coursemanrestful.backend.services.coursemodule;
 
 import jda.modules.mosar.backend.base.services.InheritedDomServiceAdapter;
-import org.jda.example.coursemanrestful.modules.coursemodule.model.CourseModule;
+import org.jda.example.coursemanrestful.modules_org.coursemodule.model.CourseModule;
 import javax.annotation.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import jda.modules.mosar.backend.base.models.Identifier;
@@ -15,7 +15,7 @@ import jda.modules.mosar.utils.InheritanceUtils;
 
 @Generated(value = "jda.modules.mosar.software.backend.generators.SourceCodeServiceTypeGenerator")
 @Service(value = "org.jda.example.coursemanrestful.backend.services.coursemodule.CourseModuleService")
-public class CourseModuleService extends InheritedDomServiceAdapter<org.jda.example.coursemanrestful.modules.coursemodule.model.CourseModule> {
+public class CourseModuleService extends InheritedDomServiceAdapter<org.jda.example.coursemanrestful.modules_org.coursemodule.model.CourseModule> {
 
     public void deleteEntityById(Identifier arg0) {
         super.deleteEntityById(arg0);

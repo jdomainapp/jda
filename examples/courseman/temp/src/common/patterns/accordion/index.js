@@ -218,6 +218,7 @@ class Menu extends React.Component {
                     <></>
                 }
                 <div style={this.state.first == true ? {
+                        height: "fit-content",
                         maxHeight: "calc(100vh - 150px)",
                         overflowY: "auto"
                     }: {}}>

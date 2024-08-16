@@ -2,9 +2,9 @@ package org.jda.example.coursemanrestful.test.modules.coursemodule;
 
 import jda.modules.common.exceptions.DataSourceException;
 import jda.software.ddd.MicroDomSoftware;
-import org.jda.example.coursemanrestful.modules.coursemodule.model.CompulsoryModule;
-import org.jda.example.coursemanrestful.modules.coursemodule.model.CourseModule;
-import org.jda.example.coursemanrestful.modules.coursemodule.model.ElectiveModule;
+import org.jda.example.coursemanrestful.modules_org.coursemodule.model.CompulsoryModule;
+import org.jda.example.coursemanrestful.modules_org.coursemodule.model.CourseModule;
+import org.jda.example.coursemanrestful.modules_org.coursemodule.model.ElectiveModule;
 import org.jda.example.coursemanrestful.test.CRUDTestMaster;
 import org.junit.Before;
 import org.junit.Test;

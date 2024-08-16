@@ -1,12 +1,12 @@
 package org.jda.example.coursemanrestful.backend.controllers.studentclass;
 
 import jda.modules.mosar.backend.base.controllers.DefaultNestedRestfulController;
-import org.jda.example.coursemanrestful.modules.studentclass.model.StudentClass;
+
 import javax.annotation.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import jda.modules.mosar.backend.base.models.Identifier;
 import jda.modules.mosar.backend.base.models.PagingModel;
-import org.jda.example.coursemanrestful.modules.student.model.Student;
+import org.jda.example.coursemanrestful.modules_org.student.model.Student;
 import jda.modules.mosar.backend.base.models.Page;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RestController()
 @RequestMapping(value = "/student-classes/{id}/students")
 @Generated(value = "jda.modules.mosar.software.backend.generators.SourceCodeWebControllerGenerator")
-public class StudentClassStudentController extends DefaultNestedRestfulController<org.jda.example.coursemanrestful.modules.studentclass.model.StudentClass, org.jda.example.coursemanrestful.modules.student.model.Student> {
+public class StudentClassStudentController extends DefaultNestedRestfulController<org.jda.example.coursemanrestful.modules_org.studentclass.model.StudentClass, org.jda.example.coursemanrestful.modules_org.student.model.Student> {
 
     @org.springframework.web.bind.annotation.PostMapping()
     public Student createInner(Identifier arg0, @org.springframework.web.bind.annotation.RequestBody() Student arg1) {

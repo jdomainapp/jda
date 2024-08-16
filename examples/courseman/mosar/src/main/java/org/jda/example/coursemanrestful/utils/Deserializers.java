@@ -1,7 +1,6 @@
 package org.jda.example.coursemanrestful.utils;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -10,11 +9,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.jda.example.coursemanrestful.modules.address.model.Address;
-import org.jda.example.coursemanrestful.modules.coursemodule.model.CourseModule;
-import org.jda.example.coursemanrestful.modules.enrolment.model.Enrolment;
-import org.jda.example.coursemanrestful.modules.student.model.Student;
-import org.jda.example.coursemanrestful.modules.studentclass.model.StudentClass;
+import org.jda.example.coursemanrestful.modules_org.address.model.Address;
+import org.jda.example.coursemanrestful.modules_org.coursemodule.model.CourseModule;
+import org.jda.example.coursemanrestful.modules_org.enrolment.model.Enrolment;
+import org.jda.example.coursemanrestful.modules_org.student.model.Student;
+import org.jda.example.coursemanrestful.modules_org.studentclass.model.StudentClass;
 
 /**
  * Define all nested serializers.

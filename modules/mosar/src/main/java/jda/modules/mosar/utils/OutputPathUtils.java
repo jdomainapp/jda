@@ -10,7 +10,7 @@ public final class OutputPathUtils {
     private static void recursiveCreatePath(Path path, boolean isFile) throws IOException {
 
         Path parent = path.getParent();
-        if (!Files.exists(parent)) {
+        if (parent != null && !Files.exists(parent)) {
             recursiveCreatePath(parent, false);
         }
         if (isFile) {

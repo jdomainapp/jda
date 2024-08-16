@@ -1,7 +1,7 @@
 package org.jda.example.coursemanrestful.backend.controllers.coursemodule;
 
 import jda.modules.mosar.backend.base.controllers.DefaultRestfulWithInheritanceController;
-import org.jda.example.coursemanrestful.modules.coursemodule.model.CourseModule;
+import org.jda.example.coursemanrestful.modules_org.coursemodule.model.CourseModule;
 import javax.annotation.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import jda.modules.mosar.backend.base.models.Identifier;

@@ -2,7 +2,7 @@ package org.jda.example.coursemanrestful.test.modules.address;
 
 import jda.modules.common.exceptions.DataSourceException;
 import jda.software.ddd.MicroDomSoftware;
-import org.jda.example.coursemanrestful.modules.address.model.Address;
+import org.jda.example.coursemanrestful.modules_org.address.model.Address;
 import org.jda.example.coursemanrestful.test.CRUDTestMaster;
 import org.junit.Before;
 import org.junit.Test;

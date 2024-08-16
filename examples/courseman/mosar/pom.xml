@@ -25,8 +25,8 @@
         <jersey.version>3.0.1</jersey.version>
         <!--    <jetty.version>11.0.1</jetty.version>-->
         <jetty.version>9.4.38.v20210224</jetty.version>
-		<mainClassGen>org.jda.example.coursemanrestful.software.CourseManRFSGen</mainClassGen>
-		<mainClassRunBE>org.jda.example.coursemanrestful.software.CourseManRFSRunBE</mainClassRunBE>
+		<mainClassGen>org.jda.example.coursemanrestful.software_org.CourseManRFSGen</mainClassGen>
+		<mainClassRunBE>org.jda.example.coursemanrestful.software_org.CourseManRFSRunBE</mainClassRunBE>
     </properties>
     <!-- END: PROPERTIES -->
 
@@ -83,7 +83,7 @@
             <type>pom</type>
             <scope>import</scope>
         </dependency>
-      </dependencies>
+     </dependencies>
   </dependencyManagement>  
   
   <dependencies>
@@ -322,6 +322,10 @@
           <groupId>jda.modules</groupId>
           <artifactId>jda-swtool</artifactId>
           <version>${jda.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.neo4j.driver</groupId>
+          <artifactId>neo4j-java-driver</artifactId>
       </dependency>
       <!-- END: JDA -->	
   </dependencies>
